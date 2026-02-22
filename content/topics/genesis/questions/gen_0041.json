@@ -1,0 +1,24 @@
+{
+  "id": "gen_0041",
+  "topicId": "genesis",
+  "difficulty": 2,
+  "question": "What were the names of the two sons born to Adam and Eve in Genesis 4?",
+  "choices": {
+    "A": "Shem and Japheth",
+    "B": "Cain and Abel",
+    "C": "Esau and Jacob",
+    "D": "Noah and Enoch"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Cain and Abel",
+    "body": "Adam and Eve had two sons named Cain and Abel.",
+    "refs": [
+      "Genesis 4:1-2"
+    ]
+  },
+  "tags": [
+    "genesis4",
+    "cain-abel"
+  ]
+}
