@@ -1,0 +1,24 @@
+{
+  "id": "gen_0085",
+  "topicId": "genesis",
+  "difficulty": 3,
+  "question": "Where did Cain kill Abel?",
+  "choices": {
+    "A": "In the city",
+    "B": "In the garden",
+    "C": "In the field",
+    "D": "At the altar"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "In the Field",
+    "body": "Cain spoke to Abel his brother, and when they were in the field, Cain rose up and killed him.",
+    "refs": [
+      "Genesis 4:8"
+    ]
+  },
+  "tags": [
+    "genesis4",
+    "cain-abel"
+  ]
+}
