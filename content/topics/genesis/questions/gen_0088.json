@@ -1,0 +1,24 @@
+{
+  "id": "gen_0088",
+  "topicId": "genesis",
+  "difficulty": 5,
+  "question": "What sign did the Lord put on Cain?",
+  "choices": {
+    "A": "A visible mark to protect him",
+    "B": "A scar on his hand",
+    "C": "A crown",
+    "D": "A chain"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Mark of Cain",
+    "body": "The Lord put a mark on Cain so that no one who found him would kill him.",
+    "refs": [
+      "Genesis 4:15"
+    ]
+  },
+  "tags": [
+    "genesis4",
+    "cain"
+  ]
+}
