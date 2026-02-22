@@ -31,6 +31,30 @@ const DEFAULT_UNLOCK_CODE = "sancta";
 // Auto-lock timeout in milliseconds (30 minutes)
 const AUTO_LOCK_TIMEOUT_MS = 30 * 60 * 1000;
 
+function safeStorageGet(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function safeStorageSet(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Ignore storage errors (private mode / blocked storage)
+  }
+}
+
+function safeStorageRemove(key: string): void {
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    // Ignore storage errors (private mode / blocked storage)
+  }
+}
+
 export interface AdminPanelState {
   isUnlocked: boolean;
   adminToken: string;
@@ -72,20 +96,20 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
     if (typeof window === "undefined") return;
 
     // Load unlock code
-    const storedCode = localStorage.getItem(STORAGE_KEYS.UNLOCK_CODE);
+    const storedCode = safeStorageGet(STORAGE_KEYS.UNLOCK_CODE);
     if (storedCode) {
       setUnlockCodeState(storedCode);
     }
 
     // Load admin token
-    const storedToken = localStorage.getItem(STORAGE_KEYS.ADMIN_TOKEN);
+    const storedToken = safeStorageGet(STORAGE_KEYS.ADMIN_TOKEN);
     if (storedToken) {
       setAdminTokenState(storedToken);
     }
 
     // Check if already unlocked (with expiry check)
-    const unlockedStr = localStorage.getItem(STORAGE_KEYS.UNLOCKED);
-    const unlockedAtStr = localStorage.getItem(STORAGE_KEYS.UNLOCKED_AT);
+    const unlockedStr = safeStorageGet(STORAGE_KEYS.UNLOCKED);
+    const unlockedAtStr = safeStorageGet(STORAGE_KEYS.UNLOCKED_AT);
     
     if (unlockedStr === "true" && unlockedAtStr) {
       const unlockedAt = parseInt(unlockedAtStr, 10);
@@ -99,13 +123,13 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
           // Inline lock logic to avoid dependency issues
           setIsUnlocked(false);
           setLastResult(null);
-          localStorage.removeItem(STORAGE_KEYS.UNLOCKED);
-          localStorage.removeItem(STORAGE_KEYS.UNLOCKED_AT);
+          safeStorageRemove(STORAGE_KEYS.UNLOCKED);
+          safeStorageRemove(STORAGE_KEYS.UNLOCKED_AT);
         }, remaining);
       } else {
         // Expired, clear localStorage
-        localStorage.removeItem(STORAGE_KEYS.UNLOCKED);
-        localStorage.removeItem(STORAGE_KEYS.UNLOCKED_AT);
+        safeStorageRemove(STORAGE_KEYS.UNLOCKED);
+        safeStorageRemove(STORAGE_KEYS.UNLOCKED_AT);
       }
     }
 
@@ -123,8 +147,8 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
     setIsUnlocked(false);
     setLastResult(null);
     if (typeof window !== "undefined") {
-      localStorage.removeItem(STORAGE_KEYS.UNLOCKED);
-      localStorage.removeItem(STORAGE_KEYS.UNLOCKED_AT);
+      safeStorageRemove(STORAGE_KEYS.UNLOCKED);
+      safeStorageRemove(STORAGE_KEYS.UNLOCKED_AT);
     }
     if (autoLockTimerRef.current) {
       clearTimeout(autoLockTimerRef.current);
@@ -138,14 +162,14 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
   const unlock = useCallback((code: string): boolean => {
     // Get current unlock code from localStorage or use default
     const currentCode = typeof window !== "undefined" 
-      ? localStorage.getItem(STORAGE_KEYS.UNLOCK_CODE) || DEFAULT_UNLOCK_CODE
+      ? safeStorageGet(STORAGE_KEYS.UNLOCK_CODE) || DEFAULT_UNLOCK_CODE
       : DEFAULT_UNLOCK_CODE;
 
     if (code.toLowerCase() === currentCode.toLowerCase()) {
       setIsUnlocked(true);
       if (typeof window !== "undefined") {
-        localStorage.setItem(STORAGE_KEYS.UNLOCKED, "true");
-        localStorage.setItem(STORAGE_KEYS.UNLOCKED_AT, Date.now().toString());
+        safeStorageSet(STORAGE_KEYS.UNLOCKED, "true");
+        safeStorageSet(STORAGE_KEYS.UNLOCKED_AT, Date.now().toString());
       }
       
       // Start auto-lock timer
@@ -167,7 +191,7 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
   const setAdminToken = useCallback((token: string) => {
     setAdminTokenState(token);
     if (typeof window !== "undefined") {
-      localStorage.setItem(STORAGE_KEYS.ADMIN_TOKEN, token);
+      safeStorageSet(STORAGE_KEYS.ADMIN_TOKEN, token);
     }
   }, []);
 
@@ -177,7 +201,7 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
   const setUnlockCode = useCallback((code: string) => {
     setUnlockCodeState(code);
     if (typeof window !== "undefined") {
-      localStorage.setItem(STORAGE_KEYS.UNLOCK_CODE, code);
+      safeStorageSet(STORAGE_KEYS.UNLOCK_CODE, code);
     }
   }, []);
 

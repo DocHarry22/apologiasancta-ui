@@ -21,13 +21,29 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const STORAGE_KEY = "apologia-sancta-theme";
 
+function safeStorageGet(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function safeStorageSet(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Ignore storage errors (private mode / blocked storage)
+  }
+}
+
 // Use a safe version of useLayoutEffect that works on server
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "dark";
-  const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
+  const stored = safeStorageGet(STORAGE_KEY) as Theme | null;
   if (stored && (stored === "light" || stored === "dark")) {
     return stored;
   }
@@ -50,7 +66,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (mounted) {
       document.documentElement.setAttribute("data-theme", theme);
-      localStorage.setItem(STORAGE_KEY, theme);
+      safeStorageSet(STORAGE_KEY, theme);
     }
   }, [theme, mounted]);
 

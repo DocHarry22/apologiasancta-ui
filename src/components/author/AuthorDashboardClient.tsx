@@ -23,9 +23,17 @@ interface QueuedQuestion {
 type TabId = "create" | "import" | "engine";
 
 const ENGINE_URL = process.env.NEXT_PUBLIC_ENGINE_URL || "https://apologiasancta-engine.onrender.com";
-const ADMIN_TOKEN = typeof window !== "undefined" 
-  ? localStorage.getItem("adminToken") || "" 
-  : "";
+
+function getInitialAdminToken(): string {
+  if (typeof window === "undefined") {
+    return "";
+  }
+  try {
+    return localStorage.getItem("adminToken") || "";
+  } catch {
+    return "";
+  }
+}
 
 function getDefaultPrefix(topicId: string): string {
   if (topicId === "christology") return "chr";
@@ -52,7 +60,7 @@ function getNextQuestionId(existingIds: string[], prefix: string): string {
 export default function AuthorDashboardClient({ topics }: Props) {
   const { theme, toggleTheme } = useTheme();
   const [activeTab, setActiveTab] = useState<TabId>("create");
-  const [adminToken, setAdminToken] = useState<string>(ADMIN_TOKEN);
+  const [adminToken, setAdminToken] = useState<string>(() => getInitialAdminToken());
   const [selectedTopicId, setSelectedTopicId] = useState<string>(topics[0]?.id || "");
   const [customPrefix, setCustomPrefix] = useState<string>("");
   const [queue, setQueue] = useState<QueuedQuestion[]>([]);
@@ -264,7 +272,11 @@ export default function AuthorDashboardClient({ topics }: Props) {
               onChange={(e) => {
                 setAdminToken(e.target.value);
                 if (typeof window !== "undefined") {
-                  localStorage.setItem("adminToken", e.target.value);
+                  try {
+                    localStorage.setItem("adminToken", e.target.value);
+                  } catch {
+                    // Ignore storage errors (private mode / blocked storage)
+                  }
                 }
               }}
               placeholder="Enter admin token"
