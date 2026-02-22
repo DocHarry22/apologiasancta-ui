@@ -1,0 +1,24 @@
+{
+  "id": "gen_0090",
+  "topicId": "genesis",
+  "difficulty": 4,
+  "question": "What name did Adam give to the son born to him after Abel’s death?",
+  "choices": {
+    "A": "Enoch",
+    "B": "Seth",
+    "C": "Noah",
+    "D": "Lamech"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Birth of Seth",
+    "body": "Adam called his son Seth, saying God had appointed another offspring instead of Abel.",
+    "refs": [
+      "Genesis 4:25"
+    ]
+  },
+  "tags": [
+    "genesis4",
+    "genealogy"
+  ]
+}
