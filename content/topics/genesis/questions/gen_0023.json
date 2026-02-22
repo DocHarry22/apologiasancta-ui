@@ -1,0 +1,24 @@
+{
+  "id": "gen_0023",
+  "topicId": "genesis",
+  "difficulty": 2,
+  "question": "On which day were the sun, moon, and stars created?",
+  "choices": {
+    "A": "The first day",
+    "B": "The third day",
+    "C": "The fourth day",
+    "D": "The sixth day"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "Lights in the Heavens",
+    "body": "The greater and lesser lights were made on the fourth day to govern day and night.",
+    "refs": [
+      "Genesis 1:14-19"
+    ]
+  },
+  "tags": [
+    "genesis1",
+    "creation-days"
+  ]
+}
