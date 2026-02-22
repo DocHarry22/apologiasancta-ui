@@ -1,0 +1,24 @@
+{
+  "id": "gen_0043",
+  "topicId": "genesis",
+  "difficulty": 3,
+  "question": "Whose offering did the Lord have regard for?",
+  "choices": {
+    "A": "Cain’s offering",
+    "B": "Abel’s offering",
+    "C": "Both equally",
+    "D": "Neither"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Abel’s Offering",
+    "body": "The Lord had regard for Abel and his offering, but not for Cain and his offering.",
+    "refs": [
+      "Genesis 4:4-5"
+    ]
+  },
+  "tags": [
+    "genesis4",
+    "offering"
+  ]
+}
