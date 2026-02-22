@@ -1,0 +1,24 @@
+{
+  "id": "gen_0105",
+  "topicId": "genesis",
+  "difficulty": 3,
+  "question": "Where did the man and woman hide when they heard the Lord God in the garden?",
+  "choices": {
+    "A": "Behind a rock",
+    "B": "Among the trees of the garden",
+    "C": "Inside the river",
+    "D": "In a cave"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Hiding from God",
+    "body": "The man and his wife hid themselves among the trees of the garden from the presence of the Lord God.",
+    "refs": [
+      "Genesis 3:8"
+    ]
+  },
+  "tags": [
+    "genesis3",
+    "fall"
+  ]
+}
