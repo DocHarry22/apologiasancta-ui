@@ -1,0 +1,24 @@
+{
+  "id": "gen_0063",
+  "topicId": "genesis",
+  "difficulty": 3,
+  "question": "What happened immediately after they ate the fruit?",
+  "choices": {
+    "A": "They gained wisdom and rejoiced",
+    "B": "Their eyes were opened and they knew they were naked",
+    "C": "They were struck down",
+    "D": "The garden disappeared"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Eyes Opened",
+    "body": "After eating, their eyes were opened, and they realized they were naked.",
+    "refs": [
+      "Genesis 3:7"
+    ]
+  },
+  "tags": [
+    "genesis3",
+    "fall"
+  ]
+}
