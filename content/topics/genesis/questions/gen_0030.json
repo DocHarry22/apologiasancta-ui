@@ -1,0 +1,24 @@
+{
+  "id": "gen_0030",
+  "topicId": "genesis",
+  "difficulty": 3,
+  "question": "What did God do on the seventh day after finishing His work?",
+  "choices": {
+    "A": "He created new beings",
+    "B": "He rested and blessed the day",
+    "C": "He destroyed what He had made",
+    "D": "He withdrew from creation"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "The Seventh Day",
+    "body": "After completing His work, God rested on the seventh day and sanctified it.",
+    "refs": [
+      "Genesis 2:2-3"
+    ]
+  },
+  "tags": [
+    "sabbath",
+    "genesis2"
+  ]
+}
