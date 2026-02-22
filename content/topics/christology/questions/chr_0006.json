@@ -1,0 +1,19 @@
+{
+  "id": "chr_0006",
+  "topicId": "christology",
+  "difficulty": 3,
+  "question": "Which scriptural title highlights both Jesus' humanity and mission?",
+  "choices": {
+    "A": "Son of Man",
+    "B": "Morning Star",
+    "C": "Rabbi",
+    "D": "Logos of Moses"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Son of Man",
+    "body": "Jesus uses 'Son of Man' with reference to suffering, authority, and glory.",
+    "refs": ["Mark 10:45", "Daniel 7:13", "CCC 440"]
+  },
+  "tags": ["scripture", "incarnation"]
+}

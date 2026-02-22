@@ -115,3 +115,86 @@ export const adminActions = {
   status: (engineUrl: string, token: string) =>
     engineFetch<AdminStatus>(engineUrl, "/admin/status", "GET", token),
 };
+
+/** Content bank status response */
+export interface ContentStatusResponse {
+  bankSize: number;
+  activePoolSize: number;
+  topicCount: number;
+  topics: Array<{ topicId: string; count: number }>;
+  gitHubConfigured: boolean;
+}
+
+/** Import response */
+export interface ContentImportResponse {
+  added: number;
+  updated: number;
+  ids: string[];
+  committed: boolean;
+  bankSize: number;
+}
+
+/** Import error response */
+export interface ContentImportError {
+  error: string;
+  validCount?: number;
+  invalidCount?: number;
+  errors?: Array<{ index: number; errors: string[] }>;
+}
+
+/** Quiz set response */
+export interface QuizSetResponse {
+  poolSize: number;
+  topicIds: string[];
+  shuffle: boolean;
+}
+
+/**
+ * Content management actions
+ */
+export const contentActions = {
+  /**
+   * Get content bank status
+   */
+  status: (engineUrl: string, token: string) =>
+    engineFetch<ContentStatusResponse>(engineUrl, "/admin/content/status", "GET", token),
+
+  /**
+   * Import questions into the content bank
+   */
+  import: (
+    engineUrl: string,
+    token: string,
+    questions: unknown[],
+    options?: { commitToGitHub?: boolean; commitMessage?: string }
+  ) =>
+    engineFetch<ContentImportResponse>(engineUrl, "/admin/content/import", "POST", token, {
+      questions,
+      ...options,
+    }),
+
+  /**
+   * Clear all questions from the content bank
+   */
+  clear: (engineUrl: string, token: string) =>
+    engineFetch(engineUrl, "/admin/content/clear", "POST", token),
+};
+
+/**
+ * Quiz set management actions
+ */
+export const quizActions = {
+  /**
+   * Configure the active quiz question pool
+   */
+  setPool: (
+    engineUrl: string,
+    token: string,
+    topicIds: string[] = [],
+    shuffle: boolean = true
+  ) =>
+    engineFetch<QuizSetResponse>(engineUrl, "/admin/quiz/set", "POST", token, {
+      topicIds,
+      shuffle,
+    }),
+};

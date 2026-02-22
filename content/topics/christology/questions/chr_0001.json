@@ -1,0 +1,19 @@
+{
+  "id": "chr_0001",
+  "topicId": "christology",
+  "difficulty": 1,
+  "question": "Which council condemned Arianism and affirmed the full divinity of the Son?",
+  "choices": {
+    "A": "Nicaea I (325)",
+    "B": "Ephesus (431)",
+    "C": "Trent (1545)",
+    "D": "Vatican I (1870)"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Nicaea and the Son's Divinity",
+    "body": "Nicaea confessed the Son as consubstantial with the Father against Arian claims.",
+    "refs": ["John 1:1", "Nicaea I", "CCC 465"]
+  },
+  "tags": ["councils", "trinity", "heresies"]
+}

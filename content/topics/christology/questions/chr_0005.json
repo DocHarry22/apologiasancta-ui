@@ -1,0 +1,19 @@
+{
+  "id": "chr_0005",
+  "topicId": "christology",
+  "difficulty": 4,
+  "question": "Which heresy claimed Christ only appeared to be human?",
+  "choices": {
+    "A": "Arianism",
+    "B": "Docetism",
+    "C": "Pelagianism",
+    "D": "Donatism"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Docetism",
+    "body": "The Church rejected Docetism, affirming the real humanity and suffering of Christ.",
+    "refs": ["1 John 4:2", "Ignatius of Antioch", "CCC 464"]
+  },
+  "tags": ["heresies", "incarnation"]
+}

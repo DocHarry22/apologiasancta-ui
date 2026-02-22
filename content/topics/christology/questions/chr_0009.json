@@ -1,0 +1,19 @@
+{
+  "id": "chr_0009",
+  "topicId": "christology",
+  "difficulty": 4,
+  "question": "Monophysitism is corrected by which Church teaching?",
+  "choices": {
+    "A": "Christ has one mixed nature",
+    "B": "Christ has one divine nature only",
+    "C": "Christ has two natures united in one person",
+    "D": "Christ has two unrelated persons"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "Against Monophysitism",
+    "body": "The Church preserves full divinity and full humanity in one person of Christ.",
+    "refs": ["Council of Chalcedon", "CCC 467", "Tome of Leo"]
+  },
+  "tags": ["heresies", "councils", "hypostatic-union"]
+}

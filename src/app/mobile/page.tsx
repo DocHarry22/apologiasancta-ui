@@ -193,7 +193,7 @@ export default function MobilePage() {
             <div className="px-3 py-2">
               <button
                 onClick={handleReset}
-                className="w-full py-2 text-xs font-semibold rounded-lg bg-[color:var(--accent)] text-white hover:opacity-90 transition-opacity"
+                className="w-full py-2 text-xs font-semibold rounded-lg bg-(--accent) text-white hover:opacity-90 transition-opacity"
               >
                 Reset Demo
               </button>

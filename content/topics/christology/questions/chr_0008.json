@@ -1,0 +1,19 @@
+{
+  "id": "chr_0008",
+  "topicId": "christology",
+  "difficulty": 2,
+  "question": "Which line best summarizes Philippians 2 Christology?",
+  "choices": {
+    "A": "Christ became an angel",
+    "B": "Christ emptied himself by taking servant form",
+    "C": "Christ ceased to be divine",
+    "D": "Christ only seemed to obey"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Kenosis Properly Understood",
+    "body": "The Son's self-emptying is expressed in humble obedience, not loss of divinity.",
+    "refs": ["Philippians 2:6-11", "CCC 472", "Athanasius, On the Incarnation"]
+  },
+  "tags": ["scripture", "incarnation"]
+}

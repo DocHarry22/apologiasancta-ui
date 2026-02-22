@@ -1,0 +1,11 @@
+{
+  "topics": [
+    {
+      "id": "christology",
+      "title": "Christology",
+      "description": "Core doctrines about the person and work of Jesus Christ.",
+      "questionCount": 10,
+      "tags": ["councils", "creeds", "incarnation", "trinity"]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "chr_0003",
+  "topicId": "christology",
+  "difficulty": 3,
+  "question": "Which formula best expresses Chalcedonian Christology?",
+  "choices": {
+    "A": "One nature after the union",
+    "B": "Two persons in moral union",
+    "C": "One person in two natures",
+    "D": "Created divine adoption"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "One Person, Two Natures",
+    "body": "Chalcedon teaches Christ is one divine person with full divine and full human natures.",
+    "refs": ["Council of Chalcedon", "Hebrews 2:17", "CCC 467"]
+  },
+  "tags": ["councils", "hypostatic-union"]
+}

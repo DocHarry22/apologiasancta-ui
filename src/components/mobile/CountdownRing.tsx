@@ -110,7 +110,7 @@ export function CountdownRing({ endsAtMs, durationSeconds }: CountdownRingProps)
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <span 
             className={`text-xl font-bold tabular-nums leading-none transition-colors duration-300 ${
-              isUrgent ? "text-(--timer-urgent)" : "text-(--text)"
+                  isUrgent ? "text-(--timer-urgent)" : "text-foreground"
             }`}
           >
             {formatTime(secondsLeft)}

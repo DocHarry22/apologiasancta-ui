@@ -1,0 +1,19 @@
+{
+  "id": "chr_0004",
+  "topicId": "christology",
+  "difficulty": 2,
+  "question": "The phrase 'begotten, not made' appears in which creed?",
+  "choices": {
+    "A": "Apostles' Creed",
+    "B": "Nicene Creed",
+    "C": "Athanasian Creed",
+    "D": "Creed of Pius IV"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Creedal Language",
+    "body": "The Nicene Creed distinguishes eternal generation from creation.",
+    "refs": ["Nicene Creed", "John 3:16", "CCC 242"]
+  },
+  "tags": ["creeds", "trinity"]
+}

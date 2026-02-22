@@ -1,0 +1,19 @@
+{
+  "id": "chr_0010",
+  "topicId": "christology",
+  "difficulty": 1,
+  "question": "What does 'Incarnation' mean in Christian doctrine?",
+  "choices": {
+    "A": "A prophet receives private visions",
+    "B": "The eternal Son became man",
+    "C": "A righteous man became divine",
+    "D": "God appeared only symbolically"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "The Incarnation",
+    "body": "The Word truly became flesh for our salvation.",
+    "refs": ["John 1:14", "CCC 456", "Irenaeus, Against Heresies"]
+  },
+  "tags": ["incarnation", "scripture", "creeds"]
+}

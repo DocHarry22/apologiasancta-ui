@@ -104,7 +104,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
       <div
         ref={drawerRef}
         className={`fixed bottom-0 left-0 right-0 max-h-[85vh] z-50 
-          bg-(--card-bg) border-t border-(--border) rounded-t-2xl shadow-2xl
+          bg-(--card) border-t border-(--border) rounded-t-2xl shadow-2xl
           transform transition-transform motion-reduce:transition-none duration-300 ease-out
           ${isOpen ? "translate-y-0" : "translate-y-full"}
           overflow-hidden`}
@@ -121,10 +121,10 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
         <div className="px-4 pb-6 overflow-y-auto max-h-[calc(85vh-40px)]">
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-bold text-(--text)">Admin Panel</h2>
+            <h2 className="text-sm font-bold text-foreground">Admin Panel</h2>
             <button
               onClick={onClose}
-              className="p-1 text-(--muted) hover:text-(--text) transition-colors"
+              className="p-1 text-(--muted) hover:text-foreground transition-colors"
               aria-label="Close"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -138,7 +138,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
             /* UNLOCKED VIEW */
             <div className="space-y-4">
               {/* Connection Status */}
-              <div className="p-3 rounded-lg bg-(--bg) border border-(--border)">
+              <div className="p-3 rounded-lg bg-background border border-(--border)">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs text-(--muted)">Connection</span>
                   <span className={`text-xs font-bold ${statusDisplay.color}`}>
@@ -160,7 +160,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
               </div>
 
               {/* Admin Token */}
-              <div className="p-3 rounded-lg bg-(--bg) border border-(--border)">
+              <div className="p-3 rounded-lg bg-background border border-(--border)">
                 <label className="text-xs text-(--muted) block mb-2">Admin Token</label>
                 <div className="flex gap-2">
                   <input
@@ -168,8 +168,8 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
                     value={tokenInput}
                     onChange={(e) => setTokenInput(e.target.value)}
                     placeholder="Enter admin token"
-                    className="flex-1 text-xs px-3 py-2 rounded-lg bg-(--card-bg) border border-(--border)
-                      text-(--text) placeholder:text-(--muted) focus:outline-none focus:border-(--accent)"
+                    className="flex-1 text-xs px-3 py-2 rounded-lg bg-(--card) border border-(--border)
+                      text-foreground placeholder:text-(--muted) focus:outline-none focus:border-(--accent)"
                   />
                   <button
                     onClick={handleSaveToken}
@@ -260,9 +260,9 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
                   }}
                   onKeyDown={(e) => e.key === "Enter" && handleUnlock()}
                   placeholder="Unlock code"
-                  className={`w-full text-sm px-4 py-3 rounded-lg bg-(--bg) border 
+                  className={`w-full text-sm px-4 py-3 rounded-lg bg-background border 
                     ${unlockError ? "border-red-500" : "border-(--border)"}
-                    text-(--text) placeholder:text-(--muted) text-center
+                    text-foreground placeholder:text-(--muted) text-center
                     focus:outline-none focus:border-(--accent)`}
                   autoFocus={isOpen && !admin.isUnlocked}
                 />
@@ -349,7 +349,7 @@ function ResultDisplay({ result, onClear }: ResultDisplayProps) {
           
           {/* Status data display */}
           {isStatus && statusData && (
-            <pre className="mt-2 text-[10px] text-(--muted) font-mono bg-(--bg) p-2 rounded overflow-x-auto">
+            <pre className="mt-2 text-[10px] text-(--muted) font-mono bg-background p-2 rounded overflow-x-auto">
 {`running: ${statusData.running}
 phase: ${statusData.phase}
 question: ${statusData.questionIndex + 1}/${statusData.totalQuestions}
@@ -359,7 +359,7 @@ clients: ${statusData.connectedClients}`}
         </div>
         <button
           onClick={onClear}
-          className="text-(--muted) hover:text-(--text) p-1 transition-colors"
+          className="text-(--muted) hover:text-foreground p-1 transition-colors"
           aria-label="Clear"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

@@ -1,0 +1,19 @@
+{
+  "id": "chr_0007",
+  "topicId": "christology",
+  "difficulty": 5,
+  "question": "In orthodox doctrine, the hypostatic union means:",
+  "choices": {
+    "A": "Christ alternates between two persons",
+    "B": "Divinity absorbs humanity",
+    "C": "One person subsists in two complete natures",
+    "D": "Humanity is a temporary instrument"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "Hypostatic Union",
+    "body": "The union is personal, without confusion, change, division, or separation.",
+    "refs": ["Chalcedonian Definition", "CCC 468", "Leo the Great, Tome"]
+  },
+  "tags": ["hypostatic-union", "councils", "creeds"]
+}

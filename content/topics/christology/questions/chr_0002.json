@@ -1,0 +1,19 @@
+{
+  "id": "chr_0002",
+  "topicId": "christology",
+  "difficulty": 2,
+  "question": "What title for Mary was dogmatically affirmed at Ephesus?",
+  "choices": {
+    "A": "Immaculata",
+    "B": "Mediatrix",
+    "C": "Theotokos",
+    "D": "Queen of Heaven"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "Theotokos",
+    "body": "Ephesus defended Christ's unity of person by affirming Mary as Mother of God.",
+    "refs": ["Luke 1:43", "Council of Ephesus", "CCC 495"]
+  },
+  "tags": ["councils", "incarnation"]
+}

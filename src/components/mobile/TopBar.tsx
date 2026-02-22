@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useTheme } from "@/lib/theme";
 import type { ConnectionStatus } from "@/types/quiz";
 
@@ -16,10 +17,10 @@ export function TopBar({ topic, questionNumber, totalQuestions, connectionStatus
 
   // Connection status display
   const statusConfig = {
-    connected: { text: "LIVE", dotClass: "bg-[color:var(--live-dot)]", animate: true },
-    connecting: { text: "CONNECTING...", dotClass: "bg-[color:var(--muted)]", animate: false },
+    connected: { text: "LIVE", dotClass: "bg-(--live-dot)", animate: true },
+    connecting: { text: "CONNECTING...", dotClass: "bg-(--muted)", animate: false },
     reconnecting: { text: "RECONNECTING...", dotClass: "bg-yellow-500", animate: true },
-    disconnected: { text: "OFFLINE", dotClass: "bg-[color:var(--muted)]", animate: false },
+    disconnected: { text: "OFFLINE", dotClass: "bg-(--muted)", animate: false },
   };
   
   const status = statusConfig[connectionStatus];
@@ -28,26 +29,27 @@ export function TopBar({ topic, questionNumber, totalQuestions, connectionStatus
     <header className="flex flex-col items-center py-2 px-3">
       {/* Top row */}
       <div className="flex items-center justify-between w-full">
-        {/* Menu */}
-        <button
-          className="text-[color:var(--muted)] hover:text-[color:var(--text)] transition-colors p-1"
-          aria-label="Menu"
+        {/* Home */}
+        <Link
+          href="/"
+          className="text-(--muted) hover:text-foreground transition-colors p-1"
+          aria-label="Home"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="12" x2="21" y2="12" />
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
           </svg>
-        </button>
+        </Link>
 
         {/* Brand */}
         <div className="flex items-center gap-1">
-          <span className="text-[color:var(--accent)] text-sm">✦</span>
+          <span className="text-(--accent) text-sm">✦</span>
           <h1 className="text-xs font-semibold tracking-wide">
-            <span className="text-[color:var(--accent)]">A</span>
-            <span className="text-[color:var(--text)]">POLOGIA </span>
-            <span className="text-[color:var(--accent)]">S</span>
-            <span className="text-[color:var(--text)]">ANCTA </span>
-            <span className="text-[color:var(--accent2)] font-bold">LIVE</span>
+            <span className="text-(--accent)">A</span>
+            <span className="text-foreground">POLOGIA </span>
+            <span className="text-(--accent)">S</span>
+            <span className="text-foreground">ANCTA </span>
+            <span className="text-(--accent2) font-bold">LIVE</span>
           </h1>
         </div>
 
@@ -55,7 +57,7 @@ export function TopBar({ topic, questionNumber, totalQuestions, connectionStatus
         <div className="flex items-center gap-2">
           <button
             onClick={toggleTheme}
-            className="text-[color:var(--muted)] hover:text-[color:var(--text)] transition-colors p-1"
+            className="text-(--muted) hover:text-foreground transition-colors p-1"
             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
           >
             {theme === "dark" ? (
@@ -78,13 +80,13 @@ export function TopBar({ topic, questionNumber, totalQuestions, connectionStatus
           </button>
           <div className="flex items-center gap-1">
             <span className={`w-1.5 h-1.5 rounded-full ${status.dotClass} ${status.animate ? "live-dot" : ""}`} />
-            <span className="text-[10px] font-semibold text-[color:var(--text)]">{status.text}</span>
+            <span className="text-[10px] font-semibold text-foreground">{status.text}</span>
           </div>
           {onOpenAdmin && (
             <button
               onClick={onOpenAdmin}
-              className="text-[9px] px-1.5 py-0.5 rounded bg-[color:var(--muted)]/20 text-[color:var(--muted)] 
-                hover:bg-[color:var(--accent)]/20 hover:text-[color:var(--accent)] transition-colors"
+              className="text-[9px] px-1.5 py-0.5 rounded bg-(--muted)/20 text-(--muted) 
+                hover:bg-(--accent)/20 hover:text-(--accent) transition-colors"
               aria-label="Open admin panel"
             >
               Admin
@@ -96,13 +98,13 @@ export function TopBar({ topic, questionNumber, totalQuestions, connectionStatus
       {/* Second row: Topic badge + Question count */}
       <div className="flex items-center gap-2 mt-1.5">
         {topic && (
-          <span className="px-2 py-0.5 rounded-full bg-gradient-to-r from-[color:var(--accent)] to-[color:var(--accent2)] text-white text-[9px] font-semibold tracking-wider">
+          <span className="px-2 py-0.5 rounded-full bg-linear-to-r from-(--accent) to-(--accent2) text-white text-[9px] font-semibold tracking-wider">
             {topic}
           </span>
         )}
         {questionNumber && totalQuestions && (
-          <span className="text-[10px] text-[color:var(--muted)]">
-            Question <span className="text-[color:var(--text)] font-semibold">{questionNumber}</span> of {totalQuestions}
+          <span className="text-[10px] text-(--muted)">
+            Question <span className="text-foreground font-semibold">{questionNumber}</span> of {totalQuestions}
           </span>
         )}
       </div>
