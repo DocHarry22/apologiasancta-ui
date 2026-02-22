@@ -1,0 +1,24 @@
+{
+  "id": "gen_0029",
+  "topicId": "genesis",
+  "difficulty": 4,
+  "question": "From which part of the man did the Lord God build the woman?",
+  "choices": {
+    "A": "His head",
+    "B": "His hand",
+    "C": "His rib",
+    "D": "His foot"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "Woman from Man",
+    "body": "The Lord God caused a deep sleep to fall upon the man and took one of his ribs to form the woman.",
+    "refs": [
+      "Genesis 2:21-22"
+    ]
+  },
+  "tags": [
+    "genesis2",
+    "creation"
+  ]
+}
