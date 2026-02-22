@@ -1,0 +1,24 @@
+{
+  "id": "gen_0021",
+  "topicId": "genesis",
+  "difficulty": 1,
+  "question": "On which day did God create light?",
+  "choices": {
+    "A": "The first day",
+    "B": "The second day",
+    "C": "The fourth day",
+    "D": "The sixth day"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Light Created",
+    "body": "God created light on the first day before forming the sun and moon.",
+    "refs": [
+      "Genesis 1:3-5"
+    ]
+  },
+  "tags": [
+    "genesis1",
+    "creation-days"
+  ]
+}
