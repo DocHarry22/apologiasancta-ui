@@ -1,0 +1,24 @@
+{
+  "id": "gen_0082",
+  "topicId": "genesis",
+  "difficulty": 3,
+  "question": "What was Abel’s occupation?",
+  "choices": {
+    "A": "Farmer",
+    "B": "Shepherd",
+    "C": "Carpenter",
+    "D": "Hunter"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Keeper of Sheep",
+    "body": "Abel was a keeper of sheep, while Cain was a worker of the ground.",
+    "refs": [
+      "Genesis 4:2"
+    ]
+  },
+  "tags": [
+    "genesis4",
+    "cain-abel"
+  ]
+}
