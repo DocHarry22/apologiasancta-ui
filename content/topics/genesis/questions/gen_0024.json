@@ -1,0 +1,24 @@
+{
+  "id": "gen_0024",
+  "topicId": "genesis",
+  "difficulty": 2,
+  "question": "In whose image did God create man?",
+  "choices": {
+    "A": "In the image of angels",
+    "B": "In His own image",
+    "C": "In the image of the earth",
+    "D": "In the image of the animals"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Image of God",
+    "body": "Scripture states that God created man in His own image.",
+    "refs": [
+      "Genesis 1:26-27"
+    ]
+  },
+  "tags": [
+    "imago-dei",
+    "genesis1"
+  ]
+}
