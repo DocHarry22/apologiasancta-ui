@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import {
   Layout,
   TopBar,
@@ -11,9 +11,14 @@ import {
   LeaderboardColumn,
   TickerBar,
   AdminDrawer,
+  YourScoreCard,
+  JoinGameModal,
+  PLAYER_NAME_KEY,
 } from "@/components/mobile";
 import { useLeaderboardDiff } from "@/hooks/useLeaderboardDiff";
 import { useQuizSSE } from "@/hooks/useQuizSSE";
+import { useLocalPlayer } from "@/hooks/useLocalPlayer";
+import { useScoreDeltaAnimation } from "@/hooks/useScoreDeltaAnimation";
 import type { QuizState, QuizPhase } from "@/types/quiz";
 
 // Backend URL from environment (optional)
@@ -77,9 +82,9 @@ function createMockQuizState(phase: QuizPhase = "OPEN"): QuizState {
 /**
  * Hook that wraps SSE or mock state based on environment
  */
-function useQuizState() {
-  // SSE connection (pass ENGINE_URL or null)
-  const sseResult = useQuizSSE(ENGINE_URL || null);
+function useQuizState(userId: string | null) {
+  // SSE connection (pass ENGINE_URL or null, with optional userId for personalized stream)
+  const sseResult = useQuizSSE(ENGINE_URL || null, { userId });
   
   // Mock state (fallback when no ENGINE_URL)
   const [mockQuizState, setMockQuizState] = useState<QuizState>(() => 
@@ -99,7 +104,86 @@ function useQuizState() {
 }
 
 export default function MobilePage() {
-  const { quizState, connectionStatus, setMockQuizState, isUsingSSE } = useQuizState();
+  // Registration state
+  const [userId, setUserId] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [isCheckingRegistration, setIsCheckingRegistration] = useState(true);
+  const [mePreviousPoints, setMePreviousPoints] = useState(0);
+  const [meLastAwardedPoints, setMeLastAwardedPoints] = useState(0);
+  const meSnapshotPointsRef = useRef(0);
+  const mePhaseRef = useRef<QuizPhase>("OPEN");
+  const meInitializedRef = useRef(false);
+  
+  // Check for existing registration on mount
+  useEffect(() => {
+    if (!ENGINE_URL) {
+      setIsCheckingRegistration(false);
+      return;
+    }
+
+    const storedUserId = localStorage.getItem("userId");
+    const storedUsername = localStorage.getItem("playerName");
+
+    if (!storedUserId || !storedUsername) {
+      setIsCheckingRegistration(false);
+      return;
+    }
+
+    let cancelled = false;
+
+    fetch(`${ENGINE_URL}/register/me?userId=${encodeURIComponent(storedUserId)}`)
+      .then(async (res) => {
+        if (cancelled) return;
+
+        if (!res.ok) {
+          localStorage.removeItem("userId");
+          localStorage.removeItem("playerName");
+          localStorage.removeItem(PLAYER_NAME_KEY);
+          setIsRegistered(false);
+          setUserId(null);
+          setUsername(null);
+          return;
+        }
+
+        const data = await res.json();
+        setUserId(data.userId);
+        setUsername(data.username);
+        localStorage.setItem("userId", data.userId);
+        localStorage.setItem("playerName", data.username);
+        localStorage.setItem(PLAYER_NAME_KEY, data.username);
+        setIsRegistered(true);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        localStorage.removeItem("userId");
+        localStorage.removeItem("playerName");
+        localStorage.removeItem(PLAYER_NAME_KEY);
+        setIsRegistered(false);
+        setUserId(null);
+        setUsername(null);
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setIsCheckingRegistration(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  
+  // Handle successful registration
+  const handleJoined = useCallback((newUserId: string, newUsername: string) => {
+    setUserId(newUserId);
+    setUsername(newUsername);
+    localStorage.setItem(PLAYER_NAME_KEY, newUsername);
+    setIsRegistered(true);
+    setIsCheckingRegistration(false);
+  }, []);
+  
+  const { quizState, connectionStatus, setMockQuizState, isUsingSSE } = useQuizState(userId);
   
   // Client-local state (never overwritten from server)
   const [selectedId, setSelectedId] = useState<string | undefined>();
@@ -110,10 +194,191 @@ export default function MobilePage() {
   // Diff leaderboard for change animations
   const leaderboardWithChanges = useLeaderboardDiff(quizState.leaderboard);
 
+  // Local player data (score tracking, streak, rank) - fallback when 'me' not available
+  const localPlayer = useLocalPlayer(quizState.leaderboard, quizState.phase);
+  
+  // Use 'me' data from SSE when available, otherwise fall back to local tracking
+  const playerData = useMemo(() => {
+    const me = quizState.me;
+    if (me) {
+      return {
+        playerName: me.username,
+        totalPoints: me.totalPoints,
+        previousPoints: mePreviousPoints,
+        lastAwardedPoints: meLastAwardedPoints,
+        streak: me.streak,
+        rank: me.rank,
+        distanceToTop10: me.distanceToTop10,
+      };
+    }
+    // Fallback to locally tracked data
+    return {
+      playerName: username || localPlayer.playerName,
+      totalPoints: localPlayer.totalPoints,
+      previousPoints: localPlayer.previousPoints,
+      lastAwardedPoints: localPlayer.lastAwardedPoints,
+      streak: localPlayer.streak,
+      rank: localPlayer.rank,
+      distanceToTop10: localPlayer.distanceToTop10,
+    };
+  }, [quizState.me, username, localPlayer, mePreviousPoints, meLastAwardedPoints]);
+
+  // Compute score delta from personalized SSE (`me`) when available
+  useEffect(() => {
+    const me = quizState.me;
+    if (!me) return;
+
+    if (!meInitializedRef.current) {
+      meSnapshotPointsRef.current = me.totalPoints;
+      setMePreviousPoints(me.totalPoints);
+      setMeLastAwardedPoints(0);
+      mePhaseRef.current = quizState.phase;
+      meInitializedRef.current = true;
+      return;
+    }
+
+    const wasNotReveal = mePhaseRef.current !== "REVEAL";
+    const isNowReveal = quizState.phase === "REVEAL";
+    const wasNotOpen = mePhaseRef.current !== "OPEN";
+    const isNowOpen = quizState.phase === "OPEN";
+
+    if (wasNotReveal && isNowReveal) {
+      const prevPoints = meSnapshotPointsRef.current;
+      const delta = Math.max(0, me.totalPoints - prevPoints);
+      setMePreviousPoints(prevPoints);
+      setMeLastAwardedPoints(delta);
+    } else if (wasNotOpen && isNowOpen) {
+      meSnapshotPointsRef.current = me.totalPoints;
+      setMeLastAwardedPoints(0);
+    }
+
+    mePhaseRef.current = quizState.phase;
+  }, [quizState.phase, quizState.me]);
+  
+  // Score delta animation system
+  const { sourceRef, targetRef, triggerAnimation, AnimationPortal } = useScoreDeltaAnimation();
+  const pendingRevealAnimationQuestionRef = useRef<number | null>(null);
+  
+  // Track previous phase/question to detect transitions
+  const prevPhaseRef = useRef<QuizPhase>(quizState.phase);
+  const prevQuestionIndexRef = useRef<number>(quizState.questionIndex);
+  // Separate ref for reset tracking to avoid clearing selection during same question
+  const lastResetQuestionRef = useRef<number>(quizState.questionIndex);
+
+  // Reset selected answer ONLY when entering a NEW question (questionIndex changes)
+  useEffect(() => {
+    const isNewQuestion = quizState.questionIndex !== lastResetQuestionRef.current;
+    if (isNewQuestion && quizState.phase === "OPEN") {
+      setSelectedId(undefined);
+      lastResetQuestionRef.current = quizState.questionIndex;
+    }
+  }, [quizState.questionIndex, quizState.phase]);
+
+  // Snapshot selectedId when answering to preserve for reveal animation
+  const selectedIdAtAnswerRef = useRef<string | undefined>(undefined);
+  
+  // Capture selection when user picks an answer (before phase changes)
+  useEffect(() => {
+    if (selectedId && quizState.phase === "OPEN") {
+      selectedIdAtAnswerRef.current = selectedId;
+    }
+  }, [selectedId, quizState.phase]);
+  
+  // Reset captured selection when new question starts
+  useEffect(() => {
+    selectedIdAtAnswerRef.current = undefined;
+  }, [quizState.questionIndex]);
+
+  // Trigger score delta animation when entering REVEAL phase
+  useEffect(() => {
+    const wasNotReveal = prevPhaseRef.current !== "REVEAL";
+    const isNowReveal = quizState.phase === "REVEAL";
+    const correctId = quizState.question.correctId;
+    // Use snapshotted selection or current selection for animation
+    const effectiveSelectedId = selectedIdAtAnswerRef.current || selectedId;
+    const isCorrectSelection = Boolean(
+      effectiveSelectedId &&
+        correctId &&
+        effectiveSelectedId.toLowerCase() === correctId.toLowerCase()
+    );
+    
+    // Fire animation when transitioning into REVEAL
+    if (
+      wasNotReveal &&
+      isNowReveal &&
+      playerData.playerName &&
+      effectiveSelectedId
+    ) {
+      if (isCorrectSelection) {
+        // Correct answers should animate with positive delta; if delta has not arrived yet,
+        // defer until the `me`/local delta state updates.
+        if (playerData.lastAwardedPoints > 0) {
+          triggerAnimation(playerData.lastAwardedPoints);
+        } else {
+          pendingRevealAnimationQuestionRef.current = quizState.questionIndex;
+        }
+      } else {
+        // Wrong answer feedback still animates as +0
+        triggerAnimation(0);
+      }
+    }
+    
+    // Update refs for next comparison
+    prevPhaseRef.current = quizState.phase;
+    prevQuestionIndexRef.current = quizState.questionIndex;
+  }, [quizState.phase, quizState.questionIndex, quizState.question.correctId, playerData.playerName, playerData.lastAwardedPoints, selectedId, triggerAnimation]);
+
+  // Flush deferred reveal animation once positive delta arrives
+  useEffect(() => {
+    const pendingQuestionIndex = pendingRevealAnimationQuestionRef.current;
+    if (pendingQuestionIndex === null) return;
+    if (quizState.phase !== "REVEAL") return;
+    if (quizState.questionIndex !== pendingQuestionIndex) return;
+    if (playerData.lastAwardedPoints <= 0) return;
+
+    triggerAnimation(playerData.lastAwardedPoints);
+    pendingRevealAnimationQuestionRef.current = null;
+  }, [quizState.phase, quizState.questionIndex, playerData.lastAwardedPoints, triggerAnimation]);
+
   // Handle answer selection (client-local)
-  const handleSelect = useCallback((id: string) => {
+  const handleSelect = useCallback(async (id: string) => {
     if (quizState.phase !== "OPEN") return;
+    if (selectedId) return; // first-answer-only in client to match engine scoring
     setSelectedId(id);
+
+    // Submit answer to backend when using SSE/live engine
+    if (isUsingSSE && ENGINE_URL && userId) {
+      try {
+        const response = await fetch(`${ENGINE_URL}/answer`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId,
+            username: username ?? undefined,
+            choiceId: id,
+          }),
+        });
+
+        let payload: { ok?: boolean; accepted?: boolean; reason?: string } | null = null;
+        try {
+          payload = await response.json();
+        } catch {
+          payload = null;
+        }
+
+        const accepted = response.ok && payload?.accepted !== false;
+        if (!accepted) {
+          console.warn(
+            `[Mobile] Answer submit rejected: HTTP ${response.status}, reason=${payload?.reason || "unknown"}`
+          );
+          // Keep UI consistent with engine first-answer rule: allow re-select if submission failed.
+          setSelectedId(undefined);
+        }
+      } catch (error) {
+        console.warn("[Mobile] Answer submit failed:", error);
+        setSelectedId(undefined);
+      }
+    }
     
     // Demo: Simulate phase transitions only when using mock
     if (!isUsingSSE) {
@@ -125,7 +390,7 @@ export default function MobilePage() {
         }, 1500);
       }, 100);
     }
-  }, [quizState.phase, isUsingSSE, setMockQuizState]);
+  }, [quizState.phase, selectedId, isUsingSSE, setMockQuizState, userId, username]);
 
   // Demo: Reset for testing (only in mock mode)
   const handleReset = useCallback(() => {
@@ -161,10 +426,13 @@ export default function MobilePage() {
           <CountdownRing
             endsAtMs={quizState.endsAtMs}
             durationSeconds={QUESTION_DURATION}
+            phase={quizState.phase}
           />
 
-          {/* Question */}
-          <QuestionCard text={quizState.question.text} />
+          {/* Question - with ref for score animation source */}
+          <div ref={sourceRef}>
+            <QuestionCard text={quizState.question.text} />
+          </div>
 
           {/* Answer choices */}
           <AnswerList
@@ -213,12 +481,31 @@ export default function MobilePage() {
         </div>
         }
         rightContent={
-          <LeaderboardColumn
-            scorers={leaderboardWithChanges.topScorers}
-            streakers={leaderboardWithChanges.topStreaks}
-          />
+          <div className="flex flex-col h-full">
+            {/* Your Score card - pinned at top */}
+            <YourScoreCard
+              ref={targetRef}
+              totalPoints={playerData.totalPoints}
+              previousPoints={playerData.previousPoints}
+              streak={playerData.streak}
+              rank={playerData.rank}
+              distanceToTop10={playerData.distanceToTop10}
+              playerName={playerData.playerName}
+            />
+            
+            {/* Leaderboard */}
+            <div className="flex-1 overflow-y-auto">
+              <LeaderboardColumn
+                scorers={leaderboardWithChanges.topScorers}
+                streakers={leaderboardWithChanges.topStreaks}
+              />
+            </div>
+          </div>
         }
       />
+      
+      {/* Score delta animation portal */}
+      <AnimationPortal />
       
       {/* Admin Drawer */}
       <AdminDrawer
@@ -227,6 +514,11 @@ export default function MobilePage() {
         engineUrl={ENGINE_URL || null}
         connectionStatus={connectionStatus}
       />
+      
+      {/* Join Game Modal - shown only when using SSE backend and not registered */}
+      {!isCheckingRegistration && isUsingSSE && !isRegistered && (
+        <JoinGameModal onJoined={handleJoined} />
+      )}
     </>
   );
 }

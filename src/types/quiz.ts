@@ -60,6 +60,19 @@ export interface Ticker {
 }
 
 /**
+ * Player identity info returned by engine in personalized SSE streams.
+ * Available when connecting with ?userId=... parameter.
+ */
+export interface PlayerInfo {
+  userId: string;
+  username: string;
+  totalPoints: number;
+  streak: number;
+  rank: number;
+  distanceToTop10?: number;
+}
+
+/**
  * Main QuizState - the single source of truth for UI rendering.
  * 
  * Server sends this over SSE. The UI maintains only:
@@ -94,6 +107,9 @@ export interface QuizState {
   
   /** Ticker bar content */
   ticker?: Ticker;
+  
+  /** Personalized player info (only present when connected with userId) */
+  me?: PlayerInfo;
 }
 
 /**
@@ -106,6 +122,54 @@ export interface ClientState {
   
   /** SSE connection status */
   connectionStatus: ConnectionStatus;
+}
+
+/**
+ * Per-user score data for Score Feedback HUD.
+ * This data is derived client-side from the leaderboard
+ * until engine provides per-user events.
+ */
+export interface LocalPlayerData {
+  /** Player name (from localStorage) */
+  playerName: string | null;
+  
+  /** Player's total points (from leaderboard lookup) */
+  totalPoints: number;
+  
+  /** Previous total points (for delta calculation) */
+  previousPoints: number;
+  
+  /** Points awarded in the last question (calculated as delta) */
+  lastAwardedPoints: number;
+  
+  /** Current streak count */
+  streak: number;
+  
+  /** Player's rank in scorers list (undefined if not in top scorers) */
+  rank?: number;
+  
+  /** Points needed to reach 10th place */
+  distanceToTop10?: number;
+}
+
+/**
+ * Future: Per-user event data that engine may provide.
+ * When engine supports this, we can use it directly instead
+ * of computing from leaderboard deltas.
+ * 
+ * To plug in engine-side lastAwardedPoints:
+ * 1. Add lastAwardedPoints to the SSE event payload 
+ *    (e.g., in the REVEAL phase data)
+ * 2. Include player identification (playerName or session token)
+ * 3. Update useLocalPlayer hook to use these values directly
+ *    when available, falling back to delta calculation otherwise
+ */
+export interface EnginePlayerEvent {
+  playerName: string;
+  totalPoints: number;
+  lastAwardedPoints: number;
+  streak: number;
+  rank?: number;
 }
 
 /**

@@ -183,6 +183,52 @@ body {
   display: none;
 }
 
+/* Score Feedback HUD animations */
+@keyframes score-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--accent-glow);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px 4px var(--accent-glow);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--accent-glow);
+  }
+}
+
+.score-pulse {
+  animation: score-pulse 0.6s ease-out;
+}
+
+/* Score value update animation */
+@keyframes score-value-pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.your-score-value.updating {
+  animation: score-value-pop 0.3s ease-out;
+}
+
+/* YourScoreCard styling */
+.your-score-card {
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.your-score-card:hover {
+  transform: translateY(-1px);
+}
+
 /* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   .timer-glow,
@@ -190,12 +236,14 @@ body {
   .timer-urgent,
   .score-changed,
   .answer-correct,
-  .answer-wrong {
+  .answer-wrong,
+  .score-pulse {
     animation: none !important;
   }
   
   /* Disable scale transforms */
-  .timer-urgent {
+  .timer-urgent,
+  .your-score-card:hover {
     transform: none !important;
   }
   

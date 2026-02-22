@@ -1,42 +1,64 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import type { QuizPhase } from "@/types/quiz";
 
 interface CountdownRingProps {
   /** Unix timestamp (ms) when timer ends */
   endsAtMs: number;
   /** Duration for calculating progress (seconds) */
   durationSeconds: number;
+  /** Current quiz phase */
+  phase?: QuizPhase;
 }
 
 function calculateRemaining(endsAtMs: number): number {
   return Math.max(0, Math.ceil((endsAtMs - Date.now()) / 1000));
 }
 
-export function CountdownRing({ endsAtMs, durationSeconds }: CountdownRingProps) {
-  const [secondsLeft, setSecondsLeft] = useState(() => calculateRemaining(endsAtMs));
+function shouldResetCountdown(previous: number, next: number): boolean {
+  return next > previous + 1;
+}
+
+export function CountdownRing({ endsAtMs, durationSeconds, phase = "OPEN" }: CountdownRingProps) {
+  const [secondsLeft, setSecondsLeft] = useState(() =>
+    phase === "OPEN" ? calculateRemaining(endsAtMs) : 0
+  );
   const rafRef = useRef<number | null>(null);
   const lastSecondRef = useRef(secondsLeft);
-  const prevEndsAtRef = useRef(endsAtMs);
+  const currentEndsAtRef = useRef(endsAtMs);
   
   // Run the countdown animation loop
   useEffect(() => {
-    // Check if this is a new phase (endsAtMs changed by more than 1 second)
-    const hasNewPhase = Math.abs(endsAtMs - prevEndsAtRef.current) > 1000;
-    if (hasNewPhase) {
-      prevEndsAtRef.current = endsAtMs;
+    currentEndsAtRef.current = endsAtMs;
+    if (phase !== "OPEN") {
+      lastSecondRef.current = 0;
+      setSecondsLeft(0);
+      return;
     }
     
+    // Reset countdown when entering OPEN phase
+    const initialRemaining = calculateRemaining(endsAtMs);
+    lastSecondRef.current = initialRemaining;
+    setSecondsLeft(initialRemaining);
+    
     const tick = () => {
-      const currentRemaining = calculateRemaining(prevEndsAtRef.current);
+      const rawRemaining = calculateRemaining(currentEndsAtRef.current);
+      const previous = lastSecondRef.current;
+
+      // Keep countdown monotonic within a phase.
+      // Allow upward jumps only when a new phase/question starts.
+      const nextRemaining = shouldResetCountdown(previous, rawRemaining)
+        ? rawRemaining
+        : Math.min(previous, rawRemaining);
       
       // Only update state when second changes
-      if (currentRemaining !== lastSecondRef.current) {
-        lastSecondRef.current = currentRemaining;
-        setSecondsLeft(currentRemaining);
+      if (nextRemaining !== previous) {
+        lastSecondRef.current = nextRemaining;
+        setSecondsLeft(nextRemaining);
       }
       
-      if (currentRemaining > 0) {
+      if (nextRemaining > 0) {
         rafRef.current = requestAnimationFrame(tick);
       }
     };
@@ -48,7 +70,7 @@ export function CountdownRing({ endsAtMs, durationSeconds }: CountdownRingProps)
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [endsAtMs]);
+  }, [endsAtMs, phase]);
 
   const progress = (secondsLeft / durationSeconds) * 100;
   const circumference = 2 * Math.PI * 42; // radius = 42
@@ -122,7 +144,7 @@ export function CountdownRing({ endsAtMs, durationSeconds }: CountdownRingProps)
           isUrgent ? "text-(--timer-urgent)" : "text-(--accent)"
         }`}
       >
-        {isUrgent ? "Hurry!" : "Answer Now"}
+        {phase !== "OPEN" ? "Waiting" : isUrgent ? "Hurry!" : "Answer Now"}
       </span>
     </div>
   );

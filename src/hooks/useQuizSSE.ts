@@ -3,6 +3,11 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { QuizState, ConnectionStatus } from "@/types/quiz";
 
+interface UseQuizSSEOptions {
+  /** Optional user ID for personalized SSE stream (enables 'me' field in state) */
+  userId?: string | null;
+}
+
 interface UseQuizSSEResult {
   state: QuizState | null;
   connectionStatus: ConnectionStatus;
@@ -22,14 +27,20 @@ const POLL_INTERVAL = 2000;
  * Hook for consuming QuizState via SSE with fallback to polling.
  * 
  * - Connects to `${engineUrl}/events` via EventSource
+ * - Optionally passes `?userId=...` for personalized streams with 'me' field
  * - Tracks connectionStatus: connecting -> connected -> reconnecting -> disconnected
  * - Uses exponential backoff for reconnection
  * - Falls back to polling /state when SSE is offline
  * 
  * @param engineUrl - Backend URL (e.g., "http://localhost:4000") or null to disable
+ * @param options - Optional configuration { userId?: string | null }
  * @returns {state, connectionStatus, lastError}
  */
-export function useQuizSSE(engineUrl: string | null): UseQuizSSEResult {
+export function useQuizSSE(
+  engineUrl: string | null,
+  options: UseQuizSSEOptions = {}
+): UseQuizSSEResult {
+  const { userId } = options;
   // Initialize state based on engineUrl
   const [quizState, setQuizState] = useState<QuizState | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(
@@ -90,7 +101,7 @@ export function useQuizSSE(engineUrl: string | null): UseQuizSSEResult {
       }
     } catch (error) {
       const msg = error instanceof Error ? error.message : "Poll failed";
-      console.error("[useQuizSSE] Poll failed:", msg);
+      console.warn("[useQuizSSE] Poll failed:", msg);
       setLastError(msg);
     }
   }, [engineUrl, connectionStatus]);
@@ -135,7 +146,12 @@ export function useQuizSSE(engineUrl: string | null): UseQuizSSEResult {
       closeConnection();
       clearTimers();
 
-      const eventsUrl = `${engineUrl}/events`;
+      // Build events URL with optional userId for personalized stream
+      let eventsUrl = `${engineUrl}/events`;
+      if (userId) {
+        eventsUrl += `?userId=${encodeURIComponent(userId)}`;
+      }
+      
       console.log(`[useQuizSSE] Connecting to ${eventsUrl}`);
       setConnectionStatus("connecting");
       setLastError(undefined);
@@ -169,7 +185,7 @@ export function useQuizSSE(engineUrl: string | null): UseQuizSSEResult {
 
       eventSource.onerror = () => {
         const errorMsg = "SSE connection error";
-        console.error(`[useQuizSSE] ${errorMsg}`);
+        console.warn(`[useQuizSSE] ${errorMsg}`);
         setLastError(errorMsg);
         closeConnection();
 
@@ -196,10 +212,11 @@ export function useQuizSSE(engineUrl: string | null): UseQuizSSEResult {
         }, delay);
       };
     };
-  }, [engineUrl, closeConnection, clearTimers, stopPolling, startPolling]);
+  }, [engineUrl, userId, closeConnection, clearTimers, stopPolling, startPolling]);
 
   /**
    * Initialize connection on mount (only when engineUrl is provided)
+   * Also reconnects when userId changes to get personalized stream
    */
   useEffect(() => {
     if (!engineUrl) {
@@ -216,7 +233,7 @@ export function useQuizSSE(engineUrl: string | null): UseQuizSSEResult {
       clearTimers();
       stopPolling();
     };
-  }, [engineUrl, closeConnection, clearTimers, stopPolling]);
+  }, [engineUrl, userId, closeConnection, clearTimers, stopPolling]);
 
   return {
     state: quizState,

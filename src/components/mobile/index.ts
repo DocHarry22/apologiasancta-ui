@@ -15,5 +15,11 @@ export { TeachingMomentCard } from "./TeachingMomentCard";
 export { LeaderboardColumn } from "./LeaderboardColumn";
 export { TickerBar } from "./TickerBar";
 
+// Score Feedback HUD
+export { YourScoreCard, PLAYER_NAME_KEY } from "./YourScoreCard";
+
+// Registration
+export { JoinGameModal } from "./JoinGameModal";
+
 // Admin components
 export { AdminDrawer } from "./AdminDrawer";

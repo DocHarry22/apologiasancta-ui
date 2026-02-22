@@ -38,6 +38,7 @@ export function AnswerList({
 }: AnswerListProps) {
   const isLocked = phase === "LOCKED";
   const isReveal = phase === "REVEAL";
+  const hasSelected = Boolean(selectedId);
 
   return (
     <div className="flex flex-col gap-1.5 px-3 py-2" role="radiogroup" aria-label="Answer options">
@@ -73,7 +74,9 @@ export function AnswerList({
             : "border-(--muted) text-(--muted)";
         } else {
           // Open state
-          stateClasses = `cursor-pointer bg-(--option-bg) border-(--option-border) hover:bg-(--option-hover) active:scale-[0.98] ${
+          stateClasses = `${hasSelected ? "cursor-default" : "cursor-pointer"} bg-(--option-bg) border-(--option-border) ${
+            hasSelected ? "" : "hover:bg-(--option-hover) active:scale-[0.98]"
+          } ${
             isSelected ? "ring-1 ring-(--accent) bg-(--option-hover)" : ""
           }`;
           badgeClasses = isSelected
@@ -84,11 +87,11 @@ export function AnswerList({
         return (
           <button
             key={option.id}
-            onClick={() => !isLocked && !isReveal && onSelect?.(option.id)}
-            disabled={isLocked || isReveal}
+            onClick={() => !isLocked && !isReveal && !hasSelected && onSelect?.(option.id)}
+            disabled={isLocked || isReveal || hasSelected}
             role="radio"
             aria-checked={isSelected}
-            aria-disabled={isLocked || isReveal}
+            aria-disabled={isLocked || isReveal || hasSelected}
             className={`
               group flex items-center gap-2.5 px-3 py-2.5 rounded-lg
               border transition-all duration-150

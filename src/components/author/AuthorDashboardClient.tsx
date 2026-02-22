@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import type { TopicWithCount } from "@/lib/content";
 import { useTheme } from "@/lib/theme";
+import { adminActions } from "@/lib/engineAdmin";
 import AuthorForm from "./AuthorForm";
 import JsonPreview from "./JsonPreview";
 import BatchImport from "./BatchImport";
@@ -61,9 +62,61 @@ export default function AuthorDashboardClient({ topics }: Props) {
   const { theme, toggleTheme } = useTheme();
   const [activeTab, setActiveTab] = useState<TabId>("create");
   const [adminToken, setAdminToken] = useState<string>(() => getInitialAdminToken());
+  const [tokenValidation, setTokenValidation] = useState<"unknown" | "validating" | "valid" | "invalid">("unknown");
+  const [tokenValidationError, setTokenValidationError] = useState("");
+  const [validatedToken, setValidatedToken] = useState("");
   const [selectedTopicId, setSelectedTopicId] = useState<string>(topics[0]?.id || "");
   const [customPrefix, setCustomPrefix] = useState<string>("");
   const [queue, setQueue] = useState<QueuedQuestion[]>([]);
+
+  const validateAdminToken = useCallback(async (tokenValue: string) => {
+    const token = tokenValue.trim();
+    if (!token) {
+      setTokenValidation("unknown");
+      setTokenValidationError("");
+      setValidatedToken("");
+      return;
+    }
+
+    setTokenValidation("validating");
+    setTokenValidationError("");
+
+    const response = await adminActions.status(ENGINE_URL, token);
+    if (response.success) {
+      setTokenValidation("valid");
+      setValidatedToken(token);
+      setTokenValidationError("");
+      return;
+    }
+
+    setTokenValidation("invalid");
+    setValidatedToken("");
+    setTokenValidationError(response.error || "Invalid admin token");
+  }, []);
+
+  useEffect(() => {
+    if (activeTab !== "import" && activeTab !== "engine") {
+      return;
+    }
+
+    const token = adminToken.trim();
+    if (!token) {
+      setTokenValidation("unknown");
+      setTokenValidationError("");
+      setValidatedToken("");
+      return;
+    }
+
+    if (token === validatedToken) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      void validateAdminToken(token);
+    }, 300);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [activeTab, adminToken, validatedToken, validateAdminToken]);
 
   const selectedTopic = topics.find((t) => t.id === selectedTopicId);
   const effectivePrefix = customPrefix || (selectedTopic ? getDefaultPrefix(selectedTopic.id) : "que");
@@ -270,10 +323,14 @@ export default function AuthorDashboardClient({ topics }: Props) {
               type="password"
               value={adminToken}
               onChange={(e) => {
-                setAdminToken(e.target.value);
+                const nextToken = e.target.value;
+                setAdminToken(nextToken);
+                setValidatedToken("");
+                setTokenValidation(nextToken.trim() ? "unknown" : "unknown");
+                setTokenValidationError("");
                 if (typeof window !== "undefined") {
                   try {
-                    localStorage.setItem("adminToken", e.target.value);
+                    localStorage.setItem("adminToken", nextToken);
                   } catch {
                     // Ignore storage errors (private mode / blocked storage)
                   }
@@ -282,6 +339,22 @@ export default function AuthorDashboardClient({ topics }: Props) {
               placeholder="Enter admin token"
               className="w-full rounded-lg border border-(--border) bg-background px-3 py-2 text-sm focus:border-(--accent) focus:outline-none"
             />
+            <div className="mt-2 flex items-center justify-between gap-2">
+              <p className="text-xs text-(--muted)">
+                {tokenValidation === "validating" && "Validating admin token..."}
+                {tokenValidation === "valid" && "Admin token validated"}
+                {tokenValidation === "invalid" && (tokenValidationError || "Admin token invalid")}
+                {tokenValidation === "unknown" && "Enter a valid admin token to unlock controls"}
+              </p>
+              <button
+                onClick={() => void validateAdminToken(adminToken)}
+                type="button"
+                disabled={!adminToken.trim() || tokenValidation === "validating"}
+                className="rounded-lg border border-(--border) px-3 py-1 text-xs text-(--muted) hover:border-(--accent) hover:text-(--accent) disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Validate
+              </button>
+            </div>
           </div>
         )}
 
@@ -404,14 +477,14 @@ export default function AuthorDashboardClient({ topics }: Props) {
         {/* Import Tab Content */}
         {activeTab === "import" && (
           <div className="rounded-xl border border-(--border) bg-(--card) p-4">
-            {adminToken ? (
+            {tokenValidation === "valid" && adminToken.trim() === validatedToken ? (
               <BatchImport
                 engineUrl={ENGINE_URL}
                 adminToken={adminToken}
                 topics={topics.map((t) => ({ id: t.id, title: t.title }))}
               />
             ) : (
-              <p className="text-sm text-(--muted)">Enter admin token above to import questions.</p>
+              <p className="text-sm text-(--muted)">Validate the admin token above to unlock Batch Import.</p>
             )}
           </div>
         )}
@@ -419,10 +492,10 @@ export default function AuthorDashboardClient({ topics }: Props) {
         {/* Engine Tab Content */}
         {activeTab === "engine" && (
           <div className="rounded-xl border border-(--border) bg-(--card) p-4">
-            {adminToken ? (
+            {tokenValidation === "valid" && adminToken.trim() === validatedToken ? (
               <EngineControl engineUrl={ENGINE_URL} adminToken={adminToken} />
             ) : (
-              <p className="text-sm text-(--muted)">Enter admin token above to control the engine.</p>
+              <p className="text-sm text-(--muted)">Validate the admin token above to unlock Engine controls.</p>
             )}
           </div>
         )}
