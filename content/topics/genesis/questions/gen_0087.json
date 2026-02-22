@@ -1,0 +1,24 @@
+{
+  "id": "gen_0087",
+  "topicId": "genesis",
+  "difficulty": 4,
+  "question": "What punishment did the Lord pronounce upon Cain?",
+  "choices": {
+    "A": "He would die immediately",
+    "B": "He would be a fugitive and wanderer on the earth",
+    "C": "He would lose his sight",
+    "D": "He would be imprisoned"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Wanderer",
+    "body": "The Lord declared that Cain would be a fugitive and a wanderer on the earth.",
+    "refs": [
+      "Genesis 4:12"
+    ]
+  },
+  "tags": [
+    "genesis4",
+    "judgment"
+  ]
+}
