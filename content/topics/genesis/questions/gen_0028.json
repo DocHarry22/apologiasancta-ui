@@ -1,0 +1,24 @@
+{
+  "id": "gen_0028",
+  "topicId": "genesis",
+  "difficulty": 3,
+  "question": "Which tree was forbidden for the man to eat from in the garden?",
+  "choices": {
+    "A": "The tree of life",
+    "B": "The tree of knowledge of good and evil",
+    "C": "The fig tree",
+    "D": "The cedar tree"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "The Forbidden Tree",
+    "body": "God commanded the man not to eat from the tree of the knowledge of good and evil.",
+    "refs": [
+      "Genesis 2:16-17"
+    ]
+  },
+  "tags": [
+    "genesis2",
+    "eden"
+  ]
+}
