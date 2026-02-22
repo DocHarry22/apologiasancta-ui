@@ -124,10 +124,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* How It Works */}
+        {/* How It Works - Players */}
         <section className="mt-12 space-y-4">
           <h2 className="text-xs font-medium uppercase tracking-widest text-(--muted)">
-            How It Works
+            How to Play
           </h2>
           <div className="grid gap-4 sm:grid-cols-3">
             {/* Step 1 */}
@@ -176,6 +176,75 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* How It Works - Authors */}
+        {authorEnabled && (
+          <section className="mt-8 space-y-4">
+            <h2 className="text-xs font-medium uppercase tracking-widest text-(--muted)">
+              Content Workflow
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-4">
+              <div className="rounded-lg border border-(--border) bg-(--card)/50 p-4">
+                <div className="flex items-start gap-3">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-(--accent) text-xs font-bold text-white">
+                    1
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-medium">Create &amp; Import</h3>
+                    <p className="mt-1 text-xs text-(--muted)">
+                      Author questions in the dashboard. Import commits to GitHub.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-(--border) bg-(--card)/50 p-4">
+                <div className="flex items-start gap-3">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-(--accent) text-xs font-bold text-white">
+                    2
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-medium">GitHub Sync</h3>
+                    <p className="mt-1 text-xs text-(--muted)">
+                      Engine auto-syncs from GitHub on startup. Library reads from repo.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-(--border) bg-(--card)/50 p-4">
+                <div className="flex items-start gap-3">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-(--accent) text-xs font-bold text-white">
+                    3
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-medium">Set Pool &amp; Shuffle</h3>
+                    <p className="mt-1 text-xs text-(--muted)">
+                      Select topics, shuffle order, start the quiz session.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-(--border) bg-(--card)/50 p-4">
+                <div className="flex items-start gap-3">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-(--accent) text-xs font-bold text-white">
+                    4
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-medium">Go Live</h3>
+                    <p className="mt-1 text-xs text-(--muted)">
+                      Players see questions in real-time. Library always up-to-date.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p className="text-xs text-(--muted) italic">
+              Content stored in GitHub. Engine syncs on startup or via admin/content/sync.
+            </p>
+          </section>
+        )}
       </div>
 
       {/* Footer */}

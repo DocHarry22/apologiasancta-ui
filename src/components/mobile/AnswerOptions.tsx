@@ -16,7 +16,8 @@ export function AnswerOptions({ options, selectedId, onSelect }: AnswerOptionsPr
   return (
     <div className="flex flex-col gap-2 px-4 py-2">
       {options.map((option) => {
-        const isSelected = selectedId === option.id;
+        const isSelected =
+          selectedId?.toLowerCase() === option.id?.toLowerCase();
 
         return (
           <button

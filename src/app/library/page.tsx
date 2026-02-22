@@ -1,13 +1,12 @@
 import Link from "next/link";
-import { getTopicsIndex } from "@/lib/content";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { EngineTopicsList } from "@/components/library/EngineTopicsList";
 
 export const metadata = {
   title: "Library | Apologia Sancta",
 };
 
-export default async function LibraryPage() {
-  const index = await getTopicsIndex();
+export default function LibraryPage() {
   const showAuthorLink = process.env.NEXT_PUBLIC_AUTHOR_ENABLED === "true";
 
   return (
@@ -42,23 +41,7 @@ export default async function LibraryPage() {
             )}
           </div>
         </header>
-
-        <section className="grid gap-3 sm:grid-cols-2">
-          {index.topics.map((topic) => (
-            <Link
-              key={topic.id}
-              href={`/library/${topic.id}`}
-              className="rounded-xl border border-(--border) bg-(--card) p-4 hover:border-(--accent) transition-colors"
-            >
-              <h2 className="text-lg font-semibold">{topic.title}</h2>
-              <p className="mt-1 text-sm text-(--text-secondary)">{topic.description}</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-xs text-(--muted)">{topic.questionCount} questions</span>
-                <span className="text-xs text-(--accent)">Open</span>
-              </div>
-            </Link>
-          ))}
-        </section>
+        <EngineTopicsList />
       </div>
     </main>
   );

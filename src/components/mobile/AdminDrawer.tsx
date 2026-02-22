@@ -12,8 +12,9 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useAdminPanel } from "@/hooks/useAdminPanel";
+import { quizActions, topicActions } from "@/lib/engineAdmin";
 import type { ConnectionStatus } from "@/types/quiz";
-import type { AdminStatus } from "@/lib/engineAdmin";
+import type { AdminStatus, TopicInfo } from "@/lib/engineAdmin";
 
 interface AdminDrawerProps {
   isOpen: boolean;
@@ -37,7 +38,25 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
   // Initialize from admin token if available
   const [tokenInput, setTokenInput] = useState(admin.adminToken);
   const [showTokenSaved, setShowTokenSaved] = useState(false);
+  const [availableTopics, setAvailableTopics] = useState<TopicInfo[]>([]);
+  const [selectedTopicId, setSelectedTopicId] = useState<string>("");
+  const [topicLoading, setTopicLoading] = useState(false);
+  const [countdownSeconds, setCountdownSeconds] = useState(10);
   const drawerRef = useRef<HTMLDivElement>(null);
+
+  // Fetch available topics when drawer opens and admin is authenticated
+  useEffect(() => {
+    const fetchTopics = async () => {
+      if (!isOpen || !engineUrl || !admin.adminToken || !admin.isUnlocked) return;
+      
+      const result = await topicActions.getSequence(engineUrl, admin.adminToken);
+      if (result.success && result.data) {
+        setAvailableTopics(result.data.availableTopicsWithTitles);
+      }
+    };
+    
+    fetchTopics();
+  }, [isOpen, engineUrl, admin.adminToken, admin.isUnlocked]);
 
   // Close drawer when clicking backdrop
   const handleBackdropClick = useCallback((e: React.MouseEvent) => {
@@ -78,6 +97,100 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
   // Handle admin action
   const handleAction = async (action: "start" | "pause" | "next" | "reset" | "status") => {
     await admin.executeAction(action);
+  };
+
+  // Handle shuffle (reshuffle current question pool)
+  const handleShuffle = async () => {
+    if (!engineUrl || !admin.adminToken) return;
+    
+    // Call setPool with empty topicIds (uses all) and shuffle=true
+    const result = await quizActions.setPool(engineUrl, admin.adminToken, [], true);
+    
+    if (result.success && result.data) {
+      admin.clearResult();
+      // Show success message - we'll reuse lastResult mechanism if needed or show inline
+    }
+  };
+
+  // Handle starting a specific topic
+  const handleStartTopic = async () => {
+    if (!engineUrl || !admin.adminToken || !selectedTopicId) return;
+    
+    setTopicLoading(true);
+    const result = await topicActions.startTopic(engineUrl, admin.adminToken, selectedTopicId);
+    setTopicLoading(false);
+    
+    if (result.success && result.data) {
+      admin.clearResult();
+      // Could update lastResult to show success
+    }
+  };
+
+  // Handle starting next topic in sequence
+  const handleStartNextTopic = async () => {
+    if (!engineUrl || !admin.adminToken) return;
+    
+    setTopicLoading(true);
+    const result = await topicActions.startNextTopic(engineUrl, admin.adminToken);
+    setTopicLoading(false);
+    
+    if (result.success && result.data) {
+      admin.clearResult();
+    }
+  };
+
+  // Handle cancelling auto-advance
+  const handleCancelAutoAdvance = async () => {
+    if (!engineUrl || !admin.adminToken) return;
+    
+    const result = await topicActions.cancelAutoAdvance(engineUrl, admin.adminToken);
+    if (result.success) {
+      admin.clearResult();
+    }
+  };
+
+  // Handle skipping current topic
+  const handleSkipTopic = async () => {
+    if (!engineUrl || !admin.adminToken) return;
+    
+    setTopicLoading(true);
+    const result = await topicActions.skipTopic(engineUrl, admin.adminToken);
+    setTopicLoading(false);
+    
+    if (result.success && result.data) {
+      admin.clearResult();
+    }
+  };
+
+  // Handle replaying current topic
+  const handleReplayTopic = async () => {
+    if (!engineUrl || !admin.adminToken) return;
+    
+    setTopicLoading(true);
+    const result = await topicActions.replayTopic(engineUrl, admin.adminToken);
+    setTopicLoading(false);
+    
+    if (result.success && result.data) {
+      admin.clearResult();
+    }
+  };
+
+  // Handle countdown before topic start
+  const handleCountdownTopic = async () => {
+    if (!engineUrl || !admin.adminToken) return;
+    
+    setTopicLoading(true);
+    const result = await topicActions.countdownTopic(
+      engineUrl, 
+      admin.adminToken, 
+      countdownSeconds,
+      selectedTopicId || undefined
+    );
+    setTopicLoading(false);
+    
+    if (result.success) {
+      admin.clearResult();
+    }
   };
 
   // Truncate URL for display
@@ -210,8 +323,8 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
                   color="red"
                 />
                 <ActionButton
-                  label="Status"
-                  onClick={() => handleAction("status")}
+                  label="Shuffle"
+                  onClick={handleShuffle}
                   disabled={admin.loading || !admin.adminToken}
                   color="purple"
                 />
@@ -221,6 +334,110 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
                   disabled={admin.loading}
                   color="gray"
                 />
+              </div>
+
+              {/* Topic Management Section */}
+              <div className="p-3 rounded-lg bg-background border border-(--border)">
+                <label className="text-xs text-(--muted) block mb-2">Topic Management</label>
+                
+                {/* Start specific topic */}
+                <div className="flex gap-2 mb-2">
+                  <select
+                    value={selectedTopicId}
+                    onChange={(e) => setSelectedTopicId(e.target.value)}
+                    className="flex-1 text-xs px-3 py-2 rounded-lg bg-(--card) border border-(--border)
+                      text-foreground focus:outline-none focus:border-(--accent)"
+                    style={{
+                      backgroundColor: "var(--card)",
+                      color: "var(--foreground)",
+                    }}
+                  >
+                    <option value="" style={{ backgroundColor: "var(--card)", color: "var(--foreground)" }}>
+                      Select topic...
+                    </option>
+                    {availableTopics.map((topic) => (
+                      <option 
+                        key={topic.id} 
+                        value={topic.id}
+                        style={{ backgroundColor: "var(--card)", color: "var(--foreground)" }}
+                      >
+                        {topic.title}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    onClick={handleStartTopic}
+                    disabled={topicLoading || !admin.adminToken || !selectedTopicId}
+                    className="text-xs px-3 py-2 rounded-lg bg-green-600 text-white hover:bg-green-500 
+                      disabled:opacity-40 transition-all"
+                  >
+                    {topicLoading ? "..." : "Start"}
+                  </button>
+                </div>
+                
+                {/* Quick actions */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleStartNextTopic}
+                    disabled={topicLoading || !admin.adminToken}
+                    className="flex-1 text-xs py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-500 
+                      disabled:opacity-40 transition-all"
+                  >
+                    Next Topic
+                  </button>
+                  <button
+                    onClick={handleCancelAutoAdvance}
+                    disabled={topicLoading || !admin.adminToken}
+                    className="flex-1 text-xs py-2 rounded-lg bg-yellow-600 text-white hover:bg-yellow-500 
+                      disabled:opacity-40 transition-all"
+                  >
+                    Cancel Auto
+                  </button>
+                </div>
+                
+                {/* Additional topic actions */}
+                <div className="flex gap-2 mt-2">
+                  <button
+                    onClick={handleSkipTopic}
+                    disabled={topicLoading || !admin.adminToken}
+                    className="flex-1 text-xs py-2 rounded-lg bg-orange-600 text-white hover:bg-orange-500 
+                      disabled:opacity-40 transition-all"
+                    title="Skip current topic and start next"
+                  >
+                    Skip Topic
+                  </button>
+                  <button
+                    onClick={handleReplayTopic}
+                    disabled={topicLoading || !admin.adminToken}
+                    className="flex-1 text-xs py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-500 
+                      disabled:opacity-40 transition-all"
+                    title="Restart current topic from beginning"
+                  >
+                    Replay Topic
+                  </button>
+                </div>
+                
+                {/* Countdown before topic */}
+                <div className="flex gap-2 mt-2 items-center">
+                  <input
+                    type="number"
+                    min="1"
+                    max="60"
+                    value={countdownSeconds}
+                    onChange={(e) => setCountdownSeconds(Math.max(1, Math.min(60, parseInt(e.target.value) || 10)))}
+                    className="w-16 text-xs px-2 py-2 rounded-lg bg-(--card) border border-(--border)
+                      text-foreground text-center focus:outline-none focus:border-(--accent)"
+                  />
+                  <button
+                    onClick={handleCountdownTopic}
+                    disabled={topicLoading || !admin.adminToken}
+                    className="flex-1 text-xs py-2 rounded-lg bg-cyan-600 text-white hover:bg-cyan-500 
+                      disabled:opacity-40 transition-all"
+                    title="Start countdown before beginning topic"
+                  >
+                    Countdown ({countdownSeconds}s)
+                  </button>
+                </div>
               </div>
 
               {/* Result Display */}

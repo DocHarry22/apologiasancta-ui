@@ -15,6 +15,8 @@ export interface AdminStatus {
   phase: string;
   questionIndex: number;
   totalQuestions: number;
+  questionSource?: "active_pool" | "legacy_fallback";
+  scoringMode?: "flat" | "v2";
   connectedClients: number;
   timeRemainingMs: number;
   endsAtMs: number;
@@ -125,12 +127,33 @@ export interface ContentStatusResponse {
   gitHubConfigured: boolean;
 }
 
+export interface ContentSyncResponse {
+  success?: boolean;
+  message?: string;
+  topicsLoaded: number;
+  questionsLoaded: number;
+  errors?: string[];
+}
+
+export interface ContentGitHubClearResponse {
+  success: boolean;
+  deletedQuestions: number;
+  deletedManifests: number;
+  topicsProcessed: number;
+}
+
 /** Import response */
 export interface ContentImportResponse {
   added: number;
   updated: number;
   ids: string[];
   committed: boolean;
+  commitTarget?: {
+    owner: string;
+    repo: string;
+    branch: string;
+    contentRoot: string;
+  };
   bankSize: number;
 }
 
@@ -178,6 +201,18 @@ export const contentActions = {
    */
   clear: (engineUrl: string, token: string) =>
     engineFetch(engineUrl, "/admin/content/clear", "POST", token),
+
+  /**
+   * Sync/fetch topics & questions from GitHub into local engine bank
+   */
+  syncFromGitHub: (engineUrl: string, token: string) =>
+    engineFetch<ContentSyncResponse>(engineUrl, "/admin/content/sync", "POST", token),
+
+  /**
+   * Danger action: delete question files from GitHub content store
+   */
+  clearGitHub: (engineUrl: string, token: string) =>
+    engineFetch<ContentGitHubClearResponse>(engineUrl, "/admin/content/github/clear", "POST", token),
 };
 
 /**
@@ -197,4 +232,129 @@ export const quizActions = {
       topicIds,
       shuffle,
     }),
+};
+
+// ============== Topic Management ==============
+
+export interface TopicSequenceConfig {
+  topicSequence: string[];
+  topicSummaryDisplayTimeMs: number;
+  autoAdvance: boolean;
+  loopOnComplete: boolean;
+}
+
+export interface TopicInfo {
+  id: string;
+  title: string;
+}
+
+export interface TopicSequenceResponse {
+  config: TopicSequenceConfig;
+  availableTopics: string[];
+  availableTopicsWithTitles: TopicInfo[];
+}
+
+export interface StartTopicResponse {
+  success: boolean;
+  message: string;
+  topicTitle: string;
+  status: AdminStatus;
+}
+
+/**
+ * Topic management actions
+ */
+export const topicActions = {
+  /**
+   * Get topic sequence configuration and available topics
+   */
+  getSequence: (engineUrl: string, token: string) =>
+    engineFetch<TopicSequenceResponse>(engineUrl, "/admin/topic/sequence", "GET", token),
+
+  /**
+   * Update topic sequence configuration
+   */
+  setSequence: (
+    engineUrl: string,
+    token: string,
+    config: Partial<TopicSequenceConfig>
+  ) =>
+    engineFetch<{ success: boolean; config: TopicSequenceConfig }>(
+      engineUrl,
+      "/admin/topic/sequence",
+      "POST",
+      token,
+      config
+    ),
+
+  /**
+   * Start the next topic in sequence (or specific topicId)
+   */
+  startNextTopic: (engineUrl: string, token: string, topicId?: string) =>
+    engineFetch<StartTopicResponse>(
+      engineUrl,
+      "/admin/topic/next",
+      "POST",
+      token,
+      topicId ? { topicId } : undefined
+    ),
+
+  /**
+   * Start a specific topic by ID
+   */
+  startTopic: (engineUrl: string, token: string, topicId: string) =>
+    engineFetch<StartTopicResponse>(
+      engineUrl,
+      `/admin/topic/start/${encodeURIComponent(topicId)}`,
+      "POST",
+      token
+    ),
+
+  /**
+   * Cancel auto-advance to next topic
+   */
+  cancelAutoAdvance: (engineUrl: string, token: string) =>
+    engineFetch<{ success: boolean; message: string }>(
+      engineUrl,
+      "/admin/topic/cancel-auto",
+      "POST",
+      token
+    ),
+
+  /**
+   * Skip current topic and move to next
+   * Resets scores/streaks and starts next topic immediately
+   */
+  skipTopic: (engineUrl: string, token: string) =>
+    engineFetch<StartTopicResponse>(
+      engineUrl,
+      "/admin/topic/skip",
+      "POST",
+      token
+    ),
+
+  /**
+   * Replay current topic from beginning
+   * Resets scores/streaks and restarts same topic
+   */
+  replayTopic: (engineUrl: string, token: string) =>
+    engineFetch<StartTopicResponse>(
+      engineUrl,
+      "/admin/topic/replay",
+      "POST",
+      token
+    ),
+
+  /**
+   * Start a countdown before beginning a topic
+   * Emits topicCountdown event for UI display
+   */
+  countdownTopic: (engineUrl: string, token: string, countdownSeconds: number = 10, topicId?: string) =>
+    engineFetch<{ success: boolean; message: string; topicId: string; topicTitle: string; countdownSeconds: number }>(
+      engineUrl,
+      "/admin/topic/countdown",
+      "POST",
+      token,
+      { countdownSeconds, ...(topicId ? { topicId } : {}) }
+    ),
 };

@@ -13,13 +13,15 @@ import {
   AdminDrawer,
   YourScoreCard,
   JoinGameModal,
+  TopicSummaryPanel,
+  TopicCountdown,
   PLAYER_NAME_KEY,
 } from "@/components/mobile";
 import { useLeaderboardDiff } from "@/hooks/useLeaderboardDiff";
 import { useQuizSSE } from "@/hooks/useQuizSSE";
 import { useLocalPlayer } from "@/hooks/useLocalPlayer";
 import { useScoreDeltaAnimation } from "@/hooks/useScoreDeltaAnimation";
-import type { QuizState, QuizPhase } from "@/types/quiz";
+import type { QuizState, QuizPhase, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent } from "@/types/quiz";
 
 // Backend URL from environment (optional)
 const ENGINE_URL = process.env.NEXT_PUBLIC_ENGINE_URL;
@@ -82,9 +84,9 @@ function createMockQuizState(phase: QuizPhase = "OPEN"): QuizState {
 /**
  * Hook that wraps SSE or mock state based on environment
  */
-function useQuizState(userId: string | null) {
+function useQuizState(userId: string | null, onTopicStart?: (event: TopicStartEvent) => void) {
   // SSE connection (pass ENGINE_URL or null, with optional userId for personalized stream)
-  const sseResult = useQuizSSE(ENGINE_URL || null, { userId });
+  const sseResult = useQuizSSE(ENGINE_URL || null, { userId, onTopicStart });
   
   // Mock state (fallback when no ENGINE_URL)
   const [mockQuizState, setMockQuizState] = useState<QuizState>(() => 
@@ -100,6 +102,10 @@ function useQuizState(userId: string | null) {
     connectionStatus: sseResult.connectionStatus,
     setMockQuizState,
     isUsingSSE,
+    topicCompleteEvent: sseResult.topicCompleteEvent,
+    topicCountdownEvent: sseResult.topicCountdownEvent,
+    clearTopicComplete: sseResult.clearTopicComplete,
+    clearTopicCountdown: sseResult.clearTopicCountdown,
   };
 }
 
@@ -183,13 +189,55 @@ export default function MobilePage() {
     setIsCheckingRegistration(false);
   }, []);
   
-  const { quizState, connectionStatus, setMockQuizState, isUsingSSE } = useQuizState(userId);
-  
   // Client-local state (never overwritten from server)
   const [selectedId, setSelectedId] = useState<string | undefined>();
   
+  // Handle topic start event - reset all personal scores for new topic
+  const handleTopicStart = useCallback((_event: TopicStartEvent) => {
+    console.log("[MobilePage] Topic start - resetting personal scores");
+    setMePreviousPoints(0);
+    setMeLastAwardedPoints(0);
+    meSnapshotPointsRef.current = 0;
+    meInitializedRef.current = false;
+    // Also reset selected answer for new topic
+    setSelectedId(undefined);
+  }, []);
+  
+  const { 
+    quizState, 
+    connectionStatus, 
+    setMockQuizState, 
+    isUsingSSE,
+    topicCompleteEvent,
+    topicCountdownEvent,
+    clearTopicComplete,
+    clearTopicCountdown,
+  } = useQuizState(userId, handleTopicStart);
+  
   // Admin drawer state
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  
+  // Reduced motion preference for accessibility
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mediaQuery.matches);
+    
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+  
+  // Reset personal score display when topic completes and new topic starts
+  const handleTopicSummaryDismiss = useCallback(() => {
+    // Reset personal score tracking for new topic
+    setMePreviousPoints(0);
+    setMeLastAwardedPoints(0);
+    meSnapshotPointsRef.current = 0;
+    meInitializedRef.current = false;
+    clearTopicComplete();
+  }, [clearTopicComplete]);
   
   // Diff leaderboard for change animations
   const leaderboardWithChanges = useLeaderboardDiff(quizState.leaderboard);
@@ -264,6 +312,12 @@ export default function MobilePage() {
   const prevQuestionIndexRef = useRef<number>(quizState.questionIndex);
   // Separate ref for reset tracking to avoid clearing selection during same question
   const lastResetQuestionRef = useRef<number>(quizState.questionIndex);
+  const lastQuestionSignatureRef = useRef<string>("");
+  const lastOpenRoundKeyRef = useRef<string>("");
+  const answeredRoundKeyRef = useRef<string>("");
+  const submittingRoundKeyRef = useRef<string>("");
+  // Snapshot selectedId when answering to preserve for reveal animation
+  const selectedIdAtAnswerRef = useRef<string | undefined>(undefined);
 
   // Reset selected answer ONLY when entering a NEW question (questionIndex changes)
   useEffect(() => {
@@ -274,9 +328,52 @@ export default function MobilePage() {
     }
   }, [quizState.questionIndex, quizState.phase]);
 
-  // Snapshot selectedId when answering to preserve for reveal animation
-  const selectedIdAtAnswerRef = useRef<string | undefined>(undefined);
-  
+  // Hard reset selection for each new OPEN window, even if index/text are unchanged
+  useEffect(() => {
+    if (quizState.phase !== "OPEN") {
+      return;
+    }
+
+    const openRoundKey = `${quizState.questionIndex}:${quizState.endsAtMs}`;
+    if (!lastOpenRoundKeyRef.current) {
+      lastOpenRoundKeyRef.current = openRoundKey;
+      return;
+    }
+
+    if (lastOpenRoundKeyRef.current !== openRoundKey) {
+      setSelectedId(undefined);
+      selectedIdAtAnswerRef.current = undefined;
+      answeredRoundKeyRef.current = "";
+      submittingRoundKeyRef.current = "";
+      lastResetQuestionRef.current = quizState.questionIndex;
+      lastQuestionSignatureRef.current = "";
+      lastOpenRoundKeyRef.current = openRoundKey;
+    }
+  }, [quizState.phase, quizState.questionIndex, quizState.endsAtMs]);
+
+  // Also reset selection when question payload changes at same index (e.g. import + new pool)
+  useEffect(() => {
+    const choiceSignature = quizState.question.choices
+      .map((choice) => `${choice.id}:${choice.text}`)
+      .join("|");
+    const signature = `${quizState.questionIndex}::${quizState.question.text}::${choiceSignature}`;
+
+    if (!lastQuestionSignatureRef.current) {
+      lastQuestionSignatureRef.current = signature;
+      return;
+    }
+
+    if (signature !== lastQuestionSignatureRef.current && quizState.phase === "OPEN") {
+      setSelectedId(undefined);
+      selectedIdAtAnswerRef.current = undefined;
+      answeredRoundKeyRef.current = "";
+      submittingRoundKeyRef.current = "";
+      lastResetQuestionRef.current = quizState.questionIndex;
+    }
+
+    lastQuestionSignatureRef.current = signature;
+  }, [quizState.questionIndex, quizState.question.text, quizState.question.choices, quizState.phase]);
+
   // Capture selection when user picks an answer (before phase changes)
   useEffect(() => {
     if (selectedId && quizState.phase === "OPEN") {
@@ -343,8 +440,12 @@ export default function MobilePage() {
   // Handle answer selection (client-local)
   const handleSelect = useCallback(async (id: string) => {
     if (quizState.phase !== "OPEN") return;
-    if (selectedId) return; // first-answer-only in client to match engine scoring
+    const roundKey = `${quizState.questionIndex}:${quizState.endsAtMs}`;
+    if (answeredRoundKeyRef.current === roundKey) return;
+    if (submittingRoundKeyRef.current === roundKey) return;
+
     setSelectedId(id);
+    submittingRoundKeyRef.current = roundKey;
 
     // Submit answer to backend when using SSE/live engine
     if (isUsingSSE && ENGINE_URL && userId) {
@@ -371,13 +472,27 @@ export default function MobilePage() {
           console.warn(
             `[Mobile] Answer submit rejected: HTTP ${response.status}, reason=${payload?.reason || "unknown"}`
           );
-          // Keep UI consistent with engine first-answer rule: allow re-select if submission failed.
-          setSelectedId(undefined);
+          // Preserve selected state if engine says this user already answered this question.
+          if (payload?.reason === "already_answered") {
+            setSelectedId(id);
+            answeredRoundKeyRef.current = roundKey;
+          } else {
+            // For transport/validation failures, allow re-select.
+            setSelectedId(undefined);
+          }
+        } else {
+          answeredRoundKeyRef.current = roundKey;
         }
       } catch (error) {
         console.warn("[Mobile] Answer submit failed:", error);
         setSelectedId(undefined);
+      } finally {
+        submittingRoundKeyRef.current = "";
       }
+    } else {
+      // Mock mode: treat first click as accepted for this round
+      answeredRoundKeyRef.current = roundKey;
+      submittingRoundKeyRef.current = "";
     }
     
     // Demo: Simulate phase transitions only when using mock
@@ -390,7 +505,7 @@ export default function MobilePage() {
         }, 1500);
       }, 100);
     }
-  }, [quizState.phase, selectedId, isUsingSSE, setMockQuizState, userId, username]);
+  }, [quizState.phase, quizState.questionIndex, quizState.endsAtMs, isUsingSSE, setMockQuizState, userId, username]);
 
   // Demo: Reset for testing (only in mock mode)
   const handleReset = useCallback(() => {
@@ -493,13 +608,25 @@ export default function MobilePage() {
               playerName={playerData.playerName}
             />
             
-            {/* Leaderboard */}
-            <div className="flex-1 overflow-y-auto">
-              <LeaderboardColumn
-                scorers={leaderboardWithChanges.topScorers}
-                streakers={leaderboardWithChanges.topStreaks}
-              />
-            </div>
+            {/* Topic Summary Panel (shown after topic completion) */}
+            {topicCompleteEvent ? (
+              <div className="flex-1 overflow-y-auto">
+                <TopicSummaryPanel
+                  event={topicCompleteEvent}
+                  autoAdvanceMs={topicCompleteEvent.autoAdvanceMs}
+                  onDismiss={handleTopicSummaryDismiss}
+                  prefersReducedMotion={prefersReducedMotion}
+                />
+              </div>
+            ) : (
+              /* Leaderboard (normal mode) */
+              <div className="flex-1 overflow-y-auto">
+                <LeaderboardColumn
+                  scorers={leaderboardWithChanges.topScorers}
+                  streakers={leaderboardWithChanges.topStreaks}
+                />
+              </div>
+            )}
           </div>
         }
       />
@@ -518,6 +645,15 @@ export default function MobilePage() {
       {/* Join Game Modal - shown only when using SSE backend and not registered */}
       {!isCheckingRegistration && isUsingSSE && !isRegistered && (
         <JoinGameModal onJoined={handleJoined} />
+      )}
+      
+      {/* Topic Countdown Overlay - shown before a new topic starts */}
+      {topicCountdownEvent && (
+        <TopicCountdown
+          event={topicCountdownEvent}
+          prefersReducedMotion={prefersReducedMotion}
+          onComplete={clearTopicCountdown}
+        />
       )}
     </>
   );

@@ -111,13 +111,17 @@ export default function BatchImport({ engineUrl, adminToken, topics = [] }: Prop
       );
 
       if (response.success && response.data) {
+        const commitLocation = response.data.commitTarget
+          ? `${response.data.commitTarget.owner}/${response.data.commitTarget.repo}@${response.data.commitTarget.branch}:${response.data.commitTarget.contentRoot}`
+          : undefined;
+
         setImportState({
           status: "success",
           added: response.data.added,
           updated: response.data.updated,
           committed: response.data.committed,
           message: commitToGitHub && response.data.committed 
-            ? "Changes committed to GitHub" 
+            ? `Changes committed to GitHub (${commitLocation || "target unknown"})`
             : undefined,
         });
         setJsonInput("");

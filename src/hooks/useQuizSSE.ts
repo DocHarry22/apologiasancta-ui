@@ -1,17 +1,31 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import type { QuizState, ConnectionStatus } from "@/types/quiz";
+import type { QuizState, ConnectionStatus, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent } from "@/types/quiz";
 
 interface UseQuizSSEOptions {
   /** Optional user ID for personalized SSE stream (enables 'me' field in state) */
   userId?: string | null;
+  /** Callback fired when a topic complete event is received */
+  onTopicComplete?: (event: TopicCompleteEvent) => void;
+  /** Callback fired when a topic start event is received */
+  onTopicStart?: (event: TopicStartEvent) => void;
+  /** Callback fired when a topic countdown event is received */
+  onTopicCountdown?: (event: TopicCountdownEvent) => void;
 }
 
 interface UseQuizSSEResult {
   state: QuizState | null;
   connectionStatus: ConnectionStatus;
   lastError?: string;
+  /** Current topic complete event (cleared when next topic starts) */
+  topicCompleteEvent: TopicCompleteEvent | null;
+  /** Current topic countdown event (cleared when countdown ends or new event) */
+  topicCountdownEvent: TopicCountdownEvent | null;
+  /** Clear the topic complete event manually */
+  clearTopicComplete: () => void;
+  /** Clear the topic countdown event manually */
+  clearTopicCountdown: () => void;
 }
 
 /** Max reconnection attempts before going OFFLINE */
@@ -31,18 +45,21 @@ const POLL_INTERVAL = 2000;
  * - Tracks connectionStatus: connecting -> connected -> reconnecting -> disconnected
  * - Uses exponential backoff for reconnection
  * - Falls back to polling /state when SSE is offline
+ * - Handles topicComplete, topicStart, topicCountdown events for topic transitions
  * 
  * @param engineUrl - Backend URL (e.g., "http://localhost:4000") or null to disable
- * @param options - Optional configuration { userId?: string | null }
- * @returns {state, connectionStatus, lastError}
+ * @param options - Optional configuration including callbacks for topic events
+ * @returns {state, connectionStatus, lastError, topicCompleteEvent, topicCountdownEvent, clearTopicComplete, clearTopicCountdown}
  */
 export function useQuizSSE(
   engineUrl: string | null,
   options: UseQuizSSEOptions = {}
 ): UseQuizSSEResult {
-  const { userId } = options;
+  const { userId, onTopicComplete, onTopicStart, onTopicCountdown } = options;
   // Initialize state based on engineUrl
   const [quizState, setQuizState] = useState<QuizState | null>(null);
+  const [topicCompleteEvent, setTopicCompleteEvent] = useState<TopicCompleteEvent | null>(null);
+  const [topicCountdownEvent, setTopicCountdownEvent] = useState<TopicCountdownEvent | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(
     engineUrl ? "connecting" : "disconnected"
   );
@@ -54,6 +71,36 @@ export function useQuizSSE(
   const reconnectTimerRef = useRef<NodeJS.Timeout | null>(null);
   const pollTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isOfflineRef = useRef(false);
+  const onTopicCompleteRef = useRef(onTopicComplete);
+  const onTopicStartRef = useRef(onTopicStart);
+  const onTopicCountdownRef = useRef(onTopicCountdown);
+  
+  // Keep callback refs up to date
+  useEffect(() => {
+    onTopicCompleteRef.current = onTopicComplete;
+  }, [onTopicComplete]);
+  
+  useEffect(() => {
+    onTopicStartRef.current = onTopicStart;
+  }, [onTopicStart]);
+  
+  useEffect(() => {
+    onTopicCountdownRef.current = onTopicCountdown;
+  }, [onTopicCountdown]);
+
+  /**
+   * Clear topic complete event
+   */
+  const clearTopicComplete = useCallback(() => {
+    setTopicCompleteEvent(null);
+  }, []);
+  
+  /**
+   * Clear topic countdown event
+   */
+  const clearTopicCountdown = useCallback(() => {
+    setTopicCountdownEvent(null);
+  }, []);
 
   /**
    * Clear all timers
@@ -170,8 +217,50 @@ export function useQuizSSE(
       // Listen for default messages (no event type from server)
       eventSource.onmessage = (event: MessageEvent) => {
         try {
-          const state: QuizState = JSON.parse(event.data);
+          const data = JSON.parse(event.data);
+          
+          // Check if this is a typed event (topicComplete, topicStart, topicCountdown, seriesComplete)
+          if (data.type === "topicComplete") {
+            console.log("[useQuizSSE] Topic complete event received:", data.topicId);
+            setTopicCompleteEvent(data as TopicCompleteEvent);
+            setTopicCountdownEvent(null); // Clear any countdown
+            onTopicCompleteRef.current?.(data as TopicCompleteEvent);
+            return;
+          }
+          
+          if (data.type === "topicStart") {
+            console.log("[useQuizSSE] Topic start event received:", data.topicId);
+            // Clear all topic-related events when new topic starts
+            setTopicCompleteEvent(null);
+            setTopicCountdownEvent(null);
+            onTopicStartRef.current?.(data as TopicStartEvent);
+            return;
+          }
+          
+          if (data.type === "topicCountdown") {
+            console.log("[useQuizSSE] Topic countdown event received:", data.countdownSeconds, "seconds");
+            setTopicCountdownEvent(data as TopicCountdownEvent);
+            onTopicCountdownRef.current?.(data as TopicCountdownEvent);
+            return;
+          }
+          
+          if (data.type === "seriesComplete") {
+            console.log("[useQuizSSE] Series complete event received");
+            // Could handle series complete separately if needed
+            return;
+          }
+          
+          // Regular quiz state update
+          const state: QuizState = data;
           setQuizState(state);
+          
+          // Clear topic complete and countdown when regular state comes in (new topic started)
+          if (topicCompleteEvent) {
+            setTopicCompleteEvent(null);
+          }
+          if (topicCountdownEvent) {
+            setTopicCountdownEvent(null);
+          }
           
           // If we were reconnecting, we're now connected
           if (reconnectAttemptRef.current > 0) {
@@ -239,5 +328,9 @@ export function useQuizSSE(
     state: quizState,
     connectionStatus,
     lastError,
+    topicCompleteEvent,
+    topicCountdownEvent,
+    clearTopicComplete,
+    clearTopicCountdown,
   };
 }
