@@ -1,0 +1,24 @@
+{
+  "id": "gen_0070",
+  "topicId": "genesis",
+  "difficulty": 5,
+  "question": "What did God place at the east of the garden of Eden to guard the way to the tree of life?",
+  "choices": {
+    "A": "A wall of fire",
+    "B": "Cherubim and a flaming sword",
+    "C": "An angel with a trumpet",
+    "D": "A river of lava"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Guarding the Tree of Life",
+    "body": "God placed cherubim and a flaming sword that turned every way to guard the way to the tree of life.",
+    "refs": [
+      "Genesis 3:24"
+    ]
+  },
+  "tags": [
+    "genesis3",
+    "eden"
+  ]
+}
