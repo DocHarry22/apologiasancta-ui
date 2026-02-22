@@ -1,0 +1,24 @@
+{
+  "id": "gen_0099",
+  "topicId": "genesis",
+  "difficulty": 3,
+  "question": "What was the name of the city Cain built?",
+  "choices": {
+    "A": "Eden",
+    "B": "Babel",
+    "C": "Enoch",
+    "D": "Nod"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "City of Enoch",
+    "body": "Cain built a city and called its name after the name of his son, Enoch.",
+    "refs": [
+      "Genesis 4:17"
+    ]
+  },
+  "tags": [
+    "genesis4",
+    "cain"
+  ]
+}
