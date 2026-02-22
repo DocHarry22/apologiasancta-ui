@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getTopicMeta, listTopicQuestions } from "@/lib/content";
+import { getTopicMeta, getTopicsIndex, listTopicQuestions } from "@/lib/content";
 import { QuestionLibraryClient } from "@/components/library/QuestionLibraryClient";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
@@ -15,6 +15,11 @@ export async function generateMetadata({ params }: TopicPageProps) {
   return {
     title: `${topicId} | Library`,
   };
+}
+
+export async function generateStaticParams() {
+  const index = await getTopicsIndex();
+  return index.topics.map((topic) => ({ topicId: topic.id }));
 }
 
 export default async function TopicLibraryPage({ params }: TopicPageProps) {

@@ -6,14 +6,9 @@ export const metadata = {
   title: "Library | Apologia Sancta",
 };
 
-interface Props {
-  searchParams: Promise<{ author?: string }>;
-}
-
-export default async function LibraryPage({ searchParams }: Props) {
+export default async function LibraryPage() {
   const index = await getTopicsIndex();
-  const params = await searchParams;
-  const showAuthorLink = params.author === "1" || process.env.NEXT_PUBLIC_AUTHOR_ENABLED === "true";
+  const showAuthorLink = process.env.NEXT_PUBLIC_AUTHOR_ENABLED === "true";
 
   return (
     <main className="min-h-screen bg-background text-foreground p-6">
