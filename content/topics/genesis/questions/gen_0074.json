@@ -1,0 +1,24 @@
+{
+  "id": "gen_0074",
+  "topicId": "genesis",
+  "difficulty": 2,
+  "question": "What did the man and woman sew together to make coverings for themselves?",
+  "choices": {
+    "A": "Animal skins",
+    "B": "Palm branches",
+    "C": "Fig leaves",
+    "D": "Grass"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "Fig Leaves",
+    "body": "They sewed fig leaves together to make loincloths for themselves.",
+    "refs": [
+      "Genesis 3:7"
+    ]
+  },
+  "tags": [
+    "genesis3",
+    "fall"
+  ]
+}
