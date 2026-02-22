@@ -192,15 +192,29 @@ export default function MobilePage() {
   // Client-local state (never overwritten from server)
   const [selectedId, setSelectedId] = useState<string | undefined>();
   
-  // Handle topic start event - reset all personal scores for new topic
+  // Answer selection tracking refs - defined early so handleTopicStart can reset them
+  const lastOpenRoundKeyRef = useRef<string>("");
+  const answeredRoundKeyRef = useRef<string>("");
+  const submittingRoundKeyRef = useRef<string>("");
+  const lastQuestionSignatureRef = useRef<string>("");
+  const lastResetQuestionRef = useRef<number>(-1);
+  const selectedIdAtAnswerRef = useRef<string | undefined>(undefined);
+  
+  // Handle topic start event - reset all personal scores and answer state for new topic
   const handleTopicStart = useCallback((_event: TopicStartEvent) => {
-    console.log("[MobilePage] Topic start - resetting personal scores");
+    console.log("[MobilePage] Topic start - resetting all state for new topic");
     setMePreviousPoints(0);
     setMeLastAwardedPoints(0);
     meSnapshotPointsRef.current = 0;
     meInitializedRef.current = false;
-    // Also reset selected answer for new topic
+    // Reset all answer-related state for new topic
     setSelectedId(undefined);
+    lastOpenRoundKeyRef.current = "";
+    answeredRoundKeyRef.current = "";
+    submittingRoundKeyRef.current = "";
+    lastQuestionSignatureRef.current = "";
+    lastResetQuestionRef.current = -1;
+    selectedIdAtAnswerRef.current = undefined;
   }, []);
   
   const { 
@@ -310,20 +324,18 @@ export default function MobilePage() {
   // Track previous phase/question to detect transitions
   const prevPhaseRef = useRef<QuizPhase>(quizState.phase);
   const prevQuestionIndexRef = useRef<number>(quizState.questionIndex);
-  // Separate ref for reset tracking to avoid clearing selection during same question
-  const lastResetQuestionRef = useRef<number>(quizState.questionIndex);
-  const lastQuestionSignatureRef = useRef<string>("");
-  const lastOpenRoundKeyRef = useRef<string>("");
-  const answeredRoundKeyRef = useRef<string>("");
-  const submittingRoundKeyRef = useRef<string>("");
-  // Snapshot selectedId when answering to preserve for reveal animation
-  const selectedIdAtAnswerRef = useRef<string | undefined>(undefined);
+  // Note: answer-related refs (lastOpenRoundKeyRef, answeredRoundKeyRef, etc.) 
+  // are defined earlier so handleTopicStart can reset them
 
-  // Reset selected answer ONLY when entering a NEW question (questionIndex changes)
+  // Reset selected answer when entering a NEW question (questionIndex changes) or new OPEN phase
   useEffect(() => {
     const isNewQuestion = quizState.questionIndex !== lastResetQuestionRef.current;
     if (isNewQuestion && quizState.phase === "OPEN") {
+      console.log(`[MobilePage] New question detected (Q${quizState.questionIndex + 1}), resetting selection`);
       setSelectedId(undefined);
+      selectedIdAtAnswerRef.current = undefined;
+      answeredRoundKeyRef.current = "";
+      submittingRoundKeyRef.current = "";
       lastResetQuestionRef.current = quizState.questionIndex;
     }
   }, [quizState.questionIndex, quizState.phase]);
@@ -335,12 +347,10 @@ export default function MobilePage() {
     }
 
     const openRoundKey = `${quizState.questionIndex}:${quizState.endsAtMs}`;
-    if (!lastOpenRoundKeyRef.current) {
-      lastOpenRoundKeyRef.current = openRoundKey;
-      return;
-    }
-
+    
+    // Always reset if the round key changed (or on first run with empty key)
     if (lastOpenRoundKeyRef.current !== openRoundKey) {
+      console.log(`[MobilePage] New OPEN window detected (${openRoundKey}), ensuring selection is reset`);
       setSelectedId(undefined);
       selectedIdAtAnswerRef.current = undefined;
       answeredRoundKeyRef.current = "";
@@ -358,12 +368,9 @@ export default function MobilePage() {
       .join("|");
     const signature = `${quizState.questionIndex}::${quizState.question.text}::${choiceSignature}`;
 
-    if (!lastQuestionSignatureRef.current) {
-      lastQuestionSignatureRef.current = signature;
-      return;
-    }
-
+    // Reset if signature changed and we're in OPEN phase
     if (signature !== lastQuestionSignatureRef.current && quizState.phase === "OPEN") {
+      console.log(`[MobilePage] Question content changed, resetting selection`);
       setSelectedId(undefined);
       selectedIdAtAnswerRef.current = undefined;
       answeredRoundKeyRef.current = "";
