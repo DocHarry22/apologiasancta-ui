@@ -1,0 +1,24 @@
+{
+  "id": "gen_0031",
+  "topicId": "genesis",
+  "difficulty": 2,
+  "question": "Which creature spoke to the woman in the garden?",
+  "choices": {
+    "A": "A serpent",
+    "B": "A lion",
+    "C": "An angel",
+    "D": "A man"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Serpent",
+    "body": "The narrative identifies the serpent as the creature who spoke to the woman and questioned God's command.",
+    "refs": [
+      "Genesis 3:1"
+    ]
+  },
+  "tags": [
+    "genesis3",
+    "fall"
+  ]
+}
