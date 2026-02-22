@@ -1,0 +1,24 @@
+{
+  "id": "gen_0102",
+  "topicId": "genesis",
+  "difficulty": 3,
+  "question": "What did the serpent claim would happen if the woman ate from the forbidden tree?",
+  "choices": {
+    "A": "She would immediately die",
+    "B": "She would become like God, knowing good and evil",
+    "C": "She would lose her memory",
+    "D": "She would be cast out instantly"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "The Temptation",
+    "body": "The serpent told the woman that eating the fruit would make her like God, knowing good and evil.",
+    "refs": [
+      "Genesis 3:5"
+    ]
+  },
+  "tags": [
+    "genesis3",
+    "temptation"
+  ]
+}
