@@ -1,0 +1,24 @@
+{
+  "id": "gen_0022",
+  "topicId": "genesis",
+  "difficulty": 3,
+  "question": "What name did God give to the expanse that separated the waters?",
+  "choices": {
+    "A": "Firmament",
+    "B": "Heaven",
+    "C": "Sky",
+    "D": "Atmosphere"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "The Heavens",
+    "body": "God called the expanse 'Heaven' after separating the waters above from the waters below.",
+    "refs": [
+      "Genesis 1:6-8"
+    ]
+  },
+  "tags": [
+    "genesis1",
+    "creation"
+  ]
+}
