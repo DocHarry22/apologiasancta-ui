@@ -1,0 +1,24 @@
+{
+  "id": "gen_0067",
+  "topicId": "genesis",
+  "difficulty": 4,
+  "question": "What did the woman say when God asked her what she had done?",
+  "choices": {
+    "A": "The man made me do it",
+    "B": "The serpent deceived me, and I ate",
+    "C": "I desired wisdom",
+    "D": "I was hungry"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "The Woman's Response",
+    "body": "The woman said, 'The serpent deceived me, and I ate.'",
+    "refs": [
+      "Genesis 3:13"
+    ]
+  },
+  "tags": [
+    "genesis3",
+    "fall"
+  ]
+}
