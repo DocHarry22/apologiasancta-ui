@@ -1,0 +1,24 @@
+{
+  "id": "gen_0094",
+  "topicId": "genesis",
+  "difficulty": 4,
+  "question": "What warning did the Lord give Cain about sin?",
+  "choices": {
+    "A": "Sin is harmless",
+    "B": "Sin is crouching at the door",
+    "C": "Sin has already conquered you",
+    "D": "Sin will disappear"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Sin Crouching",
+    "body": "The Lord told Cain that sin was crouching at the door and that he must rule over it.",
+    "refs": [
+      "Genesis 4:7"
+    ]
+  },
+  "tags": [
+    "genesis4",
+    "sin"
+  ]
+}
