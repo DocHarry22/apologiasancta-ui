@@ -1,0 +1,24 @@
+{
+  "id": "gen_0086",
+  "topicId": "genesis",
+  "difficulty": 4,
+  "question": "What question did the Lord ask Cain after Abel was killed?",
+  "choices": {
+    "A": "Why did you do this?",
+    "B": "Where is Abel your brother?",
+    "C": "Do you regret your act?",
+    "D": "Will you confess?"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Where Is Your Brother?",
+    "body": "The Lord asked Cain, 'Where is Abel your brother?'",
+    "refs": [
+      "Genesis 4:9"
+    ]
+  },
+  "tags": [
+    "genesis4",
+    "cain-abel"
+  ]
+}
