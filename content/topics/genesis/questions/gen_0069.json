@@ -1,0 +1,24 @@
+{
+  "id": "gen_0069",
+  "topicId": "genesis",
+  "difficulty": 5,
+  "question": "What did God make for the man and his wife before sending them out of the garden?",
+  "choices": {
+    "A": "Fig garments",
+    "B": "Garments of skins",
+    "C": "Wool robes",
+    "D": "Golden clothing"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Garments of Skins",
+    "body": "The Lord God made garments of skins for the man and his wife and clothed them.",
+    "refs": [
+      "Genesis 3:21"
+    ]
+  },
+  "tags": [
+    "genesis3",
+    "fall"
+  ]
+}
