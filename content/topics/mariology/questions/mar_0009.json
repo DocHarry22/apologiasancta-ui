@@ -1,0 +1,19 @@
+{
+  "id": "mar_0009",
+  "topicId": "mariology",
+  "difficulty": 5,
+  "question": "Which Vatican II document presents Mary as type and model of the Church?",
+  "choices": {
+    "A": "Dei Verbum",
+    "B": "Gaudium et Spes",
+    "C": "Lumen Gentium",
+    "D": "Sacrosanctum Concilium"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "Mary and the Church",
+    "body": "Lumen Gentium situates Marian doctrine within ecclesiology, presenting Mary as Mother and exemplar of the Church.",
+    "refs": ["Lumen Gentium ch. 8", "CCC 963", "Revelation 12"]
+  },
+  "tags": ["vatican-ii", "ecclesiology", "theology"]
+}

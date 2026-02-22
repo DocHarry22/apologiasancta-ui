@@ -1,0 +1,19 @@
+{
+  "id": "mar_0007",
+  "topicId": "mariology",
+  "difficulty": 4,
+  "question": "At Cana, Mary's words to the servants summarize authentic Marian discipleship. What did she say?",
+  "choices": {
+    "A": "Prepare a place for him",
+    "B": "Tell no one what happened",
+    "C": "Do whatever he tells you",
+    "D": "Blessed are those who feast"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "Cana and Marian Mediation",
+    "body": "Mary's intercession at Cana always points to obedience to Christ, never away from him.",
+    "refs": ["John 2:5", "John 2:1-11", "CCC 2618"]
+  },
+  "tags": ["scripture", "intercession", "discipleship"]
+}

@@ -1,0 +1,8 @@
+{
+  "id": "mariology",
+  "title": "Mariology",
+  "description": "Core Catholic doctrines, councils, and scriptural foundations about the Blessed Virgin Mary.",
+  "difficultyRange": [1, 5],
+  "tags": ["dogma", "councils", "scripture", "christology", "devotion", "church-history"],
+  "questionCount": 10
+}

@@ -31,10 +31,10 @@ export default function JsonPreview({ question }: Props) {
   const jsonStr = JSON.stringify(orderedQuestion, null, 2);
 
   return (
-    <section className="rounded-xl border border-[color:var(--border)] bg-[color:var(--card)] p-4 space-y-2">
+    <section className="rounded-xl border border-(--border) bg-(--card) p-4 space-y-2">
       <h3 className="text-sm font-semibold">JSON Preview</h3>
-      <pre className="rounded-lg bg-[color:var(--bg)] border border-[color:var(--border)] p-3 text-xs font-mono overflow-x-auto max-h-96 overflow-y-auto">
-        <code className="text-[color:var(--text-secondary)]">{jsonStr}</code>
+      <pre className="rounded-lg bg-background border border-(--border) p-3 text-xs font-mono overflow-x-auto max-h-96 overflow-y-auto">
+        <code className="text-(--text-secondary)">{jsonStr}</code>
       </pre>
     </section>
   );

@@ -1,0 +1,19 @@
+{
+  "id": "mar_0008",
+  "topicId": "mariology",
+  "difficulty": 4,
+  "question": "In Catholic theology, calling Mary 'Mediatrix' means:",
+  "choices": {
+    "A": "She replaces Christ as mediator",
+    "B": "She participates subordinately in Christ's one mediation",
+    "C": "She mediates only to the apostles",
+    "D": "It is a condemned title"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "One Mediator, Real Participation",
+    "body": "Mary's maternal intercession is entirely dependent on and ordered to Christ's unique mediation.",
+    "refs": ["1 Timothy 2:5", "Lumen Gentium 60", "CCC 970"]
+  },
+  "tags": ["theology", "intercession", "christology"]
+}

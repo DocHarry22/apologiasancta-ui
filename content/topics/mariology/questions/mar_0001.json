@@ -1,0 +1,19 @@
+{
+  "id": "mar_0001",
+  "topicId": "mariology",
+  "difficulty": 1,
+  "question": "Which Marian title was solemnly affirmed at the Council of Ephesus (431)?",
+  "choices": {
+    "A": "Mediatrix",
+    "B": "Theotokos",
+    "C": "Immaculata",
+    "D": "Queen of Apostles"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Theotokos and Christology",
+    "body": "Ephesus affirmed Mary as Theotokos (Mother of God) to defend the unity of Christ's person.",
+    "refs": ["Council of Ephesus", "Luke 1:43", "CCC 495"]
+  },
+  "tags": ["councils", "christology", "dogma"]
+}

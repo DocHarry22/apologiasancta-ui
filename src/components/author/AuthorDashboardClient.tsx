@@ -405,7 +405,11 @@ export default function AuthorDashboardClient({ topics }: Props) {
         {activeTab === "import" && (
           <div className="rounded-xl border border-(--border) bg-(--card) p-4">
             {adminToken ? (
-              <BatchImport engineUrl={ENGINE_URL} adminToken={adminToken} />
+              <BatchImport
+                engineUrl={ENGINE_URL}
+                adminToken={adminToken}
+                topics={topics.map((t) => ({ id: t.id, title: t.title }))}
+              />
             ) : (
               <p className="text-sm text-(--muted)">Enter admin token above to import questions.</p>
             )}

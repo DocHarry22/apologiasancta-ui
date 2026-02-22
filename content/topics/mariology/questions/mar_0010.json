@@ -1,0 +1,19 @@
+{
+  "id": "mar_0010",
+  "topicId": "mariology",
+  "difficulty": 2,
+  "question": "Which Marian canticle is proclaimed in Luke 1:46-55?",
+  "choices": {
+    "A": "Benedictus",
+    "B": "Magnificat",
+    "C": "Te Deum",
+    "D": "Sanctus"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "The Magnificat",
+    "body": "Mary's Magnificat praises God's mercy, justice, and fidelity to his promises.",
+    "refs": ["Luke 1:46-55", "CCC 2619", "1 Samuel 2"]
+  },
+  "tags": ["scripture", "prayer", "liturgy"]
+}

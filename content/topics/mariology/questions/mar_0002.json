@@ -1,0 +1,19 @@
+{
+  "id": "mar_0002",
+  "topicId": "mariology",
+  "difficulty": 2,
+  "question": "The dogma of the Immaculate Conception teaches that Mary was:",
+  "choices": {
+    "A": "Conceived without original sin",
+    "B": "Conceived virginally",
+    "C": "Born in Bethlehem",
+    "D": "Assumed at birth"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Immaculate Conception",
+    "body": "Defined in 1854, this dogma states Mary was preserved from original sin by a singular grace in view of Christ's merits.",
+    "refs": ["Ineffabilis Deus", "Luke 1:28", "CCC 491"]
+  },
+  "tags": ["dogma", "grace", "church-history"]
+}

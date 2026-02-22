@@ -1,0 +1,19 @@
+{
+  "id": "mar_0006",
+  "topicId": "mariology",
+  "difficulty": 3,
+  "question": "Which prayer is taken directly from Luke 1 and forms the opening of the Hail Mary?",
+  "choices": {
+    "A": "Our Father",
+    "B": "Glory Be",
+    "C": "Angelus",
+    "D": "Ave Maria greeting"
+  },
+  "correctId": "D",
+  "teaching": {
+    "title": "Biblical Roots of the Hail Mary",
+    "body": "The Hail Mary begins with Gabriel's and Elizabeth's inspired greetings in Luke's Gospel.",
+    "refs": ["Luke 1:28", "Luke 1:42", "CCC 2676"]
+  },
+  "tags": ["scripture", "prayer", "devotion"]
+}

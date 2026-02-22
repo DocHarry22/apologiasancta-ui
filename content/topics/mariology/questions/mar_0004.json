@@ -1,0 +1,19 @@
+{
+  "id": "mar_0004",
+  "topicId": "mariology",
+  "difficulty": 3,
+  "question": "At the Annunciation, Mary's response 'Let it be done to me' is traditionally called:",
+  "choices": {
+    "A": "Magnificat",
+    "B": "Fiat",
+    "C": "Benedictus",
+    "D": "Nunc Dimittis"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Mary's Fiat",
+    "body": "Mary's free assent to God's plan at the Annunciation is the model of obedient faith.",
+    "refs": ["Luke 1:38", "Lumen Gentium 56", "CCC 494"]
+  },
+  "tags": ["scripture", "discipleship", "devotion"]
+}

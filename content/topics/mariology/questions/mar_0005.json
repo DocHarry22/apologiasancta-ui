@@ -1,0 +1,19 @@
+{
+  "id": "mar_0005",
+  "topicId": "mariology",
+  "difficulty": 3,
+  "question": "Catholic teaching on Mary's perpetual virginity means she was virgin:",
+  "choices": {
+    "A": "Only before Jesus' birth",
+    "B": "Before and during birth only",
+    "C": "Before, during, and after birth",
+    "D": "Only after Joseph died"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "Perpetual Virginity",
+    "body": "The Church confesses Mary's perpetual virginity as ante partum, in partu, and post partum.",
+    "refs": ["Lateran Council (649)", "CCC 499", "Luke 1:34"]
+  },
+  "tags": ["dogma", "christology", "tradition"]
+}

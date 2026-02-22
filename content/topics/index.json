@@ -6,6 +6,13 @@
       "description": "Core doctrines about the person and work of Jesus Christ.",
       "questionCount": 10,
       "tags": ["councils", "creeds", "incarnation", "trinity"]
+    },
+    {
+      "id": "mariology",
+      "title": "Mariology",
+      "description": "Core Catholic doctrines and scriptural foundations about the Blessed Virgin Mary.",
+      "questionCount": 10,
+      "tags": ["dogma", "councils", "scripture", "devotion"]
     }
   ]
 }

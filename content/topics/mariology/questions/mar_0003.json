@@ -1,0 +1,19 @@
+{
+  "id": "mar_0003",
+  "topicId": "mariology",
+  "difficulty": 2,
+  "question": "Which mystery proclaims Mary was taken body and soul into heavenly glory?",
+  "choices": {
+    "A": "Perpetual Virginity",
+    "B": "Immaculate Conception",
+    "C": "Assumption",
+    "D": "Corredemption"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "Assumption",
+    "body": "Defined in 1950, the Assumption affirms that at the end of her earthly life, Mary was assumed body and soul into heaven.",
+    "refs": ["Munificentissimus Deus", "Revelation 12", "CCC 966"]
+  },
+  "tags": ["dogma", "eschatology", "church-history"]
+}
