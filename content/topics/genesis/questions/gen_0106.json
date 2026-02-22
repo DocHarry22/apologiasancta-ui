@@ -1,0 +1,24 @@
+{
+  "id": "gen_0106",
+  "topicId": "genesis",
+  "difficulty": 4,
+  "question": "What question did the Lord God ask the man after he had hidden?",
+  "choices": {
+    "A": "Why did you eat?",
+    "B": "Where are you?",
+    "C": "Who told you to hide?",
+    "D": "What have you done?"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Where Are You?",
+    "body": "The Lord God called to the man and asked, 'Where are you?'",
+    "refs": [
+      "Genesis 3:9"
+    ]
+  },
+  "tags": [
+    "genesis3",
+    "fall"
+  ]
+}
