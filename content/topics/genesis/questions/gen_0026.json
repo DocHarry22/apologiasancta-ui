@@ -1,0 +1,24 @@
+{
+  "id": "gen_0026",
+  "topicId": "genesis",
+  "difficulty": 1,
+  "question": "What did God declare about everything He had made at the end of the sixth day?",
+  "choices": {
+    "A": "It was unfinished",
+    "B": "It was very good",
+    "C": "It needed correction",
+    "D": "It was temporary"
+  },
+  "correctId": "B",
+  "teaching": {
+    "title": "Very Good",
+    "body": "At the conclusion of the sixth day, God saw everything He had made and declared it very good.",
+    "refs": [
+      "Genesis 1:31"
+    ]
+  },
+  "tags": [
+    "goodness",
+    "genesis1"
+  ]
+}
