@@ -1,0 +1,24 @@
+{
+  "id": "gen_0025",
+  "topicId": "genesis",
+  "difficulty": 2,
+  "question": "What did God create on the fifth day?",
+  "choices": {
+    "A": "Land animals and humans",
+    "B": "Plants and trees",
+    "C": "Fish and birds",
+    "D": "The sun and moon"
+  },
+  "correctId": "C",
+  "teaching": {
+    "title": "Creatures of Water and Sky",
+    "body": "On the fifth day, God created the creatures of the sea and the birds of the air.",
+    "refs": [
+      "Genesis 1:20-23"
+    ]
+  },
+  "tags": [
+    "genesis1",
+    "creation-days"
+  ]
+}
