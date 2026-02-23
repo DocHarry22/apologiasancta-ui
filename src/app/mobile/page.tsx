@@ -565,13 +565,12 @@ export default function MobilePage() {
             onSelect={handleSelect}
           />
 
-          {/* Teaching moment (collapsible) */}
+          {/* Teaching moment (always visible during REVEAL) */}
           {quizState.teaching && (
             <TeachingMomentCard
               title={quizState.teaching.title}
               explanation={quizState.teaching.body}
               references={teachingRefs}
-              defaultOpen={quizState.teaching.isOpenByDefault}
             />
           )}
 
