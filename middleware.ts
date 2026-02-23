@@ -4,7 +4,11 @@ import { SESSION_COOKIE_NAME, verifySessionCookie } from "@/lib/auth/session";
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  if (pathname === "/author/login" || pathname.startsWith("/api/auth/")) {
+  if (
+    pathname === "/author/login" ||
+    pathname === "/author/login/" ||
+    pathname.startsWith("/api/auth/")
+  ) {
     return NextResponse.next();
   }
 
