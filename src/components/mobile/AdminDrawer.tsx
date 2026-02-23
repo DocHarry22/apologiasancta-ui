@@ -12,7 +12,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useAdminPanel } from "@/hooks/useAdminPanel";
-import { quizActions, topicActions } from "@/lib/engineAdmin";
+import { quizActions, topicActions, type LoopMode } from "@/lib/engineAdmin";
 import type { ConnectionStatus } from "@/types/quiz";
 import type { AdminStatus, TopicInfo } from "@/lib/engineAdmin";
 
@@ -39,6 +39,10 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
   const [selectedTopicId, setSelectedTopicId] = useState<string>("");
   const [topicLoading, setTopicLoading] = useState(false);
   const [countdownSeconds, setCountdownSeconds] = useState(10);
+  // Loop control state
+  const [topicLoopMode, setTopicLoopMode] = useState<LoopMode>("off");
+  const [seriesLoopMode, setSeriesLoopMode] = useState<LoopMode>("off");
+  const [loopLoading, setLoopLoading] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
 
   // Fetch available topics when drawer opens and admin is authenticated
@@ -183,6 +187,48 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
     setTopicLoading(false);
     
     if (result.success) {
+      admin.clearResult();
+    }
+  };
+  
+  // Handle setting topic loop mode
+  const handleSetTopicLoop = async (mode: LoopMode) => {
+    if (!engineUrl || !admin.adminToken) return;
+    
+    setLoopLoading(true);
+    const result = await topicActions.setTopicLoop(engineUrl, admin.adminToken, mode);
+    setLoopLoading(false);
+    
+    if (result.success && result.data) {
+      setTopicLoopMode(result.data.topicLoopMode);
+      admin.clearResult();
+    }
+  };
+  
+  // Handle setting series loop mode
+  const handleSetSeriesLoop = async (mode: LoopMode) => {
+    if (!engineUrl || !admin.adminToken) return;
+    
+    setLoopLoading(true);
+    const result = await topicActions.setSeriesLoop(engineUrl, admin.adminToken, mode);
+    setLoopLoading(false);
+    
+    if (result.success && result.data) {
+      setSeriesLoopMode(result.data.seriesLoopMode);
+      admin.clearResult();
+    }
+  };
+  
+  // Handle setting countdown duration
+  const handleSetCountdownDuration = async () => {
+    if (!engineUrl || !admin.adminToken) return;
+    
+    setLoopLoading(true);
+    const result = await topicActions.setCountdownDuration(engineUrl, admin.adminToken, countdownSeconds);
+    setLoopLoading(false);
+    
+    if (result.success && result.data) {
+      setCountdownSeconds(result.data.countdownSeconds);
       admin.clearResult();
     }
   };
@@ -406,6 +452,95 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
                     title="Start countdown before beginning topic"
                   >
                     Countdown ({countdownSeconds}s)
+                  </button>
+                </div>
+              </div>
+              
+              {/* Loop Controls Section */}
+              <div className="p-3 rounded-lg bg-background border border-(--border)">
+                <label className="text-xs text-(--muted) block mb-2">Repeat / Loop</label>
+                
+                {/* Topic Loop Controls */}
+                <div className="mb-2">
+                  <span className="text-[10px] text-(--muted) block mb-1">Topic Loop: <span className="text-(--accent) font-medium">{topicLoopMode}</span></span>
+                  <div className="flex gap-1.5">
+                    <button
+                      onClick={() => handleSetTopicLoop("off")}
+                      disabled={loopLoading || !admin.adminToken}
+                      className={`flex-1 text-[10px] py-1.5 rounded-lg transition-all disabled:opacity-40
+                        ${topicLoopMode === "off" ? "bg-(--accent) text-white" : "bg-(--card) border border-(--border) text-(--muted) hover:border-(--accent)"}`}
+                    >
+                      Off
+                    </button>
+                    <button
+                      onClick={() => handleSetTopicLoop("once")}
+                      disabled={loopLoading || !admin.adminToken}
+                      className={`flex-1 text-[10px] py-1.5 rounded-lg transition-all disabled:opacity-40
+                        ${topicLoopMode === "once" ? "bg-purple-600 text-white" : "bg-(--card) border border-(--border) text-(--muted) hover:border-purple-500"}`}
+                    >
+                      Once
+                    </button>
+                    <button
+                      onClick={() => handleSetTopicLoop("infinite")}
+                      disabled={loopLoading || !admin.adminToken}
+                      className={`flex-1 text-[10px] py-1.5 rounded-lg transition-all disabled:opacity-40
+                        ${topicLoopMode === "infinite" ? "bg-orange-600 text-white" : "bg-(--card) border border-(--border) text-(--muted) hover:border-orange-500"}`}
+                    >
+                      Loop ∞
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Series Loop Controls */}
+                <div>
+                  <span className="text-[10px] text-(--muted) block mb-1">Series Loop: <span className="text-(--accent) font-medium">{seriesLoopMode}</span></span>
+                  <div className="flex gap-1.5">
+                    <button
+                      onClick={() => handleSetSeriesLoop("off")}
+                      disabled={loopLoading || !admin.adminToken}
+                      className={`flex-1 text-[10px] py-1.5 rounded-lg transition-all disabled:opacity-40
+                        ${seriesLoopMode === "off" ? "bg-(--accent) text-white" : "bg-(--card) border border-(--border) text-(--muted) hover:border-(--accent)"}`}
+                    >
+                      Off
+                    </button>
+                    <button
+                      onClick={() => handleSetSeriesLoop("once")}
+                      disabled={loopLoading || !admin.adminToken}
+                      className={`flex-1 text-[10px] py-1.5 rounded-lg transition-all disabled:opacity-40
+                        ${seriesLoopMode === "once" ? "bg-purple-600 text-white" : "bg-(--card) border border-(--border) text-(--muted) hover:border-purple-500"}`}
+                    >
+                      Once
+                    </button>
+                    <button
+                      onClick={() => handleSetSeriesLoop("infinite")}
+                      disabled={loopLoading || !admin.adminToken}
+                      className={`flex-1 text-[10px] py-1.5 rounded-lg transition-all disabled:opacity-40
+                        ${seriesLoopMode === "infinite" ? "bg-orange-600 text-white" : "bg-(--card) border border-(--border) text-(--muted) hover:border-orange-500"}`}
+                    >
+                      Loop ∞
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Countdown duration setting */}
+                <div className="flex gap-2 mt-2 items-center">
+                  <input
+                    type="number"
+                    min="1"
+                    max="60"
+                    value={countdownSeconds}
+                    onChange={(e) => setCountdownSeconds(Math.max(1, Math.min(60, parseInt(e.target.value) || 10)))}
+                    className="w-16 text-xs px-2 py-1.5 rounded-lg bg-(--card) border border-(--border)
+                      text-foreground text-center focus:outline-none focus:border-(--accent)"
+                  />
+                  <button
+                    onClick={handleSetCountdownDuration}
+                    disabled={loopLoading || !admin.adminToken}
+                    className="flex-1 text-[10px] py-1.5 rounded-lg bg-teal-600 text-white hover:bg-teal-500 
+                      disabled:opacity-40 transition-all"
+                    title="Set default countdown duration between topics"
+                  >
+                    Set Duration
                   </button>
                 </div>
               </div>

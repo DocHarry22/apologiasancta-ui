@@ -27,3 +27,4 @@ export { AdminDrawer } from "./AdminDrawer";
 // Topic completion
 export { TopicSummaryPanel } from "./TopicSummaryPanel";
 export { TopicCountdown } from "./TopicCountdown";
+export { CongratsOverlay } from "./CongratsOverlay";

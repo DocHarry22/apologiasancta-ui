@@ -287,5 +287,26 @@ export interface TopicCountdownEvent {
   endsAtMs: number;
 }
 
+/** Congrats event payload received via SSE after topic completes */
+export interface CongratsEvent {
+  type: "congrats";
+  /** Topic ID that was just completed */
+  topicId: string;
+  /** Topic display title */
+  topicTitle: string;
+  /** Summary data for display */
+  summary: TopicSummary;
+  /** Congrats display duration (ms) */
+  displayDurationMs: number;
+  /** Unix timestamp (ms) when congrats ends */
+  endsAtMs: number;
+  /** Next topic ID (null if series complete) */
+  nextTopicId: string | null;
+  /** Next topic display title (null if series complete) */
+  nextTopicTitle: string | null;
+  /** Whether this is the last topic in the series */
+  isSeriesComplete: boolean;
+}
+
 /** Union type for all SSE event types */
-export type SSEEvent = QuizState | TopicCompleteEvent | SeriesCompleteEvent | TopicStartEvent | TopicCountdownEvent;
+export type SSEEvent = QuizState | TopicCompleteEvent | SeriesCompleteEvent | TopicStartEvent | TopicCountdownEvent | CongratsEvent;

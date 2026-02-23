@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import type { QuizState, ConnectionStatus, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent } from "@/types/quiz";
+import type { QuizState, ConnectionStatus, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent, CongratsEvent } from "@/types/quiz";
 
 interface UseQuizSSEOptions {
   /** Optional user ID for personalized SSE stream (enables 'me' field in state) */
@@ -12,6 +12,8 @@ interface UseQuizSSEOptions {
   onTopicStart?: (event: TopicStartEvent) => void;
   /** Callback fired when a topic countdown event is received */
   onTopicCountdown?: (event: TopicCountdownEvent) => void;
+  /** Callback fired when a congrats event is received */
+  onCongrats?: (event: CongratsEvent) => void;
 }
 
 interface UseQuizSSEResult {
@@ -22,10 +24,14 @@ interface UseQuizSSEResult {
   topicCompleteEvent: TopicCompleteEvent | null;
   /** Current topic countdown event (cleared when countdown ends or new event) */
   topicCountdownEvent: TopicCountdownEvent | null;
+  /** Current congrats event (cleared when countdown starts) */
+  congratsEvent: CongratsEvent | null;
   /** Clear the topic complete event manually */
   clearTopicComplete: () => void;
   /** Clear the topic countdown event manually */
   clearTopicCountdown: () => void;
+  /** Clear the congrats event manually */
+  clearCongrats: () => void;
 }
 
 /** Max reconnection attempts before going OFFLINE */
@@ -55,11 +61,12 @@ export function useQuizSSE(
   engineUrl: string | null,
   options: UseQuizSSEOptions = {}
 ): UseQuizSSEResult {
-  const { userId, onTopicComplete, onTopicStart, onTopicCountdown } = options;
+  const { userId, onTopicComplete, onTopicStart, onTopicCountdown, onCongrats } = options;
   // Initialize state based on engineUrl
   const [quizState, setQuizState] = useState<QuizState | null>(null);
   const [topicCompleteEvent, setTopicCompleteEvent] = useState<TopicCompleteEvent | null>(null);
   const [topicCountdownEvent, setTopicCountdownEvent] = useState<TopicCountdownEvent | null>(null);
+  const [congratsEvent, setCongratsEvent] = useState<CongratsEvent | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(
     engineUrl ? "connecting" : "disconnected"
   );
@@ -74,6 +81,7 @@ export function useQuizSSE(
   const onTopicCompleteRef = useRef(onTopicComplete);
   const onTopicStartRef = useRef(onTopicStart);
   const onTopicCountdownRef = useRef(onTopicCountdown);
+  const onCongratsRef = useRef(onCongrats);
   
   // Keep callback refs up to date
   useEffect(() => {
@@ -87,6 +95,10 @@ export function useQuizSSE(
   useEffect(() => {
     onTopicCountdownRef.current = onTopicCountdown;
   }, [onTopicCountdown]);
+  
+  useEffect(() => {
+    onCongratsRef.current = onCongrats;
+  }, [onCongrats]);
 
   /**
    * Clear topic complete event
@@ -100,6 +112,13 @@ export function useQuizSSE(
    */
   const clearTopicCountdown = useCallback(() => {
     setTopicCountdownEvent(null);
+  }, []);
+  
+  /**
+   * Clear congrats event
+   */
+  const clearCongrats = useCallback(() => {
+    setCongratsEvent(null);
   }, []);
 
   /**
@@ -233,6 +252,7 @@ export function useQuizSSE(
             // Clear all topic-related events when new topic starts
             setTopicCompleteEvent(null);
             setTopicCountdownEvent(null);
+            setCongratsEvent(null);
             onTopicStartRef.current?.(data as TopicStartEvent);
             return;
           }
@@ -240,7 +260,16 @@ export function useQuizSSE(
           if (data.type === "topicCountdown") {
             console.log("[useQuizSSE] Topic countdown event received:", data.countdownSeconds, "seconds");
             setTopicCountdownEvent(data as TopicCountdownEvent);
+            setCongratsEvent(null); // Clear congrats when countdown starts
             onTopicCountdownRef.current?.(data as TopicCountdownEvent);
+            return;
+          }
+          
+          if (data.type === "congrats") {
+            console.log("[useQuizSSE] Congrats event received:", data.topicId);
+            setCongratsEvent(data as CongratsEvent);
+            setTopicCompleteEvent(null); // Clear any existing topic complete
+            onCongratsRef.current?.(data as CongratsEvent);
             return;
           }
           
@@ -254,13 +283,11 @@ export function useQuizSSE(
           const state: QuizState = data;
           setQuizState(state);
           
-          // Clear topic complete and countdown when regular state comes in (new topic started)
-          if (topicCompleteEvent) {
-            setTopicCompleteEvent(null);
-          }
-          if (topicCountdownEvent) {
-            setTopicCountdownEvent(null);
-          }
+          // Clear all topic transition events when regular quiz state comes in
+          // (indicates normal question flow has resumed)
+          setTopicCompleteEvent(null);
+          setTopicCountdownEvent(null);
+          setCongratsEvent(null);
           
           // If we were reconnecting, we're now connected
           if (reconnectAttemptRef.current > 0) {
@@ -330,7 +357,9 @@ export function useQuizSSE(
     lastError,
     topicCompleteEvent,
     topicCountdownEvent,
+    congratsEvent,
     clearTopicComplete,
     clearTopicCountdown,
+    clearCongrats,
   };
 }

@@ -73,7 +73,7 @@ export function TopicCountdown({
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 ${animationClass}`}
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm ${animationClass}`}
       role="alertdialog"
       aria-modal="true"
       aria-label={`Topic starting in ${secondsRemaining} seconds`}

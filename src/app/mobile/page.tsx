@@ -15,13 +15,14 @@ import {
   JoinGameModal,
   TopicSummaryPanel,
   TopicCountdown,
+  CongratsOverlay,
   PLAYER_NAME_KEY,
 } from "@/components/mobile";
 import { useLeaderboardDiff } from "@/hooks/useLeaderboardDiff";
 import { useQuizSSE } from "@/hooks/useQuizSSE";
 import { useLocalPlayer } from "@/hooks/useLocalPlayer";
 import { useScoreDeltaAnimation } from "@/hooks/useScoreDeltaAnimation";
-import type { QuizState, QuizPhase, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent } from "@/types/quiz";
+import type { QuizState, QuizPhase, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent, CongratsEvent } from "@/types/quiz";
 
 // Backend URL from environment (optional)
 const ENGINE_URL = process.env.NEXT_PUBLIC_ENGINE_URL;
@@ -104,8 +105,10 @@ function useQuizState(userId: string | null, onTopicStart?: (event: TopicStartEv
     isUsingSSE,
     topicCompleteEvent: sseResult.topicCompleteEvent,
     topicCountdownEvent: sseResult.topicCountdownEvent,
+    congratsEvent: sseResult.congratsEvent,
     clearTopicComplete: sseResult.clearTopicComplete,
     clearTopicCountdown: sseResult.clearTopicCountdown,
+    clearCongrats: sseResult.clearCongrats,
   };
 }
 
@@ -224,8 +227,10 @@ export default function MobilePage() {
     isUsingSSE,
     topicCompleteEvent,
     topicCountdownEvent,
+    congratsEvent,
     clearTopicComplete,
     clearTopicCountdown,
+    clearCongrats,
   } = useQuizState(userId, handleTopicStart);
   
   // Admin drawer state
@@ -454,7 +459,7 @@ export default function MobilePage() {
     setSelectedId(id);
     submittingRoundKeyRef.current = roundKey;
 
-    // Submit answer to backend when using SSE/live engine
+    // Submit answer to backend when using SSE/live engine AND user is registered
     if (isUsingSSE && ENGINE_URL && userId) {
       try {
         const response = await fetch(`${ENGINE_URL}/answer`, {
@@ -496,6 +501,12 @@ export default function MobilePage() {
       } finally {
         submittingRoundKeyRef.current = "";
       }
+    } else if (isUsingSSE && ENGINE_URL && !userId) {
+      // SSE mode but user not registered - allow local selection but don't submit
+      // This is a preview/spectator mode
+      console.log("[Mobile] Answer selected (spectator mode - not registered)");
+      answeredRoundKeyRef.current = roundKey;
+      submittingRoundKeyRef.current = "";
     } else {
       // Mock mode: treat first click as accepted for this round
       answeredRoundKeyRef.current = roundKey;
@@ -535,7 +546,7 @@ export default function MobilePage() {
       <Layout
         leftContent={
           <div className="flex flex-col flex-1 min-h-screen">
-            {/* TopBar */}
+            {/* TopBar - always visible, not covered by overlays */}
             <TopBar
               topic={quizState.themeTitle}
               questionNumber={quizState.questionIndex + 1}
@@ -543,7 +554,9 @@ export default function MobilePage() {
               connectionStatus={connectionStatus}
               onOpenAdmin={() => setIsAdminOpen(true)}
             />
-
+            
+            {/* Main content area - can be overlayed by CongratsOverlay */}
+            <div className="relative flex-1 flex flex-col">
           {/* Countdown Timer */}
           <CountdownRing
             endsAtMs={quizState.endsAtMs}
@@ -599,6 +612,16 @@ export default function MobilePage() {
               }))}
             />
           )}
+          
+          {/* Congrats Overlay - covers quiz/answers but not TopBar */}
+          {congratsEvent && (
+            <CongratsOverlay
+              event={congratsEvent}
+              prefersReducedMotion={prefersReducedMotion}
+              onComplete={clearCongrats}
+            />
+          )}
+            </div>
         </div>
         }
         rightContent={

@@ -236,11 +236,18 @@ export const quizActions = {
 
 // ============== Topic Management ==============
 
+/** Loop mode type matching engine */
+export type LoopMode = "off" | "once" | "infinite" | number;
+
 export interface TopicSequenceConfig {
   topicSequence: string[];
-  topicSummaryDisplayTimeMs: number;
+  congratsDisplayTimeMs: number;
+  countdownSeconds: number;
   autoAdvance: boolean;
-  loopOnComplete: boolean;
+  topicLoopMode: LoopMode;
+  topicRepeatsRemaining: number;
+  seriesLoopMode: LoopMode;
+  seriesRepeatsRemaining: number;
 }
 
 export interface TopicInfo {
@@ -356,5 +363,43 @@ export const topicActions = {
       "POST",
       token,
       { countdownSeconds, ...(topicId ? { topicId } : {}) }
+    ),
+
+  /**
+   * Set topic loop mode
+   * Controls whether current topic repeats after completion
+   */
+  setTopicLoop: (engineUrl: string, token: string, mode: LoopMode) =>
+    engineFetch<{ success: boolean; message: string; topicLoopMode: LoopMode; topicRepeatsRemaining: number }>(
+      engineUrl,
+      "/admin/topic/loop",
+      "POST",
+      token,
+      { mode }
+    ),
+
+  /**
+   * Set series loop mode
+   * Controls whether entire topic sequence repeats after completion
+   */
+  setSeriesLoop: (engineUrl: string, token: string, mode: LoopMode) =>
+    engineFetch<{ success: boolean; message: string; seriesLoopMode: LoopMode; seriesRepeatsRemaining: number }>(
+      engineUrl,
+      "/admin/series/loop",
+      "POST",
+      token,
+      { mode }
+    ),
+
+  /**
+   * Set countdown duration
+   */
+  setCountdownDuration: (engineUrl: string, token: string, seconds: number) =>
+    engineFetch<{ success: boolean; message: string; countdownSeconds: number }>(
+      engineUrl,
+      "/admin/countdown/set",
+      "POST",
+      token,
+      { seconds }
     ),
 };
