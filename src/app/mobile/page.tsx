@@ -325,6 +325,7 @@ export default function MobilePage() {
   // Score delta animation system
   const { sourceRef, targetRef, triggerAnimation, AnimationPortal } = useScoreDeltaAnimation();
   const pendingRevealAnimationQuestionRef = useRef<number | null>(null);
+  const interactionPhaseRef = useRef<QuizPhase>(quizState.phase);
   
   // Track previous phase/question to detect transitions
   const prevPhaseRef = useRef<QuizPhase>(quizState.phase);
@@ -344,6 +345,25 @@ export default function MobilePage() {
       lastResetQuestionRef.current = quizState.questionIndex;
     }
   }, [quizState.questionIndex, quizState.phase]);
+
+  // Defensive reset when transitioning back into OPEN.
+  // This avoids stale round lock refs from blocking answer selection on subsequent rounds.
+  useEffect(() => {
+    const previousPhase = interactionPhaseRef.current;
+
+    if (quizState.phase === "OPEN" && previousPhase !== "OPEN") {
+      setSelectedId(undefined);
+      selectedIdAtAnswerRef.current = undefined;
+      answeredRoundKeyRef.current = "";
+      submittingRoundKeyRef.current = "";
+    }
+
+    if (quizState.phase !== "OPEN") {
+      submittingRoundKeyRef.current = "";
+    }
+
+    interactionPhaseRef.current = quizState.phase;
+  }, [quizState.phase]);
 
   // Hard reset selection for each new OPEN window, even if index/text are unchanged
   useEffect(() => {
