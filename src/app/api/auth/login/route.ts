@@ -23,9 +23,18 @@ export async function POST(req: NextRequest) {
   }
 
   const expectedPassword = process.env.AUTHOR_ADMIN_PASSWORD;
-  if (!expectedPassword) {
+  const sessionSecret = process.env.AUTHOR_SESSION_SECRET;
+  const missingVars = [
+    !expectedPassword ? "AUTHOR_ADMIN_PASSWORD" : null,
+    !sessionSecret ? "AUTHOR_SESSION_SECRET" : null,
+  ].filter((entry): entry is string => Boolean(entry));
+
+  if (missingVars.length > 0) {
     return NextResponse.json(
-      { error: "Author auth is not configured on the server." },
+      {
+        error: "Author auth is not configured on the server.",
+        missingEnv: missingVars,
+      },
       { status: 500 }
     );
   }
