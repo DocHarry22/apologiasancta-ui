@@ -4,10 +4,10 @@
  * Admin Drawer Component
  * 
  * A mobile-friendly bottom drawer for quiz host controls.
- * Features locked/unlocked states, admin token input, and action buttons.
+ * Features locked/unlocked states with server-side token validation.
  * 
- * SECURITY NOTE: This is UX gating only, not real security.
- * Prevents accidental access by viewers who find the URL.
+ * SECURITY: Token is validated against the engine's /admin/status endpoint.
+ * Controls are only shown after successful server-side validation.
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -33,11 +33,8 @@ const STATUS_CONFIG = {
 
 export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: AdminDrawerProps) {
   const admin = useAdminPanel(engineUrl);
-  const [unlockInput, setUnlockInput] = useState("");
-  const [unlockError, setUnlockError] = useState(false);
-  // Initialize from admin token if available
-  const [tokenInput, setTokenInput] = useState(admin.adminToken);
-  const [showTokenSaved, setShowTokenSaved] = useState(false);
+  const [tokenInput, setTokenInput] = useState("");
+  const [tokenError, setTokenError] = useState<string | null>(null);
   const [availableTopics, setAvailableTopics] = useState<TopicInfo[]>([]);
   const [selectedTopicId, setSelectedTopicId] = useState<string>("");
   const [topicLoading, setTopicLoading] = useState(false);
@@ -76,22 +73,19 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
     return () => window.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
-  // Handle unlock attempt
-  const handleUnlock = () => {
-    const success = admin.unlock(unlockInput);
-    if (success) {
-      setUnlockError(false);
-      setUnlockInput("");
-    } else {
-      setUnlockError(true);
+  // Handle token validation and unlock
+  const handleValidateToken = async () => {
+    if (!tokenInput.trim()) {
+      setTokenError("Please enter an admin token");
+      return;
     }
-  };
-
-  // Handle token save
-  const handleSaveToken = () => {
-    admin.setAdminToken(tokenInput);
-    setShowTokenSaved(true);
-    setTimeout(() => setShowTokenSaved(false), 2000);
+    
+    setTokenError(null);
+    const result = await admin.validateAndUnlock(tokenInput);
+    
+    if (!result.success) {
+      setTokenError(result.error || "Invalid token");
+    }
   };
 
   // Handle admin action
@@ -272,30 +266,6 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
                 </div>
               </div>
 
-              {/* Admin Token */}
-              <div className="p-3 rounded-lg bg-background border border-(--border)">
-                <label className="text-xs text-(--muted) block mb-2">Admin Token</label>
-                <div className="flex gap-2">
-                  <input
-                    type="password"
-                    value={tokenInput}
-                    onChange={(e) => setTokenInput(e.target.value)}
-                    placeholder="Enter admin token"
-                    className="flex-1 text-xs px-3 py-2 rounded-lg bg-(--card) border border-(--border)
-                      text-foreground placeholder:text-(--muted) focus:outline-none focus:border-(--accent)"
-                  />
-                  <button
-                    onClick={handleSaveToken}
-                    className="text-xs px-3 py-2 rounded-lg bg-(--accent) text-white hover:opacity-90 transition-opacity"
-                  >
-                    {showTokenSaved ? "✓" : "Save"}
-                  </button>
-                </div>
-                {!admin.adminToken && (
-                  <p className="text-[10px] text-yellow-500 mt-1">Token required for actions</p>
-                )}
-              </div>
-
               {/* Action Buttons */}
               <div className="grid grid-cols-3 gap-2">
                 <ActionButton
@@ -455,7 +425,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
               )}
             </div>
           ) : (
-            /* LOCKED VIEW */
+            /* LOCKED VIEW - Token validation required */
             <div className="space-y-4">
               <div className="text-center py-4">
                 <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-(--muted)/20 flex items-center justify-center">
@@ -464,37 +434,53 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                   </svg>
                 </div>
-                <p className="text-xs text-(--muted)">Enter unlock code to access controls</p>
+                <p className="text-xs text-(--muted)">Enter admin token to access controls</p>
+                <p className="text-[10px] text-(--muted) mt-1">Token is validated against the server</p>
               </div>
 
               <div className="space-y-2">
                 <input
                   type="password"
-                  value={unlockInput}
+                  value={tokenInput}
                   onChange={(e) => {
-                    setUnlockInput(e.target.value);
-                    setUnlockError(false);
+                    setTokenInput(e.target.value);
+                    setTokenError(null);
                   }}
-                  onKeyDown={(e) => e.key === "Enter" && handleUnlock()}
-                  placeholder="Unlock code"
+                  onKeyDown={(e) => e.key === "Enter" && handleValidateToken()}
+                  placeholder="Admin token"
                   className={`w-full text-sm px-4 py-3 rounded-lg bg-background border 
-                    ${unlockError ? "border-red-500" : "border-(--border)"}
+                    ${tokenError ? "border-red-500" : "border-(--border)"}
                     text-foreground placeholder:text-(--muted) text-center
                     focus:outline-none focus:border-(--accent)`}
                   autoFocus={isOpen && !admin.isUnlocked}
+                  disabled={admin.validating}
                 />
-                {unlockError && (
-                  <p className="text-xs text-red-500 text-center">Invalid code. Try again.</p>
+                {tokenError && (
+                  <p className="text-xs text-red-500 text-center">{tokenError}</p>
+                )}
+                {!engineUrl && (
+                  <p className="text-xs text-yellow-500 text-center">Engine URL not configured</p>
                 )}
               </div>
 
               <button
-                onClick={handleUnlock}
-                disabled={!unlockInput}
+                onClick={handleValidateToken}
+                disabled={!tokenInput || admin.validating || !engineUrl}
                 className="w-full py-3 text-sm font-semibold rounded-lg
-                  bg-(--accent) text-white disabled:opacity-50 transition-opacity"
+                  bg-(--accent) text-white disabled:opacity-50 transition-opacity
+                  flex items-center justify-center gap-2"
               >
-                Unlock
+                {admin.validating ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    Validating...
+                  </>
+                ) : (
+                  "Unlock"
+                )}
               </button>
             </div>
           )}

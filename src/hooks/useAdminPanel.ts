@@ -4,14 +4,13 @@
  * Admin Panel Hook
  * 
  * Manages admin drawer state including:
- * - Lock/unlock mechanism with localStorage
+ * - Lock/unlock mechanism with server-side token validation
  * - Admin token storage
  * - Auto-lock timer (30 min default)
  * - Admin action execution
  * 
- * SECURITY NOTE: This is UX gating only, not real security.
- * The unlock code prevents accidental access by viewers.
- * The admin token provides actual authentication with the engine.
+ * SECURITY: Token is validated against the engine's /admin/status endpoint.
+ * Controls are only shown after successful server-side validation.
  */
 
 import { useState, useEffect, useCallback, useRef } from "react";
@@ -19,14 +18,11 @@ import { adminActions, checkHealth, type HealthResponse, type EngineResponse } f
 
 // localStorage keys
 const STORAGE_KEYS = {
-  UNLOCK_CODE: "as_admin_unlock_code",
   UNLOCKED: "as_admin_unlocked",
   UNLOCKED_AT: "as_admin_unlocked_at",
   ADMIN_TOKEN: "as_admin_token",
+  TOKEN_VALIDATED: "as_admin_token_validated",
 } as const;
-
-// Default unlock code (can be changed by host)
-const DEFAULT_UNLOCK_CODE = "sancta";
 
 // Auto-lock timeout in milliseconds (30 minutes)
 const AUTO_LOCK_TIMEOUT_MS = 30 * 60 * 1000;
@@ -58,8 +54,8 @@ function safeStorageRemove(key: string): void {
 export interface AdminPanelState {
   isUnlocked: boolean;
   adminToken: string;
-  unlockCode: string;
   loading: boolean;
+  validating: boolean;
   lastResult: {
     action: string;
     success: boolean;
@@ -69,10 +65,9 @@ export interface AdminPanelState {
 }
 
 export interface AdminPanelActions {
-  unlock: (code: string) => boolean;
+  validateAndUnlock: (token: string) => Promise<{ success: boolean; error?: string }>;
   lock: () => void;
   setAdminToken: (token: string) => void;
-  setUnlockCode: (code: string) => void;
   executeAction: (action: "start" | "pause" | "next" | "reset" | "status") => Promise<void>;
   checkEngineHealth: () => Promise<EngineResponse<HealthResponse>>;
   clearResult: () => void;
@@ -82,24 +77,22 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
   // State
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [adminToken, setAdminTokenState] = useState("");
-  const [unlockCode, setUnlockCodeState] = useState(DEFAULT_UNLOCK_CODE);
   const [loading, setLoading] = useState(false);
+  const [validating, setValidating] = useState(false);
   const [lastResult, setLastResult] = useState<AdminPanelState["lastResult"]>(null);
   
   // Auto-lock timer ref
   const autoLockTimerRef = useRef<NodeJS.Timeout | null>(null);
+  // Track if we've tried to restore session
+  const sessionRestoredRef = useRef(false);
 
   /**
    * Initialize state from localStorage
    */
   useEffect(() => {
     if (typeof window === "undefined") return;
-
-    // Load unlock code
-    const storedCode = safeStorageGet(STORAGE_KEYS.UNLOCK_CODE);
-    if (storedCode) {
-      setUnlockCodeState(storedCode);
-    }
+    if (sessionRestoredRef.current) return;
+    sessionRestoredRef.current = true;
 
     // Load admin token
     const storedToken = safeStorageGet(STORAGE_KEYS.ADMIN_TOKEN);
@@ -107,11 +100,13 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
       setAdminTokenState(storedToken);
     }
 
-    // Check if already unlocked (with expiry check)
+    // Check if was previously validated (with expiry check)
+    // Note: We still need to re-validate on next action, but we restore UI state
     const unlockedStr = safeStorageGet(STORAGE_KEYS.UNLOCKED);
     const unlockedAtStr = safeStorageGet(STORAGE_KEYS.UNLOCKED_AT);
+    const tokenValidated = safeStorageGet(STORAGE_KEYS.TOKEN_VALIDATED);
     
-    if (unlockedStr === "true" && unlockedAtStr) {
+    if (unlockedStr === "true" && unlockedAtStr && tokenValidated === storedToken && storedToken) {
       const unlockedAt = parseInt(unlockedAtStr, 10);
       const elapsed = Date.now() - unlockedAt;
       
@@ -125,11 +120,13 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
           setLastResult(null);
           safeStorageRemove(STORAGE_KEYS.UNLOCKED);
           safeStorageRemove(STORAGE_KEYS.UNLOCKED_AT);
+          safeStorageRemove(STORAGE_KEYS.TOKEN_VALIDATED);
         }, remaining);
       } else {
         // Expired, clear localStorage
         safeStorageRemove(STORAGE_KEYS.UNLOCKED);
         safeStorageRemove(STORAGE_KEYS.UNLOCKED_AT);
+        safeStorageRemove(STORAGE_KEYS.TOKEN_VALIDATED);
       }
     }
 
@@ -148,6 +145,7 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
     setLastResult(null);
     if (typeof window !== "undefined") {
       safeStorageRemove(STORAGE_KEYS.UNLOCKED);
+      safeStorageRemove(STORAGE_KEYS.TOKEN_VALIDATED);
       safeStorageRemove(STORAGE_KEYS.UNLOCKED_AT);
     }
     if (autoLockTimerRef.current) {
@@ -157,33 +155,57 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
   }, []);
 
   /**
-   * Attempt to unlock with code
+   * Validate admin token against the server and unlock if valid
    */
-  const unlock = useCallback((code: string): boolean => {
-    // Get current unlock code from localStorage or use default
-    const currentCode = typeof window !== "undefined" 
-      ? safeStorageGet(STORAGE_KEYS.UNLOCK_CODE) || DEFAULT_UNLOCK_CODE
-      : DEFAULT_UNLOCK_CODE;
-
-    if (code.toLowerCase() === currentCode.toLowerCase()) {
-      setIsUnlocked(true);
-      if (typeof window !== "undefined") {
-        safeStorageSet(STORAGE_KEYS.UNLOCKED, "true");
-        safeStorageSet(STORAGE_KEYS.UNLOCKED_AT, Date.now().toString());
-      }
-      
-      // Start auto-lock timer
-      if (autoLockTimerRef.current) {
-        clearTimeout(autoLockTimerRef.current);
-      }
-      autoLockTimerRef.current = setTimeout(() => {
-        lock();
-      }, AUTO_LOCK_TIMEOUT_MS);
-      
-      return true;
+  const validateAndUnlock = useCallback(async (token: string): Promise<{ success: boolean; error?: string }> => {
+    if (!engineUrl) {
+      return { success: false, error: "Engine URL not configured" };
     }
-    return false;
-  }, [lock]);
+
+    if (!token.trim()) {
+      return { success: false, error: "Token cannot be empty" };
+    }
+
+    setValidating(true);
+    
+    try {
+      // Validate token by calling /admin/status endpoint
+      const result = await adminActions.status(engineUrl, token);
+      
+      if (result.success) {
+        // Token is valid - unlock the panel
+        setAdminTokenState(token);
+        setIsUnlocked(true);
+        
+        if (typeof window !== "undefined") {
+          safeStorageSet(STORAGE_KEYS.ADMIN_TOKEN, token);
+          safeStorageSet(STORAGE_KEYS.UNLOCKED, "true");
+          safeStorageSet(STORAGE_KEYS.UNLOCKED_AT, Date.now().toString());
+          safeStorageSet(STORAGE_KEYS.TOKEN_VALIDATED, token);
+        }
+        
+        // Start auto-lock timer
+        if (autoLockTimerRef.current) {
+          clearTimeout(autoLockTimerRef.current);
+        }
+        autoLockTimerRef.current = setTimeout(() => {
+          lock();
+        }, AUTO_LOCK_TIMEOUT_MS);
+        
+        return { success: true };
+      } else {
+        // Token is invalid
+        return { success: false, error: result.error || "Invalid admin token" };
+      }
+    } catch (error) {
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : "Failed to validate token" 
+      };
+    } finally {
+      setValidating(false);
+    }
+  }, [engineUrl, lock]);
 
   /**
    * Save admin token to localStorage
@@ -192,16 +214,6 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
     setAdminTokenState(token);
     if (typeof window !== "undefined") {
       safeStorageSet(STORAGE_KEYS.ADMIN_TOKEN, token);
-    }
-  }, []);
-
-  /**
-   * Update unlock code (host can change it)
-   */
-  const setUnlockCode = useCallback((code: string) => {
-    setUnlockCodeState(code);
-    if (typeof window !== "undefined") {
-      safeStorageSet(STORAGE_KEYS.UNLOCK_CODE, code);
     }
   }, []);
 
@@ -296,14 +308,13 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
     // State
     isUnlocked,
     adminToken,
-    unlockCode,
     loading,
+    validating,
     lastResult,
     // Actions
-    unlock,
+    validateAndUnlock,
     lock,
     setAdminToken,
-    setUnlockCode,
     executeAction,
     checkEngineHealth,
     clearResult,
