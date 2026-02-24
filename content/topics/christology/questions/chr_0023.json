@@ -1,0 +1,31 @@
+{
+  "id": "chr_0023",
+  "topicId": "christology",
+  "difficulty": 5,
+  "question": "In Jesus’ trial scene, why does the ‘Son of Man seated at the right hand’ + ‘coming with the clouds’ combo trigger the charge-worthy reaction—and what OT texts are fused there?",
+  "choices": {
+    "A": "It fuses Daniel’s cloud-coming Son of Man with Psalm 110’s enthroned figure, implying exalted authority that provokes a blasphemy verdict.",
+    "B": "It is a harmless metaphor about weather.",
+    "C": "It means Jesus denies any future judgment.",
+    "D": "It proves Jesus is uncertain and changing his story."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "A deliberate OT fusion at the trial",
+    "body": "The cloud-coming imagery in Daniel 7 signals a figure receiving divine-level authority, while Psalm 110 speaks of enthronement at God’s right hand. When Jesus combines them, the leaders hear a claim that goes beyond messiah-as-political-king. The reaction in the narrative is part of the argument: they understand the implication.",
+    "refs": [
+      "Mark 14:61-64",
+      "Matthew 26:63-66",
+      "Luke 22:69-71",
+      "Daniel 7:13-14",
+      "Psalm 110:1"
+    ]
+  },
+  "tags": [
+    "trial",
+    "son-of-man",
+    "enthronement",
+    "shared-synoptics",
+    "apologetics"
+  ]
+}
