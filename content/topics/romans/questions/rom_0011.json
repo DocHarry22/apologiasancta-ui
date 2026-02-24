@@ -1,0 +1,26 @@
+{
+  "id": "rom_0011",
+  "topicId": "romans",
+  "difficulty": 3,
+  "question": "According to Romans, what does Paul say the Law makes people aware of?",
+  "choices": {
+    "A": "Sin",
+    "B": "The exact date of the end times",
+    "C": "The names of all angels",
+    "D": "How to become wealthy"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "What the Law reveals",
+    "body": "Paul states that through the law comes knowledge of sin.",
+    "refs": [
+      "Bible: Romans 3:20"
+    ]
+  },
+  "tags": [
+    "romans",
+    "law",
+    "sin",
+    "direct-text"
+  ]
+}
