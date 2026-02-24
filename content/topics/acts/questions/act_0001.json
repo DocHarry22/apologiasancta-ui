@@ -1,0 +1,27 @@
+{
+  "id": "act_0001",
+  "topicId": "acts",
+  "difficulty": 2,
+  "question": "Before Jesus ascends, what instruction does he give the apostles about staying in a city and waiting for something promised?",
+  "choices": {
+    "A": "Stay in Jerusalem and wait for the promised Holy Spirit",
+    "B": "Go immediately to Rome and wait for Caesar’s approval",
+    "C": "Return to Galilee and wait for a new prophet",
+    "D": "Hide in the desert and wait for manna"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Waiting for the promise",
+    "body": "Acts reports Jesus telling the apostles to remain in Jerusalem and wait for “the promise of the Father,” linked to being baptized with the Holy Spirit and receiving power.",
+    "refs": [
+      "Bible: Acts 1:4-5",
+      "Bible: Acts 1:8"
+    ]
+  },
+  "tags": [
+    "acts",
+    "holy-spirit",
+    "mission",
+    "direct-text"
+  ]
+}
