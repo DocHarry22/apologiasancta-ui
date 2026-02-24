@@ -1,0 +1,26 @@
+{
+  "id": "co1_0006",
+  "topicId": "1corinthians",
+  "difficulty": 4,
+  "question": "Paul passes on a tradition about the Lord’s Supper and quotes what Jesus said over the bread. Which option matches what Paul reports Jesus saying about the bread?",
+  "choices": {
+    "A": "“This is my body, which is for you. Do this in remembrance of me.”",
+    "B": "“This bread is holy; eat it only once a year.”",
+    "C": "“This is a symbol of my body; remember the Passover.”",
+    "D": "“This is my spirit, which is for you; do this whenever you gather.”"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Words over the bread",
+    "body": "Paul says he received and delivered this tradition and then reports Jesus’ words over the bread in that form.",
+    "refs": [
+      "Bible: 1 Corinthians 11:23-24"
+    ]
+  },
+  "tags": [
+    "1cor",
+    "lords-supper",
+    "tradition",
+    "direct-text"
+  ]
+}
