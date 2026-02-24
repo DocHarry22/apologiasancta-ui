@@ -1,0 +1,27 @@
+{
+  "id": "rom_0020",
+  "topicId": "romans",
+  "difficulty": 4,
+  "question": "In Romans, what does Paul say about those who call on the name of the Lord?",
+  "choices": {
+    "A": "Everyone who calls on the name of the Lord will be saved",
+    "B": "Only Jews who call on the name of the Lord will be saved",
+    "C": "Only priests who call on the name of the Lord will be saved",
+    "D": "No one who calls on the name of the Lord will be saved"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Calling on the Lord",
+    "body": "Paul states that everyone who calls on the name of the Lord will be saved, quoting the wording found in the prophets.",
+    "refs": [
+      "Bible: Romans 10:13",
+      "Bible: Joel 2:32"
+    ]
+  },
+  "tags": [
+    "romans",
+    "salvation",
+    "calling",
+    "direct-text"
+  ]
+}
