@@ -1,0 +1,26 @@
+{
+  "id": "act_0002",
+  "topicId": "acts",
+  "difficulty": 2,
+  "question": "At Pentecost, what visible sign appears on the gathered believers, and what immediate ability do they receive?",
+  "choices": {
+    "A": "Tongues like fire appear, and they speak in other languages",
+    "B": "A rainbow appears, and they see visions of animals",
+    "C": "A cloud covers the room, and they become invisible",
+    "D": "A quake shakes the city, and they stop speaking"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Pentecost signs",
+    "body": "Acts describes “tongues as of fire” and the believers speaking in other tongues/languages as the Spirit gives utterance.",
+    "refs": [
+      "Bible: Acts 2:1-4"
+    ]
+  },
+  "tags": [
+    "acts",
+    "pentecost",
+    "tongues",
+    "direct-text"
+  ]
+}
