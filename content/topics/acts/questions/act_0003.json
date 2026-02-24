@@ -1,0 +1,27 @@
+{
+  "id": "act_0003",
+  "topicId": "acts",
+  "difficulty": 3,
+  "question": "In Peter’s Pentecost sermon, which Old Testament prophet does he quote to explain the outpouring of the Spirit?",
+  "choices": {
+    "A": "Joel",
+    "B": "Micah",
+    "C": "Haggai",
+    "D": "Nahum"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Peter’s OT citation",
+    "body": "Acts explicitly says Peter identifies the Spirit-outpouring with what was spoken “by the prophet Joel.”",
+    "refs": [
+      "Bible: Acts 2:16-21",
+      "Bible: Joel 2:28-32"
+    ]
+  },
+  "tags": [
+    "acts",
+    "ot-quote",
+    "joel",
+    "direct-text"
+  ]
+}
