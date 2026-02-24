@@ -1,0 +1,26 @@
+{
+  "id": "jhn_0008",
+  "topicId": "john_gospel",
+  "difficulty": 2,
+  "question": "In the Gospel of John, what short statement does Jesus make about his relationship with the Father using the word 'one'?",
+  "choices": {
+    "A": "I and the Father are one",
+    "B": "I and the Father are two gods",
+    "C": "I and the Father disagree",
+    "D": "I am greater than the Father"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Unity statement",
+    "body": "John records Jesus saying, “I and the Father are one.”",
+    "refs": [
+      "Bible: John 10:30"
+    ]
+  },
+  "tags": [
+    "john",
+    "christology",
+    "unity",
+    "direct-text"
+  ]
+}
