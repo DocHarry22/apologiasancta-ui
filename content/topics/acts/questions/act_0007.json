@@ -1,0 +1,27 @@
+{
+  "id": "act_0007",
+  "topicId": "acts",
+  "difficulty": 3,
+  "question": "When the apostles are ordered to stop speaking about Jesus, what is their stated response about obedience?",
+  "choices": {
+    "A": "We must obey God rather than men",
+    "B": "We must obey men rather than God",
+    "C": "We will obey only if paid",
+    "D": "We will stop speaking forever"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Obedience claim",
+    "body": "Acts directly records their statement prioritizing obedience to God over human authorities.",
+    "refs": [
+      "Bible: Acts 5:29",
+      "Bible: Acts 4:19-20"
+    ]
+  },
+  "tags": [
+    "acts",
+    "persecution",
+    "witness",
+    "direct-text"
+  ]
+}
