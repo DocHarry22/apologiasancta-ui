@@ -1,0 +1,26 @@
+{
+  "id": "jhn_0010",
+  "topicId": "john_gospel",
+  "difficulty": 3,
+  "question": "In the Gospel of John, what does Jesus say he will give his sheep that includes the phrase “eternal life”?",
+  "choices": {
+    "A": "I give them eternal life",
+    "B": "I give them new laws",
+    "C": "I give them earthly riches",
+    "D": "I give them political power"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Gift stated in the text",
+    "body": "John records Jesus saying of his sheep, “I give them eternal life.”",
+    "refs": [
+      "Bible: John 10:28"
+    ]
+  },
+  "tags": [
+    "john",
+    "christology",
+    "eternal-life",
+    "direct-text"
+  ]
+}
