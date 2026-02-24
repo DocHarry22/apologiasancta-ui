@@ -1,0 +1,27 @@
+{
+  "id": "jhn_0007",
+  "topicId": "john_gospel",
+  "difficulty": 2,
+  "question": "In the Gospel of John, what does Jesus say is true of anyone who has seen him?",
+  "choices": {
+    "A": "Whoever has seen me has seen the Father",
+    "B": "Whoever has seen me has seen an angel",
+    "C": "Whoever has seen me has seen Moses",
+    "D": "Whoever has seen me has seen only a man"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Seeing Jesus and seeing the Father",
+    "body": "John reports Jesus telling Philip, “Whoever has seen me has seen the Father.”",
+    "refs": [
+      "Bible: John 14:9"
+    ]
+  },
+  "tags": [
+    "john",
+    "christology",
+    "father",
+    "revelation",
+    "direct-text"
+  ]
+}
