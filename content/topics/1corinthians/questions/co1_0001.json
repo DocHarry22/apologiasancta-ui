@@ -1,0 +1,27 @@
+{
+  "id": "co1_0001",
+  "topicId": "1corinthians",
+  "difficulty": 3,
+  "question": "Paul contrasts what is seen as foolishness by many with what believers experience as God’s power. What does Paul specifically call “the power of God” in that contrast?",
+  "choices": {
+    "A": "The message of the cross",
+    "B": "The law given through Moses",
+    "C": "The wisdom traditions of the elders",
+    "D": "Greek philosophy and rhetoric"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Power of God vs worldly wisdom",
+    "body": "Paul explicitly says that “the message (word) of the cross” is the power of God for those who are being saved, while it is seen as folly by those who are perishing.",
+    "refs": [
+      "Bible: 1 Corinthians 1:18",
+      "Bible: 1 Corinthians 1:23-24"
+    ]
+  },
+  "tags": [
+    "1cor",
+    "cross",
+    "wisdom",
+    "direct-text"
+  ]
+}
