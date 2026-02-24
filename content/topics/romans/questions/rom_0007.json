@@ -1,0 +1,26 @@
+{
+  "id": "rom_0007",
+  "topicId": "romans",
+  "difficulty": 3,
+  "question": "According to Romans, what does Paul say about God’s love demonstrated in relation to Christ’s death?",
+  "choices": {
+    "A": "While we were still sinners, Christ died for us",
+    "B": "After we became perfect, Christ died for us",
+    "C": "Christ died only for the righteous",
+    "D": "Christ died only for Israel"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "God’s love shown in Christ’s death",
+    "body": "Paul states that God shows his love in that Christ died for us while we were still sinners.",
+    "refs": [
+      "Bible: Romans 5:8"
+    ]
+  },
+  "tags": [
+    "romans",
+    "atonement",
+    "love",
+    "direct-text"
+  ]
+}
