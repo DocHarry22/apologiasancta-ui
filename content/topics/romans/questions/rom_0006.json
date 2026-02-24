@@ -1,0 +1,26 @@
+{
+  "id": "rom_0006",
+  "topicId": "romans",
+  "difficulty": 3,
+  "question": "In Romans, what does Paul say believers should not do because they are “not under law but under grace”?",
+  "choices": {
+    "A": "Continue in sin",
+    "B": "Pray",
+    "C": "Obey parents",
+    "D": "Worship God"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Grace is not a license",
+    "body": "Paul asks whether believers should sin because they are not under law but under grace, and answers, “By no means!”",
+    "refs": [
+      "Bible: Romans 6:14-15"
+    ]
+  },
+  "tags": [
+    "romans",
+    "grace",
+    "obedience",
+    "direct-text"
+  ]
+}
