@@ -1,0 +1,27 @@
+{
+  "id": "act_0004",
+  "topicId": "acts",
+  "difficulty": 3,
+  "question": "According to Peter’s sermon, who raised Jesus from the dead?",
+  "choices": {
+    "A": "God raised Jesus",
+    "B": "Jesus raised himself with no mention of God",
+    "C": "The apostles raised Jesus",
+    "D": "An angel raised Jesus without God"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Resurrection attribution in Acts",
+    "body": "Acts presents Peter stating that God raised Jesus up, and the apostles are witnesses.",
+    "refs": [
+      "Bible: Acts 2:24",
+      "Bible: Acts 2:32"
+    ]
+  },
+  "tags": [
+    "acts",
+    "resurrection",
+    "peter",
+    "direct-text"
+  ]
+}
