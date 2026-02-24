@@ -1,0 +1,29 @@
+{
+  "id": "chr_0025",
+  "topicId": "apologetics",
+  "difficulty": 3,
+  "question": "In the ‘Render to Caesar’ controversy, what is the hidden trap in Genesis 1 (‘image’) that Jesus leverages—and how does that undercut simplistic ‘Bible endorses theocracy’ claims?",
+  "choices": {
+    "A": "Caesar gets the coin bearing his image, but God is owed the human person bearing God’s image—distinguishing political duty from ultimate allegiance.",
+    "B": "It teaches money is evil and should be rejected.",
+    "C": "It teaches the state is divine and should be worshiped.",
+    "D": "It proves the Bible forbids paying all taxes."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Image-language: coin vs human",
+    "body": "Jesus’ reply turns on ‘image’: the coin bears Caesar’s image, but humans bear God’s image. That implies limited political obligation and ultimate divine ownership of the person. It’s a tidy rebuttal to claims that the text is simply pushing an uncritical theocracy.",
+    "refs": [
+      "Mark 12:13-17",
+      "Matthew 22:15-22",
+      "Luke 20:20-26",
+      "Genesis 1:26-27"
+    ]
+  },
+  "tags": [
+    "politics",
+    "imago-dei",
+    "shared-synoptics",
+    "polemics"
+  ]
+}
