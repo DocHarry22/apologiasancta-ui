@@ -1,0 +1,26 @@
+{
+  "id": "co1_0003",
+  "topicId": "1corinthians",
+  "difficulty": 4,
+  "question": "Paul criticizes believers for taking each other to court. How does he describe the mere fact that they have lawsuits with one another?",
+  "choices": {
+    "A": "It is already a defeat for them",
+    "B": "It is neutral as long as the judge is fair",
+    "C": "It is required to protect church purity",
+    "D": "It is acceptable only for business disputes"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Lawsuits as a defeat",
+    "body": "Paul states that the very existence of lawsuits among believers is already a defeat, and he urges them toward suffering wrong rather than doing wrong.",
+    "refs": [
+      "Bible: 1 Corinthians 6:1-7"
+    ]
+  },
+  "tags": [
+    "1cor",
+    "ethics",
+    "community",
+    "direct-text"
+  ]
+}
