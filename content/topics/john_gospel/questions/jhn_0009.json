@@ -1,0 +1,26 @@
+{
+  "id": "jhn_0009",
+  "topicId": "john_gospel",
+  "difficulty": 3,
+  "question": "In the Gospel of John, what does Jesus call himself that includes the words “way,” “truth,” and “life”?",
+  "choices": {
+    "A": "The way, the truth, and the life",
+    "B": "The prophet, the priest, and the king",
+    "C": "The law, the temple, and the sacrifice",
+    "D": "The messenger, the angel, and the servant"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Jesus’ self-description",
+    "body": "John records Jesus saying, “I am the way, and the truth, and the life.”",
+    "refs": [
+      "Bible: John 14:6"
+    ]
+  },
+  "tags": [
+    "john",
+    "christology",
+    "identity",
+    "direct-text"
+  ]
+}
