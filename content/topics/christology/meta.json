@@ -2,7 +2,17 @@
   "id": "christology",
   "title": "Christology",
   "description": "Survey of key Christological doctrines, councils, and confessional language.",
-  "difficultyRange": [1, 5],
-  "tags": ["councils", "creeds", "incarnation", "hypostatic-union", "scripture", "heresies"],
-  "questionCount": 10
+  "difficultyRange": [
+    1,
+    5
+  ],
+  "tags": [
+    "councils",
+    "creeds",
+    "incarnation",
+    "hypostatic-union",
+    "scripture",
+    "heresies"
+  ],
+  "questionCount": 13
 }
