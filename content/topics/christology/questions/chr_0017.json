@@ -1,0 +1,31 @@
+{
+  "id": "chr_0017",
+  "topicId": "christology",
+  "difficulty": 4,
+  "question": "When Jesus calms the storm and the disciples ask ‘Who then is this?’, what OT portrait of God (who rules the sea) is being quietly invoked—and why is that not a small claim?",
+  "choices": {
+    "A": "OT texts depict YHWH as the one who stills seas; portraying Jesus doing this suggests divine authority over creation.",
+    "B": "It only shows Jesus is a skilled sailor.",
+    "C": "It is metaphorical and no miracle is claimed.",
+    "D": "It shows the disciples are exaggerating."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Sea-stilling as divine prerogative",
+    "body": "In Israel’s scriptures, mastery over chaotic waters is a signature of God’s power. The Synoptic narratives frame Jesus exercising that same authority, provoking the disciples’ identity-question. The point isn’t ‘wow, weather control’—it’s ‘what category of being commands creation like this?’",
+    "refs": [
+      "Mark 4:35-41",
+      "Matthew 8:23-27",
+      "Luke 8:22-25",
+      "Psalm 107:23-30",
+      "Psalm 89:9",
+      "Job 38:8-11"
+    ]
+  },
+  "tags": [
+    "miracles",
+    "divine-identity",
+    "shared-synoptics",
+    "apologetics"
+  ]
+}
