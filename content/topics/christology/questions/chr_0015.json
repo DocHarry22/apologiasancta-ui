@@ -1,0 +1,29 @@
+{
+  "id": "chr_0015",
+  "topicId": "christology",
+  "difficulty": 3,
+  "question": "Why does Matthew highlight ‘God with us’ at Jesus’ birth and then end with ‘I am with you always’—and how does that inclusio function as a theological claim about Jesus’ identity?",
+  "choices": {
+    "A": "Matthew frames Jesus’ whole mission as ‘God-with-us’ from start to finish, implying an enduring divine presence in Jesus’ person and authority.",
+    "B": "It is a narrative coincidence with no theological intent.",
+    "C": "It proves Jesus is only an angelic messenger.",
+    "D": "It shows Matthew contradicts the OT idea of God’s presence."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Matthew’s ‘God-with-us’ bookends",
+    "body": "Matthew signals ‘Immanuel’ (God with us) at the beginning and echoes the same presence-theme in the Great Commission. As an inclusio (a literary framing device), it pushes the reader toward a theological conclusion: Jesus embodies and mediates God’s ongoing presence with his people, not merely as a prophet delivering messages.",
+    "refs": [
+      "Matthew 1:22-23",
+      "Matthew 28:18-20",
+      "Isaiah 7:14",
+      "Exodus 33:14-16"
+    ]
+  },
+  "tags": [
+    "matthew",
+    "immanuel",
+    "divine-presence",
+    "apologetics"
+  ]
+}
