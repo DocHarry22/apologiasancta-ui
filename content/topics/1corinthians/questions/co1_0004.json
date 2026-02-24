@@ -1,0 +1,26 @@
+{
+  "id": "co1_0004",
+  "topicId": "1corinthians",
+  "difficulty": 4,
+  "question": "Paul lists several kinds of wrongdoing and says people who practice such things will not inherit the kingdom of God. Which of the following is explicitly included in his list?",
+  "choices": {
+    "A": "Drunkards",
+    "B": "Tax collectors",
+    "C": "Carpenters",
+    "D": "Roman soldiers"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Examples in Paul’s list",
+    "body": "Paul includes “drunkards” in the list of those who will not inherit the kingdom of God.",
+    "refs": [
+      "Bible: 1 Corinthians 6:9-10"
+    ]
+  },
+  "tags": [
+    "1cor",
+    "kingdom",
+    "morality",
+    "direct-text"
+  ]
+}
