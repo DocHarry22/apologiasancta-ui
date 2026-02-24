@@ -1,0 +1,26 @@
+{
+  "id": "rom_0001",
+  "topicId": "romans",
+  "difficulty": 2,
+  "question": "According to Romans, what does Paul say the gospel is “the power of God” for?",
+  "choices": {
+    "A": "Salvation",
+    "B": "Political victory",
+    "C": "Financial prosperity",
+    "D": "Military strength"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Gospel and salvation",
+    "body": "Paul states that the gospel is the power of God for salvation for everyone who believes.",
+    "refs": [
+      "Bible: Romans 1:16"
+    ]
+  },
+  "tags": [
+    "romans",
+    "gospel",
+    "salvation",
+    "direct-text"
+  ]
+}
