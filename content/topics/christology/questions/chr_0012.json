@@ -1,0 +1,30 @@
+{
+  "id": "chr_0012",
+  "topicId": "christology",
+  "difficulty": 4,
+  "question": "In Jesus forgiving sins before healing, what is the logic trap he sets for the scribes (visible vs invisible authority), and why is their charge (‘blasphemy’) actually the point?",
+  "choices": {
+    "A": "He links an invisible act (forgiving sins) to a visible verification (healing), forcing them to face his claimed authority; the ‘blasphemy’ charge highlights the divine-level claim.",
+    "B": "He avoids the issue of forgiveness by switching topics to healing.",
+    "C": "He admits the scribes are correct and retracts the forgiveness claim.",
+    "D": "He says prophets can forgive sins in the same way God does."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Visible proof of invisible authority",
+    "body": "The scribes object because, in Jewish theology, God forgives sins. Jesus’ response sets a test: if he can do the visible miracle, it supports his claim to authority in the invisible realm. The narrative is designed to make the ‘blasphemy’ accusation the spotlight, not a footnote—because it clarifies what kind of authority Jesus is implying he has.",
+    "refs": [
+      "Mark 2:1-12",
+      "Matthew 9:1-8",
+      "Luke 5:17-26",
+      "Isaiah 43:25",
+      "Psalm 103:3"
+    ]
+  },
+  "tags": [
+    "forgiveness",
+    "authority",
+    "shared-synoptics",
+    "apologetics"
+  ]
+}
