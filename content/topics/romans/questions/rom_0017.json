@@ -1,0 +1,26 @@
+{
+  "id": "rom_0017",
+  "topicId": "romans",
+  "difficulty": 3,
+  "question": "According to Romans, what should believers not be conformed to?",
+  "choices": {
+    "A": "This world",
+    "B": "God’s will",
+    "C": "Prayer",
+    "D": "Good works"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Do not be conformed",
+    "body": "Paul says not to be conformed to this world, but to be transformed by renewal of the mind.",
+    "refs": [
+      "Bible: Romans 12:2"
+    ]
+  },
+  "tags": [
+    "romans",
+    "transformation",
+    "mind",
+    "direct-text"
+  ]
+}
