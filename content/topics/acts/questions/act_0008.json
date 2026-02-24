@@ -1,0 +1,26 @@
+{
+  "id": "act_0008",
+  "topicId": "acts",
+  "difficulty": 3,
+  "question": "Who is the first person in Acts explicitly described as being ‘full of the Holy Spirit’ while seeing Jesus at God’s right hand?",
+  "choices": {
+    "A": "Stephen",
+    "B": "Philip",
+    "C": "Barnabas",
+    "D": "Timothy"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Stephen’s vision",
+    "body": "Acts describes Stephen as full of the Holy Spirit and records his vision of Jesus standing at the right hand of God.",
+    "refs": [
+      "Bible: Acts 7:55-56"
+    ]
+  },
+  "tags": [
+    "acts",
+    "stephen",
+    "vision",
+    "direct-text"
+  ]
+}
