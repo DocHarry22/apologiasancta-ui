@@ -1,0 +1,26 @@
+{
+  "id": "jhn_0003",
+  "topicId": "john_gospel",
+  "difficulty": 2,
+  "question": "In the Gospel of John, what reason do Jesus’ opponents give for wanting to stone him after he speaks about his unity with the Father?",
+  "choices": {
+    "A": "Because you, being a man, make yourself God",
+    "B": "Because you refused to pay taxes",
+    "C": "Because you broke the Sabbath by traveling",
+    "D": "Because you rejected Moses"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Stated accusation in the narrative",
+    "body": "John’s Gospel reports the opponents explicitly saying they want to stone Jesus “because you, being a man, make yourself God.”",
+    "refs": [
+      "Bible: John 10:33"
+    ]
+  },
+  "tags": [
+    "john",
+    "christology",
+    "divinity-claim",
+    "direct-text"
+  ]
+}
