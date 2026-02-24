@@ -1,0 +1,29 @@
+{
+  "id": "chr_0011",
+  "topicId": "christology",
+  "difficulty": 4,
+  "question": "Mark opens by quoting Isaiah/Malachi about preparing ‘the way of the LORD’—but then applies it to Jesus. How does that move function as a sneaky divinity-claim (YHWH-language transferred to Jesus)?",
+  "choices": {
+    "A": "It transfers YHWH’s ‘way’/‘coming’ language to Jesus, implying Jesus shares in the divine identity the OT assigns to the LORD.",
+    "B": "It is only a poetic introduction and makes no claim about Jesus’ identity.",
+    "C": "It shows John the Baptist is the LORD, not Jesus.",
+    "D": "It proves the Gospel writers rejected the OT and replaced it with new prophecy."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "‘Way of the LORD’ applied to Jesus",
+    "body": "Mark’s opening stitches OT ‘prepare the way of the LORD’ language into the story of Jesus’ arrival. In its original setting, the ‘LORD’ is the God of Israel (YHWH). Mark’s narrative logic effectively routes that divine-arrival language through Jesus, which is a high Christology move: the identity and prerogatives of Israel’s God are being mapped onto Jesus’ role in the story.",
+    "refs": [
+      "Mark 1:1-3",
+      "Isaiah 40:3",
+      "Malachi 3:1",
+      "Exodus 23:20"
+    ]
+  },
+  "tags": [
+    "ot-fulfillment",
+    "divine-identity",
+    "mark",
+    "apologetics"
+  ]
+}
