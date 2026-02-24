@@ -1,0 +1,31 @@
+{
+  "id": "chr_0013",
+  "topicId": "christology",
+  "difficulty": 4,
+  "question": "When Jesus calls himself ‘Lord of the Sabbath,’ what OT premise is being assumed about who has the right to define Sabbath meaning—and how does that premise raise the stakes beyond ‘just a rabbi’?",
+  "choices": {
+    "A": "The Sabbath is rooted in God’s own authority (creation/covenant), so claiming lordship over it implies a divine-level prerogative.",
+    "B": "It means Jesus is denying the Sabbath exists.",
+    "C": "It proves Jesus is only a social reformer and not religiously significant.",
+    "D": "It means the disciples are exempt from all moral law."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Lordship over what God instituted",
+    "body": "In the OT, Sabbath is grounded in God’s creative rest and covenant sign. If that’s the premise, then claiming to be ‘Lord’ of Sabbath is not merely a clever halakhic (legal) opinion—it carries the weight of authority over a divine institution. That is why the statement escalates beyond ‘teacher with a take.’",
+    "refs": [
+      "Mark 2:23-28",
+      "Matthew 12:1-8",
+      "Luke 6:1-5",
+      "Genesis 2:2-3",
+      "Exodus 20:8-11",
+      "Exodus 31:13-17"
+    ]
+  },
+  "tags": [
+    "sabbath",
+    "divine-prerogative",
+    "shared-synoptics",
+    "apologetics"
+  ]
+}
