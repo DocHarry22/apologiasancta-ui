@@ -1,0 +1,26 @@
+{
+  "id": "co1_0008",
+  "topicId": "1corinthians",
+  "difficulty": 4,
+  "question": "Paul compares different gifts in the church and states a preference in one place while still valuing another. Which gift does he say he wants all believers to have?",
+  "choices": {
+    "A": "Speaking in tongues",
+    "B": "Working miracles",
+    "C": "Interpretation of tongues",
+    "D": "Healing"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Paul’s stated wish about tongues",
+    "body": "Paul says, “I want you all to speak in tongues,” while in the same context he says he would rather they prophesy.",
+    "refs": [
+      "Bible: 1 Corinthians 14:5"
+    ]
+  },
+  "tags": [
+    "1cor",
+    "gifts",
+    "tongues",
+    "direct-text"
+  ]
+}
