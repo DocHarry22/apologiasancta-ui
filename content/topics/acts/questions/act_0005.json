@@ -1,0 +1,26 @@
+{
+  "id": "act_0005",
+  "topicId": "acts",
+  "difficulty": 2,
+  "question": "When people ask what to do after hearing Peter’s message, what two actions does Peter tell them to do?",
+  "choices": {
+    "A": "Repent and be baptized",
+    "B": "Pay a tax and offer incense",
+    "C": "Go to the Temple daily and never eat fish",
+    "D": "Write down a creed and send it to Rome"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Peter’s response to the crowd",
+    "body": "Peter tells them to repent and be baptized in the name of Jesus Christ, linked with forgiveness of sins and receiving the Holy Spirit.",
+    "refs": [
+      "Bible: Acts 2:37-38"
+    ]
+  },
+  "tags": [
+    "acts",
+    "repentance",
+    "baptism",
+    "direct-text"
+  ]
+}
