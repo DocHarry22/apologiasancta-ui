@@ -1,0 +1,29 @@
+{
+  "id": "chr_0020",
+  "topicId": "trinity",
+  "difficulty": 4,
+  "question": "John’s Prologue calls the Word both ‘with God’ and ‘God.’ How do those two phrases simultaneously block (a) modalism and (b) ‘Jesus is a created being’ arguments?",
+  "choices": {
+    "A": "‘With God’ implies personal distinction; ‘God’ attributes true divinity—together excluding both one-person modalism and creature-only readings.",
+    "B": "They contradict each other, proving John is confused.",
+    "C": "They mean the Word is merely an angel near God.",
+    "D": "They teach God changed into the Word and stopped being God."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Distinction without division",
+    "body": "John 1 holds two truths together: the Word is personally distinct (‘with God’) and truly divine (‘God’). That combination is precisely what later Trinitarian theology articulates: distinction of persons without denying unity of essence. It’s a textual roadblock to both modalism and ‘created Word’ claims.",
+    "refs": [
+      "John 1:1-18",
+      "Genesis 1:1-3",
+      "Proverbs 8:22-30"
+    ]
+  },
+  "tags": [
+    "john",
+    "logos",
+    "anti-modalism",
+    "anti-arian",
+    "apologetics"
+  ]
+}
