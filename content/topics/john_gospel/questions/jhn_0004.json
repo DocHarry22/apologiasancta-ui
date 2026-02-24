@@ -1,0 +1,26 @@
+{
+  "id": "jhn_0004",
+  "topicId": "john_gospel",
+  "difficulty": 2,
+  "question": "In the Gospel of John, what does the narrator say was the reason the Jewish leaders sought to kill Jesus after he called God his Father?",
+  "choices": {
+    "A": "Because he was making himself equal with God",
+    "B": "Because he claimed to be a Roman citizen",
+    "C": "Because he said Moses was wrong",
+    "D": "Because he refused to do miracles"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Narrator’s stated reason",
+    "body": "John’s narrative states that calling God his Father was understood as “making himself equal with God.”",
+    "refs": [
+      "Bible: John 5:18"
+    ]
+  },
+  "tags": [
+    "john",
+    "christology",
+    "equal-with-god",
+    "direct-text"
+  ]
+}
