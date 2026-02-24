@@ -1,0 +1,26 @@
+{
+  "id": "rom_0009",
+  "topicId": "romans",
+  "difficulty": 2,
+  "question": "According to Romans, what does Paul say there is now for those who are “in Christ Jesus”?",
+  "choices": {
+    "A": "No condemnation",
+    "B": "No responsibility",
+    "C": "No need for prayer",
+    "D": "No need for faith"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "No condemnation in Christ",
+    "body": "Paul states, “There is therefore now no condemnation for those who are in Christ Jesus.”",
+    "refs": [
+      "Bible: Romans 8:1"
+    ]
+  },
+  "tags": [
+    "romans",
+    "assurance",
+    "christ",
+    "direct-text"
+  ]
+}
