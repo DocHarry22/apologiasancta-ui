@@ -1,0 +1,26 @@
+{
+  "id": "rom_0005",
+  "topicId": "romans",
+  "difficulty": 2,
+  "question": "According to Romans, what does Paul say is the “wages” of sin?",
+  "choices": {
+    "A": "Death",
+    "B": "Illness only",
+    "C": "Temporary sadness",
+    "D": "Poverty"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Wages of sin",
+    "body": "Paul states, “the wages of sin is death.”",
+    "refs": [
+      "Bible: Romans 6:23"
+    ]
+  },
+  "tags": [
+    "romans",
+    "sin",
+    "death",
+    "direct-text"
+  ]
+}
