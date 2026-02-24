@@ -1,0 +1,26 @@
+{
+  "id": "jhn_0001",
+  "topicId": "john_gospel",
+  "difficulty": 2,
+  "question": "According to the Gospel of John, what did Thomas call Jesus after seeing him alive again?",
+  "choices": {
+    "A": "My Lord and my God",
+    "B": "A prophet of God",
+    "C": "A created angel",
+    "D": "Only a teacher"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Thomas’ direct address to Jesus",
+    "body": "The Gospel of John reports Thomas addressing Jesus with the words “My Lord and my God.” This is presented as Thomas speaking directly to Jesus.",
+    "refs": [
+      "Bible: John 20:28"
+    ]
+  },
+  "tags": [
+    "john",
+    "christology",
+    "divinity",
+    "direct-text"
+  ]
+}
