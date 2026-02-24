@@ -1,6 +1,13 @@
 {
   "topics": [
     {
+      "id": "acts",
+      "title": "Acts",
+      "description": "Auto-created topic for Acts.",
+      "questionCount": 10,
+      "tags": []
+    },
+    {
       "id": "apologetics",
       "title": "Apologetics",
       "description": "Auto-created topic for Apologetics.",
