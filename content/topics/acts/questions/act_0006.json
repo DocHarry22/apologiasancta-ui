@@ -1,0 +1,27 @@
+{
+  "id": "act_0006",
+  "topicId": "acts",
+  "difficulty": 3,
+  "question": "After healing a man who could not walk, by what name does Peter say the healing happened?",
+  "choices": {
+    "A": "The name of Jesus Christ of Nazareth",
+    "B": "The name of Moses",
+    "C": "The name of Caesar",
+    "D": "The name of Abraham"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Healing ‘in the name’",
+    "body": "Acts records Peter explicitly attributing the healing to “the name of Jesus Christ of Nazareth.”",
+    "refs": [
+      "Bible: Acts 3:6",
+      "Bible: Acts 4:10"
+    ]
+  },
+  "tags": [
+    "acts",
+    "miracle",
+    "name-of-jesus",
+    "direct-text"
+  ]
+}
