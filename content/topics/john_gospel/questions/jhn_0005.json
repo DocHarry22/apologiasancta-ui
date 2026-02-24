@@ -1,0 +1,27 @@
+{
+  "id": "jhn_0005",
+  "topicId": "john_gospel",
+  "difficulty": 3,
+  "question": "In the Gospel of John’s opening lines, what is said about what the Word was?",
+  "choices": {
+    "A": "The Word was God",
+    "B": "The Word was an angel",
+    "C": "The Word was created after the world",
+    "D": "The Word was only a prophet"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "John’s claim about the Word",
+    "body": "John’s prologue explicitly includes the statement “the Word was God.”",
+    "refs": [
+      "Bible: John 1:1"
+    ]
+  },
+  "tags": [
+    "john",
+    "christology",
+    "logos",
+    "divinity",
+    "direct-text"
+  ]
+}
