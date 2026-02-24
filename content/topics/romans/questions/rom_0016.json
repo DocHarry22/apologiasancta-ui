@@ -1,0 +1,26 @@
+{
+  "id": "rom_0016",
+  "topicId": "romans",
+  "difficulty": 3,
+  "question": "In Romans, what does Paul say believers should present their bodies as?",
+  "choices": {
+    "A": "A living sacrifice, holy and acceptable to God",
+    "B": "A burnt offering on an altar",
+    "C": "A sign to impress rulers",
+    "D": "A reason to boast over others"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Living sacrifice",
+    "body": "Paul urges believers to present their bodies as a living sacrifice, holy and acceptable to God.",
+    "refs": [
+      "Bible: Romans 12:1"
+    ]
+  },
+  "tags": [
+    "romans",
+    "worship",
+    "ethics",
+    "direct-text"
+  ]
+}
