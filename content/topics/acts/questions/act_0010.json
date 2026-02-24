@@ -1,0 +1,28 @@
+{
+  "id": "act_0010",
+  "topicId": "acts",
+  "difficulty": 4,
+  "question": "In Acts, which Gentile household receives the Holy Spirit while Peter is still speaking, before water baptism is described?",
+  "choices": {
+    "A": "Cornelius and his household",
+    "B": "The jailer at Philippi and his household",
+    "C": "Lydia and her household",
+    "D": "Ethiopian eunuch’s household"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Spirit before water",
+    "body": "Acts reports the Holy Spirit falling on Cornelius’ household while Peter is speaking, and then Peter orders baptism afterward.",
+    "refs": [
+      "Bible: Acts 10:44-48",
+      "Bible: Acts 10:47-48"
+    ]
+  },
+  "tags": [
+    "acts",
+    "gentiles",
+    "holy-spirit",
+    "baptism",
+    "direct-text"
+  ]
+}
