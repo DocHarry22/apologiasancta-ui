@@ -1,0 +1,31 @@
+{
+  "id": "chr_0027",
+  "topicId": "atonement",
+  "difficulty": 4,
+  "question": "At the Last Supper, why do the covenant words (‘blood of the covenant’) matter for defending sacrificial atonement against ‘God can just forgive without anything’ objections?",
+  "choices": {
+    "A": "They invoke covenant-making blood language from Exodus and the promised new covenant, framing forgiveness as covenantal sacrifice rather than arbitrary dismissal.",
+    "B": "They mean the meal is only symbolic and unrelated to forgiveness.",
+    "C": "They deny that sin has consequences.",
+    "D": "They teach that God needs human blood to forgive."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Covenant-blood logic",
+    "body": "‘Blood of the covenant’ echoes Exodus’ covenant ratification and aligns with new covenant promises. In that biblical logic, forgiveness is not God shrugging at evil; it’s covenant repair through sacrificial self-giving. That’s a strong reply to the claim that atonement is unnecessary or incoherent.",
+    "refs": [
+      "Matthew 26:26-28",
+      "Mark 14:22-24",
+      "Luke 22:19-20",
+      "Exodus 24:8",
+      "Jeremiah 31:31-34",
+      "Isaiah 53:10-12"
+    ]
+  },
+  "tags": [
+    "last-supper",
+    "covenant",
+    "sacrifice",
+    "apologetics"
+  ]
+}
