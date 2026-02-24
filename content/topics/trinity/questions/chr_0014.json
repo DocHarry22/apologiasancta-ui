@@ -1,0 +1,31 @@
+{
+  "id": "chr_0014",
+  "topicId": "trinity",
+  "difficulty": 3,
+  "question": "At the baptism, why do all three Synoptics stack Father-voice + Son + Spirit in one scene, and how does that shape a clean reply to ‘Trinity is later invention’ polemics?",
+  "choices": {
+    "A": "It presents Father, Son, and Spirit together in an early narrative moment, giving a scriptural triadic pattern Christians later articulate as Trinitarian doctrine.",
+    "B": "It is only symbolic poetry and has no theological meaning.",
+    "C": "It teaches three separate gods acting independently.",
+    "D": "It shows the Spirit replaces the Son."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Triadic pattern in the earliest Gospel layer",
+    "body": "The baptism scenes place the Father (voice), the Son (Jesus), and the Spirit (descending) together. That doesn’t read like a later add-on; it’s embedded in the narrative fabric of the Synoptics. Apologetically, it supports the claim that the NT contains the raw data of Trinitarian revelation before later councils formalized the language.",
+    "refs": [
+      "Matthew 3:13-17",
+      "Mark 1:9-11",
+      "Luke 3:21-22",
+      "Isaiah 42:1",
+      "Genesis 1:2",
+      "Psalm 2:7"
+    ]
+  },
+  "tags": [
+    "baptism",
+    "triadic",
+    "shared-synoptics",
+    "anti-polemics"
+  ]
+}
