@@ -1,0 +1,26 @@
+{
+  "id": "rom_0013",
+  "topicId": "romans",
+  "difficulty": 3,
+  "question": "According to Romans, what word does Paul use to describe what believers have “received” through Jesus Christ regarding their standing with God?",
+  "choices": {
+    "A": "Reconciliation",
+    "B": "Political immunity",
+    "C": "Temple priesthood",
+    "D": "Royal taxation rights"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Received reconciliation",
+    "body": "Paul says believers “have now received reconciliation” through Jesus Christ.",
+    "refs": [
+      "Bible: Romans 5:11"
+    ]
+  },
+  "tags": [
+    "romans",
+    "atonement",
+    "reconciliation",
+    "direct-text"
+  ]
+}
