@@ -1,0 +1,31 @@
+{
+  "id": "chr_0018",
+  "topicId": "christology",
+  "difficulty": 4,
+  "question": "Why do the Gospels treat Jesus walking on the sea as more than a ‘cool miracle’—what OT ‘divine prerogative’ pattern is being echoed?",
+  "choices": {
+    "A": "OT portrays God as one who treads upon the waves; Jesus’ action echoes that divine imagery, implying more than prophetic power.",
+    "B": "It only shows Jesus found shallow water.",
+    "C": "It is a parable and not presented as a real event.",
+    "D": "It proves the disciples invented miracles."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Treading the sea—God’s role echoed",
+    "body": "Job and the Psalms use imagery of God walking on the sea and making a path through waters. Mark/Matthew/John portray Jesus doing what the OT reserves as divine. The narrative wants you to connect dots: Jesus is not merely ‘powered up,’ he’s acting in God’s script.",
+    "refs": [
+      "Mark 6:45-52",
+      "Matthew 14:22-33",
+      "John 6:16-21",
+      "Job 9:8",
+      "Psalm 77:19",
+      "Isaiah 43:16"
+    ]
+  },
+  "tags": [
+    "sea",
+    "theophany-imagery",
+    "shared",
+    "apologetics"
+  ]
+}
