@@ -1,0 +1,27 @@
+{
+  "id": "jhn_0006",
+  "topicId": "john_gospel",
+  "difficulty": 3,
+  "question": "In the Gospel of John’s opening lines, what is said about how creation happened in relation to the Word?",
+  "choices": {
+    "A": "All things were made through him",
+    "B": "He was made after the angels",
+    "C": "He created only spiritual things, not physical things",
+    "D": "He was present only after creation finished"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Word and creation",
+    "body": "John’s prologue states that “all things were made through him,” referring to the Word.",
+    "refs": [
+      "Bible: John 1:3"
+    ]
+  },
+  "tags": [
+    "john",
+    "christology",
+    "creation",
+    "logos",
+    "direct-text"
+  ]
+}
