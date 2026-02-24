@@ -1,0 +1,29 @@
+{
+  "id": "chr_0024",
+  "topicId": "christology",
+  "difficulty": 4,
+  "question": "Why does Matthew include the ‘worship’ response to the risen Jesus (and no correction from Jesus), and how can you use that to answer ‘Jesus never accepted worship’?",
+  "choices": {
+    "A": "Matthew records worship directed to Jesus and presents it positively; Jesus does not rebuke it, supporting the claim that worship of Jesus is appropriate.",
+    "B": "Matthew condemns the worship as a sin.",
+    "C": "Jesus refuses worship and tells them to worship only the Father.",
+    "D": "The disciples worship the angels near the tomb, not Jesus."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Worship without rebuke",
+    "body": "Matthew narrates worship offered to the risen Jesus and doesn’t depict Jesus correcting it. In a Jewish monotheistic context, that narrative choice matters: worship is not treated as misdirected. Apologetically, it challenges the claim that Jesus consistently rejected worship.",
+    "refs": [
+      "Matthew 28:9-10",
+      "Matthew 28:16-17",
+      "Deuteronomy 6:13",
+      "Deuteronomy 6:4-5"
+    ]
+  },
+  "tags": [
+    "matthew",
+    "resurrection",
+    "worship",
+    "apologetics"
+  ]
+}
