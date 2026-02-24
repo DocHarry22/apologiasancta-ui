@@ -1,0 +1,32 @@
+{
+  "id": "chr_0026",
+  "topicId": "ot_fulfillment",
+  "difficulty": 3,
+  "question": "The cleansing of the Temple: how do the Synoptics and John place it differently, and what OT ‘house of prayer’ / ‘zeal’ texts are being appealed to either way?",
+  "choices": {
+    "A": "Synoptics place it late; John places it early; both frame it with OT ‘house of prayer’ and ‘zeal for your house’ themes.",
+    "B": "All four place it on the same day in the same sequence with identical wording.",
+    "C": "Only John includes it and the Synoptics omit it completely.",
+    "D": "It has no OT background and is purely political."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "One act, different placement, shared OT framing",
+    "body": "The Synoptics locate the Temple action in the final Jerusalem week, while John places a similar event early. Either way, the writers frame the act with OT language: the Temple’s purpose as a house of prayer and the theme of zeal for God’s house. Apologetically, the OT citations show the act is interpreted theologically, not merely as a protest stunt.",
+    "refs": [
+      "Matthew 21:12-13",
+      "Mark 11:15-17",
+      "Luke 19:45-46",
+      "John 2:13-17",
+      "Isaiah 56:7",
+      "Jeremiah 7:11",
+      "Psalm 69:9"
+    ]
+  },
+  "tags": [
+    "temple",
+    "prophetic-act",
+    "shared-all-4",
+    "apologetics"
+  ]
+}
