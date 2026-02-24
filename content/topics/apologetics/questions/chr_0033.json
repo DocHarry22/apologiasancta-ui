@@ -1,0 +1,31 @@
+{
+  "id": "chr_0033",
+  "topicId": "apologetics",
+  "difficulty": 3,
+  "question": "In the feeding of the 5,000 (all four Gospels), what subtle differences in details can be used to rebut ‘The accounts are identical copies’ without pretending they’re word-for-word the same?",
+  "choices": {
+    "A": "The shared core with divergent details fits multiple independent witnesses; the variations can be used to argue non-collusion rather than contradiction.",
+    "B": "Differences prove the event never happened.",
+    "C": "The accounts are identical in every detail.",
+    "D": "Only John includes the story."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Same event, distinct witness angles",
+    "body": "All four attest the event, yet include distinct details and emphases. Apologetically, that pattern can be framed as compatible with genuine testimony (shared core, varied perspective) rather than rote copying—without claiming artificial uniformity.",
+    "refs": [
+      "Matthew 14:13-21",
+      "Mark 6:31-44",
+      "Luke 9:10-17",
+      "John 6:1-14",
+      "2 Kings 4:42-44",
+      "Exodus 16:1-36"
+    ]
+  },
+  "tags": [
+    "miracles",
+    "historicity",
+    "shared-all-4",
+    "apologetics"
+  ]
+}
