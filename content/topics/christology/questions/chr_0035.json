@@ -1,0 +1,30 @@
+{
+  "id": "chr_0035",
+  "topicId": "christology",
+  "difficulty": 5,
+  "question": "In John 10 (Good Shepherd), how does Jesus merge ‘shepherd of Israel’ imagery with claims that belong to YHWH in the OT—and why does that matter for ‘Jesus never claimed divinity’ debates?",
+  "choices": {
+    "A": "OT portrays YHWH as Israel’s shepherd; John presents Jesus as the definitive shepherd who gives life and secures the flock, mapping divine role-language onto Jesus.",
+    "B": "It shows Jesus is only repeating a common pastoral metaphor with no OT link.",
+    "C": "It proves Jesus rejected the OT concept of God.",
+    "D": "It shows Jesus denies any authority over salvation."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Shepherd imagery as divine-role claim",
+    "body": "Ezekiel and the Psalms depict God shepherding his people. John 10 places Jesus in that role and ties it to life-giving authority and unity claims that triggered controversy. In apologetics, it’s a strong example of Jesus’ divinity being communicated through OT role imagery, not only through explicit labels.",
+    "refs": [
+      "John 10:1-18",
+      "John 10:27-30",
+      "Ezekiel 34:11-16",
+      "Psalm 23:1",
+      "Isaiah 40:10-11"
+    ]
+  },
+  "tags": [
+    "john",
+    "good-shepherd",
+    "divine-identity",
+    "apologetics"
+  ]
+}
