@@ -1,0 +1,26 @@
+{
+  "id": "rom_0015",
+  "topicId": "romans",
+  "difficulty": 3,
+  "question": "According to Romans, when believers are baptized into Christ Jesus, they are baptized into what?",
+  "choices": {
+    "A": "His death",
+    "B": "The Levitical priesthood",
+    "C": "The Roman Empire",
+    "D": "The old covenant only"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Baptized into Christ’s death",
+    "body": "Paul states that those baptized into Christ Jesus were baptized into his death.",
+    "refs": [
+      "Bible: Romans 6:3"
+    ]
+  },
+  "tags": [
+    "romans",
+    "baptism",
+    "union-with-christ",
+    "direct-text"
+  ]
+}
