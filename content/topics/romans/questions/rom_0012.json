@@ -1,0 +1,27 @@
+{
+  "id": "rom_0012",
+  "topicId": "romans",
+  "difficulty": 3,
+  "question": "In Romans, what does Paul say Abraham believed, and it was counted to him as what?",
+  "choices": {
+    "A": "He believed God, and it was counted to him as righteousness",
+    "B": "He believed Moses, and it was counted to him as perfection",
+    "C": "He believed angels, and it was counted to him as knowledge",
+    "D": "He believed himself, and it was counted to him as honor"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Abraham’s faith and righteousness",
+    "body": "Paul quotes the statement that Abraham believed God and it was counted to him as righteousness.",
+    "refs": [
+      "Bible: Romans 4:3",
+      "Bible: Genesis 15:6"
+    ]
+  },
+  "tags": [
+    "romans",
+    "abraham",
+    "faith",
+    "direct-text"
+  ]
+}
