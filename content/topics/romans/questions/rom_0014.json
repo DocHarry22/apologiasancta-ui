@@ -1,0 +1,26 @@
+{
+  "id": "rom_0014",
+  "topicId": "romans",
+  "difficulty": 4,
+  "question": "In Romans, what two human figures does Paul compare in order to explain how sin and grace spread to many?",
+  "choices": {
+    "A": "Adam and Christ",
+    "B": "Moses and Aaron",
+    "C": "David and Solomon",
+    "D": "Elijah and Elisha"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Adam–Christ comparison",
+    "body": "Paul contrasts Adam’s trespass with Christ’s act, describing how consequences and grace relate to “many.”",
+    "refs": [
+      "Bible: Romans 5:12-19"
+    ]
+  },
+  "tags": [
+    "romans",
+    "adam",
+    "christ",
+    "direct-text"
+  ]
+}
