@@ -1,0 +1,29 @@
+{
+  "id": "chr_0019",
+  "topicId": "christology",
+  "difficulty": 5,
+  "question": "In John 8:58, why is the wording ‘Before Abraham was, I AM’ more explosive than it sounds in English—and what OT text does it collide with in Jewish hearing?",
+  "choices": {
+    "A": "It echoes the divine ‘I AM’ language associated with God’s self-identification, colliding with Exodus 3:14 and Isaianic ‘I am he’ claims.",
+    "B": "It only means Jesus is older than Abraham by a few years.",
+    "C": "It is a grammar mistake and should be ignored.",
+    "D": "It means Abraham existed after Jesus in history."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "‘I AM’ as identity-claim",
+    "body": "John frames Jesus using ‘I AM’ in a context where his opponents react violently. The force isn’t merely pre-existence; it’s the resonance with God’s self-identification and unique divine identity language in Israel’s scriptures. That’s why it lands as scandal, not trivia.",
+    "refs": [
+      "John 8:48-59",
+      "Exodus 3:14",
+      "Isaiah 43:10-13",
+      "Isaiah 41:4"
+    ]
+  },
+  "tags": [
+    "john",
+    "i-am",
+    "divinity",
+    "apologetics"
+  ]
+}
