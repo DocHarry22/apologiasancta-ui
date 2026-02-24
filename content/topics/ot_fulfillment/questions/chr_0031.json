@@ -1,0 +1,30 @@
+{
+  "id": "chr_0031",
+  "topicId": "ot_fulfillment",
+  "difficulty": 3,
+  "question": "Luke’s Emmaus road: how does Jesus’ ‘Moses and all the prophets’ method model a non-cringe way to argue messianic fulfillment to skeptics—especially when someone says ‘You Christians just cherry-pick verses’?",
+  "choices": {
+    "A": "He uses a whole-Bible storyline approach (‘Moses and prophets’), implying a coherent narrative fulfillment rather than isolated proof-texts.",
+    "B": "He refuses to use the OT at all and only cites personal experience.",
+    "C": "He teaches the OT is irrelevant to Jesus.",
+    "D": "He admits prophecy cannot be used in debate."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Fulfillment as storyline, not snippets",
+    "body": "Luke presents Jesus explaining suffering-and-glory through the breadth of Israel’s scriptures. That method is apologetically powerful: it reframes fulfillment as a cumulative narrative logic, which directly challenges the ‘cherry-picking’ accusation.",
+    "refs": [
+      "Luke 24:13-35",
+      "Genesis 22:1-18",
+      "Deuteronomy 18:15-19",
+      "Isaiah 53",
+      "Psalm 22"
+    ]
+  },
+  "tags": [
+    "luke",
+    "emmaus",
+    "hermeneutics",
+    "apologetics"
+  ]
+}
