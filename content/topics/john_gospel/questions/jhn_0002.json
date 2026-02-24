@@ -1,0 +1,26 @@
+{
+  "id": "jhn_0002",
+  "topicId": "john_gospel",
+  "difficulty": 2,
+  "question": "In the Gospel of John, which phrase does Jesus use about himself in relation to Abraham’s existence?",
+  "choices": {
+    "A": "Before Abraham was, I am",
+    "B": "Before Abraham was, I was created",
+    "C": "Before Abraham was, I became a prophet",
+    "D": "Before Abraham was, I learned the Law"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Jesus’ wording about Abraham",
+    "body": "John’s Gospel records Jesus using the phrase “Before Abraham was, I am.”",
+    "refs": [
+      "Bible: John 8:58"
+    ]
+  },
+  "tags": [
+    "john",
+    "christology",
+    "preexistence",
+    "direct-text"
+  ]
+}
