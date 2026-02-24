@@ -1,0 +1,26 @@
+{
+  "id": "co1_0002",
+  "topicId": "1corinthians",
+  "difficulty": 3,
+  "question": "Paul tells the church that they are something sacred as a community and that someone lives among them. What does Paul call them, and who does he say dwells in them?",
+  "choices": {
+    "A": "God’s temple, and God’s Spirit dwells in them",
+    "B": "God’s kingdom, and angels dwell in them",
+    "C": "God’s synagogue, and Moses dwells in them",
+    "D": "God’s army, and human courage dwells in them"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The community as God’s temple",
+    "body": "Paul says the believers (plural) are God’s temple and that God’s Spirit dwells in them.",
+    "refs": [
+      "Bible: 1 Corinthians 3:16-17"
+    ]
+  },
+  "tags": [
+    "1cor",
+    "holy-spirit",
+    "church",
+    "direct-text"
+  ]
+}
