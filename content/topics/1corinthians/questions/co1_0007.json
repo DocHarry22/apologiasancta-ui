@@ -1,0 +1,26 @@
+{
+  "id": "co1_0007",
+  "topicId": "1corinthians",
+  "difficulty": 5,
+  "question": "Paul warns about taking the Lord’s Supper in an unworthy manner. What does he say the person becomes guilty of in that case?",
+  "choices": {
+    "A": "The body and blood of the Lord",
+    "B": "Only breaking a church rule",
+    "C": "Only offending the poor",
+    "D": "Only failing to fast beforehand"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Unworthy participation",
+    "body": "Paul says anyone who eats the bread or drinks the cup in an unworthy manner will be guilty concerning the body and blood of the Lord and must examine themselves.",
+    "refs": [
+      "Bible: 1 Corinthians 11:27-29"
+    ]
+  },
+  "tags": [
+    "1cor",
+    "lords-supper",
+    "judgment",
+    "direct-text"
+  ]
+}
