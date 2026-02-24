@@ -1,0 +1,27 @@
+{
+  "id": "act_0009",
+  "topicId": "acts",
+  "difficulty": 3,
+  "question": "What event leads Saul to lose his sight temporarily, and what does he hear during that event?",
+  "choices": {
+    "A": "A light from heaven and a voice saying, “Saul, Saul, why are you persecuting me?”",
+    "B": "A storm at sea and a voice warning him about Rome",
+    "C": "A dream in Jerusalem and a voice naming him king",
+    "D": "A temple ritual and a voice telling him to stop praying"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Saul’s encounter",
+    "body": "Acts reports a heavenly light, Jesus’ words to Saul about persecution, and Saul’s temporary blindness afterward.",
+    "refs": [
+      "Bible: Acts 9:3-9",
+      "Bible: Acts 9:4-5"
+    ]
+  },
+  "tags": [
+    "acts",
+    "paul",
+    "conversion",
+    "direct-text"
+  ]
+}
