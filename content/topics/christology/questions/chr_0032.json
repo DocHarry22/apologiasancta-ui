@@ -1,0 +1,29 @@
+{
+  "id": "chr_0032",
+  "topicId": "christology",
+  "difficulty": 3,
+  "question": "John’s ‘signs’ pattern: why is Cana called a ‘sign’ and how does the sequence build a cumulative case for Jesus’ identity rather than isolated miracle stories?",
+  "choices": {
+    "A": "A ‘sign’ points beyond itself; John’s sequence is structured to accumulate testimony about Jesus’ identity and mission.",
+    "B": "It means the miracle didn’t really happen.",
+    "C": "It means the disciples misunderstood Jesus.",
+    "D": "It proves John dislikes miracles."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Signs as identity-evidence",
+    "body": "John labels key miracles as ‘signs’—events meant to reveal meaning, not just power. The Gospel itself explains that these signs are selected so readers believe. Apologetically, that’s a designed evidential structure rather than scattered wonder tales.",
+    "refs": [
+      "John 2:1-11",
+      "John 20:30-31",
+      "Isaiah 25:6",
+      "Amos 9:13"
+    ]
+  },
+  "tags": [
+    "john",
+    "signs",
+    "evidence",
+    "apologetics"
+  ]
+}
