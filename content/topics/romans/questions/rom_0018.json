@@ -1,0 +1,26 @@
+{
+  "id": "rom_0018",
+  "topicId": "romans",
+  "difficulty": 4,
+  "question": "In Romans, what does Paul say governing authorities are “instituted” by?",
+  "choices": {
+    "A": "God",
+    "B": "Angels",
+    "C": "The wealthy",
+    "D": "Military power"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Authorities and God",
+    "body": "Paul states that there is no authority except from God, and that those that exist have been instituted by God.",
+    "refs": [
+      "Bible: Romans 13:1"
+    ]
+  },
+  "tags": [
+    "romans",
+    "authority",
+    "government",
+    "direct-text"
+  ]
+}
