@@ -27,6 +27,13 @@
       ]
     },
     {
+      "id": "john_gospel",
+      "title": "John Gospel",
+      "description": "Auto-created topic for John Gospel.",
+      "questionCount": 10,
+      "tags": []
+    },
+    {
       "id": "mariology",
       "title": "Mariology",
       "description": "Core Catholic doctrines and scriptural foundations about the Blessed Virgin Mary.",
