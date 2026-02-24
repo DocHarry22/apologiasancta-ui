@@ -1,0 +1,26 @@
+{
+  "id": "co1_0009",
+  "topicId": "1corinthians",
+  "difficulty": 3,
+  "question": "Paul says some things will pass away, but three things “remain.” Which three does he name?",
+  "choices": {
+    "A": "Faith, hope, and love",
+    "B": "Wisdom, strength, and honor",
+    "C": "Tongues, knowledge, and prophecy",
+    "D": "Law, sacrifices, and circumcision"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "What remains",
+    "body": "Paul states that faith, hope, and love remain, and that the greatest of these is love.",
+    "refs": [
+      "Bible: 1 Corinthians 13:13"
+    ]
+  },
+  "tags": [
+    "1cor",
+    "love",
+    "virtues",
+    "direct-text"
+  ]
+}
