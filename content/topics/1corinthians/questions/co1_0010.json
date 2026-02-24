@@ -1,0 +1,26 @@
+{
+  "id": "co1_0010",
+  "topicId": "1corinthians",
+  "difficulty": 4,
+  "question": "Paul argues that the resurrection of Jesus is essential. What does he say about believers’ condition if Christ has not been raised?",
+  "choices": {
+    "A": "Their faith is futile and they are still in their sins",
+    "B": "They are saved anyway but miss rewards",
+    "C": "They should return to the Mosaic sacrifices",
+    "D": "They should stop preaching but keep praying"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Resurrection and faith",
+    "body": "Paul states that if Christ has not been raised, faith is futile and believers are still in their sins.",
+    "refs": [
+      "Bible: 1 Corinthians 15:17"
+    ]
+  },
+  "tags": [
+    "1cor",
+    "resurrection",
+    "gospel",
+    "direct-text"
+  ]
+}
