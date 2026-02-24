@@ -1,0 +1,28 @@
+{
+  "id": "chr_0021",
+  "topicId": "christology",
+  "difficulty": 4,
+  "question": "When Thomas says ‘My Lord and my God,’ what makes this more than a startled outburst—and how does John frame it as the intended endpoint of the whole book?",
+  "choices": {
+    "A": "John presents it as a climactic confession followed by the book’s purpose statement, making it programmatic rather than accidental speech.",
+    "B": "Thomas is swearing and John records it as a mistake.",
+    "C": "Thomas is addressing the Father, not Jesus.",
+    "D": "John immediately corrects Thomas for idolatry."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Gospel’s climactic confession",
+    "body": "Thomas’ confession is positioned at the narrative summit, and John immediately anchors it to the stated purpose: that readers believe Jesus is the Christ and Son of God. The placement signals intention: Thomas says out loud what John wants you to conclude about Jesus’ identity.",
+    "refs": [
+      "John 20:24-31",
+      "Psalm 35:23",
+      "Psalm 118:28"
+    ]
+  },
+  "tags": [
+    "john",
+    "resurrection",
+    "divinity",
+    "apologetics"
+  ]
+}
