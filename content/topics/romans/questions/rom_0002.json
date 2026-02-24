@@ -1,0 +1,26 @@
+{
+  "id": "rom_0002",
+  "topicId": "romans",
+  "difficulty": 2,
+  "question": "In Romans, what does Paul say is revealed in the gospel?",
+  "choices": {
+    "A": "The righteousness of God",
+    "B": "The secret names of angels",
+    "C": "A new temple blueprint",
+    "D": "A list of Roman laws"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "What the gospel reveals",
+    "body": "Paul says that in the gospel “the righteousness of God is revealed from faith for faith.”",
+    "refs": [
+      "Bible: Romans 1:17"
+    ]
+  },
+  "tags": [
+    "romans",
+    "righteousness",
+    "gospel",
+    "direct-text"
+  ]
+}
