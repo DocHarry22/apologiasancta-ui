@@ -1,0 +1,26 @@
+{
+  "id": "rom_0008",
+  "topicId": "romans",
+  "difficulty": 3,
+  "question": "In Romans, what does Paul say God did with his Son “in the likeness of sinful flesh” to deal with sin?",
+  "choices": {
+    "A": "He condemned sin in the flesh",
+    "B": "He approved sin in the flesh",
+    "C": "He ignored sin in the flesh",
+    "D": "He rewarded sin in the flesh"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Sin condemned in the flesh",
+    "body": "Paul says God sent his Son in the likeness of sinful flesh and for sin, and condemned sin in the flesh.",
+    "refs": [
+      "Bible: Romans 8:3"
+    ]
+  },
+  "tags": [
+    "romans",
+    "incarnation",
+    "sin",
+    "direct-text"
+  ]
+}
