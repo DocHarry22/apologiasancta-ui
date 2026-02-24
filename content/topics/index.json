@@ -1,18 +1,63 @@
 {
   "topics": [
     {
+      "id": "apologetics",
+      "title": "Apologetics",
+      "description": "Auto-created topic for Apologetics.",
+      "questionCount": 2,
+      "tags": []
+    },
+    {
+      "id": "atonement",
+      "title": "Atonement",
+      "description": "Auto-created topic for Atonement.",
+      "questionCount": 1,
+      "tags": []
+    },
+    {
       "id": "christology",
       "title": "Christology",
       "description": "Core doctrines about the person and work of Jesus Christ.",
-      "questionCount": 10,
-      "tags": ["councils", "creeds", "incarnation", "trinity"]
+      "questionCount": 13,
+      "tags": [
+        "councils",
+        "creeds",
+        "incarnation",
+        "trinity"
+      ]
     },
     {
       "id": "mariology",
       "title": "Mariology",
       "description": "Core Catholic doctrines and scriptural foundations about the Blessed Virgin Mary.",
       "questionCount": 10,
-      "tags": ["dogma", "councils", "scripture", "devotion"]
+      "tags": [
+        "dogma",
+        "councils",
+        "scripture",
+        "devotion"
+      ]
+    },
+    {
+      "id": "messiahship",
+      "title": "Messiahship",
+      "description": "Auto-created topic for Messiahship.",
+      "questionCount": 1,
+      "tags": []
+    },
+    {
+      "id": "ot_fulfillment",
+      "title": "Ot Fulfillment",
+      "description": "Auto-created topic for Ot Fulfillment.",
+      "questionCount": 5,
+      "tags": []
+    },
+    {
+      "id": "trinity",
+      "title": "Trinity",
+      "description": "Auto-created topic for Trinity.",
+      "questionCount": 3,
+      "tags": []
     }
   ]
 }
