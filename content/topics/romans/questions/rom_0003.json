@@ -1,0 +1,26 @@
+{
+  "id": "rom_0003",
+  "topicId": "romans",
+  "difficulty": 2,
+  "question": "According to Romans, what does Paul say about the universal condition of humanity regarding sin?",
+  "choices": {
+    "A": "All have sinned and fall short of the glory of God",
+    "B": "Only Gentiles have sinned",
+    "C": "Only Jews have sinned",
+    "D": "No one has sinned if they try hard enough"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Universal sin",
+    "body": "Paul states that “all have sinned and fall short of the glory of God.”",
+    "refs": [
+      "Bible: Romans 3:23"
+    ]
+  },
+  "tags": [
+    "romans",
+    "sin",
+    "humanity",
+    "direct-text"
+  ]
+}
