@@ -1,0 +1,26 @@
+{
+  "id": "co1_0005",
+  "topicId": "1corinthians",
+  "difficulty": 4,
+  "question": "Paul gives instructions about praying or prophesying and mentions a practice involving a man’s head. What does he say about a man who prays or prophesies with his head covered?",
+  "choices": {
+    "A": "He dishonors his head",
+    "B": "He honors his head",
+    "C": "He is required to cover his head in every case",
+    "D": "He may cover his head only if he is a prophet"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Head covering statement (men)",
+    "body": "Paul explicitly says a man who prays or prophesies with his head covered dishonors his head.",
+    "refs": [
+      "Bible: 1 Corinthians 11:4"
+    ]
+  },
+  "tags": [
+    "1cor",
+    "worship",
+    "practice",
+    "direct-text"
+  ]
+}
