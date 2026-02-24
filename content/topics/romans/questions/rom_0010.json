@@ -1,0 +1,27 @@
+{
+  "id": "rom_0010",
+  "topicId": "romans",
+  "difficulty": 4,
+  "question": "In Romans, what does Paul say will be the result if you confess with your mouth and believe in your heart about Jesus?",
+  "choices": {
+    "A": "You will be saved",
+    "B": "You will become sinless instantly",
+    "C": "You will never suffer",
+    "D": "You will be exempt from all authority"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Confession and belief",
+    "body": "Paul states that if you confess Jesus as Lord and believe God raised him from the dead, “you will be saved.”",
+    "refs": [
+      "Bible: Romans 10:9"
+    ]
+  },
+  "tags": [
+    "romans",
+    "salvation",
+    "faith",
+    "confession",
+    "direct-text"
+  ]
+}
