@@ -1,0 +1,28 @@
+{
+  "id": "chr_0029",
+  "topicId": "ot_fulfillment",
+  "difficulty": 5,
+  "question": "Why does John quote ‘They will look on him whom they pierced’ and how does that OT context strengthen the case that crucifixion fulfills prophetic expectation rather than being an embarrassment the Church invented around?",
+  "choices": {
+    "A": "John frames the piercing as fulfillment of Zechariah’s ‘look on me/whom they pierced,’ showing continuity with OT expectation rather than ad hoc invention.",
+    "B": "John quotes it to admit the crucifixion disproved Jesus.",
+    "C": "John quotes it because he didn’t know any other OT verse.",
+    "D": "John rejects OT prophecy and replaces it with Roman history."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Piercing as prophetic lens",
+    "body": "John explicitly ties a crucifixion detail to Zechariah’s piercing text, and the OT context includes mourning and recognition. That framing argues the cross is not an awkward accident Christians tried to spin; it’s presented as part of a prophetic storyline that the Gospel claims Jesus fulfills.",
+    "refs": [
+      "John 19:34-37",
+      "Zechariah 12:10",
+      "Psalm 22:16-18"
+    ]
+  },
+  "tags": [
+    "john",
+    "crucifixion",
+    "prophecy",
+    "apologetics"
+  ]
+}
