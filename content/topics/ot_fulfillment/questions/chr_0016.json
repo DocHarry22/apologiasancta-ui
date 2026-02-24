@@ -1,0 +1,31 @@
+{
+  "id": "chr_0016",
+  "topicId": "ot_fulfillment",
+  "difficulty": 3,
+  "question": "In the temptation narratives, how does Jesus relive Israel’s wilderness story (Deuteronomy quotes), and what apologetic point does that make about ‘fulfillment’ rather than ‘random proof-texting’?",
+  "choices": {
+    "A": "Jesus reenacts Israel’s testing and answers with Deuteronomy, showing fulfillment as a coherent narrative pattern, not isolated verse-snatching.",
+    "B": "Jesus quotes Deuteronomy only because it was popular, with no deeper link.",
+    "C": "It shows Jesus rejected the Torah.",
+    "D": "It proves the OT has no relevance to the NT."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Israel’s story replayed—and repaired",
+    "body": "Matthew and Luke show Jesus in the wilderness answering temptation with Deuteronomy—texts associated with Israel’s wilderness testing. That structure reads like deliberate typology: Jesus embodies Israel’s vocation and succeeds where Israel failed. Apologetically, it supports a ‘fulfillment-as-pattern’ reading rather than cherry-picked quotations.",
+    "refs": [
+      "Matthew 4:1-11",
+      "Luke 4:1-13",
+      "Deuteronomy 8:3",
+      "Deuteronomy 6:16",
+      "Deuteronomy 6:13",
+      "Exodus 17:1-7"
+    ]
+  },
+  "tags": [
+    "temptation",
+    "typology",
+    "matthew-luke",
+    "apologetics"
+  ]
+}
