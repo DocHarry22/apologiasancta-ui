@@ -1,0 +1,31 @@
+{
+  "id": "chr_0022",
+  "topicId": "ot_fulfillment",
+  "difficulty": 4,
+  "question": "In the Transfiguration, why do the Synoptics pair Moses + Elijah with the heavenly voice, and how does the ‘listen to him’ line echo a specific Torah promise?",
+  "choices": {
+    "A": "Moses/Elijah represent Law and Prophets; ‘listen to him’ echoes Deuteronomy’s promised prophet like Moses, elevating Jesus as the definitive revealer.",
+    "B": "It is only a random cameo of famous OT figures.",
+    "C": "It proves Jesus is only one prophet among many equals.",
+    "D": "It shows the Law and Prophets replace Jesus."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Law + Prophets converge on Jesus",
+    "body": "Moses and Elijah embody the major streams of Israel’s revelation (Torah and prophetic witness). The divine instruction ‘listen to him’ resonates with Deuteronomy’s promised prophet, suggesting Jesus is not merely in continuity with revelation but its focal point.",
+    "refs": [
+      "Matthew 17:1-8",
+      "Mark 9:2-8",
+      "Luke 9:28-36",
+      "Deuteronomy 18:15-19",
+      "Exodus 24:15-18",
+      "1 Kings 19:8-18"
+    ]
+  },
+  "tags": [
+    "transfiguration",
+    "prophet-like-moses",
+    "shared-synoptics",
+    "apologetics"
+  ]
+}
