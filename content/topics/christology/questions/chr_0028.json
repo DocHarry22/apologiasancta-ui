@@ -1,0 +1,29 @@
+{
+  "id": "chr_0028",
+  "topicId": "christology",
+  "difficulty": 4,
+  "question": "In Gethsemane, how does ‘not my will but yours’ function as a window into (a) real human will and (b) perfect obedience—without collapsing into ‘two gods’ confusion?",
+  "choices": {
+    "A": "It shows Jesus’ genuine human will aligning with the Father’s will in obedient love, which supports full humanity without dividing God into competing deities.",
+    "B": "It proves Jesus is not divine and is unrelated to God.",
+    "C": "It proves there are two gods with different plans.",
+    "D": "It shows Jesus is pretending to be human."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Two wills, one obedient mission",
+    "body": "The prayer highlights real human desire and real submission—obedience, not theatricality. Apologetically, it supports classical Christian claims that Jesus is fully human (with a human will) while remaining united with the Father’s divine will, avoiding both ‘not really human’ and ‘two gods’ misreads.",
+    "refs": [
+      "Matthew 26:36-46",
+      "Mark 14:32-42",
+      "Luke 22:39-46",
+      "Psalm 40:6-8"
+    ]
+  },
+  "tags": [
+    "gethsemane",
+    "incarnation",
+    "obedience",
+    "shared-synoptics"
+  ]
+}
