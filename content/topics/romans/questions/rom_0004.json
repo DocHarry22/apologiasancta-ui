@@ -1,0 +1,26 @@
+{
+  "id": "rom_0004",
+  "topicId": "romans",
+  "difficulty": 3,
+  "question": "In Romans, how does Paul describe the result of being “justified by faith” regarding our relationship with God?",
+  "choices": {
+    "A": "We have peace with God through our Lord Jesus Christ",
+    "B": "We become judges over God",
+    "C": "We no longer need God",
+    "D": "We become sinless by nature immediately"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Peace with God",
+    "body": "Paul writes that being justified by faith results in having peace with God through Jesus Christ.",
+    "refs": [
+      "Bible: Romans 5:1"
+    ]
+  },
+  "tags": [
+    "romans",
+    "justification",
+    "peace",
+    "direct-text"
+  ]
+}
