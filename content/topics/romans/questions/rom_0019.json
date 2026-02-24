@@ -1,0 +1,26 @@
+{
+  "id": "rom_0019",
+  "topicId": "romans",
+  "difficulty": 3,
+  "question": "According to Romans, what does Paul say love is the “fulfilling” of?",
+  "choices": {
+    "A": "The law",
+    "B": "Circumcision",
+    "C": "The Roman constitution",
+    "D": "Temple sacrifices"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Love fulfills the law",
+    "body": "Paul states that love does no wrong to a neighbor and therefore love is the fulfilling of the law.",
+    "refs": [
+      "Bible: Romans 13:10"
+    ]
+  },
+  "tags": [
+    "romans",
+    "love",
+    "law",
+    "direct-text"
+  ]
+}
