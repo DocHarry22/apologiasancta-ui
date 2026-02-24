@@ -1,0 +1,28 @@
+{
+  "id": "chr_0034",
+  "topicId": "trinity",
+  "difficulty": 4,
+  "question": "Matthew 28:19: why is the singular ‘name’ with threefold Father/Son/Spirit a compact Trinitarian clue—and how do you defend it against ‘it should say names’ nitpicking?",
+  "choices": {
+    "A": "‘Name’ can function as a singular marker of shared identity/authority; the triadic formula unites three persons under one ‘name.’",
+    "B": "It is a scribal error and should be removed.",
+    "C": "It teaches three unrelated gods with separate names.",
+    "D": "It proves Father, Son, and Spirit are the same person."
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "One ‘name,’ three persons",
+    "body": "The grammar is striking: one ‘name’ paired with Father, Son, and Holy Spirit. Apologetically, it functions as compressed Trinitarian data—unity of divine identity/authority with real personal distinction—without needing later philosophical vocabulary to see the pattern.",
+    "refs": [
+      "Matthew 28:18-20",
+      "Deuteronomy 6:4-5",
+      "Isaiah 48:16"
+    ]
+  },
+  "tags": [
+    "great-commission",
+    "triadic",
+    "grammar",
+    "apologetics"
+  ]
+}
