@@ -1,6 +1,13 @@
 {
   "topics": [
     {
+      "id": "1corinthians",
+      "title": "1corinthians",
+      "description": "Auto-created topic for 1corinthians.",
+      "questionCount": 10,
+      "tags": []
+    },
+    {
       "id": "acts",
       "title": "Acts",
       "description": "Auto-created topic for Acts.",
