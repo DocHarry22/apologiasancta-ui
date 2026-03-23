@@ -68,7 +68,7 @@ export interface AdminPanelActions {
   validateAndUnlock: (token: string) => Promise<{ success: boolean; error?: string }>;
   lock: () => void;
   setAdminToken: (token: string) => void;
-  executeAction: (action: "start" | "pause" | "next" | "reset" | "status") => Promise<void>;
+  executeAction: (action: "start" | "pause" | "next" | "reset" | "status", roomId?: string | null) => Promise<void>;
   checkEngineHealth: () => Promise<EngineResponse<HealthResponse>>;
   clearResult: () => void;
 }
@@ -220,7 +220,7 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
   /**
    * Execute an admin action
    */
-  const executeAction = useCallback(async (action: "start" | "pause" | "next" | "reset" | "status") => {
+  const executeAction = useCallback(async (action: "start" | "pause" | "next" | "reset" | "status", roomId?: string | null) => {
     if (!engineUrl) {
       setLastResult({
         action,
@@ -244,7 +244,7 @@ export function useAdminPanel(engineUrl: string | null): AdminPanelState & Admin
 
     try {
       const actionFn = adminActions[action];
-      const result = await actionFn(engineUrl, adminToken);
+      const result = await actionFn(engineUrl, adminToken, roomId);
 
       if (result.success) {
         setLastResult({

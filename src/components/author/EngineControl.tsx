@@ -6,8 +6,10 @@ import {
   quizActions,
   adminActions,
   topicActions,
+  roomActions,
   type ContentStatusResponse,
   type AdminStatus,
+  type AdminRoomStatus,
 } from "@/lib/engineAdmin";
 
 interface Props {
@@ -18,16 +20,28 @@ interface Props {
 export default function EngineControl({ engineUrl, adminToken }: Props) {
   const [contentStatus, setContentStatus] = useState<ContentStatusResponse | null>(null);
   const [adminStatus, setAdminStatus] = useState<AdminStatus | null>(null);
+  const [rooms, setRooms] = useState<AdminRoomStatus[]>([]);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [shuffle, setShuffle] = useState(true);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [countdownSeconds, setCountdownSeconds] = useState(10);
+  const [newRoomName, setNewRoomName] = useState("");
+  const [newRoomId, setNewRoomId] = useState("");
+
+  const formatTimestamp = (timestamp: number | null | undefined): string => {
+    if (!timestamp) {
+      return "Never";
+    }
+
+    return new Date(timestamp).toLocaleString();
+  };
 
   const fetchStatus = useCallback(async () => {
-    const [contentRes, adminRes] = await Promise.all([
+    const [contentRes, adminRes, roomsRes] = await Promise.all([
       contentActions.status(engineUrl, adminToken),
       adminActions.status(engineUrl, adminToken),
+      roomActions.list(engineUrl, adminToken),
     ]);
 
     if (contentRes.success && contentRes.data) {
@@ -35,6 +49,9 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
     }
     if (adminRes.success && adminRes.data) {
       setAdminStatus(adminRes.data);
+    }
+    if (roomsRes.success && roomsRes.data) {
+      setRooms(roomsRes.data.rooms);
     }
   }, [engineUrl, adminToken]);
 
@@ -130,15 +147,92 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
     setLoading(false);
   };
 
-  const handleAdminAction = async (action: "start" | "pause" | "next" | "reset") => {
+  const handleAdminAction = async (action: "start" | "resume" | "pause" | "next" | "reset") => {
     setLoading(true);
     const result = await adminActions[action](engineUrl, adminToken);
 
     if (result.success) {
-      setMessage({ type: "success", text: `Quiz ${action}ed` });
+      const successText =
+        action === "resume"
+          ? "Quiz resumed from saved checkpoint"
+          : action === "reset"
+            ? "Quiz reset"
+            : `Quiz ${action}ed`;
+      setMessage({ type: "success", text: successText });
       fetchStatus();
     } else {
       setMessage({ type: "error", text: result.error || `Failed to ${action}` });
+    }
+
+    setLoading(false);
+  };
+
+  const handleSavePersistence = async () => {
+    setLoading(true);
+    setMessage(null);
+
+    const result = await adminActions.savePersistence(engineUrl, adminToken);
+
+    if (result.success) {
+      setMessage({ type: "success", text: "Runtime state saved" });
+      await fetchStatus();
+    } else {
+      setMessage({ type: "error", text: result.error || "Failed to save runtime state" });
+    }
+
+    setLoading(false);
+  };
+
+  const handleCreateRoom = async () => {
+    const trimmedName = newRoomName.trim();
+    const trimmedRoomId = newRoomId.trim().toLowerCase();
+
+    if (!trimmedName) {
+      setMessage({ type: "error", text: "Room name is required" });
+      return;
+    }
+
+    setLoading(true);
+    setMessage(null);
+
+    const result = await roomActions.create(
+      engineUrl,
+      adminToken,
+      trimmedName,
+      trimmedRoomId || undefined
+    );
+
+    if (result.success && result.data) {
+      setMessage({ type: "success", text: `Created room: ${result.data.room.name}` });
+      setNewRoomName("");
+      setNewRoomId("");
+      await fetchStatus();
+    } else {
+      setMessage({ type: "error", text: result.error || "Failed to create room" });
+    }
+
+    setLoading(false);
+  };
+
+  const handleCloseRoom = async (room: AdminRoomStatus) => {
+    if (room.roomId === "global") {
+      return;
+    }
+
+    if (!confirm(`Close room \"${room.name}\"? Players can still view it, but new live room play will stop.`)) {
+      return;
+    }
+
+    setLoading(true);
+    setMessage(null);
+
+    const result = await roomActions.close(engineUrl, adminToken, room.roomId);
+
+    if (result.success && result.data) {
+      setMessage({ type: "success", text: `Closed room: ${result.data.room.name}` });
+      await fetchStatus();
+    } else {
+      setMessage({ type: "error", text: result.error || "Failed to close room" });
     }
 
     setLoading(false);
@@ -209,15 +303,28 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
     <div className="space-y-6">
       {/* Engine Status */}
       <section className="rounded-lg border border-(--border) bg-background p-4 space-y-3">
-        <h3 className="text-sm font-semibold flex items-center justify-between">
-          Engine Status
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-semibold">Engine Status</h3>
+            {adminStatus?.persistence?.lastRestoreSucceeded && !adminStatus.running ? (
+              <span className="inline-flex rounded-full bg-sky-500/15 px-2 py-0.5 text-[11px] font-medium text-sky-400">
+                Checkpoint Ready
+              </span>
+            ) : null}
+          </div>
           <button
             onClick={fetchStatus}
             className="text-xs text-(--accent) hover:underline"
           >
             Refresh
           </button>
-        </h3>
+        </div>
+
+        {adminStatus?.persistence?.lastRestoreSucceeded && !adminStatus.running ? (
+          <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-xs text-sky-300">
+            A restored quiz checkpoint is loaded. Use Resume to continue from the saved question position, or Start to begin the loaded pool as a fresh run.
+          </div>
+        ) : null}
 
         {adminStatus ? (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
@@ -254,6 +361,14 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
         {/* Quiz Controls */}
         <div className="flex flex-wrap gap-2 pt-2 border-t border-(--border)">
           <button
+            onClick={() => handleAdminAction("resume")}
+            disabled={loading || adminStatus?.running || !adminStatus?.persistence?.lastRestoreSucceeded}
+            className="px-3 py-1.5 text-xs rounded-lg bg-sky-600 text-white hover:bg-sky-500 disabled:opacity-50"
+            title="Resume the current restored quiz checkpoint without resetting the question position"
+          >
+            Resume
+          </button>
+          <button
             onClick={() => handleAdminAction("start")}
             disabled={loading || adminStatus?.running}
             className="px-3 py-1.5 text-xs rounded-lg bg-green-600 text-white hover:bg-green-500 disabled:opacity-50"
@@ -282,6 +397,63 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
             Reset
           </button>
         </div>
+
+        {adminStatus?.persistence && (
+          <div className="rounded-lg border border-(--border) bg-(--card) p-3 space-y-3">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <h4 className="text-xs font-semibold uppercase tracking-[0.16em] text-(--muted)">Persistence</h4>
+                <p className="text-xs text-(--muted)">Content bank, active pool, controller checkpoint, rooms, players, and leaderboard history.</p>
+              </div>
+              <button
+                onClick={handleSavePersistence}
+                disabled={loading || !adminStatus.persistence.configured}
+                className="rounded-lg border border-(--border) px-3 py-1.5 text-xs hover:border-(--accent) hover:text-(--accent) disabled:opacity-50"
+              >
+                Save Now
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
+              <div className="space-y-1">
+                <span className="text-xs text-(--muted)">Configured</span>
+                <p className={adminStatus.persistence.configured ? "text-green-400" : "text-(--muted)"}>
+                  {adminStatus.persistence.configured ? "Yes" : "No"}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <span className="text-xs text-(--muted)">Last Restore</span>
+                <p className={adminStatus.persistence.lastRestoreSucceeded ? "text-green-400" : "text-(--muted)"}>
+                  {adminStatus.persistence.lastRestoreSucceeded ? "Succeeded" : "No snapshot"}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <span className="text-xs text-(--muted)">Pending Save</span>
+                <p>{adminStatus.persistence.savePending ? "Yes" : "No"}</p>
+              </div>
+              <div className="space-y-1">
+                <span className="text-xs text-(--muted)">Last Saved</span>
+                <p className="text-xs">{formatTimestamp(adminStatus.persistence.lastSavedAt)}</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
+              <div className="space-y-1">
+                <span className="text-xs text-(--muted)">Last Restored</span>
+                <p className="text-xs">{formatTimestamp(adminStatus.persistence.lastRestoredAt)}</p>
+              </div>
+              <div className="space-y-1">
+                <span className="text-xs text-(--muted)">Restore Behavior</span>
+                <p className="text-xs text-(--muted)">Recovered quiz checkpoints stay paused until you explicitly resume the engine.</p>
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <span className="text-xs text-(--muted)">State File</span>
+              <p className="break-all font-mono text-xs text-(--accent)">{adminStatus.persistence.path}</p>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Topic Management */}
@@ -333,6 +505,90 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
           >
             Countdown ({countdownSeconds}s)
           </button>
+        </div>
+      </section>
+
+      {/* Room Management */}
+      <section className="rounded-lg border border-(--border) bg-background p-4 space-y-4">
+        <div>
+          <h3 className="text-sm font-semibold">Room Management</h3>
+          <p className="text-xs text-(--muted)">Create and close player rooms. Room scoring is isolated, but live topic progression is still shared engine-wide.</p>
+        </div>
+
+        <div className="grid gap-3 md:grid-cols-[minmax(0,1.4fr)_minmax(180px,0.8fr)_auto]">
+          <input
+            type="text"
+            value={newRoomName}
+            onChange={(event) => setNewRoomName(event.target.value)}
+            placeholder="New room name"
+            className="rounded-lg border border-(--border) bg-transparent px-3 py-2 text-sm focus:border-(--accent) outline-none"
+          />
+          <input
+            type="text"
+            value={newRoomId}
+            onChange={(event) => setNewRoomId(event.target.value.replace(/[^a-z0-9-]/g, "").toLowerCase())}
+            placeholder="Optional room-id"
+            className="rounded-lg border border-(--border) bg-transparent px-3 py-2 text-sm focus:border-(--accent) outline-none"
+          />
+          <button
+            onClick={handleCreateRoom}
+            disabled={loading || !newRoomName.trim()}
+            className="rounded-lg bg-(--accent) px-3 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
+          >
+            Create Room
+          </button>
+        </div>
+
+        <div className="overflow-hidden rounded-lg border border-(--border)">
+          <div className="grid grid-cols-[minmax(0,1.2fr)_110px_84px_84px_84px_110px] gap-2 border-b border-(--border) bg-(--card) px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-(--muted)">
+            <span>Room</span>
+            <span>Status</span>
+            <span>Members</span>
+            <span>Live</span>
+            <span>Play</span>
+            <span>Action</span>
+          </div>
+          <div className="divide-y divide-(--border)">
+            {rooms.map((room) => (
+              <div
+                key={room.roomId}
+                className="grid grid-cols-[minmax(0,1.2fr)_110px_84px_84px_84px_110px] gap-2 px-3 py-3 text-sm"
+              >
+                <div className="min-w-0">
+                  <div className="truncate font-medium">{room.name}</div>
+                  <div className="truncate text-xs text-(--muted)">{room.roomId}</div>
+                </div>
+                <div>
+                  <span
+                    className={`inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium ${
+                      room.isActive ? "bg-green-500/15 text-green-400" : "bg-(--ticker-bg) text-(--muted)"
+                    }`}
+                  >
+                    {room.isActive ? "Active" : "Closed"}
+                  </span>
+                </div>
+                <div className="font-mono">{room.playerCount}</div>
+                <div className="font-mono">{room.connectedClients}</div>
+                <div className="font-mono">{room.gameplayPlayerCount}</div>
+                <div>
+                  {room.roomId !== "global" && room.isActive ? (
+                    <button
+                      onClick={() => handleCloseRoom(room)}
+                      disabled={loading}
+                      className="rounded-lg border border-(--border) px-2 py-1 text-xs hover:border-(--wrong) hover:text-(--wrong) disabled:opacity-50"
+                    >
+                      Close
+                    </button>
+                  ) : (
+                    <span className="text-xs text-(--muted)">{room.roomId === "global" ? "Pinned" : "-"}</span>
+                  )}
+                </div>
+              </div>
+            ))}
+            {rooms.length === 0 && (
+              <div className="px-3 py-4 text-sm text-(--muted)">No rooms returned by the engine.</div>
+            )}
+          </div>
         </div>
       </section>
 

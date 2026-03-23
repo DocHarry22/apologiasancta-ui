@@ -4,6 +4,8 @@
  * Provides fetch wrapper for admin endpoints with token authentication.
  */
 
+import type { RoomSummary } from "@/types/quiz";
+
 export interface EngineResponse<T = unknown> {
   success: boolean;
   data?: T;
@@ -20,12 +22,70 @@ export interface AdminStatus {
   connectedClients: number;
   timeRemainingMs: number;
   endsAtMs: number;
+  persistence?: PersistenceStatus;
+  roomId?: string;
+  playerCount?: number;
+}
+
+export interface PersistenceStatus {
+  configured: boolean;
+  path: string;
+  savePending: boolean;
+  lastSavedAt: number | null;
+  lastRestoredAt: number | null;
+  lastRestoreSucceeded: boolean;
+}
+
+export interface AdminRoomStatus {
+  roomId: string;
+  name: string;
+  isActive: boolean;
+  playerCount: number;
+  connectedClients: number;
+  gameplayPlayerCount: number;
+}
+
+export interface AdminRoomListResponse {
+  rooms: AdminRoomStatus[];
+}
+
+export interface AdminRoomMutationResponse {
+  success: boolean;
+  room: RoomSummary;
+}
+
+function buildAdminPath(basePath: string, roomId?: string | null): string {
+  if (!roomId) {
+    return basePath;
+  }
+
+  const normalizedBase = basePath.startsWith("/") ? basePath : `/${basePath}`;
+  return `/admin/rooms/${encodeURIComponent(roomId)}${normalizedBase}`;
+}
+
+export interface AdminPersistenceSaveResponse {
+  success: boolean;
+  persistence: PersistenceStatus;
 }
 
 export interface HealthResponse {
-  status: string;
-  timestamp: string;
+  ok: boolean;
+  time: string;
   uptime: number;
+  clients: number;
+  rooms?: {
+    total: number;
+    active: number;
+  };
+  roomDetails?: Array<{
+    roomId: string;
+    name: string;
+    isActive: boolean;
+    members: number;
+    connectedClients: number;
+    gameplayPlayers: number;
+  }>;
+  persistence?: PersistenceStatus;
 }
 
 /**
@@ -102,20 +162,45 @@ export async function checkHealth(engineUrl: string): Promise<EngineResponse<Hea
  * Admin actions
  */
 export const adminActions = {
-  start: (engineUrl: string, token: string) =>
-    engineFetch(engineUrl, "/admin/start", "POST", token),
+  start: (engineUrl: string, token: string, roomId?: string | null) =>
+    engineFetch(engineUrl, buildAdminPath("/start", roomId), "POST", token),
 
-  pause: (engineUrl: string, token: string) =>
-    engineFetch(engineUrl, "/admin/pause", "POST", token),
+  resume: (engineUrl: string, token: string, roomId?: string | null) =>
+    engineFetch(engineUrl, buildAdminPath("/resume", roomId), "POST", token),
 
-  next: (engineUrl: string, token: string) =>
-    engineFetch(engineUrl, "/admin/next", "POST", token),
+  pause: (engineUrl: string, token: string, roomId?: string | null) =>
+    engineFetch(engineUrl, buildAdminPath("/pause", roomId), "POST", token),
 
-  reset: (engineUrl: string, token: string) =>
-    engineFetch(engineUrl, "/admin/reset", "POST", token),
+  next: (engineUrl: string, token: string, roomId?: string | null) =>
+    engineFetch(engineUrl, buildAdminPath("/next", roomId), "POST", token),
 
-  status: (engineUrl: string, token: string) =>
-    engineFetch<AdminStatus>(engineUrl, "/admin/status", "GET", token),
+  reset: (engineUrl: string, token: string, roomId?: string | null) =>
+    engineFetch(engineUrl, buildAdminPath("/reset", roomId), "POST", token),
+
+  status: (engineUrl: string, token: string, roomId?: string | null) =>
+    engineFetch<AdminStatus>(engineUrl, buildAdminPath("/status", roomId), "GET", token),
+
+  savePersistence: (engineUrl: string, token: string) =>
+    engineFetch<AdminPersistenceSaveResponse>(engineUrl, "/admin/persistence/save", "POST", token),
+};
+
+export const roomActions = {
+  list: (engineUrl: string, token: string, includeClosed: boolean = true) =>
+    engineFetch<AdminRoomListResponse>(
+      engineUrl,
+      `/admin/rooms${includeClosed ? "?includeClosed=true" : ""}`,
+      "GET",
+      token
+    ),
+
+  create: (engineUrl: string, token: string, name: string, roomId?: string) =>
+    engineFetch<AdminRoomMutationResponse>(engineUrl, "/admin/rooms", "POST", token, {
+      name,
+      ...(roomId ? { roomId } : {}),
+    }),
+
+  close: (engineUrl: string, token: string, roomId: string) =>
+    engineFetch<AdminRoomMutationResponse>(engineUrl, `/admin/rooms/${encodeURIComponent(roomId)}/close`, "POST", token),
 };
 
 /** Content bank status response */
@@ -275,8 +360,8 @@ export const topicActions = {
   /**
    * Get topic sequence configuration and available topics
    */
-  getSequence: (engineUrl: string, token: string) =>
-    engineFetch<TopicSequenceResponse>(engineUrl, "/admin/topic/sequence", "GET", token),
+  getSequence: (engineUrl: string, token: string, roomId?: string | null) =>
+    engineFetch<TopicSequenceResponse>(engineUrl, buildAdminPath("/topic/sequence", roomId), "GET", token),
 
   /**
    * Update topic sequence configuration
@@ -284,11 +369,12 @@ export const topicActions = {
   setSequence: (
     engineUrl: string,
     token: string,
-    config: Partial<TopicSequenceConfig>
+    config: Partial<TopicSequenceConfig>,
+    roomId?: string | null
   ) =>
     engineFetch<{ success: boolean; config: TopicSequenceConfig }>(
       engineUrl,
-      "/admin/topic/sequence",
+      buildAdminPath("/topic/sequence", roomId),
       "POST",
       token,
       config
@@ -297,10 +383,10 @@ export const topicActions = {
   /**
    * Start the next topic in sequence (or specific topicId)
    */
-  startNextTopic: (engineUrl: string, token: string, topicId?: string) =>
+  startNextTopic: (engineUrl: string, token: string, topicId?: string, roomId?: string | null) =>
     engineFetch<StartTopicResponse>(
       engineUrl,
-      "/admin/topic/next",
+      buildAdminPath("/topic/next", roomId),
       "POST",
       token,
       topicId ? { topicId } : undefined
@@ -309,10 +395,10 @@ export const topicActions = {
   /**
    * Start a specific topic by ID
    */
-  startTopic: (engineUrl: string, token: string, topicId: string) =>
+  startTopic: (engineUrl: string, token: string, topicId: string, roomId?: string | null) =>
     engineFetch<StartTopicResponse>(
       engineUrl,
-      `/admin/topic/start/${encodeURIComponent(topicId)}`,
+      buildAdminPath(`/topic/start/${encodeURIComponent(topicId)}`, roomId),
       "POST",
       token
     ),
@@ -320,10 +406,10 @@ export const topicActions = {
   /**
    * Cancel auto-advance to next topic
    */
-  cancelAutoAdvance: (engineUrl: string, token: string) =>
+  cancelAutoAdvance: (engineUrl: string, token: string, roomId?: string | null) =>
     engineFetch<{ success: boolean; message: string }>(
       engineUrl,
-      "/admin/topic/cancel-auto",
+      buildAdminPath("/topic/cancel-auto", roomId),
       "POST",
       token
     ),
@@ -332,10 +418,10 @@ export const topicActions = {
    * Skip current topic and move to next
    * Resets scores/streaks and starts next topic immediately
    */
-  skipTopic: (engineUrl: string, token: string) =>
+  skipTopic: (engineUrl: string, token: string, roomId?: string | null) =>
     engineFetch<StartTopicResponse>(
       engineUrl,
-      "/admin/topic/skip",
+      buildAdminPath("/topic/skip", roomId),
       "POST",
       token
     ),
@@ -344,10 +430,10 @@ export const topicActions = {
    * Replay current topic from beginning
    * Resets scores/streaks and restarts same topic
    */
-  replayTopic: (engineUrl: string, token: string) =>
+  replayTopic: (engineUrl: string, token: string, roomId?: string | null) =>
     engineFetch<StartTopicResponse>(
       engineUrl,
-      "/admin/topic/replay",
+      buildAdminPath("/topic/replay", roomId),
       "POST",
       token
     ),
@@ -356,10 +442,10 @@ export const topicActions = {
    * Start a countdown before beginning a topic
    * Emits topicCountdown event for UI display
    */
-  countdownTopic: (engineUrl: string, token: string, countdownSeconds: number = 10, topicId?: string) =>
+  countdownTopic: (engineUrl: string, token: string, countdownSeconds: number = 10, topicId?: string, roomId?: string | null) =>
     engineFetch<{ success: boolean; message: string; topicId: string; topicTitle: string; countdownSeconds: number }>(
       engineUrl,
-      "/admin/topic/countdown",
+      buildAdminPath("/topic/countdown", roomId),
       "POST",
       token,
       { countdownSeconds, ...(topicId ? { topicId } : {}) }
@@ -369,10 +455,10 @@ export const topicActions = {
    * Set topic loop mode
    * Controls whether current topic repeats after completion
    */
-  setTopicLoop: (engineUrl: string, token: string, mode: LoopMode) =>
+  setTopicLoop: (engineUrl: string, token: string, mode: LoopMode, roomId?: string | null) =>
     engineFetch<{ success: boolean; message: string; topicLoopMode: LoopMode; topicRepeatsRemaining: number }>(
       engineUrl,
-      "/admin/topic/loop",
+      buildAdminPath("/topic/loop", roomId),
       "POST",
       token,
       { mode }
@@ -382,10 +468,10 @@ export const topicActions = {
    * Set series loop mode
    * Controls whether entire topic sequence repeats after completion
    */
-  setSeriesLoop: (engineUrl: string, token: string, mode: LoopMode) =>
+  setSeriesLoop: (engineUrl: string, token: string, mode: LoopMode, roomId?: string | null) =>
     engineFetch<{ success: boolean; message: string; seriesLoopMode: LoopMode; seriesRepeatsRemaining: number }>(
       engineUrl,
-      "/admin/series/loop",
+      buildAdminPath("/series/loop", roomId),
       "POST",
       token,
       { mode }
@@ -394,10 +480,10 @@ export const topicActions = {
   /**
    * Set countdown duration
    */
-  setCountdownDuration: (engineUrl: string, token: string, seconds: number) =>
+  setCountdownDuration: (engineUrl: string, token: string, seconds: number, roomId?: string | null) =>
     engineFetch<{ success: boolean; message: string; countdownSeconds: number }>(
       engineUrl,
-      "/admin/countdown/set",
+      buildAdminPath("/countdown/set", roomId),
       "POST",
       token,
       { seconds }

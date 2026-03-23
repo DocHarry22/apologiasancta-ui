@@ -20,6 +20,7 @@ export { YourScoreCard, PLAYER_NAME_KEY } from "./YourScoreCard";
 
 // Registration
 export { JoinGameModal } from "./JoinGameModal";
+export { RoomSelectionModal } from "./RoomSelectionModal";
 
 // Admin components
 export { AdminDrawer } from "./AdminDrawer";

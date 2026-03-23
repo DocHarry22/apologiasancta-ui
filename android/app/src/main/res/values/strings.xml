@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Apologia Sancta</string>
+    <string name="title_activity_main">Apologia Sancta</string>
+    <string name="package_name">com.apologiasancta.live</string>
+    <string name="custom_url_scheme">com.apologiasancta.live</string>
+</resources>

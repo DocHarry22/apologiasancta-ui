@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { getEngineUrl } from "@/lib/publicEnv";
 
-const ENGINE_URL = process.env.NEXT_PUBLIC_ENGINE_URL;
+const ENGINE_URL = getEngineUrl();
 
 interface EngineTopic {
   id: string;

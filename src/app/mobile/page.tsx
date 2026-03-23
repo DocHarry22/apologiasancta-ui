@@ -13,19 +13,27 @@ import {
   AdminDrawer,
   YourScoreCard,
   JoinGameModal,
+  RoomSelectionModal,
   TopicSummaryPanel,
   TopicCountdown,
   CongratsOverlay,
   PLAYER_NAME_KEY,
 } from "@/components/mobile";
+import type { LeaderboardMode } from "@/components/mobile/LeaderboardColumn";
 import { useLeaderboardDiff } from "@/hooks/useLeaderboardDiff";
 import { useQuizSSE } from "@/hooks/useQuizSSE";
 import { useLocalPlayer } from "@/hooks/useLocalPlayer";
 import { useScoreDeltaAnimation } from "@/hooks/useScoreDeltaAnimation";
-import type { QuizState, QuizPhase, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent, CongratsEvent } from "@/types/quiz";
+import { getEngineUrl } from "@/lib/publicEnv";
+import type { Leaderboard, QuizState, QuizPhase, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent, CongratsEvent, RoomSummary } from "@/types/quiz";
 
 // Backend URL from environment (optional)
-const ENGINE_URL = process.env.NEXT_PUBLIC_ENGINE_URL;
+const ENGINE_URL = getEngineUrl();
+const ROOM_ID_KEY = "selectedRoomId";
+const ROOM_NAME_KEY = "selectedRoomName";
+const USER_ID_KEY = "userId";
+const USERNAME_KEY = "playerName";
+const LEADERBOARD_REFRESH_MS = 15000;
 
 // Duration for countdown timer (seconds)
 const QUESTION_DURATION = 30;
@@ -82,12 +90,43 @@ function createMockQuizState(phase: QuizPhase = "OPEN"): QuizState {
   };
 }
 
+function createWaitingQuizState(connectionStatus: "connecting" | "connected" | "reconnecting" | "disconnected"): QuizState {
+  const statusLabel =
+    connectionStatus === "disconnected"
+      ? "The engine is unreachable right now. The app will keep retrying."
+      : connectionStatus === "reconnecting"
+        ? "Trying to reconnect to the live room..."
+        : "Connecting to the live room...";
+
+  return {
+    phase: "LOCKED",
+    endsAtMs: 0,
+    questionIndex: 0,
+    totalQuestions: 0,
+    themeTitle: "LIVE ROOM",
+    question: {
+      text: statusLabel,
+      choices: [],
+    },
+    leaderboard: {
+      topScorers: [],
+      topStreaks: [],
+      scope: "room",
+      period: "all-time",
+      snapshotAtMs: Date.now(),
+    },
+    ticker: {
+      items: ["Waiting for engine", "Room state will appear automatically", "You can still switch rooms"],
+    },
+  };
+}
+
 /**
  * Hook that wraps SSE or mock state based on environment
  */
-function useQuizState(userId: string | null, onTopicStart?: (event: TopicStartEvent) => void) {
+function useQuizState(userId: string | null, roomId: string | null, onTopicStart?: (event: TopicStartEvent) => void) {
   // SSE connection (pass ENGINE_URL or null, with optional userId for personalized stream)
-  const sseResult = useQuizSSE(ENGINE_URL || null, { userId, onTopicStart });
+  const sseResult = useQuizSSE(ENGINE_URL || null, { userId, roomId, onTopicStart });
   
   // Mock state (fallback when no ENGINE_URL)
   const [mockQuizState, setMockQuizState] = useState<QuizState>(() => 
@@ -95,8 +134,10 @@ function useQuizState(userId: string | null, onTopicStart?: (event: TopicStartEv
   );
 
   // Use SSE state if available, otherwise fall back to mock
-  const quizState = sseResult.state || mockQuizState;
   const isUsingSSE = Boolean(ENGINE_URL);
+  const quizState = isUsingSSE
+    ? sseResult.state || createWaitingQuizState(sseResult.connectionStatus)
+    : mockQuizState;
 
   return {
     quizState,
@@ -113,6 +154,13 @@ function useQuizState(userId: string | null, onTopicStart?: (event: TopicStartEv
 }
 
 export default function MobilePage() {
+  const [roomId, setRoomId] = useState<string | null>(null);
+  const [roomName, setRoomName] = useState<string | null>(null);
+  const [isRoomPickerOpen, setIsRoomPickerOpen] = useState(false);
+  const [leaderboardMode, setLeaderboardMode] = useState<LeaderboardMode>("room-all-time");
+  const [remoteLeaderboard, setRemoteLeaderboard] = useState<Leaderboard | null>(null);
+  const [leaderboardLoading, setLeaderboardLoading] = useState(false);
+  const [leaderboardError, setLeaderboardError] = useState<string | null>(null);
   // Registration state
   const [userId, setUserId] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
@@ -124,30 +172,57 @@ export default function MobilePage() {
   const mePhaseRef = useRef<QuizPhase>("OPEN");
   const meInitializedRef = useRef(false);
   
-  // Check for existing registration on mount
+  // Restore selected room on mount
+  useEffect(() => {
+    const storedRoomId = localStorage.getItem(ROOM_ID_KEY);
+    const storedRoomName = localStorage.getItem(ROOM_NAME_KEY);
+
+    if (storedRoomId) {
+      setRoomId(storedRoomId);
+      setRoomName(storedRoomName || storedRoomId);
+    }
+
+    if (!storedRoomId) {
+      setIsCheckingRegistration(false);
+    }
+  }, []);
+
+  // Sync registration when room changes
   useEffect(() => {
     if (!ENGINE_URL) {
       setIsCheckingRegistration(false);
       return;
     }
 
-    const storedUserId = localStorage.getItem("userId");
-    const storedUsername = localStorage.getItem("playerName");
+    if (!roomId) {
+      setIsRegistered(false);
+      setUserId(null);
+      setUsername(null);
+      setIsCheckingRegistration(false);
+      return;
+    }
+
+    const storedUserId = localStorage.getItem(USER_ID_KEY);
+    const storedUsername = localStorage.getItem(USERNAME_KEY);
 
     if (!storedUserId || !storedUsername) {
+      setIsRegistered(false);
+      setUserId(null);
+      setUsername(null);
       setIsCheckingRegistration(false);
       return;
     }
 
     let cancelled = false;
+    setIsCheckingRegistration(true);
 
-    fetch(`${ENGINE_URL}/register/me?userId=${encodeURIComponent(storedUserId)}`)
+    fetch(`${ENGINE_URL}/register/me?userId=${encodeURIComponent(storedUserId)}&roomId=${encodeURIComponent(roomId)}`)
       .then(async (res) => {
         if (cancelled) return;
 
         if (!res.ok) {
-          localStorage.removeItem("userId");
-          localStorage.removeItem("playerName");
+          localStorage.removeItem(USER_ID_KEY);
+          localStorage.removeItem(USERNAME_KEY);
           localStorage.removeItem(PLAYER_NAME_KEY);
           setIsRegistered(false);
           setUserId(null);
@@ -158,15 +233,15 @@ export default function MobilePage() {
         const data = await res.json();
         setUserId(data.userId);
         setUsername(data.username);
-        localStorage.setItem("userId", data.userId);
-        localStorage.setItem("playerName", data.username);
+        localStorage.setItem(USER_ID_KEY, data.userId);
+        localStorage.setItem(USERNAME_KEY, data.username);
         localStorage.setItem(PLAYER_NAME_KEY, data.username);
         setIsRegistered(true);
       })
       .catch(() => {
         if (cancelled) return;
-        localStorage.removeItem("userId");
-        localStorage.removeItem("playerName");
+        localStorage.removeItem(USER_ID_KEY);
+        localStorage.removeItem(USERNAME_KEY);
         localStorage.removeItem(PLAYER_NAME_KEY);
         setIsRegistered(false);
         setUserId(null);
@@ -181,15 +256,36 @@ export default function MobilePage() {
     return () => {
       cancelled = true;
     };
+  }, [roomId]);
+
+  const handleRoomSelected = useCallback((room: RoomSummary) => {
+    setRoomId(room.roomId);
+    setRoomName(room.name);
+    setIsRoomPickerOpen(false);
+    setLeaderboardMode("room-all-time");
+    setRemoteLeaderboard(null);
+    setLeaderboardError(null);
+    localStorage.setItem(ROOM_ID_KEY, room.roomId);
+    localStorage.setItem(ROOM_NAME_KEY, room.name);
+    setIsCheckingRegistration(Boolean(ENGINE_URL));
+    setIsRegistered(false);
+    setUserId(null);
+    setUsername(null);
   }, []);
   
   // Handle successful registration
   const handleJoined = useCallback((newUserId: string, newUsername: string) => {
     setUserId(newUserId);
     setUsername(newUsername);
+    localStorage.setItem(USER_ID_KEY, newUserId);
+    localStorage.setItem(USERNAME_KEY, newUsername);
     localStorage.setItem(PLAYER_NAME_KEY, newUsername);
     setIsRegistered(true);
     setIsCheckingRegistration(false);
+  }, []);
+
+  const handleSwitchRoom = useCallback(() => {
+    setIsRoomPickerOpen(true);
   }, []);
   
   // Client-local state (never overwritten from server)
@@ -231,7 +327,7 @@ export default function MobilePage() {
     clearTopicComplete,
     clearTopicCountdown,
     clearCongrats,
-  } = useQuizState(userId, handleTopicStart);
+  } = useQuizState(userId, roomId, handleTopicStart);
   
   // Admin drawer state
   const [isAdminOpen, setIsAdminOpen] = useState(false);
@@ -257,9 +353,98 @@ export default function MobilePage() {
     meInitializedRef.current = false;
     clearTopicComplete();
   }, [clearTopicComplete]);
+
+  useEffect(() => {
+    if (!ENGINE_URL || !isUsingSSE) {
+      setRemoteLeaderboard(null);
+      setLeaderboardError(null);
+      setLeaderboardLoading(false);
+      return;
+    }
+
+    if (leaderboardMode === "room-all-time") {
+      setRemoteLeaderboard(null);
+      setLeaderboardError(null);
+      setLeaderboardLoading(false);
+      return;
+    }
+
+    const buildUrl = () => {
+      if (leaderboardMode === "global-all-time") {
+        return `${ENGINE_URL}/leaderboard?period=all-time`;
+      }
+
+      if (!roomId) {
+        return null;
+      }
+
+      if (leaderboardMode === "room-daily") {
+        return `${ENGINE_URL}/rooms/${encodeURIComponent(roomId)}/leaderboard?period=daily`;
+      }
+
+      return `${ENGINE_URL}/rooms/${encodeURIComponent(roomId)}/leaderboard?period=weekly`;
+    };
+
+    const url = buildUrl();
+    if (!url) {
+      setRemoteLeaderboard(null);
+      setLeaderboardError(null);
+      setLeaderboardLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+
+    const fetchLeaderboard = async () => {
+      setLeaderboardLoading(true);
+
+      try {
+        const response = await fetch(url, { cache: "no-store" });
+        const data = await response.json();
+
+        if (cancelled) {
+          return;
+        }
+
+        if (!response.ok) {
+          setLeaderboardError(data.error || `Failed to load leaderboard (${response.status})`);
+          setRemoteLeaderboard(null);
+          return;
+        }
+
+        setRemoteLeaderboard(data.leaderboard as Leaderboard);
+        setLeaderboardError(null);
+      } catch (error) {
+        if (cancelled) {
+          return;
+        }
+
+        setLeaderboardError(error instanceof Error ? error.message : "Failed to load leaderboard");
+        setRemoteLeaderboard(null);
+      } finally {
+        if (!cancelled) {
+          setLeaderboardLoading(false);
+        }
+      }
+    };
+
+    void fetchLeaderboard();
+    const intervalId = window.setInterval(() => {
+      void fetchLeaderboard();
+    }, LEADERBOARD_REFRESH_MS);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(intervalId);
+    };
+  }, [ENGINE_URL, isUsingSSE, leaderboardMode, roomId]);
+
+  const leaderboardState = useMemo(() => {
+    return remoteLeaderboard ?? quizState.leaderboard;
+  }, [remoteLeaderboard, quizState.leaderboard]);
   
   // Diff leaderboard for change animations
-  const leaderboardWithChanges = useLeaderboardDiff(quizState.leaderboard);
+  const leaderboardWithChanges = useLeaderboardDiff(leaderboardState);
 
   // Local player data (score tracking, streak, rank) - fallback when 'me' not available
   const localPlayer = useLocalPlayer(quizState.leaderboard, quizState.phase);
@@ -489,6 +674,7 @@ export default function MobilePage() {
             userId,
             username: username ?? undefined,
             choiceId: id,
+            roomId,
           }),
         });
 
@@ -543,7 +729,7 @@ export default function MobilePage() {
         }, 1500);
       }, 100);
     }
-  }, [quizState.phase, quizState.questionIndex, quizState.endsAtMs, isUsingSSE, setMockQuizState, userId, username]);
+  }, [quizState.phase, quizState.questionIndex, quizState.endsAtMs, isUsingSSE, setMockQuizState, userId, username, roomId]);
 
   // Demo: Reset for testing (only in mock mode)
   const handleReset = useCallback(() => {
@@ -568,12 +754,26 @@ export default function MobilePage() {
           <div className="flex flex-col flex-1 min-h-screen">
             {/* TopBar - always visible, not covered by overlays */}
             <TopBar
+              roomName={quizState.roomName || roomName || undefined}
               topic={quizState.themeTitle}
               questionNumber={quizState.questionIndex + 1}
               totalQuestions={quizState.totalQuestions}
               connectionStatus={connectionStatus}
               onOpenAdmin={() => setIsAdminOpen(true)}
+              onSwitchRoom={isUsingSSE ? handleSwitchRoom : undefined}
             />
+
+            {isUsingSSE && connectionStatus !== "connected" && (
+              <div className="px-3 pt-2">
+                <div className="rounded-xl border border-(--border) bg-(--card)/85 px-3 py-2 text-[11px] text-(--text-secondary)">
+                  {connectionStatus === "disconnected"
+                    ? "Live engine unavailable. The app is retrying in the background."
+                    : connectionStatus === "reconnecting"
+                      ? "Reconnecting to the live room..."
+                      : "Connecting to the live room..."}
+                </div>
+              </div>
+            )}
             
             {/* Main content area - can be overlayed by CongratsOverlay */}
             <div className="relative flex-1 flex flex-col">
@@ -673,6 +873,13 @@ export default function MobilePage() {
                 <LeaderboardColumn
                   scorers={leaderboardWithChanges.topScorers}
                   streakers={leaderboardWithChanges.topStreaks}
+                  roomName={leaderboardState.roomName || quizState.roomName || roomName || undefined}
+                  scope={leaderboardState.scope}
+                  period={leaderboardState.period}
+                  selectedMode={leaderboardMode}
+                  onModeChange={setLeaderboardMode}
+                  loading={leaderboardLoading}
+                  error={leaderboardError}
                 />
               </div>
             )}
@@ -689,11 +896,23 @@ export default function MobilePage() {
         onClose={() => setIsAdminOpen(false)}
         engineUrl={ENGINE_URL || null}
         connectionStatus={connectionStatus}
+        roomId={roomId}
+        roomName={roomName}
+        onRoomSelected={handleRoomSelected}
       />
       
       {/* Join Game Modal - shown only when using SSE backend and not registered */}
-      {!isCheckingRegistration && isUsingSSE && !isRegistered && (
-        <JoinGameModal onJoined={handleJoined} />
+      {!isCheckingRegistration && isUsingSSE && ENGINE_URL && (!roomId || isRoomPickerOpen) && (
+        <RoomSelectionModal
+          engineUrl={ENGINE_URL}
+          onSelected={handleRoomSelected}
+          currentRoomId={roomId}
+          onClose={roomId ? () => setIsRoomPickerOpen(false) : undefined}
+        />
+      )}
+
+      {!isCheckingRegistration && isUsingSSE && !!roomId && !isRegistered && (
+        <JoinGameModal roomId={roomId} roomName={roomName} onJoined={handleJoined} />
       )}
       
       {/* Topic Countdown Overlay - shown before a new topic starts */}

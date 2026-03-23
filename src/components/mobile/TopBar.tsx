@@ -6,13 +6,15 @@ import type { ConnectionStatus } from "@/types/quiz";
 
 interface TopBarProps {
   topic?: string;
+  roomName?: string;
   questionNumber?: number;
   totalQuestions?: number;
   connectionStatus?: ConnectionStatus;
   onOpenAdmin?: () => void;
+  onSwitchRoom?: () => void;
 }
 
-export function TopBar({ topic, questionNumber, totalQuestions, connectionStatus = "connected", onOpenAdmin }: TopBarProps) {
+export function TopBar({ topic, roomName, questionNumber, totalQuestions, connectionStatus = "connected", onOpenAdmin, onSwitchRoom }: TopBarProps) {
   const { theme, toggleTheme } = useTheme();
 
   // Connection status display
@@ -97,6 +99,20 @@ export function TopBar({ topic, questionNumber, totalQuestions, connectionStatus
 
       {/* Second row: Topic badge + Question count */}
       <div className="flex items-center gap-2 mt-1.5">
+        {roomName && (
+          <button
+            type="button"
+            onClick={onSwitchRoom}
+            className="inline-flex items-center gap-1 rounded-full border border-(--border) px-2 py-0.5 text-[9px] font-semibold tracking-wider text-(--text-secondary) transition-colors hover:border-(--accent) hover:text-foreground"
+          >
+            <span>{roomName}</span>
+            {onSwitchRoom ? (
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            ) : null}
+          </button>
+        )}
         {topic && (
           <span className="px-2 py-0.5 rounded-full bg-linear-to-r from-(--accent) to-(--accent2) text-white text-[9px] font-semibold tracking-wider">
             {topic}

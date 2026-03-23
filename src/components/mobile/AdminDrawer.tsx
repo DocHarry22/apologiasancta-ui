@@ -12,15 +12,18 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useAdminPanel } from "@/hooks/useAdminPanel";
-import { quizActions, topicActions, type LoopMode } from "@/lib/engineAdmin";
-import type { ConnectionStatus } from "@/types/quiz";
-import type { AdminStatus, TopicInfo } from "@/lib/engineAdmin";
+import { quizActions, roomActions, topicActions, type LoopMode } from "@/lib/engineAdmin";
+import type { ConnectionStatus, RoomSummary } from "@/types/quiz";
+import type { AdminRoomStatus, AdminStatus, HealthResponse, TopicInfo } from "@/lib/engineAdmin";
 
 interface AdminDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   engineUrl: string | null;
   connectionStatus: ConnectionStatus;
+  roomId?: string | null;
+  roomName?: string | null;
+  onRoomSelected?: (room: RoomSummary) => void;
 }
 
 // Connection status config
@@ -31,33 +34,48 @@ const STATUS_CONFIG = {
   disconnected: { label: "OFFLINE", color: "text-red-500" },
 };
 
-export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: AdminDrawerProps) {
+export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, roomId = null, roomName = null, onRoomSelected }: AdminDrawerProps) {
   const admin = useAdminPanel(engineUrl);
   const [tokenInput, setTokenInput] = useState("");
   const [tokenError, setTokenError] = useState<string | null>(null);
   const [availableTopics, setAvailableTopics] = useState<TopicInfo[]>([]);
+  const [availableRooms, setAvailableRooms] = useState<AdminRoomStatus[]>([]);
   const [selectedTopicId, setSelectedTopicId] = useState<string>("");
+  const [newRoomName, setNewRoomName] = useState("");
+  const [newRoomId, setNewRoomId] = useState("");
   const [topicLoading, setTopicLoading] = useState(false);
+  const [roomLoading, setRoomLoading] = useState(false);
   const [countdownSeconds, setCountdownSeconds] = useState(10);
+  const [roomNotice, setRoomNotice] = useState<string | null>(null);
   // Loop control state
   const [topicLoopMode, setTopicLoopMode] = useState<LoopMode>("off");
   const [seriesLoopMode, setSeriesLoopMode] = useState<LoopMode>("off");
   const [loopLoading, setLoopLoading] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
 
-  // Fetch available topics when drawer opens and admin is authenticated
+  const refreshRoomScopedData = useCallback(async () => {
+    if (!isOpen || !engineUrl || !admin.adminToken || !admin.isUnlocked) return;
+
+    const [topicsResult, roomsResult] = await Promise.all([
+      topicActions.getSequence(engineUrl, admin.adminToken, roomId),
+      roomActions.list(engineUrl, admin.adminToken),
+    ]);
+
+    if (topicsResult.success && topicsResult.data) {
+      setAvailableTopics(topicsResult.data.availableTopicsWithTitles);
+      setCountdownSeconds(topicsResult.data.config.countdownSeconds);
+      setTopicLoopMode(topicsResult.data.config.topicLoopMode);
+      setSeriesLoopMode(topicsResult.data.config.seriesLoopMode);
+    }
+
+    if (roomsResult.success && roomsResult.data) {
+      setAvailableRooms(roomsResult.data.rooms);
+    }
+  }, [isOpen, engineUrl, admin.adminToken, admin.isUnlocked, roomId]);
+
   useEffect(() => {
-    const fetchTopics = async () => {
-      if (!isOpen || !engineUrl || !admin.adminToken || !admin.isUnlocked) return;
-      
-      const result = await topicActions.getSequence(engineUrl, admin.adminToken);
-      if (result.success && result.data) {
-        setAvailableTopics(result.data.availableTopicsWithTitles);
-      }
-    };
-    
-    fetchTopics();
-  }, [isOpen, engineUrl, admin.adminToken, admin.isUnlocked]);
+    void refreshRoomScopedData();
+  }, [refreshRoomScopedData]);
 
   // Close drawer when clicking backdrop
   const handleBackdropClick = useCallback((e: React.MouseEvent) => {
@@ -94,12 +112,16 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
 
   // Handle admin action
   const handleAction = async (action: "start" | "pause" | "next" | "reset" | "status") => {
-    await admin.executeAction(action);
+    await admin.executeAction(action, roomId);
   };
 
   // Handle shuffle (reshuffle current question pool)
   const handleShuffle = async () => {
     if (!engineUrl || !admin.adminToken) return;
+    if (roomId && roomId !== "global") {
+      setRoomNotice("Pool shuffle currently targets the default room only.");
+      return;
+    }
     
     // Call setPool with empty topicIds (uses all) and shuffle=true
     const result = await quizActions.setPool(engineUrl, admin.adminToken, [], true);
@@ -115,7 +137,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
     if (!engineUrl || !admin.adminToken || !selectedTopicId) return;
     
     setTopicLoading(true);
-    const result = await topicActions.startTopic(engineUrl, admin.adminToken, selectedTopicId);
+    const result = await topicActions.startTopic(engineUrl, admin.adminToken, selectedTopicId, roomId);
     setTopicLoading(false);
     
     if (result.success && result.data) {
@@ -129,7 +151,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
     if (!engineUrl || !admin.adminToken) return;
     
     setTopicLoading(true);
-    const result = await topicActions.startNextTopic(engineUrl, admin.adminToken);
+    const result = await topicActions.startNextTopic(engineUrl, admin.adminToken, undefined, roomId);
     setTopicLoading(false);
     
     if (result.success && result.data) {
@@ -141,7 +163,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
   const handleCancelAutoAdvance = async () => {
     if (!engineUrl || !admin.adminToken) return;
     
-    const result = await topicActions.cancelAutoAdvance(engineUrl, admin.adminToken);
+    const result = await topicActions.cancelAutoAdvance(engineUrl, admin.adminToken, roomId);
     if (result.success) {
       admin.clearResult();
     }
@@ -152,7 +174,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
     if (!engineUrl || !admin.adminToken) return;
     
     setTopicLoading(true);
-    const result = await topicActions.skipTopic(engineUrl, admin.adminToken);
+    const result = await topicActions.skipTopic(engineUrl, admin.adminToken, roomId);
     setTopicLoading(false);
     
     if (result.success && result.data) {
@@ -165,7 +187,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
     if (!engineUrl || !admin.adminToken) return;
     
     setTopicLoading(true);
-    const result = await topicActions.replayTopic(engineUrl, admin.adminToken);
+    const result = await topicActions.replayTopic(engineUrl, admin.adminToken, roomId);
     setTopicLoading(false);
     
     if (result.success && result.data) {
@@ -182,7 +204,8 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
       engineUrl, 
       admin.adminToken, 
       countdownSeconds,
-      selectedTopicId || undefined
+      selectedTopicId || undefined,
+      roomId
     );
     setTopicLoading(false);
     
@@ -196,7 +219,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
     if (!engineUrl || !admin.adminToken) return;
     
     setLoopLoading(true);
-    const result = await topicActions.setTopicLoop(engineUrl, admin.adminToken, mode);
+    const result = await topicActions.setTopicLoop(engineUrl, admin.adminToken, mode, roomId);
     setLoopLoading(false);
     
     if (result.success && result.data) {
@@ -210,7 +233,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
     if (!engineUrl || !admin.adminToken) return;
     
     setLoopLoading(true);
-    const result = await topicActions.setSeriesLoop(engineUrl, admin.adminToken, mode);
+    const result = await topicActions.setSeriesLoop(engineUrl, admin.adminToken, mode, roomId);
     setLoopLoading(false);
     
     if (result.success && result.data) {
@@ -224,12 +247,69 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
     if (!engineUrl || !admin.adminToken) return;
     
     setLoopLoading(true);
-    const result = await topicActions.setCountdownDuration(engineUrl, admin.adminToken, countdownSeconds);
+    const result = await topicActions.setCountdownDuration(engineUrl, admin.adminToken, countdownSeconds, roomId);
     setLoopLoading(false);
     
     if (result.success && result.data) {
       setCountdownSeconds(result.data.countdownSeconds);
       admin.clearResult();
+    }
+  };
+
+  const handleSelectRoom = useCallback((room: AdminRoomStatus) => {
+    onRoomSelected?.({
+      roomId: room.roomId,
+      name: room.name,
+      isActive: room.isActive,
+      playerCount: room.playerCount,
+    });
+    setRoomNotice(`Selected room: ${room.name}`);
+  }, [onRoomSelected]);
+
+  const handleCreateRoom = async () => {
+    if (!engineUrl || !admin.adminToken) return;
+
+    const trimmedName = newRoomName.trim();
+    const trimmedRoomId = newRoomId.trim().toLowerCase();
+    if (!trimmedName) {
+      setRoomNotice("Room name is required.");
+      return;
+    }
+
+    setRoomLoading(true);
+    const result = await roomActions.create(engineUrl, admin.adminToken, trimmedName, trimmedRoomId || undefined);
+    setRoomLoading(false);
+
+    if (result.success && result.data) {
+      setNewRoomName("");
+      setNewRoomId("");
+      setRoomNotice(`Created room: ${result.data.room.name}`);
+      await refreshRoomScopedData();
+      handleSelectRoom({
+        roomId: result.data.room.roomId,
+        name: result.data.room.name,
+        isActive: result.data.room.isActive,
+        playerCount: result.data.room.playerCount,
+        connectedClients: 0,
+        gameplayPlayerCount: 0,
+      });
+    } else {
+      setRoomNotice(result.error || "Failed to create room.");
+    }
+  };
+
+  const handleCloseRoom = async (targetRoomId: string) => {
+    if (!engineUrl || !admin.adminToken || targetRoomId === "global") return;
+
+    setRoomLoading(true);
+    const result = await roomActions.close(engineUrl, admin.adminToken, targetRoomId);
+    setRoomLoading(false);
+
+    if (result.success && result.data) {
+      setRoomNotice(`Closed room: ${result.data.room.name}`);
+      await refreshRoomScopedData();
+    } else {
+      setRoomNotice(result.error || "Failed to close room.");
     }
   };
 
@@ -312,6 +392,87 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
                 </div>
               </div>
 
+              <div className="p-3 rounded-lg bg-background border border-(--border)">
+                <div className="flex items-center justify-between gap-2">
+                  <div>
+                    <p className="text-xs text-(--muted)">Active Room</p>
+                    <p className="text-sm font-semibold text-foreground">{roomName || roomId || "No room selected"}</p>
+                    {roomId ? <p className="text-[10px] font-mono text-(--muted)">{roomId}</p> : null}
+                  </div>
+                  <button
+                    onClick={() => void refreshRoomScopedData()}
+                    disabled={roomLoading || !admin.adminToken}
+                    className="rounded-lg border border-(--border) px-2 py-1 text-[10px] font-semibold text-(--accent) disabled:opacity-50"
+                  >
+                    Refresh Rooms
+                  </button>
+                </div>
+
+                <div className="mt-3 space-y-2">
+                  <div className="max-h-32 space-y-1 overflow-y-auto rounded-lg border border-(--border) p-1">
+                    {availableRooms.map((room) => {
+                      const selected = room.roomId === roomId;
+                      return (
+                        <div key={room.roomId} className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handleSelectRoom(room)}
+                            className={`flex-1 rounded-lg px-2 py-2 text-left text-[11px] transition-colors ${selected ? "bg-(--accent)/15 text-foreground" : "bg-(--card) text-(--text-secondary) hover:text-foreground"}`}
+                          >
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="truncate font-semibold">{room.name}</span>
+                              <span className="text-[9px] font-mono uppercase">{room.isActive ? "open" : "closed"}</span>
+                            </div>
+                            <div className="mt-1 text-[9px] text-(--muted)">
+                              {room.roomId} • p:{room.playerCount} • l:{room.connectedClients}
+                            </div>
+                          </button>
+                          {room.roomId !== "global" ? (
+                            <button
+                              type="button"
+                              onClick={() => void handleCloseRoom(room.roomId)}
+                              disabled={roomLoading || !room.isActive}
+                              className="rounded-lg bg-red-600 px-2 py-2 text-[10px] font-semibold text-white disabled:opacity-40"
+                            >
+                              Close
+                            </button>
+                          ) : null}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-[1fr_1fr_auto]">
+                    <input
+                      type="text"
+                      value={newRoomName}
+                      onChange={(event) => setNewRoomName(event.target.value)}
+                      placeholder="New room name"
+                      className="rounded-lg border border-(--border) bg-(--card) px-3 py-2 text-xs text-foreground outline-none focus:border-(--accent)"
+                    />
+                    <input
+                      type="text"
+                      value={newRoomId}
+                      onChange={(event) => setNewRoomId(event.target.value)}
+                      placeholder="room-id (optional)"
+                      className="rounded-lg border border-(--border) bg-(--card) px-3 py-2 text-xs text-foreground outline-none focus:border-(--accent)"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => void handleCreateRoom()}
+                      disabled={roomLoading || !admin.adminToken}
+                      className="rounded-lg bg-(--accent) px-3 py-2 text-xs font-semibold text-white disabled:opacity-40"
+                    >
+                      {roomLoading ? "..." : "Create"}
+                    </button>
+                  </div>
+
+                  {roomNotice ? (
+                    <p className="text-[10px] text-(--muted)">{roomNotice}</p>
+                  ) : null}
+                </div>
+              </div>
+
               {/* Action Buttons */}
               <div className="grid grid-cols-3 gap-2">
                 <ActionButton
@@ -341,7 +502,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus }: Ad
                 <ActionButton
                   label="Shuffle"
                   onClick={handleShuffle}
-                  disabled={admin.loading || !admin.adminToken}
+                  disabled={admin.loading || !admin.adminToken || Boolean(roomId && roomId !== "global")}
                   color="purple"
                 />
                 <ActionButton
@@ -669,7 +830,17 @@ interface ResultDisplayProps {
 
 function ResultDisplay({ result, onClear }: ResultDisplayProps) {
   const isStatus = result.action === "status" && result.success && !!result.data;
+  const isHealth = result.action === "health" && result.success && !!result.data;
   const statusData = isStatus ? (result.data as AdminStatus) : undefined;
+  const healthData = isHealth ? (result.data as HealthResponse) : undefined;
+
+  const formatTimestamp = (timestamp: number | null | undefined): string => {
+    if (!timestamp) {
+      return "never";
+    }
+
+    return new Date(timestamp).toLocaleString();
+  };
 
   return (
     <div
@@ -693,6 +864,42 @@ phase: ${statusData.phase}
 question: ${statusData.questionIndex + 1}/${statusData.totalQuestions}
 clients: ${statusData.connectedClients}`}
             </pre>
+          )}
+
+          {isHealth && healthData && (
+            <>
+              <pre className="mt-2 text-[10px] text-(--muted) font-mono bg-background p-2 rounded overflow-x-auto">
+{`ok: ${healthData.ok}
+time: ${healthData.time}
+uptime: ${Math.round(healthData.uptime)}s
+clients: ${healthData.clients}
+rooms: ${healthData.rooms ? `${healthData.rooms.active}/${healthData.rooms.total} active` : "n/a"}
+persistence: ${healthData.persistence?.configured ? "configured" : "not configured"}
+savePending: ${healthData.persistence?.savePending ? "yes" : "no"}
+lastSaved: ${formatTimestamp(healthData.persistence?.lastSavedAt)}
+lastRestored: ${formatTimestamp(healthData.persistence?.lastRestoredAt)}`}
+              </pre>
+
+              {healthData.roomDetails && healthData.roomDetails.length > 0 && (
+                <div className="mt-2 rounded bg-background p-2">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-(--muted)">Rooms</p>
+                  <div className="mt-2 space-y-1.5">
+                    {healthData.roomDetails.map((room) => (
+                      <div key={room.roomId} className="flex items-start justify-between gap-2 text-[10px]">
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate font-semibold text-foreground">{room.name}</p>
+                          <p className="truncate font-mono text-(--muted)">{room.roomId}</p>
+                        </div>
+                        <div className="shrink-0 text-right font-mono text-(--muted)">
+                          <p>{room.isActive ? "active" : "closed"}</p>
+                          <p>m:{room.members} l:{room.connectedClients} p:{room.gameplayPlayers}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
         <button

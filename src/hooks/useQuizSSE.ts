@@ -6,6 +6,8 @@ import type { QuizState, ConnectionStatus, TopicCompleteEvent, TopicStartEvent, 
 interface UseQuizSSEOptions {
   /** Optional user ID for personalized SSE stream (enables 'me' field in state) */
   userId?: string | null;
+  /** Optional room ID for room-scoped streams */
+  roomId?: string | null;
   /** Callback fired when a topic complete event is received */
   onTopicComplete?: (event: TopicCompleteEvent) => void;
   /** Callback fired when a topic start event is received */
@@ -61,7 +63,7 @@ export function useQuizSSE(
   engineUrl: string | null,
   options: UseQuizSSEOptions = {}
 ): UseQuizSSEResult {
-  const { userId, onTopicComplete, onTopicStart, onTopicCountdown, onCongrats } = options;
+  const { userId, roomId, onTopicComplete, onTopicStart, onTopicCountdown, onCongrats } = options;
   // Initialize state based on engineUrl
   const [quizState, setQuizState] = useState<QuizState | null>(null);
   const [topicCompleteEvent, setTopicCompleteEvent] = useState<TopicCompleteEvent | null>(null);
@@ -152,7 +154,12 @@ export function useQuizSSE(
     if (!engineUrl) return;
     
     try {
-      const response = await fetch(`${engineUrl}/state`);
+      const query = new URLSearchParams();
+      if (roomId) {
+        query.set("roomId", roomId);
+      }
+
+      const response = await fetch(`${engineUrl}/state${query.size > 0 ? `?${query.toString()}` : ""}`);
       if (response.ok) {
         const state: QuizState = await response.json();
         setQuizState(state);
@@ -170,7 +177,7 @@ export function useQuizSSE(
       console.warn("[useQuizSSE] Poll failed:", msg);
       setLastError(msg);
     }
-  }, [engineUrl, connectionStatus]);
+  }, [engineUrl, connectionStatus, roomId]);
 
   /**
    * Start polling fallback
@@ -214,8 +221,15 @@ export function useQuizSSE(
 
       // Build events URL with optional userId for personalized stream
       let eventsUrl = `${engineUrl}/events`;
+      const query = new URLSearchParams();
       if (userId) {
-        eventsUrl += `?userId=${encodeURIComponent(userId)}`;
+        query.set("userId", userId);
+      }
+      if (roomId) {
+        query.set("roomId", roomId);
+      }
+      if (query.size > 0) {
+        eventsUrl += `?${query.toString()}`;
       }
       
       console.log(`[useQuizSSE] Connecting to ${eventsUrl}`);
@@ -328,7 +342,7 @@ export function useQuizSSE(
         }, delay);
       };
     };
-  }, [engineUrl, userId, closeConnection, clearTimers, stopPolling, startPolling]);
+  }, [engineUrl, userId, roomId, closeConnection, clearTimers, stopPolling, startPolling]);
 
   /**
    * Initialize connection on mount (only when engineUrl is provided)

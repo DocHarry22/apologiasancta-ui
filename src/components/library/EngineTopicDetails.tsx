@@ -3,8 +3,9 @@
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { getEngineUrl } from "@/lib/publicEnv";
 
-const ENGINE_URL = process.env.NEXT_PUBLIC_ENGINE_URL;
+const ENGINE_URL = getEngineUrl();
 
 interface EngineChoice {
   id: string;

@@ -9,7 +9,9 @@ import AuthorForm from "./AuthorForm";
 import JsonPreview from "./JsonPreview";
 import BatchImport from "./BatchImport";
 import EngineControl from "./EngineControl";
+import EngineHealthPanel from "./EngineHealthPanel";
 import type { Question, QuestionChoiceId } from "@/types/content";
+import { getEngineUrl } from "@/lib/publicEnv";
 
 interface Props {
   topics: TopicWithCount[];
@@ -23,7 +25,7 @@ interface QueuedQuestion {
 
 type TabId = "create" | "import" | "engine";
 
-const ENGINE_URL = process.env.NEXT_PUBLIC_ENGINE_URL || "https://apologiasancta-engine.onrender.com";
+const ENGINE_URL = getEngineUrl();
 
 function getInitialAdminToken(): string {
   if (typeof window === "undefined") {
@@ -75,6 +77,13 @@ export default function AuthorDashboardClient({ topics }: Props) {
       setTokenValidation("unknown");
       setTokenValidationError("");
       setValidatedToken("");
+      return;
+    }
+
+    if (!ENGINE_URL) {
+      setTokenValidation("invalid");
+      setValidatedToken("");
+      setTokenValidationError("NEXT_PUBLIC_ENGINE_URL is not configured");
       return;
     }
 
@@ -477,26 +486,37 @@ export default function AuthorDashboardClient({ topics }: Props) {
         {/* Import Tab Content */}
         {activeTab === "import" && (
           <div className="rounded-xl border border-(--border) bg-(--card) p-4">
-            {tokenValidation === "valid" && adminToken.trim() === validatedToken ? (
+            {ENGINE_URL && tokenValidation === "valid" && adminToken.trim() === validatedToken ? (
               <BatchImport
                 engineUrl={ENGINE_URL}
                 adminToken={adminToken}
                 topics={topics.map((t) => ({ id: t.id, title: t.title }))}
               />
             ) : (
-              <p className="text-sm text-(--muted)">Validate the admin token above to unlock Batch Import.</p>
+              <p className="text-sm text-(--muted)">
+                {ENGINE_URL
+                  ? "Validate the admin token above to unlock Batch Import."
+                  : "Set NEXT_PUBLIC_ENGINE_URL to enable Batch Import."}
+              </p>
             )}
           </div>
         )}
 
         {/* Engine Tab Content */}
         {activeTab === "engine" && (
-          <div className="rounded-xl border border-(--border) bg-(--card) p-4">
-            {tokenValidation === "valid" && adminToken.trim() === validatedToken ? (
-              <EngineControl engineUrl={ENGINE_URL} adminToken={adminToken} />
-            ) : (
-              <p className="text-sm text-(--muted)">Validate the admin token above to unlock Engine controls.</p>
-            )}
+          <div className="space-y-4">
+            {ENGINE_URL ? <EngineHealthPanel engineUrl={ENGINE_URL} /> : null}
+            <div className="rounded-xl border border-(--border) bg-(--card) p-4">
+              {ENGINE_URL && tokenValidation === "valid" && adminToken.trim() === validatedToken ? (
+                <EngineControl engineUrl={ENGINE_URL} adminToken={adminToken} />
+              ) : (
+                <p className="text-sm text-(--muted)">
+                  {ENGINE_URL
+                    ? "Validate the admin token above to unlock Engine controls."
+                    : "Set NEXT_PUBLIC_ENGINE_URL to enable Engine controls."}
+                </p>
+              )}
+            </div>
           </div>
         )}
       </div>

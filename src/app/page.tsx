@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { InstallActions } from "@/components/home/InstallActions";
+import { isEngineConfigured } from "@/lib/publicEnv";
 
 export default function Home() {
   const authorEnabled = process.env.NEXT_PUBLIC_AUTHOR_ENABLED === "true";
-  const engineConfigured = !!process.env.NEXT_PUBLIC_ENGINE_URL;
+  const engineConfigured = isEngineConfigured();
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -123,6 +125,8 @@ export default function Home() {
             )}
           </div>
         </section>
+
+        <InstallActions />
 
         {/* How It Works - Players */}
         <section className="mt-12 space-y-4">
