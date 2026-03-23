@@ -1,35 +1,50 @@
 # Apologia Sancta UI
 
-Frontend for **Apologia Sancta Live** — a real-time theology quiz platform with mobile play and OBS overlay support.
+Next.js frontend for Apologia Sancta Live, including the public landing page, room-aware mobile play experience, authoring dashboard, installable web app flow, and Android wrapper scaffolding.
 
-Built with Next.js 16, React 19, and Tailwind CSS 4.
+Built with Next.js 16, React 19, Tailwind CSS 4, and Capacitor 7.
 
 ## Features
 
-- **Mobile Play UI** (`/mobile`) — Full-featured quiz interface for mobile players
-- **Real-time Updates** — SSE connection to backend with automatic reconnection
-- **Personal Score HUD** — Animated score feedback with rank tracking
-- **Leaderboard** — Live top 10 scorers and top 5 streakers
-- **Teaching Moments** — Expandable cards with catechism references
-- **Dark/Light Theme** — CSS variable-based theming
-- **Registration Flow** — Unique username system with collision prevention
+- Room-aware mobile trivia flow with room switching while preserving player identity
+- Real-time SSE state updates with automatic reconnect and polling fallback
+- Room and global leaderboard views driven by the engine's `daily`, `weekly`, and `all-time` windows
+- Author dashboard for content import, engine controls, persistence status, and room management
+- Installable PWA flow with manifest, generated app icons, offline fallback, and service-worker registration
+- Android wrapper scaffolding via Capacitor for shipping the web app inside a native shell
+- Landing page install/download CTAs for browser install, iPhone Add to Home Screen, and Android APK distribution
 
-## Pages
+## Routes
 
 | Route | Description |
 |-------|-------------|
-| `/` | Landing page |
-| `/mobile` | Mobile play interface |
-| `/library` | Content library |
-| `/author` | Author dashboard |
+| `/` | Landing page with install/download actions |
+| `/mobile` | Mobile player experience |
+| `/library` | Public topic library |
+| `/library/[topicId]` | Topic detail page |
+| `/author` | Protected author and engine dashboard |
+| `/author/login` | Author login |
+| `/manifest.webmanifest` | PWA manifest route |
+| `/offline` | Offline fallback page |
+
+The `/author` area is protected by middleware-backed session checks.
+
+## Engine Compatibility
+
+This UI is built for the room-aware engine release baseline:
+
+- shared live topic progression across rooms
+- room-scoped memberships, answers, scores, and leaderboard state
+- room admin controls under `/admin/rooms/:roomId/*`
+- paused restart recovery after engine restore
 
 ## Setup
 
 ### Prerequisites
 
 - Node.js 18+
-- npm or yarn
-- Running [apologiasancta-engine](../apologiasancta-engine) backend
+- npm
+- A running `apologiasancta-engine` instance
 
 ### Installation
 
@@ -39,15 +54,26 @@ npm install
 
 ### Environment Variables
 
-Create a `.env.local` file:
+Create `.env.local` for local development:
 
 ```env
-# Backend API URL
+# Engine API base URL
 NEXT_PUBLIC_ENGINE_URL=http://localhost:4000
 
-# Or for production
-NEXT_PUBLIC_ENGINE_URL=https://your-api-domain.com
+# Optional public APK download link shown on the landing page
+NEXT_PUBLIC_ANDROID_APK_URL=https://example.com/apologiasancta.apk
+
+# Optional canonical web app URL used by Capacitor config fallback
+NEXT_PUBLIC_APP_URL=https://apologiasancta.example.com
 ```
+
+For Android shell builds, Capacitor also reads:
+
+```env
+CAPACITOR_SERVER_URL=https://your-deployed-ui.example.com
+```
+
+`CAPACITOR_SERVER_URL` overrides `NEXT_PUBLIC_APP_URL` in `capacitor.config.ts`.
 
 ### Running
 
@@ -60,140 +86,102 @@ npm run build
 npm start
 ```
 
+## Install and Distribution
+
+### Web app install
+
+- Chromium-based browsers can install from the browser prompt or site install action
+- Safari on iPhone can install through Add to Home Screen
+- The app serves a manifest, app icons, and an offline fallback page for installability
+
+### Android wrapper
+
+The repository includes Capacitor scaffolding and a generated Android project.
+
+```bash
+# Sync web assets/config into Android
+npm run cap:sync
+
+# Add Android platform if needed
+npm run cap:add:android
+
+# Open the Android project in Android Studio
+npm run cap:open:android
+```
+
+The native shell points at the deployed web app URL configured by `CAPACITOR_SERVER_URL` or `NEXT_PUBLIC_APP_URL`.
+
 ## Mobile Play Flow
 
-```
-┌─────────────────────────────────────────┐
-│            JoinGameModal                │
-│  ┌─────────────────────────────────┐    │
-│  │  Enter unique username          │    │
-│  │  [________________]             │    │
-│  │  [Join Game]                    │    │
-│  └─────────────────────────────────┘    │
-└─────────────────────────────────────────┘
-                    │
-                    ▼ (registered)
-┌─────────────────────────────────────────┐
-│  ┌─────────────┐  ┌──────────────────┐  │
-│  │  Question   │  │  Your Score      │  │
-│  │  Card       │  │  Rank #42        │  │
-│  │             │  │  Score: 150      │  │
-│  │  [A] [B]    │  │  Streak: 🔥3     │  │
-│  │  [C] [D]    │  ├──────────────────┤  │
-│  │             │  │  Leaderboard     │  │
-│  │  Teaching   │  │  1. John - 500   │  │
-│  │  Moment     │  │  2. Mary - 450   │  │
-│  └─────────────┘  └──────────────────┘  │
-│  [Ticker: Leader: John (500)]           │
-└─────────────────────────────────────────┘
-```
+1. Player opens `/mobile`.
+2. UI resolves or registers a global player identity.
+3. Player joins a room and receives room-scoped state.
+4. SSE keeps the screen live; polling is used as fallback if the stream drops.
+5. Answer, score, streak, rank, and leaderboard updates remain room-specific.
 
-## Components
+## Author Dashboard
 
-### Mobile Components (`src/components/mobile/`)
+The author dashboard supports:
 
-| Component | Description |
-|-----------|-------------|
-| `Layout` | Two-column layout (80/20 split) |
-| `TopBar` | Theme title, question counter, connection status |
-| `CountdownRing` | Animated countdown timer |
-| `QuestionCard` | Question text display |
-| `AnswerList` | Answer options with selection states |
-| `TeachingMomentCard` | Expandable teaching content |
-| `LeaderboardColumn` | Top scorers and streakers |
-| `YourScoreCard` | Personal score HUD with animations |
-| `TickerBar` | Bottom scrolling ticker |
-| `JoinGameModal` | Registration modal |
-| `AdminDrawer` | Admin controls panel |
+- content batch import and JSON preview
+- engine health and persistence visibility
+- room creation and room closing
+- room-scoped start, pause, resume, next, reset, and topic controls
+- topic-sequence and countdown management
 
-### Hooks (`src/hooks/`)
+## Key Components
 
-| Hook | Description |
-|------|-------------|
-| `useQuizSSE` | SSE connection with reconnection |
-| `useLeaderboardDiff` | Detect leaderboard changes for animations |
-| `useLocalPlayer` | Track local player state |
-| `useScoreDeltaAnimation` | Animate score changes |
+### Mobile UI
 
-## Styling
+| Area | Purpose |
+|------|---------|
+| `src/components/mobile` | Player HUD, answers, leaderboard, ticker, admin drawer |
+| `src/hooks/useQuizSSE.ts` | SSE lifecycle, reconnects, and polling fallback |
+| `src/hooks/useLocalPlayer.ts` | Local identity persistence |
+| `src/hooks/useLeaderboardDiff.ts` | Leaderboard change animation support |
 
-Uses CSS custom properties for theming:
+### Authoring and engine control
 
-```css
-:root {
-  --bg: #f5f3ef;
-  --card: #ffffff;
-  --text: #1a1a1a;
-  --accent: #c9a227;  /* Gold */
-  --correct: #22c55e;
-  --wrong: #ef4444;
-}
+| Area | Purpose |
+|------|---------|
+| `src/components/author` | Dashboard, import, engine control, JSON preview |
+| `src/lib/engineAdmin.ts` | Client wrapper for engine and room admin endpoints |
+| `middleware.ts` | Session gate for `/author` routes |
 
-[data-theme="dark"] {
-  --bg: #1a1816;
-  --card: #242220;
-  --text: #f0ebe3;
-  --accent: #d4af37;
-}
+### Installability
+
+| Area | Purpose |
+|------|---------|
+| `src/components/pwa` | Service worker registration |
+| `public/app-icons` | Generated install icons |
+| `capacitor.config.ts` | Android shell configuration |
+
+## Development
+
+```bash
+# Local development
+npm run dev
+
+# Linting
+npm run lint
+
+# Production verification
+npm run build
 ```
 
 ## Project Structure
 
 ```
 src/
-├── app/
-│   ├── globals.css       # Global styles & theme
-│   ├── layout.tsx        # Root layout
-│   ├── page.tsx          # Landing page
-│   └── mobile/
-│       └── page.tsx      # Mobile play page
-├── components/
-│   └── mobile/
-│       ├── index.ts      # Barrel exports
-│       ├── Layout.tsx
-│       ├── TopBar.tsx
-│       ├── CountdownRing.tsx
-│       ├── QuestionCard.tsx
-│       ├── AnswerList.tsx
-│       ├── TeachingMomentCard.tsx
-│       ├── LeaderboardColumn.tsx
-│       ├── YourScoreCard.tsx
-│       ├── TickerBar.tsx
-│       ├── JoinGameModal.tsx
-│       └── AdminDrawer.tsx
-├── hooks/
-│   ├── useQuizSSE.ts
-│   ├── useLeaderboardDiff.ts
-│   ├── useLocalPlayer.ts
-│   └── useScoreDeltaAnimation.tsx
-├── lib/
-│   ├── theme.tsx
-│   └── scoreColor.ts
-└── types/
-    └── quiz.ts           # TypeScript types
-```
+├── app/                  # Next app routes, pages, and API routes
+├── components/           # Author, library, mobile, UI, and PWA components
+├── hooks/                # Player, SSE, and animation hooks
+├── lib/                  # Engine API clients, content helpers, auth, theme
+├── types/                # Shared frontend types
+└── content/              # Topic content consumed by the UI
 
-## OBS Overlay
-
-For streaming, connect OBS browser source directly to the engine SSE:
-
-```
-URL: http://localhost:4000/events
-```
-
-The UI can be customized for overlay use by creating a dedicated `/overlay` route.
-
-## Development
-
-```bash
-# Run with hot reload
-npm run dev
-
-# Type checking
-npx tsc --noEmit
-
-# Linting
-npm run lint
+android/                  # Capacitor Android project
+public/                   # Static assets
 ```
 
 ## License
