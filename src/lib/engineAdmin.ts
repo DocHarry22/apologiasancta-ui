@@ -55,12 +55,35 @@ export interface AdminRoomMutationResponse {
 }
 
 function buildAdminPath(basePath: string, roomId?: string | null): string {
+  const normalizedBase = basePath.startsWith("/") ? basePath : `/${basePath}`;
+
   if (!roomId) {
-    return basePath;
+    return `/admin${normalizedBase}`;
   }
 
-  const normalizedBase = basePath.startsWith("/") ? basePath : `/${basePath}`;
   return `/admin/rooms/${encodeURIComponent(roomId)}${normalizedBase}`;
+}
+
+async function parseEngineResponse(response: Response): Promise<{
+  data: unknown;
+  parseError?: string;
+}> {
+  const contentType = response.headers.get("content-type") || "";
+
+  if (contentType.toLowerCase().includes("application/json")) {
+    return { data: await response.json() };
+  }
+
+  const text = await response.text();
+  const trimmed = text.trim();
+  const preview = trimmed.slice(0, 120).replace(/\s+/g, " ");
+
+  return {
+    data: null,
+    parseError: preview.startsWith("<!DOCTYPE") || preview.startsWith("<html")
+      ? "Engine returned HTML instead of JSON. Check NEXT_PUBLIC_ENGINE_URL and confirm the engine is running."
+      : `Engine returned a non-JSON response${preview ? `: ${preview}` : ""}`,
+  };
 }
 
 export interface AdminPersistenceSaveResponse {
@@ -108,12 +131,23 @@ export async function engineFetch<T = unknown>(
       body: body ? JSON.stringify(body) : undefined,
     });
 
-    const data = await response.json();
+    const { data, parseError } = await parseEngineResponse(response);
 
-    if (!response.ok) {
+    if (parseError) {
       return {
         success: false,
-        error: data.error || data.message || `HTTP ${response.status}`,
+        error: parseError,
+      };
+    }
+
+    if (!response.ok) {
+      const errorPayload = typeof data === "object" && data !== null ? data as Record<string, unknown> : null;
+      return {
+        success: false,
+        error:
+          (typeof errorPayload?.error === "string" && errorPayload.error) ||
+          (typeof errorPayload?.message === "string" && errorPayload.message) ||
+          `HTTP ${response.status}`,
       };
     }
 
@@ -136,12 +170,22 @@ export async function engineFetch<T = unknown>(
 export async function checkHealth(engineUrl: string): Promise<EngineResponse<HealthResponse>> {
   try {
     const response = await fetch(`${engineUrl}/health`);
-    const data = await response.json();
+    const { data, parseError } = await parseEngineResponse(response);
 
-    if (!response.ok) {
+    if (parseError) {
       return {
         success: false,
-        error: data.error || `HTTP ${response.status}`,
+        error: parseError,
+      };
+    }
+
+    if (!response.ok) {
+      const errorPayload = typeof data === "object" && data !== null ? data as Record<string, unknown> : null;
+      return {
+        success: false,
+        error:
+          (typeof errorPayload?.error === "string" && errorPayload.error) ||
+          `HTTP ${response.status}`,
       };
     }
 
