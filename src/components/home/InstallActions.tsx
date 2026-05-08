@@ -165,18 +165,13 @@ export function InstallActions() {
           title="Android APK"
           description="Download the Android wrapper if you want a native launcher around the hosted live app."
         >
-          {apkUrl ? (
-            <a
-              href={apkUrl}
-              className="inline-flex min-h-11 items-center justify-center rounded-xl border border-(--accent) px-4 py-2 text-sm font-semibold text-(--accent)"
-            >
-              Download APK
-            </a>
-          ) : (
-            <div className="rounded-xl border border-dashed border-(--border) px-4 py-3 text-sm text-(--muted)">
-              APK download is unavailable right now.
-            </div>
-          )}
+          <a
+            href="/downloads/apologia-sancta.apk"
+            download
+            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-(--accent) px-4 py-2 text-sm font-semibold text-(--accent)"
+          >
+            Download APK
+          </a>
           <p className="text-xs leading-relaxed text-(--muted)">
             Lowest-friction first release: hosted-site wrapper, not a fully offline native build.
           </p>
