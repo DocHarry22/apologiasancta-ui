@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { InstallActions } from "@/components/home/InstallActions";
-import { isEngineConfigured } from "@/lib/publicEnv";
+import { getAndroidApkUrl, isEngineConfigured } from "@/lib/publicEnv";
 
 export default function Home() {
   const authorEnabled = process.env.NEXT_PUBLIC_AUTHOR_ENABLED === "true";
   const engineConfigured = isEngineConfigured();
+  const apkUrl = getAndroidApkUrl();
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -36,7 +37,7 @@ export default function Home() {
           <h2 className="text-xs font-medium uppercase tracking-widest text-(--muted)">
             Get Started
           </h2>
-          <div className={`grid gap-4 ${authorEnabled ? "md:grid-cols-2 lg:grid-cols-3" : "md:grid-cols-2"}`}>
+          <div className={`grid gap-4 ${authorEnabled ? "md:grid-cols-2 lg:grid-cols-3" : apkUrl ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
             {/* Live Quiz Card */}
             <Link
               href="/mobile"
@@ -94,6 +95,37 @@ export default function Home() {
               </div>
             </Link>
 
+            {/* Android APK Card */}
+            {apkUrl && (
+              <a
+                href={apkUrl}
+                download
+                className="group relative rounded-xl border border-(--border) bg-(--card) p-6 transition-all hover:border-(--accent) hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--accent) focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-(--accent)/10 text-(--accent)">
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold">Android App</h3>
+                  </div>
+                  <p className="text-sm text-(--text-secondary) leading-relaxed">
+                    Download the native Android APK and install it on your device.
+                  </p>
+                  <div className="pt-2">
+                    <span className="inline-flex items-center gap-1 text-sm font-medium text-(--accent) group-hover:gap-2 transition-all">
+                      Download APK
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </a>
+            )}
+
             {/* Author Card (conditional) */}
             {authorEnabled && (
               <Link
@@ -126,7 +158,9 @@ export default function Home() {
           </div>
         </section>
 
-        <InstallActions />
+        <div id="download">
+          <InstallActions />
+        </div>
 
         {/* How It Works - Players */}
         <section className="mt-12 space-y-4">
