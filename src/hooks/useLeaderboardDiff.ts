@@ -35,7 +35,13 @@ export function useLeaderboardDiff(leaderboard: Leaderboard): LeaderboardWithCha
       const changed = prev 
         ? prev.score !== scorer.score || prev.rank !== scorer.rank
         : true; // New entry
-      return { ...scorer, changed };
+      return {
+        ...scorer,
+        changed,
+        rankDelta: prev ? prev.rank - scorer.rank : undefined,
+        scoreDelta: prev ? scorer.score - prev.score : undefined,
+        enteredTop10: !prev,
+      };
     });
 
     // Diff streakers - mark as changed if streak increased or rank changed
@@ -44,7 +50,11 @@ export function useLeaderboardDiff(leaderboard: Leaderboard): LeaderboardWithCha
       const changed = prev 
         ? prev.streak !== streaker.streak || prev.rank !== streaker.rank
         : true; // New entry
-      return { ...streaker, changed };
+      return {
+        ...streaker,
+        changed,
+        rankDelta: prev ? prev.rank - streaker.rank : undefined,
+      };
     });
 
     // Store current as previous for next effect

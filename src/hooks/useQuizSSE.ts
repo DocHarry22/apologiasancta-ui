@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import type { QuizState, ConnectionStatus, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent, CongratsEvent } from "@/types/quiz";
+import type { AnswerResultEvent, QuizState, ConnectionStatus, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent, CongratsEvent } from "@/types/quiz";
 
 interface UseQuizSSEOptions {
   /** Optional user ID for personalized SSE stream (enables 'me' field in state) */
@@ -16,6 +16,8 @@ interface UseQuizSSEOptions {
   onTopicCountdown?: (event: TopicCountdownEvent) => void;
   /** Callback fired when a congrats event is received */
   onCongrats?: (event: CongratsEvent) => void;
+  /** Callback fired after the engine scores this player's answer */
+  onAnswerResult?: (event: AnswerResultEvent) => void;
 }
 
 interface UseQuizSSEResult {
@@ -28,12 +30,16 @@ interface UseQuizSSEResult {
   topicCountdownEvent: TopicCountdownEvent | null;
   /** Current congrats event (cleared when countdown starts) */
   congratsEvent: CongratsEvent | null;
+  /** Latest answer result for this player */
+  answerResultEvent: AnswerResultEvent | null;
   /** Clear the topic complete event manually */
   clearTopicComplete: () => void;
   /** Clear the topic countdown event manually */
   clearTopicCountdown: () => void;
   /** Clear the congrats event manually */
   clearCongrats: () => void;
+  /** Clear the answer result event manually */
+  clearAnswerResult: () => void;
 }
 
 /** Max reconnection attempts before going OFFLINE */
@@ -63,12 +69,13 @@ export function useQuizSSE(
   engineUrl: string | null,
   options: UseQuizSSEOptions = {}
 ): UseQuizSSEResult {
-  const { userId, roomId, onTopicComplete, onTopicStart, onTopicCountdown, onCongrats } = options;
+  const { userId, roomId, onTopicComplete, onTopicStart, onTopicCountdown, onCongrats, onAnswerResult } = options;
   // Initialize state based on engineUrl
   const [quizState, setQuizState] = useState<QuizState | null>(null);
   const [topicCompleteEvent, setTopicCompleteEvent] = useState<TopicCompleteEvent | null>(null);
   const [topicCountdownEvent, setTopicCountdownEvent] = useState<TopicCountdownEvent | null>(null);
   const [congratsEvent, setCongratsEvent] = useState<CongratsEvent | null>(null);
+  const [answerResultEvent, setAnswerResultEvent] = useState<AnswerResultEvent | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(
     engineUrl ? "connecting" : "disconnected"
   );
@@ -84,6 +91,7 @@ export function useQuizSSE(
   const onTopicStartRef = useRef(onTopicStart);
   const onTopicCountdownRef = useRef(onTopicCountdown);
   const onCongratsRef = useRef(onCongrats);
+  const onAnswerResultRef = useRef(onAnswerResult);
   
   // Keep callback refs up to date
   useEffect(() => {
@@ -101,6 +109,10 @@ export function useQuizSSE(
   useEffect(() => {
     onCongratsRef.current = onCongrats;
   }, [onCongrats]);
+
+  useEffect(() => {
+    onAnswerResultRef.current = onAnswerResult;
+  }, [onAnswerResult]);
 
   /**
    * Clear topic complete event
@@ -121,6 +133,10 @@ export function useQuizSSE(
    */
   const clearCongrats = useCallback(() => {
     setCongratsEvent(null);
+  }, []);
+
+  const clearAnswerResult = useCallback(() => {
+    setAnswerResultEvent(null);
   }, []);
 
   /**
@@ -267,6 +283,7 @@ export function useQuizSSE(
             setTopicCompleteEvent(null);
             setTopicCountdownEvent(null);
             setCongratsEvent(null);
+            setAnswerResultEvent(null);
             onTopicStartRef.current?.(data as TopicStartEvent);
             return;
           }
@@ -284,6 +301,15 @@ export function useQuizSSE(
             setCongratsEvent(data as CongratsEvent);
             setTopicCompleteEvent(null); // Clear any existing topic complete
             onCongratsRef.current?.(data as CongratsEvent);
+            return;
+          }
+
+          if (data.type === "answerResult") {
+            const result = data as AnswerResultEvent;
+            if (!userId || result.userId === userId) {
+              setAnswerResultEvent(result);
+              onAnswerResultRef.current?.(result);
+            }
             return;
           }
           
@@ -372,8 +398,10 @@ export function useQuizSSE(
     topicCompleteEvent,
     topicCountdownEvent,
     congratsEvent,
+    answerResultEvent,
     clearTopicComplete,
     clearTopicCountdown,
     clearCongrats,
+    clearAnswerResult,
   };
 }

@@ -57,6 +57,43 @@ export interface Leaderboard {
   snapshotAtMs?: number;
 }
 
+/** Per-player answer result sent by the engine after scoring. */
+export interface AnswerResultEvent {
+  type: "answerResult";
+  roomId: string;
+  userId: string;
+  questionIndex: number;
+  choiceId: string;
+  correctId: string;
+  isCorrect: boolean;
+  pointsAwarded: number;
+  streak: number;
+  previousRank: number | null;
+  newRank: number | null;
+  rankDelta: number | null;
+  distanceToTop10?: number;
+}
+
+export interface LeaderboardChangedEvent {
+  type: "leaderboardChanged";
+  roomId: string;
+  scope: LeaderboardScope;
+  period: LeaderboardPeriod;
+  topScorers: Scorer[];
+  topStreaks: Streaker[];
+  changedUserIds: string[];
+}
+
+export type StageStatus = "available" | "active" | "completed" | "locked";
+
+export interface StageSummary {
+  stageId: string;
+  stageTitle: string;
+  topicId: string;
+  topicTitle: string;
+  status: StageStatus;
+}
+
 /** Room summary shown in room lists and selectors */
 export interface RoomSummary {
   roomId: string;
@@ -205,6 +242,9 @@ export interface EnginePlayerEvent {
  */
 export interface ScorerWithChange extends Scorer {
   changed?: boolean;
+  rankDelta?: number;
+  scoreDelta?: number;
+  enteredTop10?: boolean;
 }
 
 /**
@@ -213,6 +253,7 @@ export interface ScorerWithChange extends Scorer {
  */
 export interface StreakerWithChange extends Streaker {
   changed?: boolean;
+  rankDelta?: number;
 }
 
 /**
@@ -340,5 +381,22 @@ export interface CongratsEvent {
   isSeriesComplete: boolean;
 }
 
+export interface StageChangedEvent {
+  type: "stageChanged";
+  roomId: string;
+  stageId: string;
+  stageTitle: string;
+  status: StageStatus;
+}
+
 /** Union type for all SSE event types */
-export type SSEEvent = QuizState | TopicCompleteEvent | SeriesCompleteEvent | TopicStartEvent | TopicCountdownEvent | CongratsEvent;
+export type SSEEvent =
+  | QuizState
+  | AnswerResultEvent
+  | LeaderboardChangedEvent
+  | TopicCompleteEvent
+  | SeriesCompleteEvent
+  | TopicStartEvent
+  | TopicCountdownEvent
+  | CongratsEvent
+  | StageChangedEvent;

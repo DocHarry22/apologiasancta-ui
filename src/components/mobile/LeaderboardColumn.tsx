@@ -88,7 +88,7 @@ export function LeaderboardColumn({
         <div className="flex flex-col" role="list" aria-labelledby="top-scorers-heading">
           {scorers.slice(0, 10).map((scorer) => (
             <div
-              key={`scorer-${scorer.rank}-${scorer.name}`}
+              key={`scorer-${scorer.name}`}
               role="listitem"
               className={`flex items-center justify-between py-0.5 px-0.5 rounded transition-colors ${
                 scorer.changed ? "score-changed" : ""
@@ -115,6 +115,11 @@ export function LeaderboardColumn({
               >
                 {scorer.score}
               </span>
+              {scorer.rankDelta && scorer.rankDelta > 0 ? (
+                <span className="ml-1 rounded-sm bg-(--correct-bg) px-1 text-[8px] font-bold text-(--correct)">
+                  +{scorer.rankDelta}
+                </span>
+              ) : null}
             </div>
           ))}
         </div>
@@ -131,7 +136,7 @@ export function LeaderboardColumn({
         <div className="flex flex-col" role="list" aria-labelledby="top-streaks-heading">
           {streakers.slice(0, 5).map((streaker) => (
             <div
-              key={`streaker-${streaker.rank}-${streaker.name}`}
+              key={`streaker-${streaker.name}`}
               role="listitem"
               className={`flex items-center justify-between py-0.5 px-0.5 rounded transition-colors ${
                 streaker.changed ? "score-changed" : ""
@@ -157,6 +162,11 @@ export function LeaderboardColumn({
                 </svg>
                 <span className="text-[10px] font-bold">{streaker.streak}</span>
               </div>
+              {streaker.rankDelta && streaker.rankDelta > 0 ? (
+                <span className="ml-1 rounded-sm bg-(--correct-bg) px-1 text-[8px] font-bold text-(--correct)">
+                  +{streaker.rankDelta}
+                </span>
+              ) : null}
             </div>
           ))}
         </div>

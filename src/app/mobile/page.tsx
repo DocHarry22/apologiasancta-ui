@@ -147,9 +147,11 @@ function useQuizState(userId: string | null, roomId: string | null, onTopicStart
     topicCompleteEvent: sseResult.topicCompleteEvent,
     topicCountdownEvent: sseResult.topicCountdownEvent,
     congratsEvent: sseResult.congratsEvent,
+    answerResultEvent: sseResult.answerResultEvent,
     clearTopicComplete: sseResult.clearTopicComplete,
     clearTopicCountdown: sseResult.clearTopicCountdown,
     clearCongrats: sseResult.clearCongrats,
+    clearAnswerResult: sseResult.clearAnswerResult,
   };
 }
 
@@ -324,9 +326,11 @@ export default function MobilePage() {
     topicCompleteEvent,
     topicCountdownEvent,
     congratsEvent,
+    answerResultEvent,
     clearTopicComplete,
     clearTopicCountdown,
     clearCongrats,
+    clearAnswerResult,
   } = useQuizState(userId, roomId, handleTopicStart);
   
   // Admin drawer state
@@ -524,12 +528,13 @@ export default function MobilePage() {
     if (isNewQuestion && quizState.phase === "OPEN") {
       console.log(`[MobilePage] New question detected (Q${quizState.questionIndex + 1}), resetting selection`);
       setSelectedId(undefined);
+      clearAnswerResult();
       selectedIdAtAnswerRef.current = undefined;
       answeredRoundKeyRef.current = "";
       submittingRoundKeyRef.current = "";
       lastResetQuestionRef.current = quizState.questionIndex;
     }
-  }, [quizState.questionIndex, quizState.phase]);
+  }, [quizState.questionIndex, quizState.phase, clearAnswerResult]);
 
   // Defensive reset when transitioning back into OPEN.
   // This avoids stale round lock refs from blocking answer selection on subsequent rounds.
@@ -795,6 +800,7 @@ export default function MobilePage() {
             selectedId={selectedId}
             correctId={quizState.question.correctId}
             phase={quizState.phase}
+            answerResult={answerResultEvent}
             onSelect={handleSelect}
           />
 

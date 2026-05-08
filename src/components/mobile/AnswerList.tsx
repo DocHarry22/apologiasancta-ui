@@ -1,12 +1,13 @@
 "use client";
 
-import type { QuizPhase, Choice } from "@/types/quiz";
+import type { AnswerResultEvent, QuizPhase, Choice } from "@/types/quiz";
 
 interface AnswerListProps {
   options: Choice[];
   selectedId?: string;
   correctId?: string;
   phase?: QuizPhase;
+  answerResult?: AnswerResultEvent | null;
   onSelect?: (id: string) => void;
 }
 
@@ -33,6 +34,7 @@ export function AnswerList({
   options, 
   selectedId, 
   correctId,
+  answerResult,
   phase = "OPEN", 
   onSelect 
 }: AnswerListProps) {
@@ -44,9 +46,12 @@ export function AnswerList({
       {options.map((option) => {
         const isSelected =
           selectedId?.toLowerCase() === option.id?.toLowerCase();
+        const resultChoiceId = answerResult?.choiceId?.toLowerCase();
+        const effectiveCorrectId = correctId ?? answerResult?.correctId;
+        const isResultChoice = resultChoiceId === option.id?.toLowerCase();
         const isCorrect =
-          correctId?.toLowerCase() === option.id?.toLowerCase();
-        const isWrongSelected = isReveal && isSelected && !isCorrect;
+          effectiveCorrectId?.toLowerCase() === option.id?.toLowerCase();
+        const isWrongSelected = (isReveal || Boolean(answerResult)) && (isSelected || isResultChoice) && !isCorrect;
         
         // Determine styling based on state
         let stateClasses = "";
@@ -57,7 +62,7 @@ export function AnswerList({
           if (isCorrect) {
             stateClasses = "bg-(--correct-bg) border-(--correct) ring-1 ring-(--correct)";
             badgeClasses = "border-(--correct) bg-(--correct) text-white";
-            animationClass = "answer-correct";
+            animationClass = answerResult?.isCorrect && isResultChoice ? "answer-correct-player" : "answer-correct";
           } else if (isWrongSelected) {
             stateClasses = "bg-(--wrong-bg) border-(--wrong) ring-1 ring-(--wrong)";
             badgeClasses = "border-(--wrong) bg-(--wrong) text-white";
