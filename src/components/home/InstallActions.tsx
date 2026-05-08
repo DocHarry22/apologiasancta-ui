@@ -118,7 +118,7 @@ export function InstallActions() {
             ? isOnline
               ? "Engine URL configured for production clients"
               : "Offline: shell install still works, live engine access waits for reconnect"
-            : "Set NEXT_PUBLIC_ENGINE_URL before release"}
+            : "Production engine URL is unavailable"}
         </span>
       </div>
 
@@ -174,7 +174,7 @@ export function InstallActions() {
             </a>
           ) : (
             <div className="rounded-xl border border-dashed border-(--border) px-4 py-3 text-sm text-(--muted)">
-              APK publishing path is wired. Set NEXT_PUBLIC_ANDROID_APK_URL to expose the download.
+              APK download is unavailable right now.
             </div>
           )}
           <p className="text-xs leading-relaxed text-(--muted)">

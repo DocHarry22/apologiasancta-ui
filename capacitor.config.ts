@@ -1,6 +1,8 @@
 import type { CapacitorConfig } from "@capacitor/cli";
 
-const serverUrl = process.env.CAPACITOR_SERVER_URL || process.env.NEXT_PUBLIC_APP_URL || "https://apologiasancta.example.com";
+const defaultHostedUiUrl = "https://sandybrown-bear-488955.hostingersite.com/";
+const serverUrl = process.env.CAPACITOR_SERVER_URL || process.env.NEXT_PUBLIC_APP_URL || defaultHostedUiUrl;
+const usesCleartextServer = serverUrl.startsWith("http://");
 
 const config: CapacitorConfig = {
   appId: "com.apologiasancta.live",
@@ -8,11 +10,11 @@ const config: CapacitorConfig = {
   webDir: "capacitor-shell",
   server: {
     url: serverUrl,
-    cleartext: false,
-    androidScheme: "https",
+    cleartext: usesCleartextServer,
+    androidScheme: usesCleartextServer ? "http" : "https",
   },
   android: {
-    allowMixedContent: false,
+    allowMixedContent: usesCleartextServer,
   },
 };
 
