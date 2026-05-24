@@ -45,6 +45,9 @@ jobs:
           CAPACITOR_SERVER_URL: ${{ vars.CAPACITOR_SERVER_URL }}
           NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
 
+      - name: Make Gradle executable
+        run: chmod +x android/gradlew
+
       - name: Build debug APK
         working-directory: android
         run: ./gradlew assembleDebug
@@ -95,6 +98,9 @@ jobs:
         env:
           CAPACITOR_SERVER_URL: ${{ vars.CAPACITOR_SERVER_URL }}
           NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
+
+      - name: Make Gradle executable
+        run: chmod +x android/gradlew
 
       - name: Build signed APK and AAB
         working-directory: android
