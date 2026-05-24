@@ -29,3 +29,7 @@ export { AdminDrawer } from "./AdminDrawer";
 export { TopicSummaryPanel } from "./TopicSummaryPanel";
 export { TopicCountdown } from "./TopicCountdown";
 export { CongratsOverlay } from "./CongratsOverlay";
+export { FloatingLeaderboardButton } from "./FloatingLeaderboardButton";
+export { MobileLeaderboardDrawer } from "./MobileLeaderboardDrawer";
+export { ScoreBurst } from "./ScoreBurst";
+export { StreakToast } from "./StreakToast";

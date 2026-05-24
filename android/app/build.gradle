@@ -3,6 +3,26 @@ apply plugin: 'com.android.application'
 android {
     namespace "com.apologiasancta.live"
     compileSdk rootProject.ext.compileSdkVersion
+    def hasReleaseSigning = System.getenv("APKSIGN_KEYSTORE") &&
+        System.getenv("APKSIGN_KEYSTORE_PASSWORD") &&
+        System.getenv("APKSIGN_KEY_ALIAS") &&
+        System.getenv("APKSIGN_KEY_PASSWORD")
+
+    signingConfigs {
+        release {
+            def keystorePath = System.getenv("APKSIGN_KEYSTORE")
+            def keystorePassword = System.getenv("APKSIGN_KEYSTORE_PASSWORD")
+            def keyAliasValue = System.getenv("APKSIGN_KEY_ALIAS")
+            def keyPasswordValue = System.getenv("APKSIGN_KEY_PASSWORD")
+
+            if (keystorePath && keystorePassword && keyAliasValue && keyPasswordValue) {
+                storeFile file(keystorePath)
+                storePassword keystorePassword
+                keyAlias keyAliasValue
+                keyPassword keyPasswordValue
+            }
+        }
+    }
     defaultConfig {
         applicationId "com.apologiasancta.live"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -18,6 +38,9 @@ android {
     }
     buildTypes {
         release {
+            if (hasReleaseSigning) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

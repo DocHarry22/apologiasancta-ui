@@ -17,6 +17,14 @@ buildscript {
 
 apply from: "variables.gradle"
 
+def externalBuildDir = System.getenv("ANDROID_BUILD_DIR")
+if (externalBuildDir) {
+    rootProject.buildDir = file(externalBuildDir)
+    subprojects {
+        buildDir = file("${externalBuildDir}/${project.name}")
+    }
+}
+
 allprojects {
     repositories {
         google()

@@ -83,14 +83,16 @@ export function CountdownRing({ endsAtMs, durationSeconds, phase = "OPEN" }: Cou
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
+  const phaseLabel = phase === "OPEN" ? (isUrgent ? "Hurry!" : "Answer Now") : phase === "REVEAL" ? "Reveal" : "Locked";
+
   return (
     <div 
-      className="flex flex-col items-center py-3"
+      className="flex flex-col items-center py-4 lg:py-3"
       role="timer"
       aria-live="polite"
       aria-label={`${secondsLeft} seconds remaining`}
     >
-      <div className={`relative w-24 h-24 ${isUrgent ? "timer-urgent" : ""}`}>
+      <div className={`relative h-32 w-32 sm:h-36 sm:w-36 lg:h-24 lg:w-24 ${isUrgent ? "timer-urgent" : ""}`}>
         <svg 
           className="w-full h-full transform -rotate-90" 
           viewBox="0 0 100 100"
@@ -130,8 +132,12 @@ export function CountdownRing({ endsAtMs, durationSeconds, phase = "OPEN" }: Cou
         </svg>
         {/* Timer text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span 
-            className={`text-xl font-bold tabular-nums leading-none transition-colors duration-300 ${
+          <svg className="mb-1 h-5 w-5 text-(--mobile-muted) opacity-80 lg:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3 2" />
+          </svg>
+          <span
+            className={`text-3xl font-bold tabular-nums leading-none transition-colors duration-300 lg:text-xl ${
                   isUrgent ? "text-(--timer-urgent)" : "text-foreground"
             }`}
           >
@@ -140,11 +146,11 @@ export function CountdownRing({ endsAtMs, durationSeconds, phase = "OPEN" }: Cou
         </div>
       </div>
       <span 
-        className={`text-[10px] font-semibold tracking-widest mt-1 uppercase transition-colors duration-300 ${
+        className={`mt-2 text-sm font-bold uppercase tracking-[0.22em] transition-colors duration-300 lg:mt-1 lg:text-[10px] ${
           isUrgent ? "text-(--timer-urgent)" : "text-(--accent)"
         }`}
       >
-        {phase !== "OPEN" ? "Waiting" : isUrgent ? "Hurry!" : "Answer Now"}
+        {phaseLabel}
       </span>
     </div>
   );

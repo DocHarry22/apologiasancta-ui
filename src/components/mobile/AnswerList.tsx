@@ -42,7 +42,7 @@ export function AnswerList({
   const isReveal = phase === "REVEAL";
 
   return (
-    <div className="flex flex-col gap-1.5 px-3 py-2" role="radiogroup" aria-label="Answer options">
+    <div className="flex flex-col gap-3 px-4 py-3 lg:gap-1.5 lg:px-3 lg:py-2" role="radiogroup" aria-label="Answer options">
       {options.map((option) => {
         const isSelected =
           selectedId?.toLowerCase() === option.id?.toLowerCase();
@@ -68,11 +68,11 @@ export function AnswerList({
             badgeClasses = "border-(--wrong) bg-(--wrong) text-white";
             animationClass = "answer-wrong";
           } else {
-            stateClasses = "opacity-50 bg-(--option-bg) border-(--option-border)";
+            stateClasses = "bg-(--mobile-elevated) border-(--mobile-border) opacity-55 lg:bg-(--option-bg) lg:border-(--option-border)";
             badgeClasses = "border-(--muted) text-(--muted)";
           }
         } else if (isLocked) {
-          stateClasses = `cursor-not-allowed opacity-70 bg-(--option-bg) border-(--option-border) ${
+          stateClasses = `cursor-not-allowed border-(--mobile-border) bg-(--mobile-elevated) opacity-70 lg:bg-(--option-bg) lg:border-(--option-border) ${
             isSelected ? "ring-1 ring-(--accent)" : ""
           }`;
           badgeClasses = isSelected
@@ -80,8 +80,8 @@ export function AnswerList({
             : "border-(--muted) text-(--muted)";
         } else {
           // Open state
-          stateClasses = `cursor-pointer bg-(--option-bg) border-(--option-border) hover:bg-(--option-hover) active:scale-[0.98] ${
-            isSelected ? "ring-1 ring-(--accent) bg-(--option-hover)" : ""
+          stateClasses = `cursor-pointer border-(--mobile-border) bg-(--mobile-elevated) hover:bg-(--mobile-elevated-hover) active:scale-[0.98] lg:bg-(--option-bg) lg:border-(--option-border) lg:hover:bg-(--option-hover) ${
+            isSelected ? "bg-(--mobile-elevated-hover) ring-1 ring-(--accent) lg:bg-(--option-hover)" : ""
           }`;
           badgeClasses = isSelected
             ? "border-(--accent) bg-(--accent) text-white"
@@ -97,8 +97,9 @@ export function AnswerList({
             aria-checked={isSelected}
             aria-disabled={isLocked || isReveal}
             className={`
-              group flex items-center gap-2.5 px-3 py-2.5 rounded-lg
-              border transition-all duration-150
+              group flex min-h-16 items-center gap-3 rounded-xl px-4 py-3
+              border shadow-[0_8px_20px_rgba(89,68,38,0.06)] transition-all duration-150
+              lg:min-h-0 lg:gap-2.5 lg:rounded-lg lg:px-3 lg:py-2.5 lg:shadow-none
               ${stateClasses}
               ${animationClass}
             `}
@@ -106,8 +107,9 @@ export function AnswerList({
             {/* Option letter badge or icon */}
             <span
               className={`
-                flex items-center justify-center w-6 h-6 rounded-full
-                border text-xs font-bold shrink-0
+                flex h-10 w-10 shrink-0 items-center justify-center rounded-full
+                border text-lg font-bold shadow-sm
+                lg:h-6 lg:w-6 lg:text-xs lg:shadow-none
                 transition-colors duration-150
                 ${badgeClasses}
               `}
@@ -122,10 +124,10 @@ export function AnswerList({
             </span>
 
             {/* Option text */}
-            <span className={`text-xs font-medium text-left flex-1 transition-colors duration-150 ${
+            <span className={`flex-1 text-left text-base font-semibold leading-snug transition-colors duration-150 lg:text-xs lg:font-medium ${
               isReveal && !isCorrect && !isWrongSelected 
                 ? "text-(--muted)" 
-                : "text-(--text)"
+                : "text-(--mobile-text) lg:text-(--text)"
             }`}>
               {option.text}
             </span>

@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: apologiasancta-ui
+    runtime: node
+    plan: free
+    branch: main
+    autoDeploy: true
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_ENGINE_URL
+        sync: false
+      - key: NEXT_PUBLIC_APP_URL
+        sync: false
+      - key: NEXT_PUBLIC_ANDROID_APK_URL
+        sync: false
+      - key: CAPACITOR_SERVER_URL
+        sync: false
+      - key: AUTHOR_SESSION_SECRET
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false

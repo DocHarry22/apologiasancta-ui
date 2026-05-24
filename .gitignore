@@ -29,6 +29,18 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*.log
+
+# local Android/build artifacts
+android/.gradle/
+android/build/
+android/app/build/
+android/app/src/main/assets/
+public/downloads/
+android-qa/
+
+# OneDrive conflict copies
+*-Water-Nest-HP002*
 
 # env files (can opt-in for committing if needed)
 .env*

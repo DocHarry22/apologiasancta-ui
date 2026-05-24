@@ -14,52 +14,57 @@ interface TopBarProps {
   onSwitchRoom?: () => void;
 }
 
-export function TopBar({ topic, roomName, questionNumber, totalQuestions, connectionStatus = "connected", onOpenAdmin, onSwitchRoom }: TopBarProps) {
+export function TopBar({
+  topic,
+  roomName,
+  questionNumber,
+  totalQuestions,
+  connectionStatus = "connected",
+  onOpenAdmin,
+  onSwitchRoom,
+}: TopBarProps) {
   const { theme, toggleTheme } = useTheme();
 
-  // Connection status display
   const statusConfig = {
-    connected: { text: "LIVE", dotClass: "bg-(--live-dot)", animate: true },
-    connecting: { text: "CONNECTING...", dotClass: "bg-(--muted)", animate: false },
-    reconnecting: { text: "RECONNECTING...", dotClass: "bg-yellow-500", animate: true },
-    disconnected: { text: "OFFLINE", dotClass: "bg-(--muted)", animate: false },
+    connected: { text: "LIVE", dotClass: "bg-white", animate: true },
+    connecting: { text: "CONNECTING", dotClass: "bg-white/70", animate: false },
+    reconnecting: { text: "RECONNECTING", dotClass: "bg-yellow-200", animate: true },
+    disconnected: { text: "OFFLINE", dotClass: "bg-white/60", animate: false },
   };
-  
+
   const status = statusConfig[connectionStatus];
 
   return (
-    <header className="flex flex-col items-center py-2 px-3">
-      {/* Top row */}
-      <div className="flex items-center justify-between w-full">
-        {/* Home */}
+    <header className="sticky top-0 z-30 flex max-w-full flex-col items-center overflow-hidden border-b border-(--mobile-border) bg-(--mobile-surface) px-3 py-2 shadow-[0_8px_30px_var(--mobile-shadow)] backdrop-blur-md lg:static lg:border-b-0 lg:bg-transparent lg:shadow-none">
+      <div className="flex w-full items-center justify-between gap-2">
         <Link
           href="/"
-          className="text-(--muted) hover:text-foreground transition-colors p-1"
+          className="rounded-full p-2 text-(--mobile-muted) transition-colors hover:text-foreground"
           aria-label="Home"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
             <polyline points="9 22 9 12 15 12 15 22" />
           </svg>
         </Link>
 
-        {/* Brand */}
-        <div className="flex items-center gap-1">
-          <span className="text-(--accent) text-sm">✦</span>
-          <h1 className="text-xs font-semibold tracking-wide">
+        <div className="flex min-w-0 flex-1 items-center justify-center gap-2">
+          <svg className="h-5 w-5 shrink-0 text-[#c99516]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M11 2h2v6h5v2h-5v12h-2V10H6V8h5V2Z" />
+          </svg>
+          <h1 className="truncate text-[13px] font-semibold tracking-[0.12em] text-(--mobile-text) sm:text-sm">
             <span className="text-(--accent)">A</span>
-            <span className="text-foreground">POLOGIA </span>
+            <span>POLOGIA </span>
             <span className="text-(--accent)">S</span>
-            <span className="text-foreground">ANCTA </span>
-            <span className="text-(--accent2) font-bold">LIVE</span>
+            <span>ANCTA </span>
+            <span className="font-bold text-(--mobile-blue)">LIVE</span>
           </h1>
         </div>
 
-        {/* Right: Theme + Live + Admin */}
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5">
           <button
             onClick={toggleTheme}
-            className="text-(--muted) hover:text-foreground transition-colors p-1"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-(--mobile-border) bg-(--mobile-elevated) text-(--mobile-muted) transition-colors hover:text-foreground"
             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
           >
             {theme === "dark" ? (
@@ -80,49 +85,52 @@ export function TopBar({ topic, roomName, questionNumber, totalQuestions, connec
               </svg>
             )}
           </button>
-          <div className="flex items-center gap-1">
-            <span className={`w-1.5 h-1.5 rounded-full ${status.dotClass} ${status.animate ? "live-dot" : ""}`} />
-            <span className="text-[10px] font-semibold text-foreground">{status.text}</span>
+
+          <div className="flex items-center gap-1 rounded-md bg-red-600 px-2 py-1 text-white shadow-sm">
+            <span className={`h-1.5 w-1.5 rounded-full ${status.dotClass} ${status.animate ? "live-dot" : ""}`} />
+            <span className="text-[10px] font-bold">{status.text}</span>
           </div>
-          {onOpenAdmin && (
+
+          {onOpenAdmin ? (
             <button
               onClick={onOpenAdmin}
-              className="text-[9px] px-1.5 py-0.5 rounded bg-(--muted)/20 text-(--muted) 
-                hover:bg-(--accent)/20 hover:text-(--accent) transition-colors"
+              className="hidden rounded-lg border border-(--mobile-border) bg-(--mobile-elevated) px-2.5 py-1 text-[10px] font-semibold text-(--mobile-muted) transition-colors hover:border-(--accent) hover:text-(--accent) sm:block"
               aria-label="Open admin panel"
             >
               Admin
             </button>
-          )}
+          ) : null}
         </div>
       </div>
 
-      {/* Second row: Topic badge + Question count */}
-      <div className="flex items-center gap-2 mt-1.5">
-        {roomName && (
+      <div className="mt-2 grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+        {roomName ? (
           <button
             type="button"
             onClick={onSwitchRoom}
-            className="inline-flex items-center gap-1 rounded-full border border-(--border) px-2 py-0.5 text-[9px] font-semibold tracking-wider text-(--text-secondary) transition-colors hover:border-(--accent) hover:text-foreground"
+            className="col-span-2 inline-flex min-w-0 items-center justify-center gap-1 rounded-full border border-(--mobile-border) bg-(--mobile-elevated) px-3 py-1.5 text-[11px] font-semibold text-(--mobile-muted) transition-colors hover:border-(--accent) hover:text-foreground sm:col-span-1"
           >
-            <span>{roomName}</span>
+            <span className="truncate">{roomName}</span>
             {onSwitchRoom ? (
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <path d="M6 9l6 6 6-6" />
               </svg>
             ) : null}
           </button>
-        )}
-        {topic && (
-          <span className="px-2 py-0.5 rounded-full bg-linear-to-r from-(--accent) to-(--accent2) text-white text-[9px] font-semibold tracking-wider">
+        ) : null}
+
+        {topic ? (
+          <span className="min-w-0 truncate rounded-full border border-(--accent) bg-(--mobile-blue) px-3 py-1.5 text-center text-[10px] font-bold tracking-[0.12em] text-white shadow-sm">
             {topic}
           </span>
-        )}
-        {questionNumber && totalQuestions && (
-          <span className="text-[10px] text-(--muted)">
-            Question <span className="text-foreground font-semibold">{questionNumber}</span> of {totalQuestions}
+        ) : null}
+
+        {questionNumber && totalQuestions ? (
+          <span className="whitespace-nowrap text-right text-[11px] font-semibold text-(--mobile-muted)">
+            <span className="sm:hidden">Q<span className="font-bold text-(--mobile-text)">{questionNumber}</span>/{totalQuestions}</span>
+            <span className="hidden sm:inline">Question <span className="font-bold text-(--mobile-text)">{questionNumber}</span> of {totalQuestions}</span>
           </span>
-        )}
+        ) : null}
       </div>
     </header>
   );

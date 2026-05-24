@@ -17,6 +17,10 @@ import {
   TopicSummaryPanel,
   TopicCountdown,
   CongratsOverlay,
+  FloatingLeaderboardButton,
+  MobileLeaderboardDrawer,
+  ScoreBurst,
+  StreakToast,
   PLAYER_NAME_KEY,
 } from "@/components/mobile";
 import type { LeaderboardMode } from "@/components/mobile/LeaderboardColumn";
@@ -160,6 +164,7 @@ export default function MobilePage() {
   const [roomName, setRoomName] = useState<string | null>(null);
   const [isRoomPickerOpen, setIsRoomPickerOpen] = useState(false);
   const [leaderboardMode, setLeaderboardMode] = useState<LeaderboardMode>("room-all-time");
+  const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
   const [remoteLeaderboard, setRemoteLeaderboard] = useState<Leaderboard | null>(null);
   const [leaderboardLoading, setLeaderboardLoading] = useState(false);
   const [leaderboardError, setLeaderboardError] = useState<string | null>(null);
@@ -173,6 +178,11 @@ export default function MobilePage() {
   const meSnapshotPointsRef = useRef(0);
   const mePhaseRef = useRef<QuizPhase>("OPEN");
   const meInitializedRef = useRef(false);
+  const previousEffectScoreRef = useRef(0);
+  const previousEffectStreakRef = useRef(0);
+  const [scoreBurstKey, setScoreBurstKey] = useState(0);
+  const [scoreBurstPoints, setScoreBurstPoints] = useState(0);
+  const [streakToastKey, setStreakToastKey] = useState(0);
   
   // Restore selected room on mount
   useEffect(() => {
@@ -338,7 +348,7 @@ export default function MobilePage() {
   
   // Reduced motion preference for accessibility
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     setPrefersReducedMotion(mediaQuery.matches);
@@ -478,6 +488,35 @@ export default function MobilePage() {
       distanceToTop10: localPlayer.distanceToTop10,
     };
   }, [quizState.me, username, localPlayer, mePreviousPoints, meLastAwardedPoints]);
+
+  useEffect(() => {
+    const previousScore = previousEffectScoreRef.current;
+    if (playerData.totalPoints > previousScore) {
+      setScoreBurstPoints(playerData.lastAwardedPoints || playerData.totalPoints - previousScore);
+      setScoreBurstKey((key) => key + 1);
+    }
+    previousEffectScoreRef.current = playerData.totalPoints;
+  }, [playerData.lastAwardedPoints, playerData.totalPoints]);
+
+  useEffect(() => {
+    const previousStreak = previousEffectStreakRef.current;
+    if (playerData.streak > previousStreak && playerData.streak > 1) {
+      setStreakToastKey((key) => key + 1);
+    }
+    previousEffectStreakRef.current = playerData.streak;
+  }, [playerData.streak]);
+
+  const leaderboardPulseKey = useMemo(() => {
+    const changedScore = leaderboardWithChanges.topScorers.find((scorer) => scorer.changed);
+    const changedStreak = leaderboardWithChanges.topStreaks.find((streaker) => streaker.changed);
+    return [
+      leaderboardState.snapshotAtMs ?? quizState.questionIndex,
+      changedScore?.name ?? "",
+      changedScore?.rankDelta ?? "",
+      changedStreak?.name ?? "",
+      changedStreak?.rankDelta ?? "",
+    ].join(":");
+  }, [leaderboardState.snapshotAtMs, leaderboardWithChanges.topScorers, leaderboardWithChanges.topStreaks, quizState.questionIndex]);
 
   // Compute score delta from personalized SSE (`me`) when available
   useEffect(() => {
@@ -756,7 +795,7 @@ export default function MobilePage() {
     <>
       <Layout
         leftContent={
-          <div className="flex flex-col flex-1 min-h-screen">
+          <div className="mx-auto flex min-h-screen w-full max-w-[100vw] flex-1 flex-col bg-(--mobile-bg) pb-[env(safe-area-inset-bottom)] text-(--mobile-text) lg:max-w-none lg:bg-transparent lg:text-inherit">
             {/* TopBar - always visible, not covered by overlays */}
             <TopBar
               roomName={quizState.roomName || roomName || undefined}
@@ -781,7 +820,30 @@ export default function MobilePage() {
             )}
             
             {/* Main content area - can be overlayed by CongratsOverlay */}
-            <div className="relative flex-1 flex flex-col">
+            <div className="relative mx-auto flex w-full max-w-[100vw] flex-1 flex-col pb-28 lg:max-w-none lg:pb-0">
+          <div className="relative mx-4 mt-3 grid grid-cols-2 overflow-hidden rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) shadow-[0_10px_28px_var(--mobile-shadow)] lg:hidden">
+            <div className="relative px-5 py-4">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-(--mobile-muted)">
+                <svg className="h-4 w-4 text-[#c99516]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="m12 2 2.9 6 6.6.9-4.8 4.6 1.1 6.5-5.8-3.1L6.2 20l1.1-6.5-4.8-4.6 6.6-.9L12 2Z" />
+                </svg>
+                Score
+              </div>
+              <div className="mt-1 text-3xl font-bold tabular-nums text-(--mobile-text)">{playerData.totalPoints}</div>
+              <ScoreBurst points={scoreBurstPoints} eventKey={scoreBurstKey} />
+            </div>
+            <div className="relative border-l border-(--mobile-border-strong) px-5 py-4">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-(--mobile-muted)">
+                <svg className="h-4 w-4 text-[#d77b22]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 2s4 4 4 8a4 4 0 0 1-8 0c0-4 4-8 4-8Zm-5.5 9.5C4.8 13 4 15 4 17a8 8 0 0 0 16 0c0-2-1-4-2.4-5.6.1.6.1 1.1.1 1.6a5.7 5.7 0 1 1-11.4 0c0-.5.1-1 .2-1.5Z" />
+                </svg>
+                Streak
+              </div>
+              <div className="mt-1 text-3xl font-bold tabular-nums text-(--mobile-text)">{playerData.streak}</div>
+              <StreakToast streak={playerData.streak} eventKey={streakToastKey} />
+            </div>
+          </div>
+
           {/* Countdown Timer */}
           <CountdownRing
             endsAtMs={quizState.endsAtMs}
@@ -805,7 +867,7 @@ export default function MobilePage() {
           />
 
           {/* Teaching moment (always visible during REVEAL) */}
-          {quizState.teaching && (
+          {quizState.teaching && quizState.phase === "REVEAL" && (
             <TeachingMomentCard
               title={quizState.teaching.title}
               explanation={quizState.teaching.body}
@@ -830,6 +892,7 @@ export default function MobilePage() {
 
           {/* Bottom ticker */}
           {quizState.ticker && (
+            <div className="hidden lg:block">
             <TickerBar
               items={quizState.ticker.items.map((item, i) => ({
                 label: item.split(":")[0],
@@ -837,7 +900,23 @@ export default function MobilePage() {
                 highlight: i === 0,
               }))}
             />
+            </div>
           )}
+
+          <div className="px-4 pb-3 lg:hidden">
+            <div className="flex items-center gap-3 text-sm font-semibold text-(--mobile-muted)">
+              <span className="text-[#b98512]">Q{quizState.questionIndex + 1}</span>
+              <span>/ {quizState.totalQuestions || 0}</span>
+              <div className="h-2 flex-1 overflow-hidden rounded-full bg-(--mobile-border)">
+                <div
+                  className="h-full rounded-full bg-linear-to-r from-[#d9a51c] to-[#b98512]"
+                  style={{
+                    width: `${quizState.totalQuestions > 0 ? ((quizState.questionIndex + 1) / quizState.totalQuestions) * 100 : 0}%`,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
           
           {/* Congrats Overlay - covers quiz/answers but not TopBar */}
           {congratsEvent && (
@@ -891,6 +970,26 @@ export default function MobilePage() {
             )}
           </div>
         }
+      />
+
+      <FloatingLeaderboardButton
+        rank={playerData.rank}
+        pulseKey={leaderboardPulseKey}
+        onClick={() => setIsLeaderboardOpen(true)}
+      />
+
+      <MobileLeaderboardDrawer
+        open={isLeaderboardOpen}
+        onClose={() => setIsLeaderboardOpen(false)}
+        scorers={leaderboardWithChanges.topScorers}
+        streakers={leaderboardWithChanges.topStreaks}
+        roomName={leaderboardState.roomName || quizState.roomName || roomName || undefined}
+        scope={leaderboardState.scope}
+        period={leaderboardState.period}
+        selectedMode={leaderboardMode}
+        onModeChange={setLeaderboardMode}
+        loading={leaderboardLoading}
+        error={leaderboardError}
       />
       
       {/* Score delta animation portal */}
