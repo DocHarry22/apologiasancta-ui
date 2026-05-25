@@ -3,6 +3,7 @@
 import { useState, useCallback, useMemo } from "react";
 import { type ContentImportError } from "@/lib/engineAdmin";
 import { contentProxy } from "@/lib/adminProxyClient";
+import { getEngineUrl } from "@/lib/publicEnv";
 import {
   parseInput,
   validateBatch,
@@ -24,6 +25,8 @@ type ImportState =
   | { status: "error"; code?: number; message: string; details?: string };
 
 export default function BatchImport({ topics = [] }: Props) {
+  const engineUrl = getEngineUrl();
+
   // Input state
   const [jsonInput, setJsonInput] = useState("");
   const [commitToGitHub, setCommitToGitHub] = useState(false);
