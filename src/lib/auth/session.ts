@@ -1,6 +1,15 @@
 const encoder = new TextEncoder();
 
-export const SESSION_COOKIE_NAME = "as_author_session";
+/**
+ * The __Host- prefix enforces Secure, Path=/, and no Domain attribute in
+ * production (HTTPS). In development the plain name is used so the cookie
+ * still works over HTTP.
+ */
+export const SESSION_COOKIE_NAME =
+  process.env.NODE_ENV === "production"
+    ? "__Host-as_author_session"
+    : "as_author_session";
+
 export const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7; // 7 days
 const SESSION_MAX_AGE_MS = SESSION_MAX_AGE_SECONDS * 1000;
 

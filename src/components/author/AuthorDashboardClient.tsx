@@ -1,10 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import type { TopicWithCount } from "@/lib/content";
 import { useTheme } from "@/lib/theme";
-import { adminActions } from "@/lib/engineAdmin";
 import AuthorForm from "./AuthorForm";
 import JsonPreview from "./JsonPreview";
 import BatchImport from "./BatchImport";
@@ -26,17 +25,6 @@ interface QueuedQuestion {
 type TabId = "create" | "import" | "engine";
 
 const ENGINE_URL = getEngineUrl();
-
-function getInitialAdminToken(): string {
-  if (typeof window === "undefined") {
-    return "";
-  }
-  try {
-    return localStorage.getItem("adminToken") || "";
-  } catch {
-    return "";
-  }
-}
 
 function getDefaultPrefix(topicId: string): string {
   if (topicId === "christology") return "chr";
@@ -63,69 +51,19 @@ function getNextQuestionId(existingIds: string[], prefix: string): string {
 export default function AuthorDashboardClient({ topics }: Props) {
   const { theme, toggleTheme } = useTheme();
   const [activeTab, setActiveTab] = useState<TabId>("create");
-  const [adminToken, setAdminToken] = useState<string>(() => getInitialAdminToken());
-  const [tokenValidation, setTokenValidation] = useState<"unknown" | "validating" | "valid" | "invalid">("unknown");
-  const [tokenValidationError, setTokenValidationError] = useState("");
-  const [validatedToken, setValidatedToken] = useState("");
   const [selectedTopicId, setSelectedTopicId] = useState<string>(topics[0]?.id || "");
   const [customPrefix, setCustomPrefix] = useState<string>("");
   const [queue, setQueue] = useState<QueuedQuestion[]>([]);
+  const [loggingOut, setLoggingOut] = useState(false);
 
-  const validateAdminToken = useCallback(async (tokenValue: string) => {
-    const token = tokenValue.trim();
-    if (!token) {
-      setTokenValidation("unknown");
-      setTokenValidationError("");
-      setValidatedToken("");
-      return;
+  const handleLogout = async () => {
+    setLoggingOut(true);
+    try {
+      await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
+    } finally {
+      window.location.href = "/author/login";
     }
-
-    if (!ENGINE_URL) {
-      setTokenValidation("invalid");
-      setValidatedToken("");
-      setTokenValidationError("NEXT_PUBLIC_ENGINE_URL is not configured");
-      return;
-    }
-
-    setTokenValidation("validating");
-    setTokenValidationError("");
-
-    const response = await adminActions.status(ENGINE_URL, token);
-    if (response.success) {
-      setTokenValidation("valid");
-      setValidatedToken(token);
-      setTokenValidationError("");
-      return;
-    }
-
-    setTokenValidation("invalid");
-    setValidatedToken("");
-    setTokenValidationError(response.error || "Invalid admin token");
-  }, []);
-
-  useEffect(() => {
-    if (activeTab !== "import" && activeTab !== "engine") {
-      return;
-    }
-
-    const token = adminToken.trim();
-    if (!token) {
-      setTokenValidation("unknown");
-      setTokenValidationError("");
-      setValidatedToken("");
-      return;
-    }
-
-    if (token === validatedToken) {
-      return;
-    }
-
-    const timeoutId = window.setTimeout(() => {
-      void validateAdminToken(token);
-    }, 300);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [activeTab, adminToken, validatedToken, validateAdminToken]);
+  };
 
   const selectedTopic = topics.find((t) => t.id === selectedTopicId);
   const effectivePrefix = customPrefix || (selectedTopic ? getDefaultPrefix(selectedTopic.id) : "que");
@@ -278,29 +216,44 @@ export default function AuthorDashboardClient({ topics }: Props) {
               </h1>
             </div>
           </div>
-          <button
-            onClick={toggleTheme}
-            className="rounded-lg border border-(--border) p-2 text-(--muted) hover:border-(--accent) hover:text-(--accent) transition-colors"
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-          >
-            {theme === "dark" ? (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="rounded-lg border border-(--border) p-2 text-(--muted) hover:border-(--accent) hover:text-(--accent) transition-colors"
+              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            >
+              {theme === "dark" ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="5" />
+                  <line x1="12" y1="1" x2="12" y2="3" />
+                  <line x1="12" y1="21" x2="12" y2="23" />
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                  <line x1="1" y1="12" x2="3" y2="12" />
+                  <line x1="21" y1="12" x2="23" y2="12" />
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+              )}
+            </button>
+            <button
+              onClick={() => void handleLogout()}
+              disabled={loggingOut}
+              className="rounded-lg border border-(--border) p-2 text-(--muted) hover:border-red-500 hover:text-red-500 transition-colors disabled:opacity-50"
+              aria-label="Log out"
+              title="Log out"
+            >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
               </svg>
-            ) : (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            )}
-          </button>
+            </button>
+          </div>
         </header>
 
         {/* Tabs */}
@@ -323,49 +276,6 @@ export default function AuthorDashboardClient({ topics }: Props) {
             </button>
           ))}
         </nav>
-
-        {/* Admin Token (for import/engine tabs) */}
-        {(activeTab === "import" || activeTab === "engine") && (
-          <div className="rounded-xl border border-(--border) bg-(--card) p-4">
-            <label className="text-xs font-medium text-(--muted) block mb-1">Admin Token</label>
-            <input
-              type="password"
-              value={adminToken}
-              onChange={(e) => {
-                const nextToken = e.target.value;
-                setAdminToken(nextToken);
-                setValidatedToken("");
-                setTokenValidation(nextToken.trim() ? "unknown" : "unknown");
-                setTokenValidationError("");
-                if (typeof window !== "undefined") {
-                  try {
-                    localStorage.setItem("adminToken", nextToken);
-                  } catch {
-                    // Ignore storage errors (private mode / blocked storage)
-                  }
-                }
-              }}
-              placeholder="Enter admin token"
-              className="w-full rounded-lg border border-(--border) bg-background px-3 py-2 text-sm focus:border-(--accent) focus:outline-none"
-            />
-            <div className="mt-2 flex items-center justify-between gap-2">
-              <p className="text-xs text-(--muted)">
-                {tokenValidation === "validating" && "Validating admin token..."}
-                {tokenValidation === "valid" && "Admin token validated"}
-                {tokenValidation === "invalid" && (tokenValidationError || "Admin token invalid")}
-                {tokenValidation === "unknown" && "Enter a valid admin token to unlock controls"}
-              </p>
-              <button
-                onClick={() => void validateAdminToken(adminToken)}
-                type="button"
-                disabled={!adminToken.trim() || tokenValidation === "validating"}
-                className="rounded-lg border border-(--border) px-3 py-1 text-xs text-(--muted) hover:border-(--accent) hover:text-(--accent) disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Validate
-              </button>
-            </div>
-          </div>
-        )}
 
         {/* Create Tab Content */}
         {activeTab === "create" && (
@@ -486,19 +396,9 @@ export default function AuthorDashboardClient({ topics }: Props) {
         {/* Import Tab Content */}
         {activeTab === "import" && (
           <div className="rounded-xl border border-(--border) bg-(--card) p-4">
-            {ENGINE_URL && tokenValidation === "valid" && adminToken.trim() === validatedToken ? (
-              <BatchImport
-                engineUrl={ENGINE_URL}
-                adminToken={adminToken}
-                topics={topics.map((t) => ({ id: t.id, title: t.title }))}
-              />
-            ) : (
-              <p className="text-sm text-(--muted)">
-                {ENGINE_URL
-                  ? "Validate the admin token above to unlock Batch Import."
-                  : "Set NEXT_PUBLIC_ENGINE_URL to enable Batch Import."}
-              </p>
-            )}
+            <BatchImport
+              topics={topics.map((t) => ({ id: t.id, title: t.title }))}
+            />
           </div>
         )}
 
@@ -507,15 +407,7 @@ export default function AuthorDashboardClient({ topics }: Props) {
           <div className="space-y-4">
             {ENGINE_URL ? <EngineHealthPanel engineUrl={ENGINE_URL} /> : null}
             <div className="rounded-xl border border-(--border) bg-(--card) p-4">
-              {ENGINE_URL && tokenValidation === "valid" && adminToken.trim() === validatedToken ? (
-                <EngineControl engineUrl={ENGINE_URL} adminToken={adminToken} />
-              ) : (
-                <p className="text-sm text-(--muted)">
-                  {ENGINE_URL
-                    ? "Validate the admin token above to unlock Engine controls."
-                    : "Set NEXT_PUBLIC_ENGINE_URL to enable Engine controls."}
-                </p>
-              )}
+              <EngineControl />
             </div>
           </div>
         )}

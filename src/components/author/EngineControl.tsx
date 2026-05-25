@@ -2,22 +2,21 @@
 
 import { useState, useEffect, useCallback } from "react";
 import {
-  contentActions,
-  quizActions,
-  adminActions,
-  topicActions,
-  roomActions,
   type ContentStatusResponse,
   type AdminStatus,
   type AdminRoomStatus,
 } from "@/lib/engineAdmin";
+import {
+  adminProxy,
+  contentProxy,
+  quizProxy,
+  topicProxy,
+  roomProxy,
+} from "@/lib/adminProxyClient";
 
-interface Props {
-  engineUrl: string;
-  adminToken: string;
-}
+interface Props {}
 
-export default function EngineControl({ engineUrl, adminToken }: Props) {
+export default function EngineControl(_props: Props) {
   const [contentStatus, setContentStatus] = useState<ContentStatusResponse | null>(null);
   const [adminStatus, setAdminStatus] = useState<AdminStatus | null>(null);
   const [rooms, setRooms] = useState<AdminRoomStatus[]>([]);
@@ -39,9 +38,9 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
 
   const fetchStatus = useCallback(async () => {
     const [contentRes, adminRes, roomsRes] = await Promise.all([
-      contentActions.status(engineUrl, adminToken),
-      adminActions.status(engineUrl, adminToken),
-      roomActions.list(engineUrl, adminToken),
+      contentProxy.status(),
+      adminProxy.status(),
+      roomProxy.list(),
     ]);
 
     if (contentRes.success && contentRes.data) {
@@ -53,7 +52,7 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
     if (roomsRes.success && roomsRes.data) {
       setRooms(roomsRes.data.rooms);
     }
-  }, [engineUrl, adminToken]);
+  }, []);
 
   useEffect(() => {
     // Use microtask to avoid synchronous setState in effect body
@@ -75,7 +74,7 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
     setLoading(true);
     setMessage(null);
 
-    const result = await quizActions.setPool(engineUrl, adminToken, selectedTopics, shuffle);
+    const result = await quizProxy.setPool(selectedTopics, shuffle);
 
     if (result.success && result.data) {
       setMessage({
@@ -94,7 +93,7 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
     if (!confirm("Clear local engine bank only? This does NOT delete from GitHub.")) return;
 
     setLoading(true);
-    const result = await contentActions.clear(engineUrl, adminToken);
+    const result = await contentProxy.clear();
 
     if (result.success) {
       setMessage({ type: "success", text: "Content bank cleared" });
@@ -110,7 +109,7 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
     setLoading(true);
     setMessage(null);
 
-    const result = await contentActions.syncFromGitHub(engineUrl, adminToken);
+    const result = await contentProxy.syncFromGitHub();
 
     if (result.success && result.data) {
       setMessage({
@@ -132,7 +131,7 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
     setLoading(true);
     setMessage(null);
 
-    const result = await contentActions.clearGitHub(engineUrl, adminToken);
+    const result = await contentProxy.clearGitHub();
 
     if (result.success && result.data) {
       setMessage({
@@ -149,7 +148,7 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
 
   const handleAdminAction = async (action: "start" | "resume" | "pause" | "next" | "reset") => {
     setLoading(true);
-    const result = await adminActions[action](engineUrl, adminToken);
+    const result = await adminProxy[action]();
 
     if (result.success) {
       const successText =
@@ -171,7 +170,7 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
     setLoading(true);
     setMessage(null);
 
-    const result = await adminActions.savePersistence(engineUrl, adminToken);
+    const result = await adminProxy.savePersistence();
 
     if (result.success) {
       setMessage({ type: "success", text: "Runtime state saved" });
@@ -195,9 +194,7 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
     setLoading(true);
     setMessage(null);
 
-    const result = await roomActions.create(
-      engineUrl,
-      adminToken,
+    const result = await roomProxy.create(
       trimmedName,
       trimmedRoomId || undefined
     );
@@ -226,7 +223,7 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
     setLoading(true);
     setMessage(null);
 
-    const result = await roomActions.close(engineUrl, adminToken, room.roomId);
+    const result = await roomProxy.close(room.roomId);
 
     if (result.success && result.data) {
       setMessage({ type: "success", text: `Closed room: ${result.data.room.name}` });
@@ -242,7 +239,7 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
   const handleSkipTopic = async () => {
     setLoading(true);
     setMessage(null);
-    const result = await topicActions.skipTopic(engineUrl, adminToken);
+    const result = await topicProxy.skipTopic();
     if (result.success && result.data) {
       setMessage({ type: "success", text: `Skipped to: ${result.data.topicTitle}` });
       fetchStatus();
@@ -255,7 +252,7 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
   const handleReplayTopic = async () => {
     setLoading(true);
     setMessage(null);
-    const result = await topicActions.replayTopic(engineUrl, adminToken);
+    const result = await topicProxy.replayTopic();
     if (result.success && result.data) {
       setMessage({ type: "success", text: `Replaying: ${result.data.topicTitle}` });
       fetchStatus();
@@ -268,7 +265,7 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
   const handleCountdownTopic = async () => {
     setLoading(true);
     setMessage(null);
-    const result = await topicActions.countdownTopic(engineUrl, adminToken, countdownSeconds);
+    const result = await topicProxy.countdownTopic(countdownSeconds);
     if (result.success) {
       setMessage({ type: "success", text: `Starting ${countdownSeconds}s countdown...` });
       fetchStatus();
@@ -281,7 +278,7 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
   const handleStartNextTopic = async () => {
     setLoading(true);
     setMessage(null);
-    const result = await topicActions.startNextTopic(engineUrl, adminToken);
+    const result = await topicProxy.startNextTopic();
     if (result.success && result.data) {
       setMessage({ type: "success", text: `Started: ${result.data.topicTitle}` });
       fetchStatus();
@@ -707,12 +704,6 @@ export default function EngineControl({ engineUrl, adminToken }: Props) {
           {message.text}
         </div>
       )}
-
-      {/* Config Info */}
-      <div className="rounded-lg border border-dashed border-(--border) p-4 text-xs text-(--muted)">
-        <p className="font-medium mb-1">Engine URL:</p>
-        <code className="text-(--accent)">{engineUrl}</code>
-      </div>
     </div>
   );
 }

@@ -1,7 +1,18 @@
 /**
  * Engine Admin API utilities
- * 
- * Provides fetch wrapper for admin endpoints with token authentication.
+ *
+ * NOTE: The token-accepting functions below (`engineFetch`, `adminActions`,
+ * `roomActions`, `contentActions`, `quizActions`, `topicActions`) are LEGACY
+ * dead code retained only for reference. They are NOT called from any UI
+ * component — all admin mutations route through the server-side proxy at
+ * src/lib/server/engineProxy.ts which injects ENGINE_ADMIN_TOKEN server-side.
+ *
+ * DO NOT import or call these action objects from browser components.
+ * They will be removed in a future cleanup pass.
+ *
+ * The only public API intended for active use is:
+ *   - Type exports (interfaces)
+ *   - checkHealth()
  */
 
 import type { RoomSummary } from "@/types/quiz";
@@ -112,7 +123,11 @@ export interface HealthResponse {
 }
 
 /**
- * Fetch wrapper for engine API with admin token
+ * Fetch wrapper for engine API with admin token.
+ *
+ * @deprecated LEGACY — not called by any browser component. All admin mutations
+ * go through the server-side proxy (src/lib/server/engineProxy.ts) which
+ * injects the token server-side. Do not add new call sites for this function.
  */
 export async function engineFetch<T = unknown>(
   engineUrl: string,
@@ -204,6 +219,9 @@ export async function checkHealth(engineUrl: string): Promise<EngineResponse<Hea
 
 /**
  * Admin actions
+ *
+ * @deprecated LEGACY dead code — not imported by any browser component.
+ * Use adminProxyClient.ts instead.
  */
 export const adminActions = {
   start: (engineUrl: string, token: string, roomId?: string | null) =>
@@ -228,6 +246,10 @@ export const adminActions = {
     engineFetch<AdminPersistenceSaveResponse>(engineUrl, "/admin/persistence/save", "POST", token),
 };
 
+/**
+ * @deprecated LEGACY dead code — not imported by any browser component.
+ * Use adminProxyClient.ts instead.
+ */
 export const roomActions = {
   list: (engineUrl: string, token: string, includeClosed: boolean = true) =>
     engineFetch<AdminRoomListResponse>(
@@ -303,6 +325,9 @@ export interface QuizSetResponse {
 
 /**
  * Content management actions
+ *
+ * @deprecated LEGACY dead code — not imported by any browser component.
+ * Use adminProxyClient.ts instead.
  */
 export const contentActions = {
   /**
@@ -346,6 +371,9 @@ export const contentActions = {
 
 /**
  * Quiz set management actions
+ *
+ * @deprecated LEGACY dead code — not imported by any browser component.
+ * Use adminProxyClient.ts instead.
  */
 export const quizActions = {
   /**
@@ -399,6 +427,9 @@ export interface StartTopicResponse {
 
 /**
  * Topic management actions
+ *
+ * @deprecated LEGACY dead code — not imported by any browser component.
+ * Use adminProxyClient.ts instead.
  */
 export const topicActions = {
   /**

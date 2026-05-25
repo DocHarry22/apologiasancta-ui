@@ -2,17 +2,18 @@
 
 /**
  * Admin Drawer Component
- * 
+ *
  * A mobile-friendly bottom drawer for quiz host controls.
- * Features locked/unlocked states with server-side token validation.
- * 
- * SECURITY: Token is validated against the engine's /admin/status endpoint.
- * Controls are only shown after successful server-side validation.
+ * Unlock is session-based: the user must be logged in as author at /author/login.
+ * No admin token is ever stored in or sent from the browser.
+ *
+ * SECURITY: All admin mutations go through /api/admin/* (server-side proxy).
+ * The browser never holds the engine admin token.
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useAdminPanel } from "@/hooks/useAdminPanel";
-import { quizActions, roomActions, topicActions, type LoopMode } from "@/lib/engineAdmin";
+import { adminProxy, roomProxy, quizProxy, topicProxy, type LoopMode } from "@/lib/adminProxyClient";
 import type { ConnectionStatus, RoomSummary } from "@/types/quiz";
 import type { AdminRoomStatus, AdminStatus, HealthResponse, TopicInfo } from "@/lib/engineAdmin";
 
@@ -35,8 +36,7 @@ const STATUS_CONFIG = {
 };
 
 export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, roomId = null, roomName = null, onRoomSelected }: AdminDrawerProps) {
-  const admin = useAdminPanel(engineUrl);
-  const [tokenInput, setTokenInput] = useState("");
+  const admin = useAdminPanel();
   const [tokenError, setTokenError] = useState<string | null>(null);
   const [availableTopics, setAvailableTopics] = useState<TopicInfo[]>([]);
   const [availableRooms, setAvailableRooms] = useState<AdminRoomStatus[]>([]);
@@ -54,11 +54,11 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
   const drawerRef = useRef<HTMLDivElement>(null);
 
   const refreshRoomScopedData = useCallback(async () => {
-    if (!isOpen || !engineUrl || !admin.adminToken || !admin.isUnlocked) return;
+    if (!isOpen || !admin.isUnlocked) return;
 
     const [topicsResult, roomsResult] = await Promise.all([
-      topicActions.getSequence(engineUrl, admin.adminToken, roomId),
-      roomActions.list(engineUrl, admin.adminToken),
+      topicProxy.getSequence(roomId),
+      roomProxy.list(),
     ]);
 
     if (topicsResult.success && topicsResult.data) {
@@ -71,7 +71,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
     if (roomsResult.success && roomsResult.data) {
       setAvailableRooms(roomsResult.data.rooms);
     }
-  }, [isOpen, engineUrl, admin.adminToken, admin.isUnlocked, roomId]);
+  }, [isOpen, admin.isUnlocked, roomId]);
 
   useEffect(() => {
     void refreshRoomScopedData();
@@ -95,18 +95,13 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
     return () => window.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
-  // Handle token validation and unlock
+  // Handle session-based unlock
   const handleValidateToken = async () => {
-    if (!tokenInput.trim()) {
-      setTokenError("Please enter an admin token");
-      return;
-    }
-    
     setTokenError(null);
-    const result = await admin.validateAndUnlock(tokenInput);
+    const result = await admin.validateAndUnlock();
     
     if (!result.success) {
-      setTokenError(result.error || "Invalid token");
+      setTokenError(result.error || "Session check failed");
     }
   };
 
@@ -117,41 +112,35 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
 
   // Handle shuffle (reshuffle current question pool)
   const handleShuffle = async () => {
-    if (!engineUrl || !admin.adminToken) return;
     if (roomId && roomId !== "global") {
       setRoomNotice("Pool shuffle currently targets the default room only.");
       return;
     }
     
-    // Call setPool with empty topicIds (uses all) and shuffle=true
-    const result = await quizActions.setPool(engineUrl, admin.adminToken, [], true);
+    const result = await quizProxy.setPool([], true);
     
     if (result.success && result.data) {
       admin.clearResult();
-      // Show success message - we'll reuse lastResult mechanism if needed or show inline
     }
   };
 
   // Handle starting a specific topic
   const handleStartTopic = async () => {
-    if (!engineUrl || !admin.adminToken || !selectedTopicId) return;
+    if (!selectedTopicId) return;
     
     setTopicLoading(true);
-    const result = await topicActions.startTopic(engineUrl, admin.adminToken, selectedTopicId, roomId);
+    const result = await topicProxy.startTopic(selectedTopicId, roomId);
     setTopicLoading(false);
     
     if (result.success && result.data) {
       admin.clearResult();
-      // Could update lastResult to show success
     }
   };
 
   // Handle starting next topic in sequence
   const handleStartNextTopic = async () => {
-    if (!engineUrl || !admin.adminToken) return;
-    
     setTopicLoading(true);
-    const result = await topicActions.startNextTopic(engineUrl, admin.adminToken, undefined, roomId);
+    const result = await topicProxy.startNextTopic(undefined, roomId);
     setTopicLoading(false);
     
     if (result.success && result.data) {
@@ -161,9 +150,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
 
   // Handle cancelling auto-advance
   const handleCancelAutoAdvance = async () => {
-    if (!engineUrl || !admin.adminToken) return;
-    
-    const result = await topicActions.cancelAutoAdvance(engineUrl, admin.adminToken, roomId);
+    const result = await topicProxy.cancelAutoAdvance(roomId);
     if (result.success) {
       admin.clearResult();
     }
@@ -171,10 +158,8 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
 
   // Handle skipping current topic
   const handleSkipTopic = async () => {
-    if (!engineUrl || !admin.adminToken) return;
-    
     setTopicLoading(true);
-    const result = await topicActions.skipTopic(engineUrl, admin.adminToken, roomId);
+    const result = await topicProxy.skipTopic(roomId);
     setTopicLoading(false);
     
     if (result.success && result.data) {
@@ -184,10 +169,8 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
 
   // Handle replaying current topic
   const handleReplayTopic = async () => {
-    if (!engineUrl || !admin.adminToken) return;
-    
     setTopicLoading(true);
-    const result = await topicActions.replayTopic(engineUrl, admin.adminToken, roomId);
+    const result = await topicProxy.replayTopic(roomId);
     setTopicLoading(false);
     
     if (result.success && result.data) {
@@ -197,12 +180,8 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
 
   // Handle countdown before topic start
   const handleCountdownTopic = async () => {
-    if (!engineUrl || !admin.adminToken) return;
-    
     setTopicLoading(true);
-    const result = await topicActions.countdownTopic(
-      engineUrl, 
-      admin.adminToken, 
+    const result = await topicProxy.countdownTopic(
       countdownSeconds,
       selectedTopicId || undefined,
       roomId
@@ -216,10 +195,8 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
   
   // Handle setting topic loop mode
   const handleSetTopicLoop = async (mode: LoopMode) => {
-    if (!engineUrl || !admin.adminToken) return;
-    
     setLoopLoading(true);
-    const result = await topicActions.setTopicLoop(engineUrl, admin.adminToken, mode, roomId);
+    const result = await topicProxy.setTopicLoop(mode, roomId);
     setLoopLoading(false);
     
     if (result.success && result.data) {
@@ -230,10 +207,8 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
   
   // Handle setting series loop mode
   const handleSetSeriesLoop = async (mode: LoopMode) => {
-    if (!engineUrl || !admin.adminToken) return;
-    
     setLoopLoading(true);
-    const result = await topicActions.setSeriesLoop(engineUrl, admin.adminToken, mode, roomId);
+    const result = await topicProxy.setSeriesLoop(mode, roomId);
     setLoopLoading(false);
     
     if (result.success && result.data) {
@@ -244,10 +219,8 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
   
   // Handle setting countdown duration
   const handleSetCountdownDuration = async () => {
-    if (!engineUrl || !admin.adminToken) return;
-    
     setLoopLoading(true);
-    const result = await topicActions.setCountdownDuration(engineUrl, admin.adminToken, countdownSeconds, roomId);
+    const result = await topicProxy.setCountdownDuration(countdownSeconds, roomId);
     setLoopLoading(false);
     
     if (result.success && result.data) {
@@ -267,8 +240,6 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
   }, [onRoomSelected]);
 
   const handleCreateRoom = async () => {
-    if (!engineUrl || !admin.adminToken) return;
-
     const trimmedName = newRoomName.trim();
     const trimmedRoomId = newRoomId.trim().toLowerCase();
     if (!trimmedName) {
@@ -277,7 +248,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
     }
 
     setRoomLoading(true);
-    const result = await roomActions.create(engineUrl, admin.adminToken, trimmedName, trimmedRoomId || undefined);
+    const result = await roomProxy.create(trimmedName, trimmedRoomId || undefined);
     setRoomLoading(false);
 
     if (result.success && result.data) {
@@ -299,10 +270,10 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
   };
 
   const handleCloseRoom = async (targetRoomId: string) => {
-    if (!engineUrl || !admin.adminToken || targetRoomId === "global") return;
+    if (targetRoomId === "global") return;
 
     setRoomLoading(true);
-    const result = await roomActions.close(engineUrl, admin.adminToken, targetRoomId);
+    const result = await roomProxy.close(targetRoomId);
     setRoomLoading(false);
 
     if (result.success && result.data) {
@@ -383,7 +354,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                     {truncatedUrl}
                   </span>
                   <button
-                    onClick={() => admin.checkEngineHealth()}
+                    onClick={() => admin.checkEngineHealth(engineUrl)}
                     disabled={admin.loading || !engineUrl}
                     className="text-[10px] px-2 py-1 rounded bg-(--accent) text-white disabled:opacity-50 transition-opacity"
                   >
@@ -401,7 +372,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                   </div>
                   <button
                     onClick={() => void refreshRoomScopedData()}
-                    disabled={roomLoading || !admin.adminToken}
+                    disabled={roomLoading }
                     className="rounded-lg border border-(--border) px-2 py-1 text-[10px] font-semibold text-(--accent) disabled:opacity-50"
                   >
                     Refresh Rooms
@@ -460,7 +431,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                     <button
                       type="button"
                       onClick={() => void handleCreateRoom()}
-                      disabled={roomLoading || !admin.adminToken}
+                      disabled={roomLoading }
                       className="rounded-lg bg-(--accent) px-3 py-2 text-xs font-semibold text-white disabled:opacity-40"
                     >
                       {roomLoading ? "..." : "Create"}
@@ -478,31 +449,31 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                 <ActionButton
                   label="Start"
                   onClick={() => handleAction("start")}
-                  disabled={admin.loading || !admin.adminToken}
+                  disabled={admin.loading }
                   color="green"
                 />
                 <ActionButton
                   label="Pause"
                   onClick={() => handleAction("pause")}
-                  disabled={admin.loading || !admin.adminToken}
+                  disabled={admin.loading }
                   color="yellow"
                 />
                 <ActionButton
                   label="Next"
                   onClick={() => handleAction("next")}
-                  disabled={admin.loading || !admin.adminToken}
+                  disabled={admin.loading }
                   color="blue"
                 />
                 <ActionButton
                   label="Reset"
                   onClick={() => handleAction("reset")}
-                  disabled={admin.loading || !admin.adminToken}
+                  disabled={admin.loading }
                   color="red"
                 />
                 <ActionButton
                   label="Shuffle"
                   onClick={handleShuffle}
-                  disabled={admin.loading || !admin.adminToken || Boolean(roomId && roomId !== "global")}
+                  disabled={admin.loading  || Boolean(roomId && roomId !== "global")}
                   color="purple"
                 />
                 <ActionButton
@@ -544,7 +515,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                   </select>
                   <button
                     onClick={handleStartTopic}
-                    disabled={topicLoading || !admin.adminToken || !selectedTopicId}
+                    disabled={topicLoading  || !selectedTopicId}
                     className="text-xs px-3 py-2 rounded-lg bg-green-600 text-white hover:bg-green-500 
                       disabled:opacity-40 transition-all"
                   >
@@ -556,7 +527,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                 <div className="flex gap-2">
                   <button
                     onClick={handleStartNextTopic}
-                    disabled={topicLoading || !admin.adminToken}
+                    disabled={topicLoading }
                     className="flex-1 text-xs py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-500 
                       disabled:opacity-40 transition-all"
                   >
@@ -564,7 +535,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                   </button>
                   <button
                     onClick={handleCancelAutoAdvance}
-                    disabled={topicLoading || !admin.adminToken}
+                    disabled={topicLoading }
                     className="flex-1 text-xs py-2 rounded-lg bg-yellow-600 text-white hover:bg-yellow-500 
                       disabled:opacity-40 transition-all"
                   >
@@ -576,7 +547,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                 <div className="flex gap-2 mt-2">
                   <button
                     onClick={handleSkipTopic}
-                    disabled={topicLoading || !admin.adminToken}
+                    disabled={topicLoading }
                     className="flex-1 text-xs py-2 rounded-lg bg-orange-600 text-white hover:bg-orange-500 
                       disabled:opacity-40 transition-all"
                     title="Skip current topic and start next"
@@ -585,7 +556,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                   </button>
                   <button
                     onClick={handleReplayTopic}
-                    disabled={topicLoading || !admin.adminToken}
+                    disabled={topicLoading }
                     className="flex-1 text-xs py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-500 
                       disabled:opacity-40 transition-all"
                     title="Restart current topic from beginning"
@@ -607,7 +578,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                   />
                   <button
                     onClick={handleCountdownTopic}
-                    disabled={topicLoading || !admin.adminToken}
+                    disabled={topicLoading }
                     className="flex-1 text-xs py-2 rounded-lg bg-cyan-600 text-white hover:bg-cyan-500 
                       disabled:opacity-40 transition-all"
                     title="Start countdown before beginning topic"
@@ -627,7 +598,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                   <div className="flex gap-1.5">
                     <button
                       onClick={() => handleSetTopicLoop("off")}
-                      disabled={loopLoading || !admin.adminToken}
+                      disabled={loopLoading }
                       className={`flex-1 text-[10px] py-1.5 rounded-lg transition-all disabled:opacity-40
                         ${topicLoopMode === "off" ? "bg-(--accent) text-white" : "bg-(--card) border border-(--border) text-(--muted) hover:border-(--accent)"}`}
                     >
@@ -635,7 +606,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                     </button>
                     <button
                       onClick={() => handleSetTopicLoop("once")}
-                      disabled={loopLoading || !admin.adminToken}
+                      disabled={loopLoading }
                       className={`flex-1 text-[10px] py-1.5 rounded-lg transition-all disabled:opacity-40
                         ${topicLoopMode === "once" ? "bg-purple-600 text-white" : "bg-(--card) border border-(--border) text-(--muted) hover:border-purple-500"}`}
                     >
@@ -643,7 +614,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                     </button>
                     <button
                       onClick={() => handleSetTopicLoop("infinite")}
-                      disabled={loopLoading || !admin.adminToken}
+                      disabled={loopLoading }
                       className={`flex-1 text-[10px] py-1.5 rounded-lg transition-all disabled:opacity-40
                         ${topicLoopMode === "infinite" ? "bg-orange-600 text-white" : "bg-(--card) border border-(--border) text-(--muted) hover:border-orange-500"}`}
                     >
@@ -658,7 +629,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                   <div className="flex gap-1.5">
                     <button
                       onClick={() => handleSetSeriesLoop("off")}
-                      disabled={loopLoading || !admin.adminToken}
+                      disabled={loopLoading }
                       className={`flex-1 text-[10px] py-1.5 rounded-lg transition-all disabled:opacity-40
                         ${seriesLoopMode === "off" ? "bg-(--accent) text-white" : "bg-(--card) border border-(--border) text-(--muted) hover:border-(--accent)"}`}
                     >
@@ -666,7 +637,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                     </button>
                     <button
                       onClick={() => handleSetSeriesLoop("once")}
-                      disabled={loopLoading || !admin.adminToken}
+                      disabled={loopLoading }
                       className={`flex-1 text-[10px] py-1.5 rounded-lg transition-all disabled:opacity-40
                         ${seriesLoopMode === "once" ? "bg-purple-600 text-white" : "bg-(--card) border border-(--border) text-(--muted) hover:border-purple-500"}`}
                     >
@@ -674,7 +645,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                     </button>
                     <button
                       onClick={() => handleSetSeriesLoop("infinite")}
-                      disabled={loopLoading || !admin.adminToken}
+                      disabled={loopLoading }
                       className={`flex-1 text-[10px] py-1.5 rounded-lg transition-all disabled:opacity-40
                         ${seriesLoopMode === "infinite" ? "bg-orange-600 text-white" : "bg-(--card) border border-(--border) text-(--muted) hover:border-orange-500"}`}
                     >
@@ -696,7 +667,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                   />
                   <button
                     onClick={handleSetCountdownDuration}
-                    disabled={loopLoading || !admin.adminToken}
+                    disabled={loopLoading }
                     className="flex-1 text-[10px] py-1.5 rounded-lg bg-teal-600 text-white hover:bg-teal-500 
                       disabled:opacity-40 transition-all"
                     title="Set default countdown duration between topics"
@@ -730,54 +701,19 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                   </svg>
                 </div>
-                <p className="text-xs text-(--muted)">Enter admin token to access controls</p>
-                <p className="text-[10px] text-(--muted) mt-1">Token is validated against the server</p>
+                <p className="text-xs text-(--muted)">Verify your author session to access controls</p>
+                <p className="text-[10px] text-(--muted) mt-1">You must be logged in at /author/login</p>
               </div>
 
-              <form
-                className="space-y-2"
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  void handleValidateToken();
-                }}
-              >
-                <input
-                  type="text"
-                  name="username"
-                  autoComplete="username"
-                  value="admin"
-                  readOnly
-                  className="hidden"
-                  tabIndex={-1}
-                  aria-hidden="true"
-                />
-                <input
-                  type="password"
-                  name="admin-token"
-                  autoComplete="current-password"
-                  value={tokenInput}
-                  onChange={(e) => {
-                    setTokenInput(e.target.value);
-                    setTokenError(null);
-                  }}
-                  placeholder="Admin token"
-                  className={`w-full text-sm px-4 py-3 rounded-lg bg-background border 
-                    ${tokenError ? "border-red-500" : "border-(--border)"}
-                    text-foreground placeholder:text-(--muted) text-center
-                    focus:outline-none focus:border-(--accent)`}
-                  autoFocus={isOpen && !admin.isUnlocked}
-                  disabled={admin.validating}
-                />
+              <div className="space-y-2">
                 {tokenError && (
                   <p className="text-xs text-red-500 text-center">{tokenError}</p>
                 )}
-                {!engineUrl && (
-                  <p className="text-xs text-yellow-500 text-center">Engine URL not configured</p>
-                )}
 
                 <button
-                  type="submit"
-                  disabled={!tokenInput || admin.validating || !engineUrl}
+                  type="button"
+                  onClick={() => void handleValidateToken()}
+                  disabled={admin.validating}
                   className="w-full py-3 text-sm font-semibold rounded-lg
                     bg-(--accent) text-white disabled:opacity-50 transition-opacity
                     flex items-center justify-center gap-2"
@@ -788,13 +724,13 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                       </svg>
-                      Validating...
+                      Verifying...
                     </>
                   ) : (
-                    "Unlock"
+                    "Verify Session & Unlock"
                   )}
                 </button>
-              </form>
+              </div>
             </div>
           )}
         </div>

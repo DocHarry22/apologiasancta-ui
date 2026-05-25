@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
-import { contentActions, type ContentImportError } from "@/lib/engineAdmin";
+import { type ContentImportError } from "@/lib/engineAdmin";
+import { contentProxy } from "@/lib/adminProxyClient";
 import {
   parseInput,
   validateBatch,
@@ -13,8 +14,6 @@ import {
 import type { Question } from "@/types/content";
 
 interface Props {
-  engineUrl: string;
-  adminToken: string;
   topics?: Array<{ id: string; title: string }>;
 }
 
@@ -24,7 +23,7 @@ type ImportState =
   | { status: "success"; added: number; updated: number; committed: boolean; message?: string }
   | { status: "error"; code?: number; message: string; details?: string };
 
-export default function BatchImport({ engineUrl, adminToken, topics = [] }: Props) {
+export default function BatchImport({ topics = [] }: Props) {
   // Input state
   const [jsonInput, setJsonInput] = useState("");
   const [commitToGitHub, setCommitToGitHub] = useState(false);
@@ -59,7 +58,7 @@ export default function BatchImport({ engineUrl, adminToken, topics = [] }: Prop
   const invalidCount = validation?.invalid.length ?? 0;
   const hasParseError = !parseResult.ok && jsonInput.trim().length > 0;
   const hasValidationErrors = invalidCount > 0;
-  const canImport = parseResult.ok && validCount > 0 && invalidCount === 0 && !!engineUrl;
+  const canImport = parseResult.ok && validCount > 0 && invalidCount === 0;
 
   // --------------------------------------------------------------------------
   // Handlers
@@ -103,9 +102,7 @@ export default function BatchImport({ engineUrl, adminToken, topics = [] }: Prop
     setServerErrors([]);
 
     try {
-      const response = await contentActions.import(
-        engineUrl,
-        adminToken,
+      const response = await contentProxy.import(
         validation.valid,
         { commitToGitHub, commitMessage: `Batch import ${validCount} questions` }
       );
