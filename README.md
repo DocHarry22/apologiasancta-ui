@@ -4,6 +4,42 @@ Next.js frontend for Apologia Sancta Live, including the public landing page, ro
 
 Built with Next.js 16, React 19, Tailwind CSS 4, and Capacitor 7.
 
+Deployed on Hostinger: `https://sandybrown-bear-488955.hostingersite.com`
+Android package: `com.apologiasancta.live`
+
+## Current State (v1 — May 2026)
+
+The UI is deployed to Hostinger and the Android debug APK has been built and verified locally.
+
+**What's working:**
+- Room-aware mobile trivia flow with room switching while preserving global player identity
+- Real-time SSE state updates with automatic reconnect and polling fallback
+- Room and global leaderboard views driven by the engine's `daily`, `weekly`, and `all-time` windows
+- Author dashboard for content import, engine controls, persistence status, and room management
+- Server-side admin proxy — the browser never receives the engine admin token
+- CSRF double-submit cookie pattern protecting all admin proxy routes
+- Security headers: HSTS, CSP, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`
+- Installable PWA flow with manifest, generated app icons (all standard sizes), offline fallback page, and service-worker bypass for SSE/API traffic
+- Android wrapper via Capacitor pointing at the deployed Hostinger URL
+- Landing page install/download CTAs for Chromium browser install, iPhone Add to Home Screen, and Android APK distribution
+- CI on GitHub Actions: lint and Next build on every push; debug APK artifact on pushes to `main`
+
+**Known limitations / v1 gates not yet cleared:**
+- Hostinger routes `/mobile/`, `/author/login`, and `/library` currently return HTTP 403 — requires redeploying the latest build with the Apache `.htaccess` rewrite rule to Hostinger
+- Engine route `/rooms/global/stages` returns HTTP 404 on the live Render deployment — requires redeploying the engine after the latest source is pushed to GitHub
+- Signed APK release workflow is configured but not yet end-to-end verified (requires Android keystore secrets in GitHub Actions)
+- APK is currently distributed only as an internal debug build; public signed release is gated on keystore setup
+
+## Future Goals
+
+- **Clear remaining v1 gates** — redeploy Hostinger static export with `.htaccess`, confirm all routes return HTTP 200, and ship signed APK to testers
+- **Signed APK/AAB release pipeline** — set `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, and `ANDROID_KEY_PASSWORD` in GitHub Actions secrets to enable automated signed release builds
+- **Per-room topic flow in UI** — update room state display when the engine delivers independent per-room question tracks
+- **Nonce-based CSP** — remove `unsafe-inline` from `script-src` once Next.js nonce support lands
+- **Play Store submission** — migrate from debug to production-signed AAB and prepare store listing assets
+- **Push notification support** — native push via Capacitor for round-start announcements to installed users
+- **Offline queue** — buffer answer submissions locally when SSE is down and replay when reconnected
+
 ## Features
 
 - Room-aware mobile trivia flow with room switching while preserving player identity
@@ -118,6 +154,128 @@ The native shell points at the deployed web app URL configured by `CAPACITOR_SER
 3. Player joins a room and receives room-scoped state.
 4. SSE keeps the screen live; polling is used as fallback if the stream drops.
 5. Answer, score, streak, rank, and leaderboard updates remain room-specific.
+
+## Security Headers
+
+Configured in `next.config.ts` via the Next.js `headers()` API. Applied to all routes.
+
+### Headers applied on every response
+
+| Header | Value |
+|---|---|
+| `X-Content-Type-Options` | `nosniff` |
+| `X-Frame-Options` | `DENY` |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` |
+| `Permissions-Policy` | camera, microphone, geolocation, payment, usb, interest-cohort all disabled |
+
+### Production-only headers
+
+| Header | Notes |
+|---|---|
+| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` — 2-year HSTS with preload. Not applied in development to avoid breaking HTTP local dev. |
+| `Content-Security-Policy` | See below. Not applied in development so Next.js hot-reload and React DevTools are not broken by `unsafe-eval` restrictions. |
+
+### Content Security Policy (production)
+
+| Directive | Value | Reason |
+|---|---|---|
+| `default-src` | `'self'` | Restricts all unspecified resource types to same origin |
+| `base-uri` | `'self'` | Prevents `<base>` tag injection attacks |
+| `object-src` | `'none'` | Disables plugins (Flash, Java applets, etc.) |
+| `connect-src` | `'self' <engine-origin>` | Allows SSE, REST polling, and fetch to same origin and the configured engine |
+| `script-src` | `'self' 'unsafe-inline'` | `unsafe-inline` required by Next.js hydration bootstrap scripts |
+| `style-src` | `'self' 'unsafe-inline'` | `unsafe-inline` required by Tailwind inline style injection |
+| `img-src` | `'self' data: blob: https:` | Allows local, base64, blob, and remote HTTPS images |
+| `font-src` | `'self' data:` | Allows local fonts and base64-embedded fonts in CSS |
+| `manifest-src` | `'self'` | PWA manifest must be same-origin |
+| `worker-src` | `'self' blob:` | Service worker registration from same origin |
+| `form-action` | `'self'` | Form submissions restricted to same origin |
+| `frame-ancestors` | `'none'` | Prevents clickjacking (equivalent to `X-Frame-Options: DENY`) |
+
+### connect-src and the engine URL
+
+`NEXT_PUBLIC_ENGINE_URL` origin is included in `connect-src` so the browser can open SSE connections to `/events` and poll `/state` on the engine. Only the **origin** (scheme + host + port) is extracted — the full path is not used.
+
+`ENGINE_INTERNAL_URL` is **never** included in any browser-facing header. It is used only by the server-side admin proxy and never transmitted to the browser.
+
+### CSP limitations
+
+- `unsafe-inline` in `script-src` is required by Next.js inline hydration. This can be eliminated in a future phase by adopting nonce-based CSP via Next.js middleware.
+- `unsafe-eval` is intentionally absent from production. If a dependency requires it, add it explicitly with a comment.
+- CSP is skipped in development to avoid breaking hot-reload and React DevTools.
+
+## Admin Proxy Security Architecture
+
+### Overview
+
+The admin dashboard communicates with the engine through a server-side proxy. The browser never holds or sends the engine admin token.
+
+```
+Browser (author session cookie)
+  → POST /api/admin/start               (same-origin, no token)
+      → Next.js route handler
+          → verifyAdminSession()        (checks author session cookie)
+          → CSRF token validation       (double-submit cookie pattern)
+          → ADMIN_ROUTE_ALLOWLIST check (explicit route + method matching)
+          → fetch(ENGINE_INTERNAL_URL/admin/start, { "x-admin-token": ... })
+              → Engine                  (token injected server-side only)
+```
+
+### Environment variables
+
+| Variable | Visibility | Purpose |
+|---|---|---|
+| `ENGINE_ADMIN_TOKEN` | Server-side only | Injected into every proxied admin request. Never sent to the browser. |
+| `ENGINE_INTERNAL_URL` | Server-side only | Preferred internal engine URL for server-to-server calls. Falls back to `NEXT_PUBLIC_ENGINE_URL`. |
+| `NEXT_PUBLIC_ENGINE_URL` | Public | Used by the browser for public SSE/health connections only. Must not contain secrets. |
+| `AUTHOR_SESSION_SECRET` | Server-side only | Signs the author session cookie. |
+
+### Admin proxy route allowlist
+
+Only routes explicitly listed in `src/lib/server/engineProxy.ts` (`ADMIN_ROUTE_ALLOWLIST`) are forwarded to the engine. All other paths return `404`. Unknown methods return `405`. Invalid path segments (containing `../`, encoded slashes, or non-`[a-zA-Z0-9_-]` characters) return `400`.
+
+Route pattern:
+```
+Internal:  GET  /api/admin/status
+Engine:    GET  /admin/status
+
+Internal:  POST /api/admin/start?roomId=abc
+Engine:    POST /admin/rooms/abc/start      (path built from segment, not from query param)
+
+Internal:  POST /api/admin/topic/start/romans?roomId=abc
+Engine:    POST /admin/rooms/abc/topic/start/romans
+```
+
+To add a new admin endpoint, add an explicit `RouteRule` entry to `ADMIN_ROUTE_ALLOWLIST`.
+
+### Session and CSRF protection
+
+- All `/api/admin/*` routes require a valid author session cookie.
+- Unauthenticated requests return `401` before any engine call is made.
+- All mutation requests (non-GET) are rate-limited to 200 requests per 5-minute window per source IP (429 with `Retry-After` header on breach).
+- All mutation requests (non-GET) require the CSRF token (`as_csrf_token` cookie echoed in `x-csrf-token` header) using the double-submit pattern.
+
+### Admin audit logging
+
+Every request handled by the admin proxy emits a structured JSON log entry to stdout:
+
+```json
+{ "t": "2025-01-01T00:00:00.000Z", "domain": "admin_proxy", "method": "POST", "path": "start", "ip": "1.2.3.4", "outcome": "allowed", "statusCode": 200 }
+```
+
+Possible outcomes: `allowed`, `blocked_unauthed`, `blocked_rate_limit`, `blocked_csrf`, `blocked_allowlist`, `proxy_error`.
+
+These entries are captured by the host platform's log aggregator (Render, Railway, etc.) and can be filtered by `domain: admin_proxy`.
+
+### Mobile admin panel
+
+The mobile admin drawer (`src/components/mobile/AdminDrawer.tsx`) uses session-based unlock (same `/api/auth/csrf` check as the desktop dashboard). It does not ask for or store an engine admin token.
+
+### Removed: browser token flow
+
+Prior to Phase 1.1, the browser stored `adminToken` in `localStorage` and sent `x-admin-token` directly to the engine. This flow has been removed. All admin calls now go through the server-side proxy.
+
+The legacy token-accepting functions in `src/lib/engineAdmin.ts` (`engineFetch`, `adminActions`, `roomActions`, `contentActions`, `quizActions`, `topicActions`) are dead code and marked `@deprecated`. They are not called by any browser component and will be removed in a future cleanup.
 
 ## Author Dashboard
 
