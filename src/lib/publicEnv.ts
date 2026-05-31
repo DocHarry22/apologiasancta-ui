@@ -1,5 +1,6 @@
 const DEFAULT_ENGINE_URL = "https://apologiasancta-engine.onrender.com";
-const DEFAULT_ANDROID_APK_URL = "/downloads/apologia-sancta.apk";
+const DEFAULT_ANDROID_APK_URL =
+  "https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk";
 
 const ENGINE_URL = process.env.NEXT_PUBLIC_ENGINE_URL?.trim() || DEFAULT_ENGINE_URL;
 const ANDROID_APK_URL = process.env.NEXT_PUBLIC_ANDROID_APK_URL?.trim() || DEFAULT_ANDROID_APK_URL;

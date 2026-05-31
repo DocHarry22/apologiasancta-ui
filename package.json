@@ -12,7 +12,8 @@
     "test:e2e": "npx --yes @playwright/test@1.51.1 test",
     "cap:sync": "cap sync android",
     "cap:add:android": "cap add android",
-    "cap:open:android": "cap open android"
+    "cap:open:android": "cap open android",
+    "apk:release": "node scripts/build-release-apk.cjs"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.3",

@@ -114,11 +114,11 @@ export default function Home() {
                     <h3 className="text-lg font-semibold">Android App</h3>
                   </div>
                   <p className="text-sm text-(--text-secondary) leading-relaxed">
-                    Download the native Android APK and install it on your device.
+                    Download the latest signed Android APK and install it on your device.
                   </p>
                   <div className="pt-2">
                     <span className="inline-flex items-center gap-1 text-sm font-medium text-(--accent) group-hover:gap-2 transition-all">
-                      Download APK
+                      Download Latest APK
                       <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                       </svg>
