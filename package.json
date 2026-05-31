@@ -18,8 +18,8 @@
   "dependencies": {
     "@capacitor/android": "^7.4.3",
     "@capacitor/core": "^7.4.3",
-    "@capacitor/haptics": "^8.0.2",
-    "@capacitor/preferences": "^8.0.1",
+    "@capacitor/haptics": "^7.0.2",
+    "@capacitor/preferences": "^7.0.2",
     "capacitor-keep-screen-on": "^1.0.0-alpha.6",
     "framer-motion": "^12.40.0",
     "next": "16.1.6",
