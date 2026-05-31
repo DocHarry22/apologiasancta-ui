@@ -109,7 +109,6 @@ The following are rejected with a hard error when `CAPACITOR_BUILD_MODE=producti
 - Any URL using `http://` instead of `https://`
 - `localhost` as hostname
 - `127.x.x.x` or `0.0.0.0`
-- Any hostname matching `*.hostingersite.com` (temporary preview domains)
 - Any URL that is not a valid URL
 
 ### How to build a release APK
@@ -174,9 +173,11 @@ Recommended GitHub variable:
 Run `npx cap sync android` with `CAPACITOR_BUILD_MODE=production` set.  
 If the URL is missing or invalid, the command exits immediately with a clear error before any files are written.
 
-### Why temporary fallback URLs are not allowed
+### Why silent fallback URLs are not allowed
 
 Previous versions of `capacitor.config.ts` fell back silently to a temporary Hostinger preview URL (`sandybrown-bear-488955.hostingersite.com`). This meant a release APK could accidentally point to an unstable host with no error. The hardened config makes this impossible in production mode.
+
+Hostinger URLs are allowed when they are explicitly configured through `CAPACITOR_SERVER_URL`, because that makes the release target intentional and visible in GitHub Actions.
 
 ---
 

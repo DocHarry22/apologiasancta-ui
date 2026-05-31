@@ -10,7 +10,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
 // Production mode:
 //   - CAPACITOR_SERVER_URL or NEXT_PUBLIC_APP_URL must be set.
 //   - URL must use HTTPS.
-//   - localhost, 127.0.0.1, and temporary preview domains are rejected.
+//   - localhost and local network placeholders are rejected.
 //   - Missing or invalid URL throws immediately so the build fails loudly.
 //
 // Development mode:
@@ -33,7 +33,6 @@ const FORBIDDEN_PROD_HOSTNAMES = [
   /^localhost$/i,
   /^127\.\d+\.\d+\.\d+$/,
   /^0\.0\.0\.0$/,
-  /hostingersite\.com$/i,
 ];
 
 function validateProductionUrl(url: string): void {
@@ -58,7 +57,7 @@ function validateProductionUrl(url: string): void {
     if (pattern.test(parsed.hostname)) {
       throw new Error(
         `[capacitor.config] PRODUCTION BUILD FAILED — forbidden host in production URL: ` +
-          `"${parsed.hostname}". localhost, 127.0.0.1, and temporary preview domains ` +
+          `"${parsed.hostname}". localhost, 127.0.0.1, and local placeholder domains ` +
           "are not allowed in release builds."
       );
     }
