@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useTheme } from "@/lib/theme";
 import type { ConnectionStatus } from "@/types/quiz";
+import { getConnectionLabel } from "@/lib/mobileUx";
 
 interface TopBarProps {
   topic?: string;
@@ -25,11 +26,12 @@ export function TopBar({
 }: TopBarProps) {
   const { theme, toggleTheme } = useTheme();
 
-  const statusConfig = {
-    connected: { text: "LIVE", dotClass: "bg-white", animate: true },
-    connecting: { text: "CONNECTING", dotClass: "bg-white/70", animate: false },
-    reconnecting: { text: "RECONNECTING", dotClass: "bg-yellow-200", animate: true },
-    disconnected: { text: "OFFLINE", dotClass: "bg-white/60", animate: false },
+  const statusConfig: Record<ConnectionStatus, { dotClass: string; bgClass: string; animate: boolean }> = {
+    connected: { dotClass: "bg-white", bgClass: "bg-green-600", animate: true },
+    connecting: { dotClass: "bg-white/70", bgClass: "bg-sky-600", animate: false },
+    reconnecting: { dotClass: "bg-yellow-200", bgClass: "bg-yellow-600", animate: true },
+    polling: { dotClass: "bg-white", bgClass: "bg-blue-600", animate: true },
+    disconnected: { dotClass: "bg-white/60", bgClass: "bg-red-600", animate: false },
   };
 
   const status = statusConfig[connectionStatus];
@@ -86,9 +88,9 @@ export function TopBar({
             )}
           </button>
 
-          <div className="flex items-center gap-1 rounded-md bg-red-600 px-2 py-1 text-white shadow-sm">
+          <div className={`flex items-center gap-1 rounded-md px-2 py-1 text-white shadow-sm ${status.bgClass}`}>
             <span className={`h-1.5 w-1.5 rounded-full ${status.dotClass} ${status.animate ? "live-dot" : ""}`} />
-            <span className="text-[10px] font-bold">{status.text}</span>
+            <span className="text-[10px] font-bold">{getConnectionLabel(connectionStatus)}</span>
           </div>
 
           {onOpenAdmin ? (

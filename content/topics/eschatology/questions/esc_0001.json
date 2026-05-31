@@ -1,0 +1,19 @@
+{
+  "id": "esc_0001",
+  "topicId": "eschatology",
+  "difficulty": 1,
+  "question": "What are the 'Four Last Things' in traditional Catholic eschatology?",
+  "choices": {
+    "A": "Death, Judgment, Heaven, and Hell",
+    "B": "Birth, Death, Resurrection, and Heaven",
+    "C": "Purgatory, Heaven, Hell, and the Rapture",
+    "D": "Baptism, Confirmation, Last Rites, and Heaven"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Four Last Things",
+    "body": "The traditional Catholic schema of the Four Last Things (Death, Judgment, Heaven, Hell) derives from Sirach 7:36: 'In whatever you do, remember your last days.' They form a classic framework for spiritual reflection. Death is universal and marks the end of earthly life and merit. Judgment follows immediately (Particular Judgment) and finally at the end of history (General Judgment). Heaven is the eternal beatitude of union with God. Hell is eternal separation from God. Purgatory, while important, was not traditionally numbered among the Four Last Things as it is transitional.",
+    "refs": ["CCC 1020-1060", "Sirach 7:36", "Hebrews 9:27"]
+  },
+  "tags": ["four-last-things", "death", "judgment", "heaven", "hell"]
+}

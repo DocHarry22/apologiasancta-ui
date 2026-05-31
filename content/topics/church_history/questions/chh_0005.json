@@ -1,0 +1,19 @@
+{
+  "id": "chh_0005",
+  "topicId": "church_history",
+  "difficulty": 2,
+  "question": "Who wrote the Summa Theologiae, and when did he live?",
+  "choices": {
+    "A": "St. Thomas Aquinas (1225-1274)",
+    "B": "St. Augustine of Hippo (354-430)",
+    "C": "St. Anselm of Canterbury (1033-1109)",
+    "D": "St. Bonaventure (1221-1274)"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Thomas Aquinas and the Summa Theologiae",
+    "body": "St. Thomas Aquinas (1225-1274), a Dominican friar, wrote the Summa Theologiae (Summary of Theology) as a systematic synthesis of Christian theology and Aristotelian philosophy. Left unfinished at his death, it covers God's existence and nature, creation, ethics, the Incarnation, and the sacraments. Aquinas's method — presenting objections, then replies — became the model for scholastic theology. Pope Leo XIII's encyclical Aeterni Patris (1879) recommended Thomism as the standard for Catholic philosophical and theological education.",
+    "refs": ["Leo XIII, Aeterni Patris (1879)", "CCC 41", "Aquinas, Summa Theologiae"]
+  },
+  "tags": ["aquinas", "scholasticism", "theology", "dominicans"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "prd_0006",
+  "topicId": "prayer_devotion",
+  "difficulty": 3,
+  "question": "What are the four classical forms of prayer that the acronym 'ACTS' stands for?",
+  "choices": {
+    "A": "Adoration, Contrition, Thanksgiving, Supplication",
+    "B": "Appeal, Confession, Trust, Surrender",
+    "C": "Anointing, Communion, Thanksgiving, Sacrifice",
+    "D": "Adoration, Consecration, Thanksgiving, Supplication"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "ACTS — Four Forms of Prayer",
+    "body": "The ACTS acronym is a widely-used catechetical framework for balanced Christian prayer: Adoration (praising God for who he is, not just what he does), Contrition (acknowledging sin and seeking forgiveness), Thanksgiving (gratitude for God's gifts and benefits), Supplication (petitionary prayer for one's own needs and intercession for others). The Catechism identifies the same four primary expressions of prayer: blessing/adoration, petition, intercession, and thanksgiving (CCC 2626-2643). A fifth — praise — is often added, making it ACTSP.",
+    "refs": ["CCC 2626-2643", "Phil 4:6", "1 Tim 2:1-2"]
+  },
+  "tags": ["prayer", "adoration", "contrition", "thanksgiving", "supplication"]
+}

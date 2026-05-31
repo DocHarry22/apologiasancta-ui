@@ -1,0 +1,19 @@
+{
+  "id": "sct_0008",
+  "topicId": "scripture_tradition",
+  "difficulty": 4,
+  "question": "What is the hermeneutical principle of 'the analogy of faith' (analogia fidei) and how does it guide Catholic Scripture interpretation?",
+  "choices": {
+    "A": "Scripture passages must be interpreted in light of the whole coherent content of the faith — no text may be read in isolation against the totality of what God has revealed",
+    "B": "Only passages that have a clear analogy with the reader's personal experience can be trusted",
+    "C": "Earlier biblical books always override later ones when there is apparent contradiction",
+    "D": "Every Scripture text has exactly one literal meaning and all others are rejected"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Analogia Fidei — Analogy of Faith",
+    "body": "The 'analogy of faith' (Romans 12:6, analogia tes pisteos) refers to the coherent unity of all revealed doctrine. In Catholic hermeneutics (Dei Verbum 12, CCC 114), it means: Scripture is interpreted within the totality of the faith and not in isolation. A passage that seems to contradict an established doctrine must be re-examined in its context before being used to overturn the whole. This principle explains why Catholic exegesis often differs from 'plain reading' approaches — the Church brings the full context of the tradition, the creeds, and the other texts of Scripture to each passage, reading the Bible as a unified whole with Christ as its center.",
+    "refs": ["CCC 114", "Dei Verbum 12", "Romans 12:6"]
+  },
+  "tags": ["hermeneutics", "analogy-of-faith", "scripture-interpretation"]
+}

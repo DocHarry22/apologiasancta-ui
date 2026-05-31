@@ -1,0 +1,19 @@
+{
+  "id": "euc_0005",
+  "topicId": "eucharist",
+  "difficulty": 3,
+  "question": "Ignatius of Antioch (~110 AD) wrote that certain heretics 'abstain from the Eucharist because they do not confess that the Eucharist is the flesh of our Savior.' What does this early patristic evidence show?",
+  "choices": {
+    "A": "Belief in Christ's Real Presence in the Eucharist predates any medieval theological innovation and was the reason for early heretical controversy",
+    "B": "Ignatius was exaggerating to make a rhetorical point and did not mean this literally",
+    "C": "The early Church was divided 50/50 between symbolic and realist interpretations",
+    "D": "This proves the Real Presence was invented by Ignatius and had no apostolic origin"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Ignatius of Antioch on the Eucharist",
+    "body": "In his Letter to the Smyrnaeans (ch. 7), Ignatius writes that the Docetists 'abstain from the Eucharist and from prayer, because they confess not that the Eucharist is the flesh of our Saviour Jesus Christ.' Written ~107-110 AD, within living memory of the apostles, this text reveals that: (1) realist eucharistic belief was already the norm against which heretics pushed back; (2) denying the Real Presence was seen as connected to Christological heresy (Docetism). This makes the Catholic/Orthodox position patristically ancient, not a medieval invention.",
+    "refs": ["Ignatius, To the Smyrnaeans 7", "CCC 1336", "1 Cor 11:27-29"]
+  },
+  "tags": ["patristics", "ignatius", "real-presence", "apologetics"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "prd_0001",
+  "topicId": "prayer_devotion",
+  "difficulty": 1,
+  "question": "How many Mysteries of the Rosary are there in the full modern Rosary, and who added the most recent set?",
+  "choices": {
+    "A": "20 Mysteries — Pope John Paul II added the Luminous Mysteries in 2002",
+    "B": "15 Mysteries — no additions have been made since the medieval period",
+    "C": "10 Mysteries — five Joyful and five Sorrowful",
+    "D": "25 Mysteries — Pope Benedict XVI added a fifth set in 2006"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Mysteries of the Rosary",
+    "body": "The traditional Rosary had 15 Mysteries in three sets: Joyful (Annunciation to Finding in the Temple), Sorrowful (Agony in the Garden to Crucifixion), and Glorious (Resurrection to Coronation of Mary). In his apostolic letter Rosarium Virginis Mariae (2002), Pope John Paul II added five Luminous Mysteries ('Mysteries of Light') covering Christ's public ministry — Baptism, Wedding at Cana, Proclamation of the Kingdom, Transfiguration, and Institution of the Eucharist — bringing the total to 20.",
+    "refs": ["John Paul II, Rosarium Virginis Mariae (2002)", "CCC 971", "Luke 1:28-38"]
+  },
+  "tags": ["rosary", "john-paul-II", "marian-devotion"]
+}

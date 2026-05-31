@@ -22,6 +22,8 @@ import type {
   LoopMode,
 } from "@/lib/engineAdmin";
 
+export type { LoopMode } from "@/lib/engineAdmin";
+
 // --------------------------------------------------------------------------
 // Internal fetch wrapper
 // --------------------------------------------------------------------------
@@ -88,6 +90,25 @@ async function proxyFetch<T = unknown>(
       };
     }
 
+    if (response.status === 429) {
+      return {
+        success: false,
+        error: "Too many admin requests. Wait a moment and try again.",
+      };
+    }
+
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.toLowerCase().includes("application/json")) {
+      const text = await response.text();
+      const preview = text.trim().slice(0, 120).replace(/\s+/g, " ");
+      return {
+        success: false,
+        error: preview.startsWith("<!DOCTYPE") || preview.startsWith("<html")
+          ? "Admin proxy returned HTML instead of JSON. Check the engine URL and server route."
+          : `Admin proxy returned a non-JSON response${preview ? `: ${preview}` : ""}`,
+      };
+    }
+
     const data = await response.json() as Record<string, unknown>;
 
     if (!response.ok) {
@@ -95,6 +116,7 @@ async function proxyFetch<T = unknown>(
         success: false,
         error:
           (typeof data?.error === "string" && data.error) ||
+          (response.status === 400 ? "Admin request failed validation." : "") ||
           `HTTP ${response.status}`,
       };
     }

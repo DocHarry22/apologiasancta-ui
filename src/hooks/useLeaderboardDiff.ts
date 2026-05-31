@@ -25,6 +25,11 @@ export function useLeaderboardDiff(leaderboard: Leaderboard): LeaderboardWithCha
     topStreaks: leaderboard.topStreaks.map(s => ({ ...s, changed: false })),
   });
 
+  // Serialize array contents so the effect only re-runs when data actually
+  // changes, not on every render where the leaderboard object gets a new reference.
+  const scorersKey = JSON.stringify(leaderboard.topScorers);
+  const streakersKey = JSON.stringify(leaderboard.topStreaks);
+
   useEffect(() => {
     const prevScorers = prevScorersRef.current;
     const prevStreakers = prevStreakersRef.current;
@@ -65,7 +70,8 @@ export function useLeaderboardDiff(leaderboard: Leaderboard): LeaderboardWithCha
       topScorers: scorersWithChanges,
       topStreaks: streakersWithChanges,
     });
-  }, [leaderboard]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scorersKey, streakersKey]);
 
   return result;
 }

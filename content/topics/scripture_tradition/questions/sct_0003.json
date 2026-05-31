@@ -1,0 +1,19 @@
+{
+  "id": "sct_0003",
+  "topicId": "scripture_tradition",
+  "difficulty": 2,
+  "question": "What is 'Sacred Tradition' in Catholic teaching — is it just old customs, or something more?",
+  "choices": {
+    "A": "It is the living transmission of the Gospel through the Church's life, worship, and teaching — part of the one deposit of faith alongside Scripture",
+    "B": "It is a collection of human customs that may be changed whenever the pope decides",
+    "C": "It refers only to ancient liturgical rites and has no doctrinal content",
+    "D": "It is the oral teachings of the apostles written down in the second century only"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Sacred Tradition",
+    "body": "Vatican II's Dei Verbum (1965) defined Sacred Tradition as the apostolic preaching handed on through the Holy Spirit in the Church's life, worship, and teaching. It is not a second, separate source added to Scripture, but both flow from the same divine spring (Christ) and together form one deposit of faith. Sacred Tradition includes: the creeds, liturgical practices, the canon of Scripture itself, and the consistent teaching of the Magisterium. It is 'living' in that it can be understood more deeply over time — this is doctrinal development (Newman's thesis), not change.",
+    "refs": ["CCC 75-83", "Dei Verbum 7-10", "2 Thess 2:15", "2 Tim 2:2"]
+  },
+  "tags": ["tradition", "dei-verbum", "vatican-II", "scripture"]
+}

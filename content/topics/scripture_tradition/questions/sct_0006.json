@@ -1,0 +1,19 @@
+{
+  "id": "sct_0006",
+  "topicId": "scripture_tradition",
+  "difficulty": 3,
+  "question": "Why do Catholics argue that Sola Scriptura is self-refuting?",
+  "choices": {
+    "A": "The Bible nowhere teaches that Scripture alone is sufficient, and the canon of Scripture was determined by the Church through Tradition — making Scripture's authority depend on the authority one claims Scripture alone provides",
+    "B": "Because the Bible explicitly endorses papal infallibility on every page",
+    "C": "Because the early Christians only had oral tradition and no written Scripture",
+    "D": "Sola Scriptura is not self-refuting — Catholics simply prefer Tradition for cultural reasons"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Self-Refutation of Sola Scriptura",
+    "body": "The Catholic counter-argument runs: (1) Sola Scriptura claims 'Scripture alone is the rule of faith,' but this claim is not itself found in Scripture — 2 Tim 3:16-17 says Scripture is 'profitable' and 'useful,' not that it alone is sufficient and self-interpreting. (2) The table of contents of the Bible (the canon) is not found in the Bible — it was determined by Church councils drawing on Tradition. Therefore, one must appeal to extra-scriptural authority (Tradition, Church) to even know what Scripture is. The principle undermines its own foundation. This argument is associated with Catholic apologists like Cardinal Newman, Frank Sheed, and contemporary apologists.",
+    "refs": ["CCC 82", "2 Tim 3:16-17", "Newman, Essay on Development"]
+  },
+  "tags": ["sola-scriptura", "apologetics", "canon", "self-refutation"]
+}

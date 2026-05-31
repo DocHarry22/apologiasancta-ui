@@ -1,9 +1,13 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { verifyAdminSession } from "./adminAuth";
+import { getCurrentUser } from "./currentUser";
 import { SESSION_COOKIE_NAME } from "@/lib/auth/session";
 import { verifyCsrfToken } from "@/lib/csrf";
 import { checkAdminMutationRateLimit, getClientIp } from "@/lib/auth/rateLimit";
+import { hasPermission, type Permission } from "@/lib/auth/roles";
+import { appendAuditEvent } from "./storage/auditStore";
+import type { Role } from "@/lib/auth/roles";
 
 // ---------------------------------------------------------------------------
 // Engine config helpers (server-side only)
@@ -28,7 +32,7 @@ function getAdminToken(): string | null {
 // (Render, Railway, etc.) can capture and filter admin action events.
 // IMPORTANT: Never log session/CSRF token values, request bodies, or secrets.
 
-type AuditOutcome = "allowed" | "blocked_unauthed" | "blocked_rate_limit" | "blocked_csrf" | "blocked_allowlist" | "proxy_error";
+type AuditOutcome = "allowed" | "blocked_unauthed" | "blocked_forbidden" | "blocked_rate_limit" | "blocked_csrf" | "blocked_allowlist" | "proxy_error";
 
 function auditLog(entry: {
   method: string;
@@ -37,6 +41,8 @@ function auditLog(entry: {
   outcome: AuditOutcome;
   statusCode: number;
   reason?: string;
+  userId?: string;
+  role?: string;
 }) {
   console.log(
     JSON.stringify({
@@ -45,6 +51,22 @@ function auditLog(entry: {
       ...entry,
     })
   );
+  if (entry.userId && entry.role) {
+    void appendAuditEvent({
+      actor: { id: entry.userId, displayName: entry.userId, role: entry.role as Role },
+      eventType: entry.outcome === "allowed" ? "admin.engine_mutation" : "admin.proxy_blocked",
+      action: entry.outcome === "allowed" ? "Admin engine request proxied" : "Admin engine request blocked",
+      resourceType: "admin_proxy",
+      resourceId: entry.path,
+      method: entry.method,
+      path: `/api/admin/${entry.path}`,
+      status: entry.outcome === "allowed" ? "success" : "blocked",
+      blockedBy: entry.outcome === "allowed" ? undefined : entry.outcome,
+      ip: entry.ip,
+      metadata: { statusCode: entry.statusCode, reason: entry.reason },
+      severity: entry.outcome === "allowed" ? "info" : "warning",
+    }).catch(() => undefined);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -137,7 +159,7 @@ type RouteCheckResult =
  * Returns a safe engine path on success, or a structured error
  * distinguishing bad input (400), unknown route (404), and wrong method (405).
  */
-function checkAllowedRoute(segments: string[], method: string): RouteCheckResult {
+export function checkAllowedRoute(segments: string[], method: string): RouteCheckResult {
   if (segments.length === 0) {
     return { ok: false, status: 404, error: "Admin route not found." };
   }
@@ -167,6 +189,24 @@ function checkAllowedRoute(segments: string[], method: string): RouteCheckResult
   }
 
   return { ok: true, enginePath: `/admin/${joinedPath}` };
+}
+
+function requiredPermissionForRoute(path: string, method: string): Permission {
+  if (method === "GET" && path === "status") return "overview:view";
+  if (method === "GET" && /^rooms\/[a-zA-Z0-9_-]+\/status$/.test(path)) return "overview:view";
+  if (method === "GET" && path === "content/status") return "content:view";
+  if (method === "GET" && path === "rooms") return "rooms:manage";
+  if (method === "GET" && /(^|\/)topic\/sequence$/.test(path)) return "topic_sequence:manage";
+
+  if (/content\/import$/.test(path)) return "content:import";
+  if (/content\/clear$/.test(path) || /content\/github\/clear$/.test(path) || /reset$/.test(path) || path === "persistence/save") return "dangerous:execute";
+  if (path === "rooms" || /rooms\/[a-zA-Z0-9_-]+\/close$/.test(path)) return "rooms:manage";
+  if (path === "quiz/set" || /(^|\/)topic\/sequence$/.test(path)) return "topic_sequence:manage";
+  if (/topic\/(next|start\/[a-zA-Z0-9_-]+|cancel-auto|skip|replay|countdown|loop)$/.test(path)) return "live:control";
+  if (/(^|\/)series\/loop$/.test(path) || /(^|\/)countdown\/set$/.test(path)) return "live:control";
+  if (/(^|\/)(start|resume|pause|next)$/.test(path)) return "live:control";
+
+  return "dashboard:view";
 }
 
 // ---------------------------------------------------------------------------
@@ -245,6 +285,25 @@ export async function proxyAdminRequest(
   }
 
   const { enginePath } = routeCheck;
+  const currentUser = await getCurrentUser();
+  const requiredPermission = requiredPermissionForRoute(joinedPath, request.method);
+
+  if (!hasPermission(currentUser.role, requiredPermission)) {
+    auditLog({
+      method: request.method,
+      path: joinedPath,
+      ip,
+      outcome: "blocked_forbidden",
+      statusCode: 403,
+      reason: `missing permission ${requiredPermission}`,
+      userId: currentUser.id,
+      role: currentUser.role,
+    });
+    return NextResponse.json(
+      { success: false, error: "Forbidden" },
+      { status: 403 }
+    );
+  }
 
   // 4. Resolve engine config (server-side only — never sent to the client).
   const engineUrl = getEngineBaseUrl();
@@ -298,7 +357,7 @@ export async function proxyAdminRequest(
     const contentType = engineResponse.headers.get("content-type") ?? "";
     if (contentType.toLowerCase().includes("application/json")) {
       const data: unknown = await engineResponse.json();
-      auditLog({ method: request.method, path: joinedPath, ip, outcome: "allowed", statusCode: engineResponse.status });
+      auditLog({ method: request.method, path: joinedPath, ip, outcome: "allowed", statusCode: engineResponse.status, userId: currentUser.id, role: currentUser.role });
       return NextResponse.json(data, { status: engineResponse.status });
     }
 

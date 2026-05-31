@@ -1,0 +1,19 @@
+{
+  "id": "ecl_0008",
+  "topicId": "ecclesiology",
+  "difficulty": 4,
+  "question": "How does Catholic ecclesiology use Isaiah 22:20-22 (Eliakim and the key of David) to support Petrine authority?",
+  "choices": {
+    "A": "It shows the OT pattern of a prime-ministerial 'steward' office with binding authority — a type that Christ fulfills by giving Peter the keys of the kingdom",
+    "B": "It proves Peter was a descendant of King David and therefore the rightful religious ruler",
+    "C": "It is only a poetic reference with no structural application to Church governance",
+    "D": "It shows the keys represent personal salvation, not institutional authority"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Keys of the Kingdom — Isaian Background",
+    "body": "In Isaiah 22, God appoints Eliakim as palace steward over the house of David, giving him 'the key of the house of David' — he will 'open and none shall shut.' Jesus echoes this language exactly in Matthew 16:19 when giving Peter 'the keys of the kingdom of heaven.' The typological argument is that just as the Davidic kingdom had a chief steward with binding authority (an office that continued from one person to the next), so Christ's kingdom has a Petrine steward whose authority continues through successors.",
+    "refs": ["Isaiah 22:20-22", "Matthew 16:19", "Revelation 3:7", "CCC 553"]
+  },
+  "tags": ["papacy", "typology", "ot-fulfillment", "apologetics"]
+}

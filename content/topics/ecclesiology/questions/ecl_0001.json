@@ -1,0 +1,19 @@
+{
+  "id": "ecl_0001",
+  "topicId": "ecclesiology",
+  "difficulty": 1,
+  "question": "What term describes the Church's official teaching authority, exercised by the pope and bishops?",
+  "choices": {
+    "A": "Magisterium",
+    "B": "Theotokos",
+    "C": "Anamnesis",
+    "D": "Periochoresis"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Magisterium",
+    "body": "The Magisterium is the living teaching office of the Church, entrusted to the pope and bishops in communion with him. It operates in two modes: solemn (ex cathedra definitions, ecumenical councils) and ordinary (consistent, universal teaching). Its authority rests on Christ's promise to guide the Church into all truth (John 16:13) and to be with his apostles always (Matt 28:20).",
+    "refs": ["CCC 85-88", "Vatican I, Pastor Aeternus", "Lumen Gentium 25"]
+  },
+  "tags": ["magisterium", "authority", "papacy"]
+}

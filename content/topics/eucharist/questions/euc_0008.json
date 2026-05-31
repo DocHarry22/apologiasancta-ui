@@ -1,0 +1,19 @@
+{
+  "id": "euc_0008",
+  "topicId": "eucharist",
+  "difficulty": 4,
+  "question": "How does the Eucharist fulfill the Passover typology of Exodus, and what does this typological reading add to Catholic eucharistic theology?",
+  "choices": {
+    "A": "The Passover lamb had to be eaten, not just slaughtered — likewise, Christ's sacrifice is not merely a death but a meal that must be consumed to gain its saving benefit",
+    "B": "The Passover is only a historical parallel with no theological content for the Eucharist",
+    "C": "The Eucharist replaces the Passover entirely so it no longer has any Jewish meaning",
+    "D": "Typology is a medieval invention not used in early Christian interpretation"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Eucharist as New Passover",
+    "body": "In the Passover (Exodus 12), the lamb was slaughtered AND its flesh eaten — both were required for protection. The lamb that was not eaten provided no benefit. Catholic exegesis (following Justin Martyr, Origen, and the Catechism) applies this typology to the Eucharist: Christ is the Lamb of God (John 1:29, 1 Cor 5:7) whose sacrifice is the new Passover. Just as Israel had to eat the Passover meal, so Christians must eat the Eucharist to receive the full benefit of Christ's sacrifice. This typology undergirds both John 6 ('eat my flesh or you have no life in you,' v.53) and the institution narrative at a Passover meal.",
+    "refs": ["Exodus 12:1-14", "1 Cor 5:7", "John 6:53-54", "CCC 1340"]
+  },
+  "tags": ["typology", "passover", "eucharist", "ot-fulfillment"]
+}

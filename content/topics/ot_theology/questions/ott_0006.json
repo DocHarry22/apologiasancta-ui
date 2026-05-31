@@ -1,0 +1,19 @@
+{
+  "id": "ott_0006",
+  "topicId": "ot_theology",
+  "difficulty": 1,
+  "question": "What does 'Torah' mean and to what does it refer?",
+  "choices": {
+    "A": "Instruction/teaching — refers primarily to the first five books of Moses (Pentateuch), though sometimes used for the whole OT or the Mosaic law",
+    "B": "Law in the strict legal sense — refers only to the 613 commandments given at Sinai",
+    "C": "Scripture in general — the Hebrew word for 'Bible'",
+    "D": "Prophecy — the section of the Hebrew canon containing the major prophets"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Torah",
+    "body": "'Torah' (תּוֹרָה) comes from the Hebrew root 'yarah' meaning to instruct, point out, or direct. It is often translated 'law' but 'instruction' or 'teaching' is more accurate. In its narrowest sense it refers to the Mosaic law given at Sinai. More commonly it refers to the Pentateuch (Five Books of Moses: Genesis, Exodus, Leviticus, Numbers, Deuteronomy). Broadly, all of Hebrew Scripture can be called Torah. The Jewish canonical division is Torah / Nevi'im (Prophets) / Ketuvim (Writings) — hence TaNaKh. Jesus references this three-part division in Luke 24:44.",
+    "refs": ["Luke 24:44", "Deuteronomy 4:44", "Psalm 119", "CCC 2056"]
+  },
+  "tags": ["torah", "pentateuch", "moses", "law", "scripture"]
+}

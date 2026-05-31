@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { getAndroidApkUrl, isEngineConfigured } from "@/lib/publicEnv";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -54,6 +54,7 @@ export function InstallActions() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [installState, setInstallState] = useState<"idle" | "installing" | "installed">("idle");
   const [isOnline, setIsOnline] = useState(true);
+  const [platform, setPlatform] = useState({ isAndroid: false, isIOS: false, isStandalone: false });
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (event: Event) => {
@@ -69,6 +70,7 @@ export function InstallActions() {
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     window.addEventListener("appinstalled", handleInstalled);
     setIsOnline(window.navigator.onLine);
+    setPlatform(getPlatformState());
 
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
@@ -83,7 +85,6 @@ export function InstallActions() {
     };
   }, []);
 
-  const platform = useMemo(() => getPlatformState(), []);
   const apkUrl = getAndroidApkUrl();
   const engineConfigured = isEngineConfigured();
   const canPromptInstall = installPrompt !== null && !platform.isStandalone;

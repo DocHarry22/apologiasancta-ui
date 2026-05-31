@@ -56,7 +56,7 @@ const POLL_INTERVAL = 2000;
  * 
  * - Connects to `${engineUrl}/events` via EventSource
  * - Optionally passes `?userId=...` for personalized streams with 'me' field
- * - Tracks connectionStatus: connecting -> connected -> reconnecting -> disconnected
+ * - Tracks connectionStatus: connecting -> connected -> reconnecting -> polling -> disconnected
  * - Uses exponential backoff for reconnection
  * - Falls back to polling /state when SSE is offline
  * - Handles topicComplete, topicStart, topicCountdown events for topic transitions
@@ -181,9 +181,10 @@ export function useQuizSSE(
         setQuizState(state);
         setLastError(undefined);
         
-        // If we successfully poll while disconnected, upgrade to connected
-        if (connectionStatus === "disconnected") {
-          setConnectionStatus("connected");
+        // Polling is a fallback transport; keep that visible instead of
+        // presenting the connection as fully live.
+        if (connectionStatus === "disconnected" || connectionStatus === "reconnecting") {
+          setConnectionStatus("polling");
         }
       } else {
         setLastError(`HTTP ${response.status}`);
@@ -202,6 +203,7 @@ export function useQuizSSE(
     if (pollTimerRef.current) return; // Already polling
 
     console.log("[useQuizSSE] Starting polling fallback");
+    setConnectionStatus("polling");
     
     // Immediate fetch
     fetchState();
@@ -350,7 +352,6 @@ export function useQuizSSE(
         if (reconnectAttemptRef.current >= MAX_RECONNECT_ATTEMPTS) {
           // Go offline, start polling fallback
           console.log("[useQuizSSE] Max attempts reached, going offline");
-          setConnectionStatus("disconnected");
           isOfflineRef.current = true;
           startPolling();
           return;
@@ -389,7 +390,7 @@ export function useQuizSSE(
       clearTimers();
       stopPolling();
     };
-  }, [engineUrl, userId, closeConnection, clearTimers, stopPolling]);
+  }, [engineUrl, userId, roomId, closeConnection, clearTimers, stopPolling]);
 
   return {
     state: quizState,

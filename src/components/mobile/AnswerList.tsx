@@ -1,6 +1,8 @@
 "use client";
 
 import type { AnswerResultEvent, QuizPhase, Choice } from "@/types/quiz";
+import type { AnswerSubmissionState } from "@/lib/mobileUx";
+import { isAnswerInteractionDisabled } from "@/lib/mobileUx";
 
 interface AnswerListProps {
   options: Choice[];
@@ -8,6 +10,7 @@ interface AnswerListProps {
   correctId?: string;
   phase?: QuizPhase;
   answerResult?: AnswerResultEvent | null;
+  submissionState?: AnswerSubmissionState;
   onSelect?: (id: string) => void;
 }
 
@@ -35,14 +38,31 @@ export function AnswerList({
   selectedId, 
   correctId,
   answerResult,
+  submissionState = "idle",
   phase = "OPEN", 
   onSelect 
 }: AnswerListProps) {
   const isLocked = phase === "LOCKED";
   const isReveal = phase === "REVEAL";
+  const disableInteraction = isAnswerInteractionDisabled(phase, selectedId, submissionState);
+  const statusText =
+    submissionState === "submitting"
+      ? "Submitting..."
+      : submissionState === "submitted"
+        ? "Submitted"
+        : submissionState === "error"
+          ? "Tap again"
+          : selectedId && phase === "OPEN"
+            ? "Selected"
+            : "";
 
   return (
     <div className="flex flex-col gap-3 px-4 py-3 lg:gap-1.5 lg:px-3 lg:py-2" role="radiogroup" aria-label="Answer options">
+      {phase === "LOCKED" ? (
+        <div className="rounded-full border border-(--mobile-border) bg-(--mobile-elevated) px-3 py-2 text-center text-xs font-semibold text-(--mobile-muted)">
+          Answers locked
+        </div>
+      ) : null}
       {options.map((option) => {
         const isSelected =
           selectedId?.toLowerCase() === option.id?.toLowerCase();
@@ -71,7 +91,7 @@ export function AnswerList({
             stateClasses = "bg-(--mobile-elevated) border-(--mobile-border) opacity-55 lg:bg-(--option-bg) lg:border-(--option-border)";
             badgeClasses = "border-(--muted) text-(--muted)";
           }
-        } else if (isLocked) {
+        } else if (isLocked || (phase === "OPEN" && disableInteraction)) {
           stateClasses = `cursor-not-allowed border-(--mobile-border) bg-(--mobile-elevated) opacity-70 lg:bg-(--option-bg) lg:border-(--option-border) ${
             isSelected ? "ring-1 ring-(--accent)" : ""
           }`;
@@ -91,11 +111,12 @@ export function AnswerList({
         return (
           <button
             key={option.id}
-            onClick={() => !isLocked && !isReveal && onSelect?.(option.id)}
-            disabled={isLocked || isReveal}
+            onClick={() => !disableInteraction && !isReveal && onSelect?.(option.id)}
+            disabled={disableInteraction || isReveal}
             role="radio"
             aria-checked={isSelected}
-            aria-disabled={isLocked || isReveal}
+            aria-disabled={disableInteraction || isReveal}
+            aria-label={`${option.label}. ${option.text}${isSelected ? ". Selected" : ""}`}
             className={`
               group flex min-h-16 items-center gap-3 rounded-xl px-4 py-3
               border shadow-[0_8px_20px_rgba(89,68,38,0.06)] transition-all duration-150
@@ -138,9 +159,19 @@ export function AnswerList({
                 Correct
               </span>
             )}
+            {!isReveal && isSelected && statusText ? (
+              <span className="rounded-full border border-(--accent) bg-(--accent)/15 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-(--accent)">
+                {statusText}
+              </span>
+            ) : null}
           </button>
         );
       })}
+      {options.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-(--mobile-border) bg-(--mobile-elevated) px-4 py-6 text-center text-sm text-(--mobile-muted)">
+          Waiting for host
+        </div>
+      ) : null}
     </div>
   );
 }

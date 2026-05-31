@@ -1,0 +1,19 @@
+{
+  "id": "mor_0006",
+  "topicId": "moral_theology",
+  "difficulty": 1,
+  "question": "What are the four cardinal virtues in Catholic moral theology?",
+  "choices": {
+    "A": "Prudence, Justice, Fortitude, and Temperance",
+    "B": "Faith, Hope, Charity, and Prudence",
+    "C": "Humility, Patience, Chastity, and Obedience",
+    "D": "Wisdom, Understanding, Counsel, and Knowledge"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Four Cardinal Virtues",
+    "body": "The four cardinal virtues (cardo = hinge; everything hinges on them) are: Prudence (right reason in action), Justice (giving each person their due), Fortitude (courage in doing good), and Temperance (moderation of appetite). They derive from classical Greek philosophy (Plato, Aristotle) and were incorporated into Christian moral theology by Ambrose and Aquinas. Distinct from the three theological virtues (faith, hope, charity), the cardinal virtues are acquired by practice and can be known through reason, making them accessible to all humans. 'If anyone loves righteousness, her labors are virtues' (Wisdom 8:7).",
+    "refs": ["CCC 1805-1809", "Wisdom 8:7", "Aquinas, Summa II-I, q.61"]
+  },
+  "tags": ["cardinal-virtues", "prudence", "justice", "fortitude", "temperance"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "sac_0001",
+  "topicId": "sacraments",
+  "difficulty": 1,
+  "question": "How many sacraments does the Catholic Church recognize?",
+  "choices": {
+    "A": "Seven",
+    "B": "Two",
+    "C": "Five",
+    "D": "Twelve"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Seven Sacraments",
+    "body": "The Catholic Church recognizes seven sacraments: Baptism, Confirmation (Chrismation), Eucharist, Penance (Reconciliation), Anointing of the Sick, Holy Orders, and Matrimony. These were definitively enumerated at the Council of Florence (1439) and reaffirmed at Trent (1547). Each is an outward sign instituted by Christ to confer inward grace. The Protestant Reformation reduced sacraments to two (Baptism and Eucharist), accepting only what they considered explicitly mandated in Scripture.",
+    "refs": ["CCC 1113-1134", "Council of Trent, Session 7", "Council of Florence, Exultate Deo"]
+  },
+  "tags": ["sacraments", "basics", "trent"]
+}

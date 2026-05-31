@@ -1,0 +1,8 @@
+{
+  "id": "ecclesiology",
+  "title": "Ecclesiology",
+  "description": "The theology of the Church: her nature, marks, authority, and structure as the Body of Christ.",
+  "difficultyRange": [1, 4],
+  "tags": ["church", "magisterium", "papacy", "apostolic-succession", "councils"],
+  "questionCount": 8
+}

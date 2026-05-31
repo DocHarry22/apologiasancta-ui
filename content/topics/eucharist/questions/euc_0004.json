@@ -1,0 +1,19 @@
+{
+  "id": "euc_0004",
+  "topicId": "eucharist",
+  "difficulty": 2,
+  "question": "How does Catholic teaching describe the relationship between the Mass and the sacrifice of Calvary?",
+  "choices": {
+    "A": "The Mass is a re-presentation (making present again) of the one sacrifice of Calvary — not a repetition or addition",
+    "B": "The Mass is a separate sacrifice that supplements the incomplete sacrifice of the Cross",
+    "C": "The Mass is only a symbolic memorial with no sacrificial character",
+    "D": "The Mass repeats the sacrifice of Christ, increasing the merit available to the Church"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Mass as Re-presentation of Calvary",
+    "body": "The Council of Trent defined that the Mass is a 'true and proper sacrifice' but explicitly not a new or additional sacrifice — it is the one sacrifice of the Cross made present (re-presented) sacramentally. Christ does not die again; rather, the same eternal offering that he makes at Calvary is made present across time. This is grounded in Hebrews, which speaks of Christ as priest offering once-for-all while remaining a perpetual intercessor. The Protestant objection ('the Mass adds to the Cross') misses this distinction.",
+    "refs": ["CCC 1367", "Council of Trent, Session 22", "Hebrews 9:25-26"]
+  },
+  "tags": ["mass", "sacrifice", "calvary", "trent"]
+}

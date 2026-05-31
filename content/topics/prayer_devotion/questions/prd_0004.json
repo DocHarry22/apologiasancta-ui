@@ -1,0 +1,19 @@
+{
+  "id": "prd_0004",
+  "topicId": "prayer_devotion",
+  "difficulty": 2,
+  "question": "What is an indulgence in Catholic teaching?",
+  "choices": {
+    "A": "The remission before God of the temporal punishment due to sins already forgiven, granted by the Church using the merits of Christ and the saints",
+    "B": "A papal permission to commit a sin without it counting against you",
+    "C": "A guarantee of immediate entry into heaven upon death",
+    "D": "A cash donation to the Church that cancels all sins committed in a lifetime"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Indulgences",
+    "body": "An indulgence remits the temporal punishment (as distinct from eternal punishment, which is removed by absolution) due to sins already forgiven. The Church draws on the 'treasury of merit' — the superabundant merits of Christ and the saints. Indulgences may be partial or plenary (full remission). They were notoriously abused in the late medieval period, which sparked Luther's 95 Theses (1517). The Council of Trent condemned the abuses while reaffirming the doctrine. Paul VI's Indulgentiarum Doctrina (1967) reformed the practice and remains the current authoritative document.",
+    "refs": ["CCC 1471-1479", "Paul VI, Indulgentiarum Doctrina (1967)", "Council of Trent, Session 25"]
+  },
+  "tags": ["indulgences", "purgatory", "reformation", "temporal-punishment"]
+}

@@ -32,6 +32,7 @@ const STATUS_CONFIG = {
   connected: { label: "LIVE", color: "text-green-500" },
   connecting: { label: "CONNECTING", color: "text-yellow-500" },
   reconnecting: { label: "RECONNECTING", color: "text-yellow-500" },
+  polling: { label: "POLLING", color: "text-blue-500" },
   disconnected: { label: "OFFLINE", color: "text-red-500" },
 };
 

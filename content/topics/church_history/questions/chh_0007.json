@@ -1,0 +1,19 @@
+{
+  "id": "chh_0007",
+  "topicId": "church_history",
+  "difficulty": 3,
+  "question": "What was the Counter-Reformation, and which council was its theological centerpiece?",
+  "choices": {
+    "A": "The Catholic Church's internal reform and doctrinal response to Protestantism, centered on the Council of Trent (1545-1563)",
+    "B": "A military campaign led by the pope to reconquer Protestant territories by force",
+    "C": "A movement within Protestantism to return to Catholic sacramental practice",
+    "D": "The reforms of the Second Vatican Council in response to modern secularism"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Counter-Reformation and Council of Trent",
+    "body": "The Counter-Reformation (Catholic Reformation) was the Church's multi-faceted response to Protestantism: (1) doctrinal — the Council of Trent (1545-1563) defined Catholic teaching on Scripture, Tradition, justification, the sacraments, and more; (2) institutional — abuses of indulgences, clerical education, and pastoral practice were reformed; (3) missionary — new religious orders like the Jesuits (Ignatius of Loyola, 1540) drove evangelization; (4) spiritual — Teresa of Avila, John of the Cross, and Philip Neri led mystical and parish renewal. Trent shaped Catholicism until the Second Vatican Council (1962-1965).",
+    "refs": ["CCC 1460", "Council of Trent (1545-1563)", "Ignatius of Loyola, Spiritual Exercises"]
+  },
+  "tags": ["counter-reformation", "trent", "jesuits", "church-history"]
+}

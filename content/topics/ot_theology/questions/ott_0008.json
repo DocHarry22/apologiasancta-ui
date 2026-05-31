@@ -1,0 +1,19 @@
+{
+  "id": "ott_0008",
+  "topicId": "ot_theology",
+  "difficulty": 4,
+  "question": "In 2 Samuel 7 (the Davidic Covenant), what does God promise David, and how does the NT interpret its fulfillment?",
+  "choices": {
+    "A": "God promises David an eternal dynasty and a son who will build God's house and whose kingdom will endure forever — the NT sees this fulfilled in Jesus, the Son of David, whose kingdom is the Church and whose reign is eternal",
+    "B": "God promises David personal wealth and military victory over all his enemies in his lifetime",
+    "C": "God promises to preserve Jerusalem forever from any foreign conquest",
+    "D": "God promises David that his son Solomon will be the final and greatest king with no successor needed"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Davidic Covenant — 2 Samuel 7",
+    "body": "In 2 Samuel 7:12-16, God tells David through Nathan: 'I will raise up your offspring after you... I will establish the throne of his kingdom forever... I will be his father and he will be my son... your house and your kingdom shall endure forever before me.' Solomon partially fulfilled this — he built the Temple. But no Davidic king maintained an eternal throne; the line was broken in the Babylonian exile. The NT presents Jesus as the definitive fulfillment: the angel tells Mary he will be given 'the throne of his father David and he will reign over the house of Jacob forever' (Luke 1:32-33). The genealogies (Matt 1, Luke 3) trace his Davidic descent. The resurrection inaugurates the eternal reign promised.",
+    "refs": ["2 Samuel 7:12-16", "Luke 1:32-33", "Matthew 1:1", "Acts 2:29-36", "Hebrews 1:5"]
+  },
+  "tags": ["davidic-covenant", "2-samuel-7", "messiahship", "typology"]
+}

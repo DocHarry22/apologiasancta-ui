@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "types": "tsc --noEmit",
+    "test": "node --test --experimental-strip-types tests/phase3.test.ts tests/phase3-security.test.ts tests/phase4a.test.ts",
+    "test:e2e": "npx --yes @playwright/test@1.51.1 test",
     "cap:sync": "cap sync android",
     "cap:add:android": "cap add android",
     "cap:open:android": "cap open android"
@@ -14,6 +17,9 @@
   "dependencies": {
     "@capacitor/android": "^7.4.3",
     "@capacitor/core": "^7.4.3",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/preferences": "^8.0.1",
+    "capacitor-keep-screen-on": "^1.0.0-alpha.6",
     "framer-motion": "^12.40.0",
     "next": "16.1.6",
     "react": "19.2.3",

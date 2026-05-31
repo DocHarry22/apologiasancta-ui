@@ -22,20 +22,17 @@ export function JoinGameModal({ roomId, roomName, onJoined }: JoinGameModalProps
   const [state, setState] = useState<RegistrationState>({ status: "idle" });
 
   useEffect(() => {
-    if (!API_URL) {
-      return;
-    }
+    if (!API_URL) return;
 
     const storedUserId = localStorage.getItem("userId");
     const storedUsername = localStorage.getItem("playerName");
-
-    if (!storedUserId || !storedUsername) {
-      return;
+    if (storedUsername) {
+      setUsername(storedUsername);
     }
 
-    fetch(
-      `${API_URL}/register/me?userId=${encodeURIComponent(storedUserId)}&roomId=${encodeURIComponent(roomId)}`
-    )
+    if (!storedUserId || !storedUsername) return;
+
+    fetch(`${API_URL}/register/me?userId=${encodeURIComponent(storedUserId)}&roomId=${encodeURIComponent(roomId)}`)
       .then(async (res) => {
         if (res.ok) {
           const data = await res.json();
@@ -62,7 +59,7 @@ export function JoinGameModal({ roomId, roomName, onJoined }: JoinGameModalProps
       if (!API_URL) {
         setState({
           status: "error",
-          errorMessage: "Engine URL not configured. Set NEXT_PUBLIC_ENGINE_URL before joining the live game.",
+          errorMessage: "Engine unavailable. Live registration is not configured yet.",
         });
         return;
       }
@@ -87,39 +84,23 @@ export function JoinGameModal({ roomId, roomName, onJoined }: JoinGameModalProps
         }
 
         if (res.status === 409) {
-          setState({
-            status: "error",
-            errorMessage: data.error || data.message || "Username already taken. Please choose another.",
-          });
+          setState({ status: "error", errorMessage: data.error || data.message || "That name is already taken in this room." });
           return;
         }
 
         if (res.status === 400) {
-          setState({
-            status: "error",
-            errorMessage: data.error || data.message || "Invalid username. Use 3-20 characters (letters, numbers, underscores).",
-          });
+          setState({ status: "error", errorMessage: data.error || data.message || "Use 3-20 letters, numbers, or underscores." });
           return;
         }
 
         if (res.status === 429) {
-          setState({
-            status: "error",
-            errorMessage: "Too many attempts. Please wait a moment and try again.",
-          });
+          setState({ status: "error", errorMessage: "Too many attempts. Please wait a moment and try again." });
           return;
         }
 
-        setState({
-          status: "error",
-          errorMessage: data.error || data.message || "Registration failed. Please try again.",
-        });
-      } catch (error) {
-        console.error("Registration error:", error);
-        setState({
-          status: "error",
-          errorMessage: "Connection failed. Please check your internet and try again.",
-        });
+        setState({ status: "error", errorMessage: data.error || data.message || "Registration failed. Please try again." });
+      } catch {
+        setState({ status: "error", errorMessage: "Engine unavailable. Check your connection and try again." });
       }
     },
     [username, roomId, onJoined]
@@ -131,67 +112,40 @@ export function JoinGameModal({ roomId, roomName, onJoined }: JoinGameModalProps
     /^[a-zA-Z0-9_]+$/.test(username.trim());
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div
-        className="mx-4 w-full max-w-md rounded-2xl p-8 shadow-2xl"
-        style={{
-          backgroundColor: "var(--card)",
-          border: "1px solid var(--card-border)",
-        }}
-      >
-        <div className="mb-8 text-center">
-          <h1 className="mb-2 text-3xl font-bold" style={{ color: "var(--accent)" }}>
-            ✝ Apologia Sancta
-          </h1>
-          <p style={{ color: "var(--text-secondary)" }}>
-            Join room <span className="font-semibold" style={{ color: "var(--text)" }}>{roomName || roomId}</span>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+      <div className="w-full max-w-md rounded-2xl border border-(--card-border) bg-(--card) p-6 shadow-2xl">
+        <div className="mb-6 text-center">
+          <h1 className="mb-2 text-3xl font-bold text-(--accent)">Apologia Sancta</h1>
+          <p className="text-sm text-(--text-secondary)">
+            Join room <span className="font-semibold text-(--text)">{roomName || roomId}</span>
           </p>
           {roomName && roomName !== roomId ? (
-            <p className="mt-1 text-xs uppercase tracking-[0.18em]" style={{ color: "var(--muted)" }}>
-              {roomId}
-            </p>
+            <p className="mt-1 text-xs uppercase tracking-[0.18em] text-(--muted)">{roomId}</p>
           ) : null}
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label
-              htmlFor="username"
-              className="mb-2 block text-sm font-medium"
-              style={{ color: "var(--text)" }}
-            >
-              Choose your username
+            <label htmlFor="username" className="mb-2 block text-sm font-medium text-(--text)">
+              Enter your display name
             </label>
             <input
               id="username"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter a unique name..."
+              placeholder="Enter your display name"
               disabled={state.status === "loading"}
-              className="w-full rounded-lg px-4 py-3 text-lg outline-none transition-all"
-              style={{
-                backgroundColor: "var(--option-bg)",
-                border: "2px solid var(--option-border)",
-                color: "var(--text)",
-              }}
+              className="min-h-12 w-full rounded-lg border-2 border-(--option-border) bg-(--option-bg) px-4 py-3 text-lg text-(--text) outline-none transition-all focus:border-(--accent)"
               autoFocus
-              autoComplete="off"
+              autoComplete="nickname"
               maxLength={20}
             />
-            <p className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
-              3-20 characters: letters, numbers, underscores
-            </p>
+            <p className="mt-2 text-sm text-(--muted)">3-20 characters: letters, numbers, underscores.</p>
           </div>
 
           {state.status === "error" && state.errorMessage && (
-            <div
-              className="rounded-lg p-3 text-sm"
-              style={{
-                backgroundColor: "var(--wrong-bg)",
-                color: "var(--wrong)",
-              }}
-            >
+            <div className="rounded-lg bg-(--wrong-bg) p-3 text-sm text-(--wrong)">
               {state.errorMessage}
             </div>
           )}
@@ -199,27 +153,16 @@ export function JoinGameModal({ roomId, roomName, onJoined }: JoinGameModalProps
           <button
             type="submit"
             disabled={!API_URL || !isValidUsername || state.status === "loading"}
-            className="w-full rounded-lg py-4 text-lg font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50"
-            style={{
-              backgroundColor: isValidUsername ? "var(--accent)" : "var(--muted)",
-              color: isValidUsername ? "#fff" : "var(--text-secondary)",
-            }}
+            className="min-h-12 w-full rounded-lg bg-(--accent) py-3 text-lg font-bold text-white transition-all disabled:cursor-not-allowed disabled:bg-(--muted) disabled:text-(--text-secondary) disabled:opacity-60"
           >
-            {state.status === "loading" ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="animate-spin">⟳</span>
-                Joining...
-              </span>
-            ) : (
-              "Join Game"
-            )}
+            {state.status === "loading" ? "Joining..." : "Join Game"}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-xs" style={{ color: "var(--muted)" }}>
+        <p className="mt-6 text-center text-xs text-(--muted)">
           {API_URL
-            ? "Your username and score will be tracked inside this room."
-            : "Live registration is disabled until NEXT_PUBLIC_ENGINE_URL is configured."}
+            ? "Your name and score will be tracked inside this room."
+            : "Engine unavailable. Live registration is disabled until NEXT_PUBLIC_ENGINE_URL is configured."}
         </p>
       </div>
     </div>

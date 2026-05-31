@@ -1,0 +1,19 @@
+{
+  "id": "sac_0006",
+  "topicId": "sacraments",
+  "difficulty": 1,
+  "question": "What was the Sacrament of Anointing of the Sick formerly called?",
+  "choices": {
+    "A": "Extreme Unction",
+    "B": "Viaticum",
+    "C": "Last Rites",
+    "D": "Sacred Chrism"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Anointing of the Sick / Extreme Unction",
+    "body": "The sacrament was long called 'Extreme Unction' (final anointing), which gave the impression it was reserved only for the dying. Vatican II and the 1972 rite renamed it 'Anointing of the Sick' to emphasize it is for anyone 'who begins to be in danger of death from sickness or old age.' James 5:14-15 is the key scriptural basis. The sacrament forgives sin, strengthens the soul, and may restore physical health if God wills it.",
+    "refs": ["CCC 1499-1532", "James 5:14-15", "Vatican II, Sacrosanctum Concilium 73"]
+  },
+  "tags": ["anointing", "sacraments", "healing"]
+}

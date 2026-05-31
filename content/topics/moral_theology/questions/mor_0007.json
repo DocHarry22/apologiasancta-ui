@@ -1,0 +1,19 @@
+{
+  "id": "mor_0007",
+  "topicId": "moral_theology",
+  "difficulty": 3,
+  "question": "What is the 'preferential option for the poor' in Catholic Social Teaching?",
+  "choices": {
+    "A": "A moral and social principle that requires individuals and institutions to give priority to the needs of the most vulnerable and marginalized members of society",
+    "B": "A teaching that poverty itself is holy and that the Church should promote destitution as a spiritual good",
+    "C": "A political claim that Catholic Social Teaching requires a socialist economic system",
+    "D": "A charitable recommendation with no binding moral weight"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Preferential Option for the Poor",
+    "body": "The 'preferential option for the poor' is a central theme in Catholic Social Teaching, developed especially in Latin American liberation theology (Medellín conference, 1968) and adopted by John Paul II (Sollicitudo Rei Socialis, 1987) and Benedict XVI. It holds that Christian love requires particular attention to those most in need — not that only the poor matter, but that their needs have priority claim on social attention and resources. Its biblical roots: the prophets (Amos, Isaiah), Jesus's proclamation in Luke 4:18 ('good news to the poor'), and Matthew 25 (serving Christ in 'the least of these').",
+    "refs": ["CCC 2448", "John Paul II, Sollicitudo Rei Socialis 42 (1987)", "Luke 4:18", "Matt 25:40"]
+  },
+  "tags": ["social-teaching", "option-for-the-poor", "justice", "cst"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "ott_0005",
+  "topicId": "ot_theology",
+  "difficulty": 2,
+  "question": "What is the Day of Atonement (Yom Kippur) and what was the high priest's unique role on that day?",
+  "choices": {
+    "A": "The annual fast and day of national repentance when the high priest alone entered the Holy of Holies to offer blood for the sins of the people and release the scapegoat",
+    "B": "The day when each Israelite was required to make a personal sacrifice at the tabernacle",
+    "C": "A feast celebrating the covenant at Sinai when Israel first received the Torah",
+    "D": "The annual harvest festival when the first fruits were offered at the temple"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Yom Kippur — Day of Atonement",
+    "body": "Described in Leviticus 16, Yom Kippur was the holiest day of the Israelite calendar. The high priest: (1) bathed and dressed in plain white linen (not the ornate priestly garments); (2) offered a bull for his own sins; (3) entered the Holy of Holies once a year with incense and blood to make atonement; (4) laid hands on the 'scapegoat' (azazel), confessing all Israel's sins, and sent it into the wilderness. The Letter to the Hebrews extensively interprets Christ's death and resurrection as the definitive Yom Kippur — he is both high priest and victim, entering the heavenly Holy of Holies with his own blood.",
+    "refs": ["Leviticus 16", "Hebrews 9:6-14", "CCC 433"]
+  },
+  "tags": ["yom-kippur", "atonement", "high-priest", "hebrews", "typology"]
+}

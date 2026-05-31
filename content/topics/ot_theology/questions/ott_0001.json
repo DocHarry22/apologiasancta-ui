@@ -1,0 +1,19 @@
+{
+  "id": "ott_0001",
+  "topicId": "ot_theology",
+  "difficulty": 1,
+  "question": "What is a 'covenant' (berith) in Old Testament theology?",
+  "choices": {
+    "A": "A solemn, binding agreement between God and his people involving mutual obligations, promises, and often a ratification ceremony",
+    "B": "A simple oral contract between two human parties with no religious significance",
+    "C": "A land grant issued by a king with no obligations attached to it",
+    "D": "A legal document that was regularly renegotiated every seven years"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Covenant (Berith) in the OT",
+    "body": "The covenant (Hebrew: berith) is the central organizing concept of the OT. It is a solemn bond creating a family-like relationship between parties with stipulations and promises backed by oath. OT covenants typically involve: a preamble identifying the parties, historical prologue, stipulations, blessings and curses, and a ratification ceremony (often involving divided animals — hence 'cutting' a covenant, karath berith, e.g., Gen 15). The progressive covenant sequence — Noahic, Abrahamic, Mosaic, Davidic, New — structures salvation history and reaches its fulfillment in Christ (the mediator of a New Covenant, Heb 9:15).",
+    "refs": ["Genesis 15", "Deuteronomy 7:9", "Hebrews 9:15", "Scott Hahn, A Father Who Keeps His Promises"]
+  },
+  "tags": ["covenant", "berith", "ot-theology", "salvation-history"]
+}

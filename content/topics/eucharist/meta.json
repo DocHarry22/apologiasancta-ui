@@ -1,0 +1,8 @@
+{
+  "id": "eucharist",
+  "title": "Eucharist",
+  "description": "Catholic teaching on the Real Presence, transubstantiation, and the Eucharist as sacrifice.",
+  "difficultyRange": [1, 4],
+  "tags": ["real-presence", "transubstantiation", "mass", "sacrifice", "councils"],
+  "questionCount": 8
+}

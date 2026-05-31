@@ -1,0 +1,8 @@
+{
+  "id": "soteriology",
+  "title": "Soteriology",
+  "description": "The theology of salvation: grace, justification, redemption, and the nature of sin.",
+  "difficultyRange": [1, 4],
+  "tags": ["salvation", "grace", "justification", "sin", "redemption"],
+  "questionCount": 8
+}

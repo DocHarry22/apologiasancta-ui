@@ -1,0 +1,19 @@
+{
+  "id": "euc_0007",
+  "topicId": "eucharist",
+  "difficulty": 3,
+  "question": "What is the 'words of institution' and why are they central to the Catholic understanding of the Eucharistic consecration?",
+  "choices": {
+    "A": "The words Jesus spoke at the Last Supper ('This is my body... this is my blood') which the priest speaks in persona Christi to effect the change of substance",
+    "B": "A blessing prayer the priest invents each Mass to invoke God's presence",
+    "C": "A formula found only in the Gospel of John that must be recited exactly in Greek",
+    "D": "The homily that follows the reading of Scripture, which consecrates the congregation"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Words of Institution",
+    "body": "The words of institution are Christ's own words from the Last Supper: 'This is my body, which will be given up for you' and 'This is the chalice of my Blood, the Blood of the new and eternal covenant...' These are found in Matthew 26, Mark 14, Luke 22, and 1 Corinthians 11. The priest pronounces them in persona Christi (in the person of Christ) — not merely quoting but acting as Christ himself. In Latin-rite Catholicism, these words are the consecratory formula. Eastern rites additionally emphasize the epiclesis (invocation of the Spirit), creating a centuries-long theological discussion about the exact moment of consecration.",
+    "refs": ["CCC 1352-1355", "1 Cor 11:23-25", "Luke 22:19-20"]
+  },
+  "tags": ["consecration", "words-of-institution", "mass", "priesthood"]
+}

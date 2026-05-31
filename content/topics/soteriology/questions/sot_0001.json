@@ -1,0 +1,19 @@
+{
+  "id": "sot_0001",
+  "topicId": "soteriology",
+  "difficulty": 1,
+  "question": "What does the Catholic Church teach is required for justification — faith alone, or faith and works?",
+  "choices": {
+    "A": "Justifying faith is a living faith that includes charity and works — 'faith working through love' (Gal 5:6)",
+    "B": "Faith alone (sola fide) is sufficient; works are irrelevant to justification",
+    "C": "Works alone suffice; faith is secondary",
+    "D": "Neither faith nor works matters — God predestines salvation irrespective of both"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Faith, Works, and Justification",
+    "body": "The Council of Trent (1547) defined that justification is not by faith alone (contra Luther's sola fide) but by faith that is living — animated by charity and expressed in works. This draws on James 2:24 ('a person is justified by works and not by faith alone'), Galatians 5:6 ('faith working through love'), and Matthew 25:31-46 (judgment by works of mercy). Catholic teaching distinguishes initial justification (received through faith and Baptism) from ongoing growth in righteousness through grace-empowered cooperation.",
+    "refs": ["CCC 1989-2011", "Council of Trent, Session 6", "James 2:24", "Gal 5:6"]
+  },
+  "tags": ["justification", "faith", "works", "trent", "apologetics"]
+}

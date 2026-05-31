@@ -1,0 +1,19 @@
+{
+  "id": "prd_0007",
+  "topicId": "prayer_devotion",
+  "difficulty": 2,
+  "question": "What is the 'Communion of Saints' and what three groups does it encompass?",
+  "choices": {
+    "A": "The Church Triumphant (saints in heaven), the Church Suffering (souls in purgatory), and the Church Militant (the living faithful on earth)",
+    "B": "Catholics, Eastern Orthodox, and Anglicans who share Apostolic Succession",
+    "C": "Those who have received First Communion, Confirmation, and Holy Orders",
+    "D": "The pope, the cardinals, and the bishops"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Communion of Saints — Three Groups",
+    "body": "The Communion of Saints (communio sanctorum) refers to the spiritual solidarity of all the holy ones united in Christ. It has two meanings: a communion in holy things (the sacraments, faith) and a communion of holy persons. The three groups: (1) Church Triumphant — saints fully glorified in heaven; (2) Church Suffering — souls being purified in purgatory; (3) Church Militant — the living faithful still fighting sin on earth. All three are in mystical communion: the living pray for the souls in purgatory; the saints intercede for the living; the whole Church is united under Christ the head.",
+    "refs": ["CCC 946-962", "CCC 1474-1477", "Heb 12:1"]
+  },
+  "tags": ["communion-of-saints", "purgatory", "saints", "church"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "ecl_0007",
+  "topicId": "ecclesiology",
+  "difficulty": 3,
+  "question": "What is the 'Peter principle' argument Catholics use from Matthew 16:18 for the Petrine primacy?",
+  "choices": {
+    "A": "Jesus changes Simon's name to 'Rock' (Petros/Kepha) and says on 'this rock' he will build his Church, giving Peter a unique foundational role",
+    "B": "Peter was the most educated of the apostles and therefore naturally became their leader",
+    "C": "Jesus selected Peter by lot from among the twelve as an impartial process",
+    "D": "Peter was the only apostle who never doubted, making him the obvious choice"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Peter as Rock — Matthew 16:18",
+    "body": "In Matthew 16:18, Jesus says 'You are Peter (Petros/Kepha), and on this rock (petra/kepha) I will build my church.' In the Aramaic (which Jesus spoke), kepha means rock in both uses — there is no gender distinction. The wordplay is a naming act: Simon becomes the Rock upon which the Church is built. Catholics argue this gives Peter a unique authoritative role continued in his successors, the Bishops of Rome. The early Fathers (Cyprian, Origen, Ambrose) widely read Peter as the foundation here.",
+    "refs": ["Matt 16:18-19", "CCC 881", "Cyprian, On the Unity of the Church 4"]
+  },
+  "tags": ["papacy", "peter", "scripture", "apologetics"]
+}

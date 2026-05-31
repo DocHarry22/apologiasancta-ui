@@ -1,0 +1,19 @@
+{
+  "id": "ott_0004",
+  "topicId": "ot_theology",
+  "difficulty": 2,
+  "question": "What are the five main OT covenants typically identified in Catholic and evangelical biblical theology?",
+  "choices": {
+    "A": "Noahic, Abrahamic, Mosaic, Davidic, and New (Jeremiah 31)",
+    "B": "Edenic, Adamic, Abrahamic, Mosaic, and Noahic",
+    "C": "Abrahamic, Mosaic, Solomonic, Prophetic, and Messianic",
+    "D": "Creation, Flood, Sinai, Temple, and Exile"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Five Major Covenants",
+    "body": "The five covenants form the backbone of OT salvation history: (1) Noahic (Gen 9) — universal, with all humanity and creation; no more flood; sign = rainbow. (2) Abrahamic (Gen 12-17) — land, descendants, blessing to all nations; sign = circumcision. (3) Mosaic (Exod 19-24) — Sinai covenant with Israel; Torah stipulations; sign = Sabbath. (4) Davidic (2 Sam 7) — eternal dynasty and kingdom; God's 'son' on the throne. (5) New Covenant (Jer 31:31-34) — internalized law, universal forgiveness; fulfilled in Christ (Luke 22:20, Heb 8-9). Each covenant builds on and expands the previous.",
+    "refs": ["Genesis 9; 12-17", "Exodus 19-24", "2 Samuel 7", "Jeremiah 31:31-34", "Hebrews 8-9"]
+  },
+  "tags": ["covenant", "noahic", "abrahamic", "mosaic", "davidic"]
+}

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { InstallActions } from "@/components/home/InstallActions";
 import { getAndroidApkUrl, isEngineConfigured } from "@/lib/publicEnv";
+import { CapacitorRedirect } from "@/components/native/CapacitorRedirect";
 
 export default function Home() {
   const authorEnabled = process.env.NEXT_PUBLIC_AUTHOR_ENABLED === "true";
@@ -10,6 +11,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
+      <CapacitorRedirect />
       {/* Header */}
       <header className="border-b border-(--border) bg-(--card)">
         <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">

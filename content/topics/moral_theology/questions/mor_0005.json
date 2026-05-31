@@ -1,0 +1,19 @@
+{
+  "id": "mor_0005",
+  "topicId": "moral_theology",
+  "difficulty": 2,
+  "question": "What is the role of conscience in Catholic moral teaching?",
+  "choices": {
+    "A": "Conscience is the proximate norm of morality — the practical judgment of reason about the moral quality of a particular act — but it must be formed by truth and right reason",
+    "B": "Conscience is irrelevant; only the Church's formal teaching determines moral obligation",
+    "C": "Conscience is the ultimate norm with no need of formation or correction",
+    "D": "Conscience applies only to non-Catholics; Catholics are bound purely by Church law"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Conscience in Catholic Moral Theology",
+    "body": "The Catechism (CCC 1776) calls conscience 'a judgment of reason whereby the human person recognizes the moral quality of a concrete act.' Vatican II's Gaudium et Spes (16) says 'in the depths of his conscience, man detects a law which he does not impose upon himself, but which holds him to obedience.' However, a conscience must be correctly formed — an erroneous conscience that is culpably uninformed is still morally responsible. The tension: the person must always follow their conscience, but they have a duty to form it correctly. 'Conscience is the most secret core and sanctuary of a person' (GS 16).",
+    "refs": ["CCC 1776-1802", "Gaudium et Spes 16", "Vatican II"]
+  },
+  "tags": ["conscience", "moral-theology", "vatican-II", "formation"]
+}

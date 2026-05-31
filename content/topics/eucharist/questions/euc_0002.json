@@ -1,0 +1,19 @@
+{
+  "id": "euc_0002",
+  "topicId": "eucharist",
+  "difficulty": 1,
+  "question": "What does the Greek word 'Eucharist' (eucharistia) mean?",
+  "choices": {
+    "A": "Thanksgiving",
+    "B": "Sacred meal",
+    "C": "Holy offering",
+    "D": "Consecration"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Eucharistia — Thanksgiving",
+    "body": "'Eucharistia' (εὐχαριστία) means 'thanksgiving' in Greek, from 'eu' (good) + 'charis' (grace, gift). All four NT accounts of the Last Supper note that Jesus 'gave thanks' (eucharistesas) before breaking the bread (Matt 26:27, Mark 14:23, Luke 22:17-19, 1 Cor 11:24). The Didache (~100 AD) uses 'Eucharist' as a technical term for the sacrament. The name links the Eucharist to Israel's todah (thanksgiving sacrifice) and to the cosmic act of gratitude for redemption.",
+    "refs": ["CCC 1328-1332", "Luke 22:19", "1 Cor 11:24"]
+  },
+  "tags": ["eucharist", "etymology", "scripture"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "ott_0002",
+  "topicId": "ot_theology",
+  "difficulty": 2,
+  "question": "What is 'typology' in biblical theology, and how does it differ from allegory?",
+  "choices": {
+    "A": "Typology sees OT persons, events, and institutions as genuine historical realities that also foreshadow (prefigure) their New Testament fulfillment; allegory treats OT narratives as coded spiritual meanings with less regard for historical reality",
+    "B": "Typology and allegory are identical methods — the same approach with different names",
+    "C": "Typology reads texts literally; allegory reads them spiritually, with no overlap possible",
+    "D": "Typology applies only to prophecy; allegory applies only to narrative"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Typology vs. Allegory",
+    "body": "Typology holds that OT 'types' (Greek: typos = pattern, impression) are real historical events or persons that God designed to prefigure their NT 'antitypes' (fulfillments). The historical reality of the type is essential — Adam is a real person who is also a 'type of the one to come' (Rom 5:14). Allegory (as practiced by Philo and later Origen) tends to read the surface narrative as a code for timeless spiritual truths, sometimes discarding the historical meaning. The Catechism teaches a fourfold sense of Scripture (literal, allegorical, moral, anagogical), but insists that the literal-historical sense is foundational (CCC 116).",
+    "refs": ["CCC 128-130", "Romans 5:14", "1 Cor 10:6,11", "1 Peter 3:21"]
+  },
+  "tags": ["typology", "allegory", "hermeneutics", "ot-fulfillment"]
+}

@@ -169,3 +169,13 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 Cookies are `secure: false` in development (`NODE_ENV !== "production"`), so they work over HTTP.
 The session cookie uses the plain name `as_author_session` in development (not `__Host-`).
+## Phase 3 Role Resolver
+
+Roles are resolved server-side through `src/lib/server/currentUser.ts` and enforced for admin proxy calls in `src/lib/server/engineProxy.ts`. The browser receives the resolved role for UI filtering, but it is not trusted as authority for proxy access.
+
+`AUTHOR_DEFAULT_ROLE` is transitional until database-backed users exist. Development defaults to `super_admin`; production defaults to `viewer` unless the variable is explicitly set. Do not move role authority into `localStorage`, query strings, or other browser-controlled state.
+# Phase 4A Server-Side Enforcement
+
+Workflow and audit routes require a valid author session. All workflow mutations require the existing `x-csrf-token` double-submit check and server-side permission checks.
+
+Role authority remains server-side. Do not move roles, workflow approvals, audit events, or `ENGINE_ADMIN_TOKEN` into browser storage. Audit metadata is sanitized before persistence so session cookies, CSRF tokens, passwords, and admin tokens are redacted.

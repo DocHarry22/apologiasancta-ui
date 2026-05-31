@@ -2,7 +2,7 @@
   "topics": [
     {
       "id": "1corinthians",
-      "title": "1corinthians",
+      "title": "1 Corinthians",
       "description": "Auto-created topic for 1corinthians.",
       "questionCount": 10,
       "tags": []
@@ -39,6 +39,13 @@
         "incarnation",
         "trinity"
       ]
+    },
+    {
+      "id": "genesis",
+      "title": "Genesis",
+      "description": "The book of origins: creation, the fall, the flood, the patriarchs, and the foundations of Israel's story.",
+      "questionCount": 90,
+      "tags": ["creation", "fall", "covenant", "patriarchs", "typology"]
     },
     {
       "id": "john_gospel",
@@ -86,6 +93,76 @@
       "description": "Auto-created topic for Trinity.",
       "questionCount": 3,
       "tags": []
+    },
+    {
+      "id": "church_history",
+      "title": "Church History",
+      "description": "Key events, councils, figures, and movements in the history of the Catholic Church.",
+      "questionCount": 8,
+      "tags": ["councils", "schism", "reformation", "papacy", "heresies", "fathers"]
+    },
+    {
+      "id": "ecclesiology",
+      "title": "Ecclesiology",
+      "description": "The theology of the Church: her nature, marks, authority, and structure as the Body of Christ.",
+      "questionCount": 8,
+      "tags": ["church", "magisterium", "papacy", "apostolic-succession", "councils"]
+    },
+    {
+      "id": "eschatology",
+      "title": "Eschatology",
+      "description": "The Last Things: death, judgment, purgatory, heaven, hell, and the Second Coming of Christ.",
+      "questionCount": 8,
+      "tags": ["death", "judgment", "purgatory", "heaven", "hell", "parousia"]
+    },
+    {
+      "id": "eucharist",
+      "title": "Eucharist",
+      "description": "Catholic teaching on the Real Presence, transubstantiation, and the Eucharist as sacrifice.",
+      "questionCount": 8,
+      "tags": ["real-presence", "transubstantiation", "mass", "sacrifice", "councils"]
+    },
+    {
+      "id": "moral_theology",
+      "title": "Moral Theology",
+      "description": "Catholic moral teaching: natural law, conscience, virtue, sin, and social teaching.",
+      "questionCount": 8,
+      "tags": ["natural-law", "conscience", "virtue", "sin", "social-teaching", "ethics"]
+    },
+    {
+      "id": "ot_theology",
+      "title": "Old Testament Theology",
+      "description": "Covenant, typology, the Torah, the Psalms, and Israel's theology as foundation for the New Testament.",
+      "questionCount": 8,
+      "tags": ["covenant", "typology", "torah", "psalms", "prophecy", "israel"]
+    },
+    {
+      "id": "prayer_devotion",
+      "title": "Prayer & Devotion",
+      "description": "Catholic forms of prayer, Marian devotion, intercession of saints, and popular piety.",
+      "questionCount": 8,
+      "tags": ["rosary", "saints", "intercession", "devotion", "liturgy", "indulgences"]
+    },
+    {
+      "id": "sacraments",
+      "title": "Sacraments",
+      "description": "The seven sacraments of the Catholic Church: their nature, institution, and effects.",
+      "questionCount": 8,
+      "tags": ["baptism", "confirmation", "holy-orders", "marriage", "sacramental-theology"]
+    },
+    {
+      "id": "scripture_tradition",
+      "title": "Scripture & Tradition",
+      "description": "The Catholic understanding of Scripture, Sacred Tradition, the biblical canon, and their relationship.",
+      "questionCount": 8,
+      "tags": ["scripture", "tradition", "canon", "inspiration", "magisterium", "sola-scriptura"]
+    },
+    {
+      "id": "soteriology",
+      "title": "Soteriology",
+      "description": "The theology of salvation: grace, justification, redemption, and the nature of sin.",
+      "questionCount": 8,
+      "tags": ["salvation", "grace", "justification", "sin", "redemption"]
     }
   ]
 }

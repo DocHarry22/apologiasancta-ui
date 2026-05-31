@@ -1,0 +1,19 @@
+{
+  "id": "sot_0004",
+  "topicId": "soteriology",
+  "difficulty": 3,
+  "question": "What distinguishes Catholic teaching on redemption from Pelagianism?",
+  "choices": {
+    "A": "Pelagians taught humans can earn salvation by natural free will without divine grace; Catholics insist grace is absolutely necessary and precedes every meritorious act",
+    "B": "Catholics agree with Pelagius that natural human effort is sufficient for salvation",
+    "C": "Pelagianism is identical to the Council of Trent's teaching on cooperation with grace",
+    "D": "Pelagius only disputed the number of sacraments, not grace"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Pelagianism vs. Catholic Teaching on Grace",
+    "body": "Pelagius (~400 AD) taught that humans are naturally capable of choosing good and obeying God without divine grace — grace merely makes the process easier. Augustine refuted this vigorously, and the Council of Carthage (418) condemned Pelagianism. Catholic teaching insists that even the first movements of faith are gifts of grace (prevenient grace), that no meritorious act is possible without grace's prior assistance, and that salvation is ultimately God's gift, not human achievement. 'Semi-Pelagianism' (claiming humans take the first step, God responds) was also condemned at the Council of Orange (529).",
+    "refs": ["CCC 2001", "Council of Carthage (418)", "Council of Orange (529)", "Augustine, On Grace and Free Will"]
+  },
+  "tags": ["pelagianism", "grace", "augustine", "councils"]
+}

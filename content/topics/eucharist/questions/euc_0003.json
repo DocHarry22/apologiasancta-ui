@@ -1,0 +1,19 @@
+{
+  "id": "euc_0003",
+  "topicId": "eucharist",
+  "difficulty": 2,
+  "question": "Which Gospel contains the 'Bread of Life Discourse' where Jesus says 'my flesh is real food and my blood is real drink'?",
+  "choices": {
+    "A": "John 6",
+    "B": "Matthew 26",
+    "C": "Luke 22",
+    "D": "Mark 14"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Bread of Life Discourse — John 6",
+    "body": "John 6 contains the most extensive pre-institution teaching on the Eucharist. Jesus declares 'I am the bread of life' (v.35), escalates to 'the bread I will give is my flesh for the life of the world' (v.51), and insists 'my flesh is real food and my blood is real drink' (v.55). When many disciples leave at this 'hard saying,' Jesus does not soften or retract it. Catholic and Orthodox theology reads this as realistic eucharistic language. The realism is underscored by John's use of 'trogo' (to gnaw, chew) rather than 'phago' (to eat) in verses 54-58.",
+    "refs": ["John 6:35-69", "CCC 1338", "CCC 1406"]
+  },
+  "tags": ["john", "bread-of-life", "real-presence", "scripture"]
+}

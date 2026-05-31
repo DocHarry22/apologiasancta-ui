@@ -1,0 +1,8 @@
+{
+  "id": "genesis",
+  "title": "Genesis",
+  "description": "The book of origins: creation, the fall, the flood, the patriarchs, and the foundations of Israel's story.",
+  "difficultyRange": [1, 5],
+  "tags": ["creation", "fall", "covenant", "patriarchs", "typology"],
+  "questionCount": 90
+}

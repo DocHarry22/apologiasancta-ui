@@ -1,0 +1,19 @@
+{
+  "id": "mor_0001",
+  "topicId": "moral_theology",
+  "difficulty": 2,
+  "question": "What is natural law in Catholic moral teaching?",
+  "choices": {
+    "A": "The moral law inscribed by God in human reason and nature, accessible to all people regardless of faith through the light of reason",
+    "B": "The laws of physics and biology that govern the natural world",
+    "C": "A set of moral rules found only in the Old Testament",
+    "D": "The law of the strongest — the principle that what survives in nature is good"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Natural Law",
+    "body": "Natural law (lex naturalis) is the rational creature's participation in God's eternal law. Because humans are created in God's image (imago Dei) with reason, they can discern fundamental moral truths — the good to be done, evil to be avoided — without special revelation. This explains why pagan cultures independently recognize prohibitions on murder, theft, and injustice. Aquinas (Summa I-II, q.94) made natural law central to Catholic moral theology. Paul's reference to Gentiles who 'do by nature what the law requires' (Romans 2:14-15) is the key Pauline support.",
+    "refs": ["CCC 1954-1960", "Aquinas, Summa I-II, q.94", "Romans 2:14-15"]
+  },
+  "tags": ["natural-law", "ethics", "aquinas", "reason"]
+}

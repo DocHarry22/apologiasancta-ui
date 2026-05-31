@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/lib/theme";
 import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
+import { CapacitorShell } from "@/components/native/CapacitorShell";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -55,6 +56,7 @@ export default function RootLayout({
         <ThemeProvider>
           <ServiceWorkerRegistration />
           {children}
+          <CapacitorShell />
         </ThemeProvider>
       </body>
     </html>

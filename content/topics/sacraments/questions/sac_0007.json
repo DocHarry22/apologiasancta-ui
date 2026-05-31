@@ -1,0 +1,19 @@
+{
+  "id": "sac_0007",
+  "topicId": "sacraments",
+  "difficulty": 3,
+  "question": "What is the 'matter' and 'form' of the Sacrament of Penance (Reconciliation)?",
+  "choices": {
+    "A": "Matter: the penitent's acts (contrition, confession, satisfaction); Form: the words of absolution spoken by the priest",
+    "B": "Matter: holy water; Form: the Act of Contrition prayed by the penitent",
+    "C": "Matter: the priest's words; Form: the physical gesture of laying on hands",
+    "D": "Matter: the confession booth; Form: the seal of the confessional"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Matter and Form of Penance",
+    "body": "In sacramental theology, every sacrament has matter (the physical or act element) and form (the words that give it meaning). For Penance, the matter is the penitent's three acts: contrition (sorrow for sin), confession (telling sins to the priest), and satisfaction (penance given). The form is the prayer of absolution: 'I absolve you from your sins in the name of the Father, and of the Son, and of the Holy Spirit.' This structure was defined by the Council of Trent and reflects the judicial nature of the sacrament.",
+    "refs": ["CCC 1448-1449", "Council of Trent, Session 14", "John 20:22-23"]
+  },
+  "tags": ["penance", "reconciliation", "matter-form"]
+}

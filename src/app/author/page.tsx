@@ -1,7 +1,8 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { listTopicsWithCounts } from "@/lib/content";
+import { listPublishedQuestionRecords, listTopicsWithCounts } from "@/lib/content";
 import { SESSION_COOKIE_NAME, verifySessionCookie } from "@/lib/auth/session";
+import { getCurrentUser } from "@/lib/server/currentUser";
 import AuthorDashboardMounted from "@/components/author/AuthorDashboardMounted";
 
 export const metadata = {
@@ -17,11 +18,18 @@ export default async function AuthorPage() {
     redirect("/author/login?next=/author");
   }
 
-  const topics = await listTopicsWithCounts();
+  const [topics, publishedQuestions, currentUser] = await Promise.all([
+    listTopicsWithCounts(),
+    listPublishedQuestionRecords(),
+    getCurrentUser(),
+  ]);
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <AuthorDashboardMounted topics={topics} />
-    </main>
+    <AuthorDashboardMounted
+      topics={topics}
+      publishedQuestions={publishedQuestions}
+      currentUser={currentUser}
+      initialTab="overview"
+    />
   );
 }

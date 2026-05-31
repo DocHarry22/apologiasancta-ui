@@ -1,0 +1,19 @@
+{
+  "id": "sct_0001",
+  "topicId": "scripture_tradition",
+  "difficulty": 1,
+  "question": "What is 'Sola Scriptura' and who championed it?",
+  "choices": {
+    "A": "The Protestant principle that Scripture alone is the supreme and sufficient rule of faith, championed primarily by Martin Luther",
+    "B": "The Catholic teaching that Scripture and Tradition together constitute one source of divine revelation",
+    "C": "The Eastern Orthodox emphasis on Scripture interpreted exclusively through the liturgy",
+    "D": "A medieval Catholic principle that only popes may interpret Scripture"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Sola Scriptura",
+    "body": "Sola Scriptura ('Scripture alone') is one of the five solas of the Protestant Reformation, associated primarily with Martin Luther and refined by Calvin. It holds that Scripture is the only infallible and sufficient norm for doctrine and Christian life, denying that Tradition or the Magisterium have co-equal binding authority. Catholic and Orthodox churches reject this principle, arguing it is self-defeating (the canon itself is determined by Tradition and Church authority, not by Scripture), and that it historically produced doctrinal fragmentation.",
+    "refs": ["CCC 80-83", "Luther, To the German Nobility (1520)", "2 Tim 3:16-17"]
+  },
+  "tags": ["sola-scriptura", "reformation", "luther", "apologetics"]
+}

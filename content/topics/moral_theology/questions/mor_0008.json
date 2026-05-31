@@ -1,0 +1,19 @@
+{
+  "id": "mor_0008",
+  "topicId": "moral_theology",
+  "difficulty": 4,
+  "question": "How does Catholic moral theology distinguish 'formal' from 'material' cooperation with evil?",
+  "choices": {
+    "A": "Formal cooperation shares in the evil intention of the primary agent and is always illicit; material cooperation provides assistance without sharing the intention and may sometimes be permissible with proportionate reason",
+    "B": "Formal cooperation is cooperation by clergy; material cooperation is cooperation by laypeople",
+    "C": "Formal cooperation is direct physical involvement; material cooperation is any moral support",
+    "D": "Both types of cooperation are always equally sinful and must always be avoided"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Formal vs. Material Cooperation with Evil",
+    "body": "Cooperation with evil is unavoidable in complex societies. The key distinction: Formal cooperation — the cooperator shares the evil intention of the principal agent (e.g., a getaway driver who approves of the robbery). This is always morally wrong. Material cooperation — the cooperator provides assistance without sharing the evil intention (e.g., a bank teller forced to hand over money to armed robbers). Material cooperation may be permissible depending on: (1) proximity to the evil act; (2) proportionate reason; (3) availability of alternatives. This framework is used in bioethics (e.g., whether a Catholic hospital may allow a procedure it opposes).",
+    "refs": ["CCC 1868", "Vatican, Health Care Ethics Guidelines", "Grisez, The Way of the Lord Jesus, Vol. 2"]
+  },
+  "tags": ["cooperation-with-evil", "formal", "material", "moral-reasoning"]
+}

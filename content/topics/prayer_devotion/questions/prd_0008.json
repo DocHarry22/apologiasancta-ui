@@ -1,0 +1,19 @@
+{
+  "id": "prd_0008",
+  "topicId": "prayer_devotion",
+  "difficulty": 3,
+  "question": "What is 'lectio divina' and what are its four traditional steps?",
+  "choices": {
+    "A": "Sacred reading of Scripture in four steps: lectio (read), meditatio (meditate), oratio (pray), contemplatio (contemplate)",
+    "B": "A Latin Mass practice involving four Scripture readings at each liturgy",
+    "C": "A novena prayer practice: nine days of reading, nine days of fasting, nine days of Communion, nine days of adoration",
+    "D": "A Benedictine practice of reciting all 150 Psalms divided into four weekly cycles"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Lectio Divina",
+    "body": "Lectio divina ('sacred reading') is an ancient monastic practice of prayerful Scripture reading. Guigo II, a 12th-century Carthusian, systematized four rungs of a 'ladder': (1) Lectio — reading the text slowly and attentively; (2) Meditatio — ruminating on the text, listening for what God is saying; (3) Oratio — responding to God in personal prayer arising from the text; (4) Contemplatio — resting silently in God's presence, beyond words. Some add a fifth step: Actio (action) — living out what was received. Vatican II's Dei Verbum 25 encouraged clergy and laity to practice lectio divina regularly.",
+    "refs": ["CCC 2708", "Dei Verbum 25", "Guigo II, Scala Claustralium (~1150)"]
+  },
+  "tags": ["lectio-divina", "scripture", "prayer", "contemplation"]
+}
