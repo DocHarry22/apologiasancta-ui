@@ -8,6 +8,8 @@ function isCapacitor(): boolean {
   return typeof window !== "undefined" && !!(window as { Capacitor?: unknown }).Capacitor;
 }
 
+let wakeLock: { release: () => Promise<void> } | null = null;
+
 // ---------------------------------------------------------------------------
 // Haptics
 // ---------------------------------------------------------------------------
@@ -35,15 +37,19 @@ export async function hapticLight(): Promise<void> {
 // ---------------------------------------------------------------------------
 
 export async function keepAwake(): Promise<void> {
-  if (!isCapacitor()) return;
-  const { KeepScreenOn } = await import("capacitor-keep-screen-on");
-  await KeepScreenOn.enable();
+  if (typeof navigator === "undefined") return;
+  const nav = navigator as Navigator & {
+    wakeLock?: { request: (type: "screen") => Promise<{ release: () => Promise<void> }> };
+  };
+  if (!nav.wakeLock || wakeLock) return;
+  wakeLock = await nav.wakeLock.request("screen");
 }
 
 export async function allowSleep(): Promise<void> {
-  if (!isCapacitor()) return;
-  const { KeepScreenOn } = await import("capacitor-keep-screen-on");
-  await KeepScreenOn.disable();
+  if (!wakeLock) return;
+  const lock = wakeLock;
+  wakeLock = null;
+  await lock.release();
 }
 
 // ---------------------------------------------------------------------------
