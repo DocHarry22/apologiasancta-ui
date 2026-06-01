@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-const { copyFileSync, existsSync, mkdirSync } = require("node:fs");
+const { chmodSync, copyFileSync, existsSync, mkdirSync } = require("node:fs");
 const { spawnSync } = require("node:child_process");
 const { join } = require("node:path");
 const pkg = require("../package.json");
@@ -39,6 +39,9 @@ if (!process.env.APKSIGN_KEYSTORE || !process.env.APKSIGN_KEYSTORE_PASSWORD || !
 run("npx", ["cap", "sync", "android"]);
 
 const gradleCommand = process.platform === "win32" ? "gradlew.bat" : "./gradlew";
+if (process.platform !== "win32") {
+  chmodSync(join(process.cwd(), "android", "gradlew"), 0o755);
+}
 run(gradleCommand, ["assembleRelease"], { cwd: join(process.cwd(), "android") });
 
 const apkPath = join(process.cwd(), "android", "app", "build", "outputs", "apk", "release", "app-release.apk");
