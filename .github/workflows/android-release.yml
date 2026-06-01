@@ -36,7 +36,7 @@ jobs:
       APKSIGN_KEYSTORE: ${{ github.workspace }}/android/app/release-keystore.jks
       APKSIGN_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
       APKSIGN_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-      APKSIGN_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+      APKSIGN_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD || secrets.ANDROID_KEYSTORE_PASSWORD }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

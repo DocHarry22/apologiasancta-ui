@@ -28,6 +28,10 @@ if (!process.env.CAPACITOR_SERVER_URL && !process.env.NEXT_PUBLIC_APP_URL) {
   throw new Error("Set CAPACITOR_SERVER_URL or NEXT_PUBLIC_APP_URL to the production HTTPS app URL before building the APK.");
 }
 
+if (!process.env.APKSIGN_KEY_PASSWORD && process.env.APKSIGN_KEYSTORE_PASSWORD) {
+  process.env.APKSIGN_KEY_PASSWORD = process.env.APKSIGN_KEYSTORE_PASSWORD;
+}
+
 if (!process.env.APKSIGN_KEYSTORE || !process.env.APKSIGN_KEYSTORE_PASSWORD || !process.env.APKSIGN_KEY_ALIAS || !process.env.APKSIGN_KEY_PASSWORD) {
   throw new Error("Release signing is required. Set APKSIGN_KEYSTORE, APKSIGN_KEYSTORE_PASSWORD, APKSIGN_KEY_ALIAS, and APKSIGN_KEY_PASSWORD.");
 }
