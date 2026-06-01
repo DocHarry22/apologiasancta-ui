@@ -47,6 +47,10 @@ function getSeedDisplayName(email: string): string {
   return process.env.ADMIN_DISPLAY_NAME?.trim() || email.split("@")[0] || "Admin";
 }
 
+function getMemorySeedId(email: string): string {
+  return `seed-admin-${Buffer.from(email).toString("base64url")}`;
+}
+
 async function getMysqlPool(): Promise<MysqlPool> {
   if (poolPromise) return poolPromise;
 
@@ -147,7 +151,7 @@ async function upsertSeedAdmin(): Promise<void> {
       return;
     }
     memoryUsers.set(email, {
-      id: randomUUID(),
+      id: getMemorySeedId(email),
       email,
       passwordHash: await hashPassword(password),
       displayName,
