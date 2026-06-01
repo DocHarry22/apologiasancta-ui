@@ -1,0 +1,19 @@
+{
+  "id": "ecl_0005",
+  "topicId": "ecclesiology",
+  "difficulty": 1,
+  "question": "At which council was papal infallibility formally defined as dogma?",
+  "choices": {
+    "A": "Vatican I (1870)",
+    "B": "Vatican II (1965)",
+    "C": "Council of Trent (1545-1563)",
+    "D": "Council of Nicaea (325)"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Papal Infallibility — Vatican I",
+    "body": "Vatican Council I, in its dogmatic constitution Pastor Aeternus (1870), defined that the pope, when speaking ex cathedra (from the chair, on faith and morals, with the intent to bind the whole Church), is preserved from error by the Holy Spirit. This is not a new power invented in 1870 but the formal definition of a long-held Catholic belief. Infallibility does not apply to the pope's personal opinions or disciplinary decisions.",
+    "refs": ["Vatican I, Pastor Aeternus, ch. 4", "CCC 891", "Matt 16:18-19"]
+  },
+  "tags": ["papacy", "infallibility", "councils"]
+}

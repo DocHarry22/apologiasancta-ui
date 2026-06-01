@@ -147,7 +147,7 @@ export default function BatchImport({ topics = [] }: Props) {
           status: "error",
           code,
           message: errMsg,
-          details: code === 401 ? "Check your admin token" : undefined,
+          details: code === 401 ? "Check your author session and server-side admin proxy configuration." : undefined,
         });
       }
     } catch (err) {

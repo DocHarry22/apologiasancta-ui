@@ -1,0 +1,19 @@
+{
+  "id": "prd_0003",
+  "topicId": "prayer_devotion",
+  "difficulty": 2,
+  "question": "What is the theological basis for asking saints in heaven to pray for us?",
+  "choices": {
+    "A": "Saints are alive in Christ (Mark 12:27), remain in the Body of Christ, and their intercession is more powerful than earthly prayer — Revelation 5:8 depicts them offering the prayers of the faithful before God",
+    "B": "The saints are unconscious after death and cannot hear or respond to prayer",
+    "C": "Prayer to saints is acceptable only because God is too busy to hear individual requests directly",
+    "D": "Only Old Testament saints can be asked for intercession; NT saints cannot"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Intercession of Saints",
+    "body": "Catholic teaching on saintly intercession rests on: (1) The saints are not dead but alive — Jesus says God is 'not the God of the dead but of the living' (Mark 12:27). (2) They remain part of the one Body of Christ. (3) Revelation 5:8 shows the 24 elders offering 'the prayers of the holy ones' (saints on earth) to God — depicting intercession by the glorified. (4) If we can ask living Christians to pray for us (James 5:16), asking the more perfectly holy saints to pray is a natural extension. Asking saints to pray is not worshipping them; it's the same as asking a friend to pray.",
+    "refs": ["CCC 956", "Rev 5:8", "Mark 12:27", "James 5:16"]
+  },
+  "tags": ["saints", "intercession", "communion-of-saints", "apologetics"]
+}

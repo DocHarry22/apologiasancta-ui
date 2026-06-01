@@ -1,0 +1,19 @@
+{
+  "id": "euc_0001",
+  "topicId": "eucharist",
+  "difficulty": 1,
+  "question": "What term describes the Catholic teaching that the bread and wine at Mass truly become the Body and Blood of Christ?",
+  "choices": {
+    "A": "Transubstantiation",
+    "B": "Consubstantiation",
+    "C": "Memorialism",
+    "D": "Impanation"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Transubstantiation",
+    "body": "Transubstantiation teaches that while the accidents (appearance, taste, smell) of bread and wine remain, their substance is wholly converted into the Body and Blood of Christ. This is not a physical process observable by the senses, but a metaphysical change. The term was formally defined at the Fourth Lateran Council (1215) and elaborated at the Council of Trent (1551). It draws on Aristotelian concepts of substance and accidents but refers to a miraculous reality that transcends physics.",
+    "refs": ["CCC 1376", "Council of Trent, Session 13", "Fourth Lateran Council (1215)"]
+  },
+  "tags": ["transubstantiation", "real-presence", "eucharist"]
+}

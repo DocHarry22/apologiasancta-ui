@@ -1,0 +1,19 @@
+{
+  "id": "sac_0002",
+  "topicId": "sacraments",
+  "difficulty": 1,
+  "question": "What are the three sacraments of initiation into the Catholic Church?",
+  "choices": {
+    "A": "Baptism, Confirmation, and Eucharist",
+    "B": "Baptism, Penance, and Holy Orders",
+    "C": "Confirmation, Eucharist, and Marriage",
+    "D": "Baptism, Eucharist, and Anointing of the Sick"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Sacraments of Initiation",
+    "body": "The three sacraments of Christian initiation are Baptism (which removes original sin and incorporates one into the Body of Christ), Confirmation (which seals and strengthens the baptismal grace through the Holy Spirit), and Eucharist (which nourishes and sustains the Christian life). Baptism is the gateway to the other sacraments. In the Eastern rites and for adult converts in the RCIA, all three are typically received together.",
+    "refs": ["CCC 1212", "CCC 1285", "CCC 1322"]
+  },
+  "tags": ["initiation", "baptism", "confirmation", "eucharist"]
+}

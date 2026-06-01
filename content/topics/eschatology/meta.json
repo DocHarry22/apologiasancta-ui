@@ -1,0 +1,8 @@
+{
+  "id": "eschatology",
+  "title": "Eschatology",
+  "description": "The Last Things: death, judgment, purgatory, heaven, hell, and the Second Coming of Christ.",
+  "difficultyRange": [1, 4],
+  "tags": ["death", "judgment", "purgatory", "heaven", "hell", "parousia"],
+  "questionCount": 8
+}

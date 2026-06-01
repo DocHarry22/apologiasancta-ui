@@ -7,13 +7,19 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "types": "tsc --noEmit",
+    "test": "node --test --experimental-strip-types tests/phase3.test.ts tests/phase3-security.test.ts tests/phase4a.test.ts",
+    "test:e2e": "npx --yes @playwright/test@1.51.1 test",
     "cap:sync": "cap sync android",
     "cap:add:android": "cap add android",
-    "cap:open:android": "cap open android"
+    "cap:open:android": "cap open android",
+    "apk:release": "node scripts/build-release-apk.cjs"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.3",
     "@capacitor/core": "^7.4.3",
+    "@capacitor/haptics": "^7.0.2",
+    "@capacitor/preferences": "^7.0.2",
     "framer-motion": "^12.40.0",
     "next": "16.1.6",
     "react": "19.2.3",
@@ -21,6 +27,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^7.4.3",
+    "@playwright/test": "1.51.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

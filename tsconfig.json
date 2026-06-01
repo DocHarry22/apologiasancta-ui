@@ -30,5 +30,15 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "**/*Water-Nest-HP002*.ts", "**/*Water-Nest-HP002*.tsx"]
+  "exclude": [
+    "node_modules",
+    "e2e/**",
+    "tests/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "vitest.config.ts",
+    "vitest.setup.ts",
+    "**/*Water-Nest-HP002*.ts",
+    "**/*Water-Nest-HP002*.tsx"
+  ]
 }

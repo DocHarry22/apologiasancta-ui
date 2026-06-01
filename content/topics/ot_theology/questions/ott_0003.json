@@ -1,0 +1,19 @@
+{
+  "id": "ott_0003",
+  "topicId": "ot_theology",
+  "difficulty": 1,
+  "question": "What is the Shema, and where is it found?",
+  "choices": {
+    "A": "The central Jewish declaration of faith ('Hear, O Israel: the LORD is our God, the LORD alone'), found in Deuteronomy 6:4",
+    "B": "The Ten Commandments given to Moses on Mount Sinai, found in Exodus 20",
+    "C": "The priestly blessing from Numbers 6:24-26",
+    "D": "The opening verse of the book of Genesis declaring God as creator"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Shema",
+    "body": "'Shema Yisrael, Adonai Eloheinu, Adonai Echad' — 'Hear, O Israel: the LORD is our God, the LORD alone (or, the LORD is one)' (Deut 6:4). This is the foundational declaration of Jewish monotheism, recited twice daily by observant Jews. Jesus cites it as the greatest commandment (Mark 12:29-30). The NT writers, who were monotheistic Jews, began to include Jesus within the Shema — Paul's 1 Corinthians 8:6 reworks Deut 6:4 to include 'one Lord Jesus Christ' alongside 'one God the Father,' a stunning early Christological move.",
+    "refs": ["Deuteronomy 6:4-9", "Mark 12:29-30", "1 Corinthians 8:6", "NT Wright, Paul and the Faithfulness of God"]
+  },
+  "tags": ["shema", "monotheism", "deuteronomy", "christology"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "prd_0002",
+  "topicId": "prayer_devotion",
+  "difficulty": 1,
+  "question": "What does the Hail Mary ask Mary to do for us?",
+  "choices": {
+    "A": "Pray for us sinners 'now and at the hour of our death'",
+    "B": "Intercede so that we never experience suffering or death",
+    "C": "Grant us special visions and mystical experiences",
+    "D": "Command the angels to protect us from all harm"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Hail Mary",
+    "body": "The Hail Mary (Ave Maria) consists of three parts: (1) Gabriel's greeting at the Annunciation ('Hail, full of grace, the Lord is with you' — Luke 1:28); (2) Elizabeth's greeting at the Visitation ('Blessed are you among women and blessed is the fruit of your womb' — Luke 1:42); (3) a petition added by the Church: 'Holy Mary, Mother of God, pray for us sinners now and at the hour of our death.' The prayer is thus scriptural in its first half and intercessory in its second. Catholics do not pray TO Mary as God but ask her to pray FOR them.",
+    "refs": ["CCC 2676-2677", "Luke 1:28", "Luke 1:42"]
+  },
+  "tags": ["hail-mary", "mary", "intercession", "prayer"]
+}

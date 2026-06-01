@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback, useMemo, useEffect, useRef } from "react";
+import { Suspense, useState, useCallback, useMemo, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   Layout,
   TopBar,
@@ -29,6 +30,14 @@ import { useQuizSSE } from "@/hooks/useQuizSSE";
 import { useLocalPlayer } from "@/hooks/useLocalPlayer";
 import { useScoreDeltaAnimation } from "@/hooks/useScoreDeltaAnimation";
 import { getEngineUrl } from "@/lib/publicEnv";
+import { hapticSuccess, hapticError, hapticLight, keepAwake, allowSleep } from "@/lib/native";
+import { useScoreHistory } from "@/hooks/useScoreHistory";
+import {
+  getMobileOnboardingState,
+  getPhaseCopy,
+  sanitizeRoomIdParam,
+  type AnswerSubmissionState,
+} from "@/lib/mobileUx";
 import type { Leaderboard, QuizState, QuizPhase, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent, CongratsEvent, RoomSummary } from "@/types/quiz";
 
 // Backend URL from environment (optional)
@@ -94,13 +103,15 @@ function createMockQuizState(phase: QuizPhase = "OPEN"): QuizState {
   };
 }
 
-function createWaitingQuizState(connectionStatus: "connecting" | "connected" | "reconnecting" | "disconnected"): QuizState {
+function createWaitingQuizState(connectionStatus: "connecting" | "connected" | "reconnecting" | "polling" | "disconnected"): QuizState {
   const statusLabel =
     connectionStatus === "disconnected"
       ? "The engine is unreachable right now. The app will keep retrying."
       : connectionStatus === "reconnecting"
         ? "Trying to reconnect to the live room..."
-        : "Connecting to the live room...";
+        : connectionStatus === "polling"
+          ? "Using polling fallback for live updates..."
+          : "Connecting to the live room...";
 
   return {
     phase: "LOCKED",
@@ -160,14 +171,25 @@ function useQuizState(userId: string | null, roomId: string | null, onTopicStart
 }
 
 export default function MobilePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-(--mobile-bg) p-4 text-(--mobile-text)">Loading mobile quiz...</div>}>
+      <MobilePageContent />
+    </Suspense>
+  );
+}
+
+function MobilePageContent() {
+  const searchParams = useSearchParams();
   const [roomId, setRoomId] = useState<string | null>(null);
   const [roomName, setRoomName] = useState<string | null>(null);
+  const [roomNotice, setRoomNotice] = useState<string | null>(null);
   const [isRoomPickerOpen, setIsRoomPickerOpen] = useState(false);
   const [leaderboardMode, setLeaderboardMode] = useState<LeaderboardMode>("room-all-time");
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
   const [remoteLeaderboard, setRemoteLeaderboard] = useState<Leaderboard | null>(null);
   const [leaderboardLoading, setLeaderboardLoading] = useState(false);
   const [leaderboardError, setLeaderboardError] = useState<string | null>(null);
+  const [leaderboardRefreshKey, setLeaderboardRefreshKey] = useState(0);
   // Registration state
   const [userId, setUserId] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
@@ -183,21 +205,34 @@ export default function MobilePage() {
   const [scoreBurstKey, setScoreBurstKey] = useState(0);
   const [scoreBurstPoints, setScoreBurstPoints] = useState(0);
   const [streakToastKey, setStreakToastKey] = useState(0);
+  const [answerSubmissionState, setAnswerSubmissionState] = useState<AnswerSubmissionState>("idle");
+  const [answerNotice, setAnswerNotice] = useState<string | null>(null);
   
   // Restore selected room on mount
   useEffect(() => {
-    const storedRoomId = localStorage.getItem(ROOM_ID_KEY);
+    const queryRoomId = sanitizeRoomIdParam(searchParams.get("roomId") || searchParams.get("room"));
+    const rawQueryRoomId = searchParams.get("roomId") || searchParams.get("room");
+    if (rawQueryRoomId && !queryRoomId) {
+      setRoomNotice("That room link is invalid. Choose a room from the list.");
+    }
+
+    const storedRoomId = queryRoomId || localStorage.getItem(ROOM_ID_KEY);
     const storedRoomName = localStorage.getItem(ROOM_NAME_KEY);
 
     if (storedRoomId) {
       setRoomId(storedRoomId);
-      setRoomName(storedRoomName || storedRoomId);
+      setRoomName(queryRoomId ? queryRoomId : storedRoomName || storedRoomId);
+      if (queryRoomId) {
+        localStorage.setItem(ROOM_ID_KEY, queryRoomId);
+        localStorage.setItem(ROOM_NAME_KEY, queryRoomId);
+        setRoomNotice(`Room link detected: ${queryRoomId}`);
+      }
     }
 
     if (!storedRoomId) {
       setIsCheckingRegistration(false);
     }
-  }, []);
+  }, [searchParams]);
 
   // Sync registration when room changes
   useEffect(() => {
@@ -273,6 +308,7 @@ export default function MobilePage() {
   const handleRoomSelected = useCallback((room: RoomSummary) => {
     setRoomId(room.roomId);
     setRoomName(room.name);
+    setRoomNotice(null);
     setIsRoomPickerOpen(false);
     setLeaderboardMode("room-all-time");
     setRemoteLeaderboard(null);
@@ -283,6 +319,9 @@ export default function MobilePage() {
     setIsRegistered(false);
     setUserId(null);
     setUsername(null);
+    setSelectedId(undefined);
+    setAnswerSubmissionState("idle");
+    setAnswerNotice(null);
   }, []);
   
   // Handle successful registration
@@ -320,6 +359,8 @@ export default function MobilePage() {
     meInitializedRef.current = false;
     // Reset all answer-related state for new topic
     setSelectedId(undefined);
+    setAnswerSubmissionState("idle");
+    setAnswerNotice(null);
     lastOpenRoundKeyRef.current = "";
     answeredRoundKeyRef.current = "";
     submittingRoundKeyRef.current = "";
@@ -358,6 +399,23 @@ export default function MobilePage() {
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
   
+  // Score history
+  const { saveSession } = useScoreHistory();
+
+  // Save score when a topic finishes
+  useEffect(() => {
+    if (!topicCompleteEvent || !roomId) return;
+    void saveSession({
+      date: new Date().toISOString(),
+      roomId: roomId ?? "",
+      topicId: topicCompleteEvent.topicId,
+      score: meSnapshotPointsRef.current,
+      correct: 0, // approximate — detailed tracking not available here
+      total: topicCompleteEvent.summary.stats.questionCount,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [topicCompleteEvent]);
+
   // Reset personal score display when topic completes and new topic starts
   const handleTopicSummaryDismiss = useCallback(() => {
     // Reset personal score tracking for new topic
@@ -451,7 +509,7 @@ export default function MobilePage() {
       cancelled = true;
       window.clearInterval(intervalId);
     };
-  }, [ENGINE_URL, isUsingSSE, leaderboardMode, roomId]);
+  }, [ENGINE_URL, isUsingSSE, leaderboardMode, roomId, leaderboardRefreshKey]);
 
   const leaderboardState = useMemo(() => {
     return remoteLeaderboard ?? quizState.leaderboard;
@@ -567,6 +625,8 @@ export default function MobilePage() {
     if (isNewQuestion && quizState.phase === "OPEN") {
       console.log(`[MobilePage] New question detected (Q${quizState.questionIndex + 1}), resetting selection`);
       setSelectedId(undefined);
+      setAnswerSubmissionState("idle");
+      setAnswerNotice(null);
       clearAnswerResult();
       selectedIdAtAnswerRef.current = undefined;
       answeredRoundKeyRef.current = "";
@@ -582,6 +642,8 @@ export default function MobilePage() {
 
     if (quizState.phase === "OPEN" && previousPhase !== "OPEN") {
       setSelectedId(undefined);
+      setAnswerSubmissionState("idle");
+      setAnswerNotice(null);
       selectedIdAtAnswerRef.current = undefined;
       answeredRoundKeyRef.current = "";
       submittingRoundKeyRef.current = "";
@@ -606,6 +668,8 @@ export default function MobilePage() {
     if (lastOpenRoundKeyRef.current !== openRoundKey) {
       console.log(`[MobilePage] New OPEN window detected (${openRoundKey}), ensuring selection is reset`);
       setSelectedId(undefined);
+      setAnswerSubmissionState("idle");
+      setAnswerNotice(null);
       selectedIdAtAnswerRef.current = undefined;
       answeredRoundKeyRef.current = "";
       submittingRoundKeyRef.current = "";
@@ -626,6 +690,8 @@ export default function MobilePage() {
     if (signature !== lastQuestionSignatureRef.current && quizState.phase === "OPEN") {
       console.log(`[MobilePage] Question content changed, resetting selection`);
       setSelectedId(undefined);
+      setAnswerSubmissionState("idle");
+      setAnswerNotice(null);
       selectedIdAtAnswerRef.current = undefined;
       answeredRoundKeyRef.current = "";
       submittingRoundKeyRef.current = "";
@@ -668,6 +734,7 @@ export default function MobilePage() {
       effectiveSelectedId
     ) {
       if (isCorrectSelection) {
+        void hapticSuccess();
         // Correct answers should animate with positive delta; if delta has not arrived yet,
         // defer until the `me`/local delta state updates.
         if (playerData.lastAwardedPoints > 0) {
@@ -676,6 +743,7 @@ export default function MobilePage() {
           pendingRevealAnimationQuestionRef.current = quizState.questionIndex;
         }
       } else {
+        void hapticError();
         // Wrong answer feedback still animates as +0
         triggerAnimation(0);
       }
@@ -685,6 +753,17 @@ export default function MobilePage() {
     prevPhaseRef.current = quizState.phase;
     prevQuestionIndexRef.current = quizState.questionIndex;
   }, [quizState.phase, quizState.questionIndex, quizState.question.correctId, playerData.playerName, playerData.lastAwardedPoints, selectedId, triggerAnimation]);
+
+  // Keep screen awake while a round is active; allow sleep on IDLE
+  useEffect(() => {
+    const active = quizState.phase === "OPEN" || quizState.phase === "LOCKED" || quizState.phase === "REVEAL";
+    if (active) {
+      void keepAwake();
+    } else {
+      void allowSleep();
+    }
+    return () => { void allowSleep(); };
+  }, [quizState.phase]);
 
   // Flush deferred reveal animation once positive delta arrives
   useEffect(() => {
@@ -706,6 +785,9 @@ export default function MobilePage() {
     if (submittingRoundKeyRef.current === roundKey) return;
 
     setSelectedId(id);
+    void hapticLight();
+    setAnswerSubmissionState(isUsingSSE && ENGINE_URL && userId ? "submitting" : "submitted");
+    setAnswerNotice("Submitted");
     submittingRoundKeyRef.current = roundKey;
 
     // Submit answer to backend when using SSE/live engine AND user is registered
@@ -738,16 +820,24 @@ export default function MobilePage() {
           if (payload?.reason === "already_answered") {
             setSelectedId(id);
             answeredRoundKeyRef.current = roundKey;
+            setAnswerSubmissionState("submitted");
+            setAnswerNotice("Already submitted for this question.");
           } else {
             // For transport/validation failures, allow re-select.
             setSelectedId(undefined);
+            setAnswerSubmissionState("error");
+            setAnswerNotice(payload?.reason === "locked" ? "Answers locked. That answer was too late." : "Could not submit. Try again.");
           }
         } else {
           answeredRoundKeyRef.current = roundKey;
+          setAnswerSubmissionState("submitted");
+          setAnswerNotice("Answer submitted.");
         }
       } catch (error) {
         console.warn("[Mobile] Answer submit failed:", error);
         setSelectedId(undefined);
+        setAnswerSubmissionState("error");
+        setAnswerNotice("Connection issue. Try again.");
       } finally {
         submittingRoundKeyRef.current = "";
       }
@@ -756,10 +846,14 @@ export default function MobilePage() {
       // This is a preview/spectator mode
       console.log("[Mobile] Answer selected (spectator mode - not registered)");
       answeredRoundKeyRef.current = roundKey;
+      setAnswerSubmissionState("submitted");
+      setAnswerNotice("Preview selected. Join the room to score points.");
       submittingRoundKeyRef.current = "";
     } else {
       // Mock mode: treat first click as accepted for this round
       answeredRoundKeyRef.current = roundKey;
+      setAnswerSubmissionState("submitted");
+      setAnswerNotice("Answer submitted.");
       submittingRoundKeyRef.current = "";
     }
     
@@ -778,6 +872,8 @@ export default function MobilePage() {
   // Demo: Reset for testing (only in mock mode)
   const handleReset = useCallback(() => {
     setSelectedId(undefined);
+    setAnswerSubmissionState("idle");
+    setAnswerNotice(null);
     if (!isUsingSSE) {
       setMockQuizState(createMockQuizState("OPEN"));
     }
@@ -791,6 +887,31 @@ export default function MobilePage() {
     })) ?? []
   , [quizState.teaching?.refs]);
 
+  const onboardingState = getMobileOnboardingState({
+    engineConfigured: Boolean(ENGINE_URL),
+    roomId,
+    playerName: username || playerData.playerName,
+    isRegistered,
+    phase: quizState.phase,
+  });
+
+  const phaseCopy = getPhaseCopy({
+    phase: quizState.phase,
+    hasTopicCountdown: Boolean(topicCountdownEvent),
+    hasTopicComplete: Boolean(topicCompleteEvent),
+    hasCongrats: Boolean(congratsEvent),
+    connectionStatus,
+  });
+
+  const currentRoundKey = `${quizState.questionIndex}:${quizState.endsAtMs}`;
+  const hasSubmittedCurrentRound =
+    Boolean(selectedId) &&
+    (answeredRoundKeyRef.current === currentRoundKey ||
+      submittingRoundKeyRef.current === currentRoundKey ||
+      answerSubmissionState === "submitted" ||
+      answerSubmissionState === "submitting");
+  const showAdminEntry = searchParams.get("admin") === "1" || process.env.NODE_ENV !== "production";
+
   return (
     <>
       <Layout
@@ -803,7 +924,7 @@ export default function MobilePage() {
               questionNumber={quizState.questionIndex + 1}
               totalQuestions={quizState.totalQuestions}
               connectionStatus={connectionStatus}
-              onOpenAdmin={() => setIsAdminOpen(true)}
+              onOpenAdmin={showAdminEntry ? () => setIsAdminOpen(true) : undefined}
               onSwitchRoom={isUsingSSE ? handleSwitchRoom : undefined}
             />
 
@@ -814,10 +935,30 @@ export default function MobilePage() {
                     ? "Live engine unavailable. The app is retrying in the background."
                     : connectionStatus === "reconnecting"
                       ? "Reconnecting to the live room..."
-                      : "Connecting to the live room..."}
+                      : connectionStatus === "polling"
+                        ? "Using polling fallback for live updates."
+                        : "Connecting to the live room..."}
                 </div>
               </div>
             )}
+
+            <div className="space-y-2 px-4 pt-3">
+              <PhaseStatusPanel
+                title={phaseCopy.title}
+                detail={phaseCopy.detail}
+                phase={quizState.phase}
+                answerNotice={answerNotice}
+                submitted={hasSubmittedCurrentRound}
+              />
+              <OnboardingStatusPanel
+                state={onboardingState}
+                roomName={quizState.roomName || roomName}
+                roomId={roomId}
+                playerName={username || playerData.playerName}
+                notice={roomNotice}
+                onChooseRoom={isUsingSSE ? handleSwitchRoom : undefined}
+              />
+            </div>
             
             {/* Main content area - can be overlayed by CongratsOverlay */}
             <div className="relative mx-auto flex w-full max-w-[100vw] flex-1 flex-col pb-28 lg:max-w-none lg:pb-0">
@@ -843,6 +984,49 @@ export default function MobilePage() {
               <StreakToast streak={playerData.streak} eventKey={streakToastKey} />
             </div>
           </div>
+          <div className="mx-4 mt-2 rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) px-4 py-3 text-(--mobile-text) shadow-[0_8px_20px_var(--mobile-shadow)] lg:hidden">
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div className="min-w-0">
+                <p className="font-semibold uppercase tracking-[0.14em] text-(--mobile-muted)">Player</p>
+                <p className="mt-1 truncate font-bold">{playerData.playerName || "Not joined"}</p>
+              </div>
+              <div className="text-right">
+                <p className="font-semibold uppercase tracking-[0.14em] text-(--mobile-muted)">Rank</p>
+                <p className="mt-1 font-bold">{playerData.rank ? `#${playerData.rank}` : "Waiting"}</p>
+              </div>
+              <div className="min-w-0">
+                <p className="font-semibold uppercase tracking-[0.14em] text-(--mobile-muted)">Room</p>
+                <p className="mt-1 truncate font-bold">{quizState.roomName || roomName || "Choose a room"}</p>
+              </div>
+              <div className="text-right">
+                <p className="font-semibold uppercase tracking-[0.14em] text-(--mobile-muted)">Last</p>
+                <p className="mt-1 font-bold">{playerData.lastAwardedPoints > 0 ? `+${playerData.lastAwardedPoints}` : answerSubmissionState === "submitted" ? "Submitted" : "No points"}</p>
+              </div>
+            </div>
+          </div>
+          <div className="mx-4 mt-2 rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) px-4 py-3 lg:hidden">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-(--mobile-muted)">Top 3</p>
+              <button
+                type="button"
+                onClick={() => setIsLeaderboardOpen(true)}
+                className="rounded-full border border-(--mobile-border) px-3 py-1 text-xs font-semibold text-(--mobile-muted)"
+              >
+                Open leaderboard
+              </button>
+            </div>
+            <div className="mt-2 grid gap-2">
+              {leaderboardWithChanges.topScorers.slice(0, 3).map((scorer) => (
+                <div key={`${scorer.rank}-${scorer.name}`} className="flex items-center justify-between gap-3 text-sm">
+                  <span className="min-w-0 truncate text-(--mobile-text)">#{scorer.rank} {scorer.name}</span>
+                  <span className="font-bold tabular-nums text-(--accent)">{scorer.score}</span>
+                </div>
+              ))}
+              {leaderboardWithChanges.topScorers.length === 0 ? (
+                <p className="text-sm text-(--mobile-muted)">No scores yet.</p>
+              ) : null}
+            </div>
+          </div>
 
           {/* Countdown Timer */}
           <CountdownRing
@@ -863,6 +1047,7 @@ export default function MobilePage() {
             correctId={quizState.question.correctId}
             phase={quizState.phase}
             answerResult={answerResultEvent}
+            submissionState={answerSubmissionState}
             onSelect={handleSelect}
           />
 
@@ -872,6 +1057,7 @@ export default function MobilePage() {
               title={quizState.teaching.title}
               explanation={quizState.teaching.body}
               references={teachingRefs}
+              defaultOpen={Boolean(quizState.teaching.isOpenByDefault)}
             />
           )}
 
@@ -990,6 +1176,8 @@ export default function MobilePage() {
         onModeChange={setLeaderboardMode}
         loading={leaderboardLoading}
         error={leaderboardError}
+        lastUpdatedMs={leaderboardState.snapshotAtMs ?? null}
+        onRefresh={() => setLeaderboardRefreshKey((key) => key + 1)}
       />
       
       {/* Score delta animation portal */}
@@ -1029,5 +1217,103 @@ export default function MobilePage() {
         />
       )}
     </>
+  );
+}
+
+function PhaseStatusPanel({
+  title,
+  detail,
+  phase,
+  answerNotice,
+  submitted,
+}: {
+  title: string;
+  detail: string;
+  phase: QuizPhase;
+  answerNotice: string | null;
+  submitted: boolean;
+}) {
+  const tone =
+    phase === "OPEN"
+      ? "border-green-500/30 bg-green-500/10 text-green-700 dark:text-green-300"
+      : phase === "REVEAL"
+        ? "border-(--accent)/40 bg-(--accent)/10 text-(--mobile-text)"
+        : "border-(--mobile-border) bg-(--mobile-elevated) text-(--mobile-text)";
+
+  return (
+    <section className={`rounded-2xl border px-4 py-3 shadow-[0_8px_20px_var(--mobile-shadow)] ${tone}`} aria-live="polite">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-(--mobile-muted)">
+            {phase}
+          </p>
+          <h2 className="mt-0.5 text-base font-bold">{title}</h2>
+          <p className="mt-1 text-xs text-(--mobile-muted)">{detail}</p>
+        </div>
+        {submitted ? (
+          <span className="shrink-0 rounded-full border border-(--accent) bg-(--accent)/15 px-2 py-1 text-[10px] font-bold uppercase text-(--accent)">
+            Submitted
+          </span>
+        ) : null}
+      </div>
+      {answerNotice ? (
+        <p className="mt-2 rounded-lg bg-(--mobile-panel) px-3 py-2 text-xs text-(--mobile-muted)">
+          {answerNotice}
+        </p>
+      ) : null}
+    </section>
+  );
+}
+
+function OnboardingStatusPanel({
+  state,
+  roomName,
+  roomId,
+  playerName,
+  notice,
+  onChooseRoom,
+}: {
+  state: ReturnType<typeof getMobileOnboardingState>;
+  roomName?: string | null;
+  roomId: string | null;
+  playerName?: string | null;
+  notice: string | null;
+  onChooseRoom?: () => void;
+}) {
+  const copy: Record<ReturnType<typeof getMobileOnboardingState>, { title: string; detail: string }> = {
+    engine_unavailable: { title: "Engine unavailable", detail: "Live play is not connected. You can still preview the demo state." },
+    no_room_selected: { title: "Choose a room", detail: "Select the room shared by your host." },
+    no_player_name: { title: "Enter your display name", detail: "Your name is used for score and streak tracking." },
+    player_name_saved: { title: "Name saved", detail: "Choose a room to continue." },
+    room_selected_not_registered: { title: "Join this room", detail: "Enter your display name to register for scoring." },
+    registered_waiting: { title: "Waiting for host", detail: "Game will start soon." },
+    ready: { title: "Ready", detail: "You are in the live room." },
+  };
+  const current = copy[state];
+
+  if (state === "ready" && !notice) return null;
+
+  return (
+    <section className="rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) px-4 py-3 text-(--mobile-text)">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="text-sm font-bold">{current.title}</h2>
+          <p className="mt-1 text-xs text-(--mobile-muted)">{notice || current.detail}</p>
+          <p className="mt-2 truncate text-[11px] text-(--mobile-subtle)">
+            {roomId ? `Room: ${roomName || roomId}` : "No room selected"}
+            {playerName ? ` | Player: ${playerName}` : ""}
+          </p>
+        </div>
+        {onChooseRoom ? (
+          <button
+            type="button"
+            onClick={onChooseRoom}
+            className="min-h-11 shrink-0 rounded-full border border-(--mobile-border) px-3 py-2 text-xs font-semibold text-(--mobile-muted)"
+          >
+            {roomId ? "Change" : "Choose"}
+          </button>
+        ) : null}
+      </div>
+    </section>
   );
 }

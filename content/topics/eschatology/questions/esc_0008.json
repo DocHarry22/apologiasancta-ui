@@ -1,0 +1,19 @@
+{
+  "id": "esc_0008",
+  "topicId": "eschatology",
+  "difficulty": 4,
+  "question": "How does the Catholic doctrine of the resurrection of the body differ from Platonic immortality of the soul?",
+  "choices": {
+    "A": "Plato taught the body is a prison the immortal soul escapes at death; Catholic teaching holds the body is good and will be raised and glorified — the whole person, body and soul, is destined for eternal life",
+    "B": "Catholic teaching agrees with Plato that the body is irrelevant to final salvation",
+    "C": "Catholic theology denies any form of soul survival after death until the resurrection",
+    "D": "The resurrection and Platonic immortality are identical concepts in different vocabularies"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Resurrection vs. Platonic Immortality",
+    "body": "Platonism views the body as a tomb (soma-sema) that imprisons the divine soul; death liberates the soul into pure incorporeal existence. Biblical Christianity (Jewish and Christian) teaches the opposite: the body is God's good creation, and the goal is not escape from the body but resurrection of the body — 'the resurrection of the dead' in the Creed. Paul in 1 Corinthians 15 extensively argues for bodily resurrection using seed and harvest imagery. The risen Christ still had a body, though glorified. This is why care for the dying and burial of the dead are sacred acts in Catholic tradition.",
+    "refs": ["CCC 988-1004", "1 Cor 15", "John 11:24-25", "Phil 3:21"]
+  },
+  "tags": ["resurrection", "body", "plato", "anthropology"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "sot_0006",
+  "topicId": "soteriology",
+  "difficulty": 3,
+  "question": "How does Catholic theology understand 'merit' in salvation — can humans truly merit eternal life?",
+  "choices": {
+    "A": "Yes, but only because God freely ordains that grace-empowered acts have meritorious worth — merit is entirely a gift, not an independent human claim against God",
+    "B": "Yes, humans independently accumulate merit through good deeds that God is obligated to reward",
+    "C": "No, Catholic theology denies any form of merit — salvation is entirely without human cooperation",
+    "D": "Merit applies only to Purgatory, not to eternal life"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Merit in Catholic Theology",
+    "body": "Catholic teaching affirms that the justified can 'merit' graces including eternal life, but immediately qualifies: 'With regard to God, there is no strict right to any merit on the part of man. Between God and us there is an immeasurable inequality, for we have received everything from him' (CCC 2007). Our merits are themselves God's gifts — he crowns his own gifts in us. Augustine said it succinctly: 'When God crowns our merits, he is crowning nothing but his own gifts.' This distinguishes Catholic teaching from both pure Pelagianism (merit by unaided nature) and strict Protestant denial of any human cooperation.",
+    "refs": ["CCC 2006-2011", "Augustine, Letter 194", "Council of Trent, Session 6, ch. 16"]
+  },
+  "tags": ["merit", "grace", "justification", "augustine"]
+}

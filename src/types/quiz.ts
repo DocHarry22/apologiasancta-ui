@@ -15,7 +15,7 @@ export type LeaderboardPeriod = "daily" | "weekly" | "all-time";
 export type LeaderboardScope = "room" | "global";
 
 /** Connection status for SSE */
-export type ConnectionStatus = "connecting" | "connected" | "reconnecting" | "disconnected";
+export type ConnectionStatus = "connecting" | "connected" | "reconnecting" | "polling" | "disconnected";
 
 /** Answer choice */
 export interface Choice {

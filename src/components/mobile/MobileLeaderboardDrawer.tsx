@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { LeaderboardPeriod, LeaderboardScope, ScorerWithChange, StreakerWithChange } from "@/types/quiz";
 import type { LeaderboardMode } from "./LeaderboardColumn";
 
-type DrawerTab = "global" | "room" | "scores" | "streaks";
+type DrawerTab = "room" | "global" | "streaks" | "daily" | "weekly" | "alltime";
 
 interface MobileLeaderboardDrawerProps {
   open: boolean;
@@ -19,19 +19,24 @@ interface MobileLeaderboardDrawerProps {
   onModeChange: (mode: LeaderboardMode) => void;
   loading?: boolean;
   error?: string | null;
+  lastUpdatedMs?: number | null;
+  onRefresh?: () => void;
 }
 
 const TABS: Array<{ id: DrawerTab; label: string }> = [
-  { id: "global", label: "Global" },
   { id: "room", label: "Room" },
-  { id: "scores", label: "Scores" },
+  { id: "global", label: "Global" },
   { id: "streaks", label: "Streaks" },
+  { id: "daily", label: "Daily" },
+  { id: "weekly", label: "Weekly" },
+  { id: "alltime", label: "All-time" },
 ];
 
 function tabForMode(mode: LeaderboardMode): DrawerTab {
   if (mode === "global-all-time") return "global";
   if (mode === "room-daily") return "room";
-  return "scores";
+  if (mode === "room-weekly") return "weekly";
+  return "room";
 }
 
 function RankMedal({ rank }: { rank: number }) {
@@ -131,20 +136,25 @@ export function MobileLeaderboardDrawer({
   onModeChange,
   loading = false,
   error = null,
+  lastUpdatedMs = null,
+  onRefresh,
 }: MobileLeaderboardDrawerProps) {
   const [activeTab, setActiveTab] = useState<DrawerTab>(() => tabForMode(selectedMode));
   const prefersReducedMotion = useReducedMotion();
   const title = scope === "global" ? "Global Ranking" : roomName || "Global Room";
 
   const visibleScores = useMemo(() => scorers.slice(0, activeTab === "global" || activeTab === "room" ? 5 : 10), [activeTab, scorers]);
+  const lastUpdatedLabel = lastUpdatedMs ? new Date(lastUpdatedMs).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "not yet";
 
   const handleTab = (tab: DrawerTab) => {
     setActiveTab(tab);
     if (tab === "global") {
       onModeChange("global-all-time");
-    } else if (tab === "room") {
+    } else if (tab === "daily") {
       onModeChange("room-daily");
-    } else if (tab === "scores") {
+    } else if (tab === "weekly") {
+      onModeChange("room-weekly");
+    } else {
       onModeChange("room-all-time");
     }
   };
@@ -195,7 +205,7 @@ export function MobileLeaderboardDrawer({
             </div>
 
             <div className="px-5">
-              <div className="grid grid-cols-4 overflow-hidden rounded-xl border border-(--mobile-border) bg-(--mobile-elevated)">
+              <div className="grid grid-cols-3 overflow-hidden rounded-xl border border-(--mobile-border) bg-(--mobile-elevated)">
                 {TABS.map((tab) => {
                   const active = tab.id === activeTab;
                   return (
@@ -222,18 +232,23 @@ export function MobileLeaderboardDrawer({
                 <div className="mb-3 rounded-xl border border-(--mobile-border) bg-(--mobile-elevated) px-3 py-2 text-sm text-(--mobile-muted)">Updating leaderboard...</div>
               ) : null}
 
-              {(activeTab === "global" || activeTab === "room" || activeTab === "scores") ? (
-                <ScoreRows scorers={activeTab === "scores" ? scorers : visibleScores} />
+              {(activeTab === "global" || activeTab === "room" || activeTab === "daily" || activeTab === "weekly" || activeTab === "alltime") ? (
+                <ScoreRows scorers={activeTab === "alltime" ? scorers : visibleScores} />
               ) : (
                 <StreakRows streakers={streakers} />
               )}
 
-              <div className="mt-4 flex items-center justify-center gap-2 text-xs font-medium text-[#b98512]">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M12 7v5l3 2" />
-                </svg>
-                Updates in real time
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-medium text-[#b98512]">
+                <span>Last updated: {lastUpdatedLabel}</span>
+                {onRefresh ? (
+                  <button
+                    type="button"
+                    onClick={onRefresh}
+                    className="rounded-full border border-(--mobile-border) px-3 py-1 text-(--mobile-muted)"
+                  >
+                    Refresh
+                  </button>
+                ) : null}
               </div>
             </div>
           </motion.section>

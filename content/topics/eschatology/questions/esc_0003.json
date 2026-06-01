@@ -1,0 +1,19 @@
+{
+  "id": "esc_0003",
+  "topicId": "eschatology",
+  "difficulty": 2,
+  "question": "What is the Beatific Vision?",
+  "choices": {
+    "A": "The direct, unmediated vision of God that the blessed enjoy in heaven — seeing God as he is, face to face",
+    "B": "A spiritual feeling of happiness that comes from performing virtuous acts",
+    "C": "A vision of heaven given to mystics during life as a foretaste",
+    "D": "The final moment of death when the soul briefly sees its whole life in review"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Beatific Vision",
+    "body": "The Beatific Vision (visio beatifica) is the supernatural end of human existence: the soul's direct intellectual vision of God's own essence, without intermediary. This surpasses all natural human capacity — no creature can attain it without being elevated by grace (the 'light of glory,' lumen gloriae). Pope Benedict XII defined in Benedictus Deus (1336) that souls fully purified behold the divine essence before the resurrection. John's promise — 'we shall see him as he is' (1 John 3:2) — and Paul's 'face to face' (1 Cor 13:12) are the scriptural anchors.",
+    "refs": ["CCC 1023-1029", "1 John 3:2", "1 Cor 13:12", "Benedict XII, Benedictus Deus (1336)"]
+  },
+  "tags": ["beatific-vision", "heaven", "eschatology"]
+}

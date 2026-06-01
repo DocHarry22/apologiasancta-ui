@@ -1,0 +1,19 @@
+{
+  "id": "sct_0007",
+  "topicId": "scripture_tradition",
+  "difficulty": 2,
+  "question": "What does Paul command in 2 Thessalonians 2:15 that supports the Catholic view of Tradition?",
+  "choices": {
+    "A": "'Stand firm and hold fast to the traditions that you were taught, either by an oral statement or by a letter of ours' — explicitly endorsing both oral and written transmission",
+    "B": "'Write everything down immediately so that nothing is lost' — commanding the creation of a complete written record",
+    "C": "'Test all teachings against the Hebrew Scriptures alone' — establishing the OT as the sole norm",
+    "D": "'Hold fast to nothing that was not spoken by the Lord himself' — limiting authority to the words of Jesus"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "2 Thessalonians 2:15 — Oral and Written Tradition",
+    "body": "In 2 Thessalonians 2:15, Paul explicitly commands holding fast to traditions (paradoseis) received 'either by an oral statement or by a letter.' This is one of the clearest NT affirmations that the apostolic deposit was transmitted both orally and in writing — not through writing alone. The word 'tradition' (paradosis) is the same used in 1 Corinthians 11:2 ('I praise you for remembering me in everything and for holding fast to the traditions just as I handed them on to you'). Catholic theology points to this as scriptural support for Sacred Tradition as a genuine channel of divine revelation.",
+    "refs": ["2 Thess 2:15", "1 Cor 11:2", "CCC 76", "2 Thess 3:6"]
+  },
+  "tags": ["tradition", "paul", "scripture", "apologetics"]
+}

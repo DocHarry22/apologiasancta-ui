@@ -1,0 +1,19 @@
+{
+  "id": "chh_0003",
+  "topicId": "church_history",
+  "difficulty": 1,
+  "question": "In what year did Martin Luther conventionally spark the Protestant Reformation, and with what action?",
+  "choices": {
+    "A": "1517 — by posting his 95 Theses on the door of the Castle Church in Wittenberg",
+    "B": "1521 — by refusing to recant at the Diet of Worms",
+    "C": "1534 — by publishing his German translation of the Bible",
+    "D": "1509 — by writing The Praise of Folly"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Luther's 95 Theses (1517)",
+    "body": "On October 31, 1517 (now observed as Reformation Day), Martin Luther reportedly posted his 95 Theses (Disputatio pro declaratione virtutis indulgentiarum) on the door of the Castle Church in Wittenberg — a common way to propose academic debate. The theses primarily challenged the abusive sale of indulgences by Johann Tetzel. The printing press rapidly spread them across Germany. The more decisive moment of no-return was the Diet of Worms (1521) where Luther refused to recant ('Here I stand, I cannot do otherwise'). The 1517 date is conventional for the Reformation's beginning.",
+    "refs": ["Luther, 95 Theses (1517)", "Diet of Worms (1521)", "CCC 817"]
+  },
+  "tags": ["reformation", "luther", "1517", "indulgences"]
+}

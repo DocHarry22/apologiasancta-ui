@@ -1,0 +1,8 @@
+{
+  "id": "church_history",
+  "title": "Church History",
+  "description": "Key events, councils, figures, and movements in the history of the Catholic Church.",
+  "difficultyRange": [1, 4],
+  "tags": ["councils", "schism", "reformation", "papacy", "heresies", "fathers"],
+  "questionCount": 8
+}

@@ -1,0 +1,19 @@
+{
+  "id": "ecl_0004",
+  "topicId": "ecclesiology",
+  "difficulty": 3,
+  "question": "Vatican II's Lumen Gentium 8 uses the phrase 'subsistit in' to describe the relationship of the Catholic Church to the one Church of Christ. What does this mean?",
+  "choices": {
+    "A": "The one Church of Christ subsists in (fully exists in) the Catholic Church, though elements of sanctification exist outside her",
+    "B": "The Catholic Church is merely one part of the universal Church alongside Protestant churches",
+    "C": "The Church of Christ ceased to exist after the Reformation and must be rebuilt",
+    "D": "The Catholic Church contains no truth that other churches do not also contain"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Subsistit In — Lumen Gentium 8",
+    "body": "'Subsistit in' (Latin: 'subsists in') replaced the earlier formulation 'est' (is) to acknowledge that genuine elements of holiness and truth are found in ecclesial communities outside the visible Catholic Church, while still affirming that the one Church of Christ is fully present and continues in the Catholic Church. The Congregation for the Doctrine of the Faith (2007) clarified that this does not equate other Christian communities with the Catholic Church in terms of ecclesial fullness.",
+    "refs": ["Lumen Gentium 8", "CDF, Responses to Questions Regarding Certain Aspects of the Doctrine on the Church (2007)", "CCC 816"]
+  },
+  "tags": ["ecumenism", "lumen-gentium", "vatican-II"]
+}

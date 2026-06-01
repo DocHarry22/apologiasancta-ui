@@ -71,6 +71,14 @@ export interface TopicWithCount {
   tags: string[];
   questionCount: number;
   existingIds: string[];
+  difficultyRange?: [number, number];
+}
+
+export interface PublishedQuestionRecord {
+  question: Question;
+  topicTitle: string;
+  status: "published";
+  updatedAt: string | null;
 }
 
 export async function listTopicsWithCounts(): Promise<TopicWithCount[]> {
@@ -98,9 +106,30 @@ export async function listTopicsWithCounts(): Promise<TopicWithCount[]> {
         tags: topic.tags,
         questionCount,
         existingIds,
+        difficultyRange: "difficultyRange" in topic ? topic.difficultyRange as [number, number] : undefined,
       };
     })
   );
 
   return topicsWithCounts;
+}
+
+export async function listPublishedQuestionRecords(): Promise<PublishedQuestionRecord[]> {
+  const topics = await listTopicsWithCounts();
+  const records: PublishedQuestionRecord[] = [];
+
+  for (const topic of topics) {
+    const questions = await listTopicQuestions(topic.id);
+
+    for (const question of questions) {
+      records.push({
+        question,
+        topicTitle: topic.title,
+        status: "published",
+        updatedAt: null,
+      });
+    }
+  }
+
+  return records.sort((a, b) => a.question.id.localeCompare(b.question.id));
 }

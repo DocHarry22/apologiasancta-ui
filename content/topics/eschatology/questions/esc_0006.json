@@ -1,0 +1,19 @@
+{
+  "id": "esc_0006",
+  "topicId": "eschatology",
+  "difficulty": 2,
+  "question": "What scriptural texts do Catholics most commonly cite in defense of the doctrine of Purgatory?",
+  "choices": {
+    "A": "2 Maccabees 12:46 (praying for the dead to be freed from sin) and 1 Corinthians 3:15 (saved 'as through fire')",
+    "B": "Revelation 20:1-6 (the millennial reign) and Daniel 7:13",
+    "C": "Luke 16:19-31 (Lazarus and the rich man) alone",
+    "D": "The doctrine has no scriptural basis and relies entirely on Tradition"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Scripture and Purgatory",
+    "body": "The main scriptural pillars for Purgatory: (1) 2 Maccabees 12:46 — Judas Maccabeus makes an atonement offering for fallen soldiers 'so that they might be released from their sin,' which only makes sense if the dead can still be purified. (2) 1 Corinthians 3:12-15 — Paul speaks of a person's work being tested by fire; they may be saved 'but only as through fire.' (3) Matthew 12:32 — Jesus speaks of sins not forgiven 'either in this age or in the age to come,' implying some forgiveness is possible after death. Protestants dispute these readings but acknowledge 2 Maccabees as the clearest witness — which is why they removed it from their canon.",
+    "refs": ["2 Macc 12:46", "1 Cor 3:12-15", "Matt 12:32", "CCC 1031"]
+  },
+  "tags": ["purgatory", "scripture", "apologetics", "maccabees"]
+}

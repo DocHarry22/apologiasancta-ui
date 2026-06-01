@@ -1,0 +1,19 @@
+{
+  "id": "sac_0005",
+  "topicId": "sacraments",
+  "difficulty": 2,
+  "question": "What is the ordinary minister of Baptism in the Catholic Church?",
+  "choices": {
+    "A": "Any baptized person, in cases of necessity",
+    "B": "Only a bishop",
+    "C": "Only a deacon",
+    "D": "Only a cardinal"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Minister of Baptism",
+    "body": "While the ordinary ministers of solemn Baptism are bishops, priests, and deacons, in cases of necessity any person — even an unbaptized person with the right intention — can validly baptize by pouring water and saying 'I baptize you in the name of the Father, and of the Son, and of the Holy Spirit.' This broad rule reflects the urgency of Baptism for salvation. The Church teaches there is also Baptism of desire and Baptism of blood for those who cannot receive the sacrament.",
+    "refs": ["CCC 1256", "Code of Canon Law 861", "Matt 28:19"]
+  },
+  "tags": ["baptism", "minister", "necessity"]
+}

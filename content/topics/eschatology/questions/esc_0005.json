@@ -1,0 +1,19 @@
+{
+  "id": "esc_0005",
+  "topicId": "eschatology",
+  "difficulty": 3,
+  "question": "Pope Benedict XII defined in 'Benedictus Deus' (1336) that souls see the divine essence before the resurrection of the body. Why was this theologically significant?",
+  "choices": {
+    "A": "It settled the debate over whether the full beatitude of heaven begins immediately at death or only after the Last Judgment and resurrection",
+    "B": "It defined the exact location of Purgatory in the universe",
+    "C": "It established that all popes automatically go to heaven upon death",
+    "D": "It created the doctrine of purgatory for the first time"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Benedictus Deus (1336)",
+    "body": "Pope John XXII had controversially suggested that souls do not see God until after the Last Judgment. His successor Benedict XII corrected this in Benedictus Deus, defining that souls fully purified after death (or needing no purification) 'have seen and see the divine essence with an intuitive vision and even face to face, without the mediation of any creature.' This means beatitude begins immediately after purification, not waiting until the General Resurrection. The souls of the damned also fall immediately into hell. This was a major clarification of Catholic eschatology.",
+    "refs": ["Benedict XII, Benedictus Deus (1336)", "CCC 1023", "1 John 3:2"]
+  },
+  "tags": ["benedictus-deus", "beatific-vision", "papal-teaching"]
+}

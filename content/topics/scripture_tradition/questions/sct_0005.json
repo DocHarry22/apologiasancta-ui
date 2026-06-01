@@ -1,0 +1,19 @@
+{
+  "id": "sct_0005",
+  "topicId": "scripture_tradition",
+  "difficulty": 2,
+  "question": "What does the Catholic Church mean by biblical 'inerrancy'?",
+  "choices": {
+    "A": "Scripture, as written under divine inspiration, teaches truth without error in everything it affirms for our salvation",
+    "B": "Every historical, scientific, and chronological detail in the Bible is precisely accurate",
+    "C": "Only the New Testament is inerrant; the Old Testament contains errors",
+    "D": "Inerrancy applies only to the original manuscripts, which are identical to our current translations"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Biblical Inerrancy — Catholic Teaching",
+    "body": "Dei Verbum 11 (Vatican II) states: 'the books of Scripture must be acknowledged as teaching solidly, faithfully and without error that truth which God wanted put into them for the sake of salvation.' Catholic inerrancy is specifically about what Scripture affirms as truth for salvation — not a claim that biblical authors had perfect knowledge of ancient Near Eastern science or that all numbers in battle narratives are precise. The human authors wrote in their own literary forms and idioms; the Holy Spirit guaranteed the truths communicated, not a dictation of encyclopedic accuracy.",
+    "refs": ["CCC 106-107", "Dei Verbum 11", "Leo XIII, Providentissimus Deus (1893)"]
+  },
+  "tags": ["inerrancy", "inspiration", "scripture", "dei-verbum"]
+}

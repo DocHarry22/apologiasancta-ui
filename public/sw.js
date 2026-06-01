@@ -9,7 +9,7 @@ const APP_SHELL = [
   "/app-icons/icon-512.png",
   "/app-icons/apple-touch-icon-180.png",
 ];
-const API_PREFIXES = ["/events", "/state", "/answer", "/register", "/admin", "/topics", "/rooms", "/leaderboard"];
+const API_PREFIXES = ["/api/", "/events", "/state", "/answer", "/register", "/admin", "/topics", "/rooms", "/leaderboard"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

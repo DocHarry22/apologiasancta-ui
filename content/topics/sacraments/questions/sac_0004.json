@@ -1,0 +1,19 @@
+{
+  "id": "sac_0004",
+  "topicId": "sacraments",
+  "difficulty": 2,
+  "question": "Which three sacraments imprint an indelible spiritual 'character' and therefore cannot be received more than once?",
+  "choices": {
+    "A": "Baptism, Confirmation, and Holy Orders",
+    "B": "Baptism, Eucharist, and Penance",
+    "C": "Confirmation, Matrimony, and Anointing of the Sick",
+    "D": "Holy Orders, Eucharist, and Matrimony"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Sacramental Character",
+    "body": "Baptism, Confirmation, and Holy Orders each imprint an 'indelible spiritual mark' (character) on the soul — a permanent configuration to Christ that cannot be erased. This is why they may never be repeated. The character is not about worthiness or moral state; even a lapsed Catholic retains their baptismal character. This doctrine explains why priests who leave ministry retain their ordination and why 'conditional baptism' rather than rebaptism is used when there is doubt about a previous baptism.",
+    "refs": ["CCC 1121", "CCC 1272-1274", "Council of Trent, Session 7"]
+  },
+  "tags": ["sacramental-character", "baptism", "confirmation", "holy-orders"]
+}

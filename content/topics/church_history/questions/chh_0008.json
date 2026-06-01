@@ -1,0 +1,19 @@
+{
+  "id": "chh_0008",
+  "topicId": "church_history",
+  "difficulty": 4,
+  "question": "What was the Donatist controversy, and what theological principle did Augustine's refutation establish?",
+  "choices": {
+    "A": "Donatists denied sacraments given by sinful clergy were valid; Augustine established that sacramental validity depends on Christ's action, not the minister's holiness (ex opere operato)",
+    "B": "Donatists insisted on re-baptizing all converts; Augustine established that baptism is unrepeatable regardless",
+    "C": "Donatists denied the Trinity; Augustine refuted them by writing De Trinitate",
+    "D": "Donatists were a pro-Arian group in North Africa; Augustine defended Nicene orthodoxy against them"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Donatism and Augustine",
+    "body": "The Donatist schism (~311-411 AD) arose in North Africa from a dispute about whether clergy who had handed over scriptures under Diocletian's persecution (traditores) could validly administer sacraments. Donatus held they could not — the minister's moral state determines sacramental validity. Augustine countered: the sacrament's efficacy comes from Christ (the true minister), not from the human officiant. A corrupt bishop's baptism, absolution, or ordination is still valid because Christ acts through the rite. This became the Catholic doctrine of ex opere operato, defined by Trent. It also established the invalidity of Donatist re-ordinations of 'traitor' clergy.",
+    "refs": ["Augustine, Against the Donatists", "Augustine, On Baptism", "Council of Trent, Session 7, Canon 8"]
+  },
+  "tags": ["donatism", "augustine", "ex-opere-operato", "north-africa", "patristics"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "sct_0004",
+  "topicId": "scripture_tradition",
+  "difficulty": 3,
+  "question": "What is the 'Vincentian Canon' for identifying authentic Christian Tradition?",
+  "choices": {
+    "A": "That which has been believed everywhere, always, and by all (quod ubique, quod semper, quod ab omnibus)",
+    "B": "Whatever the Bishop of Rome declares to be traditional is therefore Tradition",
+    "C": "Only doctrines found in the first three ecumenical councils count as Tradition",
+    "D": "Any teaching at least 500 years old automatically qualifies as Sacred Tradition"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Vincentian Canon",
+    "body": "Vincent of Lérins (died ~450 AD) formulated this criterion in his Commonitorium (434 AD): authentic Catholic faith is 'quod ubique, quod semper, quod ab omnibus creditum est' — what has been believed everywhere, always, and by all. This three-part test (universality, antiquity, consent) offers a way to distinguish genuine apostolic tradition from novelty or heresy. Newman later refined this into his 'Essay on the Development of Christian Doctrine' (1845), arguing that genuine development unfolds and clarifies, while novelty contradicts or replaces. Both contribute to the Catholic understanding of how Tradition grows.",
+    "refs": ["Vincent of Lérins, Commonitorium, ch. 2", "CCC 84", "Newman, Essay on Development (1845)"]
+  },
+  "tags": ["vincentian-canon", "tradition", "vincent-of-lerins", "apologetics"]
+}

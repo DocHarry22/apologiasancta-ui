@@ -1,0 +1,8 @@
+{
+  "id": "sacraments",
+  "title": "Sacraments",
+  "description": "The seven sacraments of the Catholic Church: their nature, institution, and effects.",
+  "difficultyRange": [1, 4],
+  "tags": ["baptism", "confirmation", "holy-orders", "marriage", "sacramental-theology"],
+  "questionCount": 8
+}

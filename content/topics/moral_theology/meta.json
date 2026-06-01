@@ -1,0 +1,8 @@
+{
+  "id": "moral_theology",
+  "title": "Moral Theology",
+  "description": "Catholic moral teaching: natural law, conscience, virtue, sin, and social teaching.",
+  "difficultyRange": [1, 4],
+  "tags": ["natural-law", "conscience", "virtue", "sin", "social-teaching", "ethics"],
+  "questionCount": 8
+}

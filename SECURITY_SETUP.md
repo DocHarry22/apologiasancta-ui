@@ -24,6 +24,13 @@
 |---|---|
 | `CAPACITOR_SERVER_URL` | Remote URL baked into the Android APK. **Must be a production HTTPS URL.** Takes priority over `NEXT_PUBLIC_APP_URL`. |
 | `CAPACITOR_BUILD_MODE` | Set to `production` for release builds. Enables strict URL validation and rejects all unsafe URLs. Falls back to `NODE_ENV`, then `development`. |
+| `NEXT_PUBLIC_ANDROID_APK_URL` | Public download URL shown on the homepage. Defaults to the latest GitHub release asset. |
+| `APP_VERSION_CODE` | Positive integer Android `versionCode`; CI uses the GitHub run number. |
+| `APP_VERSION_NAME` | User-visible Android version name, for example `1.0.1`. |
+| `APKSIGN_KEYSTORE` | Local path to the release keystore file used by Gradle. |
+| `APKSIGN_KEYSTORE_PASSWORD` | Password for the release keystore. |
+| `APKSIGN_KEY_ALIAS` | Alias of the release key inside the keystore. |
+| `APKSIGN_KEY_PASSWORD` | Password for the release key. |
 
 ---
 
@@ -102,7 +109,6 @@ The following are rejected with a hard error when `CAPACITOR_BUILD_MODE=producti
 - Any URL using `http://` instead of `https://`
 - `localhost` as hostname
 - `127.x.x.x` or `0.0.0.0`
-- Any hostname matching `*.hostingersite.com` (temporary preview domains)
 - Any URL that is not a valid URL
 
 ### How to build a release APK
@@ -116,19 +122,62 @@ $env:CAPACITOR_SERVER_URL='https://your-production-domain.com'  # Windows PowerS
 export CAPACITOR_BUILD_MODE=production   # Unix
 $env:CAPACITOR_BUILD_MODE='production'  # Windows PowerShell
 
-# 3. Sync and build
-npm run cap:sync
-# Then open Android Studio and build a signed release APK
+# 3. Set signing and version metadata
+$env:APKSIGN_KEYSTORE='C:\path\to\release-keystore.jks'
+$env:APKSIGN_KEYSTORE_PASSWORD='replace-with-keystore-password'
+$env:APKSIGN_KEY_ALIAS='replace-with-key-alias'
+$env:APKSIGN_KEY_PASSWORD='replace-with-key-password'
+$env:APP_VERSION_CODE='2'
+$env:APP_VERSION_NAME='1.0.1'
+
+# 4. Build the signed release APK
+npm run apk:release
 ```
+
+The release APK is copied to:
+
+- `public/downloads/apologia-sancta.apk`
+- `public/downloads/apologia-sancta-v<version>.apk`
+- `../release-artifacts/apologia-sancta.apk`
+- `../release-artifacts/apologia-sancta-v<version>.apk`
+
+Release builds fail if signing variables are missing.
+
+### GitHub latest APK link
+
+The homepage uses `NEXT_PUBLIC_ANDROID_APK_URL` when configured. If it is not configured, it falls back to:
+
+```text
+https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
+```
+
+The `.github/workflows/android-release.yml` workflow publishes that stable asset name on every Android release, so the home page always downloads the latest GitHub release APK.
+
+Required GitHub secrets:
+
+- `ANDROID_KEYSTORE_BASE64`
+- `ANDROID_KEYSTORE_PASSWORD`
+- `ANDROID_KEY_ALIAS`
+- `ANDROID_KEY_PASSWORD`
+
+Required GitHub variable:
+
+- `CAPACITOR_SERVER_URL`
+
+Recommended GitHub variable:
+
+- `NEXT_PUBLIC_ENGINE_URL`
 
 ### Verify before building
 
 Run `npx cap sync android` with `CAPACITOR_BUILD_MODE=production` set.  
 If the URL is missing or invalid, the command exits immediately with a clear error before any files are written.
 
-### Why temporary fallback URLs are not allowed
+### Why silent fallback URLs are not allowed
 
 Previous versions of `capacitor.config.ts` fell back silently to a temporary Hostinger preview URL (`sandybrown-bear-488955.hostingersite.com`). This meant a release APK could accidentally point to an unstable host with no error. The hardened config makes this impossible in production mode.
+
+Hostinger URLs are allowed when they are explicitly configured through `CAPACITOR_SERVER_URL`, because that makes the release target intentional and visible in GitHub Actions.
 
 ---
 
@@ -140,6 +189,8 @@ Previous versions of `capacitor.config.ts` fell back silently to a temporary Hos
 - [ ] `NEXT_PUBLIC_ENGINE_URL` points to the production engine URL
 - [ ] `CAPACITOR_SERVER_URL` is set to the correct production HTTPS URL before building APK
 - [ ] `CAPACITOR_BUILD_MODE=production` is set before running `cap sync` for a release build
+- [ ] Android release signing secrets are configured before running the Android release workflow
+- [ ] `NEXT_PUBLIC_ANDROID_APK_URL` points to the GitHub latest release asset or the production-hosted APK path
 - [ ] HSTS header is served (enforced automatically in `next.config.ts` in production)
 - [ ] CSP is reviewed — `connect-src` must include the engine URL
 - [ ] Render / Hostinger have all required env vars configured
@@ -169,3 +220,13 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 Cookies are `secure: false` in development (`NODE_ENV !== "production"`), so they work over HTTP.
 The session cookie uses the plain name `as_author_session` in development (not `__Host-`).
+## Phase 3 Role Resolver
+
+Roles are resolved server-side through `src/lib/server/currentUser.ts` and enforced for admin proxy calls in `src/lib/server/engineProxy.ts`. The browser receives the resolved role for UI filtering, but it is not trusted as authority for proxy access.
+
+`AUTHOR_DEFAULT_ROLE` is transitional until database-backed users exist. Development defaults to `super_admin`; production defaults to `viewer` unless the variable is explicitly set. Do not move role authority into `localStorage`, query strings, or other browser-controlled state.
+# Phase 4A Server-Side Enforcement
+
+Workflow and audit routes require a valid author session. All workflow mutations require the existing `x-csrf-token` double-submit check and server-side permission checks.
+
+Role authority remains server-side. Do not move roles, workflow approvals, audit events, or `ENGINE_ADMIN_TOKEN` into browser storage. Audit metadata is sanitized before persistence so session cookies, CSRF tokens, passwords, and admin tokens are redacted.

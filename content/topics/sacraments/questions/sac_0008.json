@@ -1,0 +1,19 @@
+{
+  "id": "sac_0008",
+  "topicId": "sacraments",
+  "difficulty": 4,
+  "question": "Catholic teaching uses John 20:22-23 to defend sacramental confession. What is the apologetic argument?",
+  "choices": {
+    "A": "Jesus breathes the Spirit on the apostles and grants them authority to forgive or retain sins — a real judicial power requiring knowledge of specific sins, not just a general announcement",
+    "B": "The verse only means that apostles can announce that God has forgiven someone's sins",
+    "C": "The passage applies only to the apostles personally, not to their successors",
+    "D": "Retaining sins in this context means remembering sins for future judgment, not priestly authority"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "John 20:22-23 and Sacramental Confession",
+    "body": "In John 20:22-23, the risen Christ breathes on the apostles and says 'Whose sins you forgive are forgiven them, and whose sins you retain are retained.' The Catholic argument: (1) this is a real act of conferring authority, not merely proclaiming existing forgiveness; (2) to retain or forgive specific sins meaningfully, the minister must know those sins — hence auricular (verbal) confession; (3) this authority is passed to successors through Holy Orders. The Eastern Orthodox also accept sacramental confession on this basis. The verse is the primary NT warrant for the sacrament.",
+    "refs": ["John 20:22-23", "CCC 1461", "Council of Trent, Session 14, ch. 1"]
+  },
+  "tags": ["penance", "confession", "scripture", "apologetics"]
+}

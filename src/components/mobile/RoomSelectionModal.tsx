@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import type { RoomSummary } from "@/types/quiz";
 
 interface RoomSelectionModalProps {
@@ -22,6 +22,8 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
   const [rooms, setRooms] = useState<RoomSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+  const [notice, setNotice] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -62,38 +64,60 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
     };
   }, [engineUrl]);
 
-  const handleRetry = () => {
+  const loadRooms = useCallback(async () => {
     setLoading(true);
     setError(null);
-    fetch(`${engineUrl}/rooms`, { cache: "no-store" })
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error(`Failed to load rooms (${response.status})`);
-        }
 
-        const data = (await response.json()) as RoomsResponse;
-        setRooms(data.rooms);
-      })
-      .catch((loadError) => {
-        setError(loadError instanceof Error ? loadError.message : "Failed to load rooms");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    try {
+      const response = await fetch(`${engineUrl}/rooms`, { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(response.status === 503 ? "Engine unavailable" : `Unable to load rooms (${response.status})`);
+      }
+      const data = (await response.json()) as RoomsResponse;
+      setRooms(data.rooms);
+    } catch (loadError) {
+      setError(loadError instanceof Error ? loadError.message : "Engine unavailable");
+    } finally {
+      setLoading(false);
+    }
+  }, [engineUrl]);
+
+  const filteredRooms = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) return rooms;
+    return rooms.filter((room) => `${room.name} ${room.roomId}`.toLowerCase().includes(normalized));
+  }, [query, rooms]);
+
+  const selectRoom = (room: RoomSummary) => {
+    if (currentRoomId && currentRoomId !== room.roomId) {
+      const confirmed = window.confirm("Switch rooms? Your local answer selection and room context will reset.");
+      if (!confirmed) return;
+    }
+    onSelected(room);
+  };
+
+  const copyRoomLink = async (room: RoomSummary) => {
+    const url = `${window.location.origin}/mobile?roomId=${encodeURIComponent(room.roomId)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setNotice("Room link copied.");
+    } catch {
+      setNotice(url);
+    }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
       <div
-        className="mx-4 w-full max-w-lg rounded-2xl p-8 shadow-2xl"
+        className="flex w-full max-w-lg flex-col rounded-2xl shadow-2xl max-h-[90dvh]"
         style={{
           backgroundColor: "var(--card)",
           border: "1px solid var(--card-border)",
         }}
       >
-        <div className="mb-6 text-center">
+        <div className="shrink-0 px-8 pt-8 pb-4 text-center">
           <h2 className="text-2xl font-bold" style={{ color: "var(--accent)" }}>
-            Choose a Battle Room
+            Choose a room
           </h2>
           <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
             Pick an active room before you join the live quiz.
@@ -109,6 +133,7 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
           ) : null}
         </div>
 
+        <div className="min-h-0 flex-1 overflow-y-auto px-8 pb-8">
         {loading ? (
           <div className="rounded-xl p-4 text-sm" style={{ backgroundColor: "var(--option-bg)", color: "var(--muted)" }}>
             Loading available rooms...
@@ -120,7 +145,7 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
             </div>
             <button
               type="button"
-              onClick={handleRetry}
+              onClick={() => void loadRooms()}
               className="w-full rounded-xl py-3 text-sm font-semibold text-white"
               style={{ backgroundColor: "var(--accent)" }}
             >
@@ -129,16 +154,26 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
           </div>
         ) : (
           <div className="space-y-3">
-            {rooms.map((room) => {
+            <label className="sr-only" htmlFor="room-search">Search rooms</label>
+            <input
+              id="room-search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search rooms"
+              className="min-h-11 w-full rounded-xl border border-(--mobile-border) bg-(--mobile-elevated) px-4 py-3 text-sm text-(--mobile-text) outline-none focus:border-(--accent)"
+            />
+            {notice ? (
+              <div className="rounded-xl border border-(--mobile-border) bg-(--mobile-elevated) px-3 py-2 text-xs text-(--mobile-muted)">
+                {notice}
+              </div>
+            ) : null}
+            {filteredRooms.map((room) => {
               const playable = isPlayableRoom(room);
 
               return (
-                <button
+                <div
                   key={room.roomId}
-                  type="button"
-                  disabled={!playable}
-                  onClick={() => onSelected(room)}
-                  className="w-full rounded-xl border p-4 text-left transition-all disabled:cursor-not-allowed disabled:opacity-60"
+                  className="rounded-xl border p-4 transition-all"
                   style={{
                     borderColor: room.roomId === currentRoomId ? "var(--accent2)" : playable ? "var(--accent)" : "var(--border)",
                     backgroundColor: room.roomId === currentRoomId ? "var(--option-hover)" : "var(--option-bg)",
@@ -167,11 +202,34 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
                     <span>{room.playerCount} players</span>
                     <span>{room.roomId === currentRoomId ? "Current room" : playable ? "Enter room" : "Unavailable"}</span>
                   </div>
-                </button>
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      disabled={!playable}
+                      onClick={() => selectRoom(room)}
+                      className="min-h-11 rounded-lg bg-(--accent) px-3 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {room.roomId === currentRoomId ? "Stay here" : playable ? "Join room" : "Room is closed"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => void copyRoomLink(room)}
+                      className="min-h-11 rounded-lg border border-(--mobile-border) px-3 py-2 text-sm font-semibold text-(--mobile-muted)"
+                    >
+                      Copy link
+                    </button>
+                  </div>
+                </div>
               );
             })}
+            {filteredRooms.length === 0 ? (
+              <div className="rounded-xl border border-dashed border-(--border) p-4 text-center text-sm" style={{ color: "var(--muted)" }}>
+                No rooms match that search.
+              </div>
+            ) : null}
           </div>
         )}
+        </div>
       </div>
     </div>
   );

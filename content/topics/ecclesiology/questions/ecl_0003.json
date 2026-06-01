@@ -1,0 +1,19 @@
+{
+  "id": "ecl_0003",
+  "topicId": "ecclesiology",
+  "difficulty": 2,
+  "question": "What is apostolic succession?",
+  "choices": {
+    "A": "The unbroken chain of episcopal ordination linking bishops today back to the apostles",
+    "B": "The process of electing a new pope after the previous one dies",
+    "C": "The principle that any faithful Christian can appoint church leaders",
+    "D": "A list of popes published in the Vatican annals"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Apostolic Succession",
+    "body": "Apostolic succession means that the authority Christ gave to the apostles has been passed down through a continuous laying-on of hands in episcopal ordination. Each bishop today can trace his ordination lineage back through an unbroken chain to the apostles themselves. This was already documented by Irenaeus of Lyon (~180 AD) as a criterion for authentic Christianity against Gnostic innovation.",
+    "refs": ["CCC 861-862", "Irenaeus, Against Heresies III.3", "Acts 1:20-26"]
+  },
+  "tags": ["apostolic-succession", "bishops", "ordination"]
+}

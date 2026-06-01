@@ -1,0 +1,19 @@
+{
+  "id": "chh_0001",
+  "topicId": "church_history",
+  "difficulty": 1,
+  "question": "In what year did the Great Schism divide the Eastern and Western Church?",
+  "choices": {
+    "A": "1054",
+    "B": "1517",
+    "C": "325",
+    "D": "1378"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Great Schism of 1054",
+    "body": "The Great Schism (East-West Schism) of 1054 formalized the split between the Roman Catholic and Eastern Orthodox churches. The immediate trigger was the mutual excommunication of Cardinal Humbert (representing Pope Leo IX) and Patriarch Michael Cerularius of Constantinople. Deeper causes included disputes over the filioque clause ('and the Son') added to the Nicene Creed by the West, papal authority claims, and liturgical differences. The excommunications were formally lifted by Pope Paul VI and Patriarch Athenagoras I in 1964 as a gesture of reconciliation.",
+    "refs": ["CCC 817", "Joint Catholic-Orthodox Declaration (1964)", "Photian Schism background (863)"]
+  },
+  "tags": ["schism", "eastern-orthodox", "1054", "church-history"]
+}

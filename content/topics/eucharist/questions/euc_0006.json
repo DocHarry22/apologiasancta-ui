@@ -1,0 +1,19 @@
+{
+  "id": "euc_0006",
+  "topicId": "eucharist",
+  "difficulty": 2,
+  "question": "What is the Lutheran teaching about Christ's presence in the Eucharist, and how does it differ from the Catholic view?",
+  "choices": {
+    "A": "Lutheran 'sacramental union' holds Christ is truly present in, with, and under the bread and wine — but the substance of bread and wine remains unchanged, unlike Catholic transubstantiation",
+    "B": "Lutherans hold a purely symbolic view identical to Zwingli's memorialism",
+    "C": "Lutherans teach that Christ becomes present only in the priest's prayer, not in the elements",
+    "D": "Lutherans and Catholics hold identical eucharistic theology"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Lutheran Sacramental Union vs. Transubstantiation",
+    "body": "Luther strongly rejected Zwingli's symbolic ('memorialist') view and insisted on Christ's Real Presence in the Eucharist based on the plain meaning of 'This is my body.' However, Luther rejected transubstantiation (the substance of bread is replaced by Christ's body) in favor of 'sacramental union': Christ's body and blood are genuinely present alongside ('in, with, and under') the remaining bread and wine. The classic illustration: like heat in iron — both iron and heat are really present. The Catholic-Lutheran divide is therefore not about whether Christ is present but about how — and what happens to the substance of bread and wine.",
+    "refs": ["Luther, The Babylonian Captivity of the Church (1520)", "CCC 1377", "Augsburg Confession, Article 10"]
+  },
+  "tags": ["lutheran", "real-presence", "ecumenism", "transubstantiation"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "ott_0007",
+  "topicId": "ot_theology",
+  "difficulty": 3,
+  "question": "Isaiah 52:13-53:12 is known as the Fourth Servant Song. What is the central theological content and how do Christians read it?",
+  "choices": {
+    "A": "A suffering servant who bears the sins of others ('the LORD laid on him the iniquity of us all'), is rejected and killed, and is subsequently exalted — Christians interpret this as a prophecy of Christ's passion and resurrection",
+    "B": "A description of the conquest of Israel's military enemies by a divine warrior figure",
+    "C": "A allegorical account of the return from Babylonian exile with no messianic significance",
+    "D": "A poem celebrating King Hezekiah's recovery from illness, with no future reference"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Isaiah 53 — The Suffering Servant",
+    "body": "Isaiah 52:13-53:12 is arguably the most contested text in Jewish-Christian dialogue. It describes a figure: despised and rejected, familiar with suffering, 'pierced for our transgressions, crushed for our iniquities,' making himself an offering for sin, seeing his offspring after death and being exalted. The NT cites it extensively as fulfilled in Jesus: Philip explains it to the Ethiopian eunuch (Acts 8:32-35), Peter applies it to Christ's passion (1 Pet 2:22-25), and Jesus himself alludes to it ('served and give his life as a ransom,' Mark 10:45). Pre-Christian Jewish texts (Dead Sea Scrolls, some rabbinic literature) show the messianic reading is ancient.",
+    "refs": ["Isaiah 52:13-53:12", "Acts 8:32-35", "1 Peter 2:22-25", "Mark 10:45"]
+  },
+  "tags": ["isaiah-53", "suffering-servant", "messianic-prophecy", "christology"]
+}

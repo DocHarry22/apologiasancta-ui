@@ -1,0 +1,19 @@
+{
+  "id": "chh_0006",
+  "topicId": "church_history",
+  "difficulty": 2,
+  "question": "What was the Edict of Milan (313 AD) and why is it significant?",
+  "choices": {
+    "A": "An agreement between emperors Constantine and Licinius granting religious tolerance to all in the Roman Empire, ending systematic persecution of Christians",
+    "B": "Constantine's decree declaring Christianity the official and only religion of the Roman Empire",
+    "C": "A council decree defining the Nicene Creed",
+    "D": "The founding document of the Papal States, granting the pope temporal authority over central Italy"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Edict of Milan (313)",
+    "body": "The Edict of Milan was a letter of toleration issued by Constantine I and Licinius in 313 AD, granting freedom of religion to all within the Roman Empire and specifically ending the persecution of Christians that had culminated under Diocletian (303-311). It restored confiscated church property and allowed Christians to worship openly. It did not make Christianity the state religion — that came later under Theodosius I (Edict of Thessalonica, 380). The Edict of Milan marks the end of the era of martyrdom and the beginning of the Constantinian era.",
+    "refs": ["Lactantius, De Mortibus Persecutorum", "Eusebius, Ecclesiastical History X.5", "CCC 2104"]
+  },
+  "tags": ["constantine", "edict-of-milan", "persecution", "roman-empire"]
+}

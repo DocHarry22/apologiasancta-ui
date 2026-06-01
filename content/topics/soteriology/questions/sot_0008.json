@@ -1,0 +1,19 @@
+{
+  "id": "sot_0008",
+  "topicId": "soteriology",
+  "difficulty": 4,
+  "question": "How does Romans 3:28 ('a person is justified by faith apart from works of the law') fit into Catholic soteriology without contradicting James 2:24?",
+  "choices": {
+    "A": "Paul addresses justification at the point of initial conversion against Mosaic law-observance; James addresses ongoing justification of faith's authenticity by its fruits — both are true in different senses",
+    "B": "Romans and James contradict each other and cannot be reconciled in Catholic theology",
+    "C": "Paul is speaking only to Gentiles while James speaks only to Jewish Christians",
+    "D": "James 2:24 was later added to the Bible to correct Paul and must be read as overriding him"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Romans 3:28 and James 2:24 — Catholic Synthesis",
+    "body": "Catholic exegesis (following Augustine and Aquinas) harmonizes these passages by noting different contexts: Paul in Romans is arguing against the Judaizing claim that circumcision and Mosaic ritual observances are required for justification alongside faith. His 'works of the law' are specifically ceremonial Jewish observances, not virtuous deeds. James is addressing antinomians who claim intellectual belief (assent to truth) without change of life is sufficient. Catholic teaching affirms both: initial justification is by faith and grace, not by Mosaic observance; but genuine faith necessarily produces works of charity (cf. Gal 5:6: 'faith working through love').",
+    "refs": ["Romans 3:28", "James 2:24", "Gal 5:6", "Aquinas, Commentary on Romans 3"]
+  },
+  "tags": ["paul", "james", "justification", "apologetics", "scripture"]
+}

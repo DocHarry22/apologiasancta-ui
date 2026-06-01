@@ -1,0 +1,19 @@
+{
+  "id": "prd_0005",
+  "topicId": "prayer_devotion",
+  "difficulty": 1,
+  "question": "What is the Angelus, and when is it traditionally prayed?",
+  "choices": {
+    "A": "A devotional prayer commemorating the Annunciation, traditionally prayed three times daily at 6 AM, noon, and 6 PM at the sound of the bell",
+    "B": "A prayer prayed only on the feast of the Annunciation (March 25)",
+    "C": "The opening prayer of every Mass",
+    "D": "A Rosary variation prayed only during Lent"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Angelus",
+    "body": "The Angelus (from the opening words 'Angelus Domini nuntiavit Mariae' — 'The angel of the Lord declared unto Mary') is a short devotional prayer commemorating the mystery of the Incarnation through the Annunciation. It consists of three versicles with the Hail Mary and a concluding collect. Traditionally the Angelus bell rings at 6 AM, noon, and 6 PM, calling Catholics to pause and pray. During Easter season it is replaced by the Regina Caeli ('Queen of Heaven'). The practice dates to the medieval period.",
+    "refs": ["Luke 1:26-38", "CCC 2617", "Angelus prayer text"]
+  },
+  "tags": ["angelus", "annunciation", "marian-devotion", "prayer"]
+}

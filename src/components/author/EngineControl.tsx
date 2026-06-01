@@ -14,9 +14,7 @@ import {
   roomProxy,
 } from "@/lib/adminProxyClient";
 
-interface Props {}
-
-export default function EngineControl(_props: Props) {
+export default function EngineControl() {
   const [contentStatus, setContentStatus] = useState<ContentStatusResponse | null>(null);
   const [adminStatus, setAdminStatus] = useState<AdminStatus | null>(null);
   const [rooms, setRooms] = useState<AdminRoomStatus[]>([]);

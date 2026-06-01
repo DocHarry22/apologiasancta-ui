@@ -55,7 +55,11 @@ export default function AuthorLoginPage() {
   return (
     <main className="min-h-screen bg-background text-foreground flex items-center justify-center p-4">
       <section className="w-full max-w-sm rounded-xl border border-(--border) bg-(--card) p-5 sm:p-6 space-y-4">
-        <div className="space-y-1">
+        <div className="space-y-2">
+          <div className="inline-flex items-center gap-2 rounded-full border border-(--border) px-2.5 py-1 text-[11px] uppercase tracking-[0.16em] text-(--muted)">
+            <span aria-hidden>✝</span>
+            <span>Apologia Sancta</span>
+          </div>
           <p className="text-xs uppercase tracking-widest text-(--muted)">Author Access</p>
           <h1 className="text-2xl font-semibold">Sign in</h1>
           <p className="text-sm text-(--muted)">Enter the author password to access the dashboard.</p>
@@ -90,8 +94,8 @@ export default function AuthorLoginPage() {
         </form>
 
         <div className="flex items-center justify-between text-xs">
-          <Link href="/" className="text-(--muted) hover:text-(--accent)">
-            Back to Home
+          <Link href="/mobile" className="text-(--muted) hover:text-(--accent)">
+            Back to Quiz
           </Link>
           <button
             type="button"

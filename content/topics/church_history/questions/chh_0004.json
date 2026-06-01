@@ -1,0 +1,19 @@
+{
+  "id": "chh_0004",
+  "topicId": "church_history",
+  "difficulty": 2,
+  "question": "What was the Western Schism (1378-1417), and how was it resolved?",
+  "choices": {
+    "A": "A period when there were two or three simultaneous claimants to the papacy; resolved by the Council of Constance (1414-1418) which accepted the resignation or removal of rival claimants and elected Martin V",
+    "B": "The split between Rome and Constantinople in 1054",
+    "C": "The Protestant Reformation, which permanently divided Western Christianity",
+    "D": "A dispute over the Crusades that caused France to break from Rome for 40 years"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Western Schism (1378-1417)",
+    "body": "The Western Schism (not to be confused with the 1054 East-West Schism) began when, after the death of Gregory XI (who ended the Avignon papacy), the cardinals elected Urban VI — then, dissatisfied, elected a second pope (Clement VII) who returned to Avignon. Eventually a third claimant was added at the Council of Pisa (1409). The Council of Constance (1414-1418) resolved the crisis through 'conciliarism' — asserting that a general council has authority over the pope. Martin V was elected as the single legitimate pope in 1417. The crisis raised difficult questions about papal authority and ecclesiology.",
+    "refs": ["CCC 837 note", "Council of Constance (1414-1418)", "Schatz, Papal Primacy"]
+  },
+  "tags": ["western-schism", "papacy", "councils", "avignon"]
+}

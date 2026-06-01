@@ -1,0 +1,19 @@
+{
+  "id": "esc_0002",
+  "topicId": "eschatology",
+  "difficulty": 2,
+  "question": "What is the difference between the Particular Judgment and the General (Last) Judgment?",
+  "choices": {
+    "A": "The Particular Judgment occurs immediately at each person's death; the General Judgment occurs at the end of time for all humanity together",
+    "B": "The Particular Judgment is for Catholics; the General Judgment is for everyone else",
+    "C": "The Particular Judgment reviews venial sins only; the General Judgment reviews mortal sins",
+    "D": "They are the same event described from different perspectives"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Particular and General Judgment",
+    "body": "The Particular Judgment is the individual judgment each soul faces immediately at death — its eternal destiny (heaven, hell, or purgatory) is determined then (Hebrews 9:27). The General Judgment (Last Judgment) occurs at the Second Coming of Christ when all who have ever lived will be raised and judged together. The General Judgment makes manifest the total meaning of history and the justice of God before all creation. There is no contradiction: the final state decided in the Particular Judgment is confirmed and revealed publicly at the General Judgment.",
+    "refs": ["CCC 1021-1022", "CCC 1038-1041", "Hebrews 9:27", "Matt 25:31-46"]
+  },
+  "tags": ["judgment", "death", "second-coming"]
+}

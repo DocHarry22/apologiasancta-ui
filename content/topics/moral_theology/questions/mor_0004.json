@@ -1,0 +1,19 @@
+{
+  "id": "mor_0004",
+  "topicId": "moral_theology",
+  "difficulty": 2,
+  "question": "What are the three 'sources of morality' that determine whether an act is good or evil?",
+  "choices": {
+    "A": "Object (the act itself), intention (the agent's end), and circumstances (conditions surrounding the act)",
+    "B": "Scripture, Tradition, and Magisterium",
+    "C": "Faith, hope, and charity",
+    "D": "Reason, emotion, and social consensus"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Three Sources of Morality",
+    "body": "Catholic moral theology identifies three sources that together determine the morality of an act: (1) Object — the act itself and its inherent ordering (what is being done); (2) Intention — the end the agent has in view (why); (3) Circumstances — the conditions surrounding the act (who, when, how, consequences). For an act to be morally good, ALL three sources must be good: 'A morally good act requires the goodness of the object, of the end, and of the circumstances together' (CCC 1755). A good intention cannot make an evil act good ('the end does not justify the means'), but a bad intention can make an otherwise neutral act evil.",
+    "refs": ["CCC 1750-1761", "John Paul II, Veritatis Splendor 74-83 (1993)"]
+  },
+  "tags": ["sources-of-morality", "object", "intention", "circumstances"]
+}

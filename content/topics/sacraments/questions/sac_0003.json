@@ -1,0 +1,19 @@
+{
+  "id": "sac_0003",
+  "topicId": "sacraments",
+  "difficulty": 3,
+  "question": "What does the Latin phrase 'ex opere operato' mean in sacramental theology?",
+  "choices": {
+    "A": "Sacraments confer grace by the very act performed, not by the merit of the minister or recipient",
+    "B": "Only the sincerely faithful receive grace from a sacrament",
+    "C": "A sacrament is valid only when performed by a morally perfect priest",
+    "D": "Grace is given by work after the sacrament, through subsequent holy living"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Ex Opere Operato",
+    "body": "'Ex opere operato' (Latin: 'by the work worked') means that a sacrament's efficacy comes from the rite itself as instituted by Christ — not from the holiness of the minister (ex opere operantis ministri) nor the prior faith of the recipient. This was defined against the Donatists (who denied sacraments given by sinful clergy) and reiterated at Trent against the Reformers. The recipient must not place an obstacle (obex), but grace is offered through the sacrament itself.",
+    "refs": ["CCC 1128", "Council of Trent, Session 7, Canon 8", "Augustine, Against the Donatists"]
+  },
+  "tags": ["ex-opere-operato", "grace", "sacramental-theology"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "ecl_0002",
+  "topicId": "ecclesiology",
+  "difficulty": 2,
+  "question": "The Nicene Creed describes the Church with four attributes. Which set correctly lists all four?",
+  "choices": {
+    "A": "One, Holy, Catholic, Apostolic",
+    "B": "Holy, Roman, Infallible, Universal",
+    "C": "One, Holy, Roman, Apostolic",
+    "D": "Pure, Eternal, Catholic, Infallible"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Four Marks of the Church",
+    "body": "The Nicene-Constantinopolitan Creed (381 AD) confesses belief in 'one, holy, catholic, and apostolic Church.' These four marks are not just organizational features but theological claims: unity flows from one Lord, one faith, one baptism; holiness from Christ who sanctifies her; catholicity from her universal mission; and apostolicity from her foundation on the apostles and their successors.",
+    "refs": ["Nicene Creed", "CCC 811-870", "Lumen Gentium 8"]
+  },
+  "tags": ["marks-of-the-church", "creed", "apologetics"]
+}

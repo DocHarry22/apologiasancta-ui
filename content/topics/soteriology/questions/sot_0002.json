@@ -1,0 +1,19 @@
+{
+  "id": "sot_0002",
+  "topicId": "soteriology",
+  "difficulty": 2,
+  "question": "What is 'sanctifying grace' in Catholic theology?",
+  "choices": {
+    "A": "The habitual gift that makes the soul holy, incorporates it into the divine life, and disposes it for eternal life",
+    "B": "A special feeling of peace given to confirmed Catholics",
+    "C": "The grace received only at the moment of death for final perseverance",
+    "D": "A reward God grants in exchange for meritorious works"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Sanctifying Grace",
+    "body": "Sanctifying grace (gratia gratum faciens) is the created participation in divine life that God infuses into the soul, making the person holy and capable of supernatural acts. It is 'habitual' — a stable quality of the soul rather than a momentary impulse. It is received at Baptism, increased through the sacraments and virtuous living, and lost through mortal sin. The Council of Trent insisted that justification is not merely the imputation of Christ's righteousness (as Luther taught) but the genuine infusion of sanctifying grace that truly transforms the soul.",
+    "refs": ["CCC 1999-2000", "Council of Trent, Session 6, ch. 7", "2 Pet 1:4"]
+  },
+  "tags": ["grace", "sanctification", "justification"]
+}

@@ -1,0 +1,8 @@
+{
+  "id": "ot_theology",
+  "title": "Old Testament Theology",
+  "description": "Covenant, typology, the Torah, the Psalms, and Israel's theology as foundation for the New Testament.",
+  "difficultyRange": [1, 4],
+  "tags": ["covenant", "typology", "torah", "psalms", "prophecy", "israel"],
+  "questionCount": 8
+}

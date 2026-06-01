@@ -1,0 +1,19 @@
+{
+  "id": "sot_0005",
+  "topicId": "soteriology",
+  "difficulty": 2,
+  "question": "What is the difference between mortal sin and venial sin in Catholic moral teaching?",
+  "choices": {
+    "A": "Mortal sin destroys the life of grace in the soul and breaks the relationship with God; venial sin weakens but does not sever that relationship",
+    "B": "Mortal sin is any sin a bishop has personally committed; venial sin is committed by laypeople",
+    "C": "There is no meaningful distinction — all sin is equal in Catholic theology",
+    "D": "Mortal sin requires eternal punishment; venial sin requires no punishment at all"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Mortal vs. Venial Sin",
+    "body": "Mortal sin requires three conditions: (1) grave matter, (2) full knowledge, (3) deliberate consent. If all three are met, it kills sanctifying grace in the soul and, if unrepented, leads to eternal separation from God. Venial sin lacks one or more of these conditions — it weakens the relationship with God and disposes toward mortal sin, but does not destroy grace. The distinction has a scriptural basis in 1 John 5:16-17 ('there is sin that is deadly... there is sin that is not deadly'). Mortal sin requires sacramental absolution (Confession) to restore grace.",
+    "refs": ["CCC 1854-1864", "1 John 5:16-17", "Council of Trent, Session 14"]
+  },
+  "tags": ["mortal-sin", "venial-sin", "penance", "grace"]
+}

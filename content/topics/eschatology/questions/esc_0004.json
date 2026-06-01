@@ -1,0 +1,19 @@
+{
+  "id": "esc_0004",
+  "topicId": "eschatology",
+  "difficulty": 1,
+  "question": "What does 'parousia' refer to in Christian eschatology?",
+  "choices": {
+    "A": "The Second Coming of Christ at the end of history",
+    "B": "The sacrament of Last Rites",
+    "C": "The ascension of Christ into heaven after the resurrection",
+    "D": "The day of Pentecost when the Holy Spirit descended on the apostles"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Parousia — The Second Coming",
+    "body": "'Parousia' (παρουσία) is a Greek word meaning 'presence' or 'arrival' — used in antiquity for the arrival of a king or emperor. In NT eschatology it refers to Christ's return at the end of time in glory to judge the living and the dead, raise the dead, and bring history to its completion. The Creed confesses: 'He will come again in glory to judge the living and the dead.' Matthew 24, 1 Thessalonians 4:13-18, and Revelation 22:20 ('Come, Lord Jesus') are key texts.",
+    "refs": ["CCC 1001", "Matt 24:27", "1 Thess 4:15-17", "Rev 22:20"]
+  },
+  "tags": ["parousia", "second-coming", "creed"]
+}

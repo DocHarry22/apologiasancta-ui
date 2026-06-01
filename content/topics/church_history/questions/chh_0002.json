@@ -1,0 +1,19 @@
+{
+  "id": "chh_0002",
+  "topicId": "church_history",
+  "difficulty": 1,
+  "question": "What was the Council of Nicaea (325 AD) primarily called to address?",
+  "choices": {
+    "A": "Arianism — the heresy that the Son is a created being, not co-equal and co-eternal with the Father",
+    "B": "The date of Easter and whether it should follow the Jewish calendar",
+    "C": "The question of which books belong in the biblical canon",
+    "D": "The establishment of papal authority over all Eastern bishops"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Council of Nicaea (325) and Arianism",
+    "body": "Arius of Alexandria (~256-336) taught that the Son was the highest created being — 'there was when he was not' — making him subordinate to and ontologically different from the Father. This threatened the coherence of Christian salvation (only God can save). Emperor Constantine convened the First Ecumenical Council at Nicaea (325), which condemned Arianism and defined the Son as 'homoousios' (consubstantial, of the same essence) with the Father. The Nicene Creed's phrase 'God from God, Light from Light, true God from true God, begotten not made, consubstantial with the Father' directly refutes Arianism.",
+    "refs": ["CCC 465", "Nicene Creed", "Athanasius, On the Incarnation"]
+  },
+  "tags": ["nicaea", "arianism", "councils", "christology"]
+}

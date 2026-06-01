@@ -1,0 +1,19 @@
+{
+  "id": "esc_0007",
+  "topicId": "eschatology",
+  "difficulty": 3,
+  "question": "What does Catholic teaching say about hell — is it possible that hell is empty (i.e., that all humans are eventually saved)?",
+  "choices": {
+    "A": "The Church teaches hell is real and possible for human beings, but has never defined that any specific person is actually in hell",
+    "B": "The Church definitively teaches that the majority of humans go to hell",
+    "C": "The Church officially teaches universal salvation (apokatastasis) — all people are ultimately saved",
+    "D": "The Church is completely agnostic on whether hell exists at all"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Hell — Real but Not Assigned",
+    "body": "The Catholic Church definitively teaches that hell exists and is a real possibility for humans who die in mortal sin (CCC 1033-1037). It has canonized many saints but has never officially declared any specific person to be in hell. Some theologians (notably Hans Urs von Balthasar) argue we may 'hope' that all are saved without asserting it as certain. The Church condemned Origen's doctrine of apokatastasis (universal restoration) at Constantinople II (553). Jesus' own warnings about eternal fire (Matt 25:41, Mark 9:43) are taken seriously as genuine possibilities, not merely rhetorical.",
+    "refs": ["CCC 1033-1037", "Matt 25:41", "Council of Constantinople II (553)", "Hans Urs von Balthasar, Dare We Hope"]
+  },
+  "tags": ["hell", "judgment", "eschatology", "apokatastasis"]
+}

@@ -1,0 +1,8 @@
+{
+  "id": "scripture_tradition",
+  "title": "Scripture & Tradition",
+  "description": "The Catholic understanding of Scripture, Sacred Tradition, the biblical canon, and their relationship.",
+  "difficultyRange": [1, 4],
+  "tags": ["scripture", "tradition", "canon", "inspiration", "magisterium", "sola-scriptura"],
+  "questionCount": 8
+}

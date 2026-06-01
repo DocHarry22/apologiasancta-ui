@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { getAndroidApkUrl, isEngineConfigured } from "@/lib/publicEnv";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -54,6 +54,7 @@ export function InstallActions() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [installState, setInstallState] = useState<"idle" | "installing" | "installed">("idle");
   const [isOnline, setIsOnline] = useState(true);
+  const [platform, setPlatform] = useState({ isAndroid: false, isIOS: false, isStandalone: false });
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (event: Event) => {
@@ -69,6 +70,7 @@ export function InstallActions() {
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     window.addEventListener("appinstalled", handleInstalled);
     setIsOnline(window.navigator.onLine);
+    setPlatform(getPlatformState());
 
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
@@ -83,7 +85,6 @@ export function InstallActions() {
     };
   }, []);
 
-  const platform = useMemo(() => getPlatformState(), []);
   const apkUrl = getAndroidApkUrl();
   const engineConfigured = isEngineConfigured();
   const canPromptInstall = installPrompt !== null && !platform.isStandalone;
@@ -163,17 +164,18 @@ export function InstallActions() {
 
         <InstallCard
           title="Android APK"
-          description="Download the Android wrapper if you want a native launcher around the hosted live app."
+          description="Download the latest signed Android wrapper if you want a native launcher around the hosted live app."
         >
           <a
-            href="/downloads/apologia-sancta.apk"
+            href={apkUrl ?? "#"}
             download
-            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-(--accent) px-4 py-2 text-sm font-semibold text-(--accent)"
+            aria-disabled={!apkUrl}
+            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-(--accent) px-4 py-2 text-sm font-semibold text-(--accent) aria-disabled:pointer-events-none aria-disabled:opacity-50"
           >
-            Download APK
+            Download Latest APK
           </a>
           <p className="text-xs leading-relaxed text-(--muted)">
-            Lowest-friction first release: hosted-site wrapper, not a fully offline native build.
+            Always points to the newest GitHub release asset unless a production host override is configured.
           </p>
         </InstallCard>
 

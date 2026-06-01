@@ -1,0 +1,19 @@
+{
+  "id": "ecl_0006",
+  "topicId": "ecclesiology",
+  "difficulty": 2,
+  "question": "What does the Greek word 'ekklesia' (Church) literally mean?",
+  "choices": {
+    "A": "An assembly of those called out",
+    "B": "A building for worship",
+    "C": "The kingdom of priests",
+    "D": "A community of the enlightened"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Ekklesia — Called Out Assembly",
+    "body": "'Ekklesia' comes from 'ek' (out of) + 'kaleo' (to call). In classical Greek it referred to a civic assembly of citizens summoned by a herald. The Septuagint (Greek OT) uses it for the assembly of Israel before God. In the NT, it becomes the standard word for the Christian community — those called out of the world and gathered by God. This etymology undergirds the theological idea of the Church as not self-created but summoned by God's word.",
+    "refs": ["CCC 751", "Acts 19:39", "Deut 4:10 (LXX)"]
+  },
+  "tags": ["etymology", "church", "scripture"]
+}

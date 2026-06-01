@@ -1,0 +1,19 @@
+{
+  "id": "mor_0003",
+  "topicId": "moral_theology",
+  "difficulty": 3,
+  "question": "What is the Principle of Double Effect, and what are its four conditions?",
+  "choices": {
+    "A": "An act with both good and bad effects may be permissible if: (1) the act itself is not evil; (2) the agent intends only the good effect; (3) the bad effect is not the means to the good; (4) there is proportionate reason",
+    "B": "If a doctor performs two operations in sequence, both outcomes count as equally intended",
+    "C": "Any act with both a good and bad effect is forbidden, regardless of intention",
+    "D": "The good effects of an act always outweigh the bad if the person is acting in good faith"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Principle of Double Effect",
+    "body": "The Principle of Double Effect (PDE), classically attributed to Thomas Aquinas (Summa II-II, q.64, a.7 on self-defense), addresses acts whose effects include both good and harmful outcomes. The four conditions for permissibility: (1) The act itself must not be intrinsically evil; (2) The agent must intend the good effect, not the harmful one (though the latter is foreseen); (3) The harmful effect must not be the means by which the good is achieved; (4) There must be proportionate reason — the good must outweigh or at least balance the harm. Classic application: a surgeon removing a cancerous uterus containing a fetus — the death of the fetus is foreseen but not intended.",
+    "refs": ["CCC 2263", "Aquinas, Summa II-II, q.64, a.7", "Grisez, The Way of the Lord Jesus"]
+  },
+  "tags": ["double-effect", "moral-reasoning", "aquinas"]
+}

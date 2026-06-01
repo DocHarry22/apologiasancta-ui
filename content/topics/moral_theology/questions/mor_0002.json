@@ -1,0 +1,19 @@
+{
+  "id": "mor_0002",
+  "topicId": "moral_theology",
+  "difficulty": 2,
+  "question": "What does it mean for an act to be 'intrinsically evil' in Catholic moral theology?",
+  "choices": {
+    "A": "It is evil by its very object, regardless of the intention behind it or the circumstances surrounding it — no good intention can make it permissible",
+    "B": "An act only the pope can declare evil through a formal document",
+    "C": "An act that is evil because of the bad circumstances, which would become good in better circumstances",
+    "D": "An act committed with the deliberate intention to cause harm"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Intrinsically Evil Acts",
+    "body": "Some acts are 'intrinsically evil' (intrinsece malum) — wrong by their very nature (their moral object), not because of intention or circumstances. John Paul II's Veritatis Splendor (1993) emphasized this against consequentialist or proportionalist arguments that any act might become permissible given the right intentions or circumstances. Classic examples include direct killing of the innocent, torture as a method of interrogation, and sexual acts ordered toward grave disorder. The principle is: you cannot do evil that good may come (Romans 3:8). Circumstances can increase or decrease guilt but cannot change an evil act into a good one.",
+    "refs": ["CCC 1756", "John Paul II, Veritatis Splendor 80 (1993)", "Romans 3:8"]
+  },
+  "tags": ["intrinsically-evil", "moral-object", "veritatis-splendor"]
+}

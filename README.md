@@ -22,7 +22,7 @@ The UI is deployed to Hostinger and the Android debug APK has been built and ver
 - Installable PWA flow with manifest, generated app icons (all standard sizes), offline fallback page, and service-worker bypass for SSE/API traffic
 - Android wrapper via Capacitor pointing at the deployed Hostinger URL
 - Landing page install/download CTAs for Chromium browser install, iPhone Add to Home Screen, and Android APK distribution
-- CI on GitHub Actions: lint and Next build on every push; debug APK artifact on pushes to `main`
+- CI on GitHub Actions: lint, typecheck, unit tests, Next build, and Playwright E2E on every push; debug APK artifact on pushes to `main`
 
 **Known limitations / v1 gates not yet cleared:**
 - Hostinger routes `/mobile/`, `/author/login`, and `/library` currently return HTTP 403 — requires redeploying the latest build with the Apache `.htaccess` rewrite rule to Hostinger
@@ -64,6 +64,12 @@ The UI is deployed to Hostinger and the Android debug APK has been built and ver
 | `/offline` | Offline fallback page |
 
 The `/author` area is protected by middleware-backed session checks.
+
+## Testing And Release Readiness
+
+- See [TESTING.md](./TESTING.md) for unit, coverage, E2E, mocked engine, and security-header verification.
+- See [SECURITY_SETUP.md](./SECURITY_SETUP.md) for Phase 1 security environment and deployment requirements.
+- See [PRODUCTION_CHECKLIST.md](./PRODUCTION_CHECKLIST.md) before shipping a production build.
 
 ## Engine Compatibility
 
@@ -346,3 +352,19 @@ public/                   # Static assets
 
 Private
 
+## Phase 3 Admin Dashboard
+
+`/author` is now a role-aware admin dashboard for overview, live control, rooms, question bank, authoring, review, topics, audit visibility, and settings. Roles and permissions are centralized in `src/lib/auth/roles.ts`; the transitional server-side resolver is `src/lib/server/currentUser.ts`.
+
+Configure `AUTHOR_DEFAULT_ROLE` to one of `super_admin`, `admin`, `author`, `reviewer`, `host`, or `viewer`. Development defaults to `super_admin`; production defaults to `viewer` unless explicitly configured. See `ADMIN_DASHBOARD.md` for the full role matrix, workflow behavior, dangerous action UX, and persistence limitations.
+
+## Phase 4 Mobile UX
+
+`/mobile` is now phone-first with compact onboarding, room search/copy links, query-string room joins, clear OPEN/LOCKED/REVEAL phase states, submitted-answer locking, drawer-based leaderboards, expandable teaching moments, and user-friendly reconnect/polling/offline states.
+
+See `MOBILE_UX.md` for route states, gameplay behavior, PWA caching, and mobile admin drawer rules.
+# Phase 4A Durable Workflow Foundation
+
+Phase 4A adds server-side JSON persistence for workflow items, audit events, and the transitional current user under `.data/`. See `PERSISTENCE.md` for limitations and the database migration path.
+
+New internal routes include `/api/auth/me`, `/api/workflow/items`, workflow transition routes, and `/api/audit/events`. Browser components continue to call only same-origin API routes and never send engine admin tokens.

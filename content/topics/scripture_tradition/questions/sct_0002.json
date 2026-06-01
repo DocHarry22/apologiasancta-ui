@@ -1,0 +1,19 @@
+{
+  "id": "sct_0002",
+  "topicId": "scripture_tradition",
+  "difficulty": 2,
+  "question": "What are the 7 books included in the Catholic Old Testament that are absent from most Protestant Bibles?",
+  "choices": {
+    "A": "Tobit, Judith, 1 & 2 Maccabees, Wisdom, Sirach (Ecclesiasticus), and Baruch",
+    "B": "Enoch, Jasher, Jubilees, the Didache, the Shepherd of Hermas, the Gospel of Thomas, and Baruch",
+    "C": "Ezra, Nehemiah, Ruth, Esther, Lamentations, Obadiah, and Jonah",
+    "D": "Daniel, Ezekiel, Isaiah, Jeremiah, Hosea, Joel, and Amos"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "The Deuterocanonical Books",
+    "body": "Catholics call these seven books 'deuterocanonical' (second canon), while Protestants call them 'Apocrypha' (hidden/spurious). They were in the Septuagint (Greek OT) used by NT authors, included in the Latin Vulgate, and affirmed by African councils (Hippo 393, Carthage 397/419) and the Council of Florence (1441). Luther removed them partly because they support doctrines he opposed (e.g., 2 Maccabees supports purgatory). The Council of Trent (1546) formally defined the Catholic canon including all seven.",
+    "refs": ["CCC 120", "Council of Trent, Session 4", "Council of Florence, Laetentur Caeli"]
+  },
+  "tags": ["canon", "deuterocanon", "apocrypha", "apologetics"]
+}

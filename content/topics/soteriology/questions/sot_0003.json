@@ -1,0 +1,19 @@
+{
+  "id": "sot_0003",
+  "topicId": "soteriology",
+  "difficulty": 2,
+  "question": "What is original sin, according to Catholic teaching?",
+  "choices": {
+    "A": "The sin committed by Adam, contracted (not imitated) by all his descendants, resulting in loss of sanctifying grace and a disordered human nature",
+    "B": "A personal sin each person commits at the first moment of moral awareness",
+    "C": "An evil force that inhabits the body but not the soul",
+    "D": "A symbolic story with no literal theological content"
+  },
+  "correctId": "A",
+  "teaching": {
+    "title": "Original Sin",
+    "body": "Original sin is not a sin each individual commits but a condition inherited from Adam. The Council of Trent (1546) defined that through Adam's sin: (1) death and suffering entered the world; (2) the whole person is wounded — intellect darkened, will weakened, passions disordered (concupiscence); (3) sanctifying grace is lost. This is 'contracted not committed.' Baptism removes original sin's guilt and restores grace, though concupiscence (the inclination to sin) remains. Paul's argument in Romans 5:12-21 is the primary scriptural basis.",
+    "refs": ["CCC 396-421", "Council of Trent, Session 5", "Rom 5:12-21"]
+  },
+  "tags": ["original-sin", "adam", "baptism", "trent"]
+}
