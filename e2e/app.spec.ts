@@ -65,7 +65,7 @@ test("author auth succeeds and logout blocks dashboard again", async ({ page }) 
 
   await page.getByLabel(/password/i).fill("test-author-password");
   await page.getByRole("button", { name: /sign in/i }).click();
-  await expect(page).toHaveURL(/\/author$/);
+  await expect(page).toHaveURL(/\/author\/?$/);
   await expect(page.locator("body")).toContainText(/overview|dashboard|operations/i);
 
   await page.getByRole("button", { name: /log out/i }).click();
@@ -87,7 +87,7 @@ test("admin security behavior is enforced in browser context", async ({ page }) 
   await page.goto("/author/login");
   await page.getByLabel(/password/i).fill("test-author-password");
   await page.getByRole("button", { name: /sign in/i }).click();
-  await expect(page).toHaveURL(/\/author$/);
+  await expect(page).toHaveURL(/\/author\/?$/);
 
   const csrfMissing = await page.request.post("/api/admin/start", { data: {} });
   expect(csrfMissing.status()).toBe(403);
