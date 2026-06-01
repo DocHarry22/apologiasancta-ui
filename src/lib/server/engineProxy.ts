@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { verifyAdminSession } from "./adminAuth";
 import { getCurrentUser } from "./currentUser";
-import { SESSION_COOKIE_NAME } from "@/lib/auth/session";
+import { readSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
 import { verifyCsrfToken } from "@/lib/csrf";
 import { checkAdminMutationRateLimit, getClientIp } from "@/lib/auth/rateLimit";
 import { hasPermission, type Permission } from "@/lib/auth/roles";
@@ -285,7 +285,12 @@ export async function proxyAdminRequest(
   }
 
   const { enginePath } = routeCheck;
-  const currentUser = await getCurrentUser();
+  const session = await readSessionCookie(request.cookies.get(SESSION_COOKIE_NAME)?.value);
+  if (!session) {
+    auditLog({ method: request.method, path: joinedPath, ip, outcome: "blocked_unauthed", statusCode: 401 });
+    return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+  }
+  const currentUser = await getCurrentUser(session.userId);
   const requiredPermission = requiredPermissionForRoute(joinedPath, request.method);
 
   if (!hasPermission(currentUser.role, requiredPermission)) {

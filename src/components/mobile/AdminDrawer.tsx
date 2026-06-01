@@ -4,7 +4,7 @@
  * Admin Drawer Component
  *
  * A mobile-friendly bottom drawer for quiz host controls.
- * Unlock is session-based: the user must be logged in as author at /author/login.
+ * Unlock is session-based: the user must be logged in as an admin at /admin/login.
  * No admin token is ever stored in or sent from the browser.
  *
  * SECURITY: All admin mutations go through /api/admin/* (server-side proxy).
@@ -703,7 +703,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
                   </svg>
                 </div>
                 <p className="text-xs text-(--muted)">Verify your author session to access controls</p>
-                <p className="text-[10px] text-(--muted) mt-1">You must be logged in at /author/login</p>
+                <p className="text-[10px] text-(--muted) mt-1">You must be logged in at /admin/login</p>
               </div>
 
               <div className="space-y-2">

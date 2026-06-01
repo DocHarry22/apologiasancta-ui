@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { SESSION_COOKIE_NAME, verifySessionCookie } from "@/lib/auth/session";
+import { readSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
 import { verifyCsrfToken } from "@/lib/csrf";
 import { getClientIp } from "@/lib/auth/rateLimit";
 import { getCurrentUser, type CurrentUser } from "./currentUser";
@@ -13,10 +13,11 @@ export function safeJson(data: unknown, status = 200): NextResponse {
 
 export async function requireAuthorSession(request: NextRequest): Promise<{ ok: true; user: CurrentUser } | { ok: false; response: NextResponse }> {
   const sessionValue = request.cookies.get(SESSION_COOKIE_NAME)?.value;
-  if (!(await verifySessionCookie(sessionValue))) {
+  const session = await readSessionCookie(sessionValue);
+  if (!session) {
     return { ok: false, response: safeJson({ ok: false, error: "Unauthorized" }, 401) };
   }
-  const user = await getCurrentUser();
+  const user = await getCurrentUser(session.userId);
   return { ok: true, user };
 }
 

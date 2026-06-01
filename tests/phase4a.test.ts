@@ -49,7 +49,7 @@ test("workflow and audit routes enforce session, permissions, CSRF, and audit wr
   const auditRoute = readFileSync("src/app/api/audit/events/route.ts", "utf8");
   const meRoute = readFileSync("src/app/api/auth/me/route.ts", "utf8");
 
-  assert.ok(apiAuth.includes("verifySessionCookie"));
+  assert.ok(apiAuth.includes("readSessionCookie"));
   assert.ok(apiAuth.includes("verifyCsrfToken"));
   assert.ok(apiAuth.includes("security.csrf_failed"));
   assert.ok(workflowApi.includes("requireAuthorSession"));

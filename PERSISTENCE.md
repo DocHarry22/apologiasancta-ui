@@ -7,7 +7,7 @@ This is intentionally hidden behind store abstractions in `src/lib/server/storag
 - `jsonStore.ts` provides missing-file handling and atomic temp-file writes.
 - `workflowStore.ts` persists draft, review, publish, archive, comments, validation state, and item history.
 - `auditStore.ts` appends sanitized audit events and supports filtering.
-- `userStore.ts` stores the transitional local author identity while still deriving role authority from server-side `AUTHOR_DEFAULT_ROLE`.
+- Admin users are resolved through the database-backed `admin_users` table. `userStore.ts` remains only as a transitional fallback for legacy non-user-id code paths.
 
 `.data/` is ignored by Git and runtime data must not be committed.
 
@@ -37,5 +37,5 @@ Audit events include actor, role, event type, action, resource, request path/met
 
 ## User And Role Limits
 
-`GET /api/auth/me` exposes the current durable transitional user and permissions. Full user invitation, role assignment, and deactivation UI remain a Phase 4B task. Until then, role authority remains server-side through `AUTHOR_DEFAULT_ROLE`.
+`GET /api/auth/me` exposes the current database-backed admin user and permissions. Full user invitation, role assignment, and deactivation UI remain a later task.
 

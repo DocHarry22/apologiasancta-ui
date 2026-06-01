@@ -1,15 +1,16 @@
 import { isRole, type Role } from "../auth/roles";
+import { getAdminUserById } from "./adminUserStore";
 import { getOrCreateTransitionalUser } from "./storage/userStore";
 
 export interface CurrentUser {
   id: string;
   displayName: string;
   role: Role;
-  source: "transitional_env" | "json_user_store";
+  source: "database" | "transitional_env" | "json_user_store";
 }
 
 function resolveDefaultRole(): Role {
-  const configuredRole = process.env.AUTHOR_DEFAULT_ROLE;
+  const configuredRole = process.env.ADMIN_ROLE;
 
   if (isRole(configuredRole)) {
     return configuredRole;
@@ -27,10 +28,23 @@ function resolveDefaultRole(): Role {
  *
  * The current auth model proves that an author session exists but does not yet
  * carry a database user id. Until database-backed users land, the role is
- * derived server-side from AUTHOR_DEFAULT_ROLE. Do not move this authority to
+ * derived server-side from ADMIN_ROLE. Do not move this authority to
  * localStorage or any other browser-controlled state.
  */
-export async function getCurrentUser(): Promise<CurrentUser> {
+export async function getCurrentUser(userId?: string): Promise<CurrentUser> {
+  if (userId) {
+    const user = await getAdminUserById(userId);
+    if (!user || user.status !== "active") {
+      throw new Error("Authenticated admin user is unavailable");
+    }
+    return {
+      id: user.id,
+      displayName: user.displayName,
+      role: user.role,
+      source: "database",
+    };
+  }
+
   try {
     const user = await getOrCreateTransitionalUser();
     return {

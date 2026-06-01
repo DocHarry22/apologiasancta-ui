@@ -1,7 +1,8 @@
 import { NextRequest } from "next/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { CSRF_COOKIE_NAME } from "@/lib/csrf";
-import { createSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
+import { SESSION_COOKIE_NAME } from "@/lib/auth/session";
+import { resetAdminUserStoreForTests } from "@/lib/server/adminUserStore";
 
 const cookieGet = vi.fn();
 
@@ -24,19 +25,20 @@ function postLogin(body: unknown) {
 describe("auth routes", () => {
   beforeEach(() => {
     cookieGet.mockReset();
+    resetAdminUserStoreForTests();
   });
 
-  it("login fails with missing password and wrong password", async () => {
+  it("login fails with missing credentials and wrong password", async () => {
     let response = await login(postLogin({}));
     expect(response.status).toBe(401);
 
-    response = await login(postLogin({ password: "wrong" }));
+    response = await login(postLogin({ email: "admin@example.test", password: "wrong" }));
     expect(response.status).toBe(401);
     expect(await response.text()).not.toContain("wrong");
   });
 
-  it("login succeeds with correct password and sets session and CSRF cookies", async () => {
-    const response = await login(postLogin({ password: "test-author-password" }));
+  it("login succeeds with correct email/password and sets session and CSRF cookies", async () => {
+    const response = await login(postLogin({ email: "admin@example.test", password: "test-author-password" }));
     const setCookie = response.headers.get("set-cookie") ?? "";
 
     expect(response.status).toBe(200);
@@ -64,7 +66,8 @@ describe("auth routes", () => {
   });
 
   it("/api/auth/csrf returns a token when logged in", async () => {
-    const session = await createSessionCookie();
+    const loginResponse = await login(postLogin({ email: "admin@example.test", password: "test-author-password" }));
+    const session = (loginResponse.headers.get("set-cookie") ?? "").match(new RegExp(`${SESSION_COOKIE_NAME}=([^;]+)`))?.[1];
     cookieGet.mockReturnValue({ value: session });
 
     const response = await csrf();

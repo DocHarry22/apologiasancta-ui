@@ -565,7 +565,8 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     try {
       await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
     } finally {
-      window.location.href = "/author/login";
+      const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
+      window.location.href = `${basePath}/login`;
     }
   };
 

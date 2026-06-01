@@ -146,7 +146,7 @@ export function useAdminPanel(): AdminPanelState & AdminPanelActions {
       }
 
       if (res.status === 401) {
-        return { success: false, error: "Not logged in. Please log in at /author/login." };
+        return { success: false, error: "Not logged in. Please log in at /admin/login." };
       }
 
       return { success: false, error: `Unexpected server response: ${res.status}` };

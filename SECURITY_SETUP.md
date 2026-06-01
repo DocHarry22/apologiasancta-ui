@@ -6,7 +6,9 @@
 
 | Variable | Description |
 |---|---|
-| `AUTHOR_ADMIN_PASSWORD` | Password for the `/author/login` page |
+| `ADMIN_EMAIL` | Bootstrap email for the first admin account |
+| `ADMIN_PASSWORD` | Bootstrap password for the first admin account; stored only as a server-side hash |
+| `DATABASE_URL` | MySQL/MariaDB connection string for admin users; alternatively use `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_DATABASE`, `MYSQL_USER`, and `MYSQL_PASSWORD` |
 | `AUTHOR_SESSION_SECRET` | Min 32-char random string used to HMAC-sign session and CSRF tokens |
 | `ENGINE_ADMIN_TOKEN` | Token forwarded server-side to `x-admin-token` on the engine proxy |
 | `ENGINE_INTERNAL_URL` | Internal (non-public) URL for the engine (used on server, not browser) |
@@ -69,7 +71,7 @@ All admin mutation requests (`POST`, `PATCH`, `DELETE`) via `/api/admin/*` are p
 
 The mobile `AdminDrawer` no longer accepts an admin token. Unlock is session-based:
 
-1. User must be logged in at `/author/login` (obtains `__Host-as_author_session` cookie).
+1. User must be logged in at `/admin/login` (obtains `__Host-as_author_session` cookie).
 2. Opening the drawer and pressing "Verify Session & Unlock" calls `GET /api/auth/csrf`.
 3. If the session is valid, the drawer unlocks and all actions go through `/api/admin/*`.
 4. An auto-lock timer (30 minutes) locks the drawer after inactivity.
@@ -78,13 +80,13 @@ The mobile `AdminDrawer` no longer accepts an admin token. Unlock is session-bas
 
 ## How Logout Works
 
-`POST /api/auth/logout` clears both the session cookie and the CSRF cookie by setting them to an empty value with `Max-Age: 0` and `Expires: epoch`. No engine access is required. After logout the browser is redirected to `/author/login`.
+`POST /api/auth/logout` clears both the session cookie and the CSRF cookie by setting them to an empty value with `Max-Age: 0` and `Expires: epoch`. No engine access is required. After logout the browser is redirected to `/admin/login`.
 
 Cookie names cleared:
 - `__Host-as_author_session` (production) / `as_author_session` (development)
 - `as_csrf_token`
 
-The author dashboard calls this endpoint when the logout button is clicked, then immediately redirects to `/author/login`. Middleware will then deny any further access to `/author/*` until the user logs in again.
+The admin dashboard calls this endpoint when the logout button is clicked, then immediately redirects to `/admin/login`. Middleware will then deny any further access to `/admin/*` until the user logs in again.
 
 ---
 
@@ -184,7 +186,8 @@ Hostinger URLs are allowed when they are explicitly configured through `CAPACITO
 ## Production Checklist
 
 - [ ] `AUTHOR_SESSION_SECRET` is set to a unique 32+ char random value
-- [ ] `AUTHOR_ADMIN_PASSWORD` is set to a strong password
+- [ ] `ADMIN_EMAIL` and `ADMIN_PASSWORD` are set for first-admin bootstrap
+- [ ] `DATABASE_URL` or Hostinger MySQL variables are configured for admin users
 - [ ] `ENGINE_ADMIN_TOKEN` matches the engine's configured admin token
 - [ ] `NEXT_PUBLIC_ENGINE_URL` points to the production engine URL
 - [ ] `CAPACITOR_SERVER_URL` is set to the correct production HTTPS URL before building APK
@@ -210,7 +213,9 @@ Hostinger URLs are allowed when they are explicitly configured through `CAPACITO
 ## Local Development
 
 ```env
-AUTHOR_ADMIN_PASSWORD=devpassword
+ADMIN_EMAIL=admin@example.test
+ADMIN_PASSWORD=devpassword
+ADMIN_AUTH_MEMORY_STORE=true
 AUTHOR_SESSION_SECRET=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 ENGINE_ADMIN_TOKEN=dev-token
 NEXT_PUBLIC_ENGINE_URL=http://localhost:3001
@@ -220,11 +225,11 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 Cookies are `secure: false` in development (`NODE_ENV !== "production"`), so they work over HTTP.
 The session cookie uses the plain name `as_author_session` in development (not `__Host-`).
-## Phase 3 Role Resolver
+## Admin User Resolver
 
 Roles are resolved server-side through `src/lib/server/currentUser.ts` and enforced for admin proxy calls in `src/lib/server/engineProxy.ts`. The browser receives the resolved role for UI filtering, but it is not trusted as authority for proxy access.
 
-`AUTHOR_DEFAULT_ROLE` is transitional until database-backed users exist. Development defaults to `super_admin`; production defaults to `viewer` unless the variable is explicitly set. Do not move role authority into `localStorage`, query strings, or other browser-controlled state.
+Admin users are database-backed through the `admin_users` table. `ADMIN_ROLE` controls only the bootstrap user role and defaults to `super_admin`. Do not move role authority into `localStorage`, query strings, or other browser-controlled state.
 # Phase 4A Server-Side Enforcement
 
 Workflow and audit routes require a valid author session. All workflow mutations require the existing `x-csrf-token` double-submit check and server-side permission checks.

@@ -15,7 +15,9 @@ export default defineConfig({
     url: "http://127.0.0.1:3000",
     reuseExistingServer: !process.env.CI,
     env: {
-      AUTHOR_ADMIN_PASSWORD: "test-author-password",
+      ADMIN_EMAIL: "admin@example.test",
+      ADMIN_PASSWORD: "test-author-password",
+      ADMIN_AUTH_MEMORY_STORE: "true",
       AUTHOR_SESSION_SECRET: "test-session-secret-that-is-long-enough",
       ENGINE_INTERNAL_URL: "https://engine.test",
       ENGINE_ADMIN_TOKEN: "server-only-admin-token",

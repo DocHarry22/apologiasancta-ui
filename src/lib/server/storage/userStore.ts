@@ -5,7 +5,7 @@ import type { StoredUser } from "./types";
 const userStore = new JsonStore<StoredUser[]>("users.json", []);
 
 export function resolveDefaultRole(): Role {
-  const configuredRole = process.env.AUTHOR_DEFAULT_ROLE;
+  const configuredRole = process.env.ADMIN_ROLE;
   if (isRole(configuredRole)) return configuredRole;
   if (process.env.NODE_ENV !== "production") return "super_admin";
   return "viewer";

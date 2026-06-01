@@ -74,7 +74,7 @@ async function proxyFetch<T = unknown>(
     if (response.status === 401) {
       return {
         success: false,
-        error: "Session expired. Please log in again at /author/login.",
+        error: "Session expired. Please log in again at /admin/login.",
       };
     }
 

@@ -15,21 +15,15 @@ Roles are defined in `src/lib/auth/roles.ts`.
 
 Server-side admin proxy permission checks are enforced in `src/lib/server/engineProxy.ts`. Hidden tabs are not the only control.
 
-## Transitional Auth
+## Admin Auth
 
-The current author login proves an authenticated session but does not carry a database user identity. `src/lib/server/currentUser.ts` resolves a transitional user:
+The primary admin login is `/admin/login`. It accepts email and password credentials, stores passwords as server-side scrypt hashes, and resolves the current dashboard user from the `admin_users` MySQL/MariaDB table.
 
-```ts
-{
-  id: "local-author",
-  displayName: "Author",
-  role: AUTHOR_DEFAULT_ROLE
-}
-```
+`/author/login` and `/author` remain compatibility aliases for the same dashboard.
 
-Set `AUTHOR_DEFAULT_ROLE` to one of `super_admin`, `admin`, `author`, `reviewer`, `host`, or `viewer`.
+Bootstrap the first admin with `ADMIN_EMAIL` and `ADMIN_PASSWORD`. The default bootstrap role is `super_admin`; set `ADMIN_ROLE` to one of `super_admin`, `admin`, `author`, `reviewer`, `host`, or `viewer` to override it.
 
-Development defaults to `super_admin` when the variable is not set. Production defaults to `viewer` unless `AUTHOR_DEFAULT_ROLE` is explicitly configured. Do not store trusted roles in `localStorage`.
+Production requires `DATABASE_URL` or Hostinger-style MySQL variables. Development and tests may use `ADMIN_AUTH_MEMORY_STORE=true` when no database is available. Do not store trusted roles in `localStorage`.
 
 ## Sections
 

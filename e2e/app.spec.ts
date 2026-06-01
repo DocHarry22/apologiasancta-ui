@@ -52,27 +52,29 @@ test("public routes load", async ({ page }) => {
   await expect(page.locator("body")).toContainText(/join|waiting|question|room/i);
 });
 
-test("author route redirects when logged out", async ({ page }) => {
-  await page.goto("/author");
-  await expect(page).toHaveURL(/\/author\/login/);
+test("admin route redirects when logged out", async ({ page }) => {
+  await page.goto("/admin");
+  await expect(page).toHaveURL(/\/admin\/login/);
 });
 
-test("author auth succeeds and logout blocks dashboard again", async ({ page }) => {
-  await page.goto("/author/login");
+test("admin auth succeeds and logout blocks dashboard again", async ({ page }) => {
+  await page.goto("/admin/login");
+  await page.getByLabel(/email/i).fill("admin@example.test");
   await page.getByLabel(/password/i).fill("wrong-password");
   await page.getByRole("button", { name: /sign in/i }).click();
-  await expect(page.locator("body")).toContainText(/incorrect password/i);
+  await expect(page.locator("body")).toContainText(/incorrect email or password/i);
 
+  await page.getByLabel(/email/i).fill("admin@example.test");
   await page.getByLabel(/password/i).fill("test-author-password");
   await page.getByRole("button", { name: /sign in/i }).click();
-  await expect(page).toHaveURL(/\/author\/?$/);
+  await expect(page).toHaveURL(/\/admin\/?$/);
   await expect(page.locator("body")).toContainText(/overview|dashboard|operations/i);
 
   await page.getByRole("button", { name: /log out/i }).click();
-  await expect(page).toHaveURL(/\/author\/login/);
+  await expect(page).toHaveURL(/\/admin\/login/);
 
-  await page.goto("/author");
-  await expect(page).toHaveURL(/\/author\/login/);
+  await page.goto("/admin");
+  await expect(page).toHaveURL(/\/admin\/login/);
 });
 
 test("admin security behavior is enforced in browser context", async ({ page }) => {
@@ -84,10 +86,11 @@ test("admin security behavior is enforced in browser context", async ({ page }) 
     }
   });
 
-  await page.goto("/author/login");
+  await page.goto("/admin/login");
+  await page.getByLabel(/email/i).fill("admin@example.test");
   await page.getByLabel(/password/i).fill("test-author-password");
   await page.getByRole("button", { name: /sign in/i }).click();
-  await expect(page).toHaveURL(/\/author\/?$/);
+  await expect(page).toHaveURL(/\/admin\/?$/);
 
   const csrfMissing = await page.request.post("/api/admin/start", { data: {} });
   expect(csrfMissing.status()).toBe(403);

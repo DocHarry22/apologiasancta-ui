@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { generateCsrfToken } from "@/lib/csrf";
 import { createSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
+import { authenticateAdminUser, resetAdminUserStoreForTests } from "@/lib/server/adminUserStore";
 
 vi.mock("@/lib/server/adminAuth", () => ({
   verifyAdminSession: vi.fn(),
@@ -17,7 +18,8 @@ function req(path: string, init: RequestInit = {}) {
 }
 
 async function csrfHeaders() {
-  const session = await createSessionCookie();
+  const user = await authenticateAdminUser("admin@example.test", "test-author-password");
+  const session = await createSessionCookie(user?.id ?? "admin-user-1");
   return {
     cookie: `${SESSION_COOKIE_NAME}=${session}`,
     "x-csrf-token": await generateCsrfToken(session),
@@ -31,6 +33,7 @@ function ctx(path: string[]) {
 
 describe("admin proxy API route", () => {
   beforeEach(() => {
+    resetAdminUserStoreForTests();
     mockedVerifyAdminSession.mockResolvedValue(true);
     vi.spyOn(console, "log").mockImplementation(() => undefined);
     vi.stubGlobal(
@@ -50,7 +53,8 @@ describe("admin proxy API route", () => {
   it("rejects authenticated POST without valid CSRF", async () => {
     expect((await POST(req("start", { method: "POST" }), ctx(["start"]))).status).toBe(403);
 
-    const session = await createSessionCookie();
+    const user = await authenticateAdminUser("admin@example.test", "test-author-password");
+    const session = await createSessionCookie(user?.id ?? "admin-user-1");
     const invalid = await POST(
       req("start", {
         method: "POST",

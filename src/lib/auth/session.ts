@@ -14,7 +14,8 @@ export const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7; // 7 days
 const SESSION_MAX_AGE_MS = SESSION_MAX_AGE_SECONDS * 1000;
 
 interface SessionPayload {
-  v: 1;
+  v: 2;
+  uid: string;
   iat: number;
   exp: number;
 }
@@ -58,7 +59,13 @@ function safeEqual(a: string, b: string): boolean {
   return diff === 0;
 }
 
-export async function createSessionCookie(): Promise<string> {
+export interface VerifiedSession {
+  userId: string;
+  issuedAt: number;
+  expiresAt: number;
+}
+
+export async function createSessionCookie(userId: string): Promise<string> {
   const secret = process.env.AUTHOR_SESSION_SECRET;
   if (!secret) {
     throw new Error("AUTHOR_SESSION_SECRET is not configured");
@@ -66,7 +73,8 @@ export async function createSessionCookie(): Promise<string> {
 
   const now = Date.now();
   const payload: SessionPayload = {
-    v: 1,
+    v: 2,
+    uid: userId,
     iat: now,
     exp: now + SESSION_MAX_AGE_MS,
   };
@@ -77,40 +85,48 @@ export async function createSessionCookie(): Promise<string> {
   return `${payloadB64}.${sig}`;
 }
 
-export async function verifySessionCookie(value?: string | null): Promise<boolean> {
+export async function readSessionCookie(value?: string | null): Promise<VerifiedSession | null> {
   if (!value) {
-    return false;
+    return null;
   }
 
   const secret = process.env.AUTHOR_SESSION_SECRET;
   if (!secret) {
-    return false;
+    return null;
   }
 
   const [payloadB64, providedSig, ...rest] = value.split(".");
   if (!payloadB64 || !providedSig || rest.length > 0) {
-    return false;
+    return null;
   }
 
   const expectedSig = await sign(payloadB64, secret);
   if (!safeEqual(expectedSig, providedSig)) {
-    return false;
+    return null;
   }
 
   try {
     const payloadJson = fromBase64Url(payloadB64);
     const payload = JSON.parse(payloadJson) as Partial<SessionPayload>;
 
-    if (payload.v !== 1 || typeof payload.iat !== "number" || typeof payload.exp !== "number") {
-      return false;
+    if (payload.v !== 2 || typeof payload.uid !== "string" || typeof payload.iat !== "number" || typeof payload.exp !== "number") {
+      return null;
     }
 
     if (payload.exp <= Date.now()) {
-      return false;
+      return null;
     }
 
-    return true;
+    return {
+      userId: payload.uid,
+      issuedAt: payload.iat,
+      expiresAt: payload.exp,
+    };
   } catch {
-    return false;
+    return null;
   }
+}
+
+export async function verifySessionCookie(value?: string | null): Promise<boolean> {
+  return Boolean(await readSessionCookie(value));
 }

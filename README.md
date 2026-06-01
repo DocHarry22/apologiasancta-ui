@@ -15,7 +15,7 @@ The UI is deployed to Hostinger and the Android debug APK has been built and ver
 - Room-aware mobile trivia flow with room switching while preserving global player identity
 - Real-time SSE state updates with automatic reconnect and polling fallback
 - Room and global leaderboard views driven by the engine's `daily`, `weekly`, and `all-time` windows
-- Author dashboard for content import, engine controls, persistence status, and room management
+- Admin dashboard for content import, engine controls, persistence status, and room management
 - Server-side admin proxy — the browser never receives the engine admin token
 - CSRF double-submit cookie pattern protecting all admin proxy routes
 - Security headers: HSTS, CSP, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`
@@ -25,7 +25,7 @@ The UI is deployed to Hostinger and the Android debug APK has been built and ver
 - CI on GitHub Actions: lint, typecheck, unit tests, Next build, and Playwright E2E on every push; debug APK artifact on pushes to `main`
 
 **Known limitations / v1 gates not yet cleared:**
-- Hostinger routes `/mobile/`, `/author/login`, and `/library` currently return HTTP 403 — requires redeploying the latest build with the Apache `.htaccess` rewrite rule to Hostinger
+- Hostinger routes `/mobile/`, `/admin/login`, and `/library` currently return HTTP 403 — requires redeploying the latest build with the Apache `.htaccess` rewrite rule to Hostinger
 - Engine route `/rooms/global/stages` returns HTTP 404 on the live Render deployment — requires redeploying the engine after the latest source is pushed to GitHub
 - Signed APK release workflow is configured but not yet end-to-end verified (requires Android keystore secrets in GitHub Actions)
 - APK is currently distributed only as an internal debug build; public signed release is gated on keystore setup
@@ -45,7 +45,7 @@ The UI is deployed to Hostinger and the Android debug APK has been built and ver
 - Room-aware mobile trivia flow with room switching while preserving player identity
 - Real-time SSE state updates with automatic reconnect and polling fallback
 - Room and global leaderboard views driven by the engine's `daily`, `weekly`, and `all-time` windows
-- Author dashboard for content import, engine controls, persistence status, and room management
+- Admin dashboard for content import, engine controls, persistence status, and room management
 - Installable PWA flow with manifest, generated app icons, offline fallback, and service-worker registration
 - Android wrapper scaffolding via Capacitor for shipping the web app inside a native shell
 - Landing page install/download CTAs for browser install, iPhone Add to Home Screen, and Android APK distribution
@@ -58,12 +58,14 @@ The UI is deployed to Hostinger and the Android debug APK has been built and ver
 | `/mobile` | Mobile player experience |
 | `/library` | Public topic library |
 | `/library/[topicId]` | Topic detail page |
-| `/author` | Protected author and engine dashboard |
-| `/author/login` | Author login |
+| `/admin` | Protected admin and engine dashboard |
+| `/admin/login` | Admin login |
+| `/author` | Compatibility alias for the protected dashboard |
+| `/author/login` | Compatibility alias for admin login |
 | `/manifest.webmanifest` | PWA manifest route |
 | `/offline` | Offline fallback page |
 
-The `/author` area is protected by middleware-backed session checks.
+The `/admin` and `/author` areas are protected by middleware-backed session checks.
 
 ## Testing And Release Readiness
 
@@ -354,9 +356,9 @@ Private
 
 ## Phase 3 Admin Dashboard
 
-`/author` is now a role-aware admin dashboard for overview, live control, rooms, question bank, authoring, review, topics, audit visibility, and settings. Roles and permissions are centralized in `src/lib/auth/roles.ts`; the transitional server-side resolver is `src/lib/server/currentUser.ts`.
+`/admin` is now the primary role-aware admin dashboard for overview, live control, rooms, question bank, authoring, review, topics, audit visibility, and settings. `/author` remains a compatibility alias. Roles and permissions are centralized in `src/lib/auth/roles.ts`; the server-side user resolver is `src/lib/server/currentUser.ts`.
 
-Configure `AUTHOR_DEFAULT_ROLE` to one of `super_admin`, `admin`, `author`, `reviewer`, `host`, or `viewer`. Development defaults to `super_admin`; production defaults to `viewer` unless explicitly configured. See `ADMIN_DASHBOARD.md` for the full role matrix, workflow behavior, dangerous action UX, and persistence limitations.
+Configure `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `AUTHOR_SESSION_SECRET`, and a Hostinger-compatible MySQL connection through `DATABASE_URL` or `MYSQL_*` variables. See `ADMIN_DASHBOARD.md` for the full role matrix, workflow behavior, dangerous action UX, and persistence limitations.
 
 ## Phase 4 Mobile UX
 

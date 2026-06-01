@@ -23,7 +23,8 @@
 
 ## Environment
 
-- [ ] `AUTHOR_ADMIN_PASSWORD` is set.
+- [ ] `ADMIN_EMAIL` and `ADMIN_PASSWORD` are set for first-admin bootstrap.
+- [ ] `DATABASE_URL` or Hostinger MySQL variables are set for admin users.
 - [ ] `AUTHOR_SESSION_SECRET` is set to a strong secret.
 - [ ] `ENGINE_INTERNAL_URL` points to the private/internal engine URL where available.
 - [ ] `NEXT_PUBLIC_ENGINE_URL` points only to the public browser-safe engine origin.
@@ -37,12 +38,12 @@
 - [ ] Latest Android release contains `apologia-sancta.apk` so the homepage download link resolves through GitHub Releases.
 - [ ] Security headers are present on production responses.
 - [ ] PWA manifest loads and install metadata is correct.
-- [ ] `/author` redirects to `/author/login` when logged out.
+- [ ] `/admin` redirects to `/admin/login` when logged out.
 - [ ] `/mobile` loads without requiring a real admin token.
 - [ ] Content schema validation passes.
 ## Phase 3 Admin Dashboard Checklist
 
-- Set `AUTHOR_DEFAULT_ROLE` explicitly in production. If unset, the transitional resolver falls back to `viewer`.
+- Set `ADMIN_ROLE` explicitly if the bootstrap user should not default to `super_admin`.
 - Keep `AUTHOR_SESSION_SECRET`, CSRF, and server-side `ENGINE_ADMIN_TOKEN` configured. Do not expose admin tokens to browser code.
 - Review role access before giving non-admin users the `/author` login password.
 - Treat dashboard workflow drafts/reviews as local JSON-backed state until database storage lands.

@@ -6,6 +6,7 @@ import {
   SESSION_MAX_AGE_SECONDS,
 } from "@/lib/auth/session";
 import { CSRF_COOKIE_NAME, generateCsrfToken } from "@/lib/csrf";
+import { authenticateAdminUser } from "@/lib/server/adminUserStore";
 
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
@@ -23,38 +24,52 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const expectedPassword = process.env.AUTHOR_ADMIN_PASSWORD;
   const sessionSecret = process.env.AUTHOR_SESSION_SECRET;
   const missingVars = [
-    !expectedPassword ? "AUTHOR_ADMIN_PASSWORD" : null,
     !sessionSecret ? "AUTHOR_SESSION_SECRET" : null,
   ].filter((entry): entry is string => Boolean(entry));
 
   if (missingVars.length > 0) {
     return NextResponse.json(
       {
-        error: "Author auth is not configured on the server.",
+        error: "Admin auth is not configured on the server.",
         missingEnv: missingVars,
       },
       { status: 500 }
     );
   }
 
+  let email = "";
   let password = "";
   try {
-    const body = (await req.json()) as { password?: unknown };
+    const body = (await req.json()) as { email?: unknown; password?: unknown };
+    email = typeof body?.email === "string" ? body.email : "";
     password = typeof body?.password === "string" ? body.password : "";
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 
-  if (password !== expectedPassword) {
-    return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+  let user = null;
+  try {
+    user = await authenticateAdminUser(email, password);
+  } catch {
+    return NextResponse.json({ error: "Admin auth is not configured on the server." }, { status: 500 });
+  }
+  if (!user) {
+    return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
   }
 
-  const sessionValue = await createSessionCookie();
+  const sessionValue = await createSessionCookie(user.id);
   const csrfToken = await generateCsrfToken(sessionValue);
-  const response = NextResponse.json({ ok: true });
+  const response = NextResponse.json({
+    ok: true,
+    user: {
+      id: user.id,
+      email: user.email,
+      displayName: user.displayName,
+      role: user.role,
+    },
+  });
 
   // Session cookie — httpOnly so JS cannot read it.
   // __Host- prefix in production enforces Secure, Path=/, and no Domain.
