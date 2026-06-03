@@ -18,13 +18,13 @@ function syncLatestApk(options = {}) {
   const version = options.version || process.env.APP_VERSION_NAME || pkg.version;
   const explicitSource = options.sourceApkPath || process.env.APK_SOURCE;
 
-  const sourceCandidates = explicitSource
-    ? [resolve(cwd, explicitSource)]
-    : [
-        join(cwd, "android", "app", "build", "outputs", "apk", "release", "app-release.apk"),
-        join(cwd, "android", "app", "build", "outputs", "apk", "debug", "apologia-sancta-debug.apk"),
-        join(cwd, "..", "release-artifacts", "apologia-sancta.apk"),
-      ];
+  const sourceCandidates = [
+    ...(explicitSource ? [resolve(cwd, explicitSource)] : []),
+    join(cwd, "android", "app", "build", "outputs", "apk", "release", "app-release.apk"),
+    join(cwd, "android", "app", "build", "outputs", "apk", "debug", "apologia-sancta-debug.apk"),
+    join(cwd, "android", "app", "build", "outputs", "apk", "debug", "app-debug.apk"),
+    join(cwd, "..", "release-artifacts", "apologia-sancta.apk"),
+  ];
 
   const existingCandidates = getExistingApkCandidates(sourceCandidates);
   if (existingCandidates.length === 0) {

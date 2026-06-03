@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { NativeBottomTabs } from "./NativeBottomTabs";
 import { StartupBootOverlay } from "@/components/startup/StartupBootOverlay";
@@ -9,8 +10,14 @@ const STARTUP_OVERLAY_MIN_MS = 1700;
 const SPLASH_FAILSAFE_HIDE_MS = 4000;
 
 export function CapacitorShell() {
+  const pathname = usePathname();
   const [isCapacitor, setIsCapacitor] = useState(false);
   const [showBootOverlay, setShowBootOverlay] = useState(false);
+  const showNativeTabs =
+    isCapacitor &&
+    !pathname.startsWith("/admin") &&
+    !pathname.startsWith("/author") &&
+    !pathname.startsWith("/api");
 
   useEffect(() => {
     const isNative = !!(window as { Capacitor?: unknown }).Capacitor;
@@ -61,7 +68,7 @@ export function CapacitorShell() {
   return (
     <>
       <StartupBootOverlay show={showBootOverlay} />
-      <NativeBottomTabs />
+      {showNativeTabs && <NativeBottomTabs />}
     </>
   );
 }
