@@ -15,16 +15,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
 
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
@@ -35,15 +35,15 @@ jobs:
       - name: Build web app
         run: npm run build
         env:
-          NEXT_PUBLIC_ENGINE_URL: ${{ vars.NEXT_PUBLIC_ENGINE_URL }}
-          NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
-          NEXT_PUBLIC_ANDROID_APK_URL: ${{ vars.NEXT_PUBLIC_ANDROID_APK_URL }}
+          NEXT_PUBLIC_ENGINE_URL: https://apologiasancta-engine.onrender.com
+          NEXT_PUBLIC_APP_URL: https://sandybrown-bear-488955.hostingersite.com
+          NEXT_PUBLIC_ANDROID_APK_URL: https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
 
       - name: Sync Capacitor
         run: npm run cap:sync
         env:
-          CAPACITOR_SERVER_URL: ${{ vars.CAPACITOR_SERVER_URL }}
-          NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
+          CAPACITOR_SERVER_URL: https://sandybrown-bear-488955.hostingersite.com
+          NEXT_PUBLIC_APP_URL: https://sandybrown-bear-488955.hostingersite.com
 
       - name: Make Gradle executable
         run: chmod +x android/gradlew
@@ -52,27 +52,36 @@ jobs:
         working-directory: android
         run: ./gradlew assembleDebug
 
+      - name: Sync packaged APK filenames
+        run: npm run apk:sync
+        env:
+          APP_VERSION_NAME: main-${{ github.run_number }}
+          APK_SOURCE: android/app/build/outputs/apk/debug/apologia-sancta-debug.apk
+
       - name: Upload debug APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: apologiasancta-debug-apk
-          path: android/app/build/outputs/apk/debug/*.apk
+          path: |
+            android/app/build/outputs/apk/debug/*.apk
+            public/downloads/apologia-sancta.apk
+            public/downloads/apologia-sancta-v*.apk
 
   signed-release:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
 
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
@@ -89,41 +98,42 @@ jobs:
       - name: Build web app
         run: npm run build
         env:
-          NEXT_PUBLIC_ENGINE_URL: ${{ vars.NEXT_PUBLIC_ENGINE_URL }}
-          NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
-          NEXT_PUBLIC_ANDROID_APK_URL: ${{ vars.NEXT_PUBLIC_ANDROID_APK_URL }}
-
-      - name: Sync Capacitor
-        run: npm run cap:sync
-        env:
-          CAPACITOR_SERVER_URL: ${{ vars.CAPACITOR_SERVER_URL }}
-          NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
-
-      - name: Make Gradle executable
-        run: chmod +x android/gradlew
+          NEXT_PUBLIC_ENGINE_URL: https://apologiasancta-engine.onrender.com
+          NEXT_PUBLIC_APP_URL: https://sandybrown-bear-488955.hostingersite.com
+          NEXT_PUBLIC_ANDROID_APK_URL: https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
 
       - name: Build signed APK and AAB
-        working-directory: android
-        run: ./gradlew assembleRelease bundleRelease
+        run: npm run apk:release
         env:
-          APKSIGN_KEYSTORE: app/apologiasancta-release.jks
+          CAPACITOR_BUILD_MODE: production
+          CAPACITOR_SERVER_URL: https://sandybrown-bear-488955.hostingersite.com
+          NEXT_PUBLIC_APP_URL: https://sandybrown-bear-488955.hostingersite.com
+          APP_VERSION_NAME: ${{ inputs.release_tag != '' && inputs.release_tag || format('main-{0}', github.run_number) }}
+          APKSIGN_KEYSTORE: android/app/apologiasancta-release.jks
           APKSIGN_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           APKSIGN_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           APKSIGN_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
       - name: Upload release artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: apologiasancta-android-release
           path: |
             android/app/build/outputs/apk/release/*.apk
             android/app/build/outputs/bundle/release/*.aab
+            public/downloads/apologia-sancta.apk
+            public/downloads/apologia-sancta-v*.apk
 
       - name: Publish GitHub Release assets
         if: inputs.release_tag != ''
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ inputs.release_tag }}
-          files: |
-            android/app/build/outputs/apk/release/*.apk
-            android/app/build/outputs/bundle/release/*.aab
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          set -euo pipefail
+          FILES=(public/downloads/apologia-sancta.apk public/downloads/apologia-sancta-v*.apk android/app/build/outputs/bundle/release/*.aab)
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" "${FILES[@]}" --clobber
+          else
+            gh release create "$RELEASE_TAG" "${FILES[@]}" --title "Apologia Sancta Android $RELEASE_TAG"
+          fi

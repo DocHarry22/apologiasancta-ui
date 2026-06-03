@@ -16,7 +16,7 @@ export function FloatingLeaderboardButton({ rank, pulseKey, onClick }: FloatingL
       key={pulseKey}
       type="button"
       onClick={onClick}
-      className="fixed z-40 flex h-[4.5rem] w-[4.5rem] flex-col items-center justify-center rounded-full border border-white/70 bg-linear-to-br from-[#d9a51c] via-[#b98512] to-[#7f560b] text-white shadow-[0_18px_45px_rgba(145,96,9,0.34)] ring-4 ring-[#f6d680]/35 lg:hidden"
+      className="fixed z-40 flex h-18 w-18 flex-col items-center justify-center rounded-full border border-white/70 bg-linear-to-br from-[#d9a51c] via-[#b98512] to-[#7f560b] text-white shadow-[0_18px_45px_rgba(145,96,9,0.34)] ring-4 ring-[#f6d680]/35 lg:hidden"
       style={{ right: "1rem", bottom: "calc(1rem + env(safe-area-inset-bottom))" }}
       initial={false}
       animate={

@@ -7,6 +7,11 @@ on:
         description: "Release tag, for example android-v1.0.1"
         required: true
         type: string
+      version_code:
+        description: "Android versionCode, must be greater than previous release"
+        required: false
+        default: "2"
+        type: string
       version_name:
         description: "Android versionName, for example 1.0.1"
         required: true
@@ -27,28 +32,28 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CAPACITOR_BUILD_MODE: production
-      CAPACITOR_SERVER_URL: ${{ github.event.inputs.app_url || vars.CAPACITOR_SERVER_URL }}
-      NEXT_PUBLIC_APP_URL: ${{ github.event.inputs.app_url || vars.CAPACITOR_SERVER_URL }}
-      NEXT_PUBLIC_ENGINE_URL: ${{ vars.NEXT_PUBLIC_ENGINE_URL || 'https://apologiasancta-engine.onrender.com' }}
+      CAPACITOR_SERVER_URL: ${{ github.event.inputs.app_url || 'https://sandybrown-bear-488955.hostingersite.com' }}
+      NEXT_PUBLIC_APP_URL: ${{ github.event.inputs.app_url || 'https://sandybrown-bear-488955.hostingersite.com' }}
+      NEXT_PUBLIC_ENGINE_URL: https://apologiasancta-engine.onrender.com
       NEXT_PUBLIC_ANDROID_APK_URL: https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
-      APP_VERSION_CODE: ${{ github.run_number }}
-      APP_VERSION_NAME: ${{ github.event.inputs.version_name || github.ref_name }}
+      APP_VERSION_CODE: ${{ github.event.inputs.version_code || '2' }}
+      APP_VERSION_NAME: ${{ github.event.inputs.version_name || '1.0.0' }}
       APKSIGN_KEYSTORE: ${{ github.workspace }}/android/app/release-keystore.jks
-      APKSIGN_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-      APKSIGN_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-      APKSIGN_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD || secrets.ANDROID_KEYSTORE_PASSWORD }}
+      APKSIGN_KEYSTORE_PASSWORD: ${{ secrets['ANDROID_KEYSTORE_PASSWORD'] }}
+      APKSIGN_KEY_ALIAS: ${{ secrets['ANDROID_KEY_ALIAS'] }}
+      APKSIGN_KEY_PASSWORD: ${{ secrets['ANDROID_KEY_PASSWORD'] || secrets['ANDROID_KEYSTORE_PASSWORD'] }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 20
           cache: npm
 
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
@@ -58,14 +63,14 @@ jobs:
 
       - name: Decode signing keystore
         run: |
-          test -n "${{ secrets.ANDROID_KEYSTORE_BASE64 }}"
-          printf '%s' "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > "$APKSIGN_KEYSTORE"
+          test -n "${{ secrets['ANDROID_KEYSTORE_BASE64'] }}"
+          printf '%s' "${{ secrets['ANDROID_KEYSTORE_BASE64'] }}" | base64 --decode > "$APKSIGN_KEYSTORE"
 
       - name: Build signed release APK
         run: npm run apk:release
 
       - name: Upload workflow artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: apologia-sancta-release-apk
           path: |
@@ -73,10 +78,17 @@ jobs:
             public/downloads/apologia-sancta-v*.apk
 
       - name: Publish GitHub release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
-          name: Apologia Sancta Android ${{ github.event.inputs.version_name || github.ref_name }}
-          files: |
-            public/downloads/apologia-sancta.apk
-            public/downloads/apologia-sancta-v*.apk
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.inputs.tag_name || github.ref_name }}
+          RELEASE_NAME: Apologia Sancta Android ${{ github.event.inputs.version_name || '1.0.0' }}
+        run: |
+          set -euo pipefail
+          FILES=(public/downloads/apologia-sancta.apk public/downloads/apologia-sancta-v*.apk)
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" "${FILES[@]}" --clobber
+          else
+            gh release create "$RELEASE_TAG" "${FILES[@]}" --title "$RELEASE_NAME"
+          fi
+
+

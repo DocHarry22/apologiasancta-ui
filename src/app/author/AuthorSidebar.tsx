@@ -55,7 +55,7 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
               className={`flex min-h-10 items-center gap-2.5 px-4 py-2 text-sm transition-colors ${
                 isActive(href)
                   ? "border-r-2 border-(--accent) bg-(--accent)/10 font-medium text-(--accent)"
-                  : "text-(--text-secondary) hover:bg-(--ticker-bg) hover:text-(--text)"
+                  : "text-(--text-secondary) hover:bg-(--ticker-bg) hover:text-foreground"
               }`}
             >
               <span className="w-4 shrink-0 text-center text-xs opacity-70">{item.icon}</span>
@@ -68,7 +68,7 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
 
         <Link
           href="/mobile"
-          className="flex min-h-10 items-center gap-2.5 px-4 py-2 text-sm text-(--muted) hover:text-(--text) transition-colors"
+          className="flex min-h-10 items-center gap-2.5 px-4 py-2 text-sm text-(--muted) hover:text-foreground transition-colors"
         >
           <span className="w-4 shrink-0 text-center text-xs opacity-70">{"<"}</span>
           Back to Quiz
