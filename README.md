@@ -7,7 +7,7 @@ Built with Next.js 16, React 19, Tailwind CSS 4, and Capacitor 7.
 Deployed on Hostinger: `https://sandybrown-bear-488955.hostingersite.com`
 Android package: `com.apologiasancta.live`
 
-## Current State (v1 — May 2026)
+## Current State (v1 — June 2026)
 
 The UI is deployed to Hostinger and the Android debug APK has been built and verified locally.
 
@@ -29,6 +29,14 @@ The UI is deployed to Hostinger and the Android debug APK has been built and ver
 - Engine route `/rooms/global/stages` returns HTTP 404 on the live Render deployment — requires redeploying the engine after the latest source is pushed to GitHub
 - Signed APK release workflow is configured but not yet end-to-end verified (requires Android keystore secrets in GitHub Actions)
 - APK is currently distributed only as an internal debug build; public signed release is gated on keystore setup
+
+## Current Files And Deployment Status Snapshot (June 3, 2026)
+
+- Workspace root is documentation-focused and not a git repository; source control is split between `apologiasancta-ui` and `apologiasancta-engine`
+- UI repository currently contains active local edits across Android assets/config, workflows, mobile UI hooks/components, and deployment files
+- Hostinger production root route `/` is expected up, but `/mobile/`, `/author/login`, and `/library` remain blocked until latest static export and `.htaccess` rewrites are redeployed
+- Render engine APIs are generally up, but `/rooms/global/stages` remains blocked on the currently deployed engine build until redeploy from latest source
+- Signed Android release is still pending GitHub Actions keystore secrets (`ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD`)
 
 ## Future Goals
 
