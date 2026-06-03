@@ -1,15 +1,67 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { SplashScreen } from "@capacitor/splash-screen";
 import { NativeBottomTabs } from "./NativeBottomTabs";
+import { StartupBootOverlay } from "@/components/startup/StartupBootOverlay";
+
+const STARTUP_OVERLAY_MIN_MS = 1700;
+const SPLASH_FAILSAFE_HIDE_MS = 4000;
 
 export function CapacitorShell() {
   const [isCapacitor, setIsCapacitor] = useState(false);
+  const [showBootOverlay, setShowBootOverlay] = useState(false);
 
   useEffect(() => {
-    setIsCapacitor(!!(window as { Capacitor?: unknown }).Capacitor);
+    const isNative = !!(window as { Capacitor?: unknown }).Capacitor;
+    setIsCapacitor(isNative);
+    setShowBootOverlay(isNative);
+
+    if (!isNative) return;
+
+    let cancelled = false;
+
+    const minDelay = new Promise<void>((resolve) => {
+      window.setTimeout(resolve, STARTUP_OVERLAY_MIN_MS);
+    });
+
+    const waitForTwoFrames = new Promise<void>((resolve) => {
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => resolve());
+      });
+    });
+
+    void Promise.all([minDelay, waitForTwoFrames]).then(() => {
+      if (!cancelled) {
+        setShowBootOverlay(false);
+      }
+    });
+
+    // Defensive fallback to prevent stuck launch screen on slow startups.
+    const fallbackTimer = window.setTimeout(() => {
+      if (!cancelled) {
+        void SplashScreen.hide({ fadeOutDuration: 250 }).catch(() => undefined);
+        setShowBootOverlay(false);
+      }
+    }, SPLASH_FAILSAFE_HIDE_MS);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(fallbackTimer);
+    };
   }, []);
 
+  useEffect(() => {
+    if (!isCapacitor || showBootOverlay) return;
+    void SplashScreen.hide({ fadeOutDuration: 250 }).catch(() => undefined);
+  }, [isCapacitor, showBootOverlay]);
+
   if (!isCapacitor) return null;
-  return <NativeBottomTabs />;
+
+  return (
+    <>
+      <StartupBootOverlay show={showBootOverlay} />
+      <NativeBottomTabs />
+    </>
+  );
 }

@@ -3,11 +3,17 @@
 import { useState, useCallback, useEffect } from "react";
 import { PLAYER_NAME_KEY } from "./YourScoreCard";
 import { getEngineUrl } from "@/lib/publicEnv";
+import {
+  clearStoredPlayerIdentity,
+  readStoredPlayerIdentity,
+  saveStoredPlayerIdentity,
+} from "@/lib/playerIdentity";
 
 interface JoinGameModalProps {
   roomId: string;
   roomName?: string | null;
   onJoined: (userId: string, username: string) => void;
+  onCancel?: () => void;
 }
 
 interface RegistrationState {
@@ -17,15 +23,14 @@ interface RegistrationState {
 
 const API_URL = getEngineUrl();
 
-export function JoinGameModal({ roomId, roomName, onJoined }: JoinGameModalProps) {
+export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGameModalProps) {
   const [username, setUsername] = useState("");
   const [state, setState] = useState<RegistrationState>({ status: "idle" });
 
   useEffect(() => {
     if (!API_URL) return;
 
-    const storedUserId = localStorage.getItem("userId");
-    const storedUsername = localStorage.getItem("playerName");
+    const { userId: storedUserId, username: storedUsername } = readStoredPlayerIdentity();
     if (storedUsername) {
       setUsername(storedUsername);
     }
@@ -40,12 +45,10 @@ export function JoinGameModal({ roomId, roomName, onJoined }: JoinGameModalProps
           return;
         }
 
-        localStorage.removeItem("userId");
-        localStorage.removeItem("playerName");
+        clearStoredPlayerIdentity();
       })
       .catch(() => {
-        localStorage.removeItem("userId");
-        localStorage.removeItem("playerName");
+        clearStoredPlayerIdentity();
       });
   }, [onJoined, roomId]);
 
@@ -76,8 +79,7 @@ export function JoinGameModal({ roomId, roomName, onJoined }: JoinGameModalProps
         const data = await res.json();
 
         if (res.ok) {
-          localStorage.setItem("userId", data.userId);
-          localStorage.setItem("playerName", data.username);
+          saveStoredPlayerIdentity(data.userId, data.username);
           localStorage.setItem(PLAYER_NAME_KEY, data.username);
           onJoined(data.userId, data.username);
           return;
@@ -117,7 +119,7 @@ export function JoinGameModal({ roomId, roomName, onJoined }: JoinGameModalProps
         <div className="mb-6 text-center">
           <h1 className="mb-2 text-3xl font-bold text-(--accent)">Apologia Sancta</h1>
           <p className="text-sm text-(--text-secondary)">
-            Join room <span className="font-semibold text-(--text)">{roomName || roomId}</span>
+            Join room <span className="font-semibold text-foreground">{roomName || roomId}</span>
           </p>
           {roomName && roomName !== roomId ? (
             <p className="mt-1 text-xs uppercase tracking-[0.18em] text-(--muted)">{roomId}</p>
@@ -126,7 +128,7 @@ export function JoinGameModal({ roomId, roomName, onJoined }: JoinGameModalProps
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="username" className="mb-2 block text-sm font-medium text-(--text)">
+            <label htmlFor="username" className="mb-2 block text-sm font-medium text-foreground">
               Enter your display name
             </label>
             <input
@@ -136,7 +138,7 @@ export function JoinGameModal({ roomId, roomName, onJoined }: JoinGameModalProps
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your display name"
               disabled={state.status === "loading"}
-              className="min-h-12 w-full rounded-lg border-2 border-(--option-border) bg-(--option-bg) px-4 py-3 text-lg text-(--text) outline-none transition-all focus:border-(--accent)"
+              className="min-h-12 w-full rounded-lg border-2 border-(--option-border) bg-(--option-bg) px-4 py-3 text-lg text-foreground outline-none transition-all focus:border-(--accent)"
               autoFocus
               autoComplete="nickname"
               maxLength={20}
@@ -157,6 +159,17 @@ export function JoinGameModal({ roomId, roomName, onJoined }: JoinGameModalProps
           >
             {state.status === "loading" ? "Joining..." : "Join Game"}
           </button>
+
+          {onCancel ? (
+            <button
+              type="button"
+              onClick={onCancel}
+              disabled={state.status === "loading"}
+              className="min-h-11 w-full rounded-lg border border-(--option-border) py-2.5 text-sm font-semibold text-(--text-secondary) transition-colors hover:text-foreground disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Choose another room
+            </button>
+          ) : null}
         </form>
 
         <p className="mt-6 text-center text-xs text-(--muted)">

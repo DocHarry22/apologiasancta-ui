@@ -22,7 +22,7 @@ The UI is deployed to Hostinger and the Android debug APK has been built and ver
 - Installable PWA flow with manifest, generated app icons (all standard sizes), offline fallback page, and service-worker bypass for SSE/API traffic
 - Android wrapper via Capacitor pointing at the deployed Hostinger URL
 - Landing page install/download CTAs for Chromium browser install, iPhone Add to Home Screen, and Android APK distribution
-- CI on GitHub Actions: lint, typecheck, unit tests, Next build, and Playwright E2E on every push; debug APK artifact on pushes to `main`
+- CI on GitHub Actions: lint, typecheck, unit tests, Next build, and Playwright E2E on every push; debug APK artifact on pushes to `main`, including auto-synced `apologia-sancta.apk` packaged filenames
 
 **Known limitations / v1 gates not yet cleared:**
 - Hostinger routes `/mobile/`, `/admin/login`, and `/library` currently return HTTP 403 — requires redeploying the latest build with the Apache `.htaccess` rewrite rule to Hostinger
@@ -154,6 +154,9 @@ The repository includes Capacitor scaffolding and a generated Android project.
 # Sync web assets/config into Android
 npm run cap:sync
 
+# Copy the newest local APK into public/downloads and ../release-artifacts
+npm run apk:sync
+
 # Add Android platform if needed
 npm run cap:add:android
 
@@ -162,6 +165,7 @@ npm run cap:open:android
 ```
 
 The native shell points at the deployed web app URL configured by `CAPACITOR_SERVER_URL` or `NEXT_PUBLIC_APP_URL`.
+When you update APK files locally, run `npm run apk:sync` before pushing so the latest APK filenames are refreshed for release packaging.
 
 ## Mobile Play Flow
 

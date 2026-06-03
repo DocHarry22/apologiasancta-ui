@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useQuizEntryGate } from "@/hooks/useQuizEntryGate";
 
 interface EngineStatus {
   running: boolean;
@@ -16,6 +16,7 @@ interface LiveHeroBannerProps {
 export function LiveHeroBanner({ engineUrl }: LiveHeroBannerProps) {
   const [status, setStatus] = useState<EngineStatus | null>(null);
   const [loading, setLoading] = useState(true);
+  const { requestQuizEntry, onboardingModals } = useQuizEntryGate();
 
   useEffect(() => {
     let cancelled = false;
@@ -51,15 +52,16 @@ export function LiveHeroBanner({ engineUrl }: LiveHeroBannerProps) {
   const participants = status?.connectedClients ?? 0;
 
   return (
-    <section
-      className="relative mx-4 mt-4 overflow-hidden rounded-2xl"
-      style={{
-        background:
-          "linear-gradient(135deg, #1a1816 0%, #2a2218 50%, #1a1410 100%)",
-        border: "1px solid rgba(212,175,55,0.25)",
-        minHeight: "220px",
-      }}
-    >
+    <>
+      <section
+        className="relative mx-4 mt-4 overflow-hidden rounded-2xl"
+        style={{
+          background:
+            "linear-gradient(135deg, #1a1816 0%, #2a2218 50%, #1a1410 100%)",
+          border: "1px solid rgba(212,175,55,0.25)",
+          minHeight: "220px",
+        }}
+      >
       {/* Background cathedral silhouette — subtle radial glow */}
       <div
         aria-hidden="true"
@@ -119,13 +121,15 @@ export function LiveHeroBanner({ engineUrl }: LiveHeroBannerProps) {
         )}
 
         {/* CTA */}
-        <Link
-          href="/mobile"
+        <button
+          type="button"
+          onClick={requestQuizEntry}
           className="inline-flex w-full items-center justify-center gap-3 rounded-xl px-5 py-3.5 text-base font-bold text-[#1a1408] transition-opacity hover:opacity-90 active:opacity-80"
           style={{
             background: "linear-gradient(90deg, #d4af37, #c9a227)",
             boxShadow: "0 4px 20px rgba(212,175,55,0.35)",
           }}
+          aria-label="Start quiz"
         >
           {/* Shield-swords icon */}
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -136,8 +140,10 @@ export function LiveHeroBanner({ engineUrl }: LiveHeroBannerProps) {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
           </svg>
-        </Link>
+        </button>
       </div>
-    </section>
+      </section>
+      {onboardingModals}
+    </>
   );
 }

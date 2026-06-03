@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -16,7 +16,7 @@ interface LoginPayload {
   error?: string;
 }
 
-export default function AdminLoginPage({ defaultNextPath, allowedNextPrefixes }: Props) {
+function AdminLoginContent({ defaultNextPath, allowedNextPrefixes }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
@@ -152,5 +152,23 @@ export default function AdminLoginPage({ defaultNextPath, allowedNextPrefixes }:
         </div>
       </section>
     </main>
+  );
+}
+
+function LoginFallback() {
+  return (
+    <main className="min-h-screen bg-background text-foreground flex items-center justify-center p-4">
+      <section className="w-full max-w-sm rounded-xl border border-(--border) bg-(--card) p-5 sm:p-6">
+        <p className="text-sm text-(--muted)">Loading login...</p>
+      </section>
+    </main>
+  );
+}
+
+export default function AdminLoginPage({ defaultNextPath, allowedNextPrefixes }: Props) {
+  return (
+    <Suspense fallback={<LoginFallback />}>
+      <AdminLoginContent defaultNextPath={defaultNextPath} allowedNextPrefixes={allowedNextPrefixes} />
+    </Suspense>
   );
 }

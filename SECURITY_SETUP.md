@@ -145,6 +145,21 @@ The release APK is copied to:
 
 Release builds fail if signing variables are missing.
 
+### Sync latest local APK into download folders
+
+If you already built an APK locally and only need to refresh the packaged download files, run:
+
+```bash
+npm run apk:sync
+```
+
+This picks the newest local APK artifact (release, debug, or `../release-artifacts/apologia-sancta.apk`) and updates:
+
+- `public/downloads/apologia-sancta.apk`
+- `public/downloads/apologia-sancta-v<version>.apk`
+- `../release-artifacts/apologia-sancta.apk`
+- `../release-artifacts/apologia-sancta-v<version>.apk`
+
 ### GitHub latest APK link
 
 The homepage uses `NEXT_PUBLIC_ANDROID_APK_URL` when configured. If it is not configured, it falls back to:
@@ -154,6 +169,8 @@ https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologi
 ```
 
 The `.github/workflows/android-release.yml` workflow publishes that stable asset name on every Android release, so the home page always downloads the latest GitHub release APK.
+
+If you prefer a Hostinger download URL, configure the optional Hostinger SSH variables/secrets in GitHub Actions so the same workflow mirrors `public/downloads/apologia-sancta.apk` to Hostinger automatically after each release.
 
 Required GitHub secrets:
 

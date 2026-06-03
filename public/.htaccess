@@ -5,12 +5,24 @@ Options -Indexes
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Never rewrite framework/static assets.
+  RewriteRule ^_next/ - [L]
+  RewriteRule ^downloads/ - [L]
+  RewriteRule ^app-icons/ - [L]
+  RewriteRule ^favicon\.ico$ - [L]
+  RewriteRule ^manifest\.webmanifest$ - [L]
+  RewriteRule ^sw\.js$ - [L]
+  RewriteRule ^offline/?$ /offline/index.html [L]
+
   RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
   RewriteRule ^mobile/?$ /mobile/index.html [L]
   RewriteRule ^library/?$ /library/index.html [L]
-  RewriteRule ^author/login/?$ /author/login/index.html [L]
+  RewriteRule ^author/login/?$ /author/index.html [L]
   RewriteRule ^author/?$ /author/index.html [L]
 
   RewriteRule ^.*$ /index.html [L]

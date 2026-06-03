@@ -1,18 +1,19 @@
 {
   "name": "apologiasancta-ui",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "types": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "lint": "next lint",
     "test": "node --test --experimental-strip-types tests/phase3.test.ts tests/phase3-security.test.ts tests/phase4a.test.ts",
     "test:e2e": "npx --yes @playwright/test@1.51.1 test",
     "cap:sync": "cap sync android",
     "cap:add:android": "cap add android",
     "cap:open:android": "cap open android",
+    "apk:sync": "node scripts/sync-latest-apk.cjs",
     "apk:release": "node scripts/build-release-apk.cjs"
   },
   "dependencies": {
@@ -20,6 +21,7 @@
     "@capacitor/core": "^7.4.3",
     "@capacitor/haptics": "^7.0.2",
     "@capacitor/preferences": "^7.0.2",
+    "@capacitor/splash-screen": "^7.0.2",
     "framer-motion": "^12.40.0",
     "mysql2": "^3.15.3",
     "next": "16.1.6",

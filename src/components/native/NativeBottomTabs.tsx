@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useCallback } from "react";
 import { usePathname } from "next/navigation";
+import { useQuizEntryGate } from "@/hooks/useQuizEntryGate";
 
 const RESEARCH_URL = "https://github.com/DocHarry22/apologia-graph";
 
@@ -62,69 +64,92 @@ const tabs: Tab[] = [
 
 export function NativeBottomTabs() {
   const pathname = usePathname();
+  const { requestQuizEntry, onboardingModals } = useQuizEntryGate();
+  const handleQuizPress = useCallback(() => {
+    requestQuizEntry();
+  }, [requestQuizEntry]);
 
   return (
-    <nav
-      className="fixed bottom-0 left-0 right-0 z-50 flex items-stretch"
-      style={{
-        background: "rgba(17,16,15,0.97)",
-        borderTop: "1px solid rgba(212,175,55,0.18)",
-        paddingBottom: "env(safe-area-inset-bottom, 0px)",
-        backdropFilter: "blur(12px)",
-      }}
-    >
-      {tabs.map((tab) => {
-        const isActive = !tab.external && pathname === tab.href;
+    <>
+      <nav
+        className="fixed bottom-0 left-0 right-0 z-50 flex items-stretch"
+        style={{
+          background: "rgba(17,16,15,0.97)",
+          borderTop: "1px solid rgba(212,175,55,0.18)",
+          paddingBottom: "env(safe-area-inset-bottom, 0px)",
+          backdropFilter: "blur(12px)",
+        }}
+      >
+        {tabs.map((tab) => {
+          const isActive = !tab.external && pathname === tab.href;
+          const isQuizTab = tab.href === "/mobile";
 
-        const inner = (
-          <span className="flex flex-col items-center gap-1 py-2">
-            <span
-              style={{
-                color: isActive ? "#d4af37" : "rgba(196,191,181,0.6)",
-                transition: "color 0.15s",
-              }}
-            >
-              {tab.icon}
-            </span>
-            <span
-              className="text-[10px] font-medium tracking-wide"
-              style={{ color: isActive ? "#d4af37" : "rgba(196,191,181,0.5)" }}
-            >
-              {tab.label}
-            </span>
-            {isActive && (
+          const inner = (
+            <span className="flex flex-col items-center gap-1 py-2">
               <span
-                className="absolute bottom-0 h-0.5 w-10 rounded-t-full"
-                style={{ background: "#d4af37" }}
-              />
-            )}
-          </span>
-        );
+                style={{
+                  color: isActive ? "#d4af37" : "rgba(196,191,181,0.6)",
+                  transition: "color 0.15s",
+                }}
+              >
+                {tab.icon}
+              </span>
+              <span
+                className="text-[10px] font-medium tracking-wide"
+                style={{ color: isActive ? "#d4af37" : "rgba(196,191,181,0.5)" }}
+              >
+                {tab.label}
+              </span>
+              {isActive && (
+                <span
+                  className="absolute bottom-0 h-0.5 w-10 rounded-t-full"
+                  style={{ background: "#d4af37" }}
+                />
+              )}
+            </span>
+          );
 
-        if (tab.external) {
+          if (tab.external) {
+            return (
+              <a
+                key={tab.label}
+                href={tab.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative flex flex-1 items-center justify-center"
+              >
+                {inner}
+              </a>
+            );
+          }
+
+          if (isQuizTab) {
+            return (
+              <button
+                key={tab.label}
+                type="button"
+                onClick={handleQuizPress}
+                className="relative flex flex-1 items-center justify-center"
+                aria-label="Open quiz"
+              >
+                {inner}
+              </button>
+            );
+          }
+
           return (
-            <a
+            <Link
               key={tab.label}
               href={tab.href}
-              target="_blank"
-              rel="noopener noreferrer"
               className="relative flex flex-1 items-center justify-center"
             >
               {inner}
-            </a>
+            </Link>
           );
-        }
+        })}
+      </nav>
 
-        return (
-          <Link
-            key={tab.label}
-            href={tab.href}
-            className="relative flex flex-1 items-center justify-center"
-          >
-            {inner}
-          </Link>
-        );
-      })}
-    </nav>
+      {onboardingModals}
+    </>
   );
 }

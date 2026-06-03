@@ -124,6 +124,12 @@ const config: CapacitorConfig = {
   android: {
     allowMixedContent: usesCleartextServer,
   },
+  plugins: {
+    SplashScreen: {
+      launchAutoHide: false,
+      fadeOutDuration: 250,
+    },
+  },
 };
 
 export default config;

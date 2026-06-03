@@ -22,30 +22,26 @@ import {
   MobileLeaderboardDrawer,
   ScoreBurst,
   StreakToast,
-  PLAYER_NAME_KEY,
 } from "@/components/mobile";
 import type { LeaderboardMode } from "@/components/mobile/LeaderboardColumn";
 import { useLeaderboardDiff } from "@/hooks/useLeaderboardDiff";
 import { useQuizSSE } from "@/hooks/useQuizSSE";
 import { useLocalPlayer } from "@/hooks/useLocalPlayer";
 import { useScoreDeltaAnimation } from "@/hooks/useScoreDeltaAnimation";
+import { useRoomRegistration } from "@/hooks/useRoomRegistration";
+import { useRoomSelectionBootstrap } from "@/hooks/useRoomSelectionBootstrap";
 import { getEngineUrl } from "@/lib/publicEnv";
 import { hapticSuccess, hapticError, hapticLight, keepAwake, allowSleep } from "@/lib/native";
 import { useScoreHistory } from "@/hooks/useScoreHistory";
 import {
   getMobileOnboardingState,
   getPhaseCopy,
-  sanitizeRoomIdParam,
   type AnswerSubmissionState,
 } from "@/lib/mobileUx";
 import type { Leaderboard, QuizState, QuizPhase, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent, CongratsEvent, RoomSummary } from "@/types/quiz";
 
 // Backend URL from environment (optional)
 const ENGINE_URL = getEngineUrl();
-const ROOM_ID_KEY = "selectedRoomId";
-const ROOM_NAME_KEY = "selectedRoomName";
-const USER_ID_KEY = "userId";
-const USERNAME_KEY = "playerName";
 const LEADERBOARD_REFRESH_MS = 15000;
 
 // Duration for countdown timer (seconds)
@@ -180,9 +176,13 @@ export default function MobilePage() {
 
 function MobilePageContent() {
   const searchParams = useSearchParams();
-  const [roomId, setRoomId] = useState<string | null>(null);
-  const [roomName, setRoomName] = useState<string | null>(null);
-  const [roomNotice, setRoomNotice] = useState<string | null>(null);
+  const {
+    roomId,
+    roomName,
+    roomNotice,
+    setRoomNotice,
+    applyRoomSelection,
+  } = useRoomSelectionBootstrap(searchParams);
   const [isRoomPickerOpen, setIsRoomPickerOpen] = useState(false);
   const [leaderboardMode, setLeaderboardMode] = useState<LeaderboardMode>("room-all-time");
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
@@ -190,11 +190,17 @@ function MobilePageContent() {
   const [leaderboardLoading, setLeaderboardLoading] = useState(false);
   const [leaderboardError, setLeaderboardError] = useState<string | null>(null);
   const [leaderboardRefreshKey, setLeaderboardRefreshKey] = useState(0);
-  // Registration state
-  const [userId, setUserId] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
-  const [isRegistered, setIsRegistered] = useState(false);
-  const [isCheckingRegistration, setIsCheckingRegistration] = useState(true);
+  const {
+    userId,
+    username,
+    isRegistered,
+    isCheckingRegistration,
+    handleJoined,
+    resetRegistrationState,
+  } = useRoomRegistration({
+    engineUrl: ENGINE_URL,
+    roomId,
+  });
   const [mePreviousPoints, setMePreviousPoints] = useState(0);
   const [meLastAwardedPoints, setMeLastAwardedPoints] = useState(0);
   const meSnapshotPointsRef = useRef(0);
@@ -207,133 +213,18 @@ function MobilePageContent() {
   const [streakToastKey, setStreakToastKey] = useState(0);
   const [answerSubmissionState, setAnswerSubmissionState] = useState<AnswerSubmissionState>("idle");
   const [answerNotice, setAnswerNotice] = useState<string | null>(null);
-  
-  // Restore selected room on mount
-  useEffect(() => {
-    const queryRoomId = sanitizeRoomIdParam(searchParams.get("roomId") || searchParams.get("room"));
-    const rawQueryRoomId = searchParams.get("roomId") || searchParams.get("room");
-    if (rawQueryRoomId && !queryRoomId) {
-      setRoomNotice("That room link is invalid. Choose a room from the list.");
-    }
-
-    const storedRoomId = queryRoomId || localStorage.getItem(ROOM_ID_KEY);
-    const storedRoomName = localStorage.getItem(ROOM_NAME_KEY);
-
-    if (storedRoomId) {
-      setRoomId(storedRoomId);
-      setRoomName(queryRoomId ? queryRoomId : storedRoomName || storedRoomId);
-      if (queryRoomId) {
-        localStorage.setItem(ROOM_ID_KEY, queryRoomId);
-        localStorage.setItem(ROOM_NAME_KEY, queryRoomId);
-        setRoomNotice(`Room link detected: ${queryRoomId}`);
-      }
-    }
-
-    if (!storedRoomId) {
-      setIsCheckingRegistration(false);
-    }
-  }, [searchParams]);
-
-  // Sync registration when room changes
-  useEffect(() => {
-    if (!ENGINE_URL) {
-      setIsCheckingRegistration(false);
-      return;
-    }
-
-    if (!roomId) {
-      setIsRegistered(false);
-      setUserId(null);
-      setUsername(null);
-      setIsCheckingRegistration(false);
-      return;
-    }
-
-    const storedUserId = localStorage.getItem(USER_ID_KEY);
-    const storedUsername = localStorage.getItem(USERNAME_KEY);
-
-    if (!storedUserId || !storedUsername) {
-      setIsRegistered(false);
-      setUserId(null);
-      setUsername(null);
-      setIsCheckingRegistration(false);
-      return;
-    }
-
-    let cancelled = false;
-    setIsCheckingRegistration(true);
-
-    fetch(`${ENGINE_URL}/register/me?userId=${encodeURIComponent(storedUserId)}&roomId=${encodeURIComponent(roomId)}`)
-      .then(async (res) => {
-        if (cancelled) return;
-
-        if (!res.ok) {
-          localStorage.removeItem(USER_ID_KEY);
-          localStorage.removeItem(USERNAME_KEY);
-          localStorage.removeItem(PLAYER_NAME_KEY);
-          setIsRegistered(false);
-          setUserId(null);
-          setUsername(null);
-          return;
-        }
-
-        const data = await res.json();
-        setUserId(data.userId);
-        setUsername(data.username);
-        localStorage.setItem(USER_ID_KEY, data.userId);
-        localStorage.setItem(USERNAME_KEY, data.username);
-        localStorage.setItem(PLAYER_NAME_KEY, data.username);
-        setIsRegistered(true);
-      })
-      .catch(() => {
-        if (cancelled) return;
-        localStorage.removeItem(USER_ID_KEY);
-        localStorage.removeItem(USERNAME_KEY);
-        localStorage.removeItem(PLAYER_NAME_KEY);
-        setIsRegistered(false);
-        setUserId(null);
-        setUsername(null);
-      })
-      .finally(() => {
-        if (!cancelled) {
-          setIsCheckingRegistration(false);
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [roomId]);
 
   const handleRoomSelected = useCallback((room: RoomSummary) => {
-    setRoomId(room.roomId);
-    setRoomName(room.name);
-    setRoomNotice(null);
+    applyRoomSelection(room.roomId, room.name);
     setIsRoomPickerOpen(false);
     setLeaderboardMode("room-all-time");
     setRemoteLeaderboard(null);
     setLeaderboardError(null);
-    localStorage.setItem(ROOM_ID_KEY, room.roomId);
-    localStorage.setItem(ROOM_NAME_KEY, room.name);
-    setIsCheckingRegistration(Boolean(ENGINE_URL));
-    setIsRegistered(false);
-    setUserId(null);
-    setUsername(null);
+    resetRegistrationState();
     setSelectedId(undefined);
     setAnswerSubmissionState("idle");
     setAnswerNotice(null);
-  }, []);
-  
-  // Handle successful registration
-  const handleJoined = useCallback((newUserId: string, newUsername: string) => {
-    setUserId(newUserId);
-    setUsername(newUsername);
-    localStorage.setItem(USER_ID_KEY, newUserId);
-    localStorage.setItem(USERNAME_KEY, newUsername);
-    localStorage.setItem(PLAYER_NAME_KEY, newUsername);
-    setIsRegistered(true);
-    setIsCheckingRegistration(false);
-  }, []);
+  }, [applyRoomSelection, resetRegistrationState]);
 
   const handleSwitchRoom = useCallback(() => {
     setIsRoomPickerOpen(true);
@@ -916,7 +807,7 @@ function MobilePageContent() {
     <>
       <Layout
         leftContent={
-          <div className="mx-auto flex min-h-screen w-full max-w-[100vw] flex-1 flex-col bg-(--mobile-bg) pb-[env(safe-area-inset-bottom)] text-(--mobile-text) lg:max-w-none lg:bg-transparent lg:text-inherit">
+          <div className="mx-auto flex min-h-screen w-full max-w-screen flex-1 flex-col bg-(--mobile-bg) pb-[env(safe-area-inset-bottom)] text-(--mobile-text) lg:max-w-none lg:bg-transparent lg:text-inherit">
             {/* TopBar - always visible, not covered by overlays */}
             <TopBar
               roomName={quizState.roomName || roomName || undefined}
@@ -961,7 +852,7 @@ function MobilePageContent() {
             </div>
             
             {/* Main content area - can be overlayed by CongratsOverlay */}
-            <div className="relative mx-auto flex w-full max-w-[100vw] flex-1 flex-col pb-28 lg:max-w-none lg:pb-0">
+            <div className="relative mx-auto flex w-full max-w-screen flex-1 flex-col pb-28 lg:max-w-none lg:pb-0">
           <div className="relative mx-4 mt-3 grid grid-cols-2 overflow-hidden rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) shadow-[0_10px_28px_var(--mobile-shadow)] lg:hidden">
             <div className="relative px-5 py-4">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-(--mobile-muted)">

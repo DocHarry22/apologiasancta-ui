@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-const { chmodSync, copyFileSync, existsSync, mkdirSync } = require("node:fs");
+const { chmodSync, existsSync } = require("node:fs");
 const { spawnSync } = require("node:child_process");
 const { join } = require("node:path");
 const pkg = require("../package.json");
+const { syncLatestApk } = require("./sync-latest-apk.cjs");
 
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
@@ -50,14 +51,4 @@ if (!existsSync(apkPath)) {
 }
 
 const version = process.env.APP_VERSION_NAME || pkg.version;
-const downloadsDir = join(process.cwd(), "public", "downloads");
-const artifactsDir = join(process.cwd(), "..", "release-artifacts");
-mkdirSync(downloadsDir, { recursive: true });
-mkdirSync(artifactsDir, { recursive: true });
-
-for (const targetDir of [downloadsDir, artifactsDir]) {
-  copyFileSync(apkPath, join(targetDir, "apologia-sancta.apk"));
-  copyFileSync(apkPath, join(targetDir, `apologia-sancta-v${version}.apk`));
-}
-
-console.log(`Release APK copied to public/downloads/apologia-sancta.apk and release-artifacts/apologia-sancta-v${version}.apk`);
+syncLatestApk({ sourceApkPath: apkPath, version });
