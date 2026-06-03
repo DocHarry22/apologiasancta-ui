@@ -3,6 +3,7 @@ import { hashPassword, verifyPassword } from "@/lib/auth/password";
 import { isRole, type Role } from "@/lib/auth/roles";
 
 export type AdminUserStatus = "active" | "inactive";
+export type AdminUserAccountType = "staff" | "public";
 
 export interface AdminUser {
   id: string;
@@ -10,11 +11,48 @@ export interface AdminUser {
   passwordHash: string;
   displayName: string;
   role: Role;
+  accountType: AdminUserAccountType;
+  phone?: string | null;
+  passwordChangedAt?: string | null;
   status: AdminUserStatus;
   createdAt: string;
   updatedAt: string;
   lastLoginAt?: string | null;
 }
+
+export interface CreateAdminUserInput {
+  email: string;
+  password: string;
+  displayName: string;
+  role: Role;
+  accountType: AdminUserAccountType;
+  phone?: string | null;
+}
+
+export interface AdminUserProfile {
+  id: string;
+  email: string;
+  displayName: string;
+  role: Role;
+  accountType: AdminUserAccountType;
+  phone?: string | null;
+  passwordChangedAt?: string | null;
+  status: AdminUserStatus;
+  createdAt: string;
+  updatedAt: string;
+  lastLoginAt?: string | null;
+}
+
+export interface UpdateAdminUserInput {
+  id: string;
+  displayName?: string;
+  role?: Role;
+  status?: AdminUserStatus;
+  phone?: string | null;
+}
+
+export type ChangeAdminUserPasswordResult = "ok" | "not_found" | "invalid_current";
+export type RevokeAdminUserSessionsResult = "ok" | "not_found";
 
 type MysqlPool = {
   execute: (sql: string, values?: unknown[]) => Promise<[unknown[], unknown]>;
@@ -87,6 +125,9 @@ async function ensureSchema(): Promise<void> {
       password_hash VARCHAR(255) NOT NULL,
       display_name VARCHAR(255) NOT NULL,
       role VARCHAR(32) NOT NULL,
+      account_type VARCHAR(32) NOT NULL DEFAULT 'staff',
+      phone VARCHAR(64) NULL,
+      password_changed_at DATETIME NULL,
       status VARCHAR(32) NOT NULL DEFAULT 'active',
       created_at DATETIME NOT NULL,
       updated_at DATETIME NOT NULL,
@@ -95,17 +136,28 @@ async function ensureSchema(): Promise<void> {
       INDEX idx_admin_users_status (status)
     )
   `);
+
+  // Best-effort migration for existing deployments.
+  await pool.execute("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS account_type VARCHAR(32) NOT NULL DEFAULT 'staff'");
+  await pool.execute("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS phone VARCHAR(64) NULL");
+  await pool.execute("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS password_changed_at DATETIME NULL");
 }
 
 function rowToUser(row: Record<string, unknown>): AdminUser {
   const role = typeof row.role === "string" && isRole(row.role) ? row.role : "viewer";
   const status = row.status === "inactive" ? "inactive" : "active";
+  const accountType = row.account_type === "public" ? "public" : "staff";
+  const phone = typeof row.phone === "string" && row.phone.trim() ? row.phone : null;
+  const passwordChangedAt = row.password_changed_at ? String(row.password_changed_at) : null;
   return {
     id: String(row.id),
     email: String(row.email),
     passwordHash: String(row.password_hash),
     displayName: String(row.display_name),
     role,
+    accountType,
+    phone,
+    passwordChangedAt,
     status,
     createdAt: String(row.created_at),
     updatedAt: String(row.updated_at),
@@ -127,6 +179,45 @@ async function findDbUserById(id: string): Promise<AdminUser | null> {
   return first ? rowToUser(first) : null;
 }
 
+function toAdminUserProfile(user: AdminUser): AdminUserProfile {
+  return {
+    id: user.id,
+    email: user.email,
+    displayName: user.displayName,
+    role: user.role,
+    accountType: user.accountType,
+    phone: user.phone ?? null,
+    passwordChangedAt: user.passwordChangedAt ?? null,
+    status: user.status,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+    lastLoginAt: user.lastLoginAt ?? null,
+  };
+}
+
+async function listDbUsers(): Promise<AdminUser[]> {
+  const pool = await getMysqlPool();
+  const [rows] = await pool.execute("SELECT * FROM admin_users ORDER BY created_at DESC");
+  return (rows as Record<string, unknown>[]).map(rowToUser);
+}
+
+async function countActiveSuperAdmins(): Promise<number> {
+  if (!hasMysqlConfig()) {
+    let count = 0;
+    for (const user of memoryUsers.values()) {
+      if (user.status === "active" && user.role === "super_admin") count += 1;
+    }
+    return count;
+  }
+
+  const pool = await getMysqlPool();
+  const [rows] = await pool.execute(
+    "SELECT COUNT(*) AS count FROM admin_users WHERE role = 'super_admin' AND status = 'active'"
+  );
+  const first = (rows as Array<{ count?: number | string }>)[0];
+  return Number(first?.count ?? 0);
+}
+
 async function upsertSeedAdmin(): Promise<void> {
   const email = normalizeEmail(process.env.ADMIN_EMAIL || "");
   const password = process.env.ADMIN_PASSWORD || "";
@@ -144,6 +235,8 @@ async function upsertSeedAdmin(): Promise<void> {
         ...existing,
         displayName,
         role,
+        accountType: "staff",
+        phone: existing.phone ?? null,
         status: "active",
         passwordHash: process.env.ADMIN_BOOTSTRAP_OVERWRITE_PASSWORD === "true" ? await hashPassword(password) : existing.passwordHash,
         updatedAt: now,
@@ -156,6 +249,9 @@ async function upsertSeedAdmin(): Promise<void> {
       passwordHash: await hashPassword(password),
       displayName,
       role,
+      accountType: "staff",
+      phone: null,
+      passwordChangedAt: null,
       status: "active",
       createdAt: now,
       updatedAt: now,
@@ -181,8 +277,8 @@ async function upsertSeedAdmin(): Promise<void> {
   }
 
   await pool.execute(
-    `INSERT INTO admin_users (id, email, password_hash, display_name, role, status, created_at, updated_at)
-     VALUES (?, ?, ?, ?, ?, 'active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
+    `INSERT INTO admin_users (id, email, password_hash, display_name, role, account_type, phone, status, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, 'staff', NULL, 'active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
     [randomUUID(), email, await hashPassword(password), displayName, role]
   );
 }
@@ -236,6 +332,185 @@ export async function markAdminUserLogin(id: string): Promise<void> {
 
   const pool = await getMysqlPool();
   await pool.execute("UPDATE admin_users SET last_login_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?", [id]);
+}
+
+export async function createAdminUser(input: CreateAdminUserInput): Promise<AdminUser | null> {
+  await ensureAdminUserStore();
+
+  const email = normalizeEmail(input.email);
+  const displayName = input.displayName.trim();
+  const password = input.password;
+  const role = input.role;
+  const accountType = input.accountType;
+  const phone = input.phone?.trim() || null;
+
+  if (!email || !password || !displayName) {
+    return null;
+  }
+
+  const existing = hasMysqlConfig()
+    ? await findDbUserByEmail(email)
+    : memoryUsers.get(email) ?? null;
+
+  if (existing) {
+    return null;
+  }
+
+  const now = new Date().toISOString();
+  const passwordHash = await hashPassword(password);
+  const created: AdminUser = {
+    id: randomUUID(),
+    email,
+    passwordHash,
+    displayName,
+    role,
+    accountType,
+    phone,
+    passwordChangedAt: null,
+    status: "active",
+    createdAt: now,
+    updatedAt: now,
+    lastLoginAt: null,
+  };
+
+  if (!hasMysqlConfig()) {
+    memoryUsers.set(email, created);
+    return created;
+  }
+
+  const pool = await getMysqlPool();
+  await pool.execute(
+    `INSERT INTO admin_users (id, email, password_hash, display_name, role, account_type, phone, status, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, 'active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
+    [created.id, created.email, created.passwordHash, created.displayName, created.role, created.accountType, created.phone]
+  );
+
+  return created;
+}
+
+export async function listAdminUsers(): Promise<AdminUserProfile[]> {
+  await ensureAdminUserStore();
+  const users = hasMysqlConfig() ? await listDbUsers() : Array.from(memoryUsers.values());
+  return users.map(toAdminUserProfile);
+}
+
+export async function updateAdminUser(input: UpdateAdminUserInput): Promise<AdminUserProfile | null> {
+  await ensureAdminUserStore();
+  const existing = await getAdminUserById(input.id);
+  if (!existing) return null;
+
+  const nextRole = input.role ?? existing.role;
+  const nextStatus = input.status ?? existing.status;
+  const nextDisplayName = input.displayName?.trim() || existing.displayName;
+  const nextPhone = input.phone === undefined ? existing.phone ?? null : (input.phone?.trim() || null);
+
+  if (!nextDisplayName) {
+    return null;
+  }
+
+  // Ensure there is always at least one active super admin account.
+  const removesSuperAdmin = existing.role === "super_admin" && (nextRole !== "super_admin" || nextStatus !== "active");
+  if (removesSuperAdmin) {
+    const activeSuperAdmins = await countActiveSuperAdmins();
+    if (activeSuperAdmins <= 1) {
+      return null;
+    }
+  }
+
+  if (!hasMysqlConfig()) {
+    const updatedAt = new Date().toISOString();
+    for (const [email, user] of memoryUsers) {
+      if (user.id !== input.id) continue;
+      const updated: AdminUser = {
+        ...user,
+        role: nextRole,
+        status: nextStatus,
+        displayName: nextDisplayName,
+        phone: nextPhone,
+        updatedAt,
+      };
+      memoryUsers.set(email, updated);
+      return toAdminUserProfile(updated);
+    }
+    return null;
+  }
+
+  const pool = await getMysqlPool();
+  await pool.execute(
+    `UPDATE admin_users
+     SET display_name = ?, role = ?, status = ?, phone = ?, updated_at = CURRENT_TIMESTAMP
+     WHERE id = ?`,
+    [nextDisplayName, nextRole, nextStatus, nextPhone, input.id]
+  );
+
+  const refreshed = await findDbUserById(input.id);
+  return refreshed ? toAdminUserProfile(refreshed) : null;
+}
+
+export async function changeAdminUserPassword(
+  userId: string,
+  currentPassword: string,
+  nextPassword: string
+): Promise<ChangeAdminUserPasswordResult> {
+  await ensureAdminUserStore();
+  const user = await getAdminUserById(userId);
+  if (!user || user.status !== "active") return "not_found";
+
+  const validCurrent = await verifyPassword(currentPassword, user.passwordHash);
+  if (!validCurrent) return "invalid_current";
+
+  const nextHash = await hashPassword(nextPassword);
+  const passwordChangedAt = new Date().toISOString();
+
+  if (!hasMysqlConfig()) {
+    const now = new Date().toISOString();
+    for (const [email, stored] of memoryUsers) {
+      if (stored.id !== userId) continue;
+      memoryUsers.set(email, {
+        ...stored,
+        passwordHash: nextHash,
+        passwordChangedAt,
+        updatedAt: now,
+      });
+      return "ok";
+    }
+    return "not_found";
+  }
+
+  const pool = await getMysqlPool();
+  await pool.execute(
+    "UPDATE admin_users SET password_hash = ?, password_changed_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+    [nextHash, userId]
+  );
+  return "ok";
+}
+
+export async function revokeAdminUserOtherSessions(userId: string): Promise<RevokeAdminUserSessionsResult> {
+  await ensureAdminUserStore();
+  const user = await getAdminUserById(userId);
+  if (!user || user.status !== "active") return "not_found";
+
+  const passwordChangedAt = new Date().toISOString();
+
+  if (!hasMysqlConfig()) {
+    for (const [email, stored] of memoryUsers) {
+      if (stored.id !== userId) continue;
+      memoryUsers.set(email, {
+        ...stored,
+        passwordChangedAt,
+        updatedAt: new Date().toISOString(),
+      });
+      return "ok";
+    }
+    return "not_found";
+  }
+
+  const pool = await getMysqlPool();
+  await pool.execute(
+    "UPDATE admin_users SET password_changed_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+    [userId]
+  );
+  return "ok";
 }
 
 export function resetAdminUserStoreForTests(): void {

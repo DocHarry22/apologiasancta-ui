@@ -4,6 +4,7 @@ import { readSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
 import { verifyCsrfToken } from "@/lib/csrf";
 import { getClientIp } from "@/lib/auth/rateLimit";
 import { getCurrentUser, type CurrentUser } from "./currentUser";
+import { isSessionFreshForUser } from "./sessionFreshness";
 import { appendAuditEvent } from "./storage/auditStore";
 import type { AuditEventType } from "./storage/types";
 
@@ -18,6 +19,9 @@ export async function requireAuthorSession(request: NextRequest): Promise<{ ok: 
     return { ok: false, response: safeJson({ ok: false, error: "Unauthorized" }, 401) };
   }
   const user = await getCurrentUser(session.userId);
+  if (!isSessionFreshForUser(session, user)) {
+    return { ok: false, response: safeJson({ ok: false, error: "Unauthorized" }, 401) };
+  }
   return { ok: true, user };
 }
 

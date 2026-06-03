@@ -31,6 +31,25 @@ interface Props {
 type TabId = "overview" | "live" | "rooms" | "bank" | "authoring" | "review" | "topics" | "audit" | "settings";
 type Message = { type: "success" | "error" | "info"; text: string };
 type PendingAction = { definition: DangerousActionDefinition; run: () => Promise<void> };
+type ManagedUser = {
+  id: string;
+  email: string;
+  displayName: string;
+  role: keyof typeof roleLabels;
+  accountType: "staff" | "public";
+  phone?: string | null;
+  status: "active" | "inactive";
+  createdAt: string;
+  updatedAt: string;
+  lastLoginAt?: string | null;
+};
+type InviteStaffRole = "admin" | "author" | "reviewer" | "host";
+type InviteSettingsState = {
+  inviteCode: string;
+  staffRole: InviteStaffRole;
+  source: "store" | "env" | "default";
+  updatedAt: string;
+};
 
 const ENGINE_URL = getEngineUrl();
 
@@ -142,6 +161,13 @@ async function dashboardApi<T>(path: string, options: { method?: "GET" | "POST" 
     credentials: "same-origin",
     body: options.body === undefined ? undefined : JSON.stringify(options.body),
   });
+
+  if (response.status === 401 && typeof window !== "undefined") {
+    const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
+    const nextPath = window.location.pathname || "/";
+    window.location.href = `${basePath}/login?reason=session_expired&next=${encodeURIComponent(nextPath)}`;
+    return { ok: false, status: 401, error: "Unauthorized" };
+  }
 
   if (response.status === 403 && method !== "GET" && !options.retried) {
     await refreshCsrfToken();
@@ -278,6 +304,18 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   const [message, setMessage] = useState<Message | null>(null);
   const [pendingDanger, setPendingDanger] = useState<PendingAction | null>(null);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [managedUsers, setManagedUsers] = useState<ManagedUser[]>([]);
+  const [usersLoading, setUsersLoading] = useState(false);
+  const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
+  const [inviteSettings, setInviteSettings] = useState<InviteSettingsState | null>(null);
+  const [inviteCodeInput, setInviteCodeInput] = useState("");
+  const [inviteRoleInput, setInviteRoleInput] = useState<InviteStaffRole>("host");
+  const [inviteLoading, setInviteLoading] = useState(false);
+  const [currentPasswordInput, setCurrentPasswordInput] = useState("");
+  const [newPasswordInput, setNewPasswordInput] = useState("");
+  const [confirmPasswordInput, setConfirmPasswordInput] = useState("");
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [revokeSessionsLoading, setRevokeSessionsLoading] = useState(false);
 
   const selectedTopic = topics.find((topic) => topic.id === selectedTopicId);
   const existingIds = useMemo(() => publishedQuestions.map((record) => record.question.id), [publishedQuestions]);
@@ -391,6 +429,114 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   const canAuthor = hasPermission(currentUser.role, "content:draft:create");
   const canReview = hasPermission(currentUser.role, "content:review");
   const canManageDanger = hasPermission(currentUser.role, "dangerous:execute");
+  const canManageUsers = hasPermission(currentUser.role, "users:manage");
+
+  const fetchUsers = useCallback(async () => {
+    if (!canManageUsers) return;
+    setUsersLoading(true);
+    const response = await dashboardApi<{ ok: true; users: ManagedUser[] }>("/api/auth/users");
+    if (response.ok) {
+      setManagedUsers(response.data.users);
+    } else {
+      setMessage({ type: "error", text: response.error || "Unable to load user accounts." });
+    }
+    setUsersLoading(false);
+  }, [canManageUsers]);
+
+  const updateManagedUser = useCallback(async (payload: { userId: string; role?: ManagedUser["role"]; status?: ManagedUser["status"] }) => {
+    if (!canManageUsers) return;
+    setUpdatingUserId(payload.userId);
+    const response = await dashboardApi<{ ok: true; user: ManagedUser }>("/api/auth/users", {
+      method: "PATCH",
+      body: payload,
+    });
+    if (response.ok) {
+      setManagedUsers((users) => users.map((user) => user.id === response.data.user.id ? response.data.user : user));
+      setMessage({ type: "success", text: "User updated." });
+    } else {
+      setMessage({ type: "error", text: response.error || "Unable to update user." });
+    }
+    setUpdatingUserId(null);
+  }, [canManageUsers]);
+
+  const fetchInviteSettings = useCallback(async () => {
+    if (!canManageUsers) return;
+    setInviteLoading(true);
+    const response = await dashboardApi<{ ok: true; settings: InviteSettingsState }>("/api/auth/invite-settings");
+    if (response.ok) {
+      setInviteSettings(response.data.settings);
+      setInviteCodeInput(response.data.settings.inviteCode);
+      setInviteRoleInput(response.data.settings.staffRole);
+    } else {
+      setMessage({ type: "error", text: response.error || "Unable to load invite settings." });
+    }
+    setInviteLoading(false);
+  }, [canManageUsers]);
+
+  const saveInviteSettings = useCallback(async (rotate: boolean) => {
+    if (!canManageUsers) return;
+    setInviteLoading(true);
+    const response = await dashboardApi<{ ok: true; settings: InviteSettingsState }>("/api/auth/invite-settings", {
+      method: "PATCH",
+      body: {
+        rotate,
+        inviteCode: inviteCodeInput,
+        staffRole: inviteRoleInput,
+      },
+    });
+    if (response.ok) {
+      setInviteSettings(response.data.settings);
+      setInviteCodeInput(response.data.settings.inviteCode);
+      setInviteRoleInput(response.data.settings.staffRole);
+      setMessage({ type: "success", text: rotate ? "Invite code rotated." : "Invite settings saved." });
+    } else {
+      setMessage({ type: "error", text: response.error || "Unable to update invite settings." });
+    }
+    setInviteLoading(false);
+  }, [canManageUsers, inviteCodeInput, inviteRoleInput]);
+
+  const changePassword = useCallback(async () => {
+    setPasswordLoading(true);
+    const response = await dashboardApi<{ ok: true }>("/api/auth/password", {
+      method: "PATCH",
+      body: {
+        currentPassword: currentPasswordInput,
+        newPassword: newPasswordInput,
+        confirmPassword: confirmPasswordInput,
+      },
+    });
+
+    if (response.ok) {
+      setCurrentPasswordInput("");
+      setNewPasswordInput("");
+      setConfirmPasswordInput("");
+      setMessage({ type: "success", text: "Password updated." });
+    } else {
+      setMessage({ type: "error", text: response.error || "Unable to update password." });
+    }
+    setPasswordLoading(false);
+  }, [confirmPasswordInput, currentPasswordInput, newPasswordInput]);
+
+  const revokeOtherSessions = useCallback(async () => {
+    setRevokeSessionsLoading(true);
+    const response = await dashboardApi<{ ok: true }>("/api/auth/sessions/revoke", {
+      method: "POST",
+      body: {},
+    });
+
+    if (response.ok) {
+      setMessage({ type: "success", text: "Other sessions were signed out." });
+    } else {
+      setMessage({ type: "error", text: response.error || "Unable to revoke other sessions." });
+    }
+    setRevokeSessionsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (!canManageUsers || activeTab !== "settings") return;
+    void fetchUsers();
+    void fetchInviteSettings();
+  }, [activeTab, canManageUsers, fetchInviteSettings, fetchUsers]);
 
   const buildQuestionJson = (): Question => ({
     id: formData.id || nextQuestionId,
@@ -1095,6 +1241,153 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
               <Link href="/mobile" className="min-h-11 rounded-lg border border-(--border) px-4 py-2 text-sm hover:border-(--accent) hover:text-(--accent)">Mobile</Link>
               <button type="button" onClick={() => void handleLogout()} className="min-h-11 rounded-lg border border-(--wrong) px-4 py-2 text-sm text-(--wrong)">Log out</button>
             </div>
+
+            <div className="space-y-3 rounded-lg border border-(--border) bg-background p-4">
+              <div>
+                <h3 className="text-sm font-semibold">Security</h3>
+                <p className="text-xs text-(--muted)">Change the password for your current account.</p>
+              </div>
+              <div className="grid gap-2 md:grid-cols-[1fr_1fr_1fr_auto]">
+                <input
+                  type="password"
+                  value={currentPasswordInput}
+                  onChange={(event) => setCurrentPasswordInput(event.target.value)}
+                  placeholder="Current password"
+                  className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm"
+                />
+                <input
+                  type="password"
+                  value={newPasswordInput}
+                  onChange={(event) => setNewPasswordInput(event.target.value)}
+                  placeholder="New password"
+                  className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm"
+                />
+                <input
+                  type="password"
+                  value={confirmPasswordInput}
+                  onChange={(event) => setConfirmPasswordInput(event.target.value)}
+                  placeholder="Confirm new password"
+                  className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm"
+                />
+                <button
+                  type="button"
+                  onClick={() => void changePassword()}
+                  disabled={passwordLoading || !currentPasswordInput || !newPasswordInput || !confirmPasswordInput}
+                  className="min-h-11 rounded-lg bg-(--accent) px-3 py-2 text-sm font-medium text-white disabled:opacity-50"
+                >
+                  Update password
+                </button>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => void revokeOtherSessions()}
+                  disabled={revokeSessionsLoading}
+                  className="min-h-11 rounded-lg border border-(--border) px-3 py-2 text-sm hover:border-(--accent) disabled:opacity-50"
+                >
+                  Sign out other sessions
+                </button>
+              </div>
+            </div>
+
+            {canManageUsers && (
+              <div className="space-y-3 rounded-lg border border-(--border) bg-background p-4">
+                <div className="space-y-3 rounded-lg border border-(--border) bg-(--card) p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <h3 className="text-sm font-semibold">Staff Invite Settings</h3>
+                      <p className="text-xs text-(--muted)">Manage the invite code used for elevated signup access.</p>
+                    </div>
+                    <button type="button" onClick={() => void fetchInviteSettings()} className="min-h-11 rounded-lg border border-(--border) px-3 py-2 text-sm hover:border-(--accent)">Refresh</button>
+                  </div>
+
+                  {inviteSettings && (
+                    <p className="text-xs text-(--muted)">Source: {inviteSettings.source} | Updated: {formatTimestamp(inviteSettings.updatedAt)}</p>
+                  )}
+
+                  <div className="grid gap-2 md:grid-cols-[1fr_180px_auto_auto]">
+                    <input
+                      value={inviteCodeInput}
+                      onChange={(event) => setInviteCodeInput(event.target.value)}
+                      placeholder="Staff invite code"
+                      className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm"
+                    />
+                    <select
+                      value={inviteRoleInput}
+                      onChange={(event) => setInviteRoleInput(event.target.value as InviteStaffRole)}
+                      className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm"
+                    >
+                      <option value="host">Host</option>
+                      <option value="reviewer">Reviewer</option>
+                      <option value="author">Author</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                    <button
+                      type="button"
+                      onClick={() => void saveInviteSettings(false)}
+                      disabled={inviteLoading || !inviteCodeInput.trim()}
+                      className="min-h-11 rounded-lg bg-(--accent) px-3 py-2 text-sm font-medium text-white disabled:opacity-50"
+                    >
+                      Save
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => void saveInviteSettings(true)}
+                      disabled={inviteLoading}
+                      className="min-h-11 rounded-lg border border-(--border) px-3 py-2 text-sm hover:border-(--accent) disabled:opacity-50"
+                    >
+                      Rotate
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <h3 className="text-sm font-semibold">Users</h3>
+                    <p className="text-xs text-(--muted)">Manage account roles and activation state.</p>
+                  </div>
+                  <button type="button" onClick={() => void fetchUsers()} className="min-h-11 rounded-lg border border-(--border) px-3 py-2 text-sm hover:border-(--accent)">Refresh</button>
+                </div>
+
+                {usersLoading && <EmptyState text="Loading users..." />}
+
+                {!usersLoading && managedUsers.length > 0 && (
+                  <div className="space-y-2">
+                    {managedUsers.map((user) => (
+                      <div key={user.id} className="rounded-lg border border-(--border) p-3">
+                        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                          <div>
+                            <p className="font-medium">{user.displayName} <span className="text-xs text-(--muted)">({user.email})</span></p>
+                            <p className="text-xs text-(--muted)">Account: {user.accountType} | Last login: {formatTimestamp(user.lastLoginAt)}{user.id === currentUser.id ? " | Current session" : ""}</p>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <select
+                              value={user.role}
+                              onChange={(event) => void updateManagedUser({ userId: user.id, role: event.target.value as ManagedUser["role"] })}
+                              disabled={updatingUserId === user.id || user.id === currentUser.id}
+                              className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm"
+                            >
+                              {Object.entries(roleLabels).map(([role, label]) => <option key={role} value={role}>{label}</option>)}
+                            </select>
+                            <select
+                              value={user.status}
+                              onChange={(event) => void updateManagedUser({ userId: user.id, status: event.target.value as ManagedUser["status"] })}
+                              disabled={updatingUserId === user.id || user.id === currentUser.id}
+                              className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm"
+                            >
+                              <option value="active">active</option>
+                              <option value="inactive">inactive</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {!usersLoading && managedUsers.length === 0 && <EmptyState text="No user accounts found." />}
+              </div>
+            )}
           </Panel>
         )}
       </div>
@@ -1112,7 +1405,7 @@ function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-lg border border-(--border) bg-background px-3 py-2">
       <p className="text-xs text-(--muted)">{label}</p>
-      <p className="mt-1 break-words text-sm font-medium">{value}</p>
+      <p className="mt-1 wrap-break-word text-sm font-medium">{value}</p>
     </div>
   );
 }

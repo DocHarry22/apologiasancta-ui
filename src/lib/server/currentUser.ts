@@ -6,6 +6,9 @@ export interface CurrentUser {
   id: string;
   displayName: string;
   role: Role;
+  accountType: "staff" | "public";
+  phone?: string | null;
+  passwordChangedAt?: string | null;
   source: "database" | "transitional_env" | "json_user_store";
 }
 
@@ -41,6 +44,9 @@ export async function getCurrentUser(userId?: string): Promise<CurrentUser> {
       id: user.id,
       displayName: user.displayName,
       role: user.role,
+      accountType: user.accountType,
+      phone: user.phone ?? null,
+      passwordChangedAt: user.passwordChangedAt ?? null,
       source: "database",
     };
   }
@@ -51,6 +57,8 @@ export async function getCurrentUser(userId?: string): Promise<CurrentUser> {
       id: user.id,
       displayName: user.displayName,
       role: user.role,
+      accountType: user.role === "viewer" ? "public" : "staff",
+      passwordChangedAt: null,
       source: "json_user_store",
     };
   } catch {
@@ -62,6 +70,8 @@ export async function getCurrentUser(userId?: string): Promise<CurrentUser> {
     id: "local-author",
     displayName: "Author",
     role: resolveDefaultRole(),
+    accountType: "staff",
+    passwordChangedAt: null,
     source: "transitional_env",
   };
 }

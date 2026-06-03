@@ -1,10 +1,30 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { InstallActions } from "@/components/home/InstallActions";
 import { getAndroidApkUrl, isEngineConfigured } from "@/lib/publicEnv";
 import { CapacitorRedirect } from "@/components/native/CapacitorRedirect";
+import { getRoleHomePath } from "@/lib/auth/access";
+import { readSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
+import { getCurrentUser } from "@/lib/server/currentUser";
 
-export default function Home() {
+export default async function Home() {
+  const cookieStore = await cookies();
+  const sessionValue = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+  const session = await readSessionCookie(sessionValue);
+  if (session) {
+    try {
+      const currentUser = await getCurrentUser(session.userId);
+      const homePath = getRoleHomePath(currentUser.role);
+      if (homePath === "/admin") {
+        redirect(homePath);
+      }
+    } catch {
+      // Keep the public homepage accessible if the user lookup fails.
+    }
+  }
+
   const authorEnabled = process.env.NEXT_PUBLIC_AUTHOR_ENABLED === "true";
   const engineConfigured = isEngineConfigured();
   const apkUrl = getAndroidApkUrl();
@@ -131,7 +151,7 @@ export default function Home() {
             {/* Author Card (conditional) */}
             {authorEnabled && (
               <Link
-                href="/author"
+                href="/admin"
                 className="group relative rounded-xl border border-(--border) bg-(--card) p-6 transition-all hover:border-(--accent) hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--accent) focus-visible:ring-offset-2 focus-visible:ring-offset-background md:col-span-2 lg:col-span-1"
               >
                 <div className="space-y-3">
@@ -148,7 +168,7 @@ export default function Home() {
                   </p>
                   <div className="pt-2">
                     <span className="inline-flex items-center gap-1 text-sm font-medium text-(--accent) group-hover:gap-2 transition-all">
-                      Open Author
+                      Open Dashboard
                       <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                       </svg>

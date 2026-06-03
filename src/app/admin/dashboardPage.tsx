@@ -2,7 +2,9 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { listPublishedQuestionRecords, listTopicsWithCounts } from "@/lib/content";
 import { readSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
+import { isStaffRole } from "@/lib/auth/access";
 import { getCurrentUser } from "@/lib/server/currentUser";
+import { isSessionFreshForUser } from "@/lib/server/sessionFreshness";
 import AuthorDashboardMounted from "@/components/author/AuthorDashboardMounted";
 
 export type DashboardTab = "overview" | "live" | "rooms" | "bank" | "authoring" | "review" | "topics" | "audit" | "settings";
@@ -21,6 +23,14 @@ export async function renderAdminDashboard(initialTab: DashboardTab, nextPath: s
     listPublishedQuestionRecords(),
     getCurrentUser(session.userId),
   ]);
+
+  if (!isSessionFreshForUser(session, currentUser)) {
+    redirect(`${nextPath.startsWith("/admin") ? "/admin" : "/author"}/login?next=${encodeURIComponent(nextPath)}`);
+  }
+
+  if (!isStaffRole(currentUser.role)) {
+    redirect("/");
+  }
 
   return (
     <AuthorDashboardMounted

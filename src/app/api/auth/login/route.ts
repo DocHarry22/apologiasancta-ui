@@ -6,6 +6,7 @@ import {
   SESSION_MAX_AGE_SECONDS,
 } from "@/lib/auth/session";
 import { CSRF_COOKIE_NAME, generateCsrfToken } from "@/lib/csrf";
+import { getRoleHomePath } from "@/lib/auth/access";
 import { authenticateAdminUser } from "@/lib/server/adminUserStore";
 
 export async function POST(req: NextRequest) {
@@ -63,6 +64,7 @@ export async function POST(req: NextRequest) {
   const csrfToken = await generateCsrfToken(sessionValue);
   const response = NextResponse.json({
     ok: true,
+    redirectTo: getRoleHomePath(user.role),
     user: {
       id: user.id,
       email: user.email,

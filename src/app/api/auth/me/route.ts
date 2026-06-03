@@ -12,6 +12,8 @@ export async function GET(request: NextRequest) {
       id: auth.user.id,
       displayName: auth.user.displayName,
       role: auth.user.role,
+      accountType: auth.user.accountType,
+      phone: auth.user.phone ?? null,
     },
     permissions: rolePermissions[auth.user.role],
   });

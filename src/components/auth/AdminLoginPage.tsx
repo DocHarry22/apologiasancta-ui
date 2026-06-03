@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type FormState = "idle" | "loading" | "error";
 
@@ -11,12 +11,22 @@ interface Props {
   allowedNextPrefixes: string[];
 }
 
+interface LoginPayload {
+  redirectTo?: string;
+  error?: string;
+}
+
 export default function AdminLoginPage({ defaultNextPath, allowedNextPrefixes }: Props) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [state, setState] = useState<FormState>("idle");
   const [error, setError] = useState("");
+  const reason = searchParams.get("reason");
+  const reasonMessage = reason === "session_expired"
+    ? "Your session expired or was revoked. Please sign in again."
+    : "";
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,11 +43,13 @@ export default function AdminLoginPage({ defaultNextPath, allowedNextPrefixes }:
       });
 
       if (response.ok) {
+        const payload = (await response.json().catch(() => null)) as LoginPayload | null;
         const params = new URLSearchParams(window.location.search);
         const candidate = params.get("next");
+        const fallbackPath = payload?.redirectTo || defaultNextPath;
         const nextPath = candidate && allowedNextPrefixes.some((prefix) => candidate.startsWith(prefix))
           ? candidate
-          : defaultNextPath;
+          : fallbackPath;
         router.push(nextPath);
         router.refresh();
         return;
@@ -71,6 +83,12 @@ export default function AdminLoginPage({ defaultNextPath, allowedNextPrefixes }:
           <h1 className="text-2xl font-semibold">Sign in</h1>
           <p className="text-sm text-(--muted)">Enter your admin email and password to access the dashboard.</p>
         </div>
+
+        {reasonMessage && !error && (
+          <p className="text-xs rounded-md border border-sky-500/30 bg-sky-500/10 text-sky-300 px-3 py-2">
+            {reasonMessage}
+          </p>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-3">
           <label className="block space-y-1">
@@ -116,16 +134,21 @@ export default function AdminLoginPage({ defaultNextPath, allowedNextPrefixes }:
           <Link href="/mobile" className="text-(--muted) hover:text-(--accent)">
             Back to Quiz
           </Link>
-          <button
-            type="button"
-            onClick={async () => {
-              await fetch("/api/auth/logout", { method: "POST" });
-              router.refresh();
-            }}
-            className="text-(--muted) hover:text-(--accent)"
-          >
-            Clear session
-          </button>
+          <div className="flex items-center gap-3">
+            <Link href="/signup" className="text-(--muted) hover:text-(--accent)">
+              Sign up
+            </Link>
+            <button
+              type="button"
+              onClick={async () => {
+                await fetch("/api/auth/logout", { method: "POST" });
+                router.refresh();
+              }}
+              className="text-(--muted) hover:text-(--accent)"
+            >
+              Clear session
+            </button>
+          </div>
         </div>
       </section>
     </main>

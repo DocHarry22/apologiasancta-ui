@@ -1,7 +1,9 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { SESSION_COOKIE_NAME, SESSION_MAX_AGE_SECONDS, verifySessionCookie } from "@/lib/auth/session";
+import { readSessionCookie, SESSION_COOKIE_NAME, SESSION_MAX_AGE_SECONDS } from "@/lib/auth/session";
 import { CSRF_COOKIE_NAME, generateCsrfToken } from "@/lib/csrf";
+import { getCurrentUser } from "@/lib/server/currentUser";
+import { isSessionFreshForUser } from "@/lib/server/sessionFreshness";
 
 /**
  * GET /api/auth/csrf
@@ -15,8 +17,13 @@ export async function GET() {
   const cookieStore = await cookies();
   const sessionValue = cookieStore.get(SESSION_COOKIE_NAME)?.value;
 
-  const isValid = await verifySessionCookie(sessionValue);
-  if (!isValid || !sessionValue) {
+  const session = await readSessionCookie(sessionValue);
+  if (!session || !sessionValue) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const currentUser = await getCurrentUser(session.userId);
+  if (!isSessionFreshForUser(session, currentUser)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
