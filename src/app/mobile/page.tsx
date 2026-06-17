@@ -38,7 +38,7 @@ import {
   getPhaseCopy,
   type AnswerSubmissionState,
 } from "@/lib/mobileUx";
-import type { Leaderboard, QuizState, QuizPhase, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent, CongratsEvent, RoomSummary } from "@/types/quiz";
+import type { Leaderboard, QuizState, QuizPhase, TopicStartEvent, RoomSummary } from "@/types/quiz";
 
 // Backend URL from environment (optional)
 const ENGINE_URL = getEngineUrl();
@@ -180,7 +180,6 @@ function MobilePageContent() {
     roomId,
     roomName,
     roomNotice,
-    setRoomNotice,
     applyRoomSelection,
   } = useRoomSelectionBootstrap(searchParams);
   const [isRoomPickerOpen, setIsRoomPickerOpen] = useState(false);
@@ -400,7 +399,7 @@ function MobilePageContent() {
       cancelled = true;
       window.clearInterval(intervalId);
     };
-  }, [ENGINE_URL, isUsingSSE, leaderboardMode, roomId, leaderboardRefreshKey]);
+  }, [isUsingSSE, leaderboardMode, roomId, leaderboardRefreshKey]);
 
   const leaderboardState = useMemo(() => {
     return remoteLeaderboard ?? quizState.leaderboard;

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { LiveHeroBanner } from "@/components/native/LiveHeroBanner";
 import { TopicsScroll } from "@/components/native/TopicsScroll";
@@ -12,6 +12,9 @@ import topicsIndex from "@/../content/topics/index.json";
 export const metadata: Metadata = {
   title: "Apologia Sancta",
   description: "Defend the Faith. Learn the Truth.",
+};
+
+export const viewport: Viewport = {
   themeColor: "#d4af37",
 };
 
