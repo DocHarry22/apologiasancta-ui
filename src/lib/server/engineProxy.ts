@@ -80,7 +80,7 @@ function auditLog(entry: {
  */
 const SAFE_SEGMENT = /^[a-zA-Z0-9_-]+$/;
 
-type AllowedMethod = "GET" | "POST";
+type AllowedMethod = "GET" | "POST" | "PATCH";
 
 interface RouteRule {
   /** Tested against path segments joined with "/". */
@@ -196,6 +196,7 @@ function requiredPermissionForRoute(path: string, method: string): Permission {
   if (method === "GET" && /^rooms\/[a-zA-Z0-9_-]+\/status$/.test(path)) return "overview:view";
   if (method === "GET" && path === "content/status") return "content:view";
   if (method === "GET" && path === "rooms") return "rooms:manage";
+  if (/^releases(?:\\/|$)/.test(path)) return "audit:view";
   if (method === "GET" && /(^|\/)topic\/sequence$/.test(path)) return "topic_sequence:manage";
 
   if (/content\/import$/.test(path)) return "content:import";
