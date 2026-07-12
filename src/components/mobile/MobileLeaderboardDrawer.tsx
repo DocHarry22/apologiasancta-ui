@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { LeaderboardPeriod, LeaderboardScope, ScorerWithChange, StreakerWithChange } from "@/types/quiz";
 import type { LeaderboardMode } from "./LeaderboardColumn";
+import { getLeaderboardMode, getLeaderboardTab, type LeaderboardDrawerTab } from "@/lib/mobileUx";
 
-type DrawerTab = "room" | "global" | "streaks" | "daily" | "weekly" | "alltime";
+type DrawerTab = LeaderboardDrawerTab;
 
 interface MobileLeaderboardDrawerProps {
   open: boolean;
@@ -25,19 +26,11 @@ interface MobileLeaderboardDrawerProps {
 
 const TABS: Array<{ id: DrawerTab; label: string }> = [
   { id: "room", label: "Room" },
-  { id: "global", label: "Global" },
-  { id: "streaks", label: "Streaks" },
   { id: "daily", label: "Daily" },
   { id: "weekly", label: "Weekly" },
-  { id: "alltime", label: "All-time" },
+  { id: "global", label: "Global" },
+  { id: "streaks", label: "Streaks" },
 ];
-
-function tabForMode(mode: LeaderboardMode): DrawerTab {
-  if (mode === "global-all-time") return "global";
-  if (mode === "room-daily") return "room";
-  if (mode === "room-weekly") return "weekly";
-  return "room";
-}
 
 function RankMedal({ rank }: { rank: number }) {
   const medalClass =
@@ -139,24 +132,40 @@ export function MobileLeaderboardDrawer({
   lastUpdatedMs = null,
   onRefresh,
 }: MobileLeaderboardDrawerProps) {
-  const [activeTab, setActiveTab] = useState<DrawerTab>(() => tabForMode(selectedMode));
+  const [activeTab, setActiveTab] = useState<DrawerTab>(() => getLeaderboardTab(selectedMode));
   const prefersReducedMotion = useReducedMotion();
+  const onCloseRef = useRef(onClose);
   const title = scope === "global" ? "Global Ranking" : roomName || "Global Room";
 
-  const visibleScores = useMemo(() => scorers.slice(0, activeTab === "global" || activeTab === "room" ? 5 : 10), [activeTab, scorers]);
+  const visibleScores = useMemo(() => scorers.slice(0, 10), [scorers]);
   const lastUpdatedLabel = lastUpdatedMs ? new Date(lastUpdatedMs).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "not yet";
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
+  useEffect(() => {
+    if (open) setActiveTab(getLeaderboardTab(selectedMode));
+  }, [open, selectedMode]);
+
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onCloseRef.current();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
 
   const handleTab = (tab: DrawerTab) => {
     setActiveTab(tab);
-    if (tab === "global") {
-      onModeChange("global-all-time");
-    } else if (tab === "daily") {
-      onModeChange("room-daily");
-    } else if (tab === "weekly") {
-      onModeChange("room-weekly");
-    } else {
-      onModeChange("room-all-time");
-    }
+    const mode = getLeaderboardMode(tab);
+    if (mode) onModeChange(mode);
   };
 
   return (
@@ -205,15 +214,17 @@ export function MobileLeaderboardDrawer({
             </div>
 
             <div className="px-5">
-              <div className="grid grid-cols-3 overflow-hidden rounded-xl border border-(--mobile-border) bg-(--mobile-elevated)">
+              <div role="tablist" aria-label="Leaderboard views" className="grid grid-cols-5 overflow-hidden rounded-xl border border-(--mobile-border) bg-(--mobile-elevated)">
                 {TABS.map((tab) => {
                   const active = tab.id === activeTab;
                   return (
                     <button
                       key={tab.id}
                       type="button"
+                      role="tab"
+                      aria-selected={active}
                       onClick={() => handleTab(tab.id)}
-                      className={`min-h-11 border-r border-(--mobile-border) px-2 text-sm font-semibold last:border-r-0 ${
+                      className={`min-h-11 border-r border-(--mobile-border) px-1 text-xs font-semibold last:border-r-0 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-(--accent) ${
                         active ? "bg-linear-to-r from-[#d9a51c] to-[#b98512] text-white" : "text-(--mobile-muted)"
                       }`}
                     >
@@ -232,8 +243,8 @@ export function MobileLeaderboardDrawer({
                 <div className="mb-3 rounded-xl border border-(--mobile-border) bg-(--mobile-elevated) px-3 py-2 text-sm text-(--mobile-muted)">Updating leaderboard...</div>
               ) : null}
 
-              {(activeTab === "global" || activeTab === "room" || activeTab === "daily" || activeTab === "weekly" || activeTab === "alltime") ? (
-                <ScoreRows scorers={activeTab === "alltime" ? scorers : visibleScores} />
+              {activeTab !== "streaks" ? (
+                <ScoreRows scorers={visibleScores} />
               ) : (
                 <StreakRows streakers={streakers} />
               )}
