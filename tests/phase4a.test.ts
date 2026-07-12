@@ -13,6 +13,11 @@ test("workflow store implements durable create, list, transitions, and publish v
   assert.ok(workflowStore.includes("transitionWorkflowItem"));
   assert.ok(workflowStore.includes('nextStatus === "published"'));
   assert.ok(workflowStore.includes("hasBlockingValidationIssues"));
+  assert.ok(workflowStore.includes("workflowMutationQueue"));
+  assert.ok(workflowStore.includes("assertUniqueQuestionId"));
+  assert.ok(workflowStore.includes("WorkflowConflictError"));
+  assert.ok(workflowStore.includes('!["submitted", "approved", "published"].includes(status)'));
+  assert.ok(workflowStore.includes("A reviewer comment is required"));
   assert.ok(workflowStore.includes('publishTarget: nextStatus === "published" ? "workflow_store"'));
   assert.ok(workflowPermissions.includes("item.authorId === userId"));
   assert.ok(workflowPermissions.includes("content:review"));
@@ -57,6 +62,8 @@ test("workflow and audit routes enforce session, permissions, CSRF, and audit wr
   assert.ok(workflowApi.includes("appendAuditEvent"));
   assert.ok(workflowApi.includes("canReviewWorkflowItem"));
   assert.ok(workflowApi.includes("canPublishWorkflowItem"));
+  assert.ok(workflowApi.includes("WorkflowConflictError"));
+  assert.ok(workflowApi.includes("409"));
   assert.ok(itemsRoute.includes("createWorkflowRoute"));
   assert.ok(auditRoute.includes("audit:view"));
   assert.ok(meRoute.includes("permissions"));
