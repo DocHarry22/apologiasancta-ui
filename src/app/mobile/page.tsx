@@ -843,7 +843,7 @@ function MobilePageContent() {
               </div>
             )}
 
-            <div className="space-y-2 px-4 pt-3">
+            <div className="quiz-mobile-status-stack space-y-2 px-4 pt-3">
               <PhaseStatusPanel
                 title={phaseCopy.title}
                 detail={phaseCopy.detail}
@@ -863,7 +863,7 @@ function MobilePageContent() {
             
             {/* Main content area - can be overlayed by CongratsOverlay */}
             <div className="relative mx-auto flex w-full max-w-screen flex-1 flex-col pb-28 lg:max-w-none lg:pb-0">
-          <div className="relative mx-4 mt-3 grid grid-cols-2 overflow-hidden rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) shadow-[0_10px_28px_var(--mobile-shadow)] lg:hidden">
+          <div className="quiz-mobile-score-summary relative mx-4 mt-3 grid grid-cols-2 overflow-hidden rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) shadow-[0_10px_28px_var(--mobile-shadow)] lg:hidden">
             <div className="relative px-5 py-4">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-(--mobile-muted)">
                 <svg className="h-4 w-4 text-[#c99516]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -871,7 +871,7 @@ function MobilePageContent() {
                 </svg>
                 Score
               </div>
-              <div className="mt-1 text-3xl font-bold tabular-nums text-(--mobile-text)">{playerData.totalPoints}</div>
+              <div className="quiz-mobile-score-value mt-1 text-3xl font-bold tabular-nums text-(--mobile-text)">{playerData.totalPoints}</div>
               <ScoreBurst points={scoreBurstPoints} eventKey={scoreBurstKey} />
             </div>
             <div className="relative border-l border-(--mobile-border-strong) px-5 py-4">
@@ -881,11 +881,11 @@ function MobilePageContent() {
                 </svg>
                 Streak
               </div>
-              <div className="mt-1 text-3xl font-bold tabular-nums text-(--mobile-text)">{playerData.streak}</div>
+              <div className="quiz-mobile-score-value mt-1 text-3xl font-bold tabular-nums text-(--mobile-text)">{playerData.streak}</div>
               <StreakToast streak={playerData.streak} eventKey={streakToastKey} />
             </div>
           </div>
-          <div className="mx-4 mt-2 rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) px-4 py-3 text-(--mobile-text) shadow-[0_8px_20px_var(--mobile-shadow)] lg:hidden">
+          <div className="quiz-mobile-player-details mx-4 mt-2 rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) px-4 py-3 text-(--mobile-text) shadow-[0_8px_20px_var(--mobile-shadow)] lg:hidden">
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div className="min-w-0">
                 <p className="font-semibold uppercase tracking-[0.14em] text-(--mobile-muted)">Player</p>
@@ -905,7 +905,7 @@ function MobilePageContent() {
               </div>
             </div>
           </div>
-          <div className="mx-4 mt-2 rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) px-4 py-3 lg:hidden">
+          <div className="quiz-mobile-top-three mx-4 mt-2 rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) px-4 py-3 lg:hidden">
             <div className="flex items-center justify-between gap-3">
               <p className="text-xs font-bold uppercase tracking-[0.14em] text-(--mobile-muted)">Top 3</p>
               <button
