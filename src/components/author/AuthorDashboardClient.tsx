@@ -303,6 +303,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   const [loadingStatus, setLoadingStatus] = useState(true);
   const [message, setMessage] = useState<Message | null>(null);
   const [pendingDanger, setPendingDanger] = useState<PendingAction | null>(null);
+  const [loggingOut, setLoggingOut] = useState(false);
   const [managedUsers, setManagedUsers] = useState<ManagedUser[]>([]);
   const [usersLoading, setUsersLoading] = useState(false);
   const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
@@ -706,6 +707,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   };
 
   const handleLogout = () => {
+    setLoggingOut(true);
     const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
     const form = document.createElement("form");
     form.method = "POST";
