@@ -12,7 +12,6 @@ import topicsIndex from "@/../content/topics/index.json";
 export const metadata: Metadata = {
   title: "Apologia Sancta",
   description: "Defend the Faith. Learn the Truth.",
-  themeColor: "#d4af37",
 };
 
 const RESEARCH_URL = "https://github.com/DocHarry22/apologia-graph";
