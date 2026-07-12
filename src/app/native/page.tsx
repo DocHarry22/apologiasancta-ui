@@ -29,7 +29,7 @@ export default function NativeHome() {
     // Force dark theme for the APK home regardless of user setting
     <div
       data-theme="dark"
-      className="relative flex min-h-screen flex-col"
+      className="relative mx-auto flex min-h-screen w-full max-w-5xl flex-col"
       style={{ background: "var(--mobile-bg)", color: "var(--mobile-text)" }}
     >
       {/* ── TOP BAR ─────────────────────────────────────────────── */}
