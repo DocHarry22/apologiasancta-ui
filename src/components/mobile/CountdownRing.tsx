@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import type { QuizPhase } from "@/types/quiz";
+import { getCountdownProgress } from "@/lib/mobileUx";
 
 interface CountdownRingProps {
   /** Unix timestamp (ms) when timer ends */
@@ -72,7 +73,7 @@ export function CountdownRing({ endsAtMs, durationSeconds, phase = "OPEN" }: Cou
     };
   }, [endsAtMs, phase]);
 
-  const progress = (secondsLeft / durationSeconds) * 100;
+  const progress = getCountdownProgress(secondsLeft, durationSeconds);
   const circumference = 2 * Math.PI * 42; // radius = 42
   const strokeDashoffset = circumference - (progress / 100) * circumference;
   const isUrgent = secondsLeft <= 5 && secondsLeft > 0;
@@ -87,12 +88,11 @@ export function CountdownRing({ endsAtMs, durationSeconds, phase = "OPEN" }: Cou
 
   return (
     <div 
-      className="flex flex-col items-center py-4 lg:py-3"
+      className="quiz-countdown flex flex-col items-center py-4 lg:py-3"
       role="timer"
-      aria-live="polite"
       aria-label={`${secondsLeft} seconds remaining`}
     >
-      <div className={`relative h-32 w-32 sm:h-36 sm:w-36 lg:h-24 lg:w-24 ${isUrgent ? "timer-urgent" : ""}`}>
+      <div className={`quiz-countdown-ring relative h-32 w-32 sm:h-36 sm:w-36 lg:h-28 lg:w-28 ${isUrgent ? "timer-urgent" : ""}`}>
         <svg 
           className="w-full h-full transform -rotate-90" 
           viewBox="0 0 100 100"
@@ -137,7 +137,7 @@ export function CountdownRing({ endsAtMs, durationSeconds, phase = "OPEN" }: Cou
             <path d="M12 7v5l3 2" />
           </svg>
           <span
-            className={`text-3xl font-bold tabular-nums leading-none transition-colors duration-300 lg:text-xl ${
+            className={`text-3xl font-bold tabular-nums leading-none transition-colors duration-300 lg:text-2xl ${
                   isUrgent ? "text-(--timer-urgent)" : "text-foreground"
             }`}
           >
@@ -146,7 +146,7 @@ export function CountdownRing({ endsAtMs, durationSeconds, phase = "OPEN" }: Cou
         </div>
       </div>
       <span 
-        className={`mt-2 text-sm font-bold uppercase tracking-[0.22em] transition-colors duration-300 lg:mt-1 lg:text-[10px] ${
+        className={`mt-2 text-sm font-bold uppercase tracking-[0.22em] transition-colors duration-300 lg:mt-1 lg:text-xs ${
           isUrgent ? "text-(--timer-urgent)" : "text-(--accent)"
         }`}
       >
