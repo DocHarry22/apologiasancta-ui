@@ -89,6 +89,38 @@ export interface ContentWorkflowEvent {
   summary: string;
 }
 
+export function getWorkflowQuestionId(item: Pick<DraftQuestion, "id" | "questionId">): string {
+  return item.questionId?.trim() || item.id;
+}
+
+export function getNextQuestionId(existingIds: string[], prefix: string): string {
+  const safePrefix = prefix.replace(/[^a-z0-9]/gi, "").toLowerCase() || "que";
+  const pattern = new RegExp(`^${safePrefix}_(\\d+)$`, "i");
+  let maxNumber = 0;
+
+  for (const id of existingIds) {
+    const match = id.match(pattern);
+    if (match) maxNumber = Math.max(maxNumber, Number.parseInt(match[1], 10));
+  }
+
+  return `${safePrefix}_${String(maxNumber + 1).padStart(4, "0")}`;
+}
+
+export function hasQuestionFormContent(question: Partial<Pick<DraftQuestion, "question" | "choices" | "teaching" | "tags">>): boolean {
+  return Boolean(
+    question.question?.trim()
+    || Object.values(question.choices ?? {}).some((choice) => choice?.trim())
+    || question.teaching?.title?.trim()
+    || question.teaching?.body?.trim()
+    || question.teaching?.refs?.some((reference) => reference.trim())
+    || question.tags?.some((tag) => tag.trim())
+  );
+}
+
+export function requiresReviewComment(status: ReviewStatus): boolean {
+  return status === "rejected" || status === "changes_requested";
+}
+
 const allowedTransitions: Record<ReviewStatus, readonly ReviewStatus[]> = {
   draft: ["submitted", "archived"],
   submitted: ["changes_requested", "approved", "rejected", "archived"],
