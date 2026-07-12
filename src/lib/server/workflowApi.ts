@@ -7,6 +7,7 @@ import { canCreateWorkflow, canEditWorkflowItem, canPublishWorkflowItem, canRevi
 import { forbidden, readJsonBody, requireAuthorSession, requireCsrf, safeJson } from "./apiAuth";
 import type { AuditEventType } from "./storage/types";
 import type { ReviewStatus } from "@/lib/contentWorkflow";
+import { publishQuestionToEngine, type EnginePublishResult } from "./engineProxy";
 
 async function contentContext() {
   const [topics, published] = await Promise.all([listTopicsWithCounts(), listPublishedQuestionRecords()]);
@@ -129,6 +130,23 @@ export async function transitionWorkflowRoute(request: NextRequest, id: string, 
 
   const body = await readJsonBody(request);
   const { topicIds, existingIds } = await contentContext();
+  let enginePublish: Extract<EnginePublishResult, { ok: true }> | undefined;
+  if (nextStatus === "published") {
+    const result = await publishQuestionToEngine({
+      id: item.questionId,
+      topicId: item.topicId,
+      difficulty: item.difficulty,
+      question: item.question,
+      choices: item.choices,
+      correctId: item.correctId,
+      teaching: item.teaching,
+      tags: item.tags,
+    });
+    if (!result.ok) {
+      return safeJson({ ok: false, error: result.error }, result.status >= 400 && result.status <= 599 ? result.status : 502);
+    }
+    enginePublish = result;
+  }
   try {
     const updated = await transitionWorkflowItem(item.id, nextStatus, auth.user, {
       comment: typeof body.comment === "string" ? body.comment : undefined,
@@ -136,6 +154,7 @@ export async function transitionWorkflowRoute(request: NextRequest, id: string, 
       referenceFlag: body.referenceFlag === true,
       topicIds,
       existingIds,
+      publishTarget: nextStatus === "published" ? "engine" : undefined,
     });
     await appendAuditEvent({
       actor: auth.user,
@@ -147,9 +166,9 @@ export async function transitionWorkflowRoute(request: NextRequest, id: string, 
       path: request.nextUrl.pathname,
       ip: getClientIp(request),
       userAgent: request.headers.get("user-agent") ?? undefined,
-      metadata: { questionId: updated.questionId, topicId: updated.topicId, publishTarget: updated.publishTarget },
+      metadata: { questionId: updated.questionId, topicId: updated.topicId, publishTarget: updated.publishTarget, engineBankSize: enginePublish?.data.bankSize },
     });
-    return safeJson({ ok: true, item: updated, publishTarget: updated.publishTarget });
+    return safeJson({ ok: true, item: updated, publishTarget: updated.publishTarget, publishResult: enginePublish?.data });
   } catch (error) {
     return safeJson({ ok: false, error: error instanceof Error ? error.message : "Workflow transition failed" }, 400);
   }
