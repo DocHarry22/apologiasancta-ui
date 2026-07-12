@@ -6,7 +6,7 @@ import { transitionStatus, canTransitionStatus, type DraftQuestion } from "../sr
 import { validateTopic } from "../src/lib/topicOperations.ts";
 import { buildTopicSequenceConfig, validateTopicSequenceConfig } from "../src/lib/topicSequence.ts";
 import { dangerousActions, isDangerConfirmationValid, requiresTypedConfirmation } from "../src/lib/dangerousActions.ts";
-import { getConnectionLabel, getMobileOnboardingState, getPhaseCopy, isAnswerInteractionDisabled, sanitizeRoomIdParam } from "../src/lib/mobileUx.ts";
+import { getConnectionLabel, getLeaderboardMode, getLeaderboardTab, getMobileOnboardingState, getPhaseCopy, isAnswerInteractionDisabled, sanitizeRoomIdParam } from "../src/lib/mobileUx.ts";
 
 const validQuestion = {
   id: "gen_0001",
@@ -124,4 +124,8 @@ test("Phase 4 mobile UX helpers classify onboarding, rooms, phases, and answer l
   }).title, "Answer now");
   assert.equal(isAnswerInteractionDisabled("OPEN", "a", "submitted"), true);
   assert.equal(isAnswerInteractionDisabled("OPEN", undefined, "idle"), false);
+  assert.equal(getLeaderboardTab("room-daily"), "daily");
+  assert.equal(getLeaderboardTab("room-weekly"), "weekly");
+  assert.equal(getLeaderboardMode("streaks"), null);
+  assert.equal(getLeaderboardMode("global"), "global-all-time");
 });
