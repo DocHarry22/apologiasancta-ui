@@ -706,14 +706,13 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     setLoading(false);
   };
 
-  const handleLogout = async () => {
-    setLoggingOut(true);
-    try {
-      await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
-    } finally {
-      const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
-      window.location.href = `${basePath}/login`;
-    }
+  const handleLogout = () => {
+    const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = `/api/auth/logout?next=${encodeURIComponent(`${basePath}/login`)}`;
+    document.body.appendChild(form);
+    form.submit();
   };
 
   const engineAction = async (action: "start" | "resume" | "pause" | "next" | "reset") => {
