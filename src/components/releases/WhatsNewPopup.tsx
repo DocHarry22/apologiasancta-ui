@@ -5,26 +5,42 @@ import { getEngineUrl } from "@/lib/publicEnv";
 import type { ReleaseNotification } from "@/types/releases";
 
 const SEEN_KEY = "apologia-seen-release";
+export const SHOW_WHATS_NEW_EVENT = "apologia:show-whats-new";
 
 export function WhatsNewPopup() {
   const [release, setRelease] = useState<ReleaseNotification | null>(null);
+  const latestReleaseRef = useRef<ReleaseNotification | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const engineUrl = getEngineUrl();
     if (!engineUrl) return;
     const controller = new AbortController();
-    fetch(`${engineUrl}/releases/latest`, { signal: controller.signal })
+    const loadLatest = (forceOpen = false) => fetch(`${engineUrl}/releases/latest`, { signal: controller.signal })
       .then((response) => response.ok ? response.json() : Promise.reject())
       .then((payload: { release?: ReleaseNotification | null }) => {
         const latest = payload.release;
-        if (latest && window.localStorage.getItem(SEEN_KEY) !== `${latest.repository}:${latest.commitSha}`) {
+        latestReleaseRef.current = latest ?? null;
+        if (latest && (forceOpen || window.localStorage.getItem(SEEN_KEY) !== `${latest.repository}:${latest.commitSha}`)) {
           setRelease(latest);
           window.setTimeout(() => closeRef.current?.focus(), 0);
         }
       })
       .catch(() => undefined);
-    return () => controller.abort();
+    void loadLatest();
+    const showLatest = () => {
+      if (latestReleaseRef.current) {
+        setRelease(latestReleaseRef.current);
+        window.setTimeout(() => closeRef.current?.focus(), 0);
+      } else {
+        void loadLatest(true);
+      }
+    };
+    window.addEventListener(SHOW_WHATS_NEW_EVENT, showLatest);
+    return () => {
+      controller.abort();
+      window.removeEventListener(SHOW_WHATS_NEW_EVENT, showLatest);
+    };
   }, []);
 
   const dismiss = () => {
