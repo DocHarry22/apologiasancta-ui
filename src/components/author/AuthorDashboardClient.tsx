@@ -14,7 +14,7 @@ import { validateQuestion, hasBlockingValidationIssues, type ValidationIssue } f
 import { validateTopic } from "@/lib/topicOperations";
 import { buildTopicSequenceConfig, validateTopicSequenceConfig } from "@/lib/topicSequence";
 import { dangerousActions, isDangerConfirmationValid, requiresTypedConfirmation, type DangerousActionDefinition } from "@/lib/dangerousActions";
-import type { DraftQuestion, ReviewStatus } from "@/lib/contentWorkflow";
+import { getNextQuestionId, getWorkflowQuestionId, hasQuestionFormContent, requiresReviewComment, type DraftQuestion, type ReviewStatus } from "@/lib/contentWorkflow";
 import type { AuditEvent } from "@/lib/server/storage/types";
 import AuthorForm from "./AuthorForm";
 import JsonPreview from "./JsonPreview";
@@ -69,21 +69,6 @@ function getDefaultPrefix(topicId: string): string {
   if (topicId === "christology") return "chr";
   const letters = topicId.replace(/[^a-z]/gi, "").toLowerCase();
   return letters.slice(0, 3) || "que";
-}
-
-function getNextQuestionId(existingIds: string[], prefix: string): string {
-  const pattern = new RegExp(`^${prefix}_(\\d+)$`, "i");
-  let maxNum = 0;
-
-  for (const id of existingIds) {
-    const match = id.match(pattern);
-    if (match) {
-      const num = parseInt(match[1], 10);
-      if (num > maxNum) maxNum = num;
-    }
-  }
-
-  return `${prefix}_${(maxNum + 1).toString().padStart(4, "0")}`;
 }
 
 function formatTimestamp(timestamp: number | string | null | undefined): string {
@@ -321,7 +306,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   const existingIds = useMemo(() => publishedQuestions.map((record) => record.question.id), [publishedQuestions]);
   const topicIds = useMemo(() => topics.map((topic) => topic.id), [topics]);
   const effectivePrefix = customPrefix || (selectedTopic ? getDefaultPrefix(selectedTopic.id) : "que");
-  const queuedIds = workflowItems.filter((item) => item.topicId === selectedTopicId).map((item) => item.id);
+  const queuedIds = workflowItems.filter((item) => item.topicId === selectedTopicId).map(getWorkflowQuestionId);
   const nextQuestionId = getNextQuestionId([...(selectedTopic?.existingIds || []), ...queuedIds], effectivePrefix);
 
   const [formData, setFormData] = useState<Partial<Question>>({
@@ -334,6 +319,16 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     teaching: { title: "", body: "", refs: [] },
     tags: [],
   });
+  const formIsDirty = hasQuestionFormContent(formData);
+
+  useEffect(() => {
+    if (!formIsDirty) return;
+    const warnBeforeLeaving = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+    };
+    window.addEventListener("beforeunload", warnBeforeLeaving);
+    return () => window.removeEventListener("beforeunload", warnBeforeLeaving);
+  }, [formIsDirty]);
 
   const fetchOperationalStatus = useCallback(async () => {
     setLoadingStatus(true);
@@ -557,9 +552,9 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   const draftValidationIssues = validateQuestion(questionJson, { topicIds, existingIds });
   const sequenceIssues = validateTopicSequenceConfig(sequenceConfig, topicIds);
 
-  const resetForm = () => {
+  const resetForm = (questionId = nextQuestionId) => {
     setFormData({
-      id: nextQuestionId,
+      id: questionId,
       topicId: selectedTopicId,
       difficulty: 3,
       question: "",
@@ -574,7 +569,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     setSelectedTopicId(topicId);
     const topic = topics.find((item) => item.id === topicId);
     const prefix = customPrefix || (topic ? getDefaultPrefix(topic.id) : "que");
-    const newId = getNextQuestionId([...(topic?.existingIds || []), ...workflowItems.filter((item) => item.topicId === topicId).map((item) => item.id)], prefix);
+    const newId = getNextQuestionId([...(topic?.existingIds || []), ...workflowItems.filter((item) => item.topicId === topicId).map(getWorkflowQuestionId)], prefix);
 
     setFormData((prev) => ({ ...prev, id: newId, topicId }));
   };
@@ -600,10 +595,16 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     });
     setLoading(false);
     if (response.ok) {
-      setWorkflowItems((items) => [response.data.item, ...items.filter((item) => item.id !== response.data.item.id)]);
+      const updatedItems = [response.data.item, ...workflowItems.filter((item) => item.id !== response.data.item.id)];
+      setWorkflowItems(updatedItems);
       setSelectedWorkflowId(response.data.item.id);
       setMessage({ type: "success", text: status === "submitted" ? "Draft submitted for review." : "Draft saved to workflow storage." });
-      resetForm();
+      const topic = topics.find((candidate) => candidate.id === response.data.item.topicId);
+      const nextId = getNextQuestionId(
+        [...(topic?.existingIds || []), ...updatedItems.filter((item) => item.topicId === response.data.item.topicId).map(getWorkflowQuestionId)],
+        effectivePrefix
+      );
+      resetForm(nextId);
       if (activeTab === "audit") void fetchAuditEvents();
     } else {
       setMessage({ type: "error", text: response.error || "Unable to save draft." });
@@ -633,6 +634,10 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
 
   const reviewWorkflowItem = async (item: DraftQuestion, status: "approved" | "rejected" | "changes_requested") => {
     if (!canReview) return;
+    if (requiresReviewComment(status) && !reviewComment.trim()) {
+      setMessage({ type: "error", text: "Add a reviewer comment before rejecting or requesting changes." });
+      return;
+    }
     const action = status === "changes_requested" ? "request-changes" : status === "approved" ? "approve" : "reject";
     setLoading(true);
     const response = await dashboardApi<{ ok: true; item: DraftQuestion }>(`/api/workflow/items/${encodeURIComponent(item.id)}/${action}`, {
@@ -679,7 +684,11 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   };
 
   const duplicateQuestion = (question: Question) => {
-    const duplicateId = getNextQuestionId([...(selectedTopic?.existingIds || []), ...workflowItems.map((item) => item.id)], getDefaultPrefix(question.topicId));
+    const targetTopic = topics.find((topic) => topic.id === question.topicId);
+    const duplicateId = getNextQuestionId(
+      [...(targetTopic?.existingIds || []), ...workflowItems.filter((item) => item.topicId === question.topicId).map(getWorkflowQuestionId)],
+      getDefaultPrefix(question.topicId)
+    );
     setSelectedTopicId(question.topicId);
     setFormData({
       ...question,
@@ -843,7 +852,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   }, [bankDifficultyFilter, bankSearch, bankStatusFilter, bankTagFilter, bankTopicFilter, existingIds, publishedQuestions, topicIds, topics, workflowItems]);
 
   const submittedItems = workflowItems.filter((item) => item.status === "submitted");
-  const ownDrafts = workflowItems.filter((item) => item.authorId === currentUser.id);
+  const ownDrafts = workflowItems.filter((item) => item.authorId === currentUser.id && item.status !== "archived");
   const filteredAuditEvents = auditEvents;
 
   return (
@@ -1070,15 +1079,16 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
                     nextQuestionId={nextQuestionId}
                     onDownload={() => downloadJson(questionJson)}
                     onCopy={() => void copyJson(questionJson)}
-                    onAddToQueue={() => void createDraftFromForm("draft")}
-                    onReset={resetForm}
+                    onReset={() => {
+                      if (!formIsDirty || window.confirm("Discard the unsaved question changes?")) resetForm();
+                    }}
                   />
                   <div className="space-y-4">
                     <JsonPreview question={questionJson} />
                     <ValidationPanel issues={draftValidationIssues} />
                     <div className="flex flex-wrap gap-2">
-                      <button type="button" onClick={() => void createDraftFromForm("draft")} className="min-h-11 rounded-lg border border-(--border) px-4 py-2 text-sm hover:border-(--accent) hover:text-(--accent)">Save Draft</button>
-                      <button type="button" onClick={() => void createDraftFromForm("submitted")} disabled={hasBlockingValidationIssues(draftValidationIssues)} className="min-h-11 rounded-lg bg-(--accent) px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Submit for Review</button>
+                      <button type="button" onClick={() => void createDraftFromForm("draft")} disabled={loading} className="min-h-11 rounded-lg border border-(--border) px-4 py-2 text-sm hover:border-(--accent) hover:text-(--accent) disabled:opacity-50">Save Draft</button>
+                      <button type="button" onClick={() => void createDraftFromForm("submitted")} disabled={loading || hasBlockingValidationIssues(draftValidationIssues)} className="min-h-11 rounded-lg bg-(--accent) px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Submit for Review</button>
                     </div>
                   </div>
                 </div>
@@ -1109,20 +1119,25 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
                 {selectedWorkflowItem ? (
                   <>
                     <QuestionDetail question={workflowQuestion(selectedWorkflowItem)} issues={validateQuestion(workflowQuestion(selectedWorkflowItem), { topicIds, existingIds })} canDuplicate={false} />
-                    <div className="space-y-2">
-                      <FieldLabel>Reviewer comment</FieldLabel>
-                      <textarea value={reviewComment} onChange={(event) => setReviewComment(event.target.value)} className="min-h-28 w-full rounded-lg border border-(--border) bg-background px-3 py-2 text-sm" />
-                      <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" checked={doctrinalFlag} onChange={(event) => setDoctrinalFlag(event.target.checked)} /> Flag doctrinal issue</label>
-                      <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" checked={referenceFlag} onChange={(event) => setReferenceFlag(event.target.checked)} /> Flag reference issue</label>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "approved")} className="min-h-11 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white">Approve</button>
-                      <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "changes_requested")} className="min-h-11 rounded-lg border border-yellow-500 px-4 py-2 text-sm text-yellow-300">Request Changes</button>
-                      <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "rejected")} className="min-h-11 rounded-lg border border-(--wrong) px-4 py-2 text-sm text-(--wrong)">Reject</button>
-                      {selectedWorkflowItem.status === "approved" && (
-                        <button type="button" onClick={() => void publishWorkflowItem(selectedWorkflowItem)} className="min-h-11 rounded-lg border border-green-500 px-4 py-2 text-sm text-green-300">Publish</button>
-                      )}
-                    </div>
+                    {selectedWorkflowItem.status === "submitted" && (
+                      <>
+                        <div className="space-y-2">
+                          <FieldLabel>Reviewer comment</FieldLabel>
+                          <textarea aria-describedby="review-comment-help" value={reviewComment} onChange={(event) => setReviewComment(event.target.value)} className="min-h-28 w-full rounded-lg border border-(--border) bg-background px-3 py-2 text-sm" />
+                          <p id="review-comment-help" className="text-xs text-(--muted)">Required when requesting changes or rejecting a question.</p>
+                          <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" checked={doctrinalFlag} onChange={(event) => setDoctrinalFlag(event.target.checked)} /> Flag doctrinal issue</label>
+                          <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" checked={referenceFlag} onChange={(event) => setReferenceFlag(event.target.checked)} /> Flag reference issue</label>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "approved")} disabled={loading} className="min-h-11 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Approve</button>
+                          <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "changes_requested")} disabled={loading || !reviewComment.trim()} className="min-h-11 rounded-lg border border-yellow-500 px-4 py-2 text-sm text-yellow-300 disabled:opacity-50">Request Changes</button>
+                          <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "rejected")} disabled={loading || !reviewComment.trim()} className="min-h-11 rounded-lg border border-(--wrong) px-4 py-2 text-sm text-(--wrong) disabled:opacity-50">Reject</button>
+                        </div>
+                      </>
+                    )}
+                    {selectedWorkflowItem.status === "approved" && (
+                      <button type="button" onClick={() => void publishWorkflowItem(selectedWorkflowItem)} disabled={loading} className="min-h-11 rounded-lg border border-green-500 px-4 py-2 text-sm text-green-300 disabled:opacity-50">Publish</button>
+                    )}
                   </>
                 ) : (
                   <EmptyState text="Select a submitted question to review." />

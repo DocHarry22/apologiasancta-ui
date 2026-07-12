@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { hasPermission, requirePermission } from "../src/lib/auth/roles.ts";
 import { validateQuestion, hasBlockingValidationIssues } from "../src/lib/contentValidation.ts";
 import { transitionStatus, canTransitionStatus, type DraftQuestion } from "../src/lib/contentWorkflow.ts";
+import { getNextQuestionId, getWorkflowQuestionId, hasQuestionFormContent, requiresReviewComment } from "../src/lib/contentWorkflow.ts";
 import { validateTopic } from "../src/lib/topicOperations.ts";
 import { buildTopicSequenceConfig, validateTopicSequenceConfig } from "../src/lib/topicSequence.ts";
 import { dangerousActions, isDangerConfirmationValid, requiresTypedConfirmation } from "../src/lib/dangerousActions.ts";
@@ -63,6 +64,18 @@ test("workflow status transitions allow review flow and reject invalid jumps", (
   assert.equal(submitted.version, 2);
   assert.equal(submitted.submittedAt, "2026-01-02T00:00:00.000Z");
   assert.throws(() => transitionStatus(draft, "published"), /Cannot move/);
+});
+
+test("authoring helpers allocate stable question IDs and detect unsaved content", () => {
+  assert.equal(getNextQuestionId(["gen_0001", "gen_0003", "wf_internal"], "Gen!"), "gen_0004");
+  assert.equal(getNextQuestionId([], ""), "que_0001");
+  assert.equal(getWorkflowQuestionId({ id: "wf_internal", questionId: "gen_0012" }), "gen_0012");
+  assert.equal(getWorkflowQuestionId({ id: "legacy_0002" }), "legacy_0002");
+  assert.equal(hasQuestionFormContent({ question: "", choices: { A: "", B: "", C: "", D: "" }, tags: [] }), false);
+  assert.equal(hasQuestionFormContent({ teaching: { title: "Trinity", body: "", refs: [] } }), true);
+  assert.equal(requiresReviewComment("changes_requested"), true);
+  assert.equal(requiresReviewComment("rejected"), true);
+  assert.equal(requiresReviewComment("approved"), false);
 });
 
 test("topic and sequence utilities validate operational input", () => {
