@@ -230,6 +230,35 @@ body {
   animation: answer-wrong 0.3s ease-out;
 }
 
+/* Keep timed answers above secondary stats on short phone screens. */
+@media (max-width: 1023px) and (max-height: 780px) {
+  .quiz-mobile-player-details,
+  .quiz-mobile-top-three {
+    display: none;
+  }
+
+  .quiz-mobile-status-stack {
+    padding-top: 0.5rem;
+  }
+
+  .quiz-mobile-score-summary > div {
+    padding-block: 0.55rem;
+  }
+
+  .quiz-mobile-score-value {
+    font-size: 1.5rem;
+  }
+
+  .quiz-countdown {
+    padding-block: 0.5rem;
+  }
+
+  .quiz-countdown-ring {
+    height: 6.5rem;
+    width: 6.5rem;
+  }
+}
+
 /* Hide scrollbar but allow scrolling */
 .scrollbar-hide {
   -ms-overflow-style: none;
