@@ -138,6 +138,56 @@ test("admin security behavior is enforced in browser context", async ({ page }) 
   expect(adminRequests).toEqual([]);
 });
 
+test("authoring workflow rejects duplicate IDs, invalid submissions, and empty rejection comments", async ({ page }) => {
+  await page.goto("/admin/login");
+  await page.getByLabel(/email/i).fill("admin@example.test");
+  await page.getByLabel(/password/i).fill("test-author-password");
+  await page.getByRole("button", { name: /sign in/i }).click();
+  await expect(page).toHaveURL(/\/admin\/?$/);
+  await page.goto("/admin/authoring");
+
+  const topicId = await page.locator("select").first().locator("option").nth(1).getAttribute("value");
+  expect(topicId).toBeTruthy();
+  const suffix = Date.now().toString().slice(-8);
+  const validQuestion = {
+    id: `e2e_${suffix}`,
+    topicId: topicId!,
+    difficulty: 3,
+    question: "Which title does John 1 use for Christ?",
+    choices: { A: "The Word", B: "The temple", C: "The prophet", D: "The servant" },
+    correctId: "A",
+    teaching: { title: "The eternal Word", body: "John identifies Christ as the eternal Word.", refs: ["John 1:1"] },
+    tags: ["christology"],
+  };
+
+  const statuses = await page.evaluate(async ({ question, invalidId }) => {
+    const csrf = document.cookie.match(/(?:^|;\s*)as_csrf_token=([^;]+)/)?.[1] || "";
+    const request = (body: unknown, path = "/api/workflow/items") => fetch(path, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json", "x-csrf-token": decodeURIComponent(csrf) },
+      body: JSON.stringify(body),
+    });
+
+    const created = await request({ question, status: "draft" });
+    const duplicate = await request({ question, status: "draft" });
+    const invalid = await request({ question: { ...question, id: invalidId, question: "" }, status: "submitted" });
+    const submitted = await request({ question: { ...question, id: `${question.id}_review` }, status: "submitted" });
+    const submittedBody = await submitted.json() as { item?: { id?: string } };
+    const rejected = await request({}, `/api/workflow/items/${encodeURIComponent(submittedBody.item?.id || "missing")}/reject`);
+
+    return {
+      created: created.status,
+      duplicate: duplicate.status,
+      invalid: invalid.status,
+      submitted: submitted.status,
+      rejected: rejected.status,
+    };
+  }, { question: validQuestion, invalidId: `e2e_invalid_${suffix}` });
+
+  expect(statuses).toEqual({ created: 201, duplicate: 409, invalid: 400, submitted: 201, rejected: 400 });
+});
+
 test("mobile does not expose raw admin token controls", async ({ page }) => {
   await page.goto("/mobile");
   await expect(page.locator("body")).not.toContainText(/x-admin-token|engine_admin_token|admin token/i);
