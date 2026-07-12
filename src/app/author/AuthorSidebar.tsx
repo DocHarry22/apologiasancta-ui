@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useTheme } from "@/lib/theme";
 import { roleLabels } from "@/lib/auth/roles";
 import type { CurrentUser } from "@/lib/server/currentUser";
@@ -21,7 +21,6 @@ const NAV_ITEMS = [
 
 export default function AuthorSidebar({ user }: { user: CurrentUser }) {
   const pathname = usePathname();
-  const router = useRouter();
   const { theme, toggleTheme } = useTheme();
   const basePath = pathname.startsWith("/admin") ? "/admin" : "/author";
 
@@ -32,7 +31,7 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
-    router.push(`${basePath}/login`);
+    window.location.assign(`${basePath}/login`);
   };
 
   return (
