@@ -4,6 +4,7 @@ const DEFAULT_ANDROID_APK_URL =
 
 const ENGINE_URL = process.env.NEXT_PUBLIC_ENGINE_URL?.trim() || DEFAULT_ENGINE_URL;
 const ANDROID_APK_URL = process.env.NEXT_PUBLIC_ANDROID_APK_URL?.trim() || DEFAULT_ANDROID_APK_URL;
+const RESEARCH_GRAPH_URL = process.env.NEXT_PUBLIC_RESEARCH_GRAPH_URL?.trim() || null;
 
 /**
  * Returns the engine URL. On the client inside a Capacitor APK, rewrites
@@ -23,4 +24,8 @@ export function isEngineConfigured(): boolean {
 
 export function getAndroidApkUrl(): string | null {
   return ANDROID_APK_URL;
+}
+
+export function getResearchGraphUrl(): string | null {
+  return RESEARCH_GRAPH_URL;
 }

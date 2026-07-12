@@ -52,6 +52,40 @@ test("public routes load", async ({ page }) => {
   await expect(page.locator("body")).toContainText(/join|waiting|question|room/i);
 });
 
+test("native home navigation and update actions work on narrow browser screens", async ({ page }) => {
+  const release = {
+    id: "ui-release",
+    repository: "apologiasancta-ui",
+    commitSha: "abc123",
+    createdAt: "2026-07-12T18:00:00.000Z",
+    category: "UI/UX",
+    title: "Responsive navigation",
+    summary: "Navigation now works across browser and app views.",
+    features: ["Browser bottom navigation"],
+    fixes: [],
+    changes: [],
+    deploymentStatus: "deployed",
+    read: false,
+    email: { status: "skipped" },
+  };
+  await page.route("https://engine.test/releases/latest", (route) => route.fulfill({ json: { release } }));
+  await page.addInitScript(() => window.localStorage.setItem("apologia-seen-release", "apologiasancta-ui:abc123"));
+  await page.setViewportSize({ width: 320, height: 740 });
+  await page.goto("/native");
+
+  const navigation = page.getByRole("navigation", { name: "Primary navigation" });
+  await expect(navigation).toBeVisible();
+  await expect(navigation.getByRole("link", { name: "Home" })).toHaveAttribute("aria-current", "page");
+  await expect(navigation.getByText("Research", { exact: true })).toHaveCount(0);
+  await expect(page.locator('a[href*="github.com/DocHarry22/apologia-graph"]')).toHaveCount(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+
+  await page.getByRole("button", { name: "Show latest updates" }).click();
+  await expect(page.getByRole("dialog", { name: "Responsive navigation" })).toBeVisible();
+  await page.getByRole("button", { name: "Got it" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+});
+
 test("admin route redirects when logged out", async ({ page }) => {
   await page.goto("/admin");
   await expect(page).toHaveURL(/\/admin\/login/);

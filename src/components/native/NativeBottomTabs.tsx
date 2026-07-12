@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { useQuizEntryGate } from "@/hooks/useQuizEntryGate";
-
-const RESEARCH_URL = "https://github.com/DocHarry22/apologia-graph";
+import { getResearchGraphUrl } from "@/lib/publicEnv";
 
 interface Tab {
   label: string;
@@ -14,7 +13,7 @@ interface Tab {
   icon: React.ReactNode;
 }
 
-const tabs: Tab[] = [
+const coreTabs: Tab[] = [
   {
     label: "Home",
     href: "/native",
@@ -45,9 +44,15 @@ const tabs: Tab[] = [
       </svg>
     ),
   },
-  {
+];
+
+export function NativeBottomTabs() {
+  const pathname = usePathname();
+  const normalizedPathname = pathname.replace(/\/+$/, "") || "/";
+  const researchUrl = getResearchGraphUrl();
+  const tabs: Tab[] = researchUrl ? [...coreTabs, {
     label: "Research",
-    href: RESEARCH_URL,
+    href: researchUrl,
     external: true,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-6 w-6">
@@ -59,11 +64,7 @@ const tabs: Tab[] = [
         <line x1="5" y1="19" x2="19" y2="19" strokeLinecap="round" />
       </svg>
     ),
-  },
-];
-
-export function NativeBottomTabs() {
-  const pathname = usePathname();
+  }] : coreTabs;
   const { requestQuizEntry, onboardingModals } = useQuizEntryGate();
   const handleQuizPress = useCallback(() => {
     requestQuizEntry();
@@ -72,16 +73,19 @@ export function NativeBottomTabs() {
   return (
     <>
       <nav
-        className="fixed bottom-0 left-0 right-0 z-50 flex items-stretch"
+        aria-label="Primary navigation"
+        className="fixed bottom-0 left-0 right-0 z-50 mx-auto flex min-h-16 max-w-5xl items-stretch"
         style={{
           background: "rgba(17,16,15,0.97)",
           borderTop: "1px solid rgba(212,175,55,0.18)",
           paddingBottom: "env(safe-area-inset-bottom, 0px)",
+          paddingLeft: "env(safe-area-inset-left, 0px)",
+          paddingRight: "env(safe-area-inset-right, 0px)",
           backdropFilter: "blur(12px)",
         }}
       >
         {tabs.map((tab) => {
-          const isActive = !tab.external && pathname === tab.href;
+          const isActive = !tab.external && (normalizedPathname === tab.href || (tab.href !== "/native" && normalizedPathname.startsWith(`${tab.href}/`)));
           const isQuizTab = tab.href === "/mobile";
 
           const inner = (
@@ -116,7 +120,7 @@ export function NativeBottomTabs() {
                 href={tab.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative flex flex-1 items-center justify-center"
+                className="relative flex min-h-14 flex-1 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#d4af37]"
               >
                 {inner}
               </a>
@@ -129,7 +133,7 @@ export function NativeBottomTabs() {
                 key={tab.label}
                 type="button"
                 onClick={handleQuizPress}
-                className="relative flex flex-1 items-center justify-center"
+                className="relative flex min-h-14 flex-1 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#d4af37]"
                 aria-label="Open quiz"
               >
                 {inner}
@@ -141,7 +145,8 @@ export function NativeBottomTabs() {
             <Link
               key={tab.label}
               href={tab.href}
-              className="relative flex flex-1 items-center justify-center"
+              aria-current={isActive ? "page" : undefined}
+              className="relative flex min-h-14 flex-1 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#d4af37]"
             >
               {inner}
             </Link>

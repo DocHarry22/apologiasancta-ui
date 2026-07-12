@@ -5,16 +5,15 @@ import { TopicsScroll } from "@/components/native/TopicsScroll";
 import { VerseOfTheDay } from "@/components/native/VerseOfTheDay";
 import { StreakBadge } from "@/components/native/StreakBadge";
 import { StatsPanel } from "@/components/native/StatsPanel";
+import { ReleaseBell } from "@/components/native/ReleaseBell";
 
-import { getEngineUrl } from "@/lib/publicEnv";
+import { getEngineUrl, getResearchGraphUrl } from "@/lib/publicEnv";
 import topicsIndex from "@/../content/topics/index.json";
 
 export const metadata: Metadata = {
   title: "Apologia Sancta",
   description: "Defend the Faith. Learn the Truth.",
 };
-
-const RESEARCH_URL = "https://github.com/DocHarry22/apologia-graph";
 
 /** Top 6 topics by questionCount */
 const featuredTopics = [...topicsIndex.topics]
@@ -23,6 +22,8 @@ const featuredTopics = [...topicsIndex.topics]
 
 export default function NativeHome() {
   const engineUrl = getEngineUrl() ?? "https://apologiasancta-engine.onrender.com";
+  const configuredResearchUrl = getResearchGraphUrl();
+  const researchUrl = configuredResearchUrl ?? "/library";
 
   return (
     // Force dark theme for the APK home regardless of user setting
@@ -33,7 +34,7 @@ export default function NativeHome() {
     >
       {/* ── TOP BAR ─────────────────────────────────────────────── */}
       <header
-        className="sticky top-0 z-40 flex items-center justify-between px-4 py-3"
+        className="sticky top-0 z-40 flex items-center justify-between gap-2 px-3 py-3 min-[420px]:px-4"
         style={{
           background: "rgba(17,16,15,0.92)",
           borderBottom: "1px solid rgba(212,175,55,0.14)",
@@ -41,7 +42,7 @@ export default function NativeHome() {
         }}
       >
         {/* Logo + wordmark */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex min-w-0 items-center gap-2 min-[420px]:gap-2.5">
           {/* Shield SVG */}
           <svg
             width="34"
@@ -65,41 +66,28 @@ export default function NativeHome() {
             <circle cx="23" cy="8" r="1" fill="#d4af37" />
           </svg>
 
-          <div className="flex flex-col leading-none">
-            <span className="text-[15px] font-bold tracking-wide text-[#f4efe5]">
+          <div className="flex min-w-0 flex-col leading-none">
+            <span className="truncate text-[14px] font-bold tracking-wide text-[#f4efe5] min-[420px]:text-[15px]">
               Apologia Sancta
             </span>
-            <span className="text-[10px] tracking-wide text-[#9c917f]">
+            <span className="hidden text-[10px] tracking-wide text-[#9c917f] min-[430px]:block">
               Defend the Faith. Learn the Truth.
             </span>
           </div>
         </div>
 
         {/* Right actions */}
-        <div className="flex items-center gap-3">
-          {/* Bell */}
-          <button
-            aria-label="Notifications"
-            className="relative rounded-full p-2 text-[#c7bca8] transition-colors hover:text-[#d4af37]"
-            style={{ background: "rgba(212,175,55,0.08)" }}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M13.73 21a2 2 0 0 1-3.46 0" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            {/* Notification dot */}
-            <span
-              className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full border border-[#11100f]"
-              style={{ background: "#d4af37" }}
-            />
-          </button>
+        <div className="flex shrink-0 items-center gap-1.5 min-[420px]:gap-3">
+          <ReleaseBell />
 
           {/* Streak badge */}
           <StreakBadge />
 
           {/* Avatar */}
-          <div
-            className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full"
+          <Link
+            href="/admin/login"
+            aria-label="Open account sign in"
+            className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4af37]"
             style={{
               background: "rgba(212,175,55,0.12)",
               border: "1.5px solid rgba(212,175,55,0.3)",
@@ -112,7 +100,7 @@ export default function NativeHome() {
               {/* Halo */}
               <circle cx="30" cy="17" r="13" stroke="#d4af37" strokeWidth="1.5" fill="none" strokeDasharray="3 2" />
             </svg>
-          </div>
+          </Link>
         </div>
       </header>
 
@@ -173,9 +161,9 @@ export default function NativeHome() {
 
           {/* Research Graph */}
           <a
-            href={RESEARCH_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={researchUrl}
+            target={configuredResearchUrl ? "_blank" : undefined}
+            rel={configuredResearchUrl ? "noopener noreferrer" : undefined}
             className="group relative flex flex-col justify-between overflow-hidden rounded-2xl p-4 transition-opacity hover:opacity-90 active:opacity-70"
             style={{
               background: "linear-gradient(145deg, #f5f0e8 0%, #e8dfc8 100%)",
@@ -211,7 +199,9 @@ export default function NativeHome() {
             <div>
               <h3 className="text-base font-bold text-[#2a1f0e]">Research Graph</h3>
               <p className="mt-0.5 text-xs leading-relaxed text-[#614e2a]">
-                Trace objections, sources, and Catholic responses.
+                {configuredResearchUrl
+                  ? "Trace objections, sources, and Catholic responses."
+                  : "Browse sourced apologetics while the graph workspace is prepared."}
               </p>
             </div>
 

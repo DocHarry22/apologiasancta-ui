@@ -63,7 +63,9 @@ export function CapacitorShell() {
     void SplashScreen.hide({ fadeOutDuration: 250 }).catch(() => undefined);
   }, [isCapacitor, showBootOverlay]);
 
-  if (!isCapacitor) return null;
+  if (!isCapacitor) {
+    return pathname === "/native" ? <NativeBottomTabs /> : null;
+  }
 
   return (
     <>
