@@ -9,7 +9,6 @@ interface Props {
   nextQuestionId: string;
   onDownload: () => void;
   onCopy: () => void;
-  onAddToQueue: () => void;
   onReset: () => void;
 }
 
@@ -26,7 +25,6 @@ export default function AuthorForm({
   nextQuestionId,
   onDownload,
   onCopy,
-  onAddToQueue,
   onReset,
 }: Props) {
   const errors = useMemo<ValidationError[]>(() => {
@@ -56,9 +54,6 @@ export default function AuthorForm({
     }
 
     const refs = formData.teaching?.refs || [];
-    if (refs.length < 2) {
-      errs.push({ field: "teachingRefs", message: "At least 2 references are required" });
-    }
 
     // Check for long refs
     refs.forEach((ref, i) => {
@@ -102,9 +97,9 @@ export default function AuthorForm({
   };
 
   const handleRefsChange = (value: string) => {
-    // Support both newlines and commas as separators
+    // Commas are valid inside citations, so only split rows or semicolon-delimited entries.
     const refs = value
-      .split(/[\n,]/)
+      .split(/[\n;]/)
       .map((r) => r.trim())
       .filter((r) => r.length > 0);
     updateTeaching("refs", refs);
@@ -134,8 +129,9 @@ export default function AuthorForm({
       {/* ID + Difficulty */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-1">
-          <label className={labelClass}>Question ID</label>
+          <label htmlFor="author-question-id" className={labelClass}>Question ID</label>
           <input
+            id="author-question-id"
             type="text"
             value={formData.id || nextQuestionId}
             onChange={(e) => setFormData((prev) => ({ ...prev, id: e.target.value }))}
@@ -144,8 +140,9 @@ export default function AuthorForm({
         </div>
 
         <div className="space-y-1">
-          <label className={labelClass}>Difficulty (1-5)</label>
+          <label htmlFor="author-question-difficulty" className={labelClass}>Difficulty (1-5)</label>
           <select
+            id="author-question-difficulty"
             value={formData.difficulty || 3}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, difficulty: parseInt(e.target.value) as 1 | 2 | 3 | 4 | 5 }))
@@ -163,8 +160,9 @@ export default function AuthorForm({
 
       {/* Question Text */}
       <div className="space-y-1">
-        <label className={labelClass}>Question Text</label>
+        <label htmlFor="author-question-text" className={labelClass}>Question Text</label>
         <textarea
+          id="author-question-text"
           value={formData.question || ""}
           onChange={(e) => setFormData((prev) => ({ ...prev, question: e.target.value }))}
           rows={3}
@@ -176,12 +174,13 @@ export default function AuthorForm({
 
       {/* Choices */}
       <div className="space-y-2">
-        <label className={labelClass}>Answer Choices</label>
+        <span className={labelClass}>Answer Choices</span>
         <div className="grid gap-2">
           {(["A", "B", "C", "D"] as QuestionChoiceId[]).map((key) => (
             <div key={key} className="flex items-center gap-2">
               <div className="flex items-center gap-2 shrink-0">
                 <input
+                  aria-label={`Mark choice ${key} as correct`}
                   type="radio"
                   name="correctId"
                   checked={formData.correctId === key}
@@ -199,6 +198,7 @@ export default function AuthorForm({
                 </span>
               </div>
               <input
+                aria-label={`Choice ${key}`}
                 type="text"
                 value={formData.choices?.[key] || ""}
                 onChange={(e) => updateChoice(key, e.target.value)}
@@ -219,10 +219,11 @@ export default function AuthorForm({
 
       {/* Teaching */}
       <div className="space-y-3">
-        <label className={labelClass}>Teaching Moment</label>
+        <span className={labelClass}>Teaching Moment</span>
 
         <div className="space-y-1">
           <input
+            aria-label="Teaching title"
             type="text"
             value={formData.teaching?.title || ""}
             onChange={(e) => updateTeaching("title", e.target.value)}
@@ -236,6 +237,7 @@ export default function AuthorForm({
 
         <div className="space-y-1">
           <textarea
+            aria-label="Teaching explanation"
             value={formData.teaching?.body || ""}
             onChange={(e) => updateTeaching("body", e.target.value)}
             rows={3}
@@ -249,14 +251,15 @@ export default function AuthorForm({
 
         <div className="space-y-1">
           <textarea
+            aria-label="Teaching references"
             value={formData.teaching?.refs?.join("\n") || ""}
             onChange={(e) => handleRefsChange(e.target.value)}
             rows={3}
             className={inputClass("teachingRefs")}
-            placeholder="References (one per line or comma-separated)&#10;e.g., John 1:1, CCC 465, Nicaea I"
+            placeholder="References (one per line or semicolon-separated)&#10;e.g., John 1:1&#10;Catechism of the Catholic Church, 465"
           />
           <p className="text-xs text-(--muted)">
-            {formData.teaching?.refs?.length || 0} ref(s) • Min 2 required
+            {formData.teaching?.refs?.length || 0} reference(s) • commas inside citations are preserved
           </p>
           {hasError("teachingRefs") && (
             <p className="text-xs text-(--wrong)">{getError("teachingRefs")}</p>
@@ -273,8 +276,9 @@ export default function AuthorForm({
 
       {/* Tags */}
       <div className="space-y-1">
-        <label className={labelClass}>Tags (comma-separated)</label>
+        <label htmlFor="author-question-tags" className={labelClass}>Tags (comma-separated)</label>
         <input
+          id="author-question-tags"
           type="text"
           value={formData.tags?.join(", ") || ""}
           onChange={(e) => handleTagsChange(e.target.value)}
@@ -307,13 +311,6 @@ export default function AuthorForm({
           className="rounded-lg px-4 py-2 text-sm font-medium border border-(--accent) text-(--accent) disabled:opacity-50 disabled:cursor-not-allowed hover:bg-(--accent) hover:text-white"
         >
           Copy JSON
-        </button>
-        <button
-          onClick={onAddToQueue}
-          disabled={!isValid}
-          className="rounded-lg px-4 py-2 text-sm font-medium border border-(--border) text-foreground disabled:opacity-50 disabled:cursor-not-allowed hover:border-(--accent)"
-        >
-          Add to Queue
         </button>
         <button
           onClick={onReset}
