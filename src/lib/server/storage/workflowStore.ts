@@ -173,7 +173,7 @@ export async function duplicatePublishedQuestion(question: Question, actor: Curr
   return createWorkflowDraft({ ...question, id: `${question.id}_draft` }, actor, topicIds, existingIds, false);
 }
 
-export async function transitionWorkflowItem(id: string, nextStatus: ReviewStatus, actor: CurrentUser, options: { comment?: string; doctrinalFlag?: boolean; referenceFlag?: boolean; topicIds?: string[]; existingIds?: string[] } = {}): Promise<WorkflowItem> {
+export async function transitionWorkflowItem(id: string, nextStatus: ReviewStatus, actor: CurrentUser, options: { comment?: string; doctrinalFlag?: boolean; referenceFlag?: boolean; topicIds?: string[]; existingIds?: string[]; publishTarget?: "engine" } = {}): Promise<WorkflowItem> {
   return mutateWorkflowItems((items) => {
     const item = items.find((candidate) => candidate.id === id);
     if (!item) throw new Error("Workflow item not found.");
@@ -216,7 +216,7 @@ export async function transitionWorkflowItem(id: string, nextStatus: ReviewStatu
       reviewComments: comments,
       doctrinalFlags: options.doctrinalFlag ? [...item.doctrinalFlags, actor.id] : item.doctrinalFlags,
       referenceFlags: options.referenceFlag ? [...item.referenceFlags, actor.id] : item.referenceFlags,
-      publishTarget: nextStatus === "published" ? "workflow_store" : item.publishTarget,
+      publishTarget: nextStatus === "published" ? options.publishTarget ?? "workflow_store" : item.publishTarget,
       history: [history(actor, nextStatus, `Workflow marked ${nextStatus.replace("_", " ")}.`), ...item.history],
     };
 

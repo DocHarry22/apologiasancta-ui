@@ -8,6 +8,8 @@ import { checkAdminMutationRateLimit, getClientIp } from "@/lib/auth/rateLimit";
 import { hasPermission, type Permission } from "@/lib/auth/roles";
 import { appendAuditEvent } from "./storage/auditStore";
 import type { Role } from "@/lib/auth/roles";
+import type { Question } from "@/types/content";
+import type { ContentImportResponse } from "@/lib/engineAdmin";
 
 // ---------------------------------------------------------------------------
 // Engine config helpers (server-side only)
@@ -23,6 +25,55 @@ function getEngineBaseUrl(): string | null {
 
 function getAdminToken(): string | null {
   return process.env.ENGINE_ADMIN_TOKEN?.trim() || null;
+}
+
+export type EnginePublishResult =
+  | { ok: true; data: ContentImportResponse }
+  | { ok: false; status: number; error: string };
+
+export async function publishQuestionToEngine(question: Question): Promise<EnginePublishResult> {
+  const engineUrl = getEngineBaseUrl();
+  const adminToken = getAdminToken();
+  if (!engineUrl || !adminToken) {
+    return { ok: false, status: 503, error: "Live Engine publishing is not configured." };
+  }
+
+  let url: URL;
+  try {
+    url = new URL("/admin/content/import", engineUrl);
+  } catch {
+    return { ok: false, status: 503, error: "Live Engine publishing URL is invalid." };
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-admin-token": adminToken,
+      },
+      body: JSON.stringify({
+        questions: [question],
+        commitToGitHub: false,
+        refreshActivePool: false,
+        commitMessage: `Publish approved question ${question.id}`,
+      }),
+    });
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.toLowerCase().includes("application/json")) {
+      return { ok: false, status: 502, error: "Live Engine returned an unexpected response." };
+    }
+    const data = await response.json() as ContentImportResponse & { error?: string };
+    if (!response.ok) {
+      return { ok: false, status: response.status, error: data.error || `Live Engine publish failed with HTTP ${response.status}.` };
+    }
+    if (!data.ids?.includes(question.id)) {
+      return { ok: false, status: 502, error: "Live Engine did not confirm the published question ID." };
+    }
+    return { ok: true, data };
+  } catch {
+    return { ok: false, status: 502, error: "Live Engine is unreachable." };
+  }
 }
 
 // ---------------------------------------------------------------------------

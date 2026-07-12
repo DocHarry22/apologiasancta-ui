@@ -82,7 +82,7 @@ export interface WorkflowItem extends Question {
   doctrinalFlags: string[];
   referenceFlags: string[];
   history: WorkflowHistoryEvent[];
-  publishTarget?: "workflow_store";
+  publishTarget?: "workflow_store" | "engine";
 }
 
 export interface AuditEvent {

@@ -174,7 +174,12 @@ test("authoring workflow rejects duplicate IDs, invalid submissions, and empty r
     const invalid = await request({ question: { ...question, id: invalidId, question: "" }, status: "submitted" });
     const submitted = await request({ question: { ...question, id: `${question.id}_review` }, status: "submitted" });
     const submittedBody = await submitted.json() as { item?: { id?: string } };
-    const rejected = await request({}, `/api/workflow/items/${encodeURIComponent(submittedBody.item?.id || "missing")}/reject`);
+    const workflowId = submittedBody.item?.id || "missing";
+    const rejected = await request({}, `/api/workflow/items/${encodeURIComponent(workflowId)}/reject`);
+    const approved = await request({ comment: "Doctrine and references verified." }, `/api/workflow/items/${encodeURIComponent(workflowId)}/approve`);
+    const publish = await request({}, `/api/workflow/items/${encodeURIComponent(workflowId)}/publish`);
+    const afterFailedPublish = await fetch(`/api/workflow/items/${encodeURIComponent(workflowId)}`, { credentials: "same-origin" });
+    const afterFailedPublishBody = await afterFailedPublish.json() as { item?: { status?: string } };
 
     return {
       created: created.status,
@@ -182,10 +187,22 @@ test("authoring workflow rejects duplicate IDs, invalid submissions, and empty r
       invalid: invalid.status,
       submitted: submitted.status,
       rejected: rejected.status,
+      approved: approved.status,
+      publish: publish.status,
+      statusAfterFailedPublish: afterFailedPublishBody.item?.status,
     };
   }, { question: validQuestion, invalidId: `e2e_invalid_${suffix}` });
 
-  expect(statuses).toEqual({ created: 201, duplicate: 409, invalid: 400, submitted: 201, rejected: 400 });
+  expect(statuses).toEqual({
+    created: 201,
+    duplicate: 409,
+    invalid: 400,
+    submitted: 201,
+    rejected: 400,
+    approved: 200,
+    publish: 502,
+    statusAfterFailedPublish: "approved",
+  });
 });
 
 test("mobile does not expose raw admin token controls", async ({ page }) => {

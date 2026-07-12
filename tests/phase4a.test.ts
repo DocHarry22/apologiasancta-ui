@@ -18,7 +18,7 @@ test("workflow store implements durable create, list, transitions, and publish v
   assert.ok(workflowStore.includes("WorkflowConflictError"));
   assert.ok(workflowStore.includes('!["submitted", "approved", "published"].includes(status)'));
   assert.ok(workflowStore.includes("A reviewer comment is required"));
-  assert.ok(workflowStore.includes('publishTarget: nextStatus === "published" ? "workflow_store"'));
+  assert.ok(workflowStore.includes('publishTarget: nextStatus === "published" ? options.publishTarget ?? "workflow_store"'));
   assert.ok(workflowPermissions.includes("item.authorId === userId"));
   assert.ok(workflowPermissions.includes("content:review"));
   assert.ok(workflowPermissions.includes("content:publish"));
@@ -53,6 +53,7 @@ test("workflow and audit routes enforce session, permissions, CSRF, and audit wr
   const itemsRoute = readFileSync("src/app/api/workflow/items/route.ts", "utf8");
   const auditRoute = readFileSync("src/app/api/audit/events/route.ts", "utf8");
   const meRoute = readFileSync("src/app/api/auth/me/route.ts", "utf8");
+  const engineProxy = readFileSync("src/lib/server/engineProxy.ts", "utf8");
 
   assert.ok(apiAuth.includes("readSessionCookie"));
   assert.ok(apiAuth.includes("verifyCsrfToken"));
@@ -64,6 +65,12 @@ test("workflow and audit routes enforce session, permissions, CSRF, and audit wr
   assert.ok(workflowApi.includes("canPublishWorkflowItem"));
   assert.ok(workflowApi.includes("WorkflowConflictError"));
   assert.ok(workflowApi.includes("409"));
+  assert.ok(workflowApi.includes("publishQuestionToEngine"));
+  assert.ok(workflowApi.includes('publishTarget: nextStatus === "published" ? "engine"'));
+  assert.ok(engineProxy.includes("publishQuestionToEngine"));
+  assert.ok(engineProxy.includes('"x-admin-token": adminToken'));
+  assert.ok(engineProxy.includes("refreshActivePool: false"));
+  assert.ok(engineProxy.includes("commitToGitHub: false"));
   assert.ok(itemsRoute.includes("createWorkflowRoute"));
   assert.ok(auditRoute.includes("audit:view"));
   assert.ok(meRoute.includes("permissions"));
