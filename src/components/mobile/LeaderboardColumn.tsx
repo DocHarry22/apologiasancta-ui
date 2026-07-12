@@ -1,8 +1,9 @@
 "use client";
 
 import type { LeaderboardPeriod, LeaderboardScope, ScorerWithChange, StreakerWithChange } from "@/types/quiz";
+import type { LeaderboardMode as SharedLeaderboardMode } from "@/lib/mobileUx";
 
-export type LeaderboardMode = "room-all-time" | "room-daily" | "room-weekly" | "global-all-time";
+export type LeaderboardMode = SharedLeaderboardMode;
 
 interface LeaderboardColumnProps {
   scorers: ScorerWithChange[];
@@ -36,15 +37,15 @@ export function LeaderboardColumn({
 }: LeaderboardColumnProps) {
   return (
     <div 
-      className="flex flex-col h-full py-2 px-1.5 overflow-y-auto"
+      className="flex h-full flex-col overflow-y-auto px-3 py-3"
       role="region"
       aria-label="Leaderboard"
     >
-      <div className="mb-3 rounded-lg border border-(--border) px-2 py-2">
-        <div className="text-[9px] font-semibold uppercase tracking-[0.18em] text-(--muted)">Leaderboard</div>
-        <div className="mt-1 text-[11px] font-semibold text-foreground">{roomName || "Current Room"}</div>
-        <div className="mt-1 text-[9px] uppercase tracking-[0.16em] text-(--text-secondary)">{scope} • {period}</div>
-        <div className="mt-2 grid grid-cols-2 gap-1">
+      <div className="mb-4 rounded-xl border border-(--border) px-3 py-3">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-(--muted)">Leaderboard</div>
+        <div className="mt-1 text-sm font-semibold text-foreground">{roomName || "Current Room"}</div>
+        <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-(--text-secondary)">{scope} • {period}</div>
+        <div className="mt-3 grid grid-cols-2 gap-1.5">
           {MODE_OPTIONS.map((option) => {
             const active = option.id === selectedMode;
             return (
@@ -52,7 +53,8 @@ export function LeaderboardColumn({
                 key={option.id}
                 type="button"
                 onClick={() => onModeChange?.(option.id)}
-                className="rounded-md px-2 py-1 text-[10px] font-semibold transition-colors"
+                aria-pressed={active}
+                className="min-h-9 rounded-lg px-2 py-1.5 text-[11px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent)"
                 style={{
                   backgroundColor: active ? "var(--accent)" : "var(--ticker-bg)",
                   color: active ? "#fff" : "var(--text-secondary)",
@@ -66,13 +68,13 @@ export function LeaderboardColumn({
       </div>
 
       {error && (
-        <div className="mb-3 rounded-lg px-2 py-2 text-[10px]" style={{ backgroundColor: "var(--wrong-bg)", color: "var(--wrong)" }}>
+        <div className="mb-3 rounded-lg px-3 py-2 text-xs" style={{ backgroundColor: "var(--wrong-bg)", color: "var(--wrong)" }}>
           {error}
         </div>
       )}
 
       {loading && (
-        <div className="mb-3 rounded-lg px-2 py-2 text-[10px]" style={{ backgroundColor: "var(--ticker-bg)", color: "var(--muted)" }}>
+        <div className="mb-3 rounded-lg px-3 py-2 text-xs" style={{ backgroundColor: "var(--ticker-bg)", color: "var(--muted)" }}>
           Loading leaderboard...
         </div>
       )}
@@ -80,7 +82,7 @@ export function LeaderboardColumn({
       {/* Top Scorers */}
       <div className="mb-3">
         <h3 
-          className="text-(--muted) font-semibold tracking-wider text-[9px] mb-1.5 uppercase"
+          className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-(--muted)"
           id="top-scorers-heading"
         >
           Top Scorers
@@ -90,19 +92,19 @@ export function LeaderboardColumn({
             <div
               key={`scorer-${scorer.name}`}
               role="listitem"
-              className={`flex items-center justify-between py-0.5 px-0.5 rounded transition-colors ${
+              className={`flex min-h-8 items-center justify-between rounded px-1.5 py-1 transition-colors ${
                 scorer.changed ? "score-changed" : ""
               }`}
             >
               <div className="flex items-center gap-1 min-w-0">
                 <span 
-                  className="text-(--muted) text-[10px] w-2.5 text-right shrink-0"
+                  className="w-4 shrink-0 text-right text-[11px] text-(--muted)"
                   aria-label={`Rank ${scorer.rank}`}
                 >
                   {scorer.rank}
                 </span>
                 <span
-                  className={`text-[10px] font-medium truncate ${
+                  className={`truncate text-xs font-medium ${
                     scorer.rank <= 3 ? "text-(--accent)" : "text-foreground"
                   }`}
                 >
@@ -110,7 +112,7 @@ export function LeaderboardColumn({
                 </span>
               </div>
               <span 
-                className="text-foreground text-[10px] font-bold tabular-nums shrink-0 ml-1"
+                className="ml-1 shrink-0 text-xs font-bold tabular-nums text-foreground"
                 aria-label={`${scorer.score} points`}
               >
                 {scorer.score}
@@ -122,13 +124,16 @@ export function LeaderboardColumn({
               ) : null}
             </div>
           ))}
+          {scorers.length === 0 && !loading && !error ? (
+            <p className="rounded-lg border border-dashed border-(--border) px-3 py-4 text-center text-xs text-(--muted)">No scores yet</p>
+          ) : null}
         </div>
       </div>
 
       {/* Top Streaks */}
       <div>
         <h3 
-          className="text-(--muted) font-semibold tracking-wider text-[9px] mb-1.5 uppercase"
+          className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-(--muted)"
           id="top-streaks-heading"
         >
           Top Streaks
@@ -138,18 +143,18 @@ export function LeaderboardColumn({
             <div
               key={`streaker-${streaker.name}`}
               role="listitem"
-              className={`flex items-center justify-between py-0.5 px-0.5 rounded transition-colors ${
+              className={`flex min-h-8 items-center justify-between rounded px-1.5 py-1 transition-colors ${
                 streaker.changed ? "score-changed" : ""
               }`}
             >
               <div className="flex items-center gap-1 min-w-0">
                 <span 
-                  className="text-(--muted) text-[10px] w-2.5 text-right shrink-0"
+                  className="w-4 shrink-0 text-right text-[11px] text-(--muted)"
                   aria-label={`Rank ${streaker.rank}`}
                 >
                   {streaker.rank}
                 </span>
-                <span className="text-foreground text-[10px] font-medium truncate">
+                <span className="truncate text-xs font-medium text-foreground">
                   {streaker.name}
                 </span>
               </div>
@@ -169,6 +174,9 @@ export function LeaderboardColumn({
               ) : null}
             </div>
           ))}
+          {streakers.length === 0 && !loading && !error ? (
+            <p className="rounded-lg border border-dashed border-(--border) px-3 py-4 text-center text-xs text-(--muted)">No streaks yet</p>
+          ) : null}
         </div>
       </div>
     </div>
