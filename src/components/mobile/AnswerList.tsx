@@ -57,7 +57,7 @@ export function AnswerList({
             : "";
 
   return (
-    <div className="flex flex-col gap-3 px-4 py-3 lg:gap-1.5 lg:px-3 lg:py-2" role="radiogroup" aria-label="Answer options">
+    <div className="flex flex-col gap-3 px-4 py-3 lg:gap-2.5 lg:px-3 lg:py-3" role="radiogroup" aria-label="Answer options">
       {phase === "LOCKED" ? (
         <div className="rounded-full border border-(--mobile-border) bg-(--mobile-elevated) px-3 py-2 text-center text-xs font-semibold text-(--mobile-muted)">
           Answers locked
@@ -116,11 +116,11 @@ export function AnswerList({
             role="radio"
             aria-checked={isSelected}
             aria-disabled={disableInteraction || isReveal}
-            aria-label={`${option.label}. ${option.text}${isSelected ? ". Selected" : ""}`}
+            aria-label={`${option.label}. ${option.text}${isSelected && statusText ? `. ${statusText}` : ""}`}
             className={`
-              group flex min-h-16 items-center gap-3 rounded-xl px-4 py-3
+              group flex min-h-16 min-w-0 items-center gap-3 rounded-xl px-4 py-3 text-left
               border shadow-[0_8px_20px_rgba(89,68,38,0.06)] transition-all duration-150
-              lg:min-h-0 lg:gap-2.5 lg:rounded-lg lg:px-3 lg:py-2.5 lg:shadow-none
+              lg:min-h-14 lg:gap-3 lg:rounded-xl lg:px-4 lg:py-3 lg:shadow-sm
               ${stateClasses}
               ${animationClass}
             `}
@@ -130,7 +130,7 @@ export function AnswerList({
               className={`
                 flex h-10 w-10 shrink-0 items-center justify-center rounded-full
                 border text-lg font-bold shadow-sm
-                lg:h-6 lg:w-6 lg:text-xs lg:shadow-none
+                lg:h-8 lg:w-8 lg:text-sm lg:shadow-none
                 transition-colors duration-150
                 ${badgeClasses}
               `}
@@ -145,25 +145,27 @@ export function AnswerList({
             </span>
 
             {/* Option text */}
-            <span className={`flex-1 text-left text-base font-semibold leading-snug transition-colors duration-150 lg:text-xs lg:font-medium ${
-              isReveal && !isCorrect && !isWrongSelected 
-                ? "text-(--muted)" 
-                : "text-(--mobile-text) lg:text-(--text)"
-            }`}>
-              {option.text}
+            <span className="flex min-w-0 flex-1 flex-col items-start gap-1">
+              <span className={`min-w-0 break-words text-left text-base font-semibold leading-snug transition-colors duration-150 lg:text-base lg:font-medium ${
+                isReveal && !isCorrect && !isWrongSelected
+                  ? "text-(--muted)"
+                  : "text-(--mobile-text) lg:text-(--text)"
+              }`}>
+                {option.text}
+              </span>
+              {!isReveal && isSelected && statusText ? (
+                <span className="rounded-full border border-(--accent) bg-(--accent)/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-(--accent)">
+                  {statusText}
+                </span>
+              ) : null}
             </span>
 
             {/* Correct indicator on reveal */}
             {isReveal && isCorrect && (
-              <span className="text-[10px] font-semibold text-(--correct) uppercase tracking-wide">
+              <span className="shrink-0 text-[10px] font-semibold text-(--correct) uppercase tracking-wide lg:text-xs">
                 Correct
               </span>
             )}
-            {!isReveal && isSelected && statusText ? (
-              <span className="rounded-full border border-(--accent) bg-(--accent)/15 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-(--accent)">
-                {statusText}
-              </span>
-            ) : null}
           </button>
         );
       })}
