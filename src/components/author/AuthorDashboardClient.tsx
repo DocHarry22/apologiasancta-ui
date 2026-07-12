@@ -659,11 +659,17 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
 
   const publishWorkflowItem = async (item: DraftQuestion) => {
     setLoading(true);
-    const response = await dashboardApi<{ ok: true; item: DraftQuestion; publishTarget?: string }>(`/api/workflow/items/${encodeURIComponent(item.id)}/publish`, { method: "POST" });
+    const response = await dashboardApi<{ ok: true; item: DraftQuestion; publishTarget?: string; publishResult?: { added: number; updated: number; bankSize: number; activePoolRefreshed?: boolean } }>(`/api/workflow/items/${encodeURIComponent(item.id)}/publish`, { method: "POST" });
     setLoading(false);
     if (response.ok) {
       setWorkflowItems((items) => items.map((candidate) => candidate.id === item.id ? response.data.item : candidate));
-      setMessage({ type: "info", text: response.data.publishTarget === "workflow_store" ? "Published to workflow store only; public content was not modified." : "Workflow item published." });
+      const result = response.data.publishResult;
+      setMessage({
+        type: "success",
+        text: result
+          ? `Published to the live quiz bank (${result.added ? "new question" : "updated question"}; ${result.bankSize} total). The current live pool was left unchanged.`
+          : "Question published to the live quiz bank.",
+      });
       if (activeTab === "audit") void fetchAuditEvents();
     } else {
       setMessage({ type: "error", text: response.error || "Unable to publish workflow item." });
