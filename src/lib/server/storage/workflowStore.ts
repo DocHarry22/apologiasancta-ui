@@ -6,6 +6,39 @@ import type { WorkflowHistoryEvent, WorkflowItem, WorkflowReviewComment } from "
 import { JsonStore, newId } from "./jsonStore";
 
 const workflowStore = new JsonStore<WorkflowItem[]>("workflow-items.json", []);
+let workflowMutationQueue: Promise<void> = Promise.resolve();
+
+export class WorkflowConflictError extends Error {}
+export class WorkflowValidationError extends Error {}
+
+async function mutateWorkflowItems<T>(
+  mutation: (items: WorkflowItem[]) => { items: WorkflowItem[]; result: T } | Promise<{ items: WorkflowItem[]; result: T }>
+): Promise<T> {
+  let result!: T;
+  const operation = workflowMutationQueue.then(async () => {
+    const mutationResult = await mutation(await workflowStore.read());
+    await workflowStore.write(mutationResult.items);
+    result = mutationResult.result;
+  });
+  workflowMutationQueue = operation.catch(() => undefined);
+  await operation;
+  return result;
+}
+
+function assertUniqueQuestionId(items: WorkflowItem[], questionId: string, excludedItemId?: string): void {
+  const normalizedId = questionId.trim().toLowerCase();
+  if (items.some((item) => item.id !== excludedItemId && item.questionId.trim().toLowerCase() === normalizedId)) {
+    throw new WorkflowConflictError(`Question ID ${questionId} already exists in workflow storage.`);
+  }
+}
+
+function assertValidForStatus(question: Partial<Question>, status: ReviewStatus, topicIds: string[], existingIds: string[]): void {
+  if (!["submitted", "approved", "published"].includes(status)) return;
+  const issues = validateQuestion(question, { topicIds, existingIds });
+  if (hasBlockingValidationIssues(issues)) {
+    throw new WorkflowValidationError(`Content cannot be marked ${status} while blocking validation issues remain.`);
+  }
+}
 
 export interface WorkflowFilters {
   status?: string;
@@ -90,13 +123,15 @@ export async function getWorkflowItem(id: string): Promise<WorkflowItem | null> 
 
 export async function createWorkflowDraft(input: Partial<Question>, actor: CurrentUser, topicIds: string[], existingIds: string[], submit = false): Promise<WorkflowItem> {
   const question = normalizeWorkflowQuestion(input);
+  const status: ReviewStatus = submit ? "submitted" : "draft";
+  assertValidForStatus(question, status, topicIds, existingIds);
   const timestamp = nowIso();
   const validationIssues = validateQuestion(question, { topicIds, existingIds }).map((issue) => issue.message);
   const item: WorkflowItem = {
     ...question,
     id: newId("wf"),
     questionId: question.id,
-    status: submit ? "submitted" : "draft",
+    status,
     authorId: actor.id,
     authorName: actor.displayName,
     createdAt: timestamp,
@@ -109,28 +144,29 @@ export async function createWorkflowDraft(input: Partial<Question>, actor: Curre
     referenceFlags: [],
     history: [history(actor, submit ? "submitted" : "draft_created", submit ? "Draft created and submitted." : "Draft created.")],
   };
-  const items = await workflowStore.read();
-  await workflowStore.write([item, ...items]);
-  return item;
+  return mutateWorkflowItems((items) => {
+    assertUniqueQuestionId(items, item.questionId);
+    return { items: [item, ...items], result: item };
+  });
 }
 
 export async function updateWorkflowDraft(id: string, input: Partial<Question>, actor: CurrentUser, topicIds: string[], existingIds: string[]): Promise<WorkflowItem> {
-  const items = await workflowStore.read();
-  const item = items.find((candidate) => candidate.id === id);
-  if (!item) throw new Error("Workflow item not found.");
-  const question = normalizeWorkflowQuestion({ ...item, ...input, id: input.id ?? item.questionId });
-  const updatedAt = nowIso();
-  const updated: WorkflowItem = {
-    ...item,
-    ...question,
-    questionId: question.id,
-    updatedAt,
-    version: item.version + 1,
-    validationIssues: validateQuestion(question, { topicIds, existingIds }).map((issue) => issue.message),
-    history: [history(actor, "draft_updated", "Draft updated."), ...item.history],
-  };
-  await workflowStore.write(items.map((candidate) => candidate.id === id ? updated : candidate));
-  return updated;
+  return mutateWorkflowItems((items) => {
+    const item = items.find((candidate) => candidate.id === id);
+    if (!item) throw new Error("Workflow item not found.");
+    const question = normalizeWorkflowQuestion({ ...item, ...input, id: input.id ?? item.questionId });
+    assertUniqueQuestionId(items, question.id, item.id);
+    const updated: WorkflowItem = {
+      ...item,
+      ...question,
+      questionId: question.id,
+      updatedAt: nowIso(),
+      version: item.version + 1,
+      validationIssues: validateQuestion(question, { topicIds, existingIds }).map((issue) => issue.message),
+      history: [history(actor, "draft_updated", "Draft updated."), ...item.history],
+    };
+    return { items: items.map((candidate) => candidate.id === id ? updated : candidate), result: updated };
+  });
 }
 
 export async function duplicatePublishedQuestion(question: Question, actor: CurrentUser, topicIds: string[], existingIds: string[]): Promise<WorkflowItem> {
@@ -138,55 +174,52 @@ export async function duplicatePublishedQuestion(question: Question, actor: Curr
 }
 
 export async function transitionWorkflowItem(id: string, nextStatus: ReviewStatus, actor: CurrentUser, options: { comment?: string; doctrinalFlag?: boolean; referenceFlag?: boolean; topicIds?: string[]; existingIds?: string[] } = {}): Promise<WorkflowItem> {
-  const items = await workflowStore.read();
-  const item = items.find((candidate) => candidate.id === id);
-  if (!item) throw new Error("Workflow item not found.");
-  if (!canTransitionStatus(item.status, nextStatus)) {
-    throw new Error(`Cannot move workflow item from ${item.status} to ${nextStatus}`);
-  }
-
-  if (nextStatus === "published") {
-    const issues = validateQuestion(workflowItemQuestion(item), { topicIds: options.topicIds ?? [], existingIds: options.existingIds ?? [] });
-    if (hasBlockingValidationIssues(issues)) {
-      throw new Error("Invalid content cannot be published.");
+  return mutateWorkflowItems((items) => {
+    const item = items.find((candidate) => candidate.id === id);
+    if (!item) throw new Error("Workflow item not found.");
+    if (!canTransitionStatus(item.status, nextStatus)) {
+      throw new Error(`Cannot move workflow item from ${item.status} to ${nextStatus}`);
     }
-  }
+    assertValidForStatus(workflowItemQuestion(item), nextStatus, options.topicIds ?? [], options.existingIds ?? []);
 
-  const timestamp = nowIso();
-  const comments = [...item.reviewComments];
-  if (["approved", "rejected", "changes_requested"].includes(nextStatus)) {
-    const body = options.comment?.trim() || "Reviewed without additional comment.";
-    const comment: WorkflowReviewComment = {
-      id: newId("comment"),
-      authorId: actor.id,
-      authorName: actor.displayName,
-      authorRole: actor.role,
-      body,
-      createdAt: timestamp,
-      doctrinalFlag: options.doctrinalFlag,
-      referenceFlag: options.referenceFlag,
+    const timestamp = nowIso();
+    const comments = [...item.reviewComments];
+    if (["rejected", "changes_requested"].includes(nextStatus) && !options.comment?.trim()) {
+      throw new WorkflowValidationError("A reviewer comment is required when rejecting or requesting changes.");
+    }
+    if (["approved", "rejected", "changes_requested"].includes(nextStatus)) {
+      const body = options.comment?.trim() || "Approved without additional comment.";
+      const comment: WorkflowReviewComment = {
+        id: newId("comment"),
+        authorId: actor.id,
+        authorName: actor.displayName,
+        authorRole: actor.role,
+        body,
+        createdAt: timestamp,
+        doctrinalFlag: options.doctrinalFlag,
+        referenceFlag: options.referenceFlag,
+      };
+      comments.push(comment);
+    }
+
+    const updated: WorkflowItem = {
+      ...item,
+      status: nextStatus,
+      updatedAt: timestamp,
+      submittedAt: nextStatus === "submitted" ? timestamp : item.submittedAt,
+      reviewedAt: ["approved", "rejected", "changes_requested"].includes(nextStatus) ? timestamp : item.reviewedAt,
+      publishedAt: nextStatus === "published" ? timestamp : item.publishedAt,
+      archivedAt: nextStatus === "archived" ? timestamp : item.archivedAt,
+      reviewerId: ["approved", "rejected", "changes_requested"].includes(nextStatus) ? actor.id : item.reviewerId,
+      reviewerName: ["approved", "rejected", "changes_requested"].includes(nextStatus) ? actor.displayName : item.reviewerName,
+      version: item.version + 1,
+      reviewComments: comments,
+      doctrinalFlags: options.doctrinalFlag ? [...item.doctrinalFlags, actor.id] : item.doctrinalFlags,
+      referenceFlags: options.referenceFlag ? [...item.referenceFlags, actor.id] : item.referenceFlags,
+      publishTarget: nextStatus === "published" ? "workflow_store" : item.publishTarget,
+      history: [history(actor, nextStatus, `Workflow marked ${nextStatus.replace("_", " ")}.`), ...item.history],
     };
-    comments.push(comment);
-  }
 
-  const updated: WorkflowItem = {
-    ...item,
-    status: nextStatus,
-    updatedAt: timestamp,
-    submittedAt: nextStatus === "submitted" ? timestamp : item.submittedAt,
-    reviewedAt: ["approved", "rejected", "changes_requested"].includes(nextStatus) ? timestamp : item.reviewedAt,
-    publishedAt: nextStatus === "published" ? timestamp : item.publishedAt,
-    archivedAt: nextStatus === "archived" ? timestamp : item.archivedAt,
-    reviewerId: ["approved", "rejected", "changes_requested"].includes(nextStatus) ? actor.id : item.reviewerId,
-    reviewerName: ["approved", "rejected", "changes_requested"].includes(nextStatus) ? actor.displayName : item.reviewerName,
-    version: item.version + 1,
-    reviewComments: comments,
-    doctrinalFlags: options.doctrinalFlag ? [...item.doctrinalFlags, actor.id] : item.doctrinalFlags,
-    referenceFlags: options.referenceFlag ? [...item.referenceFlags, actor.id] : item.referenceFlags,
-    publishTarget: nextStatus === "published" ? "workflow_store" : item.publishTarget,
-    history: [history(actor, nextStatus, `Workflow marked ${nextStatus.replace("_", " ")}.`), ...item.history],
-  };
-
-  await workflowStore.write(items.map((candidate) => candidate.id === id ? updated : candidate));
-  return updated;
+    return { items: items.map((candidate) => candidate.id === id ? updated : candidate), result: updated };
+  });
 }
