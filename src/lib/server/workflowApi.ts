@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { listPublishedQuestionRecords, listTopicsWithCounts } from "@/lib/content";
 import { getClientIp } from "@/lib/auth/rateLimit";
 import { appendAuditEvent } from "./storage/auditStore";
-import { createWorkflowDraft, getWorkflowItem, listWorkflowItems, transitionWorkflowItem, updateWorkflowDraft } from "./storage/workflowStore";
+import { createWorkflowDraft, getWorkflowItem, listWorkflowItems, transitionWorkflowItem, updateWorkflowDraft, WorkflowConflictError } from "./storage/workflowStore";
 import { canCreateWorkflow, canEditWorkflowItem, canPublishWorkflowItem, canReviewWorkflowItem, canSubmitWorkflowItem, canViewWorkflowItem } from "./workflowPermissions";
 import { forbidden, readJsonBody, requireAuthorSession, requireCsrf, safeJson } from "./apiAuth";
 import type { AuditEventType } from "./storage/types";
@@ -42,7 +42,12 @@ export async function createWorkflowRoute(request: NextRequest) {
   const question = (body.question && typeof body.question === "object" ? body.question : body) as Record<string, unknown>;
   const submit = body.status === "submitted" || body.submit === true;
   const { topicIds, existingIds } = await contentContext();
-  const item = await createWorkflowDraft(question, auth.user, topicIds, existingIds, submit);
+  let item;
+  try {
+    item = await createWorkflowDraft(question, auth.user, topicIds, existingIds, submit);
+  } catch (error) {
+    return safeJson({ ok: false, error: error instanceof Error ? error.message : "Unable to create workflow item" }, error instanceof WorkflowConflictError ? 409 : 400);
+  }
   await appendAuditEvent({
     actor: auth.user,
     eventType: submit ? "workflow.submit" : "workflow.create",
@@ -80,7 +85,12 @@ export async function patchWorkflowRoute(request: NextRequest, id: string) {
   const body = await readJsonBody(request);
   const question = (body.question && typeof body.question === "object" ? body.question : body) as Record<string, unknown>;
   const { topicIds, existingIds } = await contentContext();
-  const updated = await updateWorkflowDraft(item.id, question, auth.user, topicIds, existingIds);
+  let updated;
+  try {
+    updated = await updateWorkflowDraft(item.id, question, auth.user, topicIds, existingIds);
+  } catch (error) {
+    return safeJson({ ok: false, error: error instanceof Error ? error.message : "Unable to update workflow item" }, error instanceof WorkflowConflictError ? 409 : 400);
+  }
   await appendAuditEvent({
     actor: auth.user,
     eventType: "workflow.update",
@@ -144,4 +154,3 @@ export async function transitionWorkflowRoute(request: NextRequest, id: string, 
     return safeJson({ ok: false, error: error instanceof Error ? error.message : "Workflow transition failed" }, 400);
   }
 }
-
