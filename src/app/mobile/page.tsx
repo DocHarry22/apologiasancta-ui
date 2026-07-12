@@ -32,6 +32,7 @@ import { useRoomRegistration } from "@/hooks/useRoomRegistration";
 import { useRoomSelectionBootstrap } from "@/hooks/useRoomSelectionBootstrap";
 import { getEngineUrl } from "@/lib/publicEnv";
 import { hapticSuccess, hapticError, hapticLight, keepAwake, allowSleep } from "@/lib/native";
+import { getAnswerRejectionNotice, isAnswerWindowLocallyOpen } from "@/lib/answerSubmission";
 import { useScoreHistory } from "@/hooks/useScoreHistory";
 import {
   getMobileOnboardingState,
@@ -670,7 +671,16 @@ function MobilePageContent() {
 
   // Handle answer selection (client-local)
   const handleSelect = useCallback(async (id: string) => {
-    if (quizState.phase !== "OPEN") return;
+    if (!isAnswerWindowLocallyOpen({
+      phase: quizState.phase,
+      endsAtMs: quizState.endsAtMs,
+    })) {
+      setAnswerSubmissionState("error");
+      setAnswerNotice(quizState.phase === "OPEN"
+        ? getAnswerRejectionNotice("too_late")
+        : getAnswerRejectionNotice("locked"));
+      return;
+    }
     const roundKey = `${quizState.questionIndex}:${quizState.endsAtMs}`;
     if (answeredRoundKeyRef.current === roundKey) return;
     if (submittingRoundKeyRef.current === roundKey) return;
@@ -717,7 +727,7 @@ function MobilePageContent() {
             // For transport/validation failures, allow re-select.
             setSelectedId(undefined);
             setAnswerSubmissionState("error");
-            setAnswerNotice(payload?.reason === "locked" ? "Answers locked. That answer was too late." : "Could not submit. Try again.");
+            setAnswerNotice(getAnswerRejectionNotice(payload?.reason));
           }
         } else {
           answeredRoundKeyRef.current = roundKey;
