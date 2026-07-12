@@ -10,6 +10,23 @@ export type MobileOnboardingState =
   | "ready";
 
 export type AnswerSubmissionState = "idle" | "submitting" | "submitted" | "error";
+export type LeaderboardMode = "room-all-time" | "room-daily" | "room-weekly" | "global-all-time";
+export type LeaderboardDrawerTab = "room" | "daily" | "weekly" | "global" | "streaks";
+
+export function getLeaderboardTab(mode: LeaderboardMode): LeaderboardDrawerTab {
+  if (mode === "global-all-time") return "global";
+  if (mode === "room-daily") return "daily";
+  if (mode === "room-weekly") return "weekly";
+  return "room";
+}
+
+export function getLeaderboardMode(tab: LeaderboardDrawerTab): LeaderboardMode | null {
+  if (tab === "global") return "global-all-time";
+  if (tab === "daily") return "room-daily";
+  if (tab === "weekly") return "room-weekly";
+  if (tab === "room") return "room-all-time";
+  return null;
+}
 
 export function sanitizeRoomIdParam(value: string | null | undefined): string | null {
   if (!value) return null;
