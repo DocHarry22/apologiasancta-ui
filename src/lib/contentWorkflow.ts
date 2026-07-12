@@ -65,7 +65,7 @@ export interface DraftQuestion {
   doctrinalFlags?: string[];
   referenceFlags?: string[];
   history?: ContentWorkflowEvent[];
-  publishTarget?: "workflow_store";
+  publishTarget?: "workflow_store" | "engine";
 }
 
 export interface ReviewSubmission {
