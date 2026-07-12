@@ -101,3 +101,11 @@ export function isAnswerInteractionDisabled(
   if (submissionState === "submitting" || submissionState === "submitted") return true;
   return Boolean(selectedId);
 }
+
+export function getCountdownProgress(secondsLeft: number, durationSeconds: number): number {
+  if (!Number.isFinite(secondsLeft) || !Number.isFinite(durationSeconds) || durationSeconds <= 0) {
+    return 0;
+  }
+
+  return Math.min(100, Math.max(0, (secondsLeft / durationSeconds) * 100));
+}
