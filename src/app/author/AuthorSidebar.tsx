@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useTheme } from "@/lib/theme";
 import { roleLabels } from "@/lib/auth/roles";
 import type { CurrentUser } from "@/lib/server/currentUser";
@@ -15,12 +15,12 @@ const NAV_ITEMS = [
   { id: "review", label: "Review", path: "/review", icon: "V" },
   { id: "topics", label: "Topics", path: "/topics", icon: "=" },
   { id: "audit", label: "Audit", path: "/audit", icon: "!" },
+  { id: "notifications", label: "Notifications", path: "/notifications", icon: "•" },
   { id: "settings", label: "Settings", path: "/settings", icon: "*" },
 ];
 
 export default function AuthorSidebar({ user }: { user: CurrentUser }) {
   const pathname = usePathname();
-  const router = useRouter();
   const { theme, toggleTheme } = useTheme();
   const basePath = pathname.startsWith("/admin") ? "/admin" : "/author";
 
@@ -29,9 +29,13 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
     return pathname.startsWith(href);
   };
 
-  const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
-    router.push(`${basePath}/login`);
+  const handleLogout = () => {
+    const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = `/api/auth/logout?next=${encodeURIComponent(`${basePath}/login`)}`;
+    document.body.appendChild(form);
+    form.submit();
   };
 
   return (

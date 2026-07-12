@@ -1,9 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { SESSION_COOKIE_NAME } from "@/lib/auth/session";
 import { CSRF_COOKIE_NAME } from "@/lib/csrf";
 
-export async function POST() {
-  const response = NextResponse.json({ ok: true });
+export async function POST(request: NextRequest) {
+  const requestedNext = request.nextUrl.searchParams.get("next");
+  const nextPath = requestedNext === "/author/login" ? "/author/login" : "/admin/login";
+  const response = NextResponse.redirect(new URL(nextPath, request.url), { status: 303 });
 
   response.cookies.set({
     name: SESSION_COOKIE_NAME,

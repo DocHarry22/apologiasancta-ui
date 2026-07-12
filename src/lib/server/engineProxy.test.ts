@@ -35,6 +35,8 @@ async function authedPost(path: string, body = "{}") {
 describe("admin route allowlist", () => {
   it("allows known routes and safe room/topic IDs", () => {
     expect(checkAllowedRoute(["status"], "GET")).toEqual({ ok: true, enginePath: "/admin/status" });
+    expect(checkAllowedRoute(["releases"], "GET")).toEqual({ ok: true, enginePath: "/admin/releases" });
+    expect(checkAllowedRoute(["releases", "release_1", "read"], "PATCH")).toEqual({ ok: true, enginePath: "/admin/releases/release_1/read" });
     expect(checkAllowedRoute(["rooms", "room_1", "topic", "start", "topic-1"], "POST")).toEqual({
       ok: true,
       enginePath: "/admin/rooms/room_1/topic/start/topic-1",

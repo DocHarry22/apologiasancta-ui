@@ -12,3 +12,8 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
   const { path } = await params;
   return proxyAdminRequest(request, path);
 }
+
+export async function PATCH(request: NextRequest, { params }: RouteContext) {
+  const { path } = await params;
+  return proxyAdminRequest(request, path);
+}
