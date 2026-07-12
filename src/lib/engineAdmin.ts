@@ -306,6 +306,8 @@ export interface ContentImportResponse {
     contentRoot: string;
   };
   bankSize: number;
+  activePoolSize?: number;
+  activePoolRefreshed?: boolean;
 }
 
 /** Import error response */
