@@ -29,9 +29,13 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
     return pathname.startsWith(href);
   };
 
-  const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
-    window.location.assign(`${basePath}/login`);
+  const handleLogout = () => {
+    const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = `/api/auth/logout?next=${encodeURIComponent(`${basePath}/login`)}`;
+    document.body.appendChild(form);
+    form.submit();
   };
 
   return (
