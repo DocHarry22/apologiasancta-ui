@@ -164,6 +164,7 @@ export default function NativeHome() {
             href={researchUrl}
             target={configuredResearchUrl ? "_blank" : undefined}
             rel={configuredResearchUrl ? "noopener noreferrer" : undefined}
+            aria-label={configuredResearchUrl ? "Open Research Graph (opens in a new tab)" : undefined}
             className="group relative flex flex-col justify-between overflow-hidden rounded-2xl p-4 transition-opacity hover:opacity-90 active:opacity-70"
             style={{
               background: "linear-gradient(145deg, #f5f0e8 0%, #e8dfc8 100%)",

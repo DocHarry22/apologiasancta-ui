@@ -120,6 +120,7 @@ export function NativeBottomTabs() {
                 href={tab.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`${tab.label} (opens in a new tab)`}
                 className="relative flex min-h-14 flex-1 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#d4af37]"
               >
                 {inner}
