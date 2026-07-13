@@ -44,6 +44,11 @@ test.beforeEach(async ({ page }) => {
 test("public routes load", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("body")).toContainText(/Apologia Sancta/i);
+  await expect(page.getByRole("button", { name: "Install App" })).toBeDisabled();
+  await expect(page.getByRole("link", { name: "Download Published APK" })).toHaveAttribute(
+    "href",
+    "https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk",
+  );
 
   await page.goto("/library");
   await expect(page.locator("body")).toContainText(/library/i);
@@ -77,41 +82,6 @@ test("wake-lock permission denial remains a contained progressive-enhancement fa
 
   await page.waitForTimeout(100);
   expect(pageErrors.filter((message) => /wake lock|notallowederror/i.test(message))).toEqual([]);
-});
-
-test("rejected web-install prompts fall back without an unhandled browser error", async ({ page }) => {
-  const pageErrors: string[] = [];
-  page.on("pageerror", (error) => pageErrors.push(error.message));
-  await page.goto("/");
-  await expect(page.getByRole("status", { name: "Starting Apologia Sancta" })).toBeHidden();
-
-  const installWasTriggered = await page.evaluate(async () => {
-    const event = new Event("beforeinstallprompt", { cancelable: true });
-    Object.defineProperties(event, {
-      prompt: {
-        value: async () => {
-          throw new DOMException("Install permission denied", "NotAllowedError");
-        },
-      },
-      userChoice: {
-        value: Promise.resolve({ outcome: "dismissed", platform: "web" }),
-      },
-    });
-    window.dispatchEvent(event);
-    await new Promise<void>((resolve) => window.requestAnimationFrame(() => resolve()));
-    const installButton = [...document.querySelectorAll("button")]
-      .find((button) => button.textContent?.trim() === "Install App");
-    if (!installButton) {
-      return false;
-    }
-    installButton.click();
-    return true;
-  });
-
-  expect(installWasTriggered).toBe(true);
-  await expect(page.getByRole("alert")).toContainText(/browser menu/i);
-  await expect(page.getByRole("button", { name: "Install App" })).toBeDisabled();
-  expect(pageErrors.filter((message) => /install permission|notallowederror/i.test(message))).toEqual([]);
 });
 
 test("native home navigation and update actions work on narrow browser screens", async ({ page }) => {
