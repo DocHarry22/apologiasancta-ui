@@ -8,7 +8,30 @@ function isCapacitor(): boolean {
   return typeof window !== "undefined" && !!(window as { Capacitor?: unknown }).Capacitor;
 }
 
-let wakeLock: { release: () => Promise<void> } | null = null;
+type WakeLockSentinelLike = {
+  released?: boolean;
+  release: () => Promise<void>;
+  addEventListener?: (
+    type: "release",
+    listener: () => void,
+    options?: { once?: boolean },
+  ) => void;
+};
+
+let wakeLock: WakeLockSentinelLike | null = null;
+let wakeLockRequest: Promise<void> | null = null;
+let shouldKeepAwake = false;
+let wakeLockOperation = 0;
+let visibilityListenerAttached = false;
+
+async function runBestEffort(action: () => Promise<void>): Promise<void> {
+  try {
+    await action();
+  } catch {
+    // Native feedback and wake locks are progressive enhancements. Permission
+    // denials or unavailable plugins must never become unhandled rejections.
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Haptics
@@ -16,40 +39,125 @@ let wakeLock: { release: () => Promise<void> } | null = null;
 
 export async function hapticSuccess(): Promise<void> {
   if (!isCapacitor()) return;
-  const { Haptics, NotificationType } = await import("@capacitor/haptics");
-  await Haptics.notification({ type: NotificationType.Success });
+  await runBestEffort(async () => {
+    const { Haptics, NotificationType } = await import("@capacitor/haptics");
+    await Haptics.notification({ type: NotificationType.Success });
+  });
 }
 
 export async function hapticError(): Promise<void> {
   if (!isCapacitor()) return;
-  const { Haptics, NotificationType } = await import("@capacitor/haptics");
-  await Haptics.notification({ type: NotificationType.Error });
+  await runBestEffort(async () => {
+    const { Haptics, NotificationType } = await import("@capacitor/haptics");
+    await Haptics.notification({ type: NotificationType.Error });
+  });
 }
 
 export async function hapticLight(): Promise<void> {
   if (!isCapacitor()) return;
-  const { Haptics, ImpactStyle } = await import("@capacitor/haptics");
-  await Haptics.impact({ style: ImpactStyle.Light });
+  await runBestEffort(async () => {
+    const { Haptics, ImpactStyle } = await import("@capacitor/haptics");
+    await Haptics.impact({ style: ImpactStyle.Light });
+  });
 }
 
 // ---------------------------------------------------------------------------
 // Keep screen awake
 // ---------------------------------------------------------------------------
 
-export async function keepAwake(): Promise<void> {
-  if (typeof navigator === "undefined") return;
+function canRequestWakeLock(): boolean {
+  if (typeof document === "undefined") return true;
+  return document.visibilityState !== "hidden";
+}
+
+function getWakeLockManager(): {
+  request: (type: "screen") => Promise<WakeLockSentinelLike>;
+} | null {
+  if (typeof navigator === "undefined") return null;
   const nav = navigator as Navigator & {
-    wakeLock?: { request: (type: "screen") => Promise<{ release: () => Promise<void> }> };
+    wakeLock?: { request: (type: "screen") => Promise<WakeLockSentinelLike> };
   };
-  if (!nav.wakeLock || wakeLock) return;
-  wakeLock = await nav.wakeLock.request("screen");
+  return nav.wakeLock ?? null;
+}
+
+async function releaseWakeLock(lock: WakeLockSentinelLike | null): Promise<void> {
+  if (!lock || lock.released) return;
+  await runBestEffort(() => lock.release());
+}
+
+function handleWakeLockRelease(lock: WakeLockSentinelLike): void {
+  if (wakeLock === lock) wakeLock = null;
+  if (shouldKeepAwake && canRequestWakeLock()) {
+    queueMicrotask(() => { void requestWakeLock(); });
+  }
+}
+
+async function requestWakeLock(): Promise<void> {
+  const manager = getWakeLockManager();
+  if (!manager || !shouldKeepAwake || !canRequestWakeLock() || wakeLock) return;
+  if (wakeLockRequest) return wakeLockRequest;
+
+  const request = runBestEffort(async () => {
+    const lock = await manager.request("screen");
+
+    if (!shouldKeepAwake || !canRequestWakeLock()) {
+      await releaseWakeLock(lock);
+      return;
+    }
+
+    wakeLock = lock;
+    lock.addEventListener?.("release", () => handleWakeLockRelease(lock), { once: true });
+    if (lock.released) handleWakeLockRelease(lock);
+  }).finally(() => {
+    if (wakeLockRequest === request) wakeLockRequest = null;
+  });
+
+  wakeLockRequest = request;
+  await request;
+}
+
+function handleVisibilityChange(): void {
+  if (!shouldKeepAwake) return;
+  if (canRequestWakeLock()) {
+    void requestWakeLock();
+    return;
+  }
+
+  const lock = wakeLock;
+  wakeLock = null;
+  void releaseWakeLock(lock);
+}
+
+function attachVisibilityListener(): void {
+  if (typeof document === "undefined" || visibilityListenerAttached) return;
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+  visibilityListenerAttached = true;
+}
+
+function detachVisibilityListener(): void {
+  if (typeof document === "undefined" || !visibilityListenerAttached) return;
+  document.removeEventListener("visibilitychange", handleVisibilityChange);
+  visibilityListenerAttached = false;
+}
+
+export async function keepAwake(): Promise<void> {
+  shouldKeepAwake = true;
+  wakeLockOperation += 1;
+  attachVisibilityListener();
+  await requestWakeLock();
 }
 
 export async function allowSleep(): Promise<void> {
-  if (!wakeLock) return;
+  shouldKeepAwake = false;
+  const operation = ++wakeLockOperation;
+  detachVisibilityListener();
+
+  if (wakeLockRequest) await wakeLockRequest;
+  if (operation !== wakeLockOperation || shouldKeepAwake) return;
+
   const lock = wakeLock;
   wakeLock = null;
-  await lock.release();
+  await releaseWakeLock(lock);
 }
 
 // ---------------------------------------------------------------------------

@@ -52,6 +52,33 @@ test("public routes load", async ({ page }) => {
   await expect(page.locator("body")).toContainText(/join|waiting|question|room/i);
 });
 
+test("wake-lock permission denial remains a contained progressive-enhancement failure", async ({ page }) => {
+  const pageErrors: string[] = [];
+  page.on("pageerror", (error) => pageErrors.push(error.message));
+  await page.addInitScript(() => {
+    const state = window as typeof window & { __wakeLockRequestCount?: number };
+    state.__wakeLockRequestCount = 0;
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => {
+          state.__wakeLockRequestCount = (state.__wakeLockRequestCount ?? 0) + 1;
+          throw new DOMException("Wake Lock permission request denied", "NotAllowedError");
+        },
+      },
+    });
+  });
+
+  await page.goto("/mobile");
+  await expect(page.locator("body")).toContainText(/join|waiting|question|room/i);
+  await expect.poll(() => page.evaluate(
+    () => (window as typeof window & { __wakeLockRequestCount?: number }).__wakeLockRequestCount ?? 0,
+  )).toBeGreaterThan(0);
+
+  await page.waitForTimeout(100);
+  expect(pageErrors.filter((message) => /wake lock|notallowederror/i.test(message))).toEqual([]);
+});
+
 test("native home navigation and update actions work on narrow browser screens", async ({ page }) => {
   const release = {
     id: "ui-release",
