@@ -85,7 +85,7 @@ test("rejected web-install prompts fall back without an unhandled browser error"
   await page.goto("/");
   await expect(page.getByRole("status", { name: "Starting Apologia Sancta" })).toBeHidden();
 
-  await page.evaluate(() => {
+  const installWasTriggered = await page.evaluate(async () => {
     const event = new Event("beforeinstallprompt", { cancelable: true });
     Object.defineProperties(event, {
       prompt: {
@@ -98,14 +98,17 @@ test("rejected web-install prompts fall back without an unhandled browser error"
       },
     });
     window.dispatchEvent(event);
+    await new Promise<void>((resolve) => window.requestAnimationFrame(() => resolve()));
+    const installButton = [...document.querySelectorAll("button")]
+      .find((button) => button.textContent?.trim() === "Install App");
+    if (!installButton) {
+      return false;
+    }
+    installButton.click();
+    return true;
   });
 
-  const installButton = page.getByRole("button", { name: "Install App" });
-  await expect(installButton).toBeEnabled();
-  // Invoke the handler directly: this test targets rejected prompt handling,
-  // while the component test separately covers pointer activation. The home
-  // startup shell can replace the hydrated button during Playwright's actionability wait.
-  await installButton.evaluate((button: HTMLButtonElement) => button.click());
+  expect(installWasTriggered).toBe(true);
   await expect(page.getByRole("alert")).toContainText(/browser menu/i);
   await expect(page.getByRole("button", { name: "Install App" })).toBeDisabled();
   expect(pageErrors.filter((message) => /install permission|notallowederror/i.test(message))).toEqual([]);
