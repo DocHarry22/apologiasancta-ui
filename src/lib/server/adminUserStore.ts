@@ -1,4 +1,9 @@
 import { randomUUID } from "node:crypto";
+import {
+  convertToPostgresPlaceholders,
+  getAdminDatabaseDialect,
+  type AdminDatabaseDialect,
+} from "@/lib/auth/databaseConfig";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
 import { isRole, type Role } from "@/lib/auth/roles";
 
@@ -54,11 +59,12 @@ export interface UpdateAdminUserInput {
 export type ChangeAdminUserPasswordResult = "ok" | "not_found" | "invalid_current";
 export type RevokeAdminUserSessionsResult = "ok" | "not_found";
 
-type MysqlPool = {
+type DatabasePool = {
   execute: (sql: string, values?: unknown[]) => Promise<[unknown[], unknown]>;
 };
 
-let poolPromise: Promise<MysqlPool> | null = null;
+let poolPromise: Promise<DatabasePool> | null = null;
+let initializationPromise: Promise<void> | null = null;
 let initialized = false;
 const memoryUsers = new Map<string, AdminUser>();
 
@@ -66,11 +72,8 @@ function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
 }
 
-function hasMysqlConfig(): boolean {
-  return Boolean(
-    process.env.DATABASE_URL ||
-    (process.env.MYSQL_HOST && process.env.MYSQL_DATABASE && process.env.MYSQL_USER && process.env.MYSQL_PASSWORD)
-  );
+function hasDatabaseConfig(): boolean {
+  return getAdminDatabaseDialect() !== null;
 }
 
 function allowMemoryStore(): boolean {
@@ -89,18 +92,36 @@ function getMemorySeedId(email: string): string {
   return `seed-admin-${Buffer.from(email).toString("base64url")}`;
 }
 
-async function getMysqlPool(): Promise<MysqlPool> {
+async function getDatabasePool(): Promise<DatabasePool> {
   if (poolPromise) return poolPromise;
 
-  poolPromise = (async () => {
+  const pendingPool: Promise<DatabasePool> = (async () => {
+    const dialect = getAdminDatabaseDialect();
+    if (!dialect) {
+      throw new Error("Admin user database configuration is missing or uses an unsupported URL scheme.");
+    }
+
+    if (dialect === "postgres") {
+      const importer = new Function("specifier", "return import(specifier)") as (specifier: string) => Promise<{
+        Pool: new (config: Record<string, unknown>) => {
+          query: (sql: string, values?: unknown[]) => Promise<{ rows: unknown[] }>;
+        };
+      }>;
+      const postgres = await importer("pg");
+      const postgresPool = new postgres.Pool({ connectionString: process.env.DATABASE_URL });
+      return {
+        async execute(sql: string, values?: unknown[]): Promise<[unknown[], unknown]> {
+          const result = await postgresPool.query(convertToPostgresPlaceholders(sql), values);
+          return [result.rows, []];
+        },
+      };
+    }
+
     const importer = new Function("specifier", "return import(specifier)") as (specifier: string) => Promise<{
-      createPool: (config: string | Record<string, unknown>) => MysqlPool;
+      createPool: (config: string | Record<string, unknown>) => DatabasePool;
     }>;
     const mysql = await importer("mysql2/promise");
-
-    if (process.env.DATABASE_URL) {
-      return mysql.createPool(process.env.DATABASE_URL);
-    }
+    if (process.env.DATABASE_URL) return mysql.createPool(process.env.DATABASE_URL);
 
     return mysql.createPool({
       host: process.env.MYSQL_HOST,
@@ -112,12 +133,45 @@ async function getMysqlPool(): Promise<MysqlPool> {
       connectionLimit: Number(process.env.MYSQL_CONNECTION_LIMIT || 5),
     });
   })();
+  poolPromise = pendingPool;
 
-  return poolPromise;
+  try {
+    return await pendingPool;
+  } catch (error) {
+    if (poolPromise === pendingPool) poolPromise = null;
+    throw error;
+  }
 }
 
 async function ensureSchema(): Promise<void> {
-  const pool = await getMysqlPool();
+  const pool = await getDatabasePool();
+  const dialect: AdminDatabaseDialect = getAdminDatabaseDialect() ?? "mysql";
+
+  if (dialect === "postgres") {
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS admin_users (
+        id VARCHAR(64) PRIMARY KEY,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        password_hash VARCHAR(255) NOT NULL,
+        display_name VARCHAR(255) NOT NULL,
+        role VARCHAR(32) NOT NULL,
+        account_type VARCHAR(32) NOT NULL DEFAULT 'staff',
+        phone VARCHAR(64) NULL,
+        password_changed_at TIMESTAMPTZ NULL,
+        status VARCHAR(32) NOT NULL DEFAULT 'active',
+        created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        last_login_at TIMESTAMPTZ NULL
+      )
+    `);
+    await pool.execute("CREATE INDEX IF NOT EXISTS idx_admin_users_email ON admin_users (email)");
+    await pool.execute("CREATE INDEX IF NOT EXISTS idx_admin_users_status ON admin_users (status)");
+    await pool.execute("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS account_type VARCHAR(32) NOT NULL DEFAULT 'staff'");
+    await pool.execute("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS phone VARCHAR(64) NULL");
+    await pool.execute("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS password_changed_at TIMESTAMPTZ NULL");
+    return;
+  }
+
   await pool.execute(`
     CREATE TABLE IF NOT EXISTS admin_users (
       id VARCHAR(64) PRIMARY KEY,
@@ -166,14 +220,14 @@ function rowToUser(row: Record<string, unknown>): AdminUser {
 }
 
 async function findDbUserByEmail(email: string): Promise<AdminUser | null> {
-  const pool = await getMysqlPool();
+  const pool = await getDatabasePool();
   const [rows] = await pool.execute("SELECT * FROM admin_users WHERE email = ? LIMIT 1", [normalizeEmail(email)]);
   const first = (rows as Record<string, unknown>[])[0];
   return first ? rowToUser(first) : null;
 }
 
 async function findDbUserById(id: string): Promise<AdminUser | null> {
-  const pool = await getMysqlPool();
+  const pool = await getDatabasePool();
   const [rows] = await pool.execute("SELECT * FROM admin_users WHERE id = ? LIMIT 1", [id]);
   const first = (rows as Record<string, unknown>[])[0];
   return first ? rowToUser(first) : null;
@@ -196,13 +250,13 @@ function toAdminUserProfile(user: AdminUser): AdminUserProfile {
 }
 
 async function listDbUsers(): Promise<AdminUser[]> {
-  const pool = await getMysqlPool();
+  const pool = await getDatabasePool();
   const [rows] = await pool.execute("SELECT * FROM admin_users ORDER BY created_at DESC");
   return (rows as Record<string, unknown>[]).map(rowToUser);
 }
 
 async function countActiveSuperAdmins(): Promise<number> {
-  if (!hasMysqlConfig()) {
+  if (!hasDatabaseConfig()) {
     let count = 0;
     for (const user of memoryUsers.values()) {
       if (user.status === "active" && user.role === "super_admin") count += 1;
@@ -210,7 +264,7 @@ async function countActiveSuperAdmins(): Promise<number> {
     return count;
   }
 
-  const pool = await getMysqlPool();
+  const pool = await getDatabasePool();
   const [rows] = await pool.execute(
     "SELECT COUNT(*) AS count FROM admin_users WHERE role = 'super_admin' AND status = 'active'"
   );
@@ -227,7 +281,7 @@ async function upsertSeedAdmin(): Promise<void> {
   const displayName = getSeedDisplayName(email);
   const now = new Date().toISOString().slice(0, 19).replace("T", " ");
 
-  if (!hasMysqlConfig()) {
+  if (!hasDatabaseConfig()) {
     if (!allowMemoryStore()) return;
     const existing = memoryUsers.get(email);
     if (existing) {
@@ -262,7 +316,7 @@ async function upsertSeedAdmin(): Promise<void> {
 
   await ensureSchema();
   const existing = await findDbUserByEmail(email);
-  const pool = await getMysqlPool();
+  const pool = await getDatabasePool();
 
   if (existing) {
     const passwordSql = process.env.ADMIN_BOOTSTRAP_OVERWRITE_PASSWORD === "true" ? ", password_hash = ?" : "";
@@ -285,21 +339,32 @@ async function upsertSeedAdmin(): Promise<void> {
 
 export async function ensureAdminUserStore(): Promise<void> {
   if (initialized) return;
+  if (initializationPromise) return initializationPromise;
 
-  if (!hasMysqlConfig() && !allowMemoryStore()) {
-    throw new Error("Admin user database is not configured. Set DATABASE_URL or MYSQL_HOST, MYSQL_DATABASE, MYSQL_USER, and MYSQL_PASSWORD.");
-  }
+  const pendingInitialization = (async () => {
+    if (!hasDatabaseConfig() && !allowMemoryStore()) {
+      throw new Error("Admin user database is not configured. Set a PostgreSQL or MySQL DATABASE_URL, or MYSQL_HOST, MYSQL_DATABASE, MYSQL_USER, and MYSQL_PASSWORD.");
+    }
 
-  if (hasMysqlConfig()) {
-    await ensureSchema();
+    if (hasDatabaseConfig()) {
+      await ensureSchema();
+    }
+    await upsertSeedAdmin();
+    initialized = true;
+  })();
+  initializationPromise = pendingInitialization;
+
+  try {
+    await pendingInitialization;
+  } catch (error) {
+    if (initializationPromise === pendingInitialization) initializationPromise = null;
+    throw error;
   }
-  await upsertSeedAdmin();
-  initialized = true;
 }
 
 export async function getAdminUserById(id: string): Promise<AdminUser | null> {
   await ensureAdminUserStore();
-  if (!hasMysqlConfig()) {
+  if (!hasDatabaseConfig()) {
     return Array.from(memoryUsers.values()).find((user) => user.id === id) ?? null;
   }
   return findDbUserById(id);
@@ -308,7 +373,7 @@ export async function getAdminUserById(id: string): Promise<AdminUser | null> {
 export async function authenticateAdminUser(email: string, password: string): Promise<AdminUser | null> {
   await ensureAdminUserStore();
   const normalizedEmail = normalizeEmail(email);
-  const user = hasMysqlConfig()
+  const user = hasDatabaseConfig()
     ? await findDbUserByEmail(normalizedEmail)
     : memoryUsers.get(normalizedEmail) ?? null;
 
@@ -320,7 +385,7 @@ export async function authenticateAdminUser(email: string, password: string): Pr
 }
 
 export async function markAdminUserLogin(id: string): Promise<void> {
-  if (!hasMysqlConfig()) {
+  if (!hasDatabaseConfig()) {
     for (const [email, user] of memoryUsers) {
       if (user.id === id) {
         memoryUsers.set(email, { ...user, lastLoginAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
@@ -330,7 +395,7 @@ export async function markAdminUserLogin(id: string): Promise<void> {
     return;
   }
 
-  const pool = await getMysqlPool();
+  const pool = await getDatabasePool();
   await pool.execute("UPDATE admin_users SET last_login_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?", [id]);
 }
 
@@ -348,7 +413,7 @@ export async function createAdminUser(input: CreateAdminUserInput): Promise<Admi
     return null;
   }
 
-  const existing = hasMysqlConfig()
+  const existing = hasDatabaseConfig()
     ? await findDbUserByEmail(email)
     : memoryUsers.get(email) ?? null;
 
@@ -373,12 +438,12 @@ export async function createAdminUser(input: CreateAdminUserInput): Promise<Admi
     lastLoginAt: null,
   };
 
-  if (!hasMysqlConfig()) {
+  if (!hasDatabaseConfig()) {
     memoryUsers.set(email, created);
     return created;
   }
 
-  const pool = await getMysqlPool();
+  const pool = await getDatabasePool();
   await pool.execute(
     `INSERT INTO admin_users (id, email, password_hash, display_name, role, account_type, phone, status, created_at, updated_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, 'active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
@@ -390,7 +455,7 @@ export async function createAdminUser(input: CreateAdminUserInput): Promise<Admi
 
 export async function listAdminUsers(): Promise<AdminUserProfile[]> {
   await ensureAdminUserStore();
-  const users = hasMysqlConfig() ? await listDbUsers() : Array.from(memoryUsers.values());
+  const users = hasDatabaseConfig() ? await listDbUsers() : Array.from(memoryUsers.values());
   return users.map(toAdminUserProfile);
 }
 
@@ -417,7 +482,7 @@ export async function updateAdminUser(input: UpdateAdminUserInput): Promise<Admi
     }
   }
 
-  if (!hasMysqlConfig()) {
+  if (!hasDatabaseConfig()) {
     const updatedAt = new Date().toISOString();
     for (const [email, user] of memoryUsers) {
       if (user.id !== input.id) continue;
@@ -435,7 +500,7 @@ export async function updateAdminUser(input: UpdateAdminUserInput): Promise<Admi
     return null;
   }
 
-  const pool = await getMysqlPool();
+  const pool = await getDatabasePool();
   await pool.execute(
     `UPDATE admin_users
      SET display_name = ?, role = ?, status = ?, phone = ?, updated_at = CURRENT_TIMESTAMP
@@ -462,7 +527,7 @@ export async function changeAdminUserPassword(
   const nextHash = await hashPassword(nextPassword);
   const passwordChangedAt = new Date().toISOString();
 
-  if (!hasMysqlConfig()) {
+  if (!hasDatabaseConfig()) {
     const now = new Date().toISOString();
     for (const [email, stored] of memoryUsers) {
       if (stored.id !== userId) continue;
@@ -477,7 +542,7 @@ export async function changeAdminUserPassword(
     return "not_found";
   }
 
-  const pool = await getMysqlPool();
+  const pool = await getDatabasePool();
   await pool.execute(
     "UPDATE admin_users SET password_hash = ?, password_changed_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
     [nextHash, userId]
@@ -492,7 +557,7 @@ export async function revokeAdminUserOtherSessions(userId: string): Promise<Revo
 
   const passwordChangedAt = new Date().toISOString();
 
-  if (!hasMysqlConfig()) {
+  if (!hasDatabaseConfig()) {
     for (const [email, stored] of memoryUsers) {
       if (stored.id !== userId) continue;
       memoryUsers.set(email, {
@@ -505,7 +570,7 @@ export async function revokeAdminUserOtherSessions(userId: string): Promise<Revo
     return "not_found";
   }
 
-  const pool = await getMysqlPool();
+  const pool = await getDatabasePool();
   await pool.execute(
     "UPDATE admin_users SET password_changed_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
     [userId]
@@ -515,6 +580,7 @@ export async function revokeAdminUserOtherSessions(userId: string): Promise<Revo
 
 export function resetAdminUserStoreForTests(): void {
   initialized = false;
+  initializationPromise = null;
   memoryUsers.clear();
   poolPromise = null;
 }
