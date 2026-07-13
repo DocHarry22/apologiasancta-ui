@@ -36,6 +36,7 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_ENGINE_URL: https://apologiasancta-engine.onrender.com
+          NEXT_PUBLIC_RESEARCH_GRAPH_URL: https://mediumvioletred-kingfisher-797460.hostingersite.com
           NEXT_PUBLIC_APP_URL: https://sandybrown-bear-488955.hostingersite.com
           NEXT_PUBLIC_ANDROID_APK_URL: https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
 
@@ -99,6 +100,7 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_ENGINE_URL: https://apologiasancta-engine.onrender.com
+          NEXT_PUBLIC_RESEARCH_GRAPH_URL: https://mediumvioletred-kingfisher-797460.hostingersite.com
           NEXT_PUBLIC_APP_URL: https://sandybrown-bear-488955.hostingersite.com
           NEXT_PUBLIC_ANDROID_APK_URL: https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
 
