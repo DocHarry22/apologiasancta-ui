@@ -29,6 +29,41 @@ async function mockEngine(page: import("@playwright/test").Page) {
       });
       return;
     }
+    if (url.pathname === "/topics") {
+      await route.fulfill({
+        json: {
+          topics: [
+            { id: "genesis", title: "genesis", questionCount: 91 },
+            { id: "christology", title: "Christology", questionCount: 23 },
+            { id: "romans", title: "Romans", questionCount: 20 },
+          ],
+          totalQuestions: 134,
+        },
+      });
+      return;
+    }
+    if (url.pathname === "/topics/genesis") {
+      await route.fulfill({
+        json: {
+          id: "genesis",
+          title: "Genesis",
+          questionCount: 1,
+          questions: [
+            {
+              id: "genesis_1",
+              text: "Who created the heavens and the earth?",
+              themeTitle: "Genesis",
+              difficulty: 1,
+              choices: [
+                { id: "A", label: "A", text: "God" },
+                { id: "B", label: "B", text: "Moses" },
+              ],
+            },
+          ],
+        },
+      });
+      return;
+    }
     if (url.pathname.startsWith("/admin/")) {
       await route.fulfill({ json: { ok: true, status: "mocked" } });
       return;
@@ -120,7 +155,15 @@ test("native home navigation and update actions work on narrow browser screens",
     "https://mediumvioletred-kingfisher-797460.hostingersite.com",
   );
   await expect(page.locator('a[href*="github.com/DocHarry22/apologia-graph"]')).toHaveCount(0);
+  const genesisTopic = page.getByRole("link", { name: "Genesis, 91 questions" });
+  await expect(genesisTopic).toHaveAttribute("href", "/library/genesis/");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+
+  await genesisTopic.click();
+  await expect(page).toHaveURL(/\/library\/genesis\/$/);
+  await expect(page.getByRole("heading", { name: "Genesis" })).toBeVisible();
+
+  await page.goto("/native");
 
   await page.getByRole("button", { name: "Show latest updates" }).click();
   await expect(page.getByRole("dialog", { name: "Responsive navigation" })).toBeVisible();

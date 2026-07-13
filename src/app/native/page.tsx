@@ -231,7 +231,7 @@ export default function NativeHome() {
               View all &rsaquo;
             </Link>
           </div>
-          <TopicsScroll topics={featuredTopics} />
+          <TopicsScroll topics={featuredTopics} engineUrl={engineUrl} />
         </section>
 
         {/* ── VERSE OF THE DAY ──────────────────────────────────── */}
