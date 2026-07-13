@@ -14,6 +14,7 @@ interface Props {
 interface LoginPayload {
   redirectTo?: string;
   error?: string;
+  code?: string;
 }
 
 function AdminLoginContent({ defaultNextPath, allowedNextPrefixes }: Props) {
@@ -59,6 +60,8 @@ function AdminLoginContent({ defaultNextPath, allowedNextPrefixes }: Props) {
         setError("Incorrect email or password. Please try again.");
       } else if (response.status === 429) {
         setError("Too many login attempts. Please wait a bit and try again.");
+      } else if (response.status === 503) {
+        setError("Admin sign-in is temporarily unavailable. Please contact the site administrator or try again later.");
       } else {
         const payload = (await response.json().catch(() => null)) as { error?: string } | null;
         setError(payload?.error || "Unable to sign in right now. Please try again.");
@@ -116,7 +119,7 @@ function AdminLoginContent({ defaultNextPath, allowedNextPrefixes }: Props) {
           </label>
 
           {error && (
-            <p className="text-xs rounded-md border border-(--wrong)/30 bg-(--wrong)/10 text-(--wrong) px-3 py-2">
+            <p role="alert" aria-live="polite" className="text-xs rounded-md border border-(--wrong)/30 bg-(--wrong)/10 text-(--wrong) px-3 py-2">
               {error}
             </p>
           )}

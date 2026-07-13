@@ -2,15 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { checkLoginRateLimit, clearLoginRateLimit, getClientIp } from "@/lib/auth/rateLimit";
 import {
   createSessionCookie,
-  hasSessionSecret,
   SESSION_COOKIE_NAME,
   SESSION_MAX_AGE_SECONDS,
 } from "@/lib/auth/session";
+import { getAdminAuthReadiness } from "@/lib/auth/availability";
 import { CSRF_COOKIE_NAME, generateCsrfToken } from "@/lib/csrf";
 import { getRoleHomePath } from "@/lib/auth/access";
 import { authenticateAdminUser } from "@/lib/server/adminUserStore";
+import { authUnavailableResponse } from "@/lib/server/authUnavailableResponse";
 
 export async function POST(req: NextRequest) {
+  if (!getAdminAuthReadiness().ready) {
+    return authUnavailableResponse();
+  }
+
   const ip = getClientIp(req);
   const limit = checkLoginRateLimit(ip);
 
@@ -23,13 +28,6 @@ export async function POST(req: NextRequest) {
           ? { "Retry-After": String(limit.retryAfterSeconds) }
           : undefined,
       }
-    );
-  }
-
-  if (!hasSessionSecret()) {
-    return NextResponse.json(
-      { error: "Admin auth is not configured on the server." },
-      { status: 500 }
     );
   }
 
@@ -51,7 +49,8 @@ export async function POST(req: NextRequest) {
   try {
     user = await authenticateAdminUser(email, password);
   } catch {
-    return NextResponse.json({ error: "Admin auth is not configured on the server." }, { status: 500 });
+    clearLoginRateLimit(ip);
+    return authUnavailableResponse();
   }
   if (!user) {
     return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });

@@ -9,7 +9,7 @@ import {
   validateQuestion,
   validateBatch,
   normalizeQuestions,
-} from "./batchImportUtils";
+} from "./batchImportUtils.ts";
 
 // --------------------------------------------------------------------------
 // Test helpers

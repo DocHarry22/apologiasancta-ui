@@ -27,6 +27,12 @@ async function csrfHeaders() {
   };
 }
 
+async function authHeaders() {
+  const user = await authenticateAdminUser("admin@example.test", "test-author-password");
+  const session = await createSessionCookie(user?.id ?? "admin-user-1");
+  return { cookie: `${SESSION_COOKIE_NAME}=${session}` };
+}
+
 function ctx(path: string[]) {
   return { params: Promise.resolve({ path }) };
 }
@@ -82,7 +88,10 @@ describe("admin proxy API route", () => {
   });
 
   it("valid known routes pass validation", async () => {
-    const response = await GET(req("rooms/room-1/status"), ctx(["rooms", "room-1", "status"]));
+    const response = await GET(
+      req("rooms/room-1/status", { headers: await authHeaders() }),
+      ctx(["rooms", "room-1", "status"])
+    );
 
     expect(response.status).toBe(200);
   });
@@ -90,7 +99,7 @@ describe("admin proxy API route", () => {
   it("returns safe errors for missing config without leaking secrets", async () => {
     delete process.env.ENGINE_ADMIN_TOKEN;
 
-    const response = await GET(req("status"), ctx(["status"]));
+    const response = await GET(req("status", { headers: await authHeaders() }), ctx(["status"]));
     const text = await response.text();
 
     expect(response.status).toBe(503);
