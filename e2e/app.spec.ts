@@ -76,7 +76,17 @@ test("native home navigation and update actions work on narrow browser screens",
   const navigation = page.getByRole("navigation", { name: "Primary navigation" });
   await expect(navigation).toBeVisible();
   await expect(navigation.getByRole("link", { name: "Home" })).toHaveAttribute("aria-current", "page");
-  await expect(navigation.getByText("Research", { exact: true })).toHaveCount(0);
+  const researchTab = navigation.getByRole("link", { name: "Research (opens in a new tab)" });
+  await expect(researchTab).toHaveAttribute(
+    "href",
+    "https://mediumvioletred-kingfisher-797460.hostingersite.com",
+  );
+  await expect(researchTab).toHaveAttribute("target", "_blank");
+  await expect(researchTab).toHaveAttribute("rel", "noopener noreferrer");
+  await expect(page.getByRole("link", { name: "Open Research Graph (opens in a new tab)" })).toHaveAttribute(
+    "href",
+    "https://mediumvioletred-kingfisher-797460.hostingersite.com",
+  );
   await expect(page.locator('a[href*="github.com/DocHarry22/apologia-graph"]')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 
