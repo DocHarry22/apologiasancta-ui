@@ -1,15 +1,12 @@
 # Testing
 
-Apologia Sancta UI uses Vitest for unit/integration tests, React Testing Library for component and hook tests, and Playwright for browser E2E coverage.
+Apologia Sancta UI uses Node's test runner and Vitest for unit/integration tests, React Testing Library for component and hook tests, and Playwright for browser E2E coverage.
 
 ## Commands
 
-- `npm run test` runs the Vitest suite once.
-- `npm run test:watch` runs Vitest in watch mode.
-- `npm run test:coverage` runs Vitest with coverage thresholds.
+- `npm run test` runs the lightweight Node unit/security suite.
+- `npm run test:vitest` runs the component, hook, and API-route suite once.
 - `npm run test:e2e` runs Playwright browser tests.
-- `npm run test:e2e:ui` opens the Playwright UI runner.
-- `npm run verify` runs lint, typecheck, unit tests, and build.
 
 Before deployment, run:
 
@@ -17,7 +14,7 @@ Before deployment, run:
 npm run lint
 npm run types
 npm run test
-npm run test:coverage
+npm run test:vitest
 npm run build
 npm run test:e2e
 ```
@@ -51,7 +48,7 @@ The browser must never send `x-admin-token`. Tests assert that admin requests fr
 
 `src/lib/contentTreeValidation.ts` validates `content/topics/index.json`, per-topic folders, `meta.json`, `manifest.json`, question files, choice fields, teaching content, tags, unique IDs, and filename-to-ID matching.
 
-Run `npm run test -- src/lib/contentValidation.test.ts` when changing content.
+Run `npm run test:vitest -- src/lib/contentValidation.test.ts` when changing content.
 
 ## Security Headers
 

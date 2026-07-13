@@ -155,6 +155,10 @@ const ADMIN_ROUTE_ALLOWLIST: RouteRule[] = [
   { pattern: /^reset$/,             methods: ["POST"] },
   { pattern: /^persistence\/save$/, methods: ["POST"] },
 
+  // ── In-app release archive ───────────────────────────────────────────────
+  { pattern: /^releases$/,                          methods: ["GET"] },
+  { pattern: /^releases\/[a-zA-Z0-9_-]+\/read$/,   methods: ["PATCH"] },
+
   // ── Room management ───────────────────────────────────────────────────────
   { pattern: /^rooms$/,                             methods: ["GET", "POST"] },
   { pattern: /^rooms\/[a-zA-Z0-9_-]+\/close$/,      methods: ["POST"] },

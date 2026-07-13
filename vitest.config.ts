@@ -1,14 +1,27 @@
+import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
+  plugins: [react()],
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
   test: {
     environment: "node",
     globals: true,
     setupFiles: ["./vitest.setup.ts"],
-    exclude: ["node_modules", ".next", "out", "android", "e2e"],
+    exclude: [
+      "node_modules",
+      ".next",
+      "out",
+      "android",
+      "e2e",
+      "tests/**",
+      "src/lib/batchImportUtils.test.ts",
+    ],
     coverage: {
       provider: "v8",
       reporter: ["text", "lcov"],

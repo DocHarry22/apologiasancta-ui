@@ -2,15 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { checkSignupRateLimit, getClientIp } from "@/lib/auth/rateLimit";
 import {
   createSessionCookie,
-  hasSessionSecret,
   SESSION_COOKIE_NAME,
   SESSION_MAX_AGE_SECONDS,
 } from "@/lib/auth/session";
+import { getAdminAuthReadiness } from "@/lib/auth/availability";
 import { CSRF_COOKIE_NAME, generateCsrfToken } from "@/lib/csrf";
 import { getRoleHomePath, isStaffRole } from "@/lib/auth/access";
 import { resolveSignupRole } from "@/lib/auth/invite";
 import { getAuthInviteSettings } from "@/lib/server/authInviteSettings";
 import { createAdminUser } from "@/lib/server/adminUserStore";
+import { authUnavailableResponse } from "@/lib/server/authUnavailableResponse";
 
 interface SignupBody {
   name?: unknown;
@@ -30,6 +31,10 @@ function isValidEmail(email: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
+  if (!getAdminAuthReadiness().ready) {
+    return authUnavailableResponse();
+  }
+
   const ip = getClientIp(req);
   const limit = checkSignupRateLimit(ip);
 
@@ -42,15 +47,6 @@ export async function POST(req: NextRequest) {
           ? { "Retry-After": String(limit.retryAfterSeconds) }
           : undefined,
       }
-    );
-  }
-
-  if (!hasSessionSecret()) {
-    return NextResponse.json(
-      {
-        error: "Auth is not configured on the server.",
-      },
-      { status: 500 }
     );
   }
 
@@ -88,7 +84,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Passwords do not match." }, { status: 400 });
   }
 
-  const inviteSettings = await getAuthInviteSettings();
+  let inviteSettings;
+  try {
+    inviteSettings = await getAuthInviteSettings();
+  } catch {
+    return authUnavailableResponse();
+  }
   const roleDecision = resolveSignupRole(inviteCode || undefined, {
     expectedInviteCode: inviteSettings.inviteCode,
     staffRole: inviteSettings.staffRole,
@@ -100,14 +101,19 @@ export async function POST(req: NextRequest) {
   const role = roleDecision.role;
   const accountType = isStaffRole(role) ? "staff" : "public";
 
-  const created = await createAdminUser({
-    email,
-    password,
-    displayName,
-    role,
-    accountType,
-    phone: phone || null,
-  });
+  let created;
+  try {
+    created = await createAdminUser({
+      email,
+      password,
+      displayName,
+      role,
+      accountType,
+      phone: phone || null,
+    });
+  } catch {
+    return authUnavailableResponse();
+  }
 
   if (!created) {
     return NextResponse.json({ error: "Unable to create account. Email may already be in use." }, { status: 409 });

@@ -32,6 +32,14 @@ async function authedPost(path: string, body = "{}") {
   });
 }
 
+async function authedGet(path: string) {
+  const user = await authenticateAdminUser("admin@example.test", "test-author-password");
+  const session = await createSessionCookie(user?.id ?? "admin-user-1");
+  return request(path, {
+    headers: { cookie: `${SESSION_COOKIE_NAME}=${session}` },
+  });
+}
+
 describe("admin route allowlist", () => {
   it("allows known routes and safe room/topic IDs", () => {
     expect(checkAllowedRoute(["status"], "GET")).toEqual({ ok: true, enginePath: "/admin/status" });
@@ -68,7 +76,7 @@ describe("engine admin proxy", () => {
   it("does not call engine when unauthenticated", async () => {
     mockedVerifyAdminSession.mockResolvedValue(false);
 
-    const response = await proxyAdminRequest(request("status"), ["status"]);
+    const response = await proxyAdminRequest(await authedGet("status"), ["status"]);
 
     expect(response.status).toBe(401);
     expect(fetch).not.toHaveBeenCalled();
@@ -120,7 +128,7 @@ describe("engine admin proxy", () => {
       })
     );
 
-    const response = await proxyAdminRequest(request("status"), ["status"]);
+    const response = await proxyAdminRequest(await authedGet("status"), ["status"]);
     const body = await response.json();
 
     expect(response.status).toBe(502);
@@ -129,12 +137,12 @@ describe("engine admin proxy", () => {
 
   it("safely handles engine network failure and missing config", async () => {
     vi.mocked(fetch).mockRejectedValueOnce(new Error("connect ECONNREFUSED https://engine.test"));
-    let response = await proxyAdminRequest(request("status"), ["status"]);
+    let response = await proxyAdminRequest(await authedGet("status"), ["status"]);
     expect(response.status).toBe(502);
     expect(await response.text()).not.toContain("https://engine.test");
 
     delete process.env.ENGINE_ADMIN_TOKEN;
-    response = await proxyAdminRequest(request("status"), ["status"]);
+    response = await proxyAdminRequest(await authedGet("status"), ["status"]);
     expect(response.status).toBe(503);
     expect(await response.text()).not.toContain("server-only-admin-token");
   });

@@ -4,6 +4,7 @@ import { CSRF_COOKIE_NAME } from "@/lib/csrf";
 import { SESSION_COOKIE_NAME } from "@/lib/auth/session";
 import { resetAdminUserStoreForTests } from "@/lib/server/adminUserStore";
 import { resetAuthInviteSettingsForTests } from "@/lib/server/authInviteSettings";
+import { clearLoginRateLimit, clearSignupRateLimit } from "@/lib/auth/rateLimit";
 
 const cookieGet = vi.fn();
 
@@ -36,6 +37,8 @@ describe("auth routes", () => {
   beforeEach(async () => {
     cookieGet.mockReset();
     resetAdminUserStoreForTests();
+    clearLoginRateLimit("unknown");
+    clearSignupRateLimit("unknown");
     await resetAuthInviteSettingsForTests();
     delete process.env.AUTH_SIGNUP_STAFF_INVITE_CODE;
     delete process.env.AUTH_SIGNUP_STAFF_ROLE;
@@ -48,6 +51,28 @@ describe("auth routes", () => {
     response = await login(postLogin({ email: "admin@example.test", password: "wrong" }));
     expect(response.status).toBe(401);
     expect(await response.text()).not.toContain("wrong");
+  });
+
+  it("login and signup return a stable 503 contract when auth is unavailable", async () => {
+    delete process.env.AUTHOR_SESSION_SECRET;
+
+    const loginResponse = await login(postLogin({ email: "admin@example.test", password: "test-author-password" }));
+    const signupResponse = await signup(postSignup({
+      name: "Unavailable User",
+      email: "unavailable@example.test",
+      password: "test-password",
+      confirmPassword: "test-password",
+    }));
+
+    for (const response of [loginResponse, signupResponse]) {
+      expect(response.status).toBe(503);
+      expect(response.headers.get("cache-control")).toBe("no-store");
+      expect(response.headers.get("retry-after")).toBe("300");
+      expect(await response.json()).toEqual({
+        error: "Authentication is temporarily unavailable.",
+        code: "auth_unavailable",
+      });
+    }
   });
 
   it("login succeeds with correct email/password and sets session and CSRF cookies", async () => {
@@ -144,10 +169,10 @@ describe("auth routes", () => {
   });
 
   it("logout clears author session and CSRF cookies", async () => {
-    const response = await logout();
+    const response = await logout(new NextRequest("https://ui.test/api/auth/logout", { method: "POST" }));
     const setCookie = response.headers.get("set-cookie") ?? "";
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(303);
     expect(setCookie).toContain(SESSION_COOKIE_NAME);
     expect(setCookie).toContain(CSRF_COOKIE_NAME);
     expect(setCookie).toContain("Max-Age=0");

@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -96,8 +96,9 @@ describe("mobile gameplay reliability", () => {
     render(<Harness />);
 
     await user.click(screen.getByText("Open leaderboard"));
-    expect(screen.getByRole("dialog", { name: /leaderboard/i })).toBeInTheDocument();
-    await user.click(screen.getByLabelText(/close leaderboard/i));
+    const dialog = screen.getByRole("dialog", { name: /leaderboard/i });
+    expect(dialog).toBeInTheDocument();
+    await user.click(within(dialog).getByRole("button", { name: /close leaderboard/i }));
     await waitFor(() => {
       expect(screen.queryByRole("dialog", { name: /leaderboard/i })).not.toBeInTheDocument();
     });

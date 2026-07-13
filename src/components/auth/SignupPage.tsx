@@ -9,6 +9,7 @@ type FormState = "idle" | "loading" | "error";
 interface SignupPayload {
   redirectTo?: string;
   error?: string;
+  code?: string;
 }
 
 export default function SignupPage() {
@@ -52,7 +53,11 @@ export default function SignupPage() {
 
       const payload = (await response.json().catch(() => null)) as SignupPayload | null;
       setState("error");
-      setError(payload?.error || "Unable to create account right now. Please try again.");
+      setError(
+        response.status === 503
+          ? "Account creation is temporarily unavailable. Please contact the site administrator or try again later."
+          : payload?.error || "Unable to create account right now. Please try again."
+      );
     } catch {
       setState("error");
       setError("Network error. Please check your connection and retry.");
@@ -146,7 +151,7 @@ export default function SignupPage() {
           </label>
 
           {error && (
-            <p className="text-xs rounded-md border border-(--wrong)/30 bg-(--wrong)/10 text-(--wrong) px-3 py-2">
+            <p role="alert" aria-live="polite" className="text-xs rounded-md border border-(--wrong)/30 bg-(--wrong)/10 text-(--wrong) px-3 py-2">
               {error}
             </p>
           )}

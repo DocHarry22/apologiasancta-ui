@@ -18,6 +18,7 @@ import {
 import {
   convertToPostgresPlaceholders,
   getAdminDatabaseDialect,
+  hasAdminUserStoreConfiguration,
 } from "../src/lib/auth/databaseConfig.ts";
 
 test("admin database configuration selects PostgreSQL and MySQL explicitly", () => {
@@ -39,6 +40,23 @@ test("PostgreSQL query placeholders are numbered in parameter order", () => {
     convertToPostgresPlaceholders("UPDATE admin_users SET role = ?, status = ? WHERE id = ?"),
     "UPDATE admin_users SET role = $1, status = $2 WHERE id = $3"
   );
+});
+
+test("production auth readiness requires both a session secret and durable user storage", () => {
+  const base = { NODE_ENV: "production" };
+  assert.equal(hasAdminUserStoreConfiguration(base), false);
+  assert.equal(hasAdminUserStoreConfiguration({ ...base, ADMIN_AUTH_MEMORY_STORE: "true" }), true);
+  assert.equal(hasAdminUserStoreConfiguration({
+    ...base,
+    MYSQL_HOST: "db.example",
+    MYSQL_DATABASE: "apologia",
+    MYSQL_USER: "admin",
+    MYSQL_PASSWORD: "secret",
+  }), true);
+  assert.equal(hasAdminUserStoreConfiguration({
+    ...base,
+    DATABASE_URL: "postgresql://user:secret@db.example/apologia",
+  }), true);
 });
 
 test("session secrets and signed claims are bounded", async () => {

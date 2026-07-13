@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import {
   convertToPostgresPlaceholders,
   getAdminDatabaseDialect,
+  hasAdminUserStoreConfiguration,
   type AdminDatabaseDialect,
 } from "@/lib/auth/databaseConfig";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
@@ -342,7 +343,7 @@ export async function ensureAdminUserStore(): Promise<void> {
   if (initializationPromise) return initializationPromise;
 
   const pendingInitialization = (async () => {
-    if (!hasDatabaseConfig() && !allowMemoryStore()) {
+    if (!hasAdminUserStoreConfiguration()) {
       throw new Error("Admin user database is not configured. Set a PostgreSQL or MySQL DATABASE_URL, or MYSQL_HOST, MYSQL_DATABASE, MYSQL_USER, and MYSQL_PASSWORD.");
     }
 

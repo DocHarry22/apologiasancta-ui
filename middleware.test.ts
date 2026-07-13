@@ -1,7 +1,9 @@
 import { NextRequest } from "next/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const verifySessionCookie = vi.fn();
+const { verifySessionCookie } = vi.hoisted(() => ({
+  verifySessionCookie: vi.fn(),
+}));
 
 vi.mock("@/lib/auth/session", () => ({
   SESSION_COOKIE_NAME: "as_author_session",

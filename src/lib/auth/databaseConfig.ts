@@ -24,6 +24,17 @@ export function getAdminDatabaseDialect(
   return null;
 }
 
+export function hasAdminUserStoreConfiguration(
+  environment: DatabaseEnvironment = process.env
+): boolean {
+  if (getAdminDatabaseDialect(environment)) return true;
+
+  return (
+    environment.NODE_ENV !== "production" ||
+    environment.ADMIN_AUTH_MEMORY_STORE === "true"
+  );
+}
+
 export function convertToPostgresPlaceholders(sql: string): string {
   let index = 0;
   return sql.replace(/\?/g, () => `$${++index}`);
