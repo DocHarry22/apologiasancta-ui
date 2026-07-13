@@ -248,7 +248,7 @@ test("switching rooms preserves and reuses the saved player identity", async ({ 
   });
   page.on("dialog", (dialog) => dialog.accept());
 
-  await page.goto("/mobile?roomId=alpha");
+  await page.goto("/mobile");
   await expect(page.getByRole("button", { name: /Alpha Room/ })).toBeVisible();
   await page.getByRole("button", { name: /Alpha Room/ }).click();
   await page.getByLabel("Search rooms").fill("Beta Room");
