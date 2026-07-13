@@ -44,6 +44,11 @@ test.beforeEach(async ({ page }) => {
 test("public routes load", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("body")).toContainText(/Apologia Sancta/i);
+  await expect(page.getByRole("button", { name: "Install App" })).toBeDisabled();
+  await expect(page.getByRole("link", { name: "Download Published APK" })).toHaveAttribute(
+    "href",
+    "https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk",
+  );
 
   await page.goto("/library");
   await expect(page.locator("body")).toContainText(/library/i);
