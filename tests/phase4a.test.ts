@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 
 test("workflow store implements durable create, list, transitions, and publish validation", () => {
   const workflowStore = readFileSync("src/lib/server/storage/workflowStore.ts", "utf8");
+  const jsonStore = readFileSync("src/lib/server/storage/jsonStore.ts", "utf8");
   const workflowPermissions = readFileSync("src/lib/server/workflowPermissions.ts", "utf8");
 
   assert.ok(workflowStore.includes('new JsonStore<WorkflowItem[]>("workflow-items.json", [])'));
@@ -19,6 +20,10 @@ test("workflow store implements durable create, list, transitions, and publish v
   assert.ok(workflowStore.includes('!["submitted", "approved", "published"].includes(status)'));
   assert.ok(workflowStore.includes("A reviewer comment is required"));
   assert.ok(workflowStore.includes('publishTarget: nextStatus === "published" ? options.publishTarget ?? "workflow_store"'));
+  assert.ok(jsonStore.includes("CREATE TABLE IF NOT EXISTS app_kv_store"));
+  assert.ok(jsonStore.includes("ON CONFLICT (store_key) DO UPDATE"));
+  assert.ok(jsonStore.includes("ON DUPLICATE KEY UPDATE"));
+  assert.ok(jsonStore.includes("One-time migration path"));
   assert.ok(workflowPermissions.includes("item.authorId === userId"));
   assert.ok(workflowPermissions.includes("content:review"));
   assert.ok(workflowPermissions.includes("content:publish"));
@@ -34,6 +39,7 @@ test("audit store appends, filters, and redacts sensitive metadata", () => {
   assert.ok(auditStore.includes('"x-csrf-token"'));
   assert.ok(auditStore.includes('"[redacted]"'));
   assert.ok(auditStore.includes("events.unshift(event)"));
+  assert.ok(auditStore.includes("auditMutationQueue"));
 });
 
 test("Phase 4A browser code does not reintroduce browser-side admin tokens or local workflow authority", () => {
