@@ -7,6 +7,7 @@ import {
   readStoredPlayerIdentity,
   saveStoredPlayerIdentity,
 } from "@/lib/playerIdentity";
+import { getSavedIdentityDecision } from "@/lib/registrationRecovery";
 
 type UseRoomRegistrationParams = {
   engineUrl: string | null;
@@ -60,23 +61,44 @@ export function useRoomRegistration({ engineUrl, roomId }: UseRoomRegistrationPa
     }
 
     let cancelled = false;
+    setIsRegistered(false);
+    setUserId(null);
+    setUsername(storedUsername);
     setIsCheckingRegistration(true);
 
     fetch(`${engineUrl}/register/me?userId=${encodeURIComponent(storedUserId)}&roomId=${encodeURIComponent(roomId)}`)
       .then(async (res) => {
         if (cancelled) return;
 
-        if (!res.ok) {
+        const data = await res.json().catch(() => ({})) as {
+          userId?: string;
+          username?: string;
+          reason?: string;
+        };
+        const decision = getSavedIdentityDecision({ ok: res.ok, status: res.status, reason: data.reason });
+
+        if (decision === "clear_identity") {
           resetRegistrationState();
           return;
         }
 
-        const data = await res.json();
+        if (decision !== "resume" || !data.userId || !data.username) {
+          // Keep the globally reusable saved identity. The join dialog can retry
+          // or re-register the same player ID without colliding on the username.
+          setIsRegistered(false);
+          setUserId(null);
+          setUsername(storedUsername);
+          return;
+        }
+
         applyRegistration(data.userId, data.username);
       })
       .catch(() => {
         if (cancelled) return;
-        resetRegistrationState();
+        // A network outage does not prove that the player record is invalid.
+        setIsRegistered(false);
+        setUserId(null);
+        setUsername(storedUsername);
       })
       .finally(() => {
         if (!cancelled) {

@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { getReusableStoredUserId, getSavedIdentityDecision } from "../src/lib/registrationRecovery.ts";
 import { hasPermission, requirePermission } from "../src/lib/auth/roles.ts";
 import { validateQuestion, hasBlockingValidationIssues } from "../src/lib/contentValidation.ts";
 import { transitionStatus, canTransitionStatus, type DraftQuestion } from "../src/lib/contentWorkflow.ts";
@@ -145,4 +146,14 @@ test("Phase 4 mobile UX helpers classify onboarding, rooms, phases, and answer l
   assert.equal(getCountdownProgress(45, 30), 100);
   assert.equal(getCountdownProgress(-5, 30), 0);
   assert.equal(getCountdownProgress(5, 0), 0);
+});
+
+test("saved quiz identities survive room switches and transient verification failures", () => {
+  assert.equal(getSavedIdentityDecision({ ok: true, status: 200 }), "resume");
+  assert.equal(getSavedIdentityDecision({ ok: false, status: 404, reason: "not_registered" }), "clear_identity");
+  assert.equal(getSavedIdentityDecision({ ok: false, status: 404 }), "choose_room");
+  assert.equal(getSavedIdentityDecision({ ok: false, status: 409 }), "choose_room");
+  assert.equal(getSavedIdentityDecision({ ok: false, status: 503 }), "retry");
+  assert.equal(getReusableStoredUserId("player-1", "Thabo", "thabo"), "player-1");
+  assert.equal(getReusableStoredUserId("player-1", "Thabo", "AnotherPlayer"), undefined);
 });

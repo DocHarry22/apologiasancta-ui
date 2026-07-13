@@ -39,7 +39,7 @@ import {
   getPhaseCopy,
   type AnswerSubmissionState,
 } from "@/lib/mobileUx";
-import type { Leaderboard, QuizState, QuizPhase, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent, CongratsEvent, RoomSummary } from "@/types/quiz";
+import type { Leaderboard, QuizState, QuizPhase, TopicStartEvent, RoomSummary } from "@/types/quiz";
 
 // Backend URL from environment (optional)
 const ENGINE_URL = getEngineUrl();
@@ -197,7 +197,6 @@ function MobilePageContent() {
     isRegistered,
     isCheckingRegistration,
     handleJoined,
-    resetRegistrationState,
   } = useRoomRegistration({
     engineUrl: ENGINE_URL,
     roomId,
@@ -221,11 +220,10 @@ function MobilePageContent() {
     setLeaderboardMode("room-all-time");
     setRemoteLeaderboard(null);
     setLeaderboardError(null);
-    resetRegistrationState();
     setSelectedId(undefined);
     setAnswerSubmissionState("idle");
     setAnswerNotice(null);
-  }, [applyRoomSelection, resetRegistrationState]);
+  }, [applyRoomSelection]);
 
   const handleSwitchRoom = useCallback(() => {
     setIsRoomPickerOpen(true);

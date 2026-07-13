@@ -8,6 +8,7 @@ import {
   readStoredPlayerIdentity,
   saveStoredPlayerIdentity,
 } from "@/lib/playerIdentity";
+import { getReusableStoredUserId, getSavedIdentityDecision } from "@/lib/registrationRecovery";
 
 interface JoinGameModalProps {
   roomId: string;
@@ -29,6 +30,7 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
 
   useEffect(() => {
     if (!API_URL) return;
+    let cancelled = false;
 
     const { userId: storedUserId, username: storedUsername } = readStoredPlayerIdentity();
     if (storedUsername) {
@@ -36,20 +38,49 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
     }
 
     if (!storedUserId || !storedUsername) return;
+    setState({ status: "loading" });
 
     fetch(`${API_URL}/register/me?userId=${encodeURIComponent(storedUserId)}&roomId=${encodeURIComponent(roomId)}`)
       .then(async (res) => {
-        if (res.ok) {
-          const data = await res.json();
+        if (cancelled) return;
+        const data = await res.json().catch(() => ({})) as {
+          userId?: string;
+          username?: string;
+          reason?: string;
+          error?: string;
+          message?: string;
+        };
+        const decision = getSavedIdentityDecision({ ok: res.ok, status: res.status, reason: data.reason });
+
+        if (decision === "resume" && data.userId && data.username) {
           onJoined(data.userId, data.username);
           return;
         }
 
-        clearStoredPlayerIdentity();
+        if (decision === "clear_identity") {
+          clearStoredPlayerIdentity();
+          setState({ status: "idle" });
+          return;
+        }
+
+        setState({
+          status: "error",
+          errorMessage: decision === "choose_room"
+            ? data.error || data.message || "That room is no longer available. Choose another room."
+            : "We could not verify your saved player yet. Check your connection or retry below.",
+        });
       })
       .catch(() => {
-        clearStoredPlayerIdentity();
+        if (cancelled) return;
+        setState({
+          status: "error",
+          errorMessage: "We could not verify your saved player yet. Check your connection or retry below.",
+        });
       });
+
+    return () => {
+      cancelled = true;
+    };
   }, [onJoined, roomId]);
 
   const handleSubmit = useCallback(
@@ -70,10 +101,16 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
       setState({ status: "loading" });
 
       try {
+        const storedIdentity = readStoredPlayerIdentity();
+        const reusableUserId = getReusableStoredUserId(
+          storedIdentity.userId,
+          storedIdentity.username,
+          trimmed
+        );
         const res = await fetch(`${API_URL}/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username: trimmed, roomId }),
+          body: JSON.stringify({ username: trimmed, roomId, userId: reusableUserId }),
         });
 
         const data = await res.json();

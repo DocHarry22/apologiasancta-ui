@@ -210,6 +210,59 @@ test("mobile does not expose raw admin token controls", async ({ page }) => {
   await expect(page.locator("body")).not.toContainText(/x-admin-token|engine_admin_token|admin token/i);
 });
 
+test("switching rooms preserves and reuses the saved player identity", async ({ page }) => {
+  const verificationRequests: Array<{ userId: string | null; roomId: string | null }> = [];
+  const rooms = [
+    { roomId: "alpha", name: "Alpha Room", isActive: true, playerCount: 2 },
+    { roomId: "beta", name: "Beta Room", isActive: true, playerCount: 1 },
+  ];
+
+  await page.route("https://engine.test/**", async (route) => {
+    const url = new URL(route.request().url());
+    if (url.pathname === "/rooms") {
+      await route.fulfill({ json: { rooms } });
+      return;
+    }
+    if (url.pathname === "/register/me") {
+      verificationRequests.push({
+        userId: url.searchParams.get("userId"),
+        roomId: url.searchParams.get("roomId"),
+      });
+      await route.fulfill({
+        json: {
+          ok: true,
+          userId: "player-1",
+          username: "Thabo",
+          roomId: url.searchParams.get("roomId"),
+        },
+      });
+      return;
+    }
+    await route.fallback();
+  });
+  await page.addInitScript(() => {
+    window.localStorage.setItem("userId", "player-1");
+    window.localStorage.setItem("playerName", "Thabo");
+    window.localStorage.setItem("selectedRoomId", "alpha");
+    window.localStorage.setItem("selectedRoomName", "Alpha Room");
+  });
+  page.on("dialog", (dialog) => dialog.accept());
+
+  await page.goto("/mobile");
+  await expect(page.getByRole("button", { name: /Alpha Room/ })).toBeVisible();
+  await page.getByRole("button", { name: /Alpha Room/ }).click();
+  await page.getByLabel("Search rooms").fill("Beta Room");
+  await page.getByRole("button", { name: "Join room" }).click();
+
+  await expect(page.getByRole("button", { name: /Beta Room/ })).toBeVisible();
+  await expect.poll(() => verificationRequests).toContainEqual({ userId: "player-1", roomId: "beta" });
+  await expect.poll(() => page.evaluate(() => ({
+    userId: window.localStorage.getItem("userId"),
+    username: window.localStorage.getItem("playerName"),
+  }))).toEqual({ userId: "player-1", username: "Thabo" });
+  await expect(page.getByLabel("Enter your display name")).toHaveCount(0);
+});
+
 test("security headers are present where practical in test server", async ({ request }) => {
   const response = await request.get("/");
 
