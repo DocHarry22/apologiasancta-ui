@@ -156,11 +156,11 @@ test("native home navigation and update actions work on narrow browser screens",
   );
   await expect(page.locator('a[href*="github.com/DocHarry22/apologia-graph"]')).toHaveCount(0);
   const genesisTopic = page.getByRole("link", { name: "Genesis, 91 questions" });
-  await expect(genesisTopic).toHaveAttribute("href", "/library/genesis");
+  await expect(genesisTopic).toHaveAttribute("href", "/library/genesis/");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 
   await genesisTopic.click();
-  await expect(page).toHaveURL(/\/library\/genesis$/);
+  await expect(page).toHaveURL(/\/library\/genesis\/$/);
   await expect(page.getByRole("heading", { name: "Genesis" })).toBeVisible();
 
   await page.goto("/native");
