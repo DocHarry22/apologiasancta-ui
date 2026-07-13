@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 
 interface Topic {
   id: string;
@@ -10,6 +11,54 @@ interface Topic {
 
 interface TopicsScrollProps {
   topics: Topic[];
+  engineUrl?: string | null;
+}
+
+interface TopicsResponse {
+  topics: Topic[];
+}
+
+const MAX_FEATURED_TOPICS = 6;
+
+function isTopic(value: unknown): value is Topic {
+  if (!value || typeof value !== "object") return false;
+  const candidate = value as Partial<Topic>;
+  return (
+    typeof candidate.id === "string" &&
+    candidate.id.trim().length > 0 &&
+    typeof candidate.title === "string" &&
+    candidate.title.trim().length > 0 &&
+    typeof candidate.questionCount === "number" &&
+    Number.isInteger(candidate.questionCount) &&
+    candidate.questionCount >= 0
+  );
+}
+
+function parseTopicsResponse(value: unknown): TopicsResponse | null {
+  if (!value || typeof value !== "object") return null;
+  const topics = (value as { topics?: unknown }).topics;
+  if (!Array.isArray(topics) || !topics.every(isTopic)) return null;
+  return { topics };
+}
+
+function isGeneratedTitle(topic: Topic): boolean {
+  const normalizedId = topic.id.replace(/[_-]+/g, "").toLowerCase();
+  const normalizedTitle = topic.title.replace(/[^a-z0-9]+/gi, "").toLowerCase();
+  return normalizedId === normalizedTitle;
+}
+
+export function getFeaturedTopics(fallbackTopics: Topic[], liveTopics: Topic[] = []): Topic[] {
+  const fallbackById = new Map(fallbackTopics.map((topic) => [topic.id, topic]));
+  const source = liveTopics.length > 0 ? liveTopics : fallbackTopics;
+
+  return source
+    .map((topic) => {
+      const fallback = fallbackById.get(topic.id);
+      if (!fallback || !isGeneratedTitle(topic)) return topic;
+      return { ...topic, title: fallback.title };
+    })
+    .sort((a, b) => b.questionCount - a.questionCount || a.title.localeCompare(b.title))
+    .slice(0, MAX_FEATURED_TOPICS);
 }
 
 /** Map topic ids to a simple icon path (SVG) string */
@@ -71,16 +120,51 @@ function topicIcon(id: string): React.ReactNode {
   );
 }
 
-export function TopicsScroll({ topics }: TopicsScrollProps) {
+export function TopicsScroll({ topics, engineUrl }: TopicsScrollProps) {
+  const fallbackTopics = useMemo(() => getFeaturedTopics(topics), [topics]);
+  const [featuredTopics, setFeaturedTopics] = useState(fallbackTopics);
+
+  useEffect(() => {
+    setFeaturedTopics(fallbackTopics);
+  }, [fallbackTopics]);
+
+  useEffect(() => {
+    if (!engineUrl) return;
+
+    const controller = new AbortController();
+
+    const loadTopics = async () => {
+      try {
+        const response = await fetch(`${engineUrl}/topics`, {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        if (!response.ok) return;
+
+        const payload = parseTopicsResponse(await response.json());
+        if (!payload || controller.signal.aborted) return;
+        setFeaturedTopics(getFeaturedTopics(topics, payload.topics));
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        // The bundled topic index remains a safe offline fallback.
+      }
+    };
+
+    void loadTopics();
+    return () => controller.abort();
+  }, [engineUrl, topics]);
+
   return (
     <div
+      aria-label="Featured quiz topics"
       className="flex gap-3 overflow-x-auto pb-1"
       style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
     >
-      {topics.map((topic) => (
+      {featuredTopics.map((topic) => (
         <Link
           key={topic.id}
-          href={`/library?topic=${topic.id}`}
+          href={`/library/${encodeURIComponent(topic.id)}`}
+          aria-label={`${topic.title}, ${topic.questionCount} ${topic.questionCount === 1 ? "question" : "questions"}`}
           className="flex shrink-0 flex-col gap-2 rounded-xl p-3 transition-opacity hover:opacity-80 active:opacity-60"
           style={{
             width: "120px",
@@ -101,9 +185,9 @@ export function TopicsScroll({ topics }: TopicsScrollProps) {
             {topic.title}
           </span>
 
-          {/* Article count */}
+          {/* Question count */}
           <span className="text-[11px] text-[#9c917f]">
-            {topic.questionCount} Articles
+            {topic.questionCount} {topic.questionCount === 1 ? "question" : "questions"}
           </span>
 
           {/* Gold underline accent */}
