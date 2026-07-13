@@ -9,6 +9,7 @@ import {
 } from "../src/lib/auth/rateLimit.ts";
 import {
   createSessionCookie,
+  hasSessionSecret,
   hasStrongSessionSecret,
   hasValidSessionClaims,
   readSessionCookie,
@@ -20,6 +21,7 @@ test("session secrets and signed claims are bounded", async () => {
   process.env.AUTHOR_SESSION_SECRET = "a-secure-test-secret-with-at-least-32-characters";
   try {
     assert.equal(hasStrongSessionSecret("short"), false);
+    assert.equal(hasSessionSecret("short"), true);
     assert.equal(hasStrongSessionSecret(), true);
     const cookie = await createSessionCookie("admin-user");
     assert.equal((await readSessionCookie(cookie))?.userId, "admin-user");
