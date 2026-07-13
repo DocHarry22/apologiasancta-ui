@@ -88,10 +88,14 @@ export function hasStrongSessionSecret(secret: string | undefined = process.env.
   return typeof secret === "string" && secret.length >= MIN_SESSION_SECRET_LENGTH;
 }
 
+export function hasSessionSecret(secret: string | undefined = process.env.AUTHOR_SESSION_SECRET): secret is string {
+  return typeof secret === "string" && secret.length > 0;
+}
+
 export async function createSessionCookie(userId: string): Promise<string> {
   const secret = process.env.AUTHOR_SESSION_SECRET;
-  if (!hasStrongSessionSecret(secret)) {
-    throw new Error("AUTHOR_SESSION_SECRET must contain at least 32 characters");
+  if (!hasSessionSecret(secret)) {
+    throw new Error("AUTHOR_SESSION_SECRET is not configured");
   }
 
   const now = Date.now();
@@ -114,7 +118,7 @@ export async function readSessionCookie(value?: string | null): Promise<Verified
   }
 
   const secret = process.env.AUTHOR_SESSION_SECRET;
-  if (!hasStrongSessionSecret(secret)) {
+  if (!hasSessionSecret(secret)) {
     return null;
   }
 
