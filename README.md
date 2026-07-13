@@ -115,6 +115,9 @@ NEXT_PUBLIC_ENGINE_URL=http://localhost:4000
 # Optional public APK download link shown on the landing page
 NEXT_PUBLIC_ANDROID_APK_URL=https://example.com/apologiasancta.apk
 
+# Optional override for the public Apologia Graph deployment
+NEXT_PUBLIC_RESEARCH_GRAPH_URL=https://mediumvioletred-kingfisher-797460.hostingersite.com
+
 # Optional canonical web app URL used by Capacitor config fallback
 NEXT_PUBLIC_APP_URL=https://apologiasancta.example.com
 ```
@@ -248,6 +251,7 @@ Browser (author session cookie)
 | `ENGINE_ADMIN_TOKEN` | Server-side only | Injected into every proxied admin request. Never sent to the browser. |
 | `ENGINE_INTERNAL_URL` | Server-side only | Preferred internal engine URL for server-to-server calls. Falls back to `NEXT_PUBLIC_ENGINE_URL`. |
 | `NEXT_PUBLIC_ENGINE_URL` | Public | Used by the browser for public SSE/health connections only. Must not contain secrets. |
+| `NEXT_PUBLIC_RESEARCH_GRAPH_URL` | Public | Optional override for the public research workspace. Defaults to the deployed Hostinger Graph. |
 | `AUTHOR_SESSION_SECRET` | Server-side only | Signs the author session cookie. |
 | `DATABASE_URL` / `MYSQL_*` | Server-side only | Persists admin users, workflow drafts, audit events, invite settings, and legacy user records in PostgreSQL or MySQL. |
 | `APP_STORAGE_DRIVER=file` | Server-side only | Optional local-development override that keeps application records in atomic `.data/` JSON files. |
