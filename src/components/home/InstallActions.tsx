@@ -53,6 +53,7 @@ function InstallCard({
 export function InstallActions() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [installState, setInstallState] = useState<"idle" | "installing" | "installed">("idle");
+  const [installError, setInstallError] = useState<string | null>(null);
   const [isOnline, setIsOnline] = useState(true);
   const [platform, setPlatform] = useState({ isAndroid: false, isIOS: false, isStandalone: false });
 
@@ -60,17 +61,24 @@ export function InstallActions() {
     const handleBeforeInstallPrompt = (event: Event) => {
       event.preventDefault();
       setInstallPrompt(event as BeforeInstallPromptEvent);
+      setInstallError(null);
     };
 
     const handleInstalled = () => {
       setInstallState("installed");
       setInstallPrompt(null);
+      setInstallError(null);
+      setPlatform(getPlatformState());
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     window.addEventListener("appinstalled", handleInstalled);
     setIsOnline(window.navigator.onLine);
-    setPlatform(getPlatformState());
+    const initialPlatform = getPlatformState();
+    setPlatform(initialPlatform);
+    if (initialPlatform.isStandalone) {
+      setInstallState("installed");
+    }
 
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
@@ -95,10 +103,21 @@ export function InstallActions() {
     }
 
     setInstallState("installing");
-    await installPrompt.prompt();
-    const { outcome } = await installPrompt.userChoice;
-    setInstallPrompt(null);
-    setInstallState(outcome === "accepted" ? "installed" : "idle");
+    setInstallError(null);
+
+    try {
+      await installPrompt.prompt();
+      const { outcome } = await installPrompt.userChoice;
+      setInstallPrompt(null);
+      setInstallState(outcome === "accepted" ? "installed" : "idle");
+    } catch {
+      // Browser install prompts are one-shot and may be rejected by policy,
+      // platform restrictions, or a stale deferred prompt. Keep that optional
+      // enhancement from surfacing as an unhandled promise rejection.
+      setInstallPrompt(null);
+      setInstallState("idle");
+      setInstallError("The install prompt could not open. Use your browser menu to install or add this app to your home screen.");
+    }
   };
 
   return (
@@ -133,6 +152,7 @@ export function InstallActions() {
               type="button"
               onClick={() => void handleInstall()}
               disabled={!canPromptInstall || installState === "installing" || installState === "installed"}
+              aria-describedby={installError ? "web-install-error" : undefined}
               className="inline-flex min-h-11 items-center justify-center rounded-xl bg-(--accent) px-4 py-2 text-sm font-semibold text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-50"
             >
               {installState === "installed"
@@ -152,6 +172,11 @@ export function InstallActions() {
             {!isOnline && (
               <span className="text-xs text-(--muted)">Offline now. Cached shell pages still open while the engine reconnects later.</span>
             )}
+            {installError && (
+              <span id="web-install-error" role="alert" className="text-xs leading-relaxed text-(--wrong)">
+                {installError}
+              </span>
+            )}
           </div>
           <Link
             href="/mobile"
@@ -166,16 +191,24 @@ export function InstallActions() {
           title="Android APK"
           description="Download the latest signed Android wrapper if you want a native launcher around the hosted live app."
         >
-          <a
-            href={apkUrl ?? "#"}
-            download
-            aria-disabled={!apkUrl}
-            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-(--accent) px-4 py-2 text-sm font-semibold text-(--accent) aria-disabled:pointer-events-none aria-disabled:opacity-50"
-          >
-            Download Latest APK
-          </a>
+          {apkUrl ? (
+            <a
+              href={apkUrl}
+              download
+              className="inline-flex min-h-11 items-center justify-center rounded-xl border border-(--accent) px-4 py-2 text-sm font-semibold text-(--accent)"
+            >
+              Download Published APK
+            </a>
+          ) : (
+            <span
+              role="status"
+              className="inline-flex min-h-11 items-center justify-center rounded-xl border border-(--border) px-4 py-2 text-sm font-semibold text-(--muted) opacity-70"
+            >
+              APK Not Published Yet
+            </span>
+          )}
           <p className="text-xs leading-relaxed text-(--muted)">
-            Always points to the newest GitHub release asset unless a production host override is configured.
+            Points to the newest published GitHub release asset unless a production host override is configured.
           </p>
         </InstallCard>
 

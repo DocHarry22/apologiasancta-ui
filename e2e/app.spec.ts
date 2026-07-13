@@ -79,6 +79,32 @@ test("wake-lock permission denial remains a contained progressive-enhancement fa
   expect(pageErrors.filter((message) => /wake lock|notallowederror/i.test(message))).toEqual([]);
 });
 
+test("rejected web-install prompts fall back without an unhandled browser error", async ({ page }) => {
+  const pageErrors: string[] = [];
+  page.on("pageerror", (error) => pageErrors.push(error.message));
+  await page.goto("/");
+
+  await page.evaluate(() => {
+    const event = new Event("beforeinstallprompt", { cancelable: true });
+    Object.defineProperties(event, {
+      prompt: {
+        value: async () => {
+          throw new DOMException("Install permission denied", "NotAllowedError");
+        },
+      },
+      userChoice: {
+        value: Promise.resolve({ outcome: "dismissed", platform: "web" }),
+      },
+    });
+    window.dispatchEvent(event);
+  });
+
+  await page.getByRole("button", { name: "Install App" }).click();
+  await expect(page.getByRole("alert")).toContainText(/browser menu/i);
+  await expect(page.getByRole("button", { name: "Install App" })).toBeDisabled();
+  expect(pageErrors.filter((message) => /install permission|notallowederror/i.test(message))).toEqual([]);
+});
+
 test("native home navigation and update actions work on narrow browser screens", async ({ page }) => {
   const release = {
     id: "ui-release",
