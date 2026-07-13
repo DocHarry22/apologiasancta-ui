@@ -83,6 +83,7 @@ test("rejected web-install prompts fall back without an unhandled browser error"
   const pageErrors: string[] = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
   await page.goto("/");
+  await expect(page.getByRole("status", { name: "Starting Apologia Sancta" })).toBeHidden();
 
   await page.evaluate(() => {
     const event = new Event("beforeinstallprompt", { cancelable: true });
