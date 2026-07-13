@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { checkLoginRateLimit, clearLoginRateLimit, getClientIp } from "@/lib/auth/rateLimit";
+import { checkSignupRateLimit, getClientIp } from "@/lib/auth/rateLimit";
 import {
   createSessionCookie,
+  hasStrongSessionSecret,
   SESSION_COOKIE_NAME,
   SESSION_MAX_AGE_SECONDS,
 } from "@/lib/auth/session";
@@ -30,7 +31,7 @@ function isValidEmail(email: string): boolean {
 
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
-  const limit = checkLoginRateLimit(ip);
+  const limit = checkSignupRateLimit(ip);
 
   if (!limit.allowed) {
     return NextResponse.json(
@@ -44,12 +45,10 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const sessionSecret = process.env.AUTHOR_SESSION_SECRET;
-  if (!sessionSecret) {
+  if (!hasStrongSessionSecret()) {
     return NextResponse.json(
       {
         error: "Auth is not configured on the server.",
-        missingEnv: ["AUTHOR_SESSION_SECRET"],
       },
       { status: 500 }
     );
@@ -71,6 +70,10 @@ export async function POST(req: NextRequest) {
 
   if (!displayName || displayName.length < 2) {
     return NextResponse.json({ error: "Name must be at least 2 characters." }, { status: 400 });
+  }
+
+  if (displayName.length > 120 || email.length > 254 || password.length > 256 || phone.length > 32 || inviteCode.length > 128) {
+    return NextResponse.json({ error: "One or more signup fields exceed the allowed length." }, { status: 400 });
   }
 
   if (!isValidEmail(email)) {
@@ -144,8 +147,6 @@ export async function POST(req: NextRequest) {
     path: "/",
     maxAge: SESSION_MAX_AGE_SECONDS,
   });
-
-  clearLoginRateLimit(ip);
 
   return response;
 }
