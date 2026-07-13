@@ -15,6 +15,31 @@ import {
   readSessionCookie,
   SESSION_MAX_AGE_SECONDS,
 } from "../src/lib/auth/session.ts";
+import {
+  convertToPostgresPlaceholders,
+  getAdminDatabaseDialect,
+} from "../src/lib/auth/databaseConfig.ts";
+
+test("admin database configuration selects PostgreSQL and MySQL explicitly", () => {
+  assert.equal(getAdminDatabaseDialect({ DATABASE_URL: "postgres://user:secret@db.example/app" }), "postgres");
+  assert.equal(getAdminDatabaseDialect({ DATABASE_URL: "postgresql://user:secret@db.example/app" }), "postgres");
+  assert.equal(getAdminDatabaseDialect({ DATABASE_URL: "mysql://user:secret@db.example/app" }), "mysql");
+  assert.equal(getAdminDatabaseDialect({ DATABASE_URL: "https://db.example/app" }), null);
+  assert.equal(getAdminDatabaseDialect({
+    MYSQL_HOST: "db.example",
+    MYSQL_DATABASE: "app",
+    MYSQL_USER: "user",
+    MYSQL_PASSWORD: "secret",
+  }), "mysql");
+  assert.equal(getAdminDatabaseDialect({ MYSQL_HOST: "db.example" }), null);
+});
+
+test("PostgreSQL query placeholders are numbered in parameter order", () => {
+  assert.equal(
+    convertToPostgresPlaceholders("UPDATE admin_users SET role = ?, status = ? WHERE id = ?"),
+    "UPDATE admin_users SET role = $1, status = $2 WHERE id = $3"
+  );
+});
 
 test("session secrets and signed claims are bounded", async () => {
   const previousSecret = process.env.AUTHOR_SESSION_SECRET;
