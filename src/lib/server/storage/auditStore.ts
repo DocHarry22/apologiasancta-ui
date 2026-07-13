@@ -22,6 +22,7 @@ const SECRET_KEYS = [
 ];
 
 const auditStore = new JsonStore<AuditEvent[]>("audit-events.json", []);
+let auditMutationQueue: Promise<void> = Promise.resolve();
 
 export interface AuditFilters {
   eventType?: string;
@@ -86,9 +87,13 @@ export async function appendAuditEvent(input: {
     metadata: sanitizeAuditMetadata(input.metadata),
     severity: input.severity ?? "info",
   };
-  const events = await auditStore.read();
-  events.unshift(event);
-  await auditStore.write(events.slice(0, 5000));
+  const operation = auditMutationQueue.then(async () => {
+    const events = await auditStore.read();
+    events.unshift(event);
+    await auditStore.write(events.slice(0, 5000));
+  });
+  auditMutationQueue = operation.catch(() => undefined);
+  await operation;
   return event;
 }
 

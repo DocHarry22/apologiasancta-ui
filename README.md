@@ -249,6 +249,8 @@ Browser (author session cookie)
 | `ENGINE_INTERNAL_URL` | Server-side only | Preferred internal engine URL for server-to-server calls. Falls back to `NEXT_PUBLIC_ENGINE_URL`. |
 | `NEXT_PUBLIC_ENGINE_URL` | Public | Used by the browser for public SSE/health connections only. Must not contain secrets. |
 | `AUTHOR_SESSION_SECRET` | Server-side only | Signs the author session cookie. |
+| `DATABASE_URL` / `MYSQL_*` | Server-side only | Persists admin users, workflow drafts, audit events, invite settings, and legacy user records in PostgreSQL or MySQL. |
+| `APP_STORAGE_DRIVER=file` | Server-side only | Optional local-development override that keeps application records in atomic `.data/` JSON files. |
 
 ### Admin proxy route allowlist
 
@@ -370,7 +372,7 @@ Private
 
 `/admin` is now the primary role-aware admin dashboard for overview, live control, rooms, question bank, authoring, review, topics, audit visibility, and settings. `/author` remains a compatibility alias. Roles and permissions are centralized in `src/lib/auth/roles.ts`; the server-side user resolver is `src/lib/server/currentUser.ts`.
 
-Configure `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `AUTHOR_SESSION_SECRET`, and a Hostinger-compatible MySQL connection through `DATABASE_URL` or `MYSQL_*` variables. See `ADMIN_DASHBOARD.md` for the full role matrix, workflow behavior, dangerous action UX, and persistence limitations.
+Configure `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `AUTHOR_SESSION_SECRET`, and a PostgreSQL or Hostinger-compatible MySQL connection through `DATABASE_URL` or `MYSQL_*` variables. The same database now stores admin users, authoring workflow state, audit history, invite settings, and transitional user records. See `ADMIN_DASHBOARD.md` for the full role matrix, workflow behavior, and dangerous action UX.
 
 ## Phase 4 Mobile UX
 
@@ -379,6 +381,6 @@ Configure `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `AUTHOR_SESSION_SECRET`, and a Hostin
 See `MOBILE_UX.md` for route states, gameplay behavior, PWA caching, and mobile admin drawer rules.
 # Phase 4A Durable Workflow Foundation
 
-Phase 4A adds server-side JSON persistence for workflow items, audit events, and the transitional current user under `.data/`. See `PERSISTENCE.md` for limitations and the database migration path.
+Phase 4A uses a shared persistence abstraction for workflow items, audit events, invite settings, and the transitional current user. Production automatically uses the configured PostgreSQL/MySQL database; local development retains atomic JSON storage under `.data/`. See `PERSISTENCE.md` for deployment and migration behavior.
 
 New internal routes include `/api/auth/me`, `/api/workflow/items`, workflow transition routes, and `/api/audit/events`. Browser components continue to call only same-origin API routes and never send engine admin tokens.
