@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server";
 
 const MAX_ATTEMPTS = 10;
 const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+const MAX_TRACKED_KEYS = 10_000;
 
 interface RateEntry {
   attempts: number;
@@ -24,37 +25,67 @@ export interface RateLimiter {
 }
 
 const loginAttempts = new Map<string, RateEntry>();
+const signupAttempts = new Map<string, RateEntry>();
 
-export function getClientIp(req: NextRequest): string {
-  const forwardedFor = req.headers.get("x-forwarded-for");
-  if (forwardedFor) {
-    return forwardedFor.split(",")[0]?.trim() || "unknown";
-  }
-
-  return req.headers.get("x-real-ip") || "unknown";
+function normalizeRateLimitKey(value: string): string {
+  return value.trim().slice(0, 128) || "unknown";
 }
 
-export function checkLoginRateLimit(ip: string): { allowed: boolean; retryAfterSeconds?: number } {
-  const now = Date.now();
-  const current = loginAttempts.get(ip);
+function pruneExpiredEntries(store: Map<string, RateEntry>, now: number, windowMs: number): void {
+  if (store.size < MAX_TRACKED_KEYS) return;
+  for (const [key, entry] of store) {
+    if (now - entry.windowStartMs >= windowMs) store.delete(key);
+  }
+  while (store.size >= MAX_TRACKED_KEYS) {
+    const oldestKey = store.keys().next().value as string | undefined;
+    if (!oldestKey) break;
+    store.delete(oldestKey);
+  }
+}
 
-  if (!current || now - current.windowStartMs >= WINDOW_MS) {
-    loginAttempts.set(ip, { attempts: 1, windowStartMs: now });
+function checkFixedWindow(store: Map<string, RateEntry>, key: string, maxAttempts: number, windowMs: number) {
+  const now = Date.now();
+  pruneExpiredEntries(store, now, windowMs);
+  const normalizedKey = normalizeRateLimitKey(key);
+  const current = store.get(normalizedKey);
+  if (!current || now - current.windowStartMs >= windowMs) {
+    store.set(normalizedKey, { attempts: 1, windowStartMs: now });
     return { allowed: true };
   }
-
-  if (current.attempts >= MAX_ATTEMPTS) {
-    const retryAfterMs = WINDOW_MS - (now - current.windowStartMs);
-    return { allowed: false, retryAfterSeconds: Math.max(1, Math.ceil(retryAfterMs / 1000)) };
+  if (current.attempts >= maxAttempts) {
+    return { allowed: false, retryAfterSeconds: Math.max(1, Math.ceil((windowMs - (now - current.windowStartMs)) / 1000)) };
   }
-
   current.attempts += 1;
-  loginAttempts.set(ip, current);
   return { allowed: true };
 }
 
+export function getClientIp(req: NextRequest): string {
+  const realIp = req.headers.get("x-real-ip")?.trim();
+  if (realIp) return normalizeRateLimitKey(realIp);
+
+  const forwardedFor = req.headers.get("x-forwarded-for");
+  if (forwardedFor) {
+    const chain = forwardedFor.split(",").map((value) => value.trim()).filter(Boolean);
+    return normalizeRateLimitKey(chain.at(-1) || "unknown");
+  }
+
+  return "unknown";
+}
+
+export function checkLoginRateLimit(ip: string): { allowed: boolean; retryAfterSeconds?: number } {
+  return checkFixedWindow(loginAttempts, ip, MAX_ATTEMPTS, WINDOW_MS);
+}
+
 export function clearLoginRateLimit(ip: string): void {
-  loginAttempts.delete(ip);
+  loginAttempts.delete(normalizeRateLimitKey(ip));
+}
+
+export function checkSignupRateLimit(ip: string): { allowed: boolean; retryAfterSeconds?: number } {
+  return checkFixedWindow(signupAttempts, ip, 5, 60 * 60 * 1000);
+}
+
+export function clearSignupRateLimit(ip: string): void {
+  signupAttempts.delete(normalizeRateLimitKey(ip));
 }
 
 // ---------------------------------------------------------------------------
@@ -73,20 +104,5 @@ export function checkAdminMutationRateLimit(ip: string): {
   allowed: boolean;
   retryAfterSeconds?: number;
 } {
-  const now = Date.now();
-  const current = adminMutationAttempts.get(ip);
-
-  if (!current || now - current.windowStartMs >= ADMIN_MUTATION_WINDOW_MS) {
-    adminMutationAttempts.set(ip, { attempts: 1, windowStartMs: now });
-    return { allowed: true };
-  }
-
-  if (current.attempts >= ADMIN_MUTATION_MAX) {
-    const retryAfterMs = ADMIN_MUTATION_WINDOW_MS - (now - current.windowStartMs);
-    return { allowed: false, retryAfterSeconds: Math.max(1, Math.ceil(retryAfterMs / 1000)) };
-  }
-
-  current.attempts += 1;
-  adminMutationAttempts.set(ip, current);
-  return { allowed: true };
+  return checkFixedWindow(adminMutationAttempts, ip, ADMIN_MUTATION_MAX, ADMIN_MUTATION_WINDOW_MS);
 }

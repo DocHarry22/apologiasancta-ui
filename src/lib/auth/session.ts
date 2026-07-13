@@ -12,12 +12,31 @@ export const SESSION_COOKIE_NAME =
 
 export const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7; // 7 days
 const SESSION_MAX_AGE_MS = SESSION_MAX_AGE_SECONDS * 1000;
+const SESSION_CLOCK_SKEW_MS = 60 * 1000;
+const MIN_SESSION_SECRET_LENGTH = 32;
+const MAX_SESSION_COOKIE_LENGTH = 4096;
 
 interface SessionPayload {
   v: 2;
   uid: string;
   iat: number;
   exp: number;
+}
+
+export function hasValidSessionClaims(payload: unknown, now = Date.now()): payload is SessionPayload {
+  if (!payload || typeof payload !== "object") return false;
+  const claims = payload as Partial<SessionPayload>;
+  return claims.v === 2
+    && typeof claims.uid === "string"
+    && Boolean(claims.uid.trim())
+    && typeof claims.iat === "number"
+    && Number.isFinite(claims.iat)
+    && typeof claims.exp === "number"
+    && Number.isFinite(claims.exp)
+    && claims.iat <= now + SESSION_CLOCK_SKEW_MS
+    && claims.exp > claims.iat
+    && claims.exp - claims.iat <= SESSION_MAX_AGE_MS + SESSION_CLOCK_SKEW_MS
+    && claims.exp > now;
 }
 
 function toBase64Url(input: Uint8Array | string): string {
@@ -65,10 +84,14 @@ export interface VerifiedSession {
   expiresAt: number;
 }
 
+export function hasStrongSessionSecret(secret: string | undefined = process.env.AUTHOR_SESSION_SECRET): secret is string {
+  return typeof secret === "string" && secret.length >= MIN_SESSION_SECRET_LENGTH;
+}
+
 export async function createSessionCookie(userId: string): Promise<string> {
   const secret = process.env.AUTHOR_SESSION_SECRET;
-  if (!secret) {
-    throw new Error("AUTHOR_SESSION_SECRET is not configured");
+  if (!hasStrongSessionSecret(secret)) {
+    throw new Error("AUTHOR_SESSION_SECRET must contain at least 32 characters");
   }
 
   const now = Date.now();
@@ -86,12 +109,12 @@ export async function createSessionCookie(userId: string): Promise<string> {
 }
 
 export async function readSessionCookie(value?: string | null): Promise<VerifiedSession | null> {
-  if (!value) {
+  if (!value || value.length > MAX_SESSION_COOKIE_LENGTH) {
     return null;
   }
 
   const secret = process.env.AUTHOR_SESSION_SECRET;
-  if (!secret) {
+  if (!hasStrongSessionSecret(secret)) {
     return null;
   }
 
@@ -109,11 +132,8 @@ export async function readSessionCookie(value?: string | null): Promise<Verified
     const payloadJson = fromBase64Url(payloadB64);
     const payload = JSON.parse(payloadJson) as Partial<SessionPayload>;
 
-    if (payload.v !== 2 || typeof payload.uid !== "string" || typeof payload.iat !== "number" || typeof payload.exp !== "number") {
-      return null;
-    }
-
-    if (payload.exp <= Date.now()) {
+    const now = Date.now();
+    if (!hasValidSessionClaims(payload, now)) {
       return null;
     }
 

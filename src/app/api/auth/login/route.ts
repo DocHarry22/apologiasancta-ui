@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { checkLoginRateLimit, clearLoginRateLimit, getClientIp } from "@/lib/auth/rateLimit";
 import {
   createSessionCookie,
+  hasStrongSessionSecret,
   SESSION_COOKIE_NAME,
   SESSION_MAX_AGE_SECONDS,
 } from "@/lib/auth/session";
@@ -25,17 +26,9 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const sessionSecret = process.env.AUTHOR_SESSION_SECRET;
-  const missingVars = [
-    !sessionSecret ? "AUTHOR_SESSION_SECRET" : null,
-  ].filter((entry): entry is string => Boolean(entry));
-
-  if (missingVars.length > 0) {
+  if (!hasStrongSessionSecret()) {
     return NextResponse.json(
-      {
-        error: "Admin auth is not configured on the server.",
-        missingEnv: missingVars,
-      },
+      { error: "Admin auth is not configured on the server." },
       { status: 500 }
     );
   }
@@ -48,6 +41,10 @@ export async function POST(req: NextRequest) {
     password = typeof body?.password === "string" ? body.password : "";
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  }
+
+  if (!email.trim() || email.length > 254 || !password || password.length > 256) {
+    return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
   }
 
   let user = null;
