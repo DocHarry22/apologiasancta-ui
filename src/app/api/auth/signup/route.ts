@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { checkSignupRateLimit, getClientIp } from "@/lib/auth/rateLimit";
 import {
   createSessionCookie,
-  hasStrongSessionSecret,
+  hasSessionSecret,
   SESSION_COOKIE_NAME,
   SESSION_MAX_AGE_SECONDS,
 } from "@/lib/auth/session";
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  if (!hasStrongSessionSecret()) {
+  if (!hasSessionSecret()) {
     return NextResponse.json(
       {
         error: "Auth is not configured on the server.",
