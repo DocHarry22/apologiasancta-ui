@@ -9,3 +9,10 @@ test("browser admin clients do not send x-admin-token", () => {
   assert.equal(adminProxyClient.includes("x-admin-token"), false);
   assert.equal(mobileAdminDrawer.includes("x-admin-token"), false);
 });
+
+test("staff invite codes use constant-time digest comparison", () => {
+  const invite = readFileSync("src/lib/auth/invite.ts", "utf8");
+  assert.ok(invite.includes("timingSafeEqual"));
+  assert.ok(invite.includes('createHash("sha256")'));
+  assert.equal(invite.includes("expectedCode !== providedCode"), false);
+});
