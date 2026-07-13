@@ -1,23 +1,27 @@
 # Persistence
 
-Phase 4A uses a transitional server-side JSON persistence layer under `.data/`.
+Phase 4A uses a shared server-side persistence layer. When `DATABASE_URL` or a complete `MYSQL_*` configuration is present, production records are stored in the `app_kv_store` PostgreSQL/MySQL table. Local development falls back to atomic JSON snapshots under `.data/`.
 
 This is intentionally hidden behind store abstractions in `src/lib/server/storage/`:
 
-- `jsonStore.ts` provides missing-file handling and atomic temp-file writes.
+- `jsonStore.ts` provides idempotent database schema setup, atomic upserts, missing-file handling, atomic temp-file writes, and one-time import of existing JSON snapshots.
 - `workflowStore.ts` persists draft, review, publish, archive, comments, validation state, and item history.
 - `auditStore.ts` appends sanitized audit events and supports filtering.
 - Admin users are resolved through the database-backed `admin_users` table. `userStore.ts` remains only as a transitional fallback for legacy non-user-id code paths.
 
-`.data/` is ignored by Git and runtime data must not be committed.
+`.data/` is ignored by Git and runtime data must not be committed. Set `APP_STORAGE_DRIVER=file` only when an intentional local file override is required.
 
-## Production Limitation
+## Production Behavior
 
-JSON files are not suitable for multi-instance production. Concurrent writes from multiple app instances can race, and data lives on the instance filesystem. A production deployment should migrate these stores to Postgres, Supabase, or another durable database with transactions and backups.
+The configured admin database is also the source of truth for workflow drafts, audit events, invite settings, and transitional user records. PostgreSQL uses JSONB and `ON CONFLICT`; MySQL uses JSON and `ON DUPLICATE KEY`. Schema creation and writes are idempotent.
 
-## Migration Path
+If a database row does not exist when database storage is enabled, the store reads any existing local JSON snapshot once and imports non-default data. API routes and dashboard calls remain unchanged.
 
-Keep API routes and dashboard calls unchanged. Replace the implementations behind:
+Read-modify-write operations are serialized within an application instance. A future normalized-schema migration is still recommended before horizontally scaling authoring across multiple concurrent server instances.
+
+## Future Normalization Path
+
+Keep API routes and dashboard calls unchanged when replacing JSON payload records with normalized tables behind:
 
 - `listWorkflowItems`, `getWorkflowItem`, `createWorkflowDraft`, `updateWorkflowDraft`, and `transitionWorkflowItem`
 - `appendAuditEvent` and `listAuditEvents`
@@ -38,4 +42,3 @@ Audit events include actor, role, event type, action, resource, request path/met
 ## User And Role Limits
 
 `GET /api/auth/me` exposes the current database-backed admin user and permissions. Full user invitation, role assignment, and deactivation UI remain a later task.
-
