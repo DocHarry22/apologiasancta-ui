@@ -12,8 +12,9 @@ import { authenticateAdminUser } from "@/lib/server/adminUserStore";
 import { authUnavailableResponse } from "@/lib/server/authUnavailableResponse";
 
 export async function POST(req: NextRequest) {
-  if (!getAdminAuthReadiness().ready) {
-    return authUnavailableResponse();
+  const readiness = getAdminAuthReadiness();
+  if (!readiness.ready) {
+    return authUnavailableResponse({ operation: "login.readiness" });
   }
 
   const ip = getClientIp(req);
@@ -48,9 +49,9 @@ export async function POST(req: NextRequest) {
   let user = null;
   try {
     user = await authenticateAdminUser(email, password);
-  } catch {
+  } catch (error) {
     clearLoginRateLimit(ip);
-    return authUnavailableResponse();
+    return authUnavailableResponse({ operation: "login.authenticate", error });
   }
   if (!user) {
     return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
