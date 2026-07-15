@@ -74,7 +74,7 @@ export function useQuizEntryGate() {
   }, []);
 
   const handleJoined = useCallback(
-    (_userId: string, _username: string) => {
+    () => {
       if (!pendingRoomId) {
         closeOnboarding();
         router.push("/mobile");

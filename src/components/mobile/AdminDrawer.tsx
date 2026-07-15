@@ -13,7 +13,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useAdminPanel } from "@/hooks/useAdminPanel";
-import { adminProxy, roomProxy, quizProxy, topicProxy, type LoopMode } from "@/lib/adminProxyClient";
+import { roomProxy, quizProxy, topicProxy, type LoopMode } from "@/lib/adminProxyClient";
 import type { ConnectionStatus, RoomSummary } from "@/types/quiz";
 import type { AdminRoomStatus, AdminStatus, HealthResponse, TopicInfo } from "@/lib/engineAdmin";
 

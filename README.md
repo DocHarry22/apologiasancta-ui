@@ -7,6 +7,16 @@ Built with Next.js 16, React 19, Tailwind CSS 4, and Capacitor 7.
 Deployed on Hostinger: `https://sandybrown-bear-488955.hostingersite.com`
 Android package: `com.apologiasancta.live`
 
+## Operational platform update (July 2026)
+
+This branch adds the sourced Foundations learning path, lesson progress, practice assessment, public leaderboard, fast room join, signed room sessions and production deployment hardening. The complete repository/deployment audit, founder-level roadmap and release procedure are maintained in:
+
+- [Operational audit](./docs/OPERATIONAL_AUDIT.md)
+- [Product roadmap](./docs/PRODUCT_ROADMAP.md)
+- [Production runbook](./docs/PRODUCTION_RUNBOOK.md)
+
+The active frontend is the Hostinger Node/Next deployment. The old `apologiasancta-ui.onrender.com` service is not an active frontend. Merge-to-production depends on Hostinger's Git project being connected to `main`; see the runbook before release.
+
 ## Current State (v1 — June 2026)
 
 The UI is deployed to Hostinger and the Android debug APK has been built and verified locally.
@@ -63,6 +73,11 @@ The UI is deployed to Hostinger and the Android debug APK has been built and ver
 | Route | Description |
 |-------|-------------|
 | `/` | Landing page with install/download actions |
+| `/learn` | Learner dashboard and structured apologetics path |
+| `/learn/[lessonId]` | Sourced lesson page with objections and responses |
+| `/practice` | Foundations practice assessment with explanations |
+| `/leaderboard` | Public daily, weekly, and all-time rankings |
+| `/dashboard` | Learner-dashboard compatibility redirect |
 | `/mobile` | Mobile player experience |
 | `/library` | Public topic library |
 | `/library/[topicId]` | Topic detail page |
