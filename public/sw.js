@@ -1,7 +1,10 @@
-const CACHE_NAME = "apologia-sancta-shell-v2";
+const CACHE_NAME = "apologia-sancta-shell-v3";
 const APP_SHELL = [
   "/",
   "/mobile",
+  "/learn",
+  "/practice",
+  "/leaderboard",
   "/library",
   "/manifest.webmanifest",
   "/offline.html",

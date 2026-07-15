@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Apologia Sancta Live",
+    name: "Apologia Sancta: Learn and Compete",
     short_name: "Apologia",
-    description: "Installable live apologetics quiz with room-based play and study access.",
+    description: "Sourced Catholic apologetics lessons, solo practice, and live room competition.",
     start_url: "/",
     scope: "/",
     display: "standalone",

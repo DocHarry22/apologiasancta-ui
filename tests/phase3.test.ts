@@ -40,7 +40,7 @@ test("question validation catches blocking content issues", () => {
   assert.equal(hasBlockingValidationIssues(issues), true);
   assert.ok(issues.some((issue) => issue.field === "correctId"));
   assert.ok(issues.some((issue) => issue.field === "id" && issue.severity === "warning"));
-  assert.ok(issues.some((issue) => issue.field === "teaching.refs" && issue.severity === "warning"));
+  assert.ok(issues.some((issue) => issue.field === "teaching.refs" && issue.severity === "error"));
 });
 
 test("workflow status transitions allow review flow and reject invalid jumps", () => {
