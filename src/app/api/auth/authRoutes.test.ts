@@ -16,6 +16,7 @@ import { POST as login } from "./login/route";
 import { POST as logout } from "./logout/route";
 import { GET as csrf } from "./csrf/route";
 import { POST as signup } from "./signup/route";
+import { GET as diagnostics } from "./diagnostics/route";
 
 function postLogin(body: unknown) {
   return new NextRequest("https://ui.test/api/auth/login", {
@@ -42,6 +43,7 @@ describe("auth routes", () => {
     await resetAuthInviteSettingsForTests();
     delete process.env.AUTH_SIGNUP_STAFF_INVITE_CODE;
     delete process.env.AUTH_SIGNUP_STAFF_ROLE;
+    delete process.env.AUTH_DIAGNOSTICS_ENABLED;
   });
 
   it("login fails with missing credentials and wrong password", async () => {
@@ -68,11 +70,39 @@ describe("auth routes", () => {
       expect(response.status).toBe(503);
       expect(response.headers.get("cache-control")).toBe("no-store");
       expect(response.headers.get("retry-after")).toBe("300");
-      expect(await response.json()).toEqual({
+      expect(await response.json()).toEqual(expect.objectContaining({
         error: "Authentication is temporarily unavailable.",
         code: "auth_unavailable",
-      });
+        reason: "session_secret_missing",
+        diagnosticId: expect.any(String),
+      }));
     }
+  });
+
+  it("keeps diagnostics disabled by default and reports safe readiness when enabled", async () => {
+    let response = await diagnostics();
+    expect(response.status).toBe(404);
+
+    process.env.AUTH_DIAGNOSTICS_ENABLED = "true";
+    response = await diagnostics();
+    const payload = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("cache-control")).toBe("no-store");
+    expect(payload).toEqual(expect.objectContaining({
+      ok: true,
+      reason: "ready",
+      diagnosticId: expect.any(String),
+      configuration: expect.objectContaining({
+        sessionConfigured: true,
+        userStoreConfigured: true,
+        databaseSource: "memory_store",
+        missingVariables: expect.any(Array),
+      }),
+      driverCode: null,
+    }));
+    expect(JSON.stringify(payload)).not.toContain("test-author-password");
+    expect(JSON.stringify(payload)).not.toContain("test-session-secret");
   });
 
   it("login succeeds with correct email/password and sets session and CSRF cookies", async () => {

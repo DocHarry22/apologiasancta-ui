@@ -17,6 +17,7 @@ import {
 } from "../src/lib/auth/session.ts";
 import {
   convertToPostgresPlaceholders,
+  getAdminDatabaseConfigurationSummary,
   getAdminDatabaseDialect,
   hasAdminUserStoreConfiguration,
 } from "../src/lib/auth/databaseConfig.ts";
@@ -33,6 +34,34 @@ test("admin database configuration selects PostgreSQL and MySQL explicitly", () 
     MYSQL_PASSWORD: "secret",
   }), "mysql");
   assert.equal(getAdminDatabaseDialect({ MYSQL_HOST: "db.example" }), null);
+});
+
+test("database diagnostics report only source, dialect, and missing variable names", () => {
+  assert.deepEqual(getAdminDatabaseConfigurationSummary({
+    NODE_ENV: "production",
+    MYSQL_HOST: "db.example",
+    MYSQL_DATABASE: "apologia",
+    MYSQL_USER: "admin",
+  }), {
+    configured: false,
+    dialect: null,
+    source: "none",
+    databaseUrlPresent: false,
+    databaseUrlSupported: true,
+    missingVariables: ["MYSQL_PASSWORD"],
+  });
+
+  assert.deepEqual(getAdminDatabaseConfigurationSummary({
+    NODE_ENV: "production",
+    DATABASE_URL: "https://unsupported.example/apologia",
+  }), {
+    configured: false,
+    dialect: null,
+    source: "database_url",
+    databaseUrlPresent: true,
+    databaseUrlSupported: false,
+    missingVariables: [],
+  });
 });
 
 test("PostgreSQL query placeholders are numbered in parameter order", () => {

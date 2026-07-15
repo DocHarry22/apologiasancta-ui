@@ -31,8 +31,9 @@ function isValidEmail(email: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
-  if (!getAdminAuthReadiness().ready) {
-    return authUnavailableResponse();
+  const readiness = getAdminAuthReadiness();
+  if (!readiness.ready) {
+    return authUnavailableResponse({ operation: "signup.readiness" });
   }
 
   const ip = getClientIp(req);
@@ -87,8 +88,8 @@ export async function POST(req: NextRequest) {
   let inviteSettings;
   try {
     inviteSettings = await getAuthInviteSettings();
-  } catch {
-    return authUnavailableResponse();
+  } catch (error) {
+    return authUnavailableResponse({ operation: "signup.invite_settings", error });
   }
   const roleDecision = resolveSignupRole(inviteCode || undefined, {
     expectedInviteCode: inviteSettings.inviteCode,
@@ -111,8 +112,8 @@ export async function POST(req: NextRequest) {
       accountType,
       phone: phone || null,
     });
-  } catch {
-    return authUnavailableResponse();
+  } catch (error) {
+    return authUnavailableResponse({ operation: "signup.create_user", error });
   }
 
   if (!created) {
