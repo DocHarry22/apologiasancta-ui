@@ -109,7 +109,10 @@ async function getDatabasePool(): Promise<DatabasePool> {
         };
       }>;
       const postgres = await importer("pg");
-      const postgresPool = new postgres.Pool({ connectionString: process.env.DATABASE_URL });
+      const postgresPool = new postgres.Pool({
+        connectionString: process.env.DATABASE_URL,
+        connectionTimeoutMillis: Number(process.env.DB_CONNECT_TIMEOUT_MS || 10_000),
+      });
       return {
         async execute(sql: string, values?: unknown[]): Promise<[unknown[], unknown]> {
           const result = await postgresPool.query(convertToPostgresPlaceholders(sql), values);
@@ -132,6 +135,8 @@ async function getDatabasePool(): Promise<DatabasePool> {
       password: process.env.MYSQL_PASSWORD,
       waitForConnections: true,
       connectionLimit: Number(process.env.MYSQL_CONNECTION_LIMIT || 5),
+      connectTimeout: Number(process.env.DB_CONNECT_TIMEOUT_MS || 10_000),
+      enableKeepAlive: true,
     });
   })();
   poolPromise = pendingPool;
