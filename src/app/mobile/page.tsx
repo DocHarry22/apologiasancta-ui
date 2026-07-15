@@ -181,7 +181,6 @@ function MobilePageContent() {
     roomId,
     roomName,
     roomNotice,
-    setRoomNotice,
     applyRoomSelection,
   } = useRoomSelectionBootstrap(searchParams);
   const [isRoomPickerOpen, setIsRoomPickerOpen] = useState(false);
@@ -194,6 +193,7 @@ function MobilePageContent() {
   const {
     userId,
     username,
+    joinToken,
     isRegistered,
     isCheckingRegistration,
     handleJoined,
@@ -241,7 +241,7 @@ function MobilePageContent() {
   const selectedIdAtAnswerRef = useRef<string | undefined>(undefined);
   
   // Handle topic start event - reset all personal scores and answer state for new topic
-  const handleTopicStart = useCallback((_event: TopicStartEvent) => {
+  const handleTopicStart = useCallback(() => {
     console.log("[MobilePage] Topic start - resetting all state for new topic");
     setMePreviousPoints(0);
     setMeLastAwardedPoints(0);
@@ -399,7 +399,7 @@ function MobilePageContent() {
       cancelled = true;
       window.clearInterval(intervalId);
     };
-  }, [ENGINE_URL, isUsingSSE, leaderboardMode, roomId, leaderboardRefreshKey]);
+  }, [isUsingSSE, leaderboardMode, roomId, leaderboardRefreshKey]);
 
   const leaderboardState = useMemo(() => {
     return remoteLeaderboard ?? quizState.leaderboard;
@@ -685,16 +685,19 @@ function MobilePageContent() {
 
     setSelectedId(id);
     void hapticLight();
-    setAnswerSubmissionState(isUsingSSE && ENGINE_URL && userId ? "submitting" : "submitted");
+    setAnswerSubmissionState(isUsingSSE && ENGINE_URL && userId && joinToken ? "submitting" : "submitted");
     setAnswerNotice("Submitted");
     submittingRoundKeyRef.current = roundKey;
 
     // Submit answer to backend when using SSE/live engine AND user is registered
-    if (isUsingSSE && ENGINE_URL && userId) {
+    if (isUsingSSE && ENGINE_URL && userId && joinToken) {
       try {
         const response = await fetch(`${ENGINE_URL}/answer`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${joinToken}`,
+          },
           body: JSON.stringify({
             userId,
             username: username ?? undefined,
@@ -740,7 +743,7 @@ function MobilePageContent() {
       } finally {
         submittingRoundKeyRef.current = "";
       }
-    } else if (isUsingSSE && ENGINE_URL && !userId) {
+    } else if (isUsingSSE && ENGINE_URL && (!userId || !joinToken)) {
       // SSE mode but user not registered - allow local selection but don't submit
       // This is a preview/spectator mode
       console.log("[Mobile] Answer selected (spectator mode - not registered)");
@@ -766,7 +769,7 @@ function MobilePageContent() {
         }, 1500);
       }, 100);
     }
-  }, [quizState.phase, quizState.questionIndex, quizState.endsAtMs, isUsingSSE, setMockQuizState, userId, username, roomId]);
+  }, [quizState.phase, quizState.questionIndex, quizState.endsAtMs, isUsingSSE, setMockQuizState, userId, username, joinToken, roomId]);
 
   // Demo: Reset for testing (only in mock mode)
   const handleReset = useCallback(() => {

@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "types": "tsc --noEmit",
     "lint": "eslint",
-    "test": "node --test --experimental-strip-types tests/phase3.test.ts tests/phase3-security.test.ts tests/phase4a.test.ts tests/answer-submission.test.ts tests/auth-integrity.test.ts src/lib/batchImportUtils.test.ts",
+    "test": "node --test --experimental-strip-types tests/phase3.test.ts tests/phase3-security.test.ts tests/phase4a.test.ts tests/answer-submission.test.ts tests/auth-integrity.test.ts tests/operational-platform.test.ts src/lib/batchImportUtils.test.ts",
     "test:vitest": "vitest run",
     "test:e2e": "npx --yes @playwright/test@1.61.1 test",
     "cap:sync": "cap sync android",

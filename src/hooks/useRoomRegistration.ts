@@ -5,18 +5,28 @@ import { PLAYER_NAME_KEY } from "@/components/mobile/YourScoreCard";
 import {
   clearStoredPlayerIdentity,
   readStoredPlayerIdentity,
+  saveStoredJoinToken,
   saveStoredPlayerIdentity,
 } from "@/lib/playerIdentity";
-import { getSavedIdentityDecision } from "@/lib/registrationRecovery";
 
 type UseRoomRegistrationParams = {
   engineUrl: string | null;
   roomId: string | null;
 };
 
+type JoinResponse = {
+  ok?: boolean;
+  joinToken?: string;
+  userId?: string;
+  username?: string;
+  reason?: string;
+  error?: string;
+};
+
 export function useRoomRegistration({ engineUrl, roomId }: UseRoomRegistrationParams) {
   const [userId, setUserId] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
+  const [joinToken, setJoinToken] = useState<string | null>(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [isCheckingRegistration, setIsCheckingRegistration] = useState(true);
 
@@ -26,36 +36,35 @@ export function useRoomRegistration({ engineUrl, roomId }: UseRoomRegistrationPa
     setIsRegistered(false);
     setUserId(null);
     setUsername(null);
+    setJoinToken(null);
   }, []);
 
-  const applyRegistration = useCallback((nextUserId: string, nextUsername: string) => {
+  const applyRegistration = useCallback((nextUserId: string, nextUsername: string, nextJoinToken: string) => {
     saveStoredPlayerIdentity(nextUserId, nextUsername);
+    saveStoredJoinToken(nextJoinToken);
     localStorage.setItem(PLAYER_NAME_KEY, nextUsername);
     setUserId(nextUserId);
     setUsername(nextUsername);
+    setJoinToken(nextJoinToken);
     setIsRegistered(true);
     setIsCheckingRegistration(false);
   }, []);
 
   useEffect(() => {
-    if (!engineUrl) {
+    if (!engineUrl || !roomId) {
+      setIsRegistered(false);
+      setUserId(null);
+      setJoinToken(null);
       setIsCheckingRegistration(false);
       return;
     }
 
-    if (!roomId) {
+    const stored = readStoredPlayerIdentity();
+    if (!stored.userId || !stored.username || !stored.joinToken) {
       setIsRegistered(false);
       setUserId(null);
-      setUsername(null);
-      setIsCheckingRegistration(false);
-      return;
-    }
-
-    const { userId: storedUserId, username: storedUsername } = readStoredPlayerIdentity();
-    if (!storedUserId || !storedUsername) {
-      setIsRegistered(false);
-      setUserId(null);
-      setUsername(null);
+      setUsername(stored.username);
+      setJoinToken(null);
       setIsCheckingRegistration(false);
       return;
     }
@@ -63,57 +72,53 @@ export function useRoomRegistration({ engineUrl, roomId }: UseRoomRegistrationPa
     let cancelled = false;
     setIsRegistered(false);
     setUserId(null);
-    setUsername(storedUsername);
+    setUsername(stored.username);
+    setJoinToken(null);
     setIsCheckingRegistration(true);
 
-    fetch(`${engineUrl}/register/me?userId=${encodeURIComponent(storedUserId)}&roomId=${encodeURIComponent(roomId)}`)
-      .then(async (res) => {
+    fetch(`${engineUrl}/rooms/${encodeURIComponent(roomId)}/join`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${stored.joinToken}`,
+      },
+      body: JSON.stringify({ userId: stored.userId }),
+    })
+      .then(async (response) => {
+        const data = await response.json().catch(() => ({})) as JoinResponse;
         if (cancelled) return;
 
-        const data = await res.json().catch(() => ({})) as {
-          userId?: string;
-          username?: string;
-          reason?: string;
-        };
-        const decision = getSavedIdentityDecision({ ok: res.ok, status: res.status, reason: data.reason });
+        if (response.ok && data.joinToken) {
+          applyRegistration(stored.userId!, data.username || stored.username!, data.joinToken);
+          return;
+        }
 
-        if (decision === "clear_identity") {
+        if (response.status === 401 || data.reason === "not_registered") {
           resetRegistrationState();
           return;
         }
 
-        if (decision !== "resume" || !data.userId || !data.username) {
-          // Keep the globally reusable saved identity. The join dialog can retry
-          // or re-register the same player ID without colliding on the username.
-          setIsRegistered(false);
-          setUserId(null);
-          setUsername(storedUsername);
-          return;
-        }
-
-        applyRegistration(data.userId, data.username);
+        // Network and room availability failures do not prove the saved identity is invalid.
+        setIsRegistered(false);
+        setUserId(null);
+        setJoinToken(null);
       })
       .catch(() => {
         if (cancelled) return;
-        // A network outage does not prove that the player record is invalid.
         setIsRegistered(false);
         setUserId(null);
-        setUsername(storedUsername);
+        setJoinToken(null);
       })
       .finally(() => {
-        if (!cancelled) {
-          setIsCheckingRegistration(false);
-        }
+        if (!cancelled) setIsCheckingRegistration(false);
       });
 
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [applyRegistration, engineUrl, resetRegistrationState, roomId]);
 
   const handleJoined = useCallback(
-    (nextUserId: string, nextUsername: string) => {
-      applyRegistration(nextUserId, nextUsername);
+    (nextUserId: string, nextUsername: string, nextJoinToken: string) => {
+      applyRegistration(nextUserId, nextUsername, nextJoinToken);
     },
     [applyRegistration]
   );
@@ -121,6 +126,7 @@ export function useRoomRegistration({ engineUrl, roomId }: UseRoomRegistrationPa
   return {
     userId,
     username,
+    joinToken,
     isRegistered,
     isCheckingRegistration,
     handleJoined,
