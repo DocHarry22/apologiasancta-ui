@@ -296,7 +296,7 @@ test("mobile does not expose raw admin token controls", async ({ page }) => {
 });
 
 test("switching rooms preserves and reuses the saved player identity", async ({ page }) => {
-  const verificationRequests: Array<{ userId: string | null; roomId: string | null }> = [];
+  const joinRequests: Array<{ roomId: string; authorization: string | null }> = [];
   const rooms = [
     { roomId: "alpha", name: "Alpha Room", isActive: true, playerCount: 2 },
     { roomId: "beta", name: "Beta Room", isActive: true, playerCount: 1 },
@@ -308,17 +308,19 @@ test("switching rooms preserves and reuses the saved player identity", async ({ 
       await route.fulfill({ json: { rooms } });
       return;
     }
-    if (url.pathname === "/register/me") {
-      verificationRequests.push({
-        userId: url.searchParams.get("userId"),
-        roomId: url.searchParams.get("roomId"),
+    if (/^\/rooms\/(alpha|beta)\/join$/.test(url.pathname)) {
+      const roomId = url.pathname.split("/")[2];
+      joinRequests.push({
+        roomId,
+        authorization: route.request().headers().authorization || null,
       });
       await route.fulfill({
         json: {
           ok: true,
           userId: "player-1",
           username: "Thabo",
-          roomId: url.searchParams.get("roomId"),
+          roomId,
+          joinToken: `room-token-${roomId}`,
         },
       });
       return;
@@ -328,6 +330,7 @@ test("switching rooms preserves and reuses the saved player identity", async ({ 
   await page.addInitScript(() => {
     window.localStorage.setItem("userId", "player-1");
     window.localStorage.setItem("playerName", "Thabo");
+    window.localStorage.setItem("playerJoinToken", "room-token-alpha");
     window.localStorage.setItem("selectedRoomId", "alpha");
     window.localStorage.setItem("selectedRoomName", "Alpha Room");
   });
@@ -340,11 +343,13 @@ test("switching rooms preserves and reuses the saved player identity", async ({ 
   await page.getByRole("button", { name: "Join room" }).click();
 
   await expect(page.getByRole("button", { name: /Beta Room/ })).toBeVisible();
-  await expect.poll(() => verificationRequests).toContainEqual({ userId: "player-1", roomId: "beta" });
+  await expect.poll(() => joinRequests).toContainEqual({ roomId: "alpha", authorization: "Bearer room-token-alpha" });
+  await expect.poll(() => joinRequests).toContainEqual({ roomId: "beta", authorization: "Bearer room-token-alpha" });
   await expect.poll(() => page.evaluate(() => ({
     userId: window.localStorage.getItem("userId"),
     username: window.localStorage.getItem("playerName"),
-  }))).toEqual({ userId: "player-1", username: "Thabo" });
+    joinToken: window.localStorage.getItem("playerJoinToken"),
+  }))).toEqual({ userId: "player-1", username: "Thabo", joinToken: "room-token-beta" });
   await expect(page.getByLabel("Enter your display name")).toHaveCount(0);
 });
 
