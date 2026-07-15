@@ -13,6 +13,21 @@
 | `ENGINE_ADMIN_TOKEN` | Token forwarded server-side to `x-admin-token` on the engine proxy |
 | `ENGINE_INTERNAL_URL` | Internal (non-public) URL for the engine (used on server, not browser) |
 
+### Temporary authentication diagnostics
+
+When production sign-in returns `503 auth_unavailable`, temporarily set
+`AUTH_DIAGNOSTICS_ENABLED=true`, rebuild the application, and open
+`/api/auth/diagnostics`. The endpoint reports only configuration presence,
+database driver error codes, and a diagnostic reference; it never returns
+passwords, secrets, connection strings, hostnames, usernames, or database
+contents. The same reference and failure classification are written as JSON to
+the Hostinger application log.
+
+Common reasons include `database_access_denied`, `database_not_found`,
+`database_host_not_found`, `database_connection_timeout`, and
+`database_schema_incompatible`. Remove `AUTH_DIAGNOSTICS_ENABLED` and rebuild
+after sign-in is repaired.
+
 ### Public (safe to expose to client)
 
 | Variable | Description |
