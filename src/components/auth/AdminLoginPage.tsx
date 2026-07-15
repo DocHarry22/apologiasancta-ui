@@ -15,6 +15,31 @@ interface LoginPayload {
   redirectTo?: string;
   error?: string;
   code?: string;
+  reason?: string;
+  diagnosticId?: string;
+}
+
+function unavailableMessage(payload: LoginPayload | null): string {
+  const reasonMessages: Record<string, string> = {
+    session_secret_missing: "The server session secret is missing.",
+    database_configuration_missing: "The server database configuration is incomplete.",
+    database_url_invalid: "The configured database URL is unsupported.",
+    database_access_denied: "The database rejected the configured username or password.",
+    database_permission_denied: "The database user does not have the required table permissions.",
+    database_not_found: "The configured database does not exist or is not assigned to this user.",
+    database_host_not_found: "The database hostname could not be resolved.",
+    database_connection_refused: "The database server refused the connection.",
+    database_connection_timeout: "The database connection timed out.",
+    database_tls_failed: "The secure database connection could not be established.",
+    database_schema_incompatible: "The database server rejected the required schema statement.",
+    database_initialization_failed: "The database could not be initialized.",
+  };
+  const detail = payload?.reason ? reasonMessages[payload.reason] : undefined;
+  const reference = payload?.diagnosticId
+    ? ` Diagnostic reference: ${payload.diagnosticId}.`
+    : "";
+
+  return `${detail || "Admin sign-in is temporarily unavailable."}${reference}`;
 }
 
 function AdminLoginContent({ defaultNextPath, allowedNextPrefixes }: Props) {
@@ -61,7 +86,8 @@ function AdminLoginContent({ defaultNextPath, allowedNextPrefixes }: Props) {
       } else if (response.status === 429) {
         setError("Too many login attempts. Please wait a bit and try again.");
       } else if (response.status === 503) {
-        setError("Admin sign-in is temporarily unavailable. Please contact the site administrator or try again later.");
+        const payload = (await response.json().catch(() => null)) as LoginPayload | null;
+        setError(unavailableMessage(payload));
       } else {
         const payload = (await response.json().catch(() => null)) as { error?: string } | null;
         setError(payload?.error || "Unable to sign in right now. Please try again.");
