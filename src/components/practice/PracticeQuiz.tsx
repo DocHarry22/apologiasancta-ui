@@ -4,7 +4,12 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ProgressBar } from "@/components/ui/Primitives";
 import { practiceQuestions } from "@/lib/learningContent";
-import { LEARNING_PROGRESS_KEY, parseLearningProgress, recordPracticeAttempt } from "@/lib/learningProgress";
+import { recordPracticeAttempt } from "@/lib/learningProgress";
+import {
+  readLocalLearningProgress,
+  syncLocalLearningProgress,
+  writeLocalLearningProgress,
+} from "@/lib/learningProgressSync";
 
 export function PracticeQuiz() {
   const questions = useMemo(() => practiceQuestions, []);
@@ -18,8 +23,8 @@ export function PracticeQuiz() {
   const choose = (choiceId: string) => { if (answered) return; setSelectedId(choiceId); if (choiceId === question.correctId) setScore((value) => value + 1); };
   const next = () => {
     if (index < questions.length - 1) { setIndex((value) => value + 1); setSelectedId(null); return; }
-    const progress = parseLearningProgress(localStorage.getItem(LEARNING_PROGRESS_KEY));
-    localStorage.setItem(LEARNING_PROGRESS_KEY, JSON.stringify(recordPracticeAttempt(progress, score)));
+    writeLocalLearningProgress(recordPracticeAttempt(readLocalLearningProgress(), score));
+    void syncLocalLearningProgress();
     setFinished(true);
   };
   const restart = () => { setIndex(0); setSelectedId(null); setScore(0); setFinished(false); };
@@ -30,7 +35,7 @@ export function PracticeQuiz() {
       <section className="surface-card-elevated mx-auto max-w-2xl p-7 text-center sm:p-10" aria-live="polite">
         <p className="eyebrow">Practice complete</p><p className="editorial-heading mt-5 text-6xl font-semibold">{score}/{questions.length}</p>
         <p className="mt-3 text-lg leading-7 text-(--text-muted)">{percentage >= 88 ? "Strong foundation. You are ready to test it live." : percentage >= 63 ? "Good progress. Review the explanations you missed." : "Return to the lessons, then try again with the sources open."}</p>
-        <p className="mt-2 text-xs text-(--text-muted)">This best score and attempt are stored on this device.</p>
+        <p className="mt-2 text-xs text-(--text-muted)">This result is saved on this device and synced when you are signed in and online.</p>
         <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row"><button type="button" onClick={restart} className="btn-primary">Try again</button><Link href="/learn" className="btn-secondary">Review lessons</Link><Link href="/mobile" className="btn-secondary">Play live</Link></div>
       </section>
     );

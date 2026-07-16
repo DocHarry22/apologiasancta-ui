@@ -5,7 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 import { ProgressBar, ProgressRing, SectionHeading, StatusBadge } from "@/components/ui/Primitives";
 import { useStreak } from "@/hooks/useStreak";
 import { learningPath } from "@/lib/learningContent";
-import { EMPTY_LEARNING_PROGRESS, LEARNING_PROGRESS_KEY, parseLearningProgress, type LearningProgress } from "@/lib/learningProgress";
+import { EMPTY_LEARNING_PROGRESS, type LearningProgress } from "@/lib/learningProgress";
+import {
+  LEARNING_PROGRESS_CHANGED_EVENT,
+  readLocalLearningProgress,
+  syncLocalLearningProgress,
+  type LearningProgressSyncStatus,
+} from "@/lib/learningProgressSync";
 
 type TopicSummary = { id: string; title: string; questionCount: number };
 
@@ -23,12 +29,30 @@ function TopicIcon({ index }: { index: number }) {
 export function LearningDashboard({ topics, authenticated }: { topics: TopicSummary[]; authenticated: boolean }) {
   const [progress, setProgress] = useState<LearningProgress>(EMPTY_LEARNING_PROGRESS);
   const [hydrated, setHydrated] = useState(false);
+  const [syncStatus, setSyncStatus] = useState<LearningProgressSyncStatus>(authenticated ? "local_only" : "signed_out");
   const { streak } = useStreak();
 
   useEffect(() => {
-    setProgress(parseLearningProgress(localStorage.getItem(LEARNING_PROGRESS_KEY)));
+    setProgress(readLocalLearningProgress());
     setHydrated(true);
-  }, []);
+    const refresh = () => setProgress(readLocalLearningProgress());
+    const sync = () => {
+      if (!authenticated) return;
+      void syncLocalLearningProgress().then((outcome) => {
+        setProgress(outcome.progress);
+        setSyncStatus(outcome.status);
+      });
+    };
+    window.addEventListener(LEARNING_PROGRESS_CHANGED_EVENT, refresh);
+    window.addEventListener("storage", refresh);
+    window.addEventListener("online", sync);
+    sync();
+    return () => {
+      window.removeEventListener(LEARNING_PROGRESS_CHANGED_EVENT, refresh);
+      window.removeEventListener("storage", refresh);
+      window.removeEventListener("online", sync);
+    };
+  }, [authenticated]);
 
   const completedLessonIds = useMemo(() => {
     const known = new Set(learningPath.lessons.map((lesson) => lesson.id));
@@ -50,7 +74,11 @@ export function LearningDashboard({ topics, authenticated }: { topics: TopicSumm
             <Link className="btn-primary" href={`/learn/${nextLesson.id}`}>{completed ? "Continue learning" : "Begin the path"}</Link>
             <a className="btn-secondary" href="#learning-plan">View learning plan</a>
           </div>
-          <p className="mt-3 text-xs text-(--text-muted)">{authenticated ? "Learning progress is currently stored on this device; account sync is not yet enabled." : "Sign in is optional. Progress shown here stays on this device."}</p>
+          <p className="mt-3 text-xs text-(--text-muted)">{!authenticated
+            ? "Sign in is optional. Progress stays available on this device."
+            : syncStatus === "synced"
+              ? "Account progress is synced; offline changes will retry automatically."
+              : "Progress is safe on this device. Cloud sync will retry when available."}</p>
         </div>
         <div className="flex items-center justify-center gap-5 lg:pr-12">
           <ProgressRing value={completion} label="complete" detail={`${completed} of ${learningPath.lessons.length} lessons`} size={164} />
@@ -63,7 +91,7 @@ export function LearningDashboard({ topics, authenticated }: { topics: TopicSumm
           <div><p className="eyebrow">Continue your path</p><h2 id="current-course-heading" className="editorial-heading mt-1 text-2xl font-semibold">{nextLesson.title}</h2><p className="mt-1 text-sm text-(--text-muted)">{nextLesson.subtitle}</p></div>
         </div>
         <div className="border-(--border) lg:border-x lg:px-6">
-          <div className="flex justify-between gap-4 text-sm"><span className="text-(--text-muted)">Your device progress</span><strong>{completion}%</strong></div>
+          <div className="flex justify-between gap-4 text-sm"><span className="text-(--text-muted)">Your progress</span><strong>{completion}%</strong></div>
           <div className="mt-2"><ProgressBar value={completion} label="Learning path progress" /></div>
           <p className="mt-2 text-xs text-(--text-muted)">Next: {nextLesson.title} · {nextLesson.durationMinutes} min</p>
         </div>
@@ -132,7 +160,7 @@ export function LearningDashboard({ topics, authenticated }: { topics: TopicSumm
 
       <section className="surface-card mt-6 flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between" aria-label="Recent achievement">
         <div className="flex items-center gap-3"><span className="grid h-12 w-12 place-items-center rounded-full border border-(--gold) text-xl text-(--gold)" aria-hidden="true">✦</span><div><p className="eyebrow">Recent achievement</p><p className="editorial-heading mt-1 text-lg font-semibold">{completed ? `${completed} formation lesson${completed === 1 ? "" : "s"} completed` : "Begin the Foundations path"}</p></div></div>
-        <StatusBadge tone={completed ? "success" : "neutral"}>{completed ? "Recorded on this device" : "Not yet earned"}</StatusBadge>
+        <StatusBadge tone={completed ? "success" : "neutral"}>{completed ? (syncStatus === "synced" ? "Synced to your account" : "Saved on this device") : "Not yet earned"}</StatusBadge>
       </section>
     </div>
   );

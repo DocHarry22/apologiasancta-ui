@@ -63,7 +63,7 @@ describe("AccountDashboard", () => {
     window.localStorage.clear();
   });
 
-  it("reports learning progress as device-only and reads only known lessons", async () => {
+  it("reports offline-safe learning progress and reads only known lessons", async () => {
     window.localStorage.setItem(LEARNING_PROGRESS_KEY, JSON.stringify({
       completedLessonIds: ["one", "two", "unknown"],
       practiceBest: 6,
@@ -74,7 +74,7 @@ describe("AccountDashboard", () => {
     render(<AccountDashboard {...props} initialSection="learning" />);
 
     expect(screen.getByRole("heading", { name: "Learning progress" })).toBeInTheDocument();
-    expect(screen.getByText("Saved only on this device")).toBeInTheDocument();
+    expect(screen.getByText("Device copy safe; sync pending")).toBeInTheDocument();
     await waitFor(() => expect(screen.getByText("2/4")).toBeInTheDocument());
     expect(screen.getByText("6/8")).toBeInTheDocument();
     expect(screen.getByText("3")).toBeInTheDocument();
@@ -95,9 +95,9 @@ describe("AccountDashboard", () => {
     expect(window.localStorage.getItem(JOIN_TOKEN_STORAGE_KEY)).toBeNull();
     expect(window.localStorage.getItem(LEARNING_PROGRESS_KEY)).not.toBeNull();
 
-    await user.click(screen.getByRole("button", { name: "Clear learning progress" }));
+    await user.click(screen.getByRole("button", { name: "Clear device progress" }));
     expect(window.localStorage.getItem(LEARNING_PROGRESS_KEY)).not.toBeNull();
-    await user.click(screen.getByRole("button", { name: "Confirm clear progress" }));
+    await user.click(screen.getByRole("button", { name: "Confirm clear device copy" }));
     expect(window.localStorage.getItem(LEARNING_PROGRESS_KEY)).toBeNull();
   });
 

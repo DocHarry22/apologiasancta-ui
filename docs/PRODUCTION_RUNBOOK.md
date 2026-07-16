@@ -19,6 +19,8 @@ The Next app uses middleware, route handlers, staff sessions and server-side eng
 - `AUTHOR_SESSION_SECRET` (high-entropy, server only)
 - `ENGINE_ADMIN_TOKEN` (UI server only; must match the Engine's `ADMIN_TOKEN`)
 - `DATABASE_URL` for durable staff/workflow/audit storage
+- `LEARNING_CLOUD_SYNC_ENABLED=true` only after `npm run db:migrate:learning` succeeds against the same database
+- Optional: `LEARNING_DB_POOL_SIZE` (default `5`), `DB_CONNECT_TIMEOUT_MS` (default `10000`)
 - `ADMIN_EMAIL` and `ADMIN_PASSWORD` for initial bootstrap only; rotate after first successful durable login
 - Optional: `NEXT_PUBLIC_ANDROID_APK_URL`, `CAPACITOR_SERVER_URL`, `NEXT_PUBLIC_RESEARCH_GRAPH_URL`, `NEXT_PUBLIC_AUTHOR_ENABLED`
 
@@ -50,6 +52,16 @@ Signed APK/AAB releases run only for an `android-v*` tag or a trusted manual dis
 Store these values as GitHub Actions repository secrets. Never store the decoded keystore or passwords in the repository, workflow inputs, artifacts, logs, or `NEXT_PUBLIC_*` variables. The workflow decodes the keystore with owner-only permissions into the runner's temporary directory and removes it in an `always()` cleanup step. Signed APK and AAB signatures are verified before publishing, and the artifact includes SHA-256 checksums.
 
 The optional non-secret repository variables `ANDROID_APP_URL`, `ANDROID_ENGINE_URL`, and `ANDROID_GRAPH_URL` override the documented production URL defaults. A manual signed build uploads a private workflow artifact by default; enable `publish_release` explicitly to attach it to the requested GitHub release. Tag-triggered builds publish automatically.
+
+### Authenticated learning progress rollout
+
+1. Back up the UI account database and confirm `admin_users` already exists; it remains the account identity authority.
+2. From the reviewed UI source with server-only database variables loaded, run `npm run db:migrate:learning`. The PostgreSQL/MySQL DDL is repeatable and records migration `2026071601_authenticated_learning_progress` in `app_schema_migrations`.
+3. Leave `LEARNING_CLOUD_SYNC_ENABLED=false`, deploy, and smoke-test sign-in plus local/offline learning. The API returns a non-secret `503` local-fallback contract while disabled.
+4. Set `LEARNING_CLOUD_SYNC_ENABLED=true`, redeploy, sign in with a non-privileged learner account, complete a lesson offline, reconnect, and confirm `/api/learning/progress` merges rather than replaces both copies.
+5. Confirm no `accountId` is accepted in a sync payload, POST without a valid CSRF token is rejected, a retried practice mutation does not increment twice, and another signed-in account cannot read the first account's data.
+
+See `docs/AUTHENTICATED_LEARNING_PROGRESS.md` for schema, API, merge, rollback, and current deletion limitations. Do not enable this flag if the migration or database health check fails.
 
 ## Release order
 

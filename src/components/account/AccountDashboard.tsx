@@ -18,6 +18,12 @@ import {
   parseLearningProgress,
   type LearningProgress,
 } from "@/lib/learningProgress";
+import {
+  LEARNING_PROGRESS_CHANGED_EVENT,
+  readLocalLearningProgress,
+  syncLocalLearningProgress,
+  type LearningProgressSyncStatus,
+} from "@/lib/learningProgressSync";
 import { LIBRARY_BOOKMARKS_KEY, parseLibraryBookmarks } from "@/lib/libraryBookmarks";
 import { clearStoredPlayerIdentity } from "@/lib/playerIdentity";
 import { useTheme, type ThemePreference } from "@/lib/theme";
@@ -53,7 +59,7 @@ interface AccountDashboardProps {
 
 const sections: Array<{ id: AccountSection; label: string; description: string }> = [
   { id: "overview", label: "Overview", description: "Profile and account summary" },
-  { id: "learning", label: "Learning", description: "Device learning progress" },
+  { id: "learning", label: "Learning", description: "Account learning progress" },
   { id: "quiz", label: "Quiz history", description: "Recent device sessions" },
   { id: "saved", label: "Saved items", description: "Device library bookmarks" },
   { id: "appearance", label: "Appearance", description: "Theme preference" },
@@ -81,6 +87,12 @@ function DeviceOnlyBadge() {
   return <StatusBadge tone="warning">Saved only on this device</StatusBadge>;
 }
 
+function LearningSyncBadge({ status }: { status: LearningProgressSyncStatus }) {
+  return status === "synced"
+    ? <StatusBadge tone="success">Synced to your account</StatusBadge>
+    : <StatusBadge tone="warning">Device copy safe; sync pending</StatusBadge>;
+}
+
 function Message({ tone, children }: { tone: "success" | "error" | "info"; children: string }) {
   const styles = {
     success: "border-(--success) bg-(--correct-bg) text-(--success)",
@@ -102,6 +114,7 @@ export function AccountDashboard({
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const [activeSection, setActiveSection] = useState<AccountSection>(initialSection);
   const [learningProgress, setLearningProgress] = useState<LearningProgress>(() => parseLearningProgress(null));
+  const [learningSyncStatus, setLearningSyncStatus] = useState<LearningProgressSyncStatus>("local_only");
   const [privacyMessage, setPrivacyMessage] = useState("");
   const [learningClearArmed, setLearningClearArmed] = useState(false);
   const [savedResourceIds, setSavedResourceIds] = useState<string[]>([]);
@@ -109,12 +122,19 @@ export function AccountDashboard({
 
   useEffect(() => {
     try {
-      setLearningProgress(parseLearningProgress(window.localStorage.getItem(LEARNING_PROGRESS_KEY)));
+      setLearningProgress(readLocalLearningProgress());
       setSavedResourceIds(parseLibraryBookmarks(window.localStorage.getItem(LIBRARY_BOOKMARKS_KEY)));
     } catch {
       setLearningProgress(parseLearningProgress(null));
       setSavedResourceIds([]);
     }
+    const refreshLearning = () => setLearningProgress(readLocalLearningProgress());
+    window.addEventListener(LEARNING_PROGRESS_CHANGED_EVENT, refreshLearning);
+    void syncLocalLearningProgress().then((outcome) => {
+      setLearningProgress(outcome.progress);
+      setLearningSyncStatus(outcome.status);
+    });
+    return () => window.removeEventListener(LEARNING_PROGRESS_CHANGED_EVENT, refreshLearning);
   }, []);
 
   const completedLessons = useMemo(() => {
@@ -151,13 +171,13 @@ export function AccountDashboard({
   const clearLearningProgress = () => {
     if (!learningClearArmed) {
       setLearningClearArmed(true);
-      setPrivacyMessage("Select confirm to permanently clear learning progress stored by this browser.");
+      setPrivacyMessage("Select confirm to clear this browser's learning-progress copy. Account-wide deletion is not available yet.");
       return;
     }
     try {
       window.localStorage.removeItem(LEARNING_PROGRESS_KEY);
       setLearningProgress(parseLearningProgress(null));
-      setPrivacyMessage("Device learning progress cleared.");
+      setPrivacyMessage("This device copy was cleared. Signed-in cloud progress may be restored on the next successful sync.");
     } catch {
       setPrivacyMessage("This browser blocked the learning progress change.");
     }
@@ -221,7 +241,7 @@ export function AccountDashboard({
 
           <div className="min-w-0 bg-(--background) p-5 sm:p-7 lg:p-9">
             {activeSection === "overview" ? <OverviewPanel profile={profile} completedLessons={completedLessons} lessonCount={learningLessonIds.length} totalQuizzes={totalQuizzes} /> : null}
-            {activeSection === "learning" ? <LearningPanel progress={learningProgress} completedLessons={completedLessons} lessonCount={learningLessonIds.length} percent={learningPercent} pathTitle={learningPathTitle} practiceQuestionCount={practiceQuestionCount} /> : null}
+            {activeSection === "learning" ? <LearningPanel progress={learningProgress} syncStatus={learningSyncStatus} completedLessons={completedLessons} lessonCount={learningLessonIds.length} percent={learningPercent} pathTitle={learningPathTitle} practiceQuestionCount={practiceQuestionCount} /> : null}
             {activeSection === "quiz" ? <QuizPanel history={history} totalQuizzes={totalQuizzes} bestScore={bestScore} /> : null}
             {activeSection === "saved" ? <SavedPanel savedIds={savedResourceIds} resources={savedResourceOptions} /> : null}
             {activeSection === "appearance" ? <AppearancePanel /> : null}
@@ -259,7 +279,7 @@ function OverviewPanel({ profile, completedLessons, lessonCount, totalQuizzes }:
   return (
     <Panel id="overview">
       <SectionHeading eyebrow="Profile" title="Account overview" />
-      <p className="max-w-2xl text-sm leading-6 text-(--text-muted)">Your authenticated profile is stored by the account service. Learning and quiz summaries below are read from this device.</p>
+      <p className="max-w-2xl text-sm leading-6 text-(--text-muted)">Your authenticated profile is stored by the account service. Learning progress merges with this device when cloud sync is enabled; live-quiz history remains device-only.</p>
       <dl className="mt-6 grid gap-3 sm:grid-cols-2">
         {fields.map(([label, value]) => (
           <div key={label} className="surface-card p-4">
@@ -277,15 +297,15 @@ function OverviewPanel({ profile, completedLessons, lessonCount, totalQuizzes }:
   );
 }
 
-function LearningPanel({ progress, completedLessons, lessonCount, percent, pathTitle, practiceQuestionCount }: { progress: LearningProgress; completedLessons: number; lessonCount: number; percent: number; pathTitle: string; practiceQuestionCount: number }) {
+function LearningPanel({ progress, syncStatus, completedLessons, lessonCount, percent, pathTitle, practiceQuestionCount }: { progress: LearningProgress; syncStatus: LearningProgressSyncStatus; completedLessons: number; lessonCount: number; percent: number; pathTitle: string; practiceQuestionCount: number }) {
   return (
     <Panel id="learning">
-      <SectionHeading eyebrow="Formation" title="Learning progress" action={<DeviceOnlyBadge />} />
+      <SectionHeading eyebrow="Formation" title="Learning progress" action={<LearningSyncBadge status={syncStatus} />} />
       <div className="surface-card flex flex-col gap-6 p-5 sm:flex-row sm:items-center sm:p-6">
         <ProgressRing value={percent} label="complete" detail={`${completedLessons} of ${lessonCount} lessons`} size={126} />
         <div className="min-w-0 flex-1">
           <h3 className="editorial-heading text-2xl font-semibold">{pathTitle}</h3>
-          <p className="mt-2 text-sm leading-6 text-(--text-muted)">Completion is stored in this browser and is not yet synced to your account on other devices.</p>
+          <p className="mt-2 text-sm leading-6 text-(--text-muted)">{syncStatus === "synced" ? "Completion and practice totals are merged with your authenticated account." : "Your device copy remains usable offline and will retry account sync automatically."}</p>
           <div className="mt-4"><ProgressBar value={percent} label="Learning path completion" /></div>
           <Link href="/learn" className="btn-primary mt-5">Open learning path</Link>
         </div>
@@ -295,7 +315,7 @@ function LearningPanel({ progress, completedLessons, lessonCount, percent, pathT
         <div className="surface-card p-4"><span className="text-xs font-black uppercase tracking-[0.12em] text-(--text-muted)">Practice best</span><strong className="editorial-heading mt-2 block text-3xl">{progress.practiceBest}/{practiceQuestionCount}</strong></div>
         <div className="surface-card p-4"><span className="text-xs font-black uppercase tracking-[0.12em] text-(--text-muted)">Practice attempts</span><strong className="editorial-heading mt-2 block text-3xl">{progress.practiceAttempts}</strong></div>
       </div>
-      <p className="mt-5 text-xs leading-5 text-(--text-muted)">Last local update: {progress.updatedAt ? formatDate(new Date(progress.updatedAt).toISOString(), true) : "No progress recorded yet"}.</p>
+      <p className="mt-5 text-xs leading-5 text-(--text-muted)">Last progress update: {progress.updatedAt ? formatDate(new Date(progress.updatedAt).toISOString(), true) : "No progress recorded yet"}. {progress.sync.lastSyncedAt ? `Last account sync: ${formatDate(progress.sync.lastSyncedAt, true)}.` : "No account sync recorded on this device."}</p>
     </Panel>
   );
 }
@@ -511,11 +531,11 @@ function PrivacyPanel({ message, learningClearArmed, onClearLearning, onCancelCl
   return (
     <Panel id="privacy">
       <SectionHeading eyebrow="Device data" title="Privacy controls" />
-      <p className="max-w-2xl text-sm leading-6 text-(--text-muted)">These controls affect only local browser data. They do not delete your authenticated account or server-side content.</p>
+      <p className="max-w-2xl text-sm leading-6 text-(--text-muted)">These controls affect only local browser data. They do not delete your authenticated account or cloud learning record.</p>
       {message ? <div className="mt-5"><Message tone="info">{message}</Message></div> : null}
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <div className="surface-card p-5"><DeviceOnlyBadge /><h3 className="editorial-heading mt-4 text-xl font-semibold">Live-quiz identity</h3><p className="mt-2 text-sm leading-6 text-(--text-muted)">Clear the saved player name, player identifier, and active join credential from this device.</p><button type="button" onClick={onClearQuizIdentity} className="btn-secondary mt-4">Clear quiz identity</button></div>
-        <div className="surface-card p-5"><DeviceOnlyBadge /><h3 className="editorial-heading mt-4 text-xl font-semibold">Learning progress</h3><p className="mt-2 text-sm leading-6 text-(--text-muted)">Permanently clear completed lessons and practice totals saved in this browser.</p><div className="mt-4 flex flex-wrap gap-2"><button type="button" onClick={onClearLearning} className={learningClearArmed ? "btn-primary" : "btn-secondary"}>{learningClearArmed ? "Confirm clear progress" : "Clear learning progress"}</button>{learningClearArmed ? <button type="button" onClick={onCancelClear} className="btn-quiet">Cancel</button> : null}</div></div>
+        <div className="surface-card p-5"><DeviceOnlyBadge /><h3 className="editorial-heading mt-4 text-xl font-semibold">Learning progress device copy</h3><p className="mt-2 text-sm leading-6 text-(--text-muted)">Clear completed lessons and practice totals from this browser only. Synced account progress can return on a later sync.</p><div className="mt-4 flex flex-wrap gap-2"><button type="button" onClick={onClearLearning} className={learningClearArmed ? "btn-primary" : "btn-secondary"}>{learningClearArmed ? "Confirm clear device copy" : "Clear device progress"}</button>{learningClearArmed ? <button type="button" onClick={onCancelClear} className="btn-quiet">Cancel</button> : null}</div></div>
       </div>
       <p className="mt-5 text-xs leading-5 text-(--text-muted)">Recent quiz score history uses app preferences and is shown as read-only here. Account deletion and data export are not offered because no verified end-to-end workflow exists yet.</p>
     </Panel>
