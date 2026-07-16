@@ -2,6 +2,7 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { REVIEW_ATTESTATION_STATEMENT } from "@/lib/editorialPolicy";
 import type { Question } from "@/types/content";
 import type { CurrentUser } from "../currentUser";
 import type { WorkflowDatabase, WorkflowDatabaseExecutor } from "./workflowDatabase";
@@ -23,6 +24,14 @@ const reviewer: CurrentUser = {
   source: "transitional_env",
 };
 
+const adminEditor: CurrentUser = {
+  id: "database-admin-editor",
+  displayName: "Database Admin Editor",
+  role: "super_admin",
+  accountType: "staff",
+  source: "transitional_env",
+};
+
 const sourcedQuestion: Question = {
   id: "edt_0300",
   topicId: "trinity",
@@ -39,20 +48,40 @@ const sourcedQuestion: Question = {
   sourceReferences: [{ kind: "scripture", citation: "Matthew 28:19", locator: "Gospel of Matthew" }],
 };
 
+const attestation = {
+  doctrinalFidelityConfirmed: true as const,
+  sourcesChecked: true as const,
+  explanationSupported: true as const,
+  charitableLanguageConfirmed: true as const,
+  independentReviewConfirmed: true as const,
+  statement: REVIEW_ATTESTATION_STATEMENT,
+};
+
 const databaseState = {
   items: new Map<string, WorkflowItem>(),
   itemUpdateTargets: [] as string[],
   revisions: [] as Array<{ id: string; workflowItemId: string }>,
-  reviews: [] as Array<{ id: string; workflowItemId: string }>,
+  reviews: [] as Array<{
+    id: string;
+    workflowItemId: string;
+    revisionId: string;
+    contentHash: string;
+    decision: string;
+    createdAt: string;
+  }>,
   events: [] as Array<{ id: string; workflowItemId: string }>,
 };
+
+let databaseDialect: "postgres" | "mysql" = "postgres";
 
 function parsePayload(value: unknown): WorkflowItem {
   return JSON.parse(String(value)) as WorkflowItem;
 }
 
 const executor: WorkflowDatabaseExecutor = {
-  dialect: "postgres",
+  get dialect(): "postgres" | "mysql" {
+    return databaseDialect;
+  },
   async query<Row extends Record<string, unknown>>(sql: string, values: unknown[] = []): Promise<Row[]> {
     if (sql.includes("INSERT INTO content_workflow_items")) {
       databaseState.items.set(String(values[0]), parsePayload(values[9]));
@@ -79,12 +108,32 @@ const executor: WorkflowDatabaseExecutor = {
       ));
       return (duplicate ? [{ id: duplicate[0] }] : []) as Row[];
     }
+    if (sql.includes("FROM content_review_records") && sql.includes("decision = ?")) {
+      const workflowItemId = String(values[0]);
+      const decision = String(values[1]);
+      const latest = databaseState.reviews
+        .filter((review) => review.workflowItemId === workflowItemId && review.decision === decision)
+        .sort((left, right) => right.createdAt.localeCompare(left.createdAt) || right.id.localeCompare(left.id))[0];
+      return (latest ? [{
+        id: latest.id,
+        revision_id: latest.revisionId,
+        content_hash: latest.contentHash,
+        created_at: latest.createdAt,
+      }] : []) as Row[];
+    }
     if (sql.includes("INSERT INTO content_workflow_revisions")) {
       databaseState.revisions.push({ id: String(values[0]), workflowItemId: String(values[1]) });
       return [];
     }
     if (sql.includes("INSERT INTO content_review_records")) {
-      databaseState.reviews.push({ id: String(values[0]), workflowItemId: String(values[1]) });
+      databaseState.reviews.push({
+        id: String(values[0]),
+        workflowItemId: String(values[1]),
+        revisionId: String(values[2]),
+        contentHash: String(values[3]),
+        decision: String(values[5]),
+        createdAt: String(values[8]),
+      });
       return [];
     }
     if (sql.includes("INSERT INTO content_workflow_events")) {
@@ -96,7 +145,10 @@ const executor: WorkflowDatabaseExecutor = {
 };
 
 const database: WorkflowDatabase = {
-  ...executor,
+  get dialect(): "postgres" | "mysql" {
+    return databaseDialect;
+  },
+  query: executor.query,
   async transaction<T>(operation: (transactionExecutor: WorkflowDatabaseExecutor) => Promise<T>): Promise<T> {
     return operation(executor);
   },
@@ -125,6 +177,7 @@ beforeAll(async () => {
 });
 
 beforeEach(() => {
+  databaseDialect = "postgres";
   databaseState.items.clear();
   databaseState.itemUpdateTargets.length = 0;
   databaseState.revisions.length = 0;
@@ -222,4 +275,158 @@ describe("database-backed workflow edits", () => {
       currentRevisionId: updated.currentRevisionId,
     });
   });
+
+  it.each(["postgres", "mysql"] as const)(
+    "rejects an unchanged changes-requested revision after a %s reload and accepts a changed revision",
+    async (dialect) => {
+      databaseDialect = dialect;
+      const submitted = await workflow.createWorkflowDraft(
+        { ...sourcedQuestion, id: `edt_${dialect === "postgres" ? "0500" : "0501"}` },
+        author,
+        ["trinity"],
+        [],
+        true
+      );
+      const changesRequested = await workflow.transitionWorkflowItem(submitted.id, "changes_requested", reviewer, {
+        comment: "Please replace the unsupported explanation with one tied to the cited primary source.",
+        referenceFlag: true,
+        topicIds: ["trinity"],
+      });
+      const flaggedReview = changesRequested.reviewComments.at(-1)!;
+      const reviewRowsBeforeRetry = databaseState.reviews.length;
+      const eventRowsBeforeRetry = databaseState.events.length;
+      const updateRowsBeforeRetry = databaseState.itemUpdateTargets.length;
+
+      expect(databaseState.reviews.at(-1)).toMatchObject({
+        workflowItemId: submitted.id,
+        revisionId: submitted.currentRevisionId,
+        contentHash: submitted.contentHash,
+        decision: "changes_requested",
+      });
+
+      const reloadedChangesRequest = await workflow.getWorkflowItem(submitted.id);
+      expect(reloadedChangesRequest).toMatchObject({
+        id: submitted.id,
+        status: "changes_requested",
+        changesRequestedRevisionId: submitted.currentRevisionId,
+        changesRequestedContentHash: submitted.contentHash,
+      });
+      await expect(workflow.transitionWorkflowItem(submitted.id, "submitted", author, { topicIds: ["trinity"] }))
+        .rejects.toThrow("new immutable revision with changed content");
+
+      expect(databaseState.reviews).toHaveLength(reviewRowsBeforeRetry);
+      expect(databaseState.events).toHaveLength(eventRowsBeforeRetry);
+      expect(databaseState.itemUpdateTargets).toHaveLength(updateRowsBeforeRetry);
+      const stillChangesRequested = await workflow.getWorkflowItem(submitted.id);
+      expect(stillChangesRequested?.status).toBe("changes_requested");
+      expect(stillChangesRequested?.reviewComments.at(-1)).toEqual(flaggedReview);
+
+      const revised = await workflow.updateWorkflowDraft(submitted.id, {
+        ...sourcedQuestion,
+        id: `edt_${dialect === "postgres" ? "0500" : "0501"}`,
+        teaching: {
+          ...sourcedQuestion.teaching,
+          body: "The public identifier is stored separately from internal row, revision, and event identifiers, as the cited source supports.",
+        },
+      }, author, ["trinity"], []);
+      expect(revised.currentRevisionId).not.toBe(submitted.currentRevisionId);
+      expect(revised.contentHash).not.toBe(submitted.contentHash);
+      expect(revised.reviewComments.at(-1)).toEqual(flaggedReview);
+
+      const reloadedRevision = await workflow.getWorkflowItem(submitted.id);
+      expect(reloadedRevision).toMatchObject({
+        id: submitted.id,
+        status: "changes_requested",
+        currentRevisionId: revised.currentRevisionId,
+        contentHash: revised.contentHash,
+        changesRequestedRevisionId: submitted.currentRevisionId,
+        changesRequestedContentHash: submitted.contentHash,
+      });
+
+      const resubmitted = await workflow.transitionWorkflowItem(submitted.id, "submitted", author, { topicIds: ["trinity"] });
+      expect(resubmitted).toMatchObject({
+        status: "submitted",
+        currentRevisionId: revised.currentRevisionId,
+        contentHash: revised.contentHash,
+      });
+      expect(resubmitted.reviewComments.at(-1)).toEqual(flaggedReview);
+      expect(resubmitted.referenceFlags).toContain(reviewer.id);
+    }
+  );
+
+  it.each(["postgres", "mysql"] as const)(
+    "persists the current revision creator and rejects their self-review after a %s reload",
+    async (dialect) => {
+      databaseDialect = dialect;
+      const questionId = `edt_${dialect === "postgres" ? "0600" : "0601"}`;
+      const submitted = await workflow.createWorkflowDraft(
+        { ...sourcedQuestion, id: questionId },
+        author,
+        ["trinity"],
+        [],
+        true
+      );
+      const changesRequested = await workflow.transitionWorkflowItem(submitted.id, "changes_requested", reviewer, {
+        comment: "An administrator may revise this content, but cannot independently review that same revision.",
+        topicIds: ["trinity"],
+      });
+      const adminRevision = await workflow.updateWorkflowDraft(changesRequested.id, {
+        ...sourcedQuestion,
+        id: questionId,
+        teaching: {
+          ...sourcedQuestion.teaching,
+          body: "This administrator-authored revision must retain its creator identity across the database reload boundary.",
+        },
+      }, adminEditor, ["trinity"], []);
+      await workflow.transitionWorkflowItem(adminRevision.id, "submitted", adminEditor, { topicIds: ["trinity"] });
+
+      const reloaded = await workflow.getWorkflowItem(adminRevision.id);
+      expect(reloaded?.revisions.find((revision) => revision.id === adminRevision.currentRevisionId)?.createdBy)
+        .toBe(adminEditor.id);
+      await expect(workflow.transitionWorkflowItem(adminRevision.id, "approved", adminEditor, {
+        comment: "The revision creator must not be able to approve this exact immutable revision.",
+        attestation,
+        topicIds: ["trinity"],
+      })).rejects.toThrow("cannot review or approve their own revision");
+
+      const approved = await workflow.transitionWorkflowItem(adminRevision.id, "approved", reviewer, {
+        comment: "A different reviewer independently checked the exact administrator-authored revision.",
+        attestation,
+        topicIds: ["trinity"],
+      });
+      expect(approved.reviewerId).toBe(reviewer.id);
+      expect((await workflow.getWorkflowItem(approved.id))?.reviewerId).toBe(reviewer.id);
+    }
+  );
+
+  it.each(["postgres", "mysql"] as const)(
+    "fails closed when the %s projection omits its append-only requested-change review",
+    async (dialect) => {
+      databaseDialect = dialect;
+      const submitted = await workflow.createWorkflowDraft(
+        { ...sourcedQuestion, id: `edt_${dialect === "postgres" ? "0700" : "0701"}` },
+        author,
+        ["trinity"],
+        [],
+        true
+      );
+      const changesRequested = await workflow.transitionWorkflowItem(submitted.id, "changes_requested", reviewer, {
+        comment: "This append-only review must agree with the authoritative workflow projection after reload.",
+        topicIds: ["trinity"],
+      });
+      const persisted = databaseState.items.get(changesRequested.id)!;
+      databaseState.items.set(changesRequested.id, { ...persisted, reviewComments: [] });
+
+      const reloaded = await workflow.getWorkflowItem(changesRequested.id);
+      expect(reloaded?.changesRequestedEvidenceConflict).toBe(true);
+      await expect(workflow.transitionWorkflowItem(changesRequested.id, "submitted", author, { topicIds: ["trinity"] }))
+        .rejects.toThrow("audit evidence is inconsistent");
+      expect(databaseState.reviews.at(-1)).toMatchObject({
+        workflowItemId: changesRequested.id,
+        revisionId: submitted.currentRevisionId,
+        contentHash: submitted.contentHash,
+        decision: "changes_requested",
+      });
+    }
+  );
 });

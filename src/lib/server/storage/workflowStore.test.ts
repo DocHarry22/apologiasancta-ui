@@ -117,6 +117,226 @@ describe("guarded editorial workflow", () => {
     }
   });
 
+  it("requires changed content in a new immutable revision after changes are requested", async () => {
+    const workflow = await import("./workflowStore");
+    const draft = await workflow.createWorkflowDraft(
+      { ...sourcedQuestion, id: "edt_0005" },
+      author,
+      ["trinity"],
+      [],
+      false
+    );
+
+    const firstSubmission = await workflow.transitionWorkflowItem(draft.id, "submitted", author, { topicIds: ["trinity"] });
+    expect(firstSubmission).toMatchObject({
+      status: "submitted",
+      currentRevisionId: draft.currentRevisionId,
+      contentHash: draft.contentHash,
+    });
+
+    const changesRequested = await workflow.transitionWorkflowItem(firstSubmission.id, "changes_requested", reviewer, {
+      comment: "The explanation must distinguish the source from the unsupported alternative.",
+      doctrinalFlag: true,
+      topicIds: ["trinity"],
+    });
+    const flaggedReview = changesRequested.reviewComments.at(-1)!;
+    const evidenceBeforeBlockedRetry = {
+      version: changesRequested.version,
+      reviewCount: changesRequested.reviewComments.length,
+      historyCount: changesRequested.history.length,
+    };
+    expect(changesRequested).toMatchObject({
+      status: "changes_requested",
+      changesRequestedRevisionId: firstSubmission.currentRevisionId,
+      changesRequestedContentHash: firstSubmission.contentHash,
+    });
+    expect(flaggedReview).toMatchObject({
+      decision: "changes_requested",
+      revisionId: firstSubmission.currentRevisionId,
+      contentHash: firstSubmission.contentHash,
+      doctrinalFlag: true,
+    });
+
+    await expect(workflow.transitionWorkflowItem(changesRequested.id, "submitted", author, { topicIds: ["trinity"] }))
+      .rejects.toThrow("new immutable revision with changed content");
+
+    const unchangedAfterBlockedRetry = await workflow.getWorkflowItem(changesRequested.id);
+    expect(unchangedAfterBlockedRetry).toMatchObject({
+      status: "changes_requested",
+      version: evidenceBeforeBlockedRetry.version,
+      changesRequestedRevisionId: firstSubmission.currentRevisionId,
+      changesRequestedContentHash: firstSubmission.contentHash,
+    });
+    expect(unchangedAfterBlockedRetry?.reviewComments).toHaveLength(evidenceBeforeBlockedRetry.reviewCount);
+    expect(unchangedAfterBlockedRetry?.history).toHaveLength(evidenceBeforeBlockedRetry.historyCount);
+    expect(unchangedAfterBlockedRetry?.reviewComments.at(-1)).toEqual(flaggedReview);
+
+    const noOpRevision = await workflow.updateWorkflowDraft(changesRequested.id, {
+      ...sourcedQuestion,
+      id: "edt_0005",
+    }, author, ["trinity"], []);
+    expect(noOpRevision.currentRevisionId).not.toBe(firstSubmission.currentRevisionId);
+    expect(noOpRevision.contentHash).toBe(firstSubmission.contentHash);
+    await expect(workflow.transitionWorkflowItem(noOpRevision.id, "submitted", author, { topicIds: ["trinity"] }))
+      .rejects.toThrow("new immutable revision with changed content");
+
+    const revised = await workflow.updateWorkflowDraft(noOpRevision.id, {
+      ...sourcedQuestion,
+      id: "edt_0005",
+      teaching: {
+        ...sourcedQuestion.teaching,
+        body: "The cited Gospel text supports the correct answer, while the unsupported alternative has no primary-source basis.",
+      },
+    }, author, ["trinity"], []);
+    expect(revised.currentRevisionId).not.toBe(firstSubmission.currentRevisionId);
+    expect(revised.contentHash).not.toBe(firstSubmission.contentHash);
+    expect(revised.revisions).toHaveLength(3);
+    expect(revised.reviewComments.at(-1)).toEqual(flaggedReview);
+
+    const resubmitted = await workflow.transitionWorkflowItem(revised.id, "submitted", author, { topicIds: ["trinity"] });
+    expect(resubmitted).toMatchObject({
+      status: "submitted",
+      currentRevisionId: revised.currentRevisionId,
+      contentHash: revised.contentHash,
+      changesRequestedRevisionId: firstSubmission.currentRevisionId,
+      changesRequestedContentHash: firstSubmission.contentHash,
+      reviewerId: undefined,
+      reviewerName: undefined,
+    });
+    expect(resubmitted.reviewComments.at(-1)).toEqual(flaggedReview);
+    expect(resubmitted.doctrinalFlags).toContain(reviewer.id);
+
+    await new Promise((resolve) => setTimeout(resolve, 2));
+    const secondChangesRequest = await workflow.transitionWorkflowItem(resubmitted.id, "changes_requested", reviewer, {
+      comment: "The revised explanation now needs a more precise distinction between public and internal identifiers.",
+      referenceFlag: true,
+      topicIds: ["trinity"],
+    });
+    expect(secondChangesRequest).toMatchObject({
+      changesRequestedRevisionId: revised.currentRevisionId,
+      changesRequestedContentHash: revised.contentHash,
+    });
+    await expect(workflow.transitionWorkflowItem(secondChangesRequest.id, "submitted", author, { topicIds: ["trinity"] }))
+      .rejects.toThrow("new immutable revision with changed content");
+
+    const secondRevision = await workflow.updateWorkflowDraft(secondChangesRequest.id, {
+      ...sourcedQuestion,
+      id: "edt_0005",
+      teaching: {
+        ...sourcedQuestion.teaching,
+        body: "The public question identifier is distinct from internal workflow, revision, and event identifiers, while the primary citation supports the teaching itself.",
+      },
+    }, author, ["trinity"], []);
+    const secondResubmission = await workflow.transitionWorkflowItem(secondRevision.id, "submitted", author, { topicIds: ["trinity"] });
+    expect(secondResubmission).toMatchObject({
+      status: "submitted",
+      changesRequestedRevisionId: revised.currentRevisionId,
+      changesRequestedContentHash: revised.contentHash,
+    });
+    expect(secondResubmission.reviewComments).toHaveLength(2);
+  });
+
+  it("fails closed when requested-change projection evidence diverges after file reload", async () => {
+    const workflow = await import("./workflowStore");
+    const submitted = await workflow.createWorkflowDraft(
+      { ...sourcedQuestion, id: "edt_0006" },
+      author,
+      ["trinity"],
+      [],
+      true
+    );
+    const changesRequested = await workflow.transitionWorkflowItem(submitted.id, "changes_requested", reviewer, {
+      comment: "The stored request-change evidence must remain bound to this exact revision.",
+      topicIds: ["trinity"],
+    });
+
+    await patchStoredWorkflowItem(changesRequested.id, {
+      changesRequestedRevisionId: "wf_rev_divergent_projection",
+      changesRequestedContentHash: "b".repeat(64),
+    });
+    const reloaded = await workflow.getWorkflowItem(changesRequested.id);
+    expect(reloaded?.changesRequestedEvidenceConflict).toBe(true);
+    await expect(workflow.transitionWorkflowItem(changesRequested.id, "submitted", author, { topicIds: ["trinity"] }))
+      .rejects.toThrow("audit evidence is inconsistent");
+  });
+
+  it("requires an edited revision when a legacy approval is reopened after file reload", async () => {
+    const workflow = await import("./workflowStore");
+    const submitted = await workflow.createWorkflowDraft(
+      { ...sourcedQuestion, id: "edt_0008" },
+      author,
+      ["trinity"],
+      [],
+      true
+    );
+    const approved = await workflow.transitionWorkflowItem(submitted.id, "approved", reviewer, {
+      comment: "This approval will be stripped to emulate an unbound legacy approval record.",
+      attestation,
+      topicIds: ["trinity"],
+    });
+    await patchStoredWorkflowItem(approved.id, {
+      approvedRevisionId: undefined,
+      approvedContentHash: undefined,
+      approvalAttestation: undefined,
+    });
+
+    const reopened = await workflow.getWorkflowItem(approved.id);
+    expect(reopened).toMatchObject({
+      status: "changes_requested",
+      changesRequestedRevisionId: approved.currentRevisionId,
+      changesRequestedContentHash: approved.contentHash,
+    });
+    await expect(workflow.transitionWorkflowItem(approved.id, "submitted", author, { topicIds: ["trinity"] }))
+      .rejects.toThrow("new immutable revision with changed content");
+  });
+
+  it("blocks the current revision creator from review and reasserts independence at publication", async () => {
+    const workflow = await import("./workflowStore");
+    const submitted = await workflow.createWorkflowDraft(
+      { ...sourcedQuestion, id: "edt_0007" },
+      author,
+      ["trinity"],
+      [],
+      true
+    );
+    const changesRequested = await workflow.transitionWorkflowItem(submitted.id, "changes_requested", reviewer, {
+      comment: "Please make the explanation more explicit before another independent review.",
+      topicIds: ["trinity"],
+    });
+    const adminRevision = await workflow.updateWorkflowDraft(changesRequested.id, {
+      ...sourcedQuestion,
+      id: "edt_0007",
+      teaching: {
+        ...sourcedQuestion.teaching,
+        body: "This revision was authored by an administrator, so a different human must review its exact source-backed content.",
+      },
+    }, publisher, ["trinity"], []);
+    const resubmitted = await workflow.transitionWorkflowItem(adminRevision.id, "submitted", publisher, { topicIds: ["trinity"] });
+
+    await expect(workflow.transitionWorkflowItem(resubmitted.id, "approved", publisher, {
+      comment: "I should not be allowed to approve the exact revision that I authored.",
+      attestation,
+      topicIds: ["trinity"],
+    })).rejects.toThrow("cannot review or approve their own revision");
+
+    const approved = await workflow.transitionWorkflowItem(resubmitted.id, "approved", reviewer, {
+      comment: "I independently checked the administrator-authored revision and its primary citation.",
+      attestation,
+      topicIds: ["trinity"],
+    });
+    expect(approved.reviewerId).toBe(reviewer.id);
+    expect(approved.revisions.find((revision) => revision.id === approved.currentRevisionId)?.createdBy).toBe(publisher.id);
+
+    await patchStoredWorkflowItem(approved.id, { reviewerId: publisher.id, reviewerName: publisher.displayName });
+    await expect(workflow.prepareWorkflowPublication(approved.id, publisher, ["trinity"], []))
+      .rejects.toThrow("independent from the approved revision's author");
+
+    await patchStoredWorkflowItem(approved.id, { reviewerId: reviewer.id, reviewerName: reviewer.displayName });
+    const claim = await workflow.prepareWorkflowPublication(approved.id, publisher, ["trinity"], []);
+    expect(claim.question.id).toBe("edt_0007");
+    await workflow.failWorkflowPublication(claim, publisher, "test cleanup");
+  });
+
   it("revalidates empty and malformed public IDs at approval and publication", async () => {
     const workflow = await import("./workflowStore");
     const invalidIds = ["", "invalid question id!"];

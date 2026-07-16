@@ -22,6 +22,10 @@ export function canSubmitWorkflowItem(role: Role, userId: string, item: Workflow
 
 export function canReviewWorkflowItem(role: Role, userId: string, item: WorkflowItem): boolean {
   if (item.authorId === userId) return false;
+  const currentRevision = item.revisions.find((revision) => (
+    revision.id === item.currentRevisionId && revision.contentHash === item.contentHash
+  ));
+  if (currentRevision?.createdBy === userId) return false;
   if (role === "admin" || role === "super_admin") return true;
   return hasPermission(role, "content:review");
 }

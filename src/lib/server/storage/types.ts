@@ -86,6 +86,9 @@ export interface WorkflowItem extends Question {
   revisionNumber: number;
   currentRevisionId: string;
   contentHash: string;
+  changesRequestedRevisionId?: string;
+  changesRequestedContentHash?: string;
+  changesRequestedEvidenceConflict?: boolean;
   approvedRevisionId?: string;
   approvedContentHash?: string;
   approvalAttestation?: WorkflowReviewerAttestation;

@@ -10,6 +10,8 @@ Apologia Sancta treats AI output, batch input, and author drafts as untrusted ed
 
 Reviewers may instead request changes or reject. Editing creates a new immutable revision ID and SHA-256 content hash and clears any earlier approval. Approval is tied to the current revision ID and content hash; publishing recomputes and verifies the hash before creating an outbox claim.
 
+After changes are requested, the flagged revision cannot be resubmitted. The author must save a new immutable revision whose canonical content hash also differs; the original revision-bound decision, flags, comment, and event remain append-only audit evidence. A person who creates the current revision cannot review that revision, even when they are an administrator or were not the workflow item's original author.
+
 The following checks are server-side and cannot be bypassed by changing browser state:
 
 - The author ID and reviewer ID must differ, including for admins and super-admins.

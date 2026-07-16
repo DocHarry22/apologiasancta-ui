@@ -85,6 +85,14 @@ function workflowItem(status: "submitted" | "approved", suffix: string): DraftQu
 const approved = workflowItem("approved", "0500");
 const submitted = workflowItem("submitted", "0501");
 
+const author: CurrentUser = {
+  id: "author-1",
+  displayName: "Author One",
+  role: "author",
+  accountType: "staff",
+  source: "database",
+};
+
 const superAdmin: CurrentUser = {
   id: "publisher-1",
   displayName: "Publisher One",
@@ -92,6 +100,62 @@ const superAdmin: CurrentUser = {
   accountType: "staff",
   source: "database",
 };
+
+function changesRequestedItem(): DraftQuestion {
+  const timestamp = "2026-07-16T12:00:00.000Z";
+  const currentRevisionId = "wf_rev_0600";
+  const contentHash = "a".repeat(64);
+  const question = {
+    id: "edt_0600",
+    ...questionFields,
+    question: "Changes requested item question",
+  };
+  return {
+    ...question,
+    id: "wf_0600",
+    questionId: question.id,
+    status: "changes_requested",
+    authorId: author.id,
+    authorName: author.displayName,
+    reviewerId: "reviewer-1",
+    reviewerName: "Reviewer One",
+    createdAt: timestamp,
+    updatedAt: timestamp,
+    submittedAt: timestamp,
+    reviewedAt: timestamp,
+    version: 3,
+    revisionNumber: 1,
+    currentRevisionId,
+    contentHash,
+    changesRequestedRevisionId: currentRevisionId,
+    changesRequestedContentHash: contentHash,
+    revisions: [{
+      id: currentRevisionId,
+      revisionNumber: 1,
+      contentHash,
+      createdAt: timestamp,
+      createdBy: author.id,
+      question,
+      sourceReferences: questionFields.sourceReferences,
+    }],
+    validationIssues: [],
+    reviewComments: [{
+      id: "comment_0600",
+      authorId: "reviewer-1",
+      authorName: "Reviewer One",
+      authorRole: "reviewer",
+      body: "Clarify how the explanation follows from the cited primary source.",
+      createdAt: timestamp,
+      decision: "changes_requested",
+      revisionId: currentRevisionId,
+      contentHash,
+      referenceFlag: true,
+    }],
+    doctrinalFlags: [],
+    referenceFlags: ["reviewer-1"],
+    history: [],
+  };
+}
 
 function response(ok: boolean, status: number, body: Record<string, unknown>): Response {
   return {
@@ -158,9 +222,9 @@ describe("AuthorDashboardClient editorial queue", () => {
     );
 
     expect(await screen.findByRole("heading", { name: "Approved for publication" })).toBeInTheDocument();
-    expect(screen.getByText("Approved item question")).toBeInTheDocument();
+    expect(await screen.findByText("Approved item question")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Awaiting theological review" })).toBeInTheDocument();
-    expect(screen.getByText("Submitted item question")).toBeInTheDocument();
+    expect(await screen.findByText("Submitted item question")).toBeInTheDocument();
 
     const submittedCard = screen.getByText("Submitted item question").closest(".rounded-lg");
     expect(submittedCard).not.toBeNull();
@@ -190,5 +254,152 @@ describe("AuthorDashboardClient editorial queue", () => {
     }));
 
     unmount();
+  });
+
+  it("loads requested changes, saves a changed immutable revision, and only then enables resubmission", async () => {
+    const user = userEvent.setup();
+    const changesRequested = changesRequestedItem();
+    const changedExplanation = "The revised explanation now explicitly connects the correct answer to Matthew 28:19 and distinguishes the unsupported alternatives.";
+    const revised: DraftQuestion = {
+      ...changesRequested,
+      teaching: { ...changesRequested.teaching, body: changedExplanation },
+      updatedAt: "2026-07-16T12:05:00.000Z",
+      version: 4,
+      revisionNumber: 2,
+      currentRevisionId: "wf_rev_0601",
+      contentHash: "b".repeat(64),
+      reviewerId: undefined,
+      reviewerName: undefined,
+      reviewedAt: undefined,
+      revisions: [
+        ...(changesRequested.revisions || []),
+        {
+          id: "wf_rev_0601",
+          revisionNumber: 2,
+          contentHash: "b".repeat(64),
+          createdAt: "2026-07-16T12:05:00.000Z",
+          createdBy: author.id,
+          question: {
+            id: changesRequested.questionId!,
+            ...questionFields,
+            question: changesRequested.question,
+            teaching: { ...changesRequested.teaching, body: changedExplanation },
+          },
+          sourceReferences: questionFields.sourceReferences,
+        },
+      ],
+    };
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const url = String(input);
+      const method = init?.method ?? "GET";
+      if (url === "/api/workflow/items" && method === "GET") {
+        return response(true, 200, { ok: true, items: [changesRequested] });
+      }
+      if (url === `/api/workflow/items/${changesRequested.id}` && method === "PATCH") {
+        return response(true, 200, { ok: true, item: revised });
+      }
+      if (url === `/api/workflow/items/${changesRequested.id}/submit` && method === "POST") {
+        return response(true, 200, { ok: true, item: { ...revised, status: "submitted" } });
+      }
+      throw new Error(`Unexpected fetch: ${method} ${url}`);
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(
+      <AuthorDashboardClient
+        topics={[{
+          id: "trinity",
+          title: "The Trinity",
+          description: "Catholic doctrine of the Trinity",
+          tags: ["doctrine"],
+          questionCount: 2,
+          existingIds: [],
+        }]}
+        publishedQuestions={[]}
+        currentUser={author}
+        initialTab="authoring"
+      />
+    );
+
+    expect(await screen.findByText("Changes requested item question")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Resubmit revised question" })).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Edit requested changes" }));
+    expect(screen.getByRole("heading", { name: "Edit Requested Changes" })).toBeInTheDocument();
+    expect(screen.getByText(/Clarify how the explanation follows/)).toBeInTheDocument();
+
+    const explanation = screen.getByLabelText("Teaching explanation");
+    await user.clear(explanation);
+    await user.type(explanation, changedExplanation);
+    await user.click(screen.getByRole("button", { name: "Save new revision" }));
+
+    expect(await screen.findByText(/ready to resubmit for independent review/i)).toBeInTheDocument();
+    const patchCall = fetchMock.mock.calls.find(([url, init]) => (
+      String(url) === `/api/workflow/items/${changesRequested.id}` && init?.method === "PATCH"
+    ));
+    expect(patchCall).toBeDefined();
+    expect(JSON.parse(String(patchCall?.[1]?.body))).toMatchObject({
+      question: { teaching: { body: changedExplanation } },
+    });
+    expect(patchCall?.[1]?.headers).toMatchObject({ "x-csrf-token": "test-csrf" });
+
+    const resubmitButtons = screen.getAllByRole("button", { name: "Resubmit revised question" });
+    expect(resubmitButtons.length).toBeGreaterThan(0);
+    await user.click(resubmitButtons[0]);
+    expect(await screen.findByText("Question submitted for review.")).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledWith(
+      `/api/workflow/items/${changesRequested.id}/submit`,
+      expect.objectContaining({ method: "POST", headers: expect.objectContaining({ "x-csrf-token": "test-csrf" }) })
+    );
+    expect(screen.queryByRole("button", { name: "Resubmit revised question" })).not.toBeInTheDocument();
+  });
+
+  it("disables every review decision when the signed-in admin created the current revision", async () => {
+    const adminAuthoredRevision: DraftQuestion = {
+      ...submitted,
+      revisions: [{
+        id: submitted.currentRevisionId!,
+        revisionNumber: submitted.revisionNumber!,
+        contentHash: submitted.contentHash!,
+        createdAt: submitted.updatedAt,
+        createdBy: superAdmin.id,
+        question: {
+          id: submitted.questionId!,
+          ...questionFields,
+          question: submitted.question,
+        },
+        sourceReferences: questionFields.sourceReferences,
+      }],
+    };
+    vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      if (String(input) === "/api/workflow/items" && (init?.method ?? "GET") === "GET") {
+        return response(true, 200, { ok: true, items: [adminAuthoredRevision] });
+      }
+      throw new Error(`Unexpected fetch: ${init?.method ?? "GET"} ${String(input)}`);
+    }));
+    const user = userEvent.setup();
+
+    render(
+      <AuthorDashboardClient
+        topics={[{
+          id: "trinity",
+          title: "The Trinity",
+          description: "Catholic doctrine of the Trinity",
+          tags: ["doctrine"],
+          questionCount: 2,
+          existingIds: [],
+        }]}
+        publishedQuestions={[]}
+        currentUser={superAdmin}
+        initialTab="review"
+      />
+    );
+
+    expect(await screen.findByText("Submitted item question")).toBeInTheDocument();
+    const submittedCard = screen.getByText("Submitted item question").closest(".rounded-lg");
+    await user.click(within(submittedCard as HTMLElement).getByRole("button", { name: "Open" }));
+    expect(screen.getByText(/you authored this workflow item or its current immutable revision/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Approve attested revision" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Request Changes" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Reject" })).toBeDisabled();
   });
 });

@@ -119,6 +119,20 @@ function workflowQuestion(item: DraftQuestion): Question {
   };
 }
 
+function currentRevisionCreatorId(item: DraftQuestion): string | undefined {
+  return item.revisions?.find((revision) => (
+    revision.id === item.currentRevisionId && revision.contentHash === item.contentHash
+  ))?.createdBy;
+}
+
+function hasRevisedRequestedChanges(item: DraftQuestion): boolean {
+  return item.status === "changes_requested"
+    && Boolean(item.currentRevisionId && item.contentHash)
+    && Boolean(item.changesRequestedRevisionId && item.changesRequestedContentHash)
+    && item.currentRevisionId !== item.changesRequestedRevisionId
+    && item.contentHash !== item.changesRequestedContentHash;
+}
+
 function getCsrfToken(): string | null {
   if (typeof document === "undefined") return null;
   const match = document.cookie.match(/(?:^|;\s*)as_csrf_token=([^;]+)/);
@@ -263,6 +277,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   const [auditUnavailable, setAuditUnavailable] = useState(false);
   const [selectedQuestionId, setSelectedQuestionId] = useState<string>(publishedQuestions[0]?.question.id || "");
   const [selectedWorkflowId, setSelectedWorkflowId] = useState<string>("");
+  const [editingWorkflowId, setEditingWorkflowId] = useState<string>("");
   const [reviewComment, setReviewComment] = useState("");
   const [reviewAttestationAccepted, setReviewAttestationAccepted] = useState(false);
   const [doctrinalFlag, setDoctrinalFlag] = useState(false);
@@ -576,6 +591,26 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     });
   };
 
+  const loadWorkflowItemForEditing = (item: DraftQuestion) => {
+    if (!["draft", "changes_requested"].includes(item.status)) return;
+    setEditingWorkflowId(item.id);
+    setSelectedWorkflowId(item.id);
+    setSelectedTopicId(item.topicId);
+    setFormData(workflowQuestion(item));
+    setMessage({
+      type: "info",
+      text: item.status === "changes_requested"
+        ? "Reviewer feedback loaded. Change the canonical content, then save a new immutable revision before resubmitting."
+        : "Draft loaded for editing. Saving creates a new immutable revision.",
+    });
+  };
+
+  const cancelWorkflowEdit = () => {
+    setEditingWorkflowId("");
+    resetForm();
+    setMessage({ type: "info", text: "Workflow edit cancelled." });
+  };
+
   const handleTopicChange = (topicId: string) => {
     setSelectedTopicId(topicId);
     const topic = topics.find((item) => item.id === topicId);
@@ -609,6 +644,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       const updatedItems = [response.data.item, ...workflowItems.filter((item) => item.id !== response.data.item.id)];
       setWorkflowItems(updatedItems);
       setSelectedWorkflowId(response.data.item.id);
+      setEditingWorkflowId("");
       setMessage({ type: "success", text: status === "submitted" ? "Draft submitted for review." : "Draft saved to workflow storage." });
       const topic = topics.find((candidate) => candidate.id === response.data.item.topicId);
       const nextId = getNextQuestionId(
@@ -622,8 +658,38 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     }
   };
 
+  const saveWorkflowRevision = async () => {
+    const item = workflowItems.find((candidate) => candidate.id === editingWorkflowId);
+    if (!item || !["draft", "changes_requested"].includes(item.status)) return;
+    const question = buildQuestionJson();
+    setLoading(true);
+    const response = await dashboardApi<{ ok: true; item: DraftQuestion }>(`/api/workflow/items/${encodeURIComponent(item.id)}`, {
+      method: "PATCH",
+      body: { question },
+    });
+    setLoading(false);
+    if (response.ok) {
+      setWorkflowItems((items) => items.map((candidate) => candidate.id === item.id ? response.data.item : candidate));
+      setFormData(workflowQuestion(response.data.item));
+      setSelectedWorkflowId(response.data.item.id);
+      setMessage({
+        type: hasRevisedRequestedChanges(response.data.item) ? "success" : "info",
+        text: hasRevisedRequestedChanges(response.data.item)
+          ? "New immutable revision saved with changed content. It is ready to resubmit for independent review."
+          : "A new revision was saved, but its canonical content is unchanged. Make a substantive change before resubmitting.",
+      });
+      if (activeTab === "audit") void fetchAuditEvents();
+    } else {
+      setMessage({ type: "error", text: response.error || "Unable to save the workflow revision." });
+    }
+  };
+
   const submitWorkflowItem = async (item: DraftQuestion) => {
     if (!hasPermission(currentUser.role, "content:submit_review")) return;
+    if (item.status === "changes_requested" && !hasRevisedRequestedChanges(item)) {
+      setMessage({ type: "error", text: "Save a new immutable revision with changed content before resubmitting." });
+      return;
+    }
     const issues = validateQuestion(workflowQuestion(item), { topicIds, existingIds });
     if (hasBlockingValidationIssues(issues)) {
       setWorkflowItems((items) => items.map((candidate) => candidate.id === item.id ? { ...candidate, validationIssues: issues.map((issue) => issue.message) } : candidate));
@@ -636,6 +702,10 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     setLoading(false);
     if (response.ok) {
       setWorkflowItems((items) => items.map((candidate) => candidate.id === item.id ? response.data.item : candidate));
+      if (editingWorkflowId === item.id) {
+        setEditingWorkflowId("");
+        resetForm();
+      }
       setMessage({ type: "success", text: "Question submitted for review." });
       if (activeTab === "audit") void fetchAuditEvents();
     } else {
@@ -645,8 +715,8 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
 
   const reviewWorkflowItem = async (item: DraftQuestion, status: "approved" | "rejected" | "changes_requested") => {
     if (!canReview) return;
-    if (item.authorId === currentUser.id) {
-      setMessage({ type: "error", text: "Authors cannot review or approve their own revision." });
+    if (item.authorId === currentUser.id || currentRevisionCreatorId(item) === currentUser.id) {
+      setMessage({ type: "error", text: "You cannot review a workflow item or immutable revision that you authored." });
       return;
     }
     if (!reviewComment.trim() || reviewComment.trim().length < 10) {
@@ -908,6 +978,11 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     ...(canReview ? submittedItems : []),
     ...(canPublish ? approvedItems : []),
   ].find((item) => item.id === selectedWorkflowId);
+  const selectedReviewItemAuthoredByCurrentUser = Boolean(selectedReviewItem && (
+    selectedReviewItem.authorId === currentUser.id
+    || currentRevisionCreatorId(selectedReviewItem) === currentUser.id
+  ));
+  const editingWorkflowItem = workflowItems.find((item) => item.id === editingWorkflowId);
   const ownDrafts = workflowItems.filter((item) => item.authorId === currentUser.id && item.status !== "archived");
   const filteredAuditEvents = auditEvents;
 
@@ -1113,7 +1188,19 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
               </Panel>
             )}
             {canAuthor && (
-              <Panel title="Create Draft Question" description="Draft workflow items are saved by authenticated server routes.">
+              <Panel
+                title={editingWorkflowItem
+                  ? editingWorkflowItem.status === "changes_requested" ? "Edit Requested Changes" : "Edit Draft Question"
+                  : "Create Draft Question"}
+                description={editingWorkflowItem
+                  ? "Saving appends a new immutable revision while retaining all earlier review and audit evidence."
+                  : "Draft workflow items are saved by authenticated server routes."}
+              >
+                {editingWorkflowItem?.status === "changes_requested" && (
+                  <div className="rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-3 text-sm text-yellow-200">
+                    Address the recorded reviewer feedback below. Resubmission remains disabled until both the immutable revision ID and canonical content hash differ from the flagged revision.
+                  </div>
+                )}
                 <section className="rounded-lg border border-(--border) bg-background p-4">
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     <div className="space-y-1">
@@ -1138,15 +1225,30 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
                     onDownload={() => downloadJson(questionJson)}
                     onCopy={() => void copyJson(questionJson)}
                     onReset={() => {
-                      if (!formIsDirty || window.confirm("Discard the unsaved question changes?")) resetForm();
+                      if (!formIsDirty || window.confirm("Discard the unsaved question changes?")) {
+                        if (editingWorkflowItem) setFormData(workflowQuestion(editingWorkflowItem));
+                        else resetForm();
+                      }
                     }}
                   />
                   <div className="space-y-4">
                     <JsonPreview question={questionJson} />
                     <ValidationPanel issues={draftValidationIssues} />
                     <div className="flex flex-wrap gap-2">
-                      <button type="button" onClick={() => void createDraftFromForm("draft")} disabled={loading} className="min-h-11 rounded-lg border border-(--border) px-4 py-2 text-sm hover:border-(--accent) hover:text-(--accent) disabled:opacity-50">Save Draft</button>
-                      <button type="button" onClick={() => void createDraftFromForm("submitted")} disabled={loading || hasBlockingValidationIssues(draftValidationIssues)} className="min-h-11 rounded-lg bg-(--accent) px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Submit for Review</button>
+                      {editingWorkflowItem ? (
+                        <>
+                          <button type="button" onClick={() => void saveWorkflowRevision()} disabled={loading} className="min-h-11 rounded-lg border border-(--accent) px-4 py-2 text-sm font-medium text-(--accent) disabled:opacity-50">Save new revision</button>
+                          {editingWorkflowItem.status === "changes_requested" && hasRevisedRequestedChanges(editingWorkflowItem) && (
+                            <button type="button" onClick={() => void submitWorkflowItem(editingWorkflowItem)} disabled={loading || hasBlockingValidationIssues(draftValidationIssues)} className="min-h-11 rounded-lg bg-(--accent) px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Resubmit revised question</button>
+                          )}
+                          <button type="button" onClick={cancelWorkflowEdit} disabled={loading} className="min-h-11 rounded-lg border border-(--border) px-4 py-2 text-sm disabled:opacity-50">Cancel edit</button>
+                        </>
+                      ) : (
+                        <>
+                          <button type="button" onClick={() => void createDraftFromForm("draft")} disabled={loading} className="min-h-11 rounded-lg border border-(--border) px-4 py-2 text-sm hover:border-(--accent) hover:text-(--accent) disabled:opacity-50">Save Draft</button>
+                          <button type="button" onClick={() => void createDraftFromForm("submitted")} disabled={loading || hasBlockingValidationIssues(draftValidationIssues)} className="min-h-11 rounded-lg bg-(--accent) px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Submit for Review</button>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1156,7 +1258,16 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
               {workflowLoading && <EmptyState text="Loading persisted workflow items..." />}
               {workflowUnavailable && <div className="rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-3 text-sm text-yellow-200">Workflow persistence is unavailable. Draft actions will not be shown as saved until the server route recovers.</div>}
               {ownDrafts.map((item) => (
-                <WorkflowCard key={item.id} item={item} onSelect={() => setSelectedWorkflowId(item.id)} onSubmit={() => void submitWorkflowItem(item)} onArchive={() => void archiveWorkflowItem(item)} canSubmit={hasPermission(currentUser.role, "content:submit_review")} canArchive={true} />
+                <WorkflowCard
+                  key={item.id}
+                  item={item}
+                  onSelect={() => setSelectedWorkflowId(item.id)}
+                  onEdit={() => loadWorkflowItemForEditing(item)}
+                  onSubmit={() => void submitWorkflowItem(item)}
+                  onArchive={() => void archiveWorkflowItem(item)}
+                  canSubmit={hasPermission(currentUser.role, "content:submit_review")}
+                  canArchive={true}
+                />
               ))}
               {!workflowLoading && ownDrafts.length === 0 && <EmptyState text="No persisted draft workflow items are visible for your user." />}
             </Panel>
@@ -1223,20 +1334,20 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
                               className="mt-1"
                               checked={reviewAttestationAccepted}
                               onChange={(event) => setReviewAttestationAccepted(event.target.checked)}
-                              disabled={selectedReviewItem.authorId === currentUser.id}
+                              disabled={selectedReviewItemAuthoredByCurrentUser}
                             />
                             <span>{REVIEW_ATTESTATION_STATEMENT}</span>
                           </label>
-                          {selectedReviewItem.authorId === currentUser.id && (
+                          {selectedReviewItemAuthoredByCurrentUser && (
                             <p className="rounded-lg border border-yellow-500/40 bg-yellow-500/10 p-3 text-sm text-yellow-300">
-                              Independent review required: you authored this revision, so another reviewer must decide it.
+                              Independent review required: you authored this workflow item or its current immutable revision, so another reviewer must decide it.
                             </p>
                           )}
                         </div>
                         <div className="flex flex-wrap gap-2">
-                          <button type="button" onClick={() => void reviewWorkflowItem(selectedReviewItem, "approved")} disabled={loading || reviewComment.trim().length < 10 || !reviewAttestationAccepted || doctrinalFlag || referenceFlag || selectedReviewItem.authorId === currentUser.id} className="min-h-11 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Approve attested revision</button>
-                          <button type="button" onClick={() => void reviewWorkflowItem(selectedReviewItem, "changes_requested")} disabled={loading || reviewComment.trim().length < 10 || selectedReviewItem.authorId === currentUser.id} className="min-h-11 rounded-lg border border-yellow-500 px-4 py-2 text-sm text-yellow-300 disabled:opacity-50">Request Changes</button>
-                          <button type="button" onClick={() => void reviewWorkflowItem(selectedReviewItem, "rejected")} disabled={loading || reviewComment.trim().length < 10 || selectedReviewItem.authorId === currentUser.id} className="min-h-11 rounded-lg border border-(--wrong) px-4 py-2 text-sm text-(--wrong) disabled:opacity-50">Reject</button>
+                          <button type="button" onClick={() => void reviewWorkflowItem(selectedReviewItem, "approved")} disabled={loading || reviewComment.trim().length < 10 || !reviewAttestationAccepted || doctrinalFlag || referenceFlag || selectedReviewItemAuthoredByCurrentUser} className="min-h-11 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Approve attested revision</button>
+                          <button type="button" onClick={() => void reviewWorkflowItem(selectedReviewItem, "changes_requested")} disabled={loading || reviewComment.trim().length < 10 || selectedReviewItemAuthoredByCurrentUser} className="min-h-11 rounded-lg border border-yellow-500 px-4 py-2 text-sm text-yellow-300 disabled:opacity-50">Request Changes</button>
+                          <button type="button" onClick={() => void reviewWorkflowItem(selectedReviewItem, "rejected")} disabled={loading || reviewComment.trim().length < 10 || selectedReviewItemAuthoredByCurrentUser} className="min-h-11 rounded-lg border border-(--wrong) px-4 py-2 text-sm text-(--wrong) disabled:opacity-50">Reject</button>
                         </div>
                       </>
                     )}
@@ -1624,6 +1735,7 @@ function ValidationPanel({ issues }: { issues: ValidationIssue[] }) {
 function WorkflowCard({
   item,
   onSelect,
+  onEdit,
   onSubmit,
   onArchive,
   canSubmit,
@@ -1631,6 +1743,7 @@ function WorkflowCard({
 }: {
   item: DraftQuestion;
   onSelect: () => void;
+  onEdit?: () => void;
   onSubmit?: () => void;
   onArchive?: () => void;
   canSubmit: boolean;
@@ -1654,10 +1767,21 @@ function WorkflowCard({
           ))}
         </div>
       )}
+      {item.status === "changes_requested" && !hasRevisedRequestedChanges(item) && (
+        <p className="mt-3 rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-3 text-xs leading-5 text-yellow-200">
+          Save a new immutable revision with changed canonical content before resubmitting.
+        </p>
+      )}
       <div className="mt-3 flex flex-wrap gap-2">
         <button type="button" onClick={onSelect} className="min-h-11 rounded-lg border border-(--border) px-3 py-2 text-sm hover:border-(--accent) hover:text-(--accent)">Open</button>
-        {canSubmit && ["draft", "changes_requested"].includes(item.status) && (
+        {canSubmit && item.status === "draft" && (
           <button type="button" onClick={onSubmit} className="min-h-11 rounded-lg bg-(--accent) px-3 py-2 text-sm font-medium text-white">Submit</button>
+        )}
+        {canSubmit && item.status === "changes_requested" && (
+          <button type="button" onClick={onEdit} className="min-h-11 rounded-lg border border-yellow-500 px-3 py-2 text-sm font-medium text-yellow-300">Edit requested changes</button>
+        )}
+        {canSubmit && hasRevisedRequestedChanges(item) && (
+          <button type="button" onClick={onSubmit} className="min-h-11 rounded-lg bg-(--accent) px-3 py-2 text-sm font-medium text-white">Resubmit revised question</button>
         )}
         {canArchive && item.status !== "archived" && (
           <button type="button" onClick={onArchive} className="min-h-11 rounded-lg border border-(--border) px-3 py-2 text-sm hover:border-(--wrong) hover:text-(--wrong)">Archive</button>

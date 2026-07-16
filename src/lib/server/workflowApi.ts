@@ -114,7 +114,12 @@ export async function patchWorkflowRoute(request: NextRequest, id: string) {
     path: request.nextUrl.pathname,
     ip: getClientIp(request),
     userAgent: request.headers.get("user-agent") ?? undefined,
-    metadata: { questionId: updated.questionId, topicId: updated.topicId },
+    metadata: {
+      questionId: updated.questionId,
+      topicId: updated.topicId,
+      revisionId: updated.currentRevisionId,
+      contentHash: updated.contentHash,
+    },
   });
   return safeJson({ ok: true, item: updated });
 }
@@ -245,7 +250,12 @@ export async function transitionWorkflowRoute(request: NextRequest, id: string, 
       path: request.nextUrl.pathname,
       ip: getClientIp(request),
       userAgent: request.headers.get("user-agent") ?? undefined,
-      metadata: { questionId: updated.questionId, topicId: updated.topicId, contentHash: updated.contentHash },
+      metadata: {
+        questionId: updated.questionId,
+        topicId: updated.topicId,
+        revisionId: updated.currentRevisionId,
+        contentHash: updated.contentHash,
+      },
     });
     return safeJson({ ok: true, item: updated });
   } catch (error) {

@@ -174,6 +174,28 @@ function createRevision(question: Question, actor: CurrentUser, revisionNumber: 
   };
 }
 
+function latestChangesRequestedReview(reviewComments: WorkflowReviewComment[]): WorkflowReviewComment | undefined {
+  return reviewComments.reduce<WorkflowReviewComment | undefined>((latest, review) => {
+    if (
+      review.decision !== "changes_requested"
+      || typeof review.revisionId !== "string"
+      || review.revisionId.length === 0
+      || !isSha256Hash(review.contentHash)
+    ) {
+      return latest;
+    }
+    if (!latest) return review;
+    const reviewTime = Date.parse(review.createdAt);
+    const latestTime = Date.parse(latest.createdAt);
+    const normalizedReviewTime = Number.isFinite(reviewTime) ? reviewTime : 0;
+    const normalizedLatestTime = Number.isFinite(latestTime) ? latestTime : 0;
+    if (normalizedReviewTime !== normalizedLatestTime) {
+      return normalizedReviewTime > normalizedLatestTime ? review : latest;
+    }
+    return review.id.localeCompare(latest.id) > 0 ? review : latest;
+  }, undefined);
+}
+
 function hydrateWorkflowItem(raw: WorkflowItem): WorkflowItem {
   // An explicit empty value is an invalid public ID that authors must fix, not a
   // missing legacy field that may be replaced by the internal workflow row ID.
@@ -206,6 +228,30 @@ function hydrateWorkflowItem(raw: WorkflowItem): WorkflowItem {
     || !raw.approvalAttestation
     || sourceReferences.length === 0
   );
+  const reviewComments = Array.isArray(raw.reviewComments) ? raw.reviewComments : [];
+  const latestChangesRequest = latestChangesRequestedReview(reviewComments);
+  const persistedChangesRequest = typeof raw.changesRequestedRevisionId === "string"
+    && raw.changesRequestedRevisionId.length > 0
+    && isSha256Hash(raw.changesRequestedContentHash)
+    ? {
+      revisionId: raw.changesRequestedRevisionId,
+      contentHash: raw.changesRequestedContentHash,
+    }
+    : undefined;
+  const changesRequestedEvidenceConflict = raw.changesRequestedEvidenceConflict === true || Boolean(
+    latestChangesRequest
+    && persistedChangesRequest
+    && (
+      latestChangesRequest.revisionId !== persistedChangesRequest.revisionId
+      || latestChangesRequest.contentHash !== persistedChangesRequest.contentHash
+    )
+  );
+  const changesRequest = legacyApprovalNeedsReview
+    ? { revisionId: currentRevisionId, contentHash }
+    : latestChangesRequest
+      ? { revisionId: latestChangesRequest.revisionId, contentHash: latestChangesRequest.contentHash }
+      : persistedChangesRequest
+        ?? (raw.status === "changes_requested" ? { revisionId: currentRevisionId, contentHash } : undefined);
   return {
     ...raw,
     ...question,
@@ -217,12 +263,15 @@ function hydrateWorkflowItem(raw: WorkflowItem): WorkflowItem {
     revisionNumber,
     currentRevisionId,
     contentHash,
+    changesRequestedRevisionId: changesRequest?.revisionId,
+    changesRequestedContentHash: changesRequest?.contentHash,
+    changesRequestedEvidenceConflict: changesRequestedEvidenceConflict || undefined,
     revisions: revisions.length > 0 ? revisions : [migratedRevision],
     validationIssues: [
       ...(Array.isArray(raw.validationIssues) ? raw.validationIssues : []),
       ...(legacyApprovalNeedsReview ? ["Legacy approval reopened: structured sources and independent reviewer attestation are required."] : []),
     ],
-    reviewComments: Array.isArray(raw.reviewComments) ? raw.reviewComments : [],
+    reviewComments,
     doctrinalFlags: Array.isArray(raw.doctrinalFlags) ? raw.doctrinalFlags : [],
     referenceFlags: Array.isArray(raw.referenceFlags) ? raw.referenceFlags : [],
     history: Array.isArray(raw.history) ? raw.history : [],
@@ -531,12 +580,53 @@ async function updateMigrationProjection(executor: WorkflowDatabaseExecutor, ite
   ]);
 }
 
+async function verifyDatabaseChangesRequestEvidence(
+  executor: WorkflowDatabaseExecutor,
+  item: WorkflowItem,
+  forUpdate: boolean
+): Promise<WorkflowItem> {
+  const rows = await executor.query<{
+    id: string;
+    revision_id: string;
+    content_hash: string;
+    created_at: string;
+  }>(
+    `SELECT id, revision_id, content_hash, created_at FROM content_review_records
+      WHERE workflow_item_id = ? AND decision = ? ORDER BY created_at DESC, id DESC LIMIT 1${forUpdate ? " FOR UPDATE" : ""}`,
+    [item.id, "changes_requested"]
+  );
+  const databaseReview = rows[0];
+  const payloadReview = latestChangesRequestedReview(item.reviewComments);
+  const databaseReviewIsValid = Boolean(
+    databaseReview
+    && typeof databaseReview.revision_id === "string"
+    && databaseReview.revision_id.length > 0
+    && isSha256Hash(databaseReview.content_hash)
+  );
+  const databaseReviewMatchesPayload = Boolean(
+    databaseReview
+    && databaseReviewIsValid
+    && payloadReview
+    && payloadReview.id === databaseReview.id
+    && payloadReview.revisionId === databaseReview.revision_id
+    && payloadReview.contentHash === databaseReview.content_hash
+    && payloadReview.createdAt === databaseReview.created_at
+  );
+  const evidenceConflict = item.changesRequestedEvidenceConflict === true
+    || Boolean(databaseReview && !databaseReviewMatchesPayload)
+    || Boolean(payloadReview && !databaseReview);
+
+  return evidenceConflict ? { ...item, changesRequestedEvidenceConflict: true } : item;
+}
+
 async function loadDatabaseItem(executor: WorkflowDatabaseExecutor, id: string, forUpdate = false): Promise<WorkflowItem | null> {
   const rows = await executor.query<{ payload: unknown }>(
     `SELECT payload FROM content_workflow_items WHERE id = ? OR question_id = ? LIMIT 1${forUpdate ? " FOR UPDATE" : ""}`,
     [id, id]
   );
-  return rows[0]?.payload ? hydrateWorkflowItem(parseWorkflowDatabaseJson<WorkflowItem>(rows[0].payload)) : null;
+  if (!rows[0]?.payload) return null;
+  const item = hydrateWorkflowItem(parseWorkflowDatabaseJson<WorkflowItem>(rows[0].payload));
+  return verifyDatabaseChangesRequestEvidence(executor, item, forUpdate);
 }
 
 export async function migrateWorkflowSourcesToDatabase(
@@ -858,10 +948,26 @@ export async function transitionWorkflowItem(
     if (!canTransitionStatus(item.status, nextStatus)) {
       throw new WorkflowConflictError(`Cannot move workflow item from ${item.status} to ${nextStatus}.`);
     }
+    if (item.status === "changes_requested" && nextStatus === "submitted") {
+      if (item.changesRequestedEvidenceConflict) {
+        throw new WorkflowConflictError("Requested-change audit evidence is inconsistent; repair the stored review record before resubmission.");
+      }
+      const sameRevision = item.currentRevisionId === item.changesRequestedRevisionId;
+      const sameContent = item.contentHash === item.changesRequestedContentHash;
+      if (sameRevision || sameContent) {
+        throw new WorkflowConflictError("Requested changes must be saved as a new immutable revision with changed content before resubmission.");
+      }
+    }
     assertValidForStatus(item, nextStatus, options.topicIds ?? [], options.existingIds ?? []);
     const isReview = ["approved", "rejected", "changes_requested"].includes(nextStatus);
-    if (isReview && actor.id === item.authorId) {
-      throw new WorkflowConflictError("An author cannot review or approve their own revision.");
+    const currentRevision = item.revisions.find((revision) => (
+      revision.id === item.currentRevisionId && revision.contentHash === item.contentHash
+    ));
+    if (isReview && !currentRevision) {
+      throw new WorkflowConflictError("The current immutable revision snapshot is unavailable or invalid.");
+    }
+    if (isReview && (actor.id === item.authorId || actor.id === currentRevision?.createdBy)) {
+      throw new WorkflowConflictError("An author cannot review or approve their own revision; another reviewer must decide the current immutable revision.");
     }
     const reviewerComment = options.comment?.trim() || "";
     if (isReview && reviewerComment.length < 10) {
@@ -912,6 +1018,8 @@ export async function transitionWorkflowItem(
       archivedAt: nextStatus === "archived" ? timestamp : item.archivedAt,
       reviewerId: isReview ? actor.id : (resubmitted ? undefined : item.reviewerId),
       reviewerName: isReview ? actor.displayName : (resubmitted ? undefined : item.reviewerName),
+      changesRequestedRevisionId: nextStatus === "changes_requested" ? item.currentRevisionId : item.changesRequestedRevisionId,
+      changesRequestedContentHash: nextStatus === "changes_requested" ? item.contentHash : item.changesRequestedContentHash,
       approvedRevisionId: nextStatus === "approved" ? item.currentRevisionId : (resubmitted || isReview ? undefined : item.approvedRevisionId),
       approvedContentHash: nextStatus === "approved" ? item.contentHash : (resubmitted || isReview ? undefined : item.approvedContentHash),
       approvalAttestation: nextStatus === "approved" ? attestation : (resubmitted || isReview ? undefined : item.approvalAttestation),
@@ -968,6 +1076,8 @@ function assertPublishableApproval(item: WorkflowItem, topicIds: string[], exist
   }
   const revision = item.revisions.find((candidate) => candidate.id === item.approvedRevisionId);
   if (!revision || revision.contentHash !== item.approvedContentHash) throw new WorkflowConflictError("Approved revision snapshot is unavailable or invalid.");
+  if (item.changesRequestedEvidenceConflict) throw new WorkflowConflictError("Publication is blocked because requested-change audit evidence is inconsistent.");
+  if (item.reviewerId === revision.createdBy) throw new WorkflowConflictError("Publication requires a reviewer independent from the approved revision's author.");
   const recomputedHash = computeEditorialContentHash(revision.question, revision.sourceReferences);
   if (recomputedHash !== revision.contentHash) throw new WorkflowConflictError("Approved revision content hash verification failed.");
   return revision;

@@ -72,6 +72,8 @@ export interface DraftQuestion {
   revisionNumber?: number;
   currentRevisionId?: string;
   contentHash?: string;
+  changesRequestedRevisionId?: string;
+  changesRequestedContentHash?: string;
   approvedRevisionId?: string;
   approvedContentHash?: string;
   approvalAttestation?: WorkflowReviewerAttestation;
