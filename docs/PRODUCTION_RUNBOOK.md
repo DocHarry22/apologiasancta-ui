@@ -38,7 +38,7 @@ Never expose `ENGINE_ADMIN_TOKEN`, `ADMIN_TOKEN`, `PLAYER_JOIN_SECRET`, database
 
 ### Android CI and release signing
 
-The `Android CI` workflow is a required, secret-free build gate for pull requests and `main`. It installs JDK 17 and Android SDK 35, syncs Capacitor, runs Android unit tests and lint, assembles a debug APK, verifies the APK signature, and uploads the APK as a short-lived workflow artifact.
+The `Android CI` workflow is a required, secret-free build gate for pull requests and `main`. It installs JDK 21 and Android SDK 35, syncs Capacitor, runs Android unit tests and lint, assembles a debug APK, verifies the APK signature, and uploads the APK as a short-lived workflow artifact.
 
 Signed APK/AAB releases run only for an `android-v*` tag or a trusted manual dispatch. The release job is skipped unless all four repository secrets exist:
 
