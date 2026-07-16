@@ -36,6 +36,21 @@ The Next app uses middleware, route handlers, staff sessions and server-side eng
 
 Never expose `ENGINE_ADMIN_TOKEN`, `ADMIN_TOKEN`, `PLAYER_JOIN_SECRET`, database credentials or Supabase service-role keys through `NEXT_PUBLIC_*` variables.
 
+### Android CI and release signing
+
+The `Android CI` workflow is a required, secret-free build gate for pull requests and `main`. It installs JDK 17 and Android SDK 35, syncs Capacitor, runs Android unit tests and lint, assembles a debug APK, verifies the APK signature, and uploads the APK as a short-lived workflow artifact.
+
+Signed APK/AAB releases run only for an `android-v*` tag or a trusted manual dispatch. The release job is skipped unless all four repository secrets exist:
+
+- `ANDROID_KEYSTORE_BASE64`: base64-encoded JKS/keystore file.
+- `ANDROID_KEYSTORE_PASSWORD`: keystore password.
+- `ANDROID_KEY_ALIAS`: signing key alias.
+- `ANDROID_KEY_PASSWORD`: signing key password.
+
+Store these values as GitHub Actions repository secrets. Never store the decoded keystore or passwords in the repository, workflow inputs, artifacts, logs, or `NEXT_PUBLIC_*` variables. The workflow decodes the keystore with owner-only permissions into the runner's temporary directory and removes it in an `always()` cleanup step. Signed APK and AAB signatures are verified before publishing, and the artifact includes SHA-256 checksums.
+
+The optional non-secret repository variables `ANDROID_APP_URL`, `ANDROID_ENGINE_URL`, and `ANDROID_GRAPH_URL` override the documented production URL defaults. A manual signed build uploads a private workflow artifact by default; enable `publish_release` explicitly to attach it to the requested GitHub release. Tag-triggered builds publish automatically.
+
 ## Release order
 
 1. Review both coordinated pull requests and confirm every required check is green.
