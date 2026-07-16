@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { JoinGameModal } from "@/components/mobile/JoinGameModal";
 import { RoomSelectionModal } from "@/components/mobile/RoomSelectionModal";
 import { getEngineUrl } from "@/lib/publicEnv";
+import { isNativePlatform } from "@/lib/native";
 import {
   readStoredPlayerIdentity,
   readStoredRoomSelection,
@@ -48,8 +49,7 @@ export function useQuizEntryGate() {
       return;
     }
 
-    const isCapacitor = !!(window as { Capacitor?: unknown }).Capacitor;
-    if (!isCapacitor || !engineUrl) {
+    if (!isNativePlatform() || !engineUrl) {
       router.push("/mobile");
       return;
     }

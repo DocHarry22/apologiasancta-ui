@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useCallback, useEffect } from "react";
 import type { RoomSummary } from "@/types/quiz";
+import { Dialog } from "@/components/ui/Dialog";
 
 interface RoomSelectionModalProps {
   engineUrl: string;
@@ -107,19 +108,12 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div
-        className="flex w-full max-w-lg flex-col rounded-2xl shadow-2xl max-h-[90dvh]"
-        style={{
-          backgroundColor: "var(--card)",
-          border: "1px solid var(--card-border)",
-        }}
-      >
+    <Dialog titleId="room-selection-title" descriptionId="room-selection-description" onClose={onClose} className="flex max-h-[90dvh] max-w-lg flex-col rounded-2xl">
         <div className="shrink-0 px-8 pt-8 pb-4 text-center">
-          <h2 className="text-2xl font-bold" style={{ color: "var(--accent)" }}>
+          <h2 id="room-selection-title" className="editorial-heading text-2xl font-semibold">
             Choose a room
           </h2>
-          <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+          <p id="room-selection-description" className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
             Pick an active room before you join the live quiz.
           </p>
           {onClose ? (
@@ -195,7 +189,7 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
                         color: room.roomId === currentRoomId ? "var(--accent2)" : playable ? "var(--correct)" : "var(--muted)",
                       }}
                     >
-                      {room.roomId === currentRoomId ? "Selected" : playable ? "Live now" : "Closed"}
+                      {room.roomId === currentRoomId ? "Selected" : playable ? "Open" : "Closed"}
                     </span>
                   </div>
                   <div className="mt-3 flex items-center justify-between text-sm" style={{ color: "var(--text-secondary)" }}>
@@ -230,7 +224,6 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
           </div>
         )}
         </div>
-      </div>
-    </div>
+    </Dialog>
   );
 }

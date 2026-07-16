@@ -4,16 +4,18 @@ import { useCallback, useEffect, useState } from "react";
 import { PLAYER_NAME_KEY } from "./YourScoreCard";
 import { getEngineUrl } from "@/lib/publicEnv";
 import {
+  clearStoredPlayerIdentity,
   readStoredPlayerIdentity,
   saveStoredJoinToken,
   saveStoredPlayerIdentity,
 } from "@/lib/playerIdentity";
 import { getReusableStoredUserId } from "@/lib/registrationRecovery";
+import { Dialog } from "@/components/ui/Dialog";
 
 interface JoinGameModalProps {
   roomId: string;
   roomName?: string | null;
-  onJoined: (userId: string, username: string, joinToken: string) => void;
+  onJoined: (userId: string, username: string, joinToken?: string | null) => void;
   onCancel?: () => void;
 }
 
@@ -65,16 +67,18 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
         message?: string;
       };
 
-      if (response.ok && data.userId && data.username && data.joinToken) {
+      if (response.ok && data.userId && data.username) {
         saveStoredPlayerIdentity(data.userId, data.username);
-        saveStoredJoinToken(data.joinToken);
+        if (data.joinToken) saveStoredJoinToken(data.joinToken);
         localStorage.setItem(PLAYER_NAME_KEY, data.username);
-        onJoined(data.userId, data.username, data.joinToken);
+        onJoined(data.userId, data.username, data.joinToken ?? null);
         return;
       }
 
       if (response.status === 401) {
-        setState({ status: "error", errorMessage: "Your saved room session expired. Enter a display name to create a new player session." });
+        clearStoredPlayerIdentity();
+        localStorage.removeItem(PLAYER_NAME_KEY);
+        setState({ status: "error", errorMessage: "Your saved room session is no longer valid. Choose a new display name to create a fresh player session." });
         return;
       }
       if (response.status === 409) {
@@ -94,11 +98,11 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
   const isValidUsername = username.trim().length >= 3 && username.trim().length <= 20 && /^[a-zA-Z0-9_]+$/.test(username.trim());
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-md rounded-2xl border border-(--card-border) bg-(--card) p-6 shadow-2xl">
+    <Dialog titleId="join-room-title" descriptionId="join-room-description" onClose={onCancel} className="max-w-md rounded-2xl p-6">
         <div className="mb-6 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-(--muted)">Live quiz</p>
-          <h1 className="mt-2 text-3xl font-bold text-(--accent)">Join {roomName || roomId}</h1>
+          <h2 id="join-room-title" className="editorial-heading mt-2 text-3xl font-semibold">Join {roomName || roomId}</h2>
+          <p id="join-room-description" className="mt-2 text-sm text-(--text-muted)">Choose a safe public display name for this room.</p>
           {roomName && roomName !== roomId ? <p className="mt-1 text-xs uppercase tracking-[0.18em] text-(--muted)">{roomId}</p> : null}
         </div>
 
@@ -127,7 +131,7 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
           <button
             type="submit"
             disabled={!API_URL || !isValidUsername || state.status === "loading"}
-            className="min-h-12 w-full rounded-lg bg-(--accent) py-3 text-lg font-bold text-white transition-all disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-primary min-h-12 w-full text-base disabled:cursor-not-allowed disabled:opacity-60"
           >
             {state.status === "loading" ? "Joining securely…" : "Join game"}
           </button>
@@ -138,7 +142,6 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
             </button>
           ) : null}
         </form>
-      </div>
-    </div>
+    </Dialog>
   );
 }

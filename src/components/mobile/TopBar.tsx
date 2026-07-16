@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useTheme } from "@/lib/theme";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { Crest } from "@/components/shell/BrandMark";
 import type { ConnectionStatus } from "@/types/quiz";
 import { getConnectionLabel } from "@/lib/mobileUx";
 
@@ -24,8 +25,6 @@ export function TopBar({
   onOpenAdmin,
   onSwitchRoom,
 }: TopBarProps) {
-  const { theme, toggleTheme } = useTheme();
-
   const statusConfig: Record<ConnectionStatus, { dotClass: string; bgClass: string; animate: boolean }> = {
     connected: { dotClass: "bg-white", bgClass: "bg-green-600", animate: true },
     connecting: { dotClass: "bg-white/70", bgClass: "bg-sky-600", animate: false },
@@ -51,9 +50,7 @@ export function TopBar({
         </Link>
 
         <div className="flex min-w-0 flex-1 items-center justify-center gap-2">
-          <svg className="h-5 w-5 shrink-0 text-[#c99516]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M11 2h2v6h5v2h-5v12h-2V10H6V8h5V2Z" />
-          </svg>
+          <Crest className="h-7 w-6 shrink-0" />
           <h1 className="truncate text-[13px] font-semibold tracking-[0.12em] text-(--mobile-text) sm:text-sm">
             <span className="text-(--accent)">A</span>
             <span>POLOGIA </span>
@@ -64,29 +61,7 @@ export function TopBar({
         </div>
 
         <div className="flex shrink-0 items-center gap-1.5">
-          <button
-            onClick={toggleTheme}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-(--mobile-border) bg-(--mobile-elevated) text-(--mobile-muted) transition-colors hover:text-foreground"
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-          >
-            {theme === "dark" ? (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-            ) : (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            )}
-          </button>
+          <ThemeToggle />
 
           <div className={`flex items-center gap-1 rounded-md px-2 py-1 text-white shadow-sm ${status.bgClass}`}>
             <span className={`h-1.5 w-1.5 rounded-full ${status.dotClass} ${status.animate ? "live-dot" : ""}`} />

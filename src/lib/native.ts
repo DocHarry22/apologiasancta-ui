@@ -4,8 +4,25 @@
  * SSR and web builds never break.
  */
 
-function isCapacitor(): boolean {
-  return typeof window !== "undefined" && !!(window as { Capacitor?: unknown }).Capacitor;
+type CapacitorBridge = {
+  isNativePlatform?: () => boolean;
+  getPlatform?: () => string;
+};
+
+export function isNativePlatform(): boolean {
+  if (typeof window === "undefined") return false;
+  const bridge = (window as Window & { Capacitor?: CapacitorBridge }).Capacitor;
+  if (!bridge) return false;
+
+  try {
+    if (typeof bridge.isNativePlatform === "function") return bridge.isNativePlatform();
+    if (typeof bridge.getPlatform === "function") return bridge.getPlatform() !== "web";
+  } catch {
+    return false;
+  }
+
+  // A partially initialized web shim is not proof that the app is native.
+  return false;
 }
 
 type WakeLockSentinelLike = {
@@ -38,7 +55,7 @@ async function runBestEffort(action: () => Promise<void>): Promise<void> {
 // ---------------------------------------------------------------------------
 
 export async function hapticSuccess(): Promise<void> {
-  if (!isCapacitor()) return;
+  if (!isNativePlatform()) return;
   await runBestEffort(async () => {
     const { Haptics, NotificationType } = await import("@capacitor/haptics");
     await Haptics.notification({ type: NotificationType.Success });
@@ -46,7 +63,7 @@ export async function hapticSuccess(): Promise<void> {
 }
 
 export async function hapticError(): Promise<void> {
-  if (!isCapacitor()) return;
+  if (!isNativePlatform()) return;
   await runBestEffort(async () => {
     const { Haptics, NotificationType } = await import("@capacitor/haptics");
     await Haptics.notification({ type: NotificationType.Error });
@@ -54,7 +71,7 @@ export async function hapticError(): Promise<void> {
 }
 
 export async function hapticLight(): Promise<void> {
-  if (!isCapacitor()) return;
+  if (!isNativePlatform()) return;
   await runBestEffort(async () => {
     const { Haptics, ImpactStyle } = await import("@capacitor/haptics");
     await Haptics.impact({ style: ImpactStyle.Light });
@@ -165,7 +182,7 @@ export async function allowSleep(): Promise<void> {
 // ---------------------------------------------------------------------------
 
 export async function prefGet(key: string): Promise<string | null> {
-  if (!isCapacitor()) {
+  if (!isNativePlatform()) {
     return localStorage.getItem(key);
   }
   const { Preferences } = await import("@capacitor/preferences");
@@ -174,7 +191,7 @@ export async function prefGet(key: string): Promise<string | null> {
 }
 
 export async function prefSet(key: string, value: string): Promise<void> {
-  if (!isCapacitor()) {
+  if (!isNativePlatform()) {
     localStorage.setItem(key, value);
     return;
   }
@@ -183,7 +200,7 @@ export async function prefSet(key: string, value: string): Promise<void> {
 }
 
 export async function prefRemove(key: string): Promise<void> {
-  if (!isCapacitor()) {
+  if (!isNativePlatform()) {
     localStorage.removeItem(key);
     return;
   }

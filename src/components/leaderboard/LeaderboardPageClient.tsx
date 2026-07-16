@@ -1,91 +1,69 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { EmptyState, Skeleton, StatusBadge } from "@/components/ui/Primitives";
+import { USERNAME_STORAGE_KEY } from "@/lib/playerIdentity";
 import { getEngineUrl } from "@/lib/publicEnv";
 import type { Leaderboard, LeaderboardPeriod } from "@/types/quiz";
 
 const periods: Array<{ id: LeaderboardPeriod; label: string }> = [
-  { id: "daily", label: "Today" },
-  { id: "weekly", label: "This week" },
-  { id: "all-time", label: "All time" },
+  { id: "daily", label: "Daily" }, { id: "weekly", label: "Weekly" }, { id: "all-time", label: "All time" },
 ];
 
 export function LeaderboardPageClient() {
   const [period, setPeriod] = useState<LeaderboardPeriod>("weekly");
+  const [view, setView] = useState<"scores" | "streaks">("scores");
   const [leaderboard, setLeaderboard] = useState<Leaderboard | null>(null);
+  const [playerName, setPlayerName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const engineUrl = getEngineUrl();
 
-  const load = useCallback(async () => {
-    if (!engineUrl) {
-      setError("The live engine is not configured.");
-      setLoading(false);
-      return;
-    }
+  useEffect(() => { try { setPlayerName(localStorage.getItem(USERNAME_STORAGE_KEY)); } catch { setPlayerName(null); } }, []);
 
-    setLoading(true);
-    setError(null);
+  const load = useCallback(async () => {
+    if (!engineUrl) { setError("The live Engine is not configured."); setLoading(false); return; }
+    setLoading(true); setError(null);
     try {
       const response = await fetch(`${engineUrl}/leaderboard?period=${period}`, { cache: "no-store" });
       if (!response.ok) throw new Error(`Leaderboard unavailable (${response.status})`);
       const payload = await response.json() as { leaderboard?: Leaderboard } & Leaderboard;
       setLeaderboard(payload.leaderboard ?? payload);
-    } catch (loadError) {
-      setError(loadError instanceof Error ? loadError.message : "Leaderboard unavailable.");
-    } finally {
-      setLoading(false);
-    }
+    } catch (loadError) { setError(loadError instanceof Error ? loadError.message : "Leaderboard unavailable."); }
+    finally { setLoading(false); }
   }, [engineUrl, period]);
 
   useEffect(() => { void load(); }, [load]);
 
-  const scorers = leaderboard?.topScorers ?? [];
+  const rows = useMemo(() => view === "scores"
+    ? (leaderboard?.topScorers ?? []).map((player) => ({ rank: player.rank, name: player.name, value: player.score, suffix: "pts" }))
+    : (leaderboard?.topStreaks ?? []).map((player) => ({ rank: player.rank, name: player.name, value: player.streak, suffix: player.streak === 1 ? "answer" : "answers" })), [leaderboard, view]);
+  const possibleNameMatch = playerName ? rows.find((row) => row.name.toLowerCase() === playerName.toLowerCase()) : null;
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap gap-2" role="group" aria-label="Leaderboard period">
-        {periods.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            onClick={() => setPeriod(item.id)}
-            aria-pressed={period === item.id}
-            className={`rounded-full px-4 py-2 text-sm font-bold transition ${period === item.id ? "bg-[#d4af37] text-[#17130a]" : "border border-white/12 text-[#b8ad9c] hover:border-[#d4af37]/55"}`}
-          >
-            {item.label}
-          </button>
-        ))}
+    <>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex gap-1 rounded-lg border border-(--border) bg-(--surface) p-1" role="group" aria-label="Leaderboard period">
+          {periods.map((item) => <button key={item.id} type="button" aria-pressed={period === item.id} onClick={() => setPeriod(item.id)} className={`min-h-11 rounded-md px-4 text-sm font-bold ${period === item.id ? "bg-(--gold) text-(--button-primary-text)" : "text-(--text-muted) hover:bg-(--surface-elevated)"}`}>{item.label}</button>)}
+        </div>
+        <div className="flex gap-1 rounded-lg border border-(--border) bg-(--surface) p-1" role="group" aria-label="Leaderboard view">
+          {(["scores", "streaks"] as const).map((item) => <button key={item} type="button" aria-pressed={view === item} onClick={() => setView(item)} className={`min-h-11 flex-1 rounded-md px-4 text-sm font-bold capitalize sm:flex-none ${view === item ? "bg-(--navy) text-white" : "text-(--text-muted) hover:bg-(--surface-elevated)"}`}>{item}</button>)}
+        </div>
       </div>
 
-      <section className="overflow-hidden rounded-3xl border border-white/10 bg-[#171512] shadow-2xl" aria-live="polite">
-        {loading ? (
-          <div className="space-y-3 p-6" aria-label="Loading leaderboard">
-            {[0, 1, 2, 3, 4].map((item) => <div key={item} className="h-14 animate-pulse rounded-xl bg-white/5" />)}
-          </div>
-        ) : error ? (
-          <div className="p-8 text-center">
-            <p className="font-bold text-red-200">Could not load the leaderboard</p>
-            <p className="mt-2 text-sm text-[#9f9586]">{error}</p>
-            <button onClick={() => void load()} className="mt-5 rounded-xl bg-[#d4af37] px-4 py-2.5 font-bold text-[#17130a]">Retry</button>
-          </div>
-        ) : scorers.length === 0 ? (
-          <div className="p-10 text-center">
-            <p className="text-xl font-bold text-[#f7f1e7]">No ranked scores yet</p>
-            <p className="mt-2 text-sm text-[#9f9586]">The next completed live round will put players on this board.</p>
-          </div>
-        ) : (
-          <ol className="divide-y divide-white/8">
-            {scorers.map((player, index) => (
-              <li key={`${player.name}-${player.rank ?? index}`} className="grid grid-cols-[52px_1fr_auto] items-center gap-3 px-5 py-4 sm:px-7">
-                <span className={`flex h-9 w-9 items-center justify-center rounded-full font-serif font-bold ${index < 3 ? "bg-[#d4af37]/15 text-[#e4c760]" : "bg-white/5 text-[#9f9586]"}`}>{player.rank ?? index + 1}</span>
-                <div className="min-w-0"><p className="truncate font-bold text-[#f7f1e7]">{player.name}</p><p className="text-xs text-[#8f8474]">Ranked player</p></div>
-                <p className="text-lg font-bold tabular-nums text-[#e4c760]">{player.score.toLocaleString()} <span className="text-xs font-medium text-[#8f8474]">pts</span></p>
-              </li>
-            ))}
-          </ol>
-        )}
+      {playerName ? <section className="surface-card mt-4 flex flex-wrap items-center justify-between gap-3 p-4" aria-label="Saved quiz identity"><div><p className="eyebrow">Saved quiz identity</p><p className="mt-1 font-bold">{playerName}</p><p className="mt-1 text-xs text-(--text-muted)">Public rankings do not include stable player IDs, so a matching display name cannot be verified as yours.</p></div>{possibleNameMatch ? <div className="text-right"><strong className="editorial-heading text-2xl">Possible #{possibleNameMatch.rank}</strong><p className="text-xs text-(--text-muted)">name match only</p></div> : <StatusBadge>No matching name in this returned ranking</StatusBadge>}</section> : null}
+
+      <section className="surface-card mt-4 overflow-hidden" aria-live="polite" aria-busy={loading}>
+        {loading ? <div className="space-y-3 p-5" aria-label="Loading leaderboard">{[0,1,2,3,4].map((item) => <Skeleton key={item} className="h-16 w-full" />)}</div>
+        : error ? <div className="p-8 text-center"><p className="font-bold text-(--danger)">Could not load the leaderboard</p><p className="mt-2 text-sm text-(--text-muted)">{error}</p><button type="button" onClick={() => void load()} className="btn-primary mt-5">Retry</button></div>
+        : rows.length === 0 ? <div className="p-5"><EmptyState title={`No ${view} yet`} description="A completed live round will add real accepted results to this ranking." action={<Link href="/mobile" className="btn-primary">Join a live room</Link>} /></div>
+        : <>
+          <div className="hidden grid-cols-[5rem_1fr_10rem_8rem] border-b border-(--border) bg-(--surface-elevated) px-6 py-3 text-xs font-bold uppercase tracking-wider text-(--text-muted) sm:grid"><span>Rank</span><span>Player</span><span className="text-right">{view === "scores" ? "Score" : "Streak"}</span><span className="text-right">Movement</span></div>
+          <ol className="divide-y divide-(--border)">{rows.map((row, index) => <li key={`${row.rank}-${row.name}`} className="grid grid-cols-[3.2rem_1fr_auto] items-center gap-3 px-4 py-4 sm:grid-cols-[5rem_1fr_10rem_8rem] sm:px-6"><span className={`grid h-10 w-10 place-items-center rounded-full font-[family-name:var(--font-editorial)] font-bold ${index < 3 ? "border border-(--gold) text-(--gold-hover)" : "bg-(--surface-elevated) text-(--text-muted)"}`}>{row.rank}</span><span className="min-w-0"><strong className="block truncate">{row.name}</strong><span className="text-xs text-(--text-muted)">{index < 3 ? "Leading position" : "Ranked player"}</span></span><strong className="text-right font-[family-name:var(--font-editorial)] text-lg text-(--gold-hover)">{row.value.toLocaleString()} <span className="text-xs font-normal text-(--text-muted)">{row.suffix}</span></strong><span className="hidden text-right text-sm text-(--text-muted) sm:block" aria-label="Rank movement unavailable">—</span></li>)}</ol>
+        </>}
       </section>
-    </div>
+      <p className="mt-3 text-xs leading-5 text-(--text-muted)">Rank movement and positions outside the returned top list are not supplied by the current Engine API. Times use the Engine&apos;s ranking windows.</p>
+    </>
   );
 }

@@ -6,15 +6,17 @@ import {
   useEffect,
   useState,
   ReactNode,
-  useLayoutEffect,
 } from "react";
 
 type Theme = "light" | "dark";
+export type ThemePreference = Theme | "system";
 
 interface ThemeContextType {
   theme: Theme;
+  preference: ThemePreference;
   toggleTheme: () => void;
   setTheme: (theme: Theme) => void;
+  setPreference: (preference: ThemePreference) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -37,49 +39,61 @@ function safeStorageSet(key: string, value: string): void {
   }
 }
 
-// Use a safe version of useLayoutEffect that works on server
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+function isPreference(value: string | null | undefined): value is ThemePreference {
+  return value === "light" || value === "dark" || value === "system";
+}
 
-function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "dark";
-  const stored = safeStorageGet(STORAGE_KEY) as Theme | null;
-  if (stored && (stored === "light" || stored === "dark")) {
-    return stored;
-  }
-  return "dark";
+function resolveTheme(preference: ThemePreference): Theme {
+  if (preference !== "system") return preference;
+  if (typeof window === "undefined") return "light";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("dark");
-  const [mounted, setMounted] = useState(false);
+  const [preference, setPreferenceState] = useState<ThemePreference>("system");
+  const [theme, setThemeState] = useState<Theme>("light");
 
-  // Initialize theme on mount
-  useIsomorphicLayoutEffect(() => {
-    const initialTheme = getInitialTheme();
-    setThemeState(initialTheme);
-    document.documentElement.setAttribute("data-theme", initialTheme);
-    setMounted(true);
+  useEffect(() => {
+    const stored = safeStorageGet(STORAGE_KEY);
+    const initialPreference = isPreference(stored) ? stored : "system";
+    const inlinePreference = document.documentElement.dataset.themePreference;
+    const resolvedPreference = isPreference(inlinePreference) ? inlinePreference : initialPreference;
+    setPreferenceState(resolvedPreference);
+    setThemeState(resolveTheme(resolvedPreference));
   }, []);
 
-  // Update DOM and localStorage when theme changes (after mount)
   useEffect(() => {
-    if (mounted) {
-      document.documentElement.setAttribute("data-theme", theme);
-      safeStorageSet(STORAGE_KEY, theme);
-    }
-  }, [theme, mounted]);
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const apply = () => {
+      const nextTheme = resolveTheme(preference);
+      setThemeState(nextTheme);
+      document.documentElement.setAttribute("data-theme", nextTheme);
+      document.documentElement.dataset.themePreference = preference;
+      document.getElementById("apologia-theme-color")?.setAttribute(
+        "content",
+        nextTheme === "dark" ? "#081B29" : "#F7F2E8"
+      );
+    };
+    apply();
+    if (preference === "system") media.addEventListener("change", apply);
+    return () => media.removeEventListener("change", apply);
+  }, [preference]);
+
+  const setPreference = (nextPreference: ThemePreference) => {
+    setPreferenceState(nextPreference);
+    safeStorageSet(STORAGE_KEY, nextPreference);
+  };
 
   const toggleTheme = () => {
-    setThemeState((prev) => (prev === "dark" ? "light" : "dark"));
+    setPreference(theme === "dark" ? "light" : "dark");
   };
 
   const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
+    setPreference(newTheme);
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
+    <ThemeContext.Provider value={{ theme, preference, toggleTheme, setTheme, setPreference }}>
       {children}
     </ThemeContext.Provider>
   );

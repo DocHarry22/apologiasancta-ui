@@ -10,6 +10,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...learningPath.lessons.map((lesson) => ({ url: `${baseUrl}/learn/${lesson.id}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.8 })),
     { url: `${baseUrl}/practice`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/library`, lastModified: now, changeFrequency: "weekly", priority: 0.75 },
+    { url: `${baseUrl}/research`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/privacy`, lastModified: now, changeFrequency: "monthly", priority: 0.4 },
     { url: `${baseUrl}/leaderboard`, lastModified: now, changeFrequency: "daily", priority: 0.65 },
   ];
 }

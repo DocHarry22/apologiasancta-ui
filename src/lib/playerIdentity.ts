@@ -3,6 +3,7 @@ export const ROOM_NAME_STORAGE_KEY = "selectedRoomName";
 export const USER_ID_STORAGE_KEY = "userId";
 export const USERNAME_STORAGE_KEY = "playerName";
 export const JOIN_TOKEN_STORAGE_KEY = "playerJoinToken";
+const LEGACY_DISPLAY_NAME_STORAGE_KEY = "as_player_name";
 
 export type StoredPlayerIdentity = {
   userId: string | null;
@@ -38,11 +39,17 @@ export function saveStoredJoinToken(joinToken: string): void {
   localStorage.setItem(JOIN_TOKEN_STORAGE_KEY, joinToken);
 }
 
+export function clearStoredJoinToken(): void {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(JOIN_TOKEN_STORAGE_KEY);
+}
+
 export function clearStoredPlayerIdentity(): void {
   if (typeof window === "undefined") return;
   localStorage.removeItem(USER_ID_STORAGE_KEY);
   localStorage.removeItem(USERNAME_STORAGE_KEY);
   localStorage.removeItem(JOIN_TOKEN_STORAGE_KEY);
+  localStorage.removeItem(LEGACY_DISPLAY_NAME_STORAGE_KEY);
 }
 
 export function readStoredRoomSelection(): StoredRoomSelection {

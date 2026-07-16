@@ -32,14 +32,16 @@ const TABS: Array<{ id: DrawerTab; label: string }> = [
   { id: "streaks", label: "Streaks" },
 ];
 
+const FOCUSABLE_SELECTOR = "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])";
+
 function RankMedal({ rank }: { rank: number }) {
   const medalClass =
     rank === 1
-      ? "bg-linear-to-br from-[#ffe58a] to-[#c79519] text-white"
+      ? "border border-(--gold) bg-(--gold) text-(--button-primary-text)"
       : rank === 2
-        ? "bg-linear-to-br from-[#f1f3f5] to-[#8c9299] text-white"
+        ? "border border-(--border) bg-(--chart-track) text-(--text)"
         : rank === 3
-          ? "bg-linear-to-br from-[#e8b06b] to-[#935a1d] text-white"
+          ? "border border-(--warning) bg-(--surface-elevated) text-(--warning)"
       : "bg-(--mobile-elevated) text-(--mobile-muted)";
 
   return (
@@ -105,7 +107,7 @@ function StreakRows({ streakers }: { streakers: StreakerWithChange[] }) {
               <div className="text-[10px] font-semibold text-(--correct)">+{streaker.rankDelta} places</div>
             ) : null}
           </div>
-          <div className="flex items-center justify-end gap-1 text-[#c99113]">
+          <div className="flex items-center justify-end gap-1 text-(--gold-hover)">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
             </svg>
@@ -135,6 +137,7 @@ export function MobileLeaderboardDrawer({
   const [activeTab, setActiveTab] = useState<DrawerTab>(() => getLeaderboardTab(selectedMode));
   const prefersReducedMotion = useReducedMotion();
   const onCloseRef = useRef(onClose);
+  const drawerRef = useRef<HTMLElement>(null);
   const title = scope === "global" ? "Global Ranking" : roomName || "Global Room";
 
   const visibleScores = useMemo(() => scorers.slice(0, 10), [scorers]);
@@ -150,15 +153,29 @@ export function MobileLeaderboardDrawer({
 
   useEffect(() => {
     if (!open) return;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const frame = window.requestAnimationFrame(() => {
+      const first = drawerRef.current?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR);
+      (first ?? drawerRef.current)?.focus();
+    });
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onCloseRef.current();
+      if (event.key === "Escape") { event.preventDefault(); onCloseRef.current(); return; }
+      if (event.key !== "Tab") return;
+      const focusable = [...(drawerRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR) ?? [])];
+      if (!focusable.length) { event.preventDefault(); drawerRef.current?.focus(); return; }
+      const first = focusable[0];
+      const last = focusable.at(-1)!;
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => {
+      window.cancelAnimationFrame(frame);
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
+      previouslyFocused?.focus();
     };
   }, [open]);
 
@@ -182,9 +199,11 @@ export function MobileLeaderboardDrawer({
             exit={{ opacity: 0 }}
           />
           <motion.section
+            ref={drawerRef}
             role="dialog"
             aria-modal="true"
-            aria-label="Leaderboard"
+            aria-labelledby="mobile-leaderboard-title"
+            tabIndex={-1}
             className="absolute inset-x-0 bottom-0 max-h-[78vh] overflow-hidden rounded-t-[2rem] border border-(--mobile-border) bg-(--mobile-panel-solid) shadow-[0_-24px_70px_var(--mobile-shadow)]"
             initial={prefersReducedMotion ? { opacity: 0 } : { y: "100%", opacity: 0.8 }}
             animate={prefersReducedMotion ? { opacity: 1 } : { y: 0, opacity: 1 }}
@@ -194,10 +213,10 @@ export function MobileLeaderboardDrawer({
             <div className="mx-auto mt-3 h-1.5 w-16 rounded-full bg-(--mobile-subtle)" />
             <div className="flex items-center justify-between px-5 pb-3 pt-4">
               <div className="min-w-0">
-                <h2 className="truncate text-xl font-semibold tracking-wide text-(--mobile-text)">
+                <h2 id="mobile-leaderboard-title" className="truncate text-xl font-semibold tracking-wide text-(--mobile-text)">
                   Trophy Leaderboard
                 </h2>
-                <p className="mt-1 truncate text-xs font-medium uppercase tracking-[0.16em] text-[#9c7a2f]">
+                <p className="mt-1 truncate text-xs font-medium uppercase tracking-[0.16em] text-(--gold-hover)">
                   {title} - {period.replace("-", " ")}
                 </p>
               </div>
@@ -225,7 +244,7 @@ export function MobileLeaderboardDrawer({
                       aria-selected={active}
                       onClick={() => handleTab(tab.id)}
                       className={`min-h-11 border-r border-(--mobile-border) px-1 text-xs font-semibold last:border-r-0 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-(--accent) ${
-                        active ? "bg-linear-to-r from-[#d9a51c] to-[#b98512] text-white" : "text-(--mobile-muted)"
+                        active ? "bg-(--button-primary-bg) text-(--button-primary-text)" : "text-(--mobile-muted)"
                       }`}
                     >
                       {tab.label}
@@ -237,7 +256,7 @@ export function MobileLeaderboardDrawer({
 
             <div className="mt-4 max-h-[52vh] overflow-y-auto px-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
               {error ? (
-                <div className="mb-3 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+                <div className="mb-3 rounded-xl border border-(--danger) bg-(--wrong-bg) px-3 py-2 text-sm text-(--wrong)" role="alert">{error}</div>
               ) : null}
               {loading ? (
                 <div className="mb-3 rounded-xl border border-(--mobile-border) bg-(--mobile-elevated) px-3 py-2 text-sm text-(--mobile-muted)">Updating leaderboard...</div>
@@ -249,7 +268,7 @@ export function MobileLeaderboardDrawer({
                 <StreakRows streakers={streakers} />
               )}
 
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-medium text-[#b98512]">
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-medium text-(--gold-hover)">
                 <span>Last updated: {lastUpdatedLabel}</span>
                 {onRefresh ? (
                   <button

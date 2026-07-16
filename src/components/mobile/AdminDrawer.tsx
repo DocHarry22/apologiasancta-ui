@@ -29,12 +29,14 @@ interface AdminDrawerProps {
 
 // Connection status config
 const STATUS_CONFIG = {
-  connected: { label: "LIVE", color: "text-green-500" },
-  connecting: { label: "CONNECTING", color: "text-yellow-500" },
-  reconnecting: { label: "RECONNECTING", color: "text-yellow-500" },
-  polling: { label: "POLLING", color: "text-blue-500" },
-  disconnected: { label: "OFFLINE", color: "text-red-500" },
+  connected: { label: "LIVE", color: "text-(--success)" },
+  connecting: { label: "CONNECTING", color: "text-(--warning)" },
+  reconnecting: { label: "RECONNECTING", color: "text-(--warning)" },
+  polling: { label: "POLLING", color: "text-(--blue)" },
+  disconnected: { label: "OFFLINE", color: "text-(--danger)" },
 };
+
+const FOCUSABLE_SELECTOR = "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])";
 
 export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, roomId = null, roomName = null, onRoomSelected }: AdminDrawerProps) {
   const admin = useAdminPanel();
@@ -85,15 +87,35 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
     }
   }, [onClose]);
 
-  // Handle escape key
+  // Keep keyboard focus inside the open drawer, lock background scroll, and
+  // return focus to the control that opened it.
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
+    if (!isOpen) return;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const frame = window.requestAnimationFrame(() => drawerRef.current?.focus());
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
         onClose();
+        return;
       }
+      if (e.key !== "Tab") return;
+      const focusable = [...(drawerRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR) ?? [])];
+      if (!focusable.length) { e.preventDefault(); drawerRef.current?.focus(); return; }
+      const first = focusable[0];
+      const last = focusable.at(-1)!;
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     };
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      previouslyFocused?.focus();
+    };
   }, [isOpen, onClose]);
 
   // Handle session-based unlock
@@ -298,7 +320,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/50 z-40 transition-opacity motion-reduce:transition-none ${
+        className={`fixed inset-0 bg-(--overlay) z-40 transition-opacity motion-reduce:transition-none ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={handleBackdropClick}
@@ -316,6 +338,9 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
         role="dialog"
         aria-modal="true"
         aria-label="Admin Panel"
+        aria-hidden={!isOpen}
+        inert={!isOpen}
+        tabIndex={-1}
       >
         {/* Drag handle */}
         <div className="flex justify-center py-2">

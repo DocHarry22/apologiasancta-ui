@@ -57,7 +57,7 @@ export function LeaderboardColumn({
                 className="min-h-9 rounded-lg px-2 py-1.5 text-[11px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent)"
                 style={{
                   backgroundColor: active ? "var(--accent)" : "var(--ticker-bg)",
-                  color: active ? "#fff" : "var(--text-secondary)",
+                  color: active ? "var(--button-primary-text)" : "var(--text-secondary)",
                 }}
               >
                 {option.label}

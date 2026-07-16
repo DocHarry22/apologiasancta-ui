@@ -1,3 +1,5 @@
+import { isNativePlatform } from "@/lib/native";
+
 const DEFAULT_ENGINE_URL = "https://apologiasancta-engine.onrender.com";
 const DEFAULT_ANDROID_APK_URL =
   "https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk";
@@ -15,7 +17,7 @@ const RESEARCH_GRAPH_URL =
  * the host machine's dev server.
  */
 export function getEngineUrl(): string | null {
-  if (typeof window !== "undefined" && (window as { Capacitor?: unknown }).Capacitor) {
+  if (isNativePlatform()) {
     return ENGINE_URL.replace(/localhost|127\.0\.0\.1/, "10.0.2.2");
   }
   return ENGINE_URL;

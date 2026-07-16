@@ -1,48 +1,68 @@
-import Link from "next/link";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { EngineTopicsList } from "@/components/library/EngineTopicsList";
+import { AppShell } from "@/components/shell/AppShell";
+import { EngineTopicsList, type LibraryResource } from "@/components/library/EngineTopicsList";
+import { learningPath } from "@/lib/learningContent";
+import { listPublishedQuestionRecords, listTopicsWithCounts } from "@/lib/content";
 
-export const metadata = {
-  title: "Library | Apologia Sancta",
-};
+export const metadata = { title: "Catholic Knowledge Library | Apologia Sancta" };
 
-export default function LibraryPage() {
-  const showAuthorLink = process.env.NEXT_PUBLIC_AUTHOR_ENABLED === "true";
+function categoryFor(id: string, tags: string[]): string {
+  if (["genesis", "acts", "romans", "1corinthians", "john_gospel", "ot_theology"].includes(id) || tags.includes("scripture")) return "Scripture";
+  if (id.includes("history") || tags.includes("fathers") || tags.includes("councils")) return "Church History";
+  if (id.includes("sacrament") || id === "eucharist") return "Sacraments";
+  if (id === "apologetics" || tags.includes("sola-scriptura")) return "Apologetics";
+  return "Doctrine";
+}
 
-  return (
-    <main className="min-h-screen bg-background text-foreground p-6">
-      <div className="mx-auto max-w-4xl space-y-6">
-        <header className="flex items-start justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <Link
-              href="/"
-              className="rounded-lg border border-(--border) p-2 text-(--muted) hover:border-(--accent) hover:text-(--accent) transition-colors"
-              aria-label="Home"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                <polyline points="9 22 9 12 15 12 15 22" />
-              </svg>
-            </Link>
-            <div className="space-y-1">
-              <p className="text-xs uppercase tracking-widest text-(--muted)">Quiz Library</p>
-              <h1 className="text-3xl font-semibold">Topics</h1>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            {showAuthorLink && (
-              <Link
-                href="/author"
-                className="shrink-0 rounded-lg border border-(--border) px-3 py-1.5 text-xs font-medium text-(--muted) hover:border-(--accent) hover:text-(--accent) transition-colors"
-              >
-                Author
-              </Link>
-            )}
-          </div>
-        </header>
-        <EngineTopicsList />
-      </div>
-    </main>
-  );
+function eraFor(id: string, tags: string[]): string {
+  if (["genesis", "acts", "romans", "1corinthians", "john_gospel", "ot_theology"].includes(id)) return "Biblical";
+  if (tags.some((tag) => ["fathers", "councils", "heresies", "creeds"].includes(tag))) return "Early Church";
+  if (tags.includes("reformation") || tags.includes("sola-scriptura")) return "Reformation";
+  return "General";
+}
+
+export default async function LibraryPage() {
+  const [topics, questionRecords] = await Promise.all([listTopicsWithCounts(), listPublishedQuestionRecords()]);
+  const byTopic = new Map<string, typeof questionRecords>();
+  for (const record of questionRecords) byTopic.set(record.question.topicId, [...(byTopic.get(record.question.topicId) ?? []), record]);
+
+  const resources: LibraryResource[] = topics.map((topic) => {
+    const records = byTopic.get(topic.id) ?? [];
+    const refs = new Set(records.flatMap((record) => record.question.teaching.refs));
+    const difficulty = records.length ? Math.round(records.reduce((sum, record) => sum + record.question.difficulty, 0) / records.length) : null;
+    return {
+      id: topic.id,
+      title: topic.title,
+      description: topic.description.startsWith("Auto-created") ? `${topic.title} questions from the published Apologia Sancta bank.` : topic.description,
+      href: `/library/${topic.id}`,
+      format: "Question collection" as const,
+      category: categoryFor(topic.id, topic.tags),
+      era: eraFor(topic.id, topic.tags),
+      tags: topic.tags,
+      difficulty,
+      questionCount: topic.questionCount,
+      sourceCount: refs.size,
+      durationMinutes: Math.max(5, Math.ceil(topic.questionCount * 0.75)),
+      featured: ["scripture_tradition", "christology", "church_history"].includes(topic.id),
+    };
+  });
+
+  resources.push(...learningPath.lessons.map((lesson) => ({
+    id: `lesson-${lesson.id}`,
+    title: lesson.title,
+    description: lesson.summary,
+    href: `/learn/${lesson.id}`,
+    format: "Lesson" as const,
+    category: lesson.id.includes("eucharist") ? "Sacraments" : "Apologetics",
+    era: "General",
+    tags: [lesson.difficulty.toLowerCase()],
+    difficulty: lesson.difficulty === "Foundation" ? 1 : 3,
+    questionCount: 0,
+    sourceCount: lesson.sources.length,
+    durationMinutes: lesson.durationMinutes,
+  })));
+
+  const allReferences = new Set(questionRecords.flatMap((record) => record.question.teaching.refs));
+  for (const lesson of learningPath.lessons) for (const source of lesson.sources) allReferences.add(`${source.reference}:${source.url}`);
+
+  return <AppShell><div className="page-container py-8 sm:py-11"><EngineTopicsList resources={resources} questionTotal={questionRecords.length} sourceTotal={allReferences.size} /></div></AppShell>;
 }

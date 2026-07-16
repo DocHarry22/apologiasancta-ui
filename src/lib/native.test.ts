@@ -160,7 +160,9 @@ describe("best-effort native side effects", () => {
   it("contains haptic plugin failures", async () => {
     hapticMocks.notification.mockRejectedValue(new Error("Native bridge unavailable"));
     hapticMocks.impact.mockRejectedValue(new Error("Native bridge unavailable"));
-    (window as Window & { Capacitor?: unknown }).Capacitor = {};
+    (window as Window & { Capacitor?: unknown }).Capacitor = {
+      isNativePlatform: () => true,
+    };
     const native = await import("./native");
 
     await expect(native.hapticSuccess()).resolves.toBeUndefined();
@@ -169,5 +171,17 @@ describe("best-effort native side effects", () => {
 
     expect(hapticMocks.notification).toHaveBeenCalledTimes(2);
     expect(hapticMocks.impact).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not treat the Capacitor web shim as a native platform", async () => {
+    (window as Window & { Capacitor?: unknown }).Capacitor = {
+      isNativePlatform: () => false,
+      getPlatform: () => "web",
+    };
+    const native = await import("./native");
+
+    expect(native.isNativePlatform()).toBe(false);
+    await native.hapticSuccess();
+    expect(hapticMocks.notification).not.toHaveBeenCalled();
   });
 });
