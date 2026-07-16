@@ -1,7 +1,13 @@
 "use client";
 
 import { useMemo } from "react";
-import type { Question, QuestionChoiceId } from "@/types/content";
+import {
+  editorialSourceKinds,
+  type EditorialSourceKind,
+  type EditorialSourceReference,
+  type Question,
+  type QuestionChoiceId,
+} from "@/types/content";
 
 interface Props {
   formData: Partial<Question>;
@@ -17,7 +23,15 @@ interface ValidationError {
   message: string;
 }
 
-const MAX_REF_LENGTH = 140;
+const sourceKindLabels: Record<EditorialSourceKind, string> = {
+  scripture: "Scripture",
+  catechism: "Catechism",
+  church_document: "Church document",
+  council: "Council",
+  church_father: "Church Father",
+  canon_law: "Canon law",
+  scholarship: "Scholarship",
+};
 
 export default function AuthorForm({
   formData,
@@ -53,14 +67,15 @@ export default function AuthorForm({
       errs.push({ field: "teachingBody", message: "Teaching body is required" });
     }
 
-    const refs = formData.teaching?.refs || [];
-
-    // Check for long refs
-    refs.forEach((ref, i) => {
-      if (ref.length > MAX_REF_LENGTH) {
-        errs.push({ field: `ref${i}`, message: `Reference ${i + 1} is too long (${ref.length}/${MAX_REF_LENGTH} chars)` });
-      }
+    const sources = formData.sourceReferences || [];
+    if (sources.length === 0) errs.push({ field: "sourceReferences", message: "At least one structured primary source is required" });
+    sources.forEach((source, index) => {
+      if (!source.citation.trim()) errs.push({ field: `sourceCitation${index}`, message: `Source ${index + 1} requires a citation` });
+      if (source.url && !/^https:\/\//i.test(source.url)) errs.push({ field: `sourceUrl${index}`, message: `Source ${index + 1} URL must use HTTPS` });
     });
+    if (sources.length > 0 && sources.every((source) => source.kind === "scholarship")) {
+      errs.push({ field: "sourceReferences", message: "Add a primary Catholic source in addition to scholarship" });
+    }
 
     return errs;
   }, [formData]);
@@ -96,13 +111,22 @@ export default function AuthorForm({
     }));
   };
 
-  const handleRefsChange = (value: string) => {
-    // Commas are valid inside citations, so only split rows or semicolon-delimited entries.
-    const refs = value
-      .split(/[\n;]/)
-      .map((r) => r.trim())
-      .filter((r) => r.length > 0);
-    updateTeaching("refs", refs);
+  const updateSources = (sources: EditorialSourceReference[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      sourceReferences: sources,
+      teaching: {
+        title: prev.teaching?.title || "",
+        body: prev.teaching?.body || "",
+        refs: sources.map((source) => source.citation.trim()).filter(Boolean),
+      },
+    }));
+  };
+
+  const updateSource = (index: number, patch: Partial<EditorialSourceReference>) => {
+    const sources = [...(formData.sourceReferences || [])];
+    sources[index] = { ...sources[index], ...patch };
+    updateSources(sources);
   };
 
   const handleTagsChange = (value: string) => {
@@ -249,14 +273,90 @@ export default function AuthorForm({
           )}
         </div>
 
+        <div className="space-y-3" aria-labelledby="structured-sources-label">
+          <div className="flex items-center justify-between gap-3">
+            <span id="structured-sources-label" className={labelClass}>Structured sources</span>
+            <button
+              type="button"
+              onClick={() => updateSources([...(formData.sourceReferences || []), { kind: "scripture", citation: "" }])}
+              className="min-h-11 rounded-lg border border-(--border) px-3 py-2 text-xs hover:border-(--accent)"
+            >
+              Add source
+            </button>
+          </div>
+          {(formData.sourceReferences || []).map((source, index) => (
+            <fieldset key={index} className="space-y-2 rounded-lg border border-(--border) p-3">
+              <legend className="px-1 text-xs font-semibold">Source {index + 1}</legend>
+              <div className="grid gap-2 sm:grid-cols-2">
+                <label className="space-y-1 text-xs text-(--muted)">
+                  Type
+                  <select
+                    aria-label={`Source ${index + 1} type`}
+                    value={source.kind}
+                    onChange={(event) => updateSource(index, { kind: event.target.value as EditorialSourceKind })}
+                    className={inputClass(`sourceKind${index}`)}
+                  >
+                    {editorialSourceKinds.map((kind) => <option key={kind} value={kind}>{sourceKindLabels[kind]}</option>)}
+                  </select>
+                </label>
+                <label className="space-y-1 text-xs text-(--muted)">
+                  Citation
+                  <input
+                    aria-label={`Source ${index + 1} citation`}
+                    value={source.citation}
+                    onChange={(event) => updateSource(index, { citation: event.target.value })}
+                    className={inputClass(`sourceCitation${index}`)}
+                    placeholder="e.g., Catechism of the Catholic Church 465"
+                  />
+                </label>
+                <label className="space-y-1 text-xs text-(--muted)">
+                  Locator (optional)
+                  <input
+                    aria-label={`Source ${index + 1} locator`}
+                    value={source.locator || ""}
+                    onChange={(event) => updateSource(index, { locator: event.target.value })}
+                    className={inputClass(`sourceLocator${index}`)}
+                    placeholder="Paragraph, chapter, section, or verse"
+                  />
+                </label>
+                <label className="space-y-1 text-xs text-(--muted)">
+                  HTTPS source URL (optional)
+                  <input
+                    aria-label={`Source ${index + 1} URL`}
+                    type="url"
+                    value={source.url || ""}
+                    onChange={(event) => updateSource(index, { url: event.target.value })}
+                    className={inputClass(`sourceUrl${index}`)}
+                    placeholder="https://..."
+                  />
+                </label>
+              </div>
+              <button
+                type="button"
+                onClick={() => updateSources((formData.sourceReferences || []).filter((_, sourceIndex) => sourceIndex !== index))}
+                className="min-h-11 rounded-lg px-3 py-2 text-xs text-(--wrong) hover:bg-(--wrong-bg)"
+              >
+                Remove source
+              </button>
+            </fieldset>
+          ))}
+          {hasError("sourceReferences") && <p className="text-xs text-(--wrong)">{getError("sourceReferences")}</p>}
+          {errors.filter((error) => error.field.startsWith("sourceCitation") || error.field.startsWith("sourceUrl")).map((error) => (
+            <p key={error.field} className="text-xs text-(--wrong)">{error.message}</p>
+          ))}
+          <p className="text-xs leading-5 text-(--muted)">
+            Every submitted doctrinal question needs a checked primary source. Scholarship may supplement, but cannot replace, Scripture or an authoritative Church source.
+          </p>
+        </div>
+
         <div className="space-y-1">
           <textarea
             aria-label="Teaching references"
             value={formData.teaching?.refs?.join("\n") || ""}
-            onChange={(e) => handleRefsChange(e.target.value)}
+            readOnly
             rows={3}
             className={inputClass("teachingRefs")}
-            placeholder="References (one per line or semicolon-separated)&#10;e.g., John 1:1&#10;Catechism of the Catholic Church, 465"
+            placeholder="Citations are derived from the structured sources above."
           />
           <p className="text-xs text-(--muted)">
             {formData.teaching?.refs?.length || 0} reference(s) • commas inside citations are preserved

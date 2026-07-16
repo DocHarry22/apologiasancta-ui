@@ -4,22 +4,31 @@ import { readFileSync } from "node:fs";
 
 test("workflow store implements durable create, list, transitions, and publish validation", () => {
   const workflowStore = readFileSync("src/lib/server/storage/workflowStore.ts", "utf8");
+  const workflowDatabase = readFileSync("src/lib/server/storage/workflowDatabase.ts", "utf8");
   const jsonStore = readFileSync("src/lib/server/storage/jsonStore.ts", "utf8");
   const workflowPermissions = readFileSync("src/lib/server/workflowPermissions.ts", "utf8");
 
-  assert.ok(workflowStore.includes('new JsonStore<WorkflowItem[]>("workflow-items.json", [])'));
+  assert.ok(workflowStore.includes('new JsonStore<WorkflowFileState>("editorial-workflow.json"'));
   assert.ok(workflowStore.includes("createWorkflowDraft"));
   assert.ok(workflowStore.includes("listWorkflowItems"));
   assert.ok(workflowStore.includes("updateWorkflowDraft"));
   assert.ok(workflowStore.includes("transitionWorkflowItem"));
-  assert.ok(workflowStore.includes('nextStatus === "published"'));
+  assert.ok(workflowStore.includes("prepareWorkflowPublication"));
+  assert.ok(workflowStore.includes("completeWorkflowPublication"));
+  assert.ok(workflowStore.includes("failWorkflowPublication"));
   assert.ok(workflowStore.includes("hasBlockingValidationIssues"));
   assert.ok(workflowStore.includes("workflowMutationQueue"));
   assert.ok(workflowStore.includes("assertUniqueQuestionId"));
   assert.ok(workflowStore.includes("WorkflowConflictError"));
   assert.ok(workflowStore.includes('!["submitted", "approved", "published"].includes(status)'));
-  assert.ok(workflowStore.includes("A reviewer comment is required"));
-  assert.ok(workflowStore.includes('publishTarget: nextStatus === "published" ? options.publishTarget ?? "workflow_store"'));
+  assert.ok(workflowStore.includes("An author cannot review or approve their own revision"));
+  assert.ok(workflowStore.includes("normalizeReviewerAttestation"));
+  assert.ok(workflowStore.includes("publicationIdempotencyKey"));
+  assert.ok(workflowDatabase.includes("CREATE TABLE IF NOT EXISTS content_workflow_revisions"));
+  assert.ok(workflowDatabase.includes("CREATE TABLE IF NOT EXISTS content_review_records"));
+  assert.ok(workflowDatabase.includes("CREATE TABLE IF NOT EXISTS content_publication_outbox"));
+  assert.ok(workflowDatabase.includes("migration_id VARCHAR(191) PRIMARY KEY"));
+  assert.equal(workflowDatabase.includes("migration_key"), false);
   assert.ok(jsonStore.includes("CREATE TABLE IF NOT EXISTS app_kv_store"));
   assert.ok(jsonStore.includes("ON CONFLICT (store_key) DO UPDATE"));
   assert.ok(jsonStore.includes("ON DUPLICATE KEY UPDATE"));
@@ -72,7 +81,9 @@ test("workflow and audit routes enforce session, permissions, CSRF, and audit wr
   assert.ok(workflowApi.includes("WorkflowConflictError"));
   assert.ok(workflowApi.includes("409"));
   assert.ok(workflowApi.includes("publishQuestionToEngine"));
-  assert.ok(workflowApi.includes('publishTarget: nextStatus === "published" ? "engine"'));
+  assert.ok(workflowApi.includes("prepareWorkflowPublication"));
+  assert.ok(workflowApi.includes("completeWorkflowPublication"));
+  assert.ok(workflowApi.includes("failWorkflowPublication"));
   assert.ok(engineProxy.includes("publishQuestionToEngine"));
   assert.ok(engineProxy.includes('"x-admin-token": adminToken'));
   assert.ok(engineProxy.includes("refreshActivePool: false"));

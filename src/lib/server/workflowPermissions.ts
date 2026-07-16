@@ -21,8 +21,9 @@ export function canSubmitWorkflowItem(role: Role, userId: string, item: Workflow
 }
 
 export function canReviewWorkflowItem(role: Role, userId: string, item: WorkflowItem): boolean {
+  if (item.authorId === userId) return false;
   if (role === "admin" || role === "super_admin") return true;
-  return hasPermission(role, "content:review") && item.authorId !== userId;
+  return hasPermission(role, "content:review");
 }
 
 export function canPublishWorkflowItem(role: Role): boolean {

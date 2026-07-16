@@ -2,43 +2,55 @@ import type { Question } from "../../../types/content";
 import { validateQuestion, hasBlockingValidationIssues } from "../../contentValidation";
 import { canTransitionStatus, type ReviewStatus } from "../../contentWorkflow";
 import type { CurrentUser } from "../currentUser";
-import type { WorkflowHistoryEvent, WorkflowItem, WorkflowReviewComment } from "./types";
+import {
+  computeEditorialContentHash,
+  getEditorialPublishLeaseSeconds,
+  isSha256Hash,
+  normalizeEditorialSources,
+  normalizeReviewerAttestation,
+  questionForPublication,
+  validateEditorialSources,
+  type WorkflowReviewerAttestation,
+  type WorkflowRevisionSnapshot,
+} from "../editorialWorkflow";
+import type {
+  WorkflowHistoryEvent,
+  WorkflowItem,
+  WorkflowPublicationOutboxRecord,
+  WorkflowReviewComment,
+} from "./types";
 import { JsonStore, newId } from "./jsonStore";
+import {
+  databaseJsonCast,
+  ensureWorkflowDatabaseSchema,
+  getWorkflowDatabase,
+  parseWorkflowDatabaseJson,
+  workflowDatabaseEnabled,
+  type WorkflowDatabaseExecutor,
+} from "./workflowDatabase";
 
-const workflowStore = new JsonStore<WorkflowItem[]>("workflow-items.json", []);
+interface WorkflowFileState {
+  schemaVersion: 1;
+  items: WorkflowItem[];
+  outbox: WorkflowPublicationOutboxRecord[];
+}
+
+interface WorkflowMutation {
+  item: WorkflowItem;
+  revision?: WorkflowRevisionSnapshot;
+  review?: WorkflowReviewComment;
+  event: WorkflowHistoryEvent;
+}
+
+const EMPTY_FILE_STATE: WorkflowFileState = { schemaVersion: 1, items: [], outbox: [] };
+const editorialFileStore = new JsonStore<WorkflowFileState>("editorial-workflow.json", EMPTY_FILE_STATE);
+const legacyWorkflowStore = new JsonStore<WorkflowItem[]>("workflow-items.json", []);
 let workflowMutationQueue: Promise<void> = Promise.resolve();
+let migrationPromise: Promise<void> | null = null;
 
 export class WorkflowConflictError extends Error {}
 export class WorkflowValidationError extends Error {}
-
-async function mutateWorkflowItems<T>(
-  mutation: (items: WorkflowItem[]) => { items: WorkflowItem[]; result: T } | Promise<{ items: WorkflowItem[]; result: T }>
-): Promise<T> {
-  let result!: T;
-  const operation = workflowMutationQueue.then(async () => {
-    const mutationResult = await mutation(await workflowStore.read());
-    await workflowStore.write(mutationResult.items);
-    result = mutationResult.result;
-  });
-  workflowMutationQueue = operation.catch(() => undefined);
-  await operation;
-  return result;
-}
-
-function assertUniqueQuestionId(items: WorkflowItem[], questionId: string, excludedItemId?: string): void {
-  const normalizedId = questionId.trim().toLowerCase();
-  if (items.some((item) => item.id !== excludedItemId && item.questionId.trim().toLowerCase() === normalizedId)) {
-    throw new WorkflowConflictError(`Question ID ${questionId} already exists in workflow storage.`);
-  }
-}
-
-function assertValidForStatus(question: Partial<Question>, status: ReviewStatus, topicIds: string[], existingIds: string[]): void {
-  if (!["submitted", "approved", "published"].includes(status)) return;
-  const issues = validateQuestion(question, { topicIds, existingIds });
-  if (hasBlockingValidationIssues(issues)) {
-    throw new WorkflowValidationError(`Content cannot be marked ${status} while blocking validation issues remain.`);
-  }
-}
+export class WorkflowPublicationError extends Error {}
 
 export interface WorkflowFilters {
   status?: string;
@@ -46,6 +58,13 @@ export interface WorkflowFilters {
   authorId?: string;
   reviewerId?: string;
   search?: string;
+}
+
+export interface WorkflowPublicationClaim {
+  item: WorkflowItem;
+  question: Question;
+  idempotencyKey: string;
+  alreadyCompleted: boolean;
 }
 
 function nowIso(): string {
@@ -65,6 +84,54 @@ function history(actor: CurrentUser, type: string, summary: string, metadata?: R
   };
 }
 
+function assertString(value: unknown, field: string, maxLength: number, optional = false): string {
+  if ((value === undefined || value === null) && optional) return "";
+  if (typeof value !== "string") throw new WorkflowValidationError(`${field} must be a string.`);
+  if (value.length > maxLength) throw new WorkflowValidationError(`${field} exceeds ${maxLength} characters.`);
+  return value.trim();
+}
+
+function normalizeStringArray(value: unknown, field: string, maxItems: number, maxLength: number): string[] {
+  if (!Array.isArray(value)) throw new WorkflowValidationError(`${field} must be an array.`);
+  if (value.length > maxItems) throw new WorkflowValidationError(`${field} may contain at most ${maxItems} values.`);
+  return value.map((entry, index) => assertString(entry, `${field}.${index}`, maxLength)).filter(Boolean);
+}
+
+export function normalizeWorkflowQuestion(input: Partial<Question>): Question {
+  if (!input || typeof input !== "object" || Array.isArray(input)) {
+    throw new WorkflowValidationError("Question payload must be an object.");
+  }
+  let sources;
+  try {
+    sources = normalizeEditorialSources(input.sourceReferences);
+  } catch (error) {
+    throw new WorkflowValidationError(error instanceof Error ? error.message : "Structured source references are invalid.");
+  }
+  const refs = sources.length > 0
+    ? sources.map((source) => source.citation)
+    : normalizeStringArray(input.teaching?.refs ?? [], "teaching.refs", 20, 300);
+  return {
+    id: assertString(input.id ?? "", "id", 191),
+    topicId: assertString(input.topicId ?? "", "topicId", 191),
+    difficulty: ([1, 2, 3, 4, 5].includes(input.difficulty as number) ? input.difficulty : 3) as 1 | 2 | 3 | 4 | 5,
+    question: assertString(input.question ?? "", "question", 1200),
+    choices: {
+      A: assertString(input.choices?.A ?? "", "choices.A", 600),
+      B: assertString(input.choices?.B ?? "", "choices.B", 600),
+      C: assertString(input.choices?.C ?? "", "choices.C", 600),
+      D: assertString(input.choices?.D ?? "", "choices.D", 600),
+    },
+    correctId: ["A", "B", "C", "D"].includes(input.correctId || "") ? input.correctId! : "A",
+    teaching: {
+      title: assertString(input.teaching?.title ?? "", "teaching.title", 300),
+      body: assertString(input.teaching?.body ?? "", "teaching.body", 8000),
+      refs,
+    },
+    tags: normalizeStringArray(input.tags ?? [], "tags", 30, 80),
+    sourceReferences: sources,
+  };
+}
+
 function workflowItemQuestion(item: WorkflowItem): Question {
   return {
     id: item.questionId,
@@ -75,62 +142,324 @@ function workflowItemQuestion(item: WorkflowItem): Question {
     correctId: item.correctId,
     teaching: item.teaching,
     tags: item.tags,
+    sourceReferences: item.sourceReferences,
   };
 }
 
-export function normalizeWorkflowQuestion(input: Partial<Question>): Question {
+function assertValidForStatus(item: Pick<WorkflowItem, "sourceReferences"> & Partial<Question>, status: ReviewStatus, topicIds: string[], existingIds: string[]): void {
+  if (!["submitted", "approved", "published"].includes(status)) return;
+  const sourceIssues = validateEditorialSources(item.sourceReferences);
+  if (sourceIssues.length > 0) throw new WorkflowValidationError(sourceIssues[0].message);
+  const issues = validateQuestion(item, { topicIds, existingIds });
+  if (hasBlockingValidationIssues(issues)) {
+    throw new WorkflowValidationError(`Content cannot be marked ${status} while blocking validation issues remain.`);
+  }
+  if (!item.teaching?.body?.trim() || item.teaching.body.trim().length < 20) {
+    throw new WorkflowValidationError("A substantive teaching explanation of at least 20 characters is required.");
+  }
+}
+
+function createRevision(question: Question, actor: CurrentUser, revisionNumber: number, createdAt = nowIso()): WorkflowRevisionSnapshot {
+  const sourceReferences = normalizeEditorialSources(question.sourceReferences);
+  const publishableQuestion = questionForPublication(question, sourceReferences);
   return {
-    id: String(input.id || input.topicId ? input.id || "" : "").trim(),
-    topicId: String(input.topicId || "").trim(),
-    difficulty: ([1, 2, 3, 4, 5].includes(input.difficulty as number) ? input.difficulty : 3) as 1 | 2 | 3 | 4 | 5,
-    question: String(input.question || ""),
-    choices: {
-      A: String(input.choices?.A || ""),
-      B: String(input.choices?.B || ""),
-      C: String(input.choices?.C || ""),
-      D: String(input.choices?.D || ""),
-    },
-    correctId: ["A", "B", "C", "D"].includes(input.correctId || "") ? input.correctId! : "A",
-    teaching: {
-      title: String(input.teaching?.title || ""),
-      body: String(input.teaching?.body || ""),
-      refs: Array.isArray(input.teaching?.refs) ? input.teaching.refs.map(String) : [],
-    },
-    tags: Array.isArray(input.tags) ? input.tags.map(String) : [],
+    id: newId("wf_rev"),
+    revisionNumber,
+    contentHash: computeEditorialContentHash(publishableQuestion, sourceReferences),
+    createdAt,
+    createdBy: actor.id,
+    question: publishableQuestion,
+    sourceReferences,
   };
+}
+
+function hydrateWorkflowItem(raw: WorkflowItem): WorkflowItem {
+  const question = normalizeWorkflowQuestion(raw);
+  const sourceReferences = normalizeEditorialSources(raw.sourceReferences);
+  const revisionNumber = Number.isSafeInteger(raw.revisionNumber) && raw.revisionNumber > 0
+    ? raw.revisionNumber
+    : Math.max(1, Number(raw.version) || 1);
+  const revisions = Array.isArray(raw.revisions) ? raw.revisions.filter((revision) => (
+    revision && typeof revision.id === "string" && isSha256Hash(revision.contentHash)
+  )) : [];
+  const fallbackHash = computeEditorialContentHash(questionForPublication(question, sourceReferences), sourceReferences);
+  const contentHash = isSha256Hash(raw.contentHash) ? raw.contentHash : fallbackHash;
+  const currentRevisionId = typeof raw.currentRevisionId === "string" && raw.currentRevisionId
+    ? raw.currentRevisionId
+    : newId("wf_rev_migrated");
+  const migratedRevision: WorkflowRevisionSnapshot = {
+    id: currentRevisionId,
+    revisionNumber,
+    contentHash,
+    createdAt: raw.updatedAt || raw.createdAt || nowIso(),
+    createdBy: raw.authorId,
+    question: questionForPublication(question, sourceReferences),
+    sourceReferences,
+  };
+  const legacyApprovalNeedsReview = raw.status === "approved" && (
+    !raw.approvedRevisionId
+    || !raw.approvedContentHash
+    || !raw.approvalAttestation
+    || sourceReferences.length === 0
+  );
+  return {
+    ...raw,
+    ...question,
+    questionId: raw.questionId || question.id,
+    sourceReferences,
+    status: legacyApprovalNeedsReview ? "changes_requested" : raw.status,
+    version: Number(raw.version) || 1,
+    revisionNumber,
+    currentRevisionId,
+    contentHash,
+    revisions: revisions.length > 0 ? revisions : [migratedRevision],
+    validationIssues: [
+      ...(Array.isArray(raw.validationIssues) ? raw.validationIssues : []),
+      ...(legacyApprovalNeedsReview ? ["Legacy approval reopened: structured sources and independent reviewer attestation are required."] : []),
+    ],
+    reviewComments: Array.isArray(raw.reviewComments) ? raw.reviewComments : [],
+    doctrinalFlags: Array.isArray(raw.doctrinalFlags) ? raw.doctrinalFlags : [],
+    referenceFlags: Array.isArray(raw.referenceFlags) ? raw.referenceFlags : [],
+    history: Array.isArray(raw.history) ? raw.history : [],
+  };
+}
+
+function matchesFilters(item: WorkflowItem, filters: WorkflowFilters): boolean {
+  if (filters.status && item.status !== filters.status) return false;
+  if (filters.topicId && item.topicId !== filters.topicId) return false;
+  if (filters.authorId && item.authorId !== filters.authorId) return false;
+  if (filters.reviewerId && item.reviewerId !== filters.reviewerId) return false;
+  const search = filters.search?.trim().toLowerCase();
+  if (search) {
+    const haystack = `${item.id} ${item.questionId} ${item.question} ${item.topicId} ${item.tags.join(" ")}`.toLowerCase();
+    if (!haystack.includes(search)) return false;
+  }
+  return true;
+}
+
+function databaseItemSql(prefix: "INSERT" | "UPDATE", executor: WorkflowDatabaseExecutor): string {
+  const json = databaseJsonCast(executor);
+  if (prefix === "INSERT") {
+    return `INSERT INTO content_workflow_items
+      (id, question_id, question_id_normalized, topic_id, status, author_id, reviewer_id, current_revision_id, content_hash, payload, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ${json}, ?, ?)`;
+  }
+  return `UPDATE content_workflow_items SET
+    question_id = ?, question_id_normalized = ?, topic_id = ?, status = ?, author_id = ?, reviewer_id = ?, current_revision_id = ?,
+    content_hash = ?, payload = ${json}, updated_at = ? WHERE id = ?`;
+}
+
+async function insertRevision(executor: WorkflowDatabaseExecutor, itemId: string, revision: WorkflowRevisionSnapshot): Promise<void> {
+  await executor.query(
+    `INSERT INTO content_workflow_revisions
+      (id, workflow_item_id, revision_number, content_hash, snapshot, created_by, created_at)
+      VALUES (?, ?, ?, ?, ${databaseJsonCast(executor)}, ?, ?)`,
+    [revision.id, itemId, revision.revisionNumber, revision.contentHash, JSON.stringify(revision), revision.createdBy, revision.createdAt]
+  );
+}
+
+async function insertReview(executor: WorkflowDatabaseExecutor, itemId: string, review: WorkflowReviewComment): Promise<void> {
+  await executor.query(
+    `INSERT INTO content_review_records
+      (id, workflow_item_id, revision_id, content_hash, reviewer_id, decision, comment, attestation, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ${databaseJsonCast(executor)}, ?)`,
+    [review.id, itemId, review.revisionId, review.contentHash, review.authorId, review.decision, review.body, review.attestation ? JSON.stringify(review.attestation) : null, review.createdAt]
+  );
+}
+
+async function insertEvent(executor: WorkflowDatabaseExecutor, itemId: string, event: WorkflowHistoryEvent, contentHash?: string): Promise<void> {
+  await executor.query(
+    `INSERT INTO content_workflow_events
+      (id, workflow_item_id, event_type, actor_id, content_hash, event, created_at)
+      VALUES (?, ?, ?, ?, ?, ${databaseJsonCast(executor)}, ?)`,
+    [event.id, itemId, event.type, event.actorId, contentHash || null, JSON.stringify(event), event.createdAt]
+  );
+}
+
+async function saveNewDatabaseItem(executor: WorkflowDatabaseExecutor, mutation: WorkflowMutation): Promise<void> {
+  const item = mutation.item;
+  await executor.query(databaseItemSql("INSERT", executor), [
+    item.id,
+    item.questionId,
+    item.questionId.toLowerCase(),
+    item.topicId,
+    item.status,
+    item.authorId,
+    item.reviewerId || null,
+    item.currentRevisionId,
+    item.contentHash,
+    JSON.stringify(item),
+    item.createdAt,
+    item.updatedAt,
+  ]);
+  if (mutation.revision) await insertRevision(executor, item.id, mutation.revision);
+  if (mutation.review) await insertReview(executor, item.id, mutation.review);
+  await insertEvent(executor, item.id, mutation.event, item.contentHash);
+}
+
+async function updateDatabaseItem(executor: WorkflowDatabaseExecutor, mutation: WorkflowMutation): Promise<void> {
+  const item = mutation.item;
+  await executor.query(databaseItemSql("UPDATE", executor), [
+    item.questionId,
+    item.questionId.toLowerCase(),
+    item.topicId,
+    item.status,
+    item.authorId,
+    item.reviewerId || null,
+    item.currentRevisionId,
+    item.contentHash,
+    JSON.stringify(item),
+    item.updatedAt,
+    item.id,
+  ]);
+  if (mutation.revision) await insertRevision(executor, item.id, mutation.revision);
+  if (mutation.review) await insertReview(executor, item.id, mutation.review);
+  await insertEvent(executor, item.id, mutation.event, item.contentHash);
+}
+
+async function loadDatabaseItem(executor: WorkflowDatabaseExecutor, id: string, forUpdate = false): Promise<WorkflowItem | null> {
+  const rows = await executor.query<{ payload: unknown }>(
+    `SELECT payload FROM content_workflow_items WHERE id = ? OR question_id = ? LIMIT 1${forUpdate ? " FOR UPDATE" : ""}`,
+    [id, id]
+  );
+  return rows[0]?.payload ? hydrateWorkflowItem(parseWorkflowDatabaseJson<WorkflowItem>(rows[0].payload)) : null;
+}
+
+async function ensureWorkflowMigration(): Promise<void> {
+  if (migrationPromise) return migrationPromise;
+  const pending = (async () => {
+    if (!workflowDatabaseEnabled()) return;
+    await ensureWorkflowDatabaseSchema();
+    const database = await getWorkflowDatabase();
+    const countRows = await database.query<{ total: string | number }>("SELECT COUNT(*) AS total FROM content_workflow_items");
+    if (Number(countRows[0]?.total || 0) > 0) return;
+    const legacyItems = await legacyWorkflowStore.read();
+    if (legacyItems.length === 0) return;
+    for (const raw of legacyItems) {
+      const item = hydrateWorkflowItem(raw);
+      const revision = item.revisions.find((candidate) => candidate.id === item.currentRevisionId) ?? item.revisions[0];
+      const migrationActor: CurrentUser = {
+        id: item.authorId,
+        displayName: item.authorName,
+        role: "super_admin",
+        accountType: "staff",
+        source: "transitional_env",
+      };
+      const event = history(migrationActor, "legacy_migrated", "Legacy workflow record migrated to the guarded editorial schema.", {
+        originalStatus: item.status,
+        contentHash: item.contentHash,
+      });
+      try {
+        await database.transaction((executor) => saveNewDatabaseItem(executor, { item, revision, event }));
+      } catch (error) {
+        const message = error instanceof Error ? error.message.toLowerCase() : "";
+        if (!message.includes("duplicate") && !message.includes("unique")) throw error;
+      }
+    }
+  })();
+  migrationPromise = pending;
+  try {
+    await pending;
+  } catch (error) {
+    if (migrationPromise === pending) migrationPromise = null;
+    throw error;
+  }
+}
+
+async function readFileState(): Promise<WorkflowFileState> {
+  const state = await editorialFileStore.read();
+  if (state.items.length > 0) return { ...state, items: state.items.map(hydrateWorkflowItem) };
+  const legacyItems = await legacyWorkflowStore.read();
+  if (legacyItems.length === 0) return state;
+  const migrated = { ...EMPTY_FILE_STATE, items: legacyItems.map(hydrateWorkflowItem) };
+  await editorialFileStore.write(migrated);
+  return migrated;
+}
+
+async function mutateFileState<T>(mutation: (state: WorkflowFileState) => Promise<T> | T): Promise<T> {
+  let result!: T;
+  const operation = workflowMutationQueue.then(async () => {
+    const state = await readFileState();
+    result = await mutation(state);
+    await editorialFileStore.write(state);
+  });
+  workflowMutationQueue = operation.catch(() => undefined);
+  await operation;
+  return result;
+}
+
+function normalizePersistenceConflict(error: unknown): never {
+  const message = error instanceof Error ? error.message : "";
+  if (/duplicate|unique constraint|unique entry/i.test(message)) {
+    throw new WorkflowConflictError("Question ID already exists in workflow storage.");
+  }
+  throw error;
+}
+
+function assertUniqueQuestionId(items: WorkflowItem[], questionId: string, excludedItemId?: string): void {
+  const normalizedId = questionId.trim().toLowerCase();
+  if (items.some((item) => item.id !== excludedItemId && item.questionId.trim().toLowerCase() === normalizedId)) {
+    throw new WorkflowConflictError(`Question ID ${questionId} already exists in workflow storage.`);
+  }
 }
 
 export async function listWorkflowItems(filters: WorkflowFilters = {}): Promise<WorkflowItem[]> {
-  const items = await workflowStore.read();
-  const search = filters.search?.trim().toLowerCase();
-  return items.filter((item) => {
-    if (filters.status && item.status !== filters.status) return false;
-    if (filters.topicId && item.topicId !== filters.topicId) return false;
-    if (filters.authorId && item.authorId !== filters.authorId) return false;
-    if (filters.reviewerId && item.reviewerId !== filters.reviewerId) return false;
-    if (search) {
-      const haystack = `${item.id} ${item.questionId} ${item.question} ${item.topicId} ${item.tags.join(" ")}`.toLowerCase();
-      if (!haystack.includes(search)) return false;
+  if (!workflowDatabaseEnabled()) {
+    return (await readFileState()).items.filter((item) => matchesFilters(item, filters));
+  }
+  await ensureWorkflowMigration();
+  const database = await getWorkflowDatabase();
+  const conditions: string[] = [];
+  const values: unknown[] = [];
+  for (const [column, value] of [
+    ["status", filters.status],
+    ["topic_id", filters.topicId],
+    ["author_id", filters.authorId],
+    ["reviewer_id", filters.reviewerId],
+  ] as const) {
+    if (value) {
+      conditions.push(`${column} = ?`);
+      values.push(value);
     }
-    return true;
-  });
+  }
+  const rows = await database.query<{ payload: unknown }>(
+    `SELECT payload FROM content_workflow_items${conditions.length ? ` WHERE ${conditions.join(" AND ")}` : ""} ORDER BY updated_at DESC`,
+    values
+  );
+  return rows.map((row) => hydrateWorkflowItem(parseWorkflowDatabaseJson<WorkflowItem>(row.payload))).filter((item) => matchesFilters(item, filters));
 }
 
 export async function getWorkflowItem(id: string): Promise<WorkflowItem | null> {
-  const items = await workflowStore.read();
-  return items.find((item) => item.id === id || item.questionId === id) ?? null;
+  if (!workflowDatabaseEnabled()) return (await readFileState()).items.find((item) => item.id === id || item.questionId === id) ?? null;
+  await ensureWorkflowMigration();
+  return loadDatabaseItem(await getWorkflowDatabase(), id);
 }
 
-export async function createWorkflowDraft(input: Partial<Question>, actor: CurrentUser, topicIds: string[], existingIds: string[], submit = false): Promise<WorkflowItem> {
+export async function createWorkflowDraft(
+  input: Partial<Question>,
+  actor: CurrentUser,
+  topicIds: string[],
+  existingIds: string[],
+  submit = false
+): Promise<WorkflowItem> {
   const question = normalizeWorkflowQuestion(input);
+  const sourceReferences = normalizeEditorialSources(question.sourceReferences);
   const status: ReviewStatus = submit ? "submitted" : "draft";
-  assertValidForStatus(question, status, topicIds, existingIds);
   const timestamp = nowIso();
-  const validationIssues = validateQuestion(question, { topicIds, existingIds }).map((issue) => issue.message);
+  const revision = createRevision(question, actor, 1, timestamp);
+  const validationIssues = [
+    ...validateQuestion(question, { topicIds, existingIds }).map((issue) => issue.message),
+    ...validateEditorialSources(sourceReferences).map((issue) => issue.message),
+  ];
+  const event = history(actor, submit ? "submitted" : "draft_created", submit ? "Draft created and submitted." : "Draft created.", {
+    revisionId: revision.id,
+    contentHash: revision.contentHash,
+  });
   const item: WorkflowItem = {
-    ...question,
+    ...questionForPublication(question, sourceReferences),
     id: newId("wf"),
     questionId: question.id,
+    sourceReferences,
     status,
     authorId: actor.id,
     authorName: actor.displayName,
@@ -138,88 +467,478 @@ export async function createWorkflowDraft(input: Partial<Question>, actor: Curre
     updatedAt: timestamp,
     submittedAt: submit ? timestamp : undefined,
     version: 1,
+    revisionNumber: 1,
+    currentRevisionId: revision.id,
+    contentHash: revision.contentHash,
+    revisions: [revision],
     validationIssues,
     reviewComments: [],
     doctrinalFlags: [],
     referenceFlags: [],
-    history: [history(actor, submit ? "submitted" : "draft_created", submit ? "Draft created and submitted." : "Draft created.")],
+    history: [event],
   };
-  return mutateWorkflowItems((items) => {
-    assertUniqueQuestionId(items, item.questionId);
-    return { items: [item, ...items], result: item };
-  });
+  assertValidForStatus(item, status, topicIds, existingIds);
+
+  if (!workflowDatabaseEnabled()) {
+    return mutateFileState((state) => {
+      assertUniqueQuestionId(state.items, item.questionId);
+      state.items.unshift(item);
+      return item;
+    });
+  }
+  await ensureWorkflowMigration();
+  const database = await getWorkflowDatabase();
+  try {
+    await database.transaction((executor) => saveNewDatabaseItem(executor, { item, revision, event }));
+    return item;
+  } catch (error) {
+    return normalizePersistenceConflict(error);
+  }
 }
 
-export async function updateWorkflowDraft(id: string, input: Partial<Question>, actor: CurrentUser, topicIds: string[], existingIds: string[]): Promise<WorkflowItem> {
-  return mutateWorkflowItems((items) => {
-    const item = items.find((candidate) => candidate.id === id);
-    if (!item) throw new Error("Workflow item not found.");
+export async function updateWorkflowDraft(
+  id: string,
+  input: Partial<Question>,
+  actor: CurrentUser,
+  topicIds: string[],
+  existingIds: string[]
+): Promise<WorkflowItem> {
+  const mutate = (item: WorkflowItem, allItems?: WorkflowItem[]): WorkflowMutation => {
+    if (!["draft", "changes_requested"].includes(item.status)) {
+      throw new WorkflowConflictError("Only a draft or changes-requested revision can be edited.");
+    }
     const question = normalizeWorkflowQuestion({ ...item, ...input, id: input.id ?? item.questionId });
-    assertUniqueQuestionId(items, question.id, item.id);
+    if (allItems) assertUniqueQuestionId(allItems, question.id, item.id);
+    const sourceReferences = normalizeEditorialSources(question.sourceReferences);
+    const revisionNumber = item.revisionNumber + 1;
+    const revision = createRevision(question, actor, revisionNumber);
+    const event = history(actor, "draft_updated", "Draft updated as a new immutable revision.", {
+      previousRevisionId: item.currentRevisionId,
+      revisionId: revision.id,
+      contentHash: revision.contentHash,
+    });
     const updated: WorkflowItem = {
       ...item,
-      ...question,
+      ...questionForPublication(question, sourceReferences),
       questionId: question.id,
-      updatedAt: nowIso(),
+      sourceReferences,
+      updatedAt: event.createdAt,
       version: item.version + 1,
-      validationIssues: validateQuestion(question, { topicIds, existingIds }).map((issue) => issue.message),
-      history: [history(actor, "draft_updated", "Draft updated."), ...item.history],
+      revisionNumber,
+      currentRevisionId: revision.id,
+      contentHash: revision.contentHash,
+      revisions: [...item.revisions, revision],
+      reviewerId: undefined,
+      reviewerName: undefined,
+      reviewedAt: undefined,
+      approvedRevisionId: undefined,
+      approvedContentHash: undefined,
+      approvalAttestation: undefined,
+      validationIssues: [
+        ...validateQuestion(question, { topicIds, existingIds }).map((issue) => issue.message),
+        ...validateEditorialSources(sourceReferences).map((issue) => issue.message),
+      ],
+      history: [event, ...item.history],
     };
-    return { items: items.map((candidate) => candidate.id === id ? updated : candidate), result: updated };
-  });
+    return { item: updated, revision, event };
+  };
+
+  if (!workflowDatabaseEnabled()) {
+    return mutateFileState((state) => {
+      const index = state.items.findIndex((candidate) => candidate.id === id);
+      if (index < 0) throw new Error("Workflow item not found.");
+      const mutation = mutate(state.items[index], state.items);
+      state.items[index] = mutation.item;
+      return mutation.item;
+    });
+  }
+  await ensureWorkflowMigration();
+  const database = await getWorkflowDatabase();
+  try {
+    return await database.transaction(async (executor) => {
+      const item = await loadDatabaseItem(executor, id, true);
+      if (!item) throw new Error("Workflow item not found.");
+      const mutation = mutate(item);
+      const duplicates = await executor.query<{ id: string }>(
+        "SELECT id FROM content_workflow_items WHERE question_id_normalized = ? AND id <> ? LIMIT 1",
+        [mutation.item.questionId.toLowerCase(), mutation.item.id]
+      );
+      if (duplicates.length > 0) throw new WorkflowConflictError(`Question ID ${mutation.item.questionId} already exists in workflow storage.`);
+      await updateDatabaseItem(executor, mutation);
+      return mutation.item;
+    });
+  } catch (error) {
+    if (error instanceof WorkflowConflictError || error instanceof WorkflowValidationError) throw error;
+    return normalizePersistenceConflict(error);
+  }
 }
 
 export async function duplicatePublishedQuestion(question: Question, actor: CurrentUser, topicIds: string[], existingIds: string[]): Promise<WorkflowItem> {
-  return createWorkflowDraft({ ...question, id: `${question.id}_draft` }, actor, topicIds, existingIds, false);
+  return createWorkflowDraft({ ...question, id: `${question.id}_draft`, sourceReferences: [] }, actor, topicIds, existingIds, false);
 }
 
-export async function transitionWorkflowItem(id: string, nextStatus: ReviewStatus, actor: CurrentUser, options: { comment?: string; doctrinalFlag?: boolean; referenceFlag?: boolean; topicIds?: string[]; existingIds?: string[]; publishTarget?: "engine" } = {}): Promise<WorkflowItem> {
-  return mutateWorkflowItems((items) => {
-    const item = items.find((candidate) => candidate.id === id);
-    if (!item) throw new Error("Workflow item not found.");
+export async function transitionWorkflowItem(
+  id: string,
+  nextStatus: ReviewStatus,
+  actor: CurrentUser,
+  options: {
+    comment?: string;
+    doctrinalFlag?: boolean;
+    referenceFlag?: boolean;
+    attestation?: unknown;
+    topicIds?: string[];
+    existingIds?: string[];
+  } = {}
+): Promise<WorkflowItem> {
+  if (nextStatus === "published") {
+    throw new WorkflowPublicationError("Publication must use the guarded outbox workflow.");
+  }
+  const mutate = (item: WorkflowItem): WorkflowMutation => {
     if (!canTransitionStatus(item.status, nextStatus)) {
-      throw new Error(`Cannot move workflow item from ${item.status} to ${nextStatus}`);
+      throw new WorkflowConflictError(`Cannot move workflow item from ${item.status} to ${nextStatus}.`);
     }
-    assertValidForStatus(workflowItemQuestion(item), nextStatus, options.topicIds ?? [], options.existingIds ?? []);
+    assertValidForStatus(item, nextStatus, options.topicIds ?? [], options.existingIds ?? []);
+    const isReview = ["approved", "rejected", "changes_requested"].includes(nextStatus);
+    if (isReview && actor.id === item.authorId) {
+      throw new WorkflowConflictError("An author cannot review or approve their own revision.");
+    }
+    const reviewerComment = options.comment?.trim() || "";
+    if (isReview && reviewerComment.length < 10) {
+      throw new WorkflowValidationError("A reviewer comment of at least 10 characters is required for every decision.");
+    }
+
+    let attestation: WorkflowReviewerAttestation | undefined;
+    if (nextStatus === "approved") {
+      if (options.doctrinalFlag || options.referenceFlag) {
+        throw new WorkflowValidationError("A flagged doctrinal or reference issue must be resolved before approval.");
+      }
+      try {
+        attestation = normalizeReviewerAttestation(options.attestation);
+      } catch (error) {
+        throw new WorkflowValidationError(error instanceof Error ? error.message : "Reviewer attestation is invalid.");
+      }
+      const recomputedHash = computeEditorialContentHash(workflowItemQuestion(item), item.sourceReferences);
+      if (recomputedHash !== item.contentHash) throw new WorkflowConflictError("The submitted revision hash no longer matches its content.");
+    }
 
     const timestamp = nowIso();
-    const comments = [...item.reviewComments];
-    if (["rejected", "changes_requested"].includes(nextStatus) && !options.comment?.trim()) {
-      throw new WorkflowValidationError("A reviewer comment is required when rejecting or requesting changes.");
-    }
-    if (["approved", "rejected", "changes_requested"].includes(nextStatus)) {
-      const body = options.comment?.trim() || "Approved without additional comment.";
-      const comment: WorkflowReviewComment = {
-        id: newId("comment"),
-        authorId: actor.id,
-        authorName: actor.displayName,
-        authorRole: actor.role,
-        body,
-        createdAt: timestamp,
-        doctrinalFlag: options.doctrinalFlag,
-        referenceFlag: options.referenceFlag,
-      };
-      comments.push(comment);
-    }
-
+    const review: WorkflowReviewComment | undefined = isReview ? {
+      id: newId("comment"),
+      authorId: actor.id,
+      authorName: actor.displayName,
+      authorRole: actor.role,
+      body: reviewerComment,
+      createdAt: timestamp,
+      doctrinalFlag: options.doctrinalFlag,
+      referenceFlag: options.referenceFlag,
+      decision: nextStatus as WorkflowReviewComment["decision"],
+      revisionId: item.currentRevisionId,
+      contentHash: item.contentHash,
+      attestation,
+    } : undefined;
+    const event = history(actor, nextStatus, `Workflow marked ${nextStatus.replace("_", " ")}.`, {
+      revisionId: item.currentRevisionId,
+      contentHash: item.contentHash,
+      attested: Boolean(attestation),
+    });
+    const resubmitted = nextStatus === "submitted";
     const updated: WorkflowItem = {
       ...item,
       status: nextStatus,
       updatedAt: timestamp,
-      submittedAt: nextStatus === "submitted" ? timestamp : item.submittedAt,
-      reviewedAt: ["approved", "rejected", "changes_requested"].includes(nextStatus) ? timestamp : item.reviewedAt,
-      publishedAt: nextStatus === "published" ? timestamp : item.publishedAt,
+      submittedAt: resubmitted ? timestamp : item.submittedAt,
+      reviewedAt: isReview ? timestamp : (resubmitted ? undefined : item.reviewedAt),
       archivedAt: nextStatus === "archived" ? timestamp : item.archivedAt,
-      reviewerId: ["approved", "rejected", "changes_requested"].includes(nextStatus) ? actor.id : item.reviewerId,
-      reviewerName: ["approved", "rejected", "changes_requested"].includes(nextStatus) ? actor.displayName : item.reviewerName,
+      reviewerId: isReview ? actor.id : (resubmitted ? undefined : item.reviewerId),
+      reviewerName: isReview ? actor.displayName : (resubmitted ? undefined : item.reviewerName),
+      approvedRevisionId: nextStatus === "approved" ? item.currentRevisionId : (resubmitted || isReview ? undefined : item.approvedRevisionId),
+      approvedContentHash: nextStatus === "approved" ? item.contentHash : (resubmitted || isReview ? undefined : item.approvedContentHash),
+      approvalAttestation: nextStatus === "approved" ? attestation : (resubmitted || isReview ? undefined : item.approvalAttestation),
       version: item.version + 1,
-      reviewComments: comments,
+      reviewComments: review ? [...item.reviewComments, review] : item.reviewComments,
       doctrinalFlags: options.doctrinalFlag ? [...item.doctrinalFlags, actor.id] : item.doctrinalFlags,
       referenceFlags: options.referenceFlag ? [...item.referenceFlags, actor.id] : item.referenceFlags,
-      publishTarget: nextStatus === "published" ? options.publishTarget ?? "workflow_store" : item.publishTarget,
-      history: [history(actor, nextStatus, `Workflow marked ${nextStatus.replace("_", " ")}.`), ...item.history],
+      history: [event, ...item.history],
     };
+    return { item: updated, review, event };
+  };
 
-    return { items: items.map((candidate) => candidate.id === id ? updated : candidate), result: updated };
+  if (!workflowDatabaseEnabled()) {
+    return mutateFileState((state) => {
+      const index = state.items.findIndex((candidate) => candidate.id === id);
+      if (index < 0) throw new Error("Workflow item not found.");
+      const mutation = mutate(state.items[index]);
+      state.items[index] = mutation.item;
+      return mutation.item;
+    });
+  }
+  await ensureWorkflowMigration();
+  const database = await getWorkflowDatabase();
+  return database.transaction(async (executor) => {
+    const item = await loadDatabaseItem(executor, id, true);
+    if (!item) throw new Error("Workflow item not found.");
+    const mutation = mutate(item);
+    await updateDatabaseItem(executor, mutation);
+    return mutation.item;
+  });
+}
+
+function publicationKey(item: WorkflowItem): string {
+  return `publish:${item.id}:${item.approvedRevisionId}:${item.approvedContentHash}`;
+}
+
+function publicationLeaseExpiry(): string {
+  const seconds = getEditorialPublishLeaseSeconds();
+  return new Date(Date.now() + seconds * 1000).toISOString();
+}
+
+function assertPublishableApproval(item: WorkflowItem, topicIds: string[], existingIds: string[]): WorkflowRevisionSnapshot {
+  if (item.status !== "approved" && item.status !== "published") {
+    throw new WorkflowConflictError("Only an approved revision can be published.");
+  }
+  assertValidForStatus(item, "published", topicIds, existingIds);
+  if (!item.reviewerId || item.reviewerId === item.authorId) throw new WorkflowConflictError("Publication requires an independent human reviewer.");
+  if (!item.approvedRevisionId || !item.approvedContentHash || !item.approvalAttestation) {
+    throw new WorkflowConflictError("Publication requires an attested approval for the current revision.");
+  }
+  normalizeReviewerAttestation(item.approvalAttestation);
+  if (item.approvedRevisionId !== item.currentRevisionId || item.approvedContentHash !== item.contentHash) {
+    throw new WorkflowConflictError("Approved revision does not match the current immutable revision.");
+  }
+  const revision = item.revisions.find((candidate) => candidate.id === item.approvedRevisionId);
+  if (!revision || revision.contentHash !== item.approvedContentHash) throw new WorkflowConflictError("Approved revision snapshot is unavailable or invalid.");
+  const recomputedHash = computeEditorialContentHash(revision.question, revision.sourceReferences);
+  if (recomputedHash !== revision.contentHash) throw new WorkflowConflictError("Approved revision content hash verification failed.");
+  return revision;
+}
+
+function newOutbox(item: WorkflowItem, timestamp: string): WorkflowPublicationOutboxRecord {
+  return {
+    idempotencyKey: publicationKey(item),
+    workflowItemId: item.id,
+    revisionId: item.approvedRevisionId!,
+    contentHash: item.approvedContentHash!,
+    status: "processing",
+    attempts: 1,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+    leaseExpiresAt: publicationLeaseExpiry(),
+  };
+}
+
+export async function prepareWorkflowPublication(
+  id: string,
+  actor: CurrentUser,
+  topicIds: string[],
+  existingIds: string[]
+): Promise<WorkflowPublicationClaim> {
+  if (!workflowDatabaseEnabled()) {
+    return mutateFileState((state) => {
+      const index = state.items.findIndex((candidate) => candidate.id === id);
+      if (index < 0) throw new Error("Workflow item not found.");
+      const item = state.items[index];
+      const revision = assertPublishableApproval(item, topicIds, existingIds);
+      const idempotencyKey = publicationKey(item);
+      const existing = state.outbox.find((record) => record.idempotencyKey === idempotencyKey);
+      if (existing?.status === "completed") {
+        return { item, question: revision.question, idempotencyKey, alreadyCompleted: true };
+      }
+      if (existing?.status === "processing" && existing.leaseExpiresAt && Date.parse(existing.leaseExpiresAt) > Date.now()) {
+        throw new WorkflowConflictError("Publication is already in progress. Retry after the processing lease expires.");
+      }
+      const timestamp = nowIso();
+      if (existing) {
+        existing.status = "processing";
+        existing.attempts += 1;
+        existing.updatedAt = timestamp;
+        existing.leaseExpiresAt = publicationLeaseExpiry();
+        existing.lastError = undefined;
+      } else state.outbox.push(newOutbox(item, timestamp));
+      const event = history(actor, "publication_claimed", "Approved revision claimed for idempotent Engine publication.", {
+        idempotencyKey,
+        revisionId: revision.id,
+        contentHash: revision.contentHash,
+      });
+      item.history.unshift(event);
+      item.updatedAt = timestamp;
+      item.version += 1;
+      item.publicationIdempotencyKey = idempotencyKey;
+      return { item, question: revision.question, idempotencyKey, alreadyCompleted: false };
+    });
+  }
+
+  await ensureWorkflowMigration();
+  const database = await getWorkflowDatabase();
+  return database.transaction(async (executor) => {
+    const item = await loadDatabaseItem(executor, id, true);
+    if (!item) throw new Error("Workflow item not found.");
+    const revision = assertPublishableApproval(item, topicIds, existingIds);
+    const idempotencyKey = publicationKey(item);
+    const rows = await executor.query<Record<string, unknown>>(
+      "SELECT * FROM content_publication_outbox WHERE idempotency_key = ? FOR UPDATE",
+      [idempotencyKey]
+    );
+    const existing = rows[0];
+    if (existing?.status === "completed") return { item, question: revision.question, idempotencyKey, alreadyCompleted: true };
+    if (existing?.status === "processing" && typeof existing.lease_expires_at === "string" && Date.parse(existing.lease_expires_at) > Date.now()) {
+      throw new WorkflowConflictError("Publication is already in progress. Retry after the processing lease expires.");
+    }
+    const timestamp = nowIso();
+    if (existing) {
+      await executor.query(
+        "UPDATE content_publication_outbox SET status = ?, attempts = attempts + 1, lease_expires_at = ?, last_error = NULL, updated_at = ? WHERE idempotency_key = ?",
+        ["processing", publicationLeaseExpiry(), timestamp, idempotencyKey]
+      );
+    } else {
+      const outbox = newOutbox(item, timestamp);
+      await executor.query(
+        "INSERT INTO content_publication_outbox (idempotency_key, workflow_item_id, revision_id, content_hash, status, attempts, lease_expires_at, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [outbox.idempotencyKey, outbox.workflowItemId, outbox.revisionId, outbox.contentHash, outbox.status, outbox.attempts, outbox.leaseExpiresAt, outbox.createdAt, outbox.updatedAt]
+      );
+    }
+    const event = history(actor, "publication_claimed", "Approved revision claimed for idempotent Engine publication.", {
+      idempotencyKey,
+      revisionId: revision.id,
+      contentHash: revision.contentHash,
+    });
+    item.history.unshift(event);
+    item.updatedAt = timestamp;
+    item.version += 1;
+    item.publicationIdempotencyKey = idempotencyKey;
+    await updateDatabaseItem(executor, { item, event });
+    return { item, question: revision.question, idempotencyKey, alreadyCompleted: false };
+  });
+}
+
+export async function completeWorkflowPublication(
+  claim: WorkflowPublicationClaim,
+  actor: CurrentUser,
+  engineResult: Record<string, unknown>
+): Promise<WorkflowItem> {
+  const complete = (item: WorkflowItem, outbox: WorkflowPublicationOutboxRecord): WorkflowMutation => {
+    if (outbox.status === "completed") {
+      return { item, event: item.history[0] };
+    }
+    if (outbox.revisionId !== item.approvedRevisionId || outbox.contentHash !== item.approvedContentHash) {
+      throw new WorkflowConflictError("Publication completion does not match the approved revision.");
+    }
+    const timestamp = nowIso();
+    outbox.status = "completed";
+    outbox.updatedAt = timestamp;
+    outbox.completedAt = timestamp;
+    outbox.leaseExpiresAt = undefined;
+    outbox.lastError = undefined;
+    outbox.engineResult = engineResult;
+    const event = history(actor, "published", "Approved revision published to the Engine.", {
+      idempotencyKey: outbox.idempotencyKey,
+      revisionId: outbox.revisionId,
+      contentHash: outbox.contentHash,
+    });
+    return {
+      item: {
+        ...item,
+        status: "published",
+        publishedAt: timestamp,
+        updatedAt: timestamp,
+        version: item.version + 1,
+        publishTarget: "engine",
+        publicationIdempotencyKey: outbox.idempotencyKey,
+        history: [event, ...item.history],
+      },
+      event,
+    };
+  };
+
+  if (!workflowDatabaseEnabled()) {
+    return mutateFileState((state) => {
+      const index = state.items.findIndex((item) => item.id === claim.item.id);
+      const outbox = state.outbox.find((record) => record.idempotencyKey === claim.idempotencyKey);
+      if (index < 0 || !outbox) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
+      if (outbox.status === "completed") return state.items[index];
+      const mutation = complete(state.items[index], outbox);
+      state.items[index] = mutation.item;
+      return mutation.item;
+    });
+  }
+
+  await ensureWorkflowMigration();
+  const database = await getWorkflowDatabase();
+  return database.transaction(async (executor) => {
+    const item = await loadDatabaseItem(executor, claim.item.id, true);
+    if (!item) throw new Error("Workflow item not found.");
+    const rows = await executor.query<Record<string, unknown>>("SELECT * FROM content_publication_outbox WHERE idempotency_key = ? FOR UPDATE", [claim.idempotencyKey]);
+    const row = rows[0];
+    if (!row) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
+    if (row.status === "completed") return item;
+    const outbox: WorkflowPublicationOutboxRecord = {
+      idempotencyKey: String(row.idempotency_key),
+      workflowItemId: String(row.workflow_item_id),
+      revisionId: String(row.revision_id),
+      contentHash: String(row.content_hash),
+      status: row.status as WorkflowPublicationOutboxRecord["status"],
+      attempts: Number(row.attempts),
+      createdAt: String(row.created_at),
+      updatedAt: String(row.updated_at),
+    };
+    const mutation = complete(item, outbox);
+    await executor.query(
+      `UPDATE content_publication_outbox SET status = 'completed', lease_expires_at = NULL, last_error = NULL,
+       engine_result = ${databaseJsonCast(executor)}, completed_at = ?, updated_at = ? WHERE idempotency_key = ?`,
+      [JSON.stringify(engineResult), outbox.completedAt, outbox.updatedAt, outbox.idempotencyKey]
+    );
+    await updateDatabaseItem(executor, mutation);
+    return mutation.item;
+  });
+}
+
+export async function failWorkflowPublication(claim: WorkflowPublicationClaim, actor: CurrentUser, errorMessage: string): Promise<WorkflowItem> {
+  const safeError = errorMessage.replace(/[\r\n\t]/g, " ").slice(0, 500) || "Engine publication failed.";
+  if (!workflowDatabaseEnabled()) {
+    return mutateFileState((state) => {
+      const item = state.items.find((candidate) => candidate.id === claim.item.id);
+      const outbox = state.outbox.find((record) => record.idempotencyKey === claim.idempotencyKey);
+      if (!item || !outbox) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
+      if (outbox.status === "completed") return item;
+      const timestamp = nowIso();
+      outbox.status = "failed";
+      outbox.updatedAt = timestamp;
+      outbox.leaseExpiresAt = undefined;
+      outbox.lastError = safeError;
+      const event = history(actor, "publication_failed", "Engine publication failed; approved revision remains retryable.", {
+        idempotencyKey: outbox.idempotencyKey,
+        contentHash: outbox.contentHash,
+      });
+      item.history.unshift(event);
+      item.updatedAt = timestamp;
+      item.version += 1;
+      return item;
+    });
+  }
+
+  await ensureWorkflowMigration();
+  const database = await getWorkflowDatabase();
+  return database.transaction(async (executor) => {
+    const item = await loadDatabaseItem(executor, claim.item.id, true);
+    if (!item) throw new Error("Workflow item not found.");
+    const rows = await executor.query<{ status: string; content_hash: string }>(
+      "SELECT status, content_hash FROM content_publication_outbox WHERE idempotency_key = ? FOR UPDATE",
+      [claim.idempotencyKey]
+    );
+    if (!rows[0]) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
+    if (rows[0].status === "completed") return item;
+    const timestamp = nowIso();
+    await executor.query(
+      "UPDATE content_publication_outbox SET status = 'failed', lease_expires_at = NULL, last_error = ?, updated_at = ? WHERE idempotency_key = ?",
+      [safeError, timestamp, claim.idempotencyKey]
+    );
+    const event = history(actor, "publication_failed", "Engine publication failed; approved revision remains retryable.", {
+      idempotencyKey: claim.idempotencyKey,
+      contentHash: rows[0].content_hash,
+    });
+    item.history.unshift(event);
+    item.updatedAt = timestamp;
+    item.version += 1;
+    await updateDatabaseItem(executor, { item, event });
+    return item;
   });
 }

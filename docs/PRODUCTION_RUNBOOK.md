@@ -19,6 +19,10 @@ The Next app uses middleware, route handlers, staff sessions and server-side eng
 - `AUTHOR_SESSION_SECRET` (high-entropy, server only)
 - `ENGINE_ADMIN_TOKEN` (UI server only; must match the Engine's `ADMIN_TOKEN`)
 - `DATABASE_URL` for durable staff/workflow/audit storage
+- `APP_STORAGE_DRIVER=database` (do not use file storage in a multi-instance production deployment)
+- `EDITORIAL_EMERGENCY_IMPORT_ENABLED=false` (recommended; the normal dashboard cannot bypass human review)
+- Optional: `EDITORIAL_PUBLISH_LEASE_SECONDS=90` (30-300 seconds; controls safe retry after a publisher crash)
+- Optional: `EDITORIAL_ENGINE_TIMEOUT_MS=20000` (clamped to at least five seconds below the publish lease)
 - `ADMIN_EMAIL` and `ADMIN_PASSWORD` for initial bootstrap only; rotate after first successful durable login
 - Optional: `NEXT_PUBLIC_ANDROID_APK_URL`, `CAPACITOR_SERVER_URL`, `NEXT_PUBLIC_RESEARCH_GRAPH_URL`, `NEXT_PUBLIC_AUTHOR_ENABLED`
 
@@ -50,6 +54,19 @@ Signed APK/AAB releases run only for an `android-v*` tag or a trusted manual dis
 Store these values as GitHub Actions repository secrets. Never store the decoded keystore or passwords in the repository, workflow inputs, artifacts, logs, or `NEXT_PUBLIC_*` variables. The workflow decodes the keystore with owner-only permissions into the runner's temporary directory and removes it in an `always()` cleanup step. Signed APK and AAB signatures are verified before publishing, and the artifact includes SHA-256 checksums.
 
 The optional non-secret repository variables `ANDROID_APP_URL`, `ANDROID_ENGINE_URL`, and `ANDROID_GRAPH_URL` override the documented production URL defaults. A manual signed build uploads a private workflow artifact by default; enable `publish_release` explicitly to attach it to the requested GitHub release. Tag-triggered builds publish automatically.
+
+### Editorial schema and publish gate
+
+The UI creates repeatable PostgreSQL or MySQL tables for workflow items, immutable revisions, review records, workflow events, and the publication outbox. Before enabling this branch in production:
+
+1. Take a database snapshot.
+2. Deploy with `DATABASE_URL` and `APP_STORAGE_DRIVER=database`; startup-on-first-use applies the additive schema only.
+3. Open a legacy workflow item. Legacy approvals without a structured-source attestation are safely reopened as changes-requested; edit and resubmit an exact sourced revision.
+4. Verify one author account and a different reviewer account. The same user must receive `403`/`409` when attempting self-review.
+5. Publish one non-live test question. Confirm the workflow item, immutable revision, reviewer decision, audit event, and completed outbox record share the same SHA-256 content hash.
+6. Simulate an Engine failure. The item must remain `approved`; retry must reuse the same idempotency key and exact revision.
+
+Rollback is application-safe because the schema is additive. Roll back the UI build without dropping the new tables. Do not delete a pending/failed outbox record: it is the evidence needed for an exact-revision retry. See `docs/EDITORIAL_WORKFLOW.md` for the complete operational contract.
 
 ## Release order
 

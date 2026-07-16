@@ -1,6 +1,7 @@
 import type { Role } from "../../auth/roles";
-import type { Question, QuestionChoiceId } from "../../../types/content";
+import type { EditorialSourceReference, Question, QuestionChoiceId } from "../../../types/content";
 import type { ReviewStatus } from "../../contentWorkflow";
+import type { WorkflowReviewerAttestation, WorkflowRevisionSnapshot } from "../../editorialPolicy";
 
 export type AuditSeverity = "info" | "warning" | "error" | "critical";
 
@@ -53,6 +54,10 @@ export interface WorkflowReviewComment {
   createdAt: string;
   doctrinalFlag?: boolean;
   referenceFlag?: boolean;
+  decision: "approved" | "rejected" | "changes_requested";
+  revisionId: string;
+  contentHash: string;
+  attestation?: WorkflowReviewerAttestation;
 }
 
 export interface WorkflowItem extends Question {
@@ -65,6 +70,7 @@ export interface WorkflowItem extends Question {
   correctId: QuestionChoiceId;
   teaching: Question["teaching"];
   tags: string[];
+  sourceReferences: EditorialSourceReference[];
   status: ReviewStatus;
   authorId: string;
   authorName: string;
@@ -77,12 +83,37 @@ export interface WorkflowItem extends Question {
   publishedAt?: string;
   archivedAt?: string;
   version: number;
+  revisionNumber: number;
+  currentRevisionId: string;
+  contentHash: string;
+  approvedRevisionId?: string;
+  approvedContentHash?: string;
+  approvalAttestation?: WorkflowReviewerAttestation;
+  revisions: WorkflowRevisionSnapshot[];
   validationIssues: string[];
   reviewComments: WorkflowReviewComment[];
   doctrinalFlags: string[];
   referenceFlags: string[];
   history: WorkflowHistoryEvent[];
   publishTarget?: "workflow_store" | "engine";
+  publicationIdempotencyKey?: string;
+}
+
+export type PublicationOutboxStatus = "processing" | "failed" | "completed";
+
+export interface WorkflowPublicationOutboxRecord {
+  idempotencyKey: string;
+  workflowItemId: string;
+  revisionId: string;
+  contentHash: string;
+  status: PublicationOutboxStatus;
+  attempts: number;
+  createdAt: string;
+  updatedAt: string;
+  leaseExpiresAt?: string;
+  lastError?: string;
+  completedAt?: string;
+  engineResult?: Record<string, unknown>;
 }
 
 export interface AuditEvent {

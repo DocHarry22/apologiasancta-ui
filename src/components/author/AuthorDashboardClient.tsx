@@ -14,11 +14,11 @@ import { validateQuestion, hasBlockingValidationIssues, type ValidationIssue } f
 import { validateTopic } from "@/lib/topicOperations";
 import { buildTopicSequenceConfig, validateTopicSequenceConfig } from "@/lib/topicSequence";
 import { dangerousActions, isDangerConfirmationValid, requiresTypedConfirmation, type DangerousActionDefinition } from "@/lib/dangerousActions";
-import { getNextQuestionId, getWorkflowQuestionId, hasQuestionFormContent, requiresReviewComment, type DraftQuestion, type ReviewStatus } from "@/lib/contentWorkflow";
+import { getNextQuestionId, getWorkflowQuestionId, hasQuestionFormContent, type DraftQuestion, type ReviewStatus } from "@/lib/contentWorkflow";
+import { REVIEW_ATTESTATION_STATEMENT } from "@/lib/editorialPolicy";
 import type { AuditEvent } from "@/lib/server/storage/types";
 import AuthorForm from "./AuthorForm";
 import JsonPreview from "./JsonPreview";
-import BatchImport from "./BatchImport";
 import EngineHealthPanel from "./EngineHealthPanel";
 
 interface Props {
@@ -115,6 +115,7 @@ function workflowQuestion(item: DraftQuestion): Question {
     correctId: item.correctId,
     teaching: item.teaching,
     tags: item.tags,
+    sourceReferences: item.sourceReferences,
   };
 }
 
@@ -263,6 +264,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   const [selectedQuestionId, setSelectedQuestionId] = useState<string>(publishedQuestions[0]?.question.id || "");
   const [selectedWorkflowId, setSelectedWorkflowId] = useState<string>("");
   const [reviewComment, setReviewComment] = useState("");
+  const [reviewAttestationAccepted, setReviewAttestationAccepted] = useState(false);
   const [doctrinalFlag, setDoctrinalFlag] = useState(false);
   const [referenceFlag, setReferenceFlag] = useState(false);
   const [adminStatus, setAdminStatus] = useState<AdminStatus | null>(null);
@@ -317,8 +319,16 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     correctId: "A",
     teaching: { title: "", body: "", refs: [] },
     tags: [],
+    sourceReferences: [{ kind: "scripture", citation: "" }],
   });
   const formIsDirty = hasQuestionFormContent(formData);
+
+  useEffect(() => {
+    setReviewComment("");
+    setReviewAttestationAccepted(false);
+    setDoctrinalFlag(false);
+    setReferenceFlag(false);
+  }, [selectedWorkflowId]);
 
   useEffect(() => {
     if (!formIsDirty) return;
@@ -421,7 +431,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   const selectedWorkflowItem = workflowItems.find((item) => item.id === selectedWorkflowId);
   const currentRoom = rooms.find((room) => room.roomId === selectedRoomId) || rooms.find((room) => room.roomId === "global") || null;
   const canAuthor = hasPermission(currentUser.role, "content:draft:create");
-  const canReview = hasPermission(currentUser.role, "content:review");
+  const canReview = currentUser.role === "admin" || currentUser.role === "super_admin" || hasPermission(currentUser.role, "content:review");
   const canManageDanger = hasPermission(currentUser.role, "dangerous:execute");
   const canManageUsers = hasPermission(currentUser.role, "users:manage");
 
@@ -545,6 +555,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       refs: formData.teaching?.refs || [],
     },
     tags: formData.tags || [],
+    sourceReferences: formData.sourceReferences || [],
   });
 
   const questionJson = buildQuestionJson();
@@ -561,6 +572,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       correctId: "A",
       teaching: { title: "", body: "", refs: [] },
       tags: [],
+      sourceReferences: [{ kind: "scripture", citation: "" }],
     });
   };
 
@@ -633,20 +645,41 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
 
   const reviewWorkflowItem = async (item: DraftQuestion, status: "approved" | "rejected" | "changes_requested") => {
     if (!canReview) return;
-    if (requiresReviewComment(status) && !reviewComment.trim()) {
-      setMessage({ type: "error", text: "Add a reviewer comment before rejecting or requesting changes." });
+    if (item.authorId === currentUser.id) {
+      setMessage({ type: "error", text: "Authors cannot review or approve their own revision." });
+      return;
+    }
+    if (!reviewComment.trim() || reviewComment.trim().length < 10) {
+      setMessage({ type: "error", text: "Add a reviewer comment of at least 10 characters for this decision." });
+      return;
+    }
+    if (status === "approved" && !reviewAttestationAccepted) {
+      setMessage({ type: "error", text: "Confirm the independent reviewer attestation before approval." });
       return;
     }
     const action = status === "changes_requested" ? "request-changes" : status === "approved" ? "approve" : "reject";
     setLoading(true);
     const response = await dashboardApi<{ ok: true; item: DraftQuestion }>(`/api/workflow/items/${encodeURIComponent(item.id)}/${action}`, {
       method: "POST",
-      body: { comment: reviewComment, doctrinalFlag, referenceFlag },
+      body: {
+        comment: reviewComment,
+        doctrinalFlag,
+        referenceFlag,
+        attestation: status === "approved" ? {
+          doctrinalFidelityConfirmed: true,
+          sourcesChecked: true,
+          explanationSupported: true,
+          charitableLanguageConfirmed: true,
+          independentReviewConfirmed: true,
+          statement: REVIEW_ATTESTATION_STATEMENT,
+        } : undefined,
+      },
     });
     setLoading(false);
     if (response.ok) {
       setWorkflowItems((items) => items.map((candidate) => candidate.id === item.id ? response.data.item : candidate));
       setReviewComment("");
+      setReviewAttestationAccepted(false);
       setDoctrinalFlag(false);
       setReferenceFlag(false);
       setMessage({ type: "success", text: `Review marked ${status.replace("_", " ")}.` });
@@ -1054,8 +1087,10 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
         {activeTab === "authoring" && (
           <div className="space-y-4">
             {hasPermission(currentUser.role, "content:import") && (
-              <Panel title="Batch Import" description="Imports still go through the server-side admin proxy and CSRF checks.">
-                <BatchImport topics={topics.map((topic) => ({ id: topic.id, title: topic.title }))} />
+              <Panel title="Editorial import policy" description="Direct Engine import is disabled in the normal dashboard path.">
+                <p className="text-sm leading-6 text-(--text-secondary)">
+                  Import source material as drafts, add structured primary references, and submit each exact revision for independent human review. Emergency direct import is server-gated, super-admin-only, disabled by default, and audited.
+                </p>
               </Panel>
             )}
             {canAuthor && (
@@ -1123,19 +1158,46 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
                 {selectedWorkflowItem ? (
                   <>
                     <QuestionDetail question={workflowQuestion(selectedWorkflowItem)} issues={validateQuestion(workflowQuestion(selectedWorkflowItem), { topicIds, existingIds })} canDuplicate={false} />
+                    <div className="rounded-lg border border-(--border) bg-(--card) p-3 text-xs text-(--muted)">
+                      <p><strong className="text-foreground">Immutable revision:</strong> {selectedWorkflowItem.revisionNumber || "legacy"}</p>
+                      <p className="mt-1 break-all font-mono"><strong className="font-sans text-foreground">Content hash:</strong> {selectedWorkflowItem.contentHash || "Legacy item — resubmission required"}</p>
+                      <div className="mt-3 space-y-1">
+                        {(selectedWorkflowItem.sourceReferences || []).map((source, index) => (
+                          <p key={`${source.kind}-${source.citation}-${index}`}>
+                            <span className="font-semibold uppercase tracking-wide">{source.kind.replace("_", " ")}</span>: {source.citation}{source.locator ? ` (${source.locator})` : ""}
+                          </p>
+                        ))}
+                        {(selectedWorkflowItem.sourceReferences || []).length === 0 && <p className="text-(--wrong)">No structured primary source. This revision cannot be approved or published.</p>}
+                      </div>
+                    </div>
                     {selectedWorkflowItem.status === "submitted" && (
                       <>
                         <div className="space-y-2">
                           <FieldLabel>Reviewer comment</FieldLabel>
                           <textarea aria-describedby="review-comment-help" value={reviewComment} onChange={(event) => setReviewComment(event.target.value)} className="min-h-28 w-full rounded-lg border border-(--border) bg-background px-3 py-2 text-sm" />
-                          <p id="review-comment-help" className="text-xs text-(--muted)">Required when requesting changes or rejecting a question.</p>
+                          <p id="review-comment-help" className="text-xs text-(--muted)">Required for every decision. Record what was checked; minimum 10 characters.</p>
                           <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" checked={doctrinalFlag} onChange={(event) => setDoctrinalFlag(event.target.checked)} /> Flag doctrinal issue</label>
                           <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" checked={referenceFlag} onChange={(event) => setReferenceFlag(event.target.checked)} /> Flag reference issue</label>
+                          <label className="flex items-start gap-2 rounded-lg border border-(--border) p-3 text-sm leading-6">
+                            <input
+                              type="checkbox"
+                              className="mt-1"
+                              checked={reviewAttestationAccepted}
+                              onChange={(event) => setReviewAttestationAccepted(event.target.checked)}
+                              disabled={selectedWorkflowItem.authorId === currentUser.id}
+                            />
+                            <span>{REVIEW_ATTESTATION_STATEMENT}</span>
+                          </label>
+                          {selectedWorkflowItem.authorId === currentUser.id && (
+                            <p className="rounded-lg border border-yellow-500/40 bg-yellow-500/10 p-3 text-sm text-yellow-300">
+                              Independent review required: you authored this revision, so another reviewer must decide it.
+                            </p>
+                          )}
                         </div>
                         <div className="flex flex-wrap gap-2">
-                          <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "approved")} disabled={loading} className="min-h-11 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Approve</button>
-                          <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "changes_requested")} disabled={loading || !reviewComment.trim()} className="min-h-11 rounded-lg border border-yellow-500 px-4 py-2 text-sm text-yellow-300 disabled:opacity-50">Request Changes</button>
-                          <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "rejected")} disabled={loading || !reviewComment.trim()} className="min-h-11 rounded-lg border border-(--wrong) px-4 py-2 text-sm text-(--wrong) disabled:opacity-50">Reject</button>
+                          <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "approved")} disabled={loading || reviewComment.trim().length < 10 || !reviewAttestationAccepted || doctrinalFlag || referenceFlag || selectedWorkflowItem.authorId === currentUser.id} className="min-h-11 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Approve attested revision</button>
+                          <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "changes_requested")} disabled={loading || reviewComment.trim().length < 10 || selectedWorkflowItem.authorId === currentUser.id} className="min-h-11 rounded-lg border border-yellow-500 px-4 py-2 text-sm text-yellow-300 disabled:opacity-50">Request Changes</button>
+                          <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "rejected")} disabled={loading || reviewComment.trim().length < 10 || selectedWorkflowItem.authorId === currentUser.id} className="min-h-11 rounded-lg border border-(--wrong) px-4 py-2 text-sm text-(--wrong) disabled:opacity-50">Reject</button>
                         </div>
                       </>
                     )}
