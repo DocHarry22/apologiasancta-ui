@@ -1,4 +1,4 @@
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
@@ -73,6 +73,15 @@ afterAll(async () => {
   await rm(dataDirectory, { recursive: true, force: true });
 });
 
+async function patchStoredWorkflowItem(id: string, patch: Partial<WorkflowItem>): Promise<void> {
+  const filePath = path.join(dataDirectory, "editorial-workflow.json");
+  const state = JSON.parse(await readFile(filePath, "utf8")) as WorkflowFileState;
+  const index = state.items.findIndex((item) => item.id === id);
+  if (index < 0) throw new Error(`Workflow test fixture ${id} was not found.`);
+  state.items[index] = { ...state.items[index], ...patch };
+  await writeFile(filePath, `${JSON.stringify(state, null, 2)}\n`, "utf8");
+}
+
 describe("guarded editorial workflow", () => {
   it("requires structured primary sources before submission", async () => {
     const workflow = await import("./workflowStore");
@@ -83,6 +92,66 @@ describe("guarded editorial workflow", () => {
       [],
       true
     )).rejects.toThrow("structured source reference");
+  });
+
+  it("keeps invalid public IDs visible on drafts but blocks every submission path", async () => {
+    const workflow = await import("./workflowStore");
+    const invalidIds = ["", "invalid question id!"];
+
+    for (const [index, questionId] of invalidIds.entries()) {
+      const question = { ...sourcedQuestion, id: questionId };
+      await expect(workflow.createWorkflowDraft(question, author, ["trinity"], [], true))
+        .rejects.toThrow("blocking validation issues");
+
+      const draft = await workflow.createWorkflowDraft(question, author, ["trinity"], [], false);
+      expect(draft.status).toBe("draft");
+      expect(draft.questionId).toBe(questionId);
+      expect(draft.validationIssues).toContain(index === 0
+        ? "Question ID is required."
+        : "Question ID may only contain letters, numbers, underscores, and hyphens.");
+
+      const storedDraft = await workflow.getWorkflowItem(draft.id);
+      expect(storedDraft?.questionId).toBe(questionId);
+      await expect(workflow.transitionWorkflowItem(draft.id, "submitted", author, { topicIds: ["trinity"] }))
+        .rejects.toThrow("blocking validation issues");
+    }
+  });
+
+  it("revalidates empty and malformed public IDs at approval and publication", async () => {
+    const workflow = await import("./workflowStore");
+    const invalidIds = ["", "invalid question id!"];
+
+    for (const [index, questionId] of invalidIds.entries()) {
+      const approvalCandidate = await workflow.createWorkflowDraft(
+        { ...sourcedQuestion, id: `edt_01${index.toString().padStart(2, "0")}` },
+        author,
+        ["trinity"],
+        [],
+        true
+      );
+      await patchStoredWorkflowItem(approvalCandidate.id, { questionId });
+      await expect(workflow.transitionWorkflowItem(approvalCandidate.id, "approved", reviewer, {
+        comment: "The exact revision and primary citation were independently checked.",
+        attestation,
+        topicIds: ["trinity"],
+      })).rejects.toThrow("blocking validation issues");
+
+      const publicationCandidate = await workflow.createWorkflowDraft(
+        { ...sourcedQuestion, id: `edt_02${index.toString().padStart(2, "0")}` },
+        author,
+        ["trinity"],
+        [],
+        true
+      );
+      const approved = await workflow.transitionWorkflowItem(publicationCandidate.id, "approved", reviewer, {
+        comment: "The exact revision and primary citation were independently checked.",
+        attestation,
+        topicIds: ["trinity"],
+      });
+      await patchStoredWorkflowItem(approved.id, { questionId });
+      await expect(workflow.prepareWorkflowPublication(approved.id, publisher, ["trinity"], []))
+        .rejects.toThrow("blocking validation issues");
+    }
   });
 
   it("blocks self-review and requires explicit independent attestation", async () => {

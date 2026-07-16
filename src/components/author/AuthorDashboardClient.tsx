@@ -107,7 +107,7 @@ function MessageBanner({ message }: { message: Message | null }) {
 
 function workflowQuestion(item: DraftQuestion): Question {
   return {
-    id: item.questionId || item.id,
+    id: item.questionId ?? "",
     topicId: item.topicId,
     difficulty: item.difficulty,
     question: item.question,
@@ -624,7 +624,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
 
   const submitWorkflowItem = async (item: DraftQuestion) => {
     if (!hasPermission(currentUser.role, "content:submit_review")) return;
-    const issues = validateQuestion(item, { topicIds, existingIds });
+    const issues = validateQuestion(workflowQuestion(item), { topicIds, existingIds });
     if (hasBlockingValidationIssues(issues)) {
       setWorkflowItems((items) => items.map((candidate) => candidate.id === item.id ? { ...candidate, validationIssues: issues.map((issue) => issue.message) } : candidate));
       setMessage({ type: "error", text: "Fix blocking validation issues before submitting." });
@@ -656,6 +656,14 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     if (status === "approved" && !reviewAttestationAccepted) {
       setMessage({ type: "error", text: "Confirm the independent reviewer attestation before approval." });
       return;
+    }
+    if (status === "approved") {
+      const issues = validateQuestion(workflowQuestion(item), { topicIds, existingIds });
+      if (hasBlockingValidationIssues(issues)) {
+        setWorkflowItems((items) => items.map((candidate) => candidate.id === item.id ? { ...candidate, validationIssues: issues.map((issue) => issue.message) } : candidate));
+        setMessage({ type: "error", text: "Fix blocking validation issues before approval." });
+        return;
+      }
     }
     const action = status === "changes_requested" ? "request-changes" : status === "approved" ? "approve" : "reject";
     setLoading(true);
@@ -690,6 +698,12 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   };
 
   const publishWorkflowItem = async (item: DraftQuestion) => {
+    const issues = validateQuestion(workflowQuestion(item), { topicIds, existingIds });
+    if (hasBlockingValidationIssues(issues)) {
+      setWorkflowItems((items) => items.map((candidate) => candidate.id === item.id ? { ...candidate, validationIssues: issues.map((issue) => issue.message) } : candidate));
+      setMessage({ type: "error", text: "Fix blocking validation issues before publication." });
+      return;
+    }
     setLoading(true);
     const response = await dashboardApi<{ ok: true; item: DraftQuestion; publishTarget?: string; publishResult?: { added: number; updated: number; bankSize: number; activePoolRefreshed?: boolean } }>(`/api/workflow/items/${encodeURIComponent(item.id)}/publish`, { method: "POST" });
     setLoading(false);

@@ -147,11 +147,11 @@ function workflowItemQuestion(item: WorkflowItem): Question {
   };
 }
 
-function assertValidForStatus(item: Pick<WorkflowItem, "sourceReferences"> & Partial<Question>, status: ReviewStatus, topicIds: string[], existingIds: string[]): void {
+function assertValidForStatus(item: WorkflowItem, status: ReviewStatus, topicIds: string[], existingIds: string[]): void {
   if (!["submitted", "approved", "published"].includes(status)) return;
   const sourceIssues = validateEditorialSources(item.sourceReferences);
   if (sourceIssues.length > 0) throw new WorkflowValidationError(sourceIssues[0].message);
-  const issues = validateQuestion(item, { topicIds, existingIds });
+  const issues = validateQuestion(workflowItemQuestion(item), { topicIds, existingIds });
   if (hasBlockingValidationIssues(issues)) {
     throw new WorkflowValidationError(`Content cannot be marked ${status} while blocking validation issues remain.`);
   }
@@ -175,7 +175,10 @@ function createRevision(question: Question, actor: CurrentUser, revisionNumber: 
 }
 
 function hydrateWorkflowItem(raw: WorkflowItem): WorkflowItem {
-  const question = normalizeWorkflowQuestion(raw);
+  // An explicit empty value is an invalid public ID that authors must fix, not a
+  // missing legacy field that may be replaced by the internal workflow row ID.
+  const publicQuestionId = typeof raw.questionId === "string" ? raw.questionId : raw.id;
+  const question = normalizeWorkflowQuestion({ ...raw, id: publicQuestionId });
   const sourceReferences = normalizeEditorialSources(raw.sourceReferences);
   const revisionNumber = Number.isSafeInteger(raw.revisionNumber) && raw.revisionNumber > 0
     ? raw.revisionNumber
@@ -206,7 +209,8 @@ function hydrateWorkflowItem(raw: WorkflowItem): WorkflowItem {
   return {
     ...raw,
     ...question,
-    questionId: raw.questionId || question.id,
+    id: raw.id,
+    questionId: publicQuestionId,
     sourceReferences,
     status: legacyApprovalNeedsReview ? "changes_requested" : raw.status,
     version: Number(raw.version) || 1,
