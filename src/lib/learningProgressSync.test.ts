@@ -14,9 +14,9 @@ describe("authenticated learning progress browser sync", () => {
     window.localStorage.clear();
   });
 
-  it("migrates legacy storage, merges cloud data, and sends no account identifier", async () => {
+  it("syncs valid lessons and a pending event without sending a stale local lesson", async () => {
     const pending = recordPracticeAttempt(parseLearningProgress(JSON.stringify({
-      completedLessonIds: ["real-presence-eucharist"],
+      completedLessonIds: ["retired-lesson", "real-presence-eucharist"],
       practiceBest: 5,
       practiceAttempts: 3,
       updatedAt: Date.parse("2026-07-16T11:00:00.000Z"),
@@ -57,13 +57,15 @@ describe("authenticated learning progress browser sync", () => {
     const outcome = await syncLocalLearningProgress();
 
     expect(outcome.status).toBe("synced");
-    expect(outcome.progress.completedLessonIds).toEqual(["real-presence-eucharist", "peter-and-the-papacy"]);
+    expect(outcome.progress.completedLessonIds).toEqual(["retired-lesson", "real-presence-eucharist", "peter-and-the-papacy"]);
     expect(outcome.progress.practiceAttempts).toBe(6);
     expect(outcome.progress.sync.pendingPracticeAttempts).toEqual([]);
     const post = fetchMock.mock.calls[2];
     const payload = JSON.parse(String((post[1] as RequestInit).body)) as Record<string, unknown>;
     expect(payload).not.toHaveProperty("accountId");
     expect(payload).not.toHaveProperty("userId");
+    expect(payload.completedLessonIds).toEqual(["real-presence-eucharist", "peter-and-the-papacy"]);
+    expect(payload.completedLessonIds).not.toContain("retired-lesson");
     expect(payload.practiceAttemptsFloor).toBe(3);
     expect((post[1] as RequestInit).headers).toMatchObject({ "x-csrf-token": "csrf-token" });
   });
@@ -98,6 +100,34 @@ describe("authenticated learning progress browser sync", () => {
 
     expect(outcome.status).toBe("synced");
     expect(outcome.progress.practiceAttempts).toBe(5);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledWith("/api/learning/progress", expect.objectContaining({ method: "GET" }));
+  });
+
+  it("preserves stale-only local history without fetching CSRF or posting it", async () => {
+    window.localStorage.setItem(LEARNING_PROGRESS_KEY, JSON.stringify({
+      completedLessonIds: ["retired-lesson"],
+      practiceBest: 0,
+      practiceAttempts: 0,
+      updatedAt: Date.parse("2026-07-16T12:05:00.000Z"),
+    }));
+    const fetchMock = vi.fn().mockResolvedValueOnce(new Response(JSON.stringify({
+      ok: true,
+      progress: {
+        completedLessonIds: [],
+        practiceBest: 0,
+        practiceAttempts: 0,
+        revision: 0,
+        updatedAt: null,
+      },
+    }), { status: 200, headers: { "Content-Type": "application/json" } }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const outcome = await syncLocalLearningProgress();
+
+    expect(outcome.status).toBe("synced");
+    expect(outcome.progress.completedLessonIds).toEqual(["retired-lesson"]);
+    expect(readLocalLearningProgress().completedLessonIds).toEqual(["retired-lesson"]);
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(fetchMock).toHaveBeenCalledWith("/api/learning/progress", expect.objectContaining({ method: "GET" }));
   });

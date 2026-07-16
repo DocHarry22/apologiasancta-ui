@@ -13,6 +13,7 @@ import {
   type LearningProgressSuccessResponse,
   type LearningProgressSyncInput,
 } from "./learningProgressContract";
+import { learningPath } from "./learningContent";
 
 export const LEARNING_PROGRESS_CHANGED_EVENT = "apologia:learning-progress-changed";
 
@@ -28,6 +29,7 @@ export type LearningProgressSyncOutcome = {
 };
 
 let activeSync: Promise<LearningProgressSyncOutcome> | null = null;
+const CURRENT_LESSON_IDS = new Set(learningPath.lessons.map((lesson) => lesson.id));
 
 function browserStorageAvailable(): boolean {
   return typeof window !== "undefined" && typeof window.localStorage !== "undefined";
@@ -98,9 +100,15 @@ function statusForFailedResponse(response: Response): LearningProgressSyncStatus
   return "local_only";
 }
 
+function currentCompletedLessonIds(progress: LearningProgress): string[] {
+  // Keep retired IDs in the offline record so an app update never destroys
+  // user history, but do not send IDs the current server contract rejects.
+  return progress.completedLessonIds.filter((lessonId) => CURRENT_LESSON_IDS.has(lessonId));
+}
+
 function hasProgressNotYetInRemote(local: LearningProgress, remote: RemoteLearningProgress): boolean {
   const remoteLessons = new Set(remote.completedLessonIds);
-  return local.completedLessonIds.some((lessonId) => !remoteLessons.has(lessonId))
+  return currentCompletedLessonIds(local).some((lessonId) => !remoteLessons.has(lessonId))
     || local.practiceBest > remote.practiceBest
     || local.sync.practiceAttemptsFloor > remote.practiceAttempts
     || local.sync.pendingPracticeAttempts.length > 0;
@@ -144,7 +152,7 @@ async function runSync(): Promise<LearningProgressSyncOutcome> {
     const sentEvents = beforeRequest.sync.pendingPracticeAttempts.slice(0, MAX_PRACTICE_EVENTS_PER_SYNC);
     const payload: LearningProgressSyncInput = {
       baseRevision: beforeRequest.sync.revision,
-      completedLessonIds: beforeRequest.completedLessonIds,
+      completedLessonIds: currentCompletedLessonIds(beforeRequest),
       practiceBest: beforeRequest.practiceBest,
       practiceAttemptsFloor: beforeRequest.sync.practiceAttemptsFloor,
       clientUpdatedAt: beforeRequest.updatedAt ? new Date(beforeRequest.updatedAt).toISOString() : null,
