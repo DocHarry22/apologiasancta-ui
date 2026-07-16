@@ -59,7 +59,7 @@ const sections: Array<{ id: TabId; label: string; title: string; permissions: Pe
   { id: "rooms", label: "Rooms", title: "Room Operations", permissions: ["rooms:manage"] },
   { id: "bank", label: "Question Bank", title: "Question Bank", permissions: ["content:view"] },
   { id: "authoring", label: "Authoring", title: "Author Workflow", permissions: ["content:draft:create", "content:import"] },
-  { id: "review", label: "Review", title: "Review Queue", permissions: ["content:review"] },
+  { id: "review", label: "Review", title: "Review Queue", permissions: ["content:review", "content:publish"] },
   { id: "topics", label: "Topics", title: "Topics and Sequence", permissions: ["topics:manage", "topic_sequence:manage"] },
   { id: "audit", label: "Audit", title: "Audit Visibility", permissions: ["audit:view"] },
   { id: "settings", label: "Settings", title: "Dashboard Settings", permissions: ["settings:view"] },
@@ -428,10 +428,10 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
 
   const selectedSection = sections.find((section) => section.id === activeTab);
   const selectedPublishedRecord = publishedQuestions.find((record) => record.question.id === selectedQuestionId) || publishedQuestions[0];
-  const selectedWorkflowItem = workflowItems.find((item) => item.id === selectedWorkflowId);
   const currentRoom = rooms.find((room) => room.roomId === selectedRoomId) || rooms.find((room) => room.roomId === "global") || null;
   const canAuthor = hasPermission(currentUser.role, "content:draft:create");
   const canReview = currentUser.role === "admin" || currentUser.role === "super_admin" || hasPermission(currentUser.role, "content:review");
+  const canPublish = hasPermission(currentUser.role, "content:publish");
   const canManageDanger = hasPermission(currentUser.role, "dangerous:execute");
   const canManageUsers = hasPermission(currentUser.role, "users:manage");
 
@@ -903,6 +903,11 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   }, [bankDifficultyFilter, bankSearch, bankStatusFilter, bankTagFilter, bankTopicFilter, existingIds, publishedQuestions, topicIds, topics, workflowItems]);
 
   const submittedItems = workflowItems.filter((item) => item.status === "submitted");
+  const approvedItems = workflowItems.filter((item) => item.status === "approved");
+  const selectedReviewItem = [
+    ...(canReview ? submittedItems : []),
+    ...(canPublish ? approvedItems : []),
+  ].find((item) => item.id === selectedWorkflowId);
   const ownDrafts = workflowItems.filter((item) => item.authorId === currentUser.id && item.status !== "archived");
   const filteredAuditEvents = auditEvents;
 
@@ -1159,32 +1164,52 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
         )}
 
         {activeTab === "review" && (
-          <Panel title="Review Queue" description="Approve, reject, or request changes on submitted questions.">
+          <Panel title="Editorial Queue" description="Review submitted questions and publish independently approved revisions.">
             <div className="grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(320px,1.1fr)]">
-              <div className="space-y-3">
+              <div className="space-y-5">
                 {workflowLoading && <EmptyState text="Loading persisted review queue..." />}
-                {submittedItems.map((item) => (
-                  <WorkflowCard key={item.id} item={item} onSelect={() => setSelectedWorkflowId(item.id)} canSubmit={false} />
-                ))}
-                {!workflowLoading && submittedItems.length === 0 && <EmptyState text="No submitted questions are waiting for review." />}
+                {canReview && (
+                  <section aria-labelledby="submitted-review-heading" className="space-y-3">
+                    <div>
+                      <h3 id="submitted-review-heading" className="text-sm font-semibold">Awaiting theological review</h3>
+                      <p className="mt-1 text-xs text-(--muted)">Submitted revisions requiring an independent reviewer decision.</p>
+                    </div>
+                    {submittedItems.map((item) => (
+                      <WorkflowCard key={item.id} item={item} onSelect={() => setSelectedWorkflowId(item.id)} canSubmit={false} />
+                    ))}
+                    {!workflowLoading && submittedItems.length === 0 && <EmptyState text="No submitted questions are waiting for review." />}
+                  </section>
+                )}
+                {canPublish && (
+                  <section aria-labelledby="approved-publication-heading" className="space-y-3">
+                    <div>
+                      <h3 id="approved-publication-heading" className="text-sm font-semibold">Approved for publication</h3>
+                      <p className="mt-1 text-xs text-(--muted)">Select an approved revision to publish or safely retry after an Engine failure.</p>
+                    </div>
+                    {approvedItems.map((item) => (
+                      <WorkflowCard key={item.id} item={item} onSelect={() => setSelectedWorkflowId(item.id)} canSubmit={false} />
+                    ))}
+                    {!workflowLoading && approvedItems.length === 0 && <EmptyState text="No approved revisions are waiting for publication." />}
+                  </section>
+                )}
               </div>
               <div className="space-y-4 rounded-lg border border-(--border) bg-background p-4">
-                {selectedWorkflowItem ? (
+                {selectedReviewItem ? (
                   <>
-                    <QuestionDetail question={workflowQuestion(selectedWorkflowItem)} issues={validateQuestion(workflowQuestion(selectedWorkflowItem), { topicIds, existingIds })} canDuplicate={false} />
+                    <QuestionDetail question={workflowQuestion(selectedReviewItem)} issues={validateQuestion(workflowQuestion(selectedReviewItem), { topicIds, existingIds })} canDuplicate={false} />
                     <div className="rounded-lg border border-(--border) bg-(--card) p-3 text-xs text-(--muted)">
-                      <p><strong className="text-foreground">Immutable revision:</strong> {selectedWorkflowItem.revisionNumber || "legacy"}</p>
-                      <p className="mt-1 break-all font-mono"><strong className="font-sans text-foreground">Content hash:</strong> {selectedWorkflowItem.contentHash || "Legacy item — resubmission required"}</p>
+                      <p><strong className="text-foreground">Immutable revision:</strong> {selectedReviewItem.revisionNumber || "legacy"}</p>
+                      <p className="mt-1 break-all font-mono"><strong className="font-sans text-foreground">Content hash:</strong> {selectedReviewItem.contentHash || "Legacy item — resubmission required"}</p>
                       <div className="mt-3 space-y-1">
-                        {(selectedWorkflowItem.sourceReferences || []).map((source, index) => (
+                        {(selectedReviewItem.sourceReferences || []).map((source, index) => (
                           <p key={`${source.kind}-${source.citation}-${index}`}>
                             <span className="font-semibold uppercase tracking-wide">{source.kind.replace("_", " ")}</span>: {source.citation}{source.locator ? ` (${source.locator})` : ""}
                           </p>
                         ))}
-                        {(selectedWorkflowItem.sourceReferences || []).length === 0 && <p className="text-(--wrong)">No structured primary source. This revision cannot be approved or published.</p>}
+                        {(selectedReviewItem.sourceReferences || []).length === 0 && <p className="text-(--wrong)">No structured primary source. This revision cannot be approved or published.</p>}
                       </div>
                     </div>
-                    {selectedWorkflowItem.status === "submitted" && (
+                    {selectedReviewItem.status === "submitted" && canReview && (
                       <>
                         <div className="space-y-2">
                           <FieldLabel>Reviewer comment</FieldLabel>
@@ -1198,29 +1223,36 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
                               className="mt-1"
                               checked={reviewAttestationAccepted}
                               onChange={(event) => setReviewAttestationAccepted(event.target.checked)}
-                              disabled={selectedWorkflowItem.authorId === currentUser.id}
+                              disabled={selectedReviewItem.authorId === currentUser.id}
                             />
                             <span>{REVIEW_ATTESTATION_STATEMENT}</span>
                           </label>
-                          {selectedWorkflowItem.authorId === currentUser.id && (
+                          {selectedReviewItem.authorId === currentUser.id && (
                             <p className="rounded-lg border border-yellow-500/40 bg-yellow-500/10 p-3 text-sm text-yellow-300">
                               Independent review required: you authored this revision, so another reviewer must decide it.
                             </p>
                           )}
                         </div>
                         <div className="flex flex-wrap gap-2">
-                          <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "approved")} disabled={loading || reviewComment.trim().length < 10 || !reviewAttestationAccepted || doctrinalFlag || referenceFlag || selectedWorkflowItem.authorId === currentUser.id} className="min-h-11 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Approve attested revision</button>
-                          <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "changes_requested")} disabled={loading || reviewComment.trim().length < 10 || selectedWorkflowItem.authorId === currentUser.id} className="min-h-11 rounded-lg border border-yellow-500 px-4 py-2 text-sm text-yellow-300 disabled:opacity-50">Request Changes</button>
-                          <button type="button" onClick={() => void reviewWorkflowItem(selectedWorkflowItem, "rejected")} disabled={loading || reviewComment.trim().length < 10 || selectedWorkflowItem.authorId === currentUser.id} className="min-h-11 rounded-lg border border-(--wrong) px-4 py-2 text-sm text-(--wrong) disabled:opacity-50">Reject</button>
+                          <button type="button" onClick={() => void reviewWorkflowItem(selectedReviewItem, "approved")} disabled={loading || reviewComment.trim().length < 10 || !reviewAttestationAccepted || doctrinalFlag || referenceFlag || selectedReviewItem.authorId === currentUser.id} className="min-h-11 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Approve attested revision</button>
+                          <button type="button" onClick={() => void reviewWorkflowItem(selectedReviewItem, "changes_requested")} disabled={loading || reviewComment.trim().length < 10 || selectedReviewItem.authorId === currentUser.id} className="min-h-11 rounded-lg border border-yellow-500 px-4 py-2 text-sm text-yellow-300 disabled:opacity-50">Request Changes</button>
+                          <button type="button" onClick={() => void reviewWorkflowItem(selectedReviewItem, "rejected")} disabled={loading || reviewComment.trim().length < 10 || selectedReviewItem.authorId === currentUser.id} className="min-h-11 rounded-lg border border-(--wrong) px-4 py-2 text-sm text-(--wrong) disabled:opacity-50">Reject</button>
                         </div>
                       </>
                     )}
-                    {selectedWorkflowItem.status === "approved" && (
-                      <button type="button" onClick={() => void publishWorkflowItem(selectedWorkflowItem)} disabled={loading} className="min-h-11 rounded-lg border border-green-500 px-4 py-2 text-sm text-green-300 disabled:opacity-50">Publish</button>
+                    {selectedReviewItem.status === "approved" && canPublish && (
+                      <div className="space-y-3 rounded-lg border border-green-500/30 bg-green-500/10 p-3">
+                        <p className="text-sm text-green-200">This exact revision is approved. Failed publication attempts remain here for a safe idempotent retry.</p>
+                        <button type="button" onClick={() => void publishWorkflowItem(selectedReviewItem)} disabled={loading} className="min-h-11 rounded-lg border border-green-500 px-4 py-2 text-sm font-medium text-green-300 disabled:opacity-50">Publish or retry</button>
+                      </div>
                     )}
                   </>
                 ) : (
-                  <EmptyState text="Select a submitted question to review." />
+                  <EmptyState text={canReview && canPublish
+                    ? "Select a submitted question to review or an approved revision to publish."
+                    : canPublish
+                      ? "Select an approved revision to publish."
+                      : "Select a submitted question to review."} />
                 )}
               </div>
             </div>
