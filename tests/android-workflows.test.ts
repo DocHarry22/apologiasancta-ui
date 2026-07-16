@@ -61,11 +61,17 @@ test("signed release builds are gated by every required secret", () => {
   assert.match(releaseWorkflow, /assembleRelease bundleRelease/);
   assert.match(releaseWorkflow, /gradle\/actions\/setup-gradle@v6/);
   assert.match(releaseWorkflow, /java-version: 21/);
-  assert.match(releaseWorkflow, /jarsigner -verify -strict/);
+  assert.match(releaseWorkflow, /jarsigner -verify "\$aab_path"/);
+  assert.doesNotMatch(releaseWorkflow, /jarsigner -verify -strict/);
   assert.match(releaseWorkflow, /apologia-sancta\.apk/);
   assert.match(releaseWorkflow, /if: always\(\)/);
   assert.doesNotMatch(releaseWorkflow, /set\s+-x/);
   assert.doesNotMatch(releaseWorkflow, /pull_request:/);
+  const appUrlInput = releaseWorkflow.match(
+    /^ {6}app_url:\r?\n(?: {8}.+(?:\r?\n|$))+/m,
+  );
+  assert.ok(appUrlInput, "app_url workflow input must remain declared");
+  assert.doesNotMatch(appUrlInput[0], /^ {8}default:/m);
 });
 
 test("Capacitor Java 21 compatibility is not downgraded in Gradle", () => {

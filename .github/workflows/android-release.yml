@@ -18,7 +18,6 @@ on:
       app_url:
         description: Production HTTPS app URL baked into the APK and AAB
         required: false
-        default: https://sandybrown-bear-488955.hostingersite.com
         type: string
       publish_release:
         description: Publish the signed artifacts to the requested GitHub release tag
@@ -178,7 +177,10 @@ jobs:
 
           sdk_root="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
           "$sdk_root/build-tools/35.0.0/apksigner" verify --verbose "$apk_path"
-          jarsigner -verify -strict "$aab_path" >/dev/null
+          # Android upload keys are normally self-signed. `-strict` turns that
+          # expected certificate-chain warning into exit code 4, so verify the
+          # archive signature without promoting trust warnings to failures.
+          jarsigner -verify "$aab_path" >/dev/null
 
           safe_version="${APP_VERSION_NAME//[^0-9A-Za-z._-]/-}"
           artifact_dir="$RUNNER_TEMP/android-release"
