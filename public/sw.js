@@ -1,4 +1,4 @@
-const CACHE_NAME = "apologia-sancta-shell-v4";
+const CACHE_NAME = "apologia-sancta-shell-v5";
 const APP_SHELL = [
   "/practice",
   "/library",
@@ -42,8 +42,11 @@ self.addEventListener("fetch", (event) => {
   const isApiRequest = API_PREFIXES.some((prefix) => url.pathname.startsWith(prefix));
   const isCrossOrigin = url.origin !== self.location.origin;
   const isStaticAsset = url.pathname.startsWith("/_next/static/") || url.pathname.startsWith("/app-icons/");
+  const isNextDataRequest = request.headers.get("rsc") === "1"
+    || request.headers.has("next-router-prefetch")
+    || url.searchParams.has("_rsc");
 
-  if (acceptsSse || isApiRequest || isCrossOrigin) {
+  if (acceptsSse || isApiRequest || isCrossOrigin || isNextDataRequest) {
     return;
   }
 
@@ -66,7 +69,7 @@ self.addEventListener("fetch", (event) => {
       return fetch(request).then((networkResponse) => {
         if ((isStaticAsset || request.destination === "style" || request.destination === "script" || request.destination === "image") && networkResponse.ok) {
           const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone)).catch(() => undefined);
         }
 
         return networkResponse;
