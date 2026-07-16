@@ -1,56 +1,108 @@
-name: Android Release APK
+name: Android signed release
 
 on:
   workflow_dispatch:
     inputs:
       tag_name:
-        description: "Release tag, for example android-v1.0.1"
+        description: Release tag, for example android-v1.0.1
         required: true
         type: string
       version_code:
-        description: "Android versionCode, must be greater than previous release"
+        description: Positive Android versionCode; defaults to the workflow run number
         required: false
-        default: "2"
         type: string
       version_name:
-        description: "Android versionName, for example 1.0.1"
+        description: Android versionName, for example 1.0.1
         required: true
         type: string
       app_url:
-        description: "Production HTTPS app URL baked into the APK"
-        required: true
+        description: Production HTTPS app URL baked into the APK and AAB
+        required: false
         type: string
+      publish_release:
+        description: Publish the signed artifacts to the requested GitHub release tag
+        required: false
+        default: false
+        type: boolean
   push:
     tags:
-      - "android-v*"
+      - android-v*
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: android-release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  release-apk:
+  signing-preflight:
+    name: Signing credential preflight
     runs-on: ubuntu-latest
+    permissions: {}
+    outputs:
+      ready: ${{ steps.check.outputs.ready }}
+
+    steps:
+      - name: Check signing credential availability
+        id: check
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          missing=()
+          [[ -n "$ANDROID_KEYSTORE_BASE64" ]] || missing+=(ANDROID_KEYSTORE_BASE64)
+          [[ -n "$ANDROID_KEYSTORE_PASSWORD" ]] || missing+=(ANDROID_KEYSTORE_PASSWORD)
+          [[ -n "$ANDROID_KEY_ALIAS" ]] || missing+=(ANDROID_KEY_ALIAS)
+          [[ -n "$ANDROID_KEY_PASSWORD" ]] || missing+=(ANDROID_KEY_PASSWORD)
+
+          if (( ${#missing[@]} == 0 )); then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "All Android signing credentials are configured." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Signed Android release skipped"
+              echo "Configure these GitHub Actions secrets before retrying:"
+              printf -- '- `%s`\n' "${missing[@]}"
+            } >> "$GITHUB_STEP_SUMMARY"
+            if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+              echo "A tag-triggered Android release requires signing credentials." >&2
+              exit 1
+            fi
+          fi
+
+  signed-release:
+    name: Signed APK and AAB
+    needs: signing-preflight
+    if: needs.signing-preflight.outputs.ready == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
     env:
       CAPACITOR_BUILD_MODE: production
-      CAPACITOR_SERVER_URL: ${{ github.event.inputs.app_url || 'https://sandybrown-bear-488955.hostingersite.com' }}
-      NEXT_PUBLIC_APP_URL: ${{ github.event.inputs.app_url || 'https://sandybrown-bear-488955.hostingersite.com' }}
-      NEXT_PUBLIC_ENGINE_URL: https://apologiasancta-engine.onrender.com
-      NEXT_PUBLIC_RESEARCH_GRAPH_URL: https://mediumvioletred-kingfisher-797460.hostingersite.com
+      CAPACITOR_SERVER_URL: ${{ inputs.app_url || vars.ANDROID_APP_URL || 'https://sandybrown-bear-488955.hostingersite.com' }}
+      NEXT_PUBLIC_APP_URL: ${{ inputs.app_url || vars.ANDROID_APP_URL || 'https://sandybrown-bear-488955.hostingersite.com' }}
+      NEXT_PUBLIC_ENGINE_URL: ${{ vars.ANDROID_ENGINE_URL || 'https://apologiasancta-engine.onrender.com' }}
+      NEXT_PUBLIC_RESEARCH_GRAPH_URL: ${{ vars.ANDROID_GRAPH_URL || 'https://mediumvioletred-kingfisher-797460.hostingersite.com' }}
       NEXT_PUBLIC_ANDROID_APK_URL: https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
-      APP_VERSION_CODE: ${{ github.event.inputs.version_code || '2' }}
-      APP_VERSION_NAME: ${{ github.event.inputs.version_name || '1.0.0' }}
-      APKSIGN_KEYSTORE: ${{ github.workspace }}/android/app/release-keystore.jks
-      APKSIGN_KEYSTORE_PASSWORD: ${{ secrets['ANDROID_KEYSTORE_PASSWORD'] }}
-      APKSIGN_KEY_ALIAS: ${{ secrets['ANDROID_KEY_ALIAS'] }}
-      APKSIGN_KEY_PASSWORD: ${{ secrets['ANDROID_KEY_PASSWORD'] || secrets['ANDROID_KEYSTORE_PASSWORD'] }}
+      APP_VERSION_CODE: ${{ inputs.version_code || github.run_number }}
+      APP_VERSION_NAME: ${{ inputs.version_name || github.ref_name }}
+      RELEASE_TAG: ${{ inputs.tag_name || github.ref_name }}
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Setup Java
@@ -59,36 +111,124 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Install
+      - name: Install Android SDK 35
+        uses: android-actions/setup-android@v4
+        with:
+          packages: >-
+            platform-tools
+            platforms;android-35
+            build-tools;35.0.0
+          log-accepted-android-sdk-licenses: false
+
+      - name: Configure Gradle cache and wrapper validation
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Install JavaScript dependencies
         run: npm ci
 
-      - name: Decode signing keystore
-        run: |
-          test -n "${{ secrets['ANDROID_KEYSTORE_BASE64'] }}"
-          printf '%s' "${{ secrets['ANDROID_KEYSTORE_BASE64'] }}" | base64 --decode > "$APKSIGN_KEYSTORE"
-
-      - name: Build signed release APK
-        run: npm run apk:release
-
-      - name: Upload workflow artifact
-        uses: actions/upload-artifact@v5
-        with:
-          name: apologia-sancta-release-apk
-          path: |
-            public/downloads/apologia-sancta.apk
-            public/downloads/apologia-sancta-v*.apk
-
-      - name: Publish GitHub release
-        env:
-          GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: ${{ github.event.inputs.tag_name || github.ref_name }}
-          RELEASE_NAME: Apologia Sancta Android ${{ github.event.inputs.version_name || '1.0.0' }}
+      - name: Validate release inputs
+        shell: bash
         run: |
           set -euo pipefail
-          FILES=(public/downloads/apologia-sancta.apk public/downloads/apologia-sancta-v*.apk)
+          [[ "$APP_VERSION_CODE" =~ ^[1-9][0-9]*$ ]] || {
+            echo "version_code must be a positive integer." >&2
+            exit 1
+          }
+          [[ "$RELEASE_TAG" =~ ^android-v[0-9A-Za-z._-]+$ ]] || {
+            echo "tag_name must start with android-v and contain only letters, numbers, dots, underscores, or hyphens." >&2
+            exit 1
+          }
+
+      - name: Decode release keystore
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          APKSIGN_KEYSTORE: ${{ runner.temp }}/apologiasancta-release.jks
+        run: |
+          set -euo pipefail
+          umask 077
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$APKSIGN_KEYSTORE"
+          test -s "$APKSIGN_KEYSTORE"
+
+      - name: Sync Capacitor Android project
+        run: npm run cap:sync
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x android/gradlew
+
+      - name: Build signed APK and AAB
+        working-directory: android
+        env:
+          APKSIGN_KEYSTORE: ${{ runner.temp }}/apologiasancta-release.jks
+          APKSIGN_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          APKSIGN_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          APKSIGN_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: ./gradlew --no-daemon --stacktrace assembleRelease bundleRelease
+
+      - name: Verify and package signed artifacts
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+          apk_path="android/app/build/outputs/apk/release/app-release.apk"
+          aab_path="android/app/build/outputs/bundle/release/app-release.aab"
+          test -s "$apk_path"
+          test -s "$aab_path"
+
+          sdk_root="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
+          "$sdk_root/build-tools/35.0.0/apksigner" verify --verbose "$apk_path"
+          # Android upload keys are normally self-signed. `-strict` turns that
+          # expected certificate-chain warning into exit code 4, so verify the
+          # archive signature without promoting trust warnings to failures.
+          jarsigner -verify "$aab_path" >/dev/null
+
+          safe_version="${APP_VERSION_NAME//[^0-9A-Za-z._-]/-}"
+          artifact_dir="$RUNNER_TEMP/android-release"
+          mkdir -p "$artifact_dir"
+          install -m 0644 "$apk_path" "$artifact_dir/apologia-sancta.apk"
+          install -m 0644 "$apk_path" "$artifact_dir/apologia-sancta-$safe_version.apk"
+          install -m 0644 "$aab_path" "$artifact_dir/apologia-sancta.aab"
+          install -m 0644 "$aab_path" "$artifact_dir/apologia-sancta-$safe_version.aab"
+          (
+            cd "$artifact_dir"
+            sha256sum ./*.apk ./*.aab > SHA256SUMS
+          )
+
+          echo "artifact_dir=$artifact_dir" >> "$GITHUB_OUTPUT"
+          echo "safe_version=$safe_version" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Signed Android artifacts"
+            echo "The APK and AAB signatures were verified. SHA-256 checksums are included with the workflow artifact."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload signed workflow artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: apologia-sancta-android-${{ steps.package.outputs.safe_version }}
+          path: ${{ steps.package.outputs.artifact_dir }}
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish GitHub release assets
+        if: github.event_name == 'push' || inputs.publish_release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_DIR: ${{ steps.package.outputs.artifact_dir }}
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(find "$ARTIFACT_DIR" -maxdepth 1 -type f -print)
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            gh release upload "$RELEASE_TAG" "${FILES[@]}" --clobber
+            gh release upload "$RELEASE_TAG" "${files[@]}" --clobber
           else
-            gh release create "$RELEASE_TAG" "${FILES[@]}" --title "$RELEASE_NAME"
+            gh release create "$RELEASE_TAG" "${files[@]}" \
+              --title "Apologia Sancta Android $APP_VERSION_NAME" \
+              --target "$GITHUB_SHA"
           fi
 
+      - name: Remove decoded keystore
+        if: always()
+        shell: bash
+        env:
+          APKSIGN_KEYSTORE: ${{ runner.temp }}/apologiasancta-release.jks
+        run: rm -f "$APKSIGN_KEYSTORE"

@@ -1,24 +1,39 @@
-name: Android Release
+name: Android CI
 
 on:
-  workflow_dispatch:
-    inputs:
-      release_tag:
-        description: Git tag to attach signed APK/AAB assets to
-        required: false
-        type: string
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CAPACITOR_BUILD_MODE: production
+  CAPACITOR_SERVER_URL: ${{ vars.ANDROID_APP_URL || 'https://sandybrown-bear-488955.hostingersite.com' }}
+  NEXT_PUBLIC_APP_URL: ${{ vars.ANDROID_APP_URL || 'https://sandybrown-bear-488955.hostingersite.com' }}
+  NEXT_PUBLIC_ENGINE_URL: ${{ vars.ANDROID_ENGINE_URL || 'https://apologiasancta-engine.onrender.com' }}
+  NEXT_PUBLIC_RESEARCH_GRAPH_URL: ${{ vars.ANDROID_GRAPH_URL || 'https://mediumvioletred-kingfisher-797460.hostingersite.com' }}
+  NEXT_PUBLIC_ANDROID_APK_URL: https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
 
 jobs:
   debug-apk:
+    name: Debug APK / SDK 35
     runs-on: ubuntu-latest
+    timeout-minutes: 35
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -29,113 +44,60 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Install
+      - name: Install Android SDK 35
+        uses: android-actions/setup-android@v4
+        with:
+          packages: >-
+            platform-tools
+            platforms;android-35
+            build-tools;35.0.0
+          log-accepted-android-sdk-licenses: false
+
+      - name: Configure Gradle cache and wrapper validation
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+
+      - name: Install JavaScript dependencies
         run: npm ci
 
-      - name: Build web app
-        run: npm run build
-        env:
-          NEXT_PUBLIC_ENGINE_URL: https://apologiasancta-engine.onrender.com
-          NEXT_PUBLIC_RESEARCH_GRAPH_URL: https://mediumvioletred-kingfisher-797460.hostingersite.com
-          NEXT_PUBLIC_APP_URL: https://sandybrown-bear-488955.hostingersite.com
-          NEXT_PUBLIC_ANDROID_APK_URL: https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
-
-      - name: Sync Capacitor
+      - name: Sync Capacitor Android project
         run: npm run cap:sync
-        env:
-          CAPACITOR_SERVER_URL: https://sandybrown-bear-488955.hostingersite.com
-          NEXT_PUBLIC_APP_URL: https://sandybrown-bear-488955.hostingersite.com
 
-      - name: Make Gradle executable
+      - name: Make Gradle wrapper executable
         run: chmod +x android/gradlew
 
-      - name: Build debug APK
+      - name: Run Android unit tests, lint, and debug build
         working-directory: android
-        run: ./gradlew assembleDebug
+        run: ./gradlew --no-daemon --stacktrace testDebugUnitTest lintDebug assembleDebug
 
-      - name: Sync packaged APK filenames
-        run: npm run apk:sync
-        env:
-          APP_VERSION_NAME: main-${{ github.run_number }}
-          APK_SOURCE: android/app/build/outputs/apk/debug/apologia-sancta-debug.apk
-
-      - name: Upload debug APK
-        uses: actions/upload-artifact@v5
-        with:
-          name: apologiasancta-debug-apk
-          path: |
-            android/app/build/outputs/apk/debug/*.apk
-            public/downloads/apologia-sancta.apk
-            public/downloads/apologia-sancta-v*.apk
-
-  signed-release:
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Setup Node
-        uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Setup Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 21
-
-      - name: Install
-        run: npm ci
-
-      - name: Decode release keystore
-        run: |
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/apologiasancta-release.jks
-        env:
-          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-
-      - name: Build web app
-        run: npm run build
-        env:
-          NEXT_PUBLIC_ENGINE_URL: https://apologiasancta-engine.onrender.com
-          NEXT_PUBLIC_RESEARCH_GRAPH_URL: https://mediumvioletred-kingfisher-797460.hostingersite.com
-          NEXT_PUBLIC_APP_URL: https://sandybrown-bear-488955.hostingersite.com
-          NEXT_PUBLIC_ANDROID_APK_URL: https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
-
-      - name: Build signed APK and AAB
-        run: npm run apk:release
-        env:
-          CAPACITOR_BUILD_MODE: production
-          CAPACITOR_SERVER_URL: https://sandybrown-bear-488955.hostingersite.com
-          NEXT_PUBLIC_APP_URL: https://sandybrown-bear-488955.hostingersite.com
-          APP_VERSION_NAME: ${{ inputs.release_tag != '' && inputs.release_tag || format('main-{0}', github.run_number) }}
-          APKSIGN_KEYSTORE: android/app/apologiasancta-release.jks
-          APKSIGN_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          APKSIGN_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          APKSIGN_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-
-      - name: Upload release artifacts
-        uses: actions/upload-artifact@v5
-        with:
-          name: apologiasancta-android-release
-          path: |
-            android/app/build/outputs/apk/release/*.apk
-            android/app/build/outputs/bundle/release/*.aab
-            public/downloads/apologia-sancta.apk
-            public/downloads/apologia-sancta-v*.apk
-
-      - name: Publish GitHub Release assets
-        if: inputs.release_tag != ''
-        env:
-          GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: ${{ inputs.release_tag }}
+      - name: Verify debug APK
+        id: verify-apk
+        shell: bash
         run: |
           set -euo pipefail
-          FILES=(public/downloads/apologia-sancta.apk public/downloads/apologia-sancta-v*.apk android/app/build/outputs/bundle/release/*.aab)
-          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            gh release upload "$RELEASE_TAG" "${FILES[@]}" --clobber
-          else
-            gh release create "$RELEASE_TAG" "${FILES[@]}" --title "Apologia Sancta Android $RELEASE_TAG"
+          apk_path="$(find android/app/build/outputs/apk/debug -type f -name '*-debug.apk' -print -quit)"
+          if [[ -z "$apk_path" ]]; then
+            echo "Expected a debug APK, but no APK was produced." >&2
+            exit 1
           fi
+
+          sdk_root="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
+          "$sdk_root/build-tools/35.0.0/apksigner" verify --verbose "$apk_path"
+          "$sdk_root/build-tools/35.0.0/aapt2" dump badging "$apk_path" \
+            | grep -E "^(package:|sdkVersion:|targetSdkVersion:|application-label:)"
+          sha256sum "$apk_path"
+
+          echo "apk_path=$apk_path" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Android debug validation"
+            echo "SDK 35 unit tests, Android lint, APK assembly, and signature verification passed."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: apologiasancta-debug-${{ github.sha }}
+          path: ${{ steps.verify-apk.outputs.apk_path }}
+          if-no-files-found: error
+          retention-days: 14
