@@ -165,7 +165,9 @@ When you update APK files locally, run `npm run apk:sync` before pushing so the 
 ## Mobile Play Flow
 
 1. Player opens `/mobile`.
-2. UI resolves or registers a global player identity.
+2. UI resolves or registers a global player identity. Signed-in accounts first
+   use the authenticated `/api/quiz/identity` bridge; when that opt-in rollout
+   is disabled or unavailable, the existing guest registration remains active.
 3. Player joins a room and receives room-scoped state.
 4. SSE keeps the screen live; polling is used as fallback if the stream drops.
 5. Answer, score, streak, rank, and leaderboard updates remain room-specific.

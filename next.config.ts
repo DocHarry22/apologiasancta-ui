@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { NextConfig } from "next";
@@ -23,8 +24,29 @@ function safeOrigin(url: string): string {
 
 const engineOrigin = safeOrigin(process.env.NEXT_PUBLIC_ENGINE_URL ?? "");
 
+function resolveBuildRevision(): string {
+  const supplied = [
+    process.env.GIT_COMMIT_SHA,
+    process.env.COMMIT_REF,
+    process.env.HOSTINGER_GIT_COMMIT,
+  ].find((value) => value?.trim());
+  if (supplied) return supplied.trim();
+  try {
+    return execFileSync("git", ["rev-parse", "HEAD"], {
+      cwd: workspaceRoot,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+  } catch {
+    return "unknown";
+  }
+}
+
 const nextConfig: NextConfig = {
   trailingSlash: true,
+  env: {
+    APP_BUILD_REVISION: resolveBuildRevision(),
+  },
   turbopack: {
     root: workspaceRoot,
   },
@@ -67,6 +89,13 @@ const nextConfig: NextConfig = {
     ].join("; ");
 
     return [
+      {
+        source: "/sw.js",
+        headers: [
+          { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+          { key: "Service-Worker-Allowed", value: "/" },
+        ],
+      },
       {
         source: "/(.*)",
         headers: [

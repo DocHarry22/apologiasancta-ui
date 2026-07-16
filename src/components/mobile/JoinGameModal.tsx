@@ -10,6 +10,7 @@ import {
   saveStoredPlayerIdentity,
 } from "@/lib/playerIdentity";
 import { getReusableStoredUserId } from "@/lib/registrationRecovery";
+import { requestAccountPlayerIdentity } from "@/lib/accountPlayerIdentity";
 import { Dialog } from "@/components/ui/Dialog";
 
 interface JoinGameModalProps {
@@ -47,6 +48,19 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
 
     setState({ status: "loading" });
     try {
+      const accountIdentity = await requestAccountPlayerIdentity({ roomId, displayName: trimmed });
+      if (accountIdentity.kind === "joined") {
+        saveStoredPlayerIdentity(accountIdentity.userId, accountIdentity.username);
+        saveStoredJoinToken(accountIdentity.joinToken);
+        localStorage.setItem(PLAYER_NAME_KEY, accountIdentity.username);
+        onJoined(accountIdentity.userId, accountIdentity.username, accountIdentity.joinToken);
+        return;
+      }
+      if (accountIdentity.kind === "error") {
+        setState({ status: "error", errorMessage: accountIdentity.message });
+        return;
+      }
+
       const stored = readStoredPlayerIdentity();
       const reusableUserId = stored.joinToken
         ? getReusableStoredUserId(stored.userId, stored.username, trimmed)
