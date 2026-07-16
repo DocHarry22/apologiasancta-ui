@@ -82,6 +82,12 @@ async function patchStoredWorkflowItem(id: string, patch: Partial<WorkflowItem>)
   await writeFile(filePath, `${JSON.stringify(state, null, 2)}\n`, "utf8");
 }
 
+async function readWorkflowFileState(): Promise<WorkflowFileState> {
+  return JSON.parse(
+    await readFile(path.join(dataDirectory, "editorial-workflow.json"), "utf8")
+  ) as WorkflowFileState;
+}
+
 describe("guarded editorial workflow", () => {
   it("requires structured primary sources before submission", async () => {
     const workflow = await import("./workflowStore");
@@ -334,6 +340,53 @@ describe("guarded editorial workflow", () => {
     await patchStoredWorkflowItem(approved.id, { reviewerId: reviewer.id, reviewerName: reviewer.displayName });
     const claim = await workflow.prepareWorkflowPublication(approved.id, publisher, ["trinity"], []);
     expect(claim.question.id).toBe("edt_0007");
+    await workflow.failWorkflowPublication(claim, publisher, "test cleanup");
+  });
+
+  it("requires embedded append-only approval evidence before a file publication claim", async () => {
+    const workflow = await import("./workflowStore");
+    const submitted = await workflow.createWorkflowDraft(
+      { ...sourcedQuestion, id: "edt_0010" },
+      author,
+      ["trinity"],
+      [],
+      true
+    );
+    const approved = await workflow.transitionWorkflowItem(submitted.id, "approved", reviewer, {
+      comment: "This exact sourced revision was independently checked before the publication claim.",
+      attestation,
+      topicIds: ["trinity"],
+    });
+    const outboxCount = (await readWorkflowFileState()).outbox.length;
+
+    await patchStoredWorkflowItem(approved.id, { reviewComments: [] });
+    await expect(workflow.prepareWorkflowPublication(approved.id, publisher, ["trinity"], []))
+      .rejects.toThrow("approval audit evidence is missing or inconsistent");
+    expect((await readWorkflowFileState()).outbox).toHaveLength(outboxCount);
+
+    await patchStoredWorkflowItem(approved.id, {
+      reviewComments: approved.reviewComments.map((review) => (
+        review.decision === "approved" ? { ...review, contentHash: "f".repeat(64) } : review
+      )),
+    });
+    await expect(workflow.prepareWorkflowPublication(approved.id, publisher, ["trinity"], []))
+      .rejects.toThrow("approval audit evidence is missing or inconsistent");
+    expect((await readWorkflowFileState()).outbox).toHaveLength(outboxCount);
+
+    await patchStoredWorkflowItem(approved.id, { reviewComments: approved.reviewComments });
+    const claim = await workflow.prepareWorkflowPublication(approved.id, publisher, ["trinity"], []);
+    expect(claim.question.id).toBe("edt_0010");
+    expect((await readWorkflowFileState()).outbox).toHaveLength(outboxCount + 1);
+
+    await patchStoredWorkflowItem(approved.id, { reviewComments: [] });
+    await expect(workflow.completeWorkflowPublication(claim, publisher, { added: 1, updated: 0, bankSize: 1 }))
+      .rejects.toThrow("approval audit evidence is missing or inconsistent");
+    const blockedCompletion = await readWorkflowFileState();
+    expect(blockedCompletion.items.find((item) => item.id === approved.id)?.status).toBe("approved");
+    expect(blockedCompletion.outbox.find((record) => record.idempotencyKey === claim.idempotencyKey)?.status)
+      .toBe("processing");
+
+    await patchStoredWorkflowItem(approved.id, { reviewComments: approved.reviewComments });
     await workflow.failWorkflowPublication(claim, publisher, "test cleanup");
   });
 

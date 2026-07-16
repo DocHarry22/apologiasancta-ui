@@ -19,6 +19,7 @@ The following checks are server-side and cannot be bypassed by changing browser 
 - Approval requires a reviewer comment, no unresolved doctrinal/reference flag, and explicit attestations for doctrinal fidelity, source checking, explanatory support, charitable language, and independent review.
 - The approved revision snapshot is immutable. Editing creates a new snapshot and invalidates prior approval.
 - Publication only uses the stored approved snapshot, never a new request-body copy.
+- Before claiming or completing publication, the mutable workflow projection and embedded approval must match the latest append-only database approval record exactly: review ID, revision ID, content hash, reviewer, comment, attestation, and timestamp. Missing or divergent evidence fails closed without creating an outbox claim.
 - Each publication has a deterministic idempotency key derived from workflow item, approved revision, and content hash.
 - A processing lease blocks concurrent publishes. The Engine request timeout is clamped to finish at least five seconds before that lease expires. Failure leaves the item approved and retryable; retry reuses the same key and exact payload. Engine import is an upsert by question ID, and the UI also sends `Idempotency-Key`.
 - Direct dashboard import is denied by default. The emergency bypass requires `EDITORIAL_EMERGENCY_IMPORT_ENABLED=true` and a super-admin session and creates a blocked/allowed proxy audit trail.

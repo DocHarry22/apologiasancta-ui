@@ -66,10 +66,20 @@ const databaseState = {
     workflowItemId: string;
     revisionId: string;
     contentHash: string;
+    reviewerId: string;
     decision: string;
+    comment: string;
+    attestation: unknown;
     createdAt: string;
   }>,
   events: [] as Array<{ id: string; workflowItemId: string }>,
+  publicationClaims: [] as Array<{
+    idempotencyKey: string;
+    workflowItemId: string;
+    revisionId: string;
+    contentHash: string;
+  }>,
+  publicationCompletionUpdates: [] as string[],
 };
 
 let databaseDialect: "postgres" | "mysql" = "postgres";
@@ -118,6 +128,9 @@ const executor: WorkflowDatabaseExecutor = {
         id: latest.id,
         revision_id: latest.revisionId,
         content_hash: latest.contentHash,
+        reviewer_id: latest.reviewerId,
+        comment: latest.comment,
+        attestation: latest.attestation,
         created_at: latest.createdAt,
       }] : []) as Row[];
     }
@@ -131,9 +144,38 @@ const executor: WorkflowDatabaseExecutor = {
         workflowItemId: String(values[1]),
         revisionId: String(values[2]),
         contentHash: String(values[3]),
+        reviewerId: String(values[4]),
         decision: String(values[5]),
+        comment: String(values[6]),
+        attestation: databaseDialect === "postgres" ? JSON.parse(String(values[7])) : values[7],
         createdAt: String(values[8]),
       });
+      return [];
+    }
+    if (sql.includes("INSERT INTO content_publication_outbox")) {
+      databaseState.publicationClaims.push({
+        idempotencyKey: String(values[0]),
+        workflowItemId: String(values[1]),
+        revisionId: String(values[2]),
+        contentHash: String(values[3]),
+      });
+      return [];
+    }
+    if (sql.includes("SELECT * FROM content_publication_outbox WHERE idempotency_key = ?")) {
+      const claim = databaseState.publicationClaims.find((record) => record.idempotencyKey === String(values[0]));
+      return (claim ? [{
+        idempotency_key: claim.idempotencyKey,
+        workflow_item_id: claim.workflowItemId,
+        revision_id: claim.revisionId,
+        content_hash: claim.contentHash,
+        status: "processing",
+        attempts: 1,
+        created_at: "2026-07-16T00:00:00.000Z",
+        updated_at: "2026-07-16T00:00:00.000Z",
+      }] : []) as Row[];
+    }
+    if (sql.includes("UPDATE content_publication_outbox SET status = 'completed'")) {
+      databaseState.publicationCompletionUpdates.push(String(values[3]));
       return [];
     }
     if (sql.includes("INSERT INTO content_workflow_events")) {
@@ -183,6 +225,8 @@ beforeEach(() => {
   databaseState.revisions.length = 0;
   databaseState.reviews.length = 0;
   databaseState.events.length = 0;
+  databaseState.publicationClaims.length = 0;
+  databaseState.publicationCompletionUpdates.length = 0;
 });
 
 afterAll(async () => {
@@ -427,6 +471,99 @@ describe("database-backed workflow edits", () => {
         contentHash: submitted.contentHash,
         decision: "changes_requested",
       });
+    }
+  );
+
+  it.each(["postgres", "mysql"] as const)(
+    "requires exact append-only approval evidence before a %s publication claim",
+    async (dialect) => {
+      databaseDialect = dialect;
+      const submitted = await workflow.createWorkflowDraft(
+        { ...sourcedQuestion, id: `edt_${dialect === "postgres" ? "0800" : "0801"}` },
+        author,
+        ["trinity"],
+        [],
+        true
+      );
+      const approved = await workflow.transitionWorkflowItem(submitted.id, "approved", reviewer, {
+        comment: "This exact immutable revision and its cited source were independently checked for publication.",
+        attestation,
+        topicIds: ["trinity"],
+      });
+      const approvalRow = databaseState.reviews.find((review) => review.decision === "approved")!;
+      expect(approvalRow).toMatchObject({
+        workflowItemId: approved.id,
+        revisionId: approved.approvedRevisionId,
+        contentHash: approved.approvedContentHash,
+        reviewerId: reviewer.id,
+        comment: "This exact immutable revision and its cited source were independently checked for publication.",
+      });
+
+      databaseState.items.set(approved.id, {
+        ...approved,
+        reviewerId: adminEditor.id,
+        reviewerName: adminEditor.displayName,
+      });
+      await expect(workflow.prepareWorkflowPublication(approved.id, adminEditor, ["trinity"], []))
+        .rejects.toThrow("approval audit evidence is missing or inconsistent");
+      expect(databaseState.publicationClaims).toHaveLength(0);
+
+      databaseState.items.set(approved.id, approved);
+      approvalRow.contentHash = "f".repeat(64);
+      await expect(workflow.prepareWorkflowPublication(approved.id, adminEditor, ["trinity"], []))
+        .rejects.toThrow("approval audit evidence is missing or inconsistent");
+      expect(databaseState.publicationClaims).toHaveLength(0);
+
+      approvalRow.contentHash = approved.approvedContentHash!;
+      approvalRow.reviewerId = adminEditor.id;
+      await expect(workflow.prepareWorkflowPublication(approved.id, adminEditor, ["trinity"], []))
+        .rejects.toThrow("approval audit evidence is missing or inconsistent");
+      expect(databaseState.publicationClaims).toHaveLength(0);
+
+      approvalRow.reviewerId = reviewer.id;
+      approvalRow.comment = "A different database approval comment.";
+      await expect(workflow.prepareWorkflowPublication(approved.id, adminEditor, ["trinity"], []))
+        .rejects.toThrow("approval audit evidence is missing or inconsistent");
+      expect(databaseState.publicationClaims).toHaveLength(0);
+
+      approvalRow.comment = approved.reviewComments.find((review) => review.decision === "approved")!.body;
+      const validDatabaseAttestation = approvalRow.attestation;
+      approvalRow.attestation = databaseDialect === "postgres"
+        ? { ...attestation, sourcesChecked: false }
+        : JSON.stringify({ ...attestation, sourcesChecked: false });
+      await expect(workflow.prepareWorkflowPublication(approved.id, adminEditor, ["trinity"], []))
+        .rejects.toThrow("approval audit evidence is missing or inconsistent");
+      expect(databaseState.publicationClaims).toHaveLength(0);
+
+      approvalRow.attestation = validDatabaseAttestation;
+      databaseState.reviews.splice(databaseState.reviews.indexOf(approvalRow), 1);
+      await expect(workflow.prepareWorkflowPublication(approved.id, adminEditor, ["trinity"], []))
+        .rejects.toThrow("approval audit evidence is missing or inconsistent");
+      expect(databaseState.publicationClaims).toHaveLength(0);
+
+      databaseState.reviews.push(approvalRow);
+      const claim = await workflow.prepareWorkflowPublication(approved.id, adminEditor, ["trinity"], []);
+      expect(claim).toMatchObject({
+        alreadyCompleted: false,
+        idempotencyKey: `publish:${approved.id}:${approved.approvedRevisionId}:${approved.approvedContentHash}`,
+      });
+      expect(databaseState.publicationClaims).toEqual([{
+        idempotencyKey: claim.idempotencyKey,
+        workflowItemId: approved.id,
+        revisionId: approved.approvedRevisionId,
+        contentHash: approved.approvedContentHash,
+      }]);
+
+      approvalRow.reviewerId = adminEditor.id;
+      await expect(workflow.completeWorkflowPublication(claim, adminEditor, { added: 1, updated: 0, bankSize: 1 }))
+        .rejects.toThrow("approval audit evidence is missing or inconsistent");
+      expect(databaseState.publicationCompletionUpdates).toHaveLength(0);
+      expect(databaseState.items.get(approved.id)?.status).toBe("approved");
+
+      approvalRow.reviewerId = reviewer.id;
+      const published = await workflow.completeWorkflowPublication(claim, adminEditor, { added: 1, updated: 0, bankSize: 1 });
+      expect(published.status).toBe("published");
+      expect(databaseState.publicationCompletionUpdates).toEqual([claim.idempotencyKey]);
     }
   );
 });

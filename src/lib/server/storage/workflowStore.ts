@@ -196,6 +196,68 @@ function latestChangesRequestedReview(reviewComments: WorkflowReviewComment[]): 
   }, undefined);
 }
 
+function latestApprovedReview(reviewComments: WorkflowReviewComment[]): WorkflowReviewComment | undefined {
+  return reviewComments.reduce<WorkflowReviewComment | undefined>((latest, review) => {
+    if (!review || typeof review !== "object" || review.decision !== "approved") return latest;
+    if (!latest) return review;
+    const reviewTime = Date.parse(typeof review.createdAt === "string" ? review.createdAt : "");
+    const latestTime = Date.parse(typeof latest.createdAt === "string" ? latest.createdAt : "");
+    const normalizedReviewTime = Number.isFinite(reviewTime) ? reviewTime : 0;
+    const normalizedLatestTime = Number.isFinite(latestTime) ? latestTime : 0;
+    if (normalizedReviewTime !== normalizedLatestTime) {
+      return normalizedReviewTime > normalizedLatestTime ? review : latest;
+    }
+    const reviewId = typeof review.id === "string" ? review.id : "";
+    const latestId = typeof latest.id === "string" ? latest.id : "";
+    return reviewId.localeCompare(latestId) > 0 ? review : latest;
+  }, undefined);
+}
+
+function normalizedAttestation(value: unknown): WorkflowReviewerAttestation | null {
+  try {
+    return normalizeReviewerAttestation(value);
+  } catch {
+    return null;
+  }
+}
+
+function attestationsMatch(left: unknown, right: unknown): boolean {
+  const normalizedLeft = normalizedAttestation(left);
+  const normalizedRight = normalizedAttestation(right);
+  return Boolean(
+    normalizedLeft
+    && normalizedRight
+    && JSON.stringify(normalizedLeft) === JSON.stringify(normalizedRight)
+  );
+}
+
+function approvalEvidenceConflict(): WorkflowConflictError {
+  return new WorkflowConflictError("Publication is blocked because approval audit evidence is missing or inconsistent.");
+}
+
+function assertPayloadApprovalEvidence(item: WorkflowItem): WorkflowReviewComment {
+  const approval = latestApprovedReview(item.reviewComments);
+  if (
+    !approval
+    || approval.revisionId !== item.approvedRevisionId
+    || approval.contentHash !== item.approvedContentHash
+    || approval.authorId !== item.reviewerId
+    || typeof approval.id !== "string"
+    || approval.id.length === 0
+    || typeof approval.createdAt !== "string"
+    || approval.createdAt.length === 0
+    || approval.createdAt !== item.reviewedAt
+    || typeof approval.body !== "string"
+    || approval.body.trim().length < 10
+    || approval.doctrinalFlag === true
+    || approval.referenceFlag === true
+    || !attestationsMatch(approval.attestation, item.approvalAttestation)
+  ) {
+    throw approvalEvidenceConflict();
+  }
+  return approval;
+}
+
 function hydrateWorkflowItem(raw: WorkflowItem): WorkflowItem {
   // An explicit empty value is an invalid public ID that authors must fix, not a
   // missing legacy field that may be replaced by the internal workflow row ID.
@@ -617,6 +679,51 @@ async function verifyDatabaseChangesRequestEvidence(
     || Boolean(payloadReview && !databaseReview);
 
   return evidenceConflict ? { ...item, changesRequestedEvidenceConflict: true } : item;
+}
+
+async function assertDatabaseApprovalEvidence(
+  executor: WorkflowDatabaseExecutor,
+  item: WorkflowItem,
+  payloadApproval: WorkflowReviewComment
+): Promise<void> {
+  const rows = await executor.query<{
+    id: unknown;
+    revision_id: unknown;
+    content_hash: unknown;
+    reviewer_id: unknown;
+    comment: unknown;
+    attestation: unknown;
+    created_at: unknown;
+  }>(
+    `SELECT id, revision_id, content_hash, reviewer_id, comment, attestation, created_at FROM content_review_records
+      WHERE workflow_item_id = ? AND decision = ? ORDER BY created_at DESC, id DESC LIMIT 1 FOR UPDATE`,
+    [item.id, "approved"]
+  );
+  const databaseApproval = rows[0];
+  let databaseAttestation: unknown = null;
+  try {
+    databaseAttestation = databaseApproval
+      ? parseWorkflowDatabaseJson<unknown>(databaseApproval.attestation)
+      : null;
+  } catch {
+    throw approvalEvidenceConflict();
+  }
+  if (
+    !databaseApproval
+    || databaseApproval.id !== payloadApproval.id
+    || databaseApproval.revision_id !== payloadApproval.revisionId
+    || databaseApproval.revision_id !== item.approvedRevisionId
+    || databaseApproval.content_hash !== payloadApproval.contentHash
+    || databaseApproval.content_hash !== item.approvedContentHash
+    || databaseApproval.reviewer_id !== payloadApproval.authorId
+    || databaseApproval.reviewer_id !== item.reviewerId
+    || databaseApproval.comment !== payloadApproval.body
+    || databaseApproval.created_at !== payloadApproval.createdAt
+    || !attestationsMatch(databaseAttestation, payloadApproval.attestation)
+    || !attestationsMatch(databaseAttestation, item.approvalAttestation)
+  ) {
+    throw approvalEvidenceConflict();
+  }
 }
 
 async function loadDatabaseItem(executor: WorkflowDatabaseExecutor, id: string, forUpdate = false): Promise<WorkflowItem | null> {
@@ -1061,7 +1168,11 @@ function publicationLeaseExpiry(): string {
   return new Date(Date.now() + seconds * 1000).toISOString();
 }
 
-function assertPublishableApproval(item: WorkflowItem, topicIds: string[], existingIds: string[]): WorkflowRevisionSnapshot {
+function assertPublishableApproval(
+  item: WorkflowItem,
+  topicIds: string[],
+  existingIds: string[]
+): { revision: WorkflowRevisionSnapshot; approval: WorkflowReviewComment } {
   if (item.status !== "approved" && item.status !== "published") {
     throw new WorkflowConflictError("Only an approved revision can be published.");
   }
@@ -1080,7 +1191,8 @@ function assertPublishableApproval(item: WorkflowItem, topicIds: string[], exist
   if (item.reviewerId === revision.createdBy) throw new WorkflowConflictError("Publication requires a reviewer independent from the approved revision's author.");
   const recomputedHash = computeEditorialContentHash(revision.question, revision.sourceReferences);
   if (recomputedHash !== revision.contentHash) throw new WorkflowConflictError("Approved revision content hash verification failed.");
-  return revision;
+  const approval = assertPayloadApprovalEvidence(item);
+  return { revision, approval };
 }
 
 function newOutbox(item: WorkflowItem, timestamp: string): WorkflowPublicationOutboxRecord {
@@ -1108,7 +1220,7 @@ export async function prepareWorkflowPublication(
       const index = state.items.findIndex((candidate) => candidate.id === id);
       if (index < 0) throw new Error("Workflow item not found.");
       const item = state.items[index];
-      const revision = assertPublishableApproval(item, topicIds, existingIds);
+      const { revision } = assertPublishableApproval(item, topicIds, existingIds);
       const idempotencyKey = publicationKey(item);
       const existing = state.outbox.find((record) => record.idempotencyKey === idempotencyKey);
       if (existing?.status === "completed") {
@@ -1143,7 +1255,8 @@ export async function prepareWorkflowPublication(
   return database.transaction(async (executor) => {
     const item = await loadDatabaseItem(executor, id, true);
     if (!item) throw new Error("Workflow item not found.");
-    const revision = assertPublishableApproval(item, topicIds, existingIds);
+    const { revision, approval } = assertPublishableApproval(item, topicIds, existingIds);
+    await assertDatabaseApprovalEvidence(executor, item, approval);
     const idempotencyKey = publicationKey(item);
     const rows = await executor.query<Record<string, unknown>>(
       "SELECT * FROM content_publication_outbox WHERE idempotency_key = ? FOR UPDATE",
@@ -1190,6 +1303,7 @@ export async function completeWorkflowPublication(
     if (outbox.status === "completed") {
       return { item, event: item.history[0] };
     }
+    assertPayloadApprovalEvidence(item);
     if (outbox.revisionId !== item.approvedRevisionId || outbox.contentHash !== item.approvedContentHash) {
       throw new WorkflowConflictError("Publication completion does not match the approved revision.");
     }
@@ -1241,6 +1355,8 @@ export async function completeWorkflowPublication(
     const row = rows[0];
     if (!row) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
     if (row.status === "completed") return item;
+    const approval = assertPayloadApprovalEvidence(item);
+    await assertDatabaseApprovalEvidence(executor, item, approval);
     const outbox: WorkflowPublicationOutboxRecord = {
       idempotencyKey: String(row.idempotency_key),
       workflowItemId: String(row.workflow_item_id),
