@@ -6,7 +6,7 @@ test("workflow store implements durable create, list, transitions, and publish v
   const workflowStore = readFileSync("src/lib/server/storage/workflowStore.ts", "utf8");
   const workflowDatabase = readFileSync("src/lib/server/storage/workflowDatabase.ts", "utf8");
   const jsonStore = readFileSync("src/lib/server/storage/jsonStore.ts", "utf8");
-  const workflowPermissions = readFileSync("src/lib/server/workflowPermissions.ts", "utf8");
+  const workflowPermissions = readFileSync("src/lib/workflowPermissions.ts", "utf8");
 
   assert.ok(workflowStore.includes('new JsonStore<WorkflowFileState>("editorial-workflow.json"'));
   assert.ok(workflowStore.includes("createWorkflowDraft"));

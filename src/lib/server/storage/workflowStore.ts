@@ -1521,25 +1521,53 @@ export async function completeWorkflowPublication(
 
 export async function failWorkflowPublication(claim: WorkflowPublicationClaim, actor: CurrentUser, errorMessage: string): Promise<WorkflowItem> {
   const safeError = errorMessage.replace(/[\r\n\t]/g, " ").slice(0, 500) || "Engine publication failed.";
+  const fail = (
+    item: WorkflowItem,
+    outbox: WorkflowPublicationOutboxRecord,
+    claimIdempotencyKey: string
+  ): WorkflowMutation => {
+    assertApprovedRevisionIntegrity(item);
+    assertClaimedPublicationCoherence(item, outbox, claimIdempotencyKey);
+    if (outbox.status === "completed") {
+      assertCompletedPublicationCoherence(item, outbox);
+      return { item, event: item.history[0] };
+    }
+    if (item.status !== "approved") {
+      throw new WorkflowConflictError("Only an approved in-progress publication can record a failure.");
+    }
+    if (outbox.status !== "processing") {
+      throw new WorkflowConflictError("Only a processing publication claim can record a failure.");
+    }
+    const timestamp = nowIso();
+    outbox.status = "failed";
+    outbox.updatedAt = timestamp;
+    outbox.leaseExpiresAt = undefined;
+    outbox.lastError = safeError;
+    const event = history(actor, "publication_failed", "Engine publication failed; approved revision remains retryable.", {
+      idempotencyKey: outbox.idempotencyKey,
+      contentHash: outbox.contentHash,
+    });
+    return {
+      item: {
+        ...item,
+        updatedAt: timestamp,
+        version: item.version + 1,
+        history: [event, ...item.history],
+      },
+      event,
+    };
+  };
+
   if (!workflowDatabaseEnabled()) {
     return mutateFileState((state) => {
-      const item = state.items.find((candidate) => candidate.id === claim.item.id);
-      const outbox = state.outbox.find((record) => record.idempotencyKey === claim.idempotencyKey);
-      if (!item || !outbox) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
-      if (outbox.status === "completed") return item;
-      const timestamp = nowIso();
-      outbox.status = "failed";
-      outbox.updatedAt = timestamp;
-      outbox.leaseExpiresAt = undefined;
-      outbox.lastError = safeError;
-      const event = history(actor, "publication_failed", "Engine publication failed; approved revision remains retryable.", {
-        idempotencyKey: outbox.idempotencyKey,
-        contentHash: outbox.contentHash,
-      });
-      item.history.unshift(event);
-      item.updatedAt = timestamp;
-      item.version += 1;
-      return item;
+      const index = state.items.findIndex((candidate) => candidate.id === claim.item.id);
+      if (index < 0) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
+      const item = state.items[index];
+      const outbox = findFilePublicationOutbox(state, item, claim.idempotencyKey);
+      if (!outbox) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
+      const mutation = fail(item, outbox, claim.idempotencyKey);
+      state.items[index] = mutation.item;
+      return mutation.item;
     });
   }
 
@@ -1548,25 +1576,17 @@ export async function failWorkflowPublication(claim: WorkflowPublicationClaim, a
   return database.transaction(async (executor) => {
     const item = await loadDatabaseItem(executor, claim.item.id, true);
     if (!item) throw new Error("Workflow item not found.");
-    const rows = await executor.query<{ status: string; content_hash: string }>(
-      "SELECT status, content_hash FROM content_publication_outbox WHERE idempotency_key = ? FOR UPDATE",
-      [claim.idempotencyKey]
-    );
-    if (!rows[0]) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
-    if (rows[0].status === "completed") return item;
-    const timestamp = nowIso();
+    const { approval } = assertApprovedRevisionIntegrity(item);
+    await assertDatabaseApprovalEvidence(executor, item, approval);
+    const outbox = await loadDatabasePublicationOutbox(executor, item, claim.idempotencyKey);
+    if (!outbox) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
+    const mutation = fail(item, outbox, claim.idempotencyKey);
+    if (outbox.status === "completed") return mutation.item;
     await executor.query(
       "UPDATE content_publication_outbox SET status = 'failed', lease_expires_at = NULL, last_error = ?, updated_at = ? WHERE idempotency_key = ?",
-      [safeError, timestamp, claim.idempotencyKey]
+      [safeError, outbox.updatedAt, outbox.idempotencyKey]
     );
-    const event = history(actor, "publication_failed", "Engine publication failed; approved revision remains retryable.", {
-      idempotencyKey: claim.idempotencyKey,
-      contentHash: rows[0].content_hash,
-    });
-    item.history.unshift(event);
-    item.updatedAt = timestamp;
-    item.version += 1;
-    await updateDatabaseItem(executor, { item, event });
-    return item;
+    await updateDatabaseItem(executor, mutation);
+    return mutation.item;
   });
 }

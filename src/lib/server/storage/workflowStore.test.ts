@@ -698,6 +698,105 @@ describe("guarded editorial workflow", () => {
       .toBe(completedOutbox.attempts);
   });
 
+  it("fails closed without mutation when publication failure evidence is stale or corrupt", async () => {
+    const workflow = await import("./workflowStore");
+    const draft = await workflow.createWorkflowDraft({ ...sourcedQuestion, id: "edt_0400" }, author, ["trinity"], [], true);
+    const approved = await workflow.transitionWorkflowItem(draft.id, "approved", reviewer, {
+      comment: "The exact revision and primary citation were independently checked before failure handling.",
+      attestation,
+      topicIds: ["trinity"],
+    });
+    const claim = await workflow.prepareWorkflowPublication(approved.id, publisher, ["trinity"], []);
+    const activeState = await readWorkflowFileState();
+    const activeItem = activeState.items.find((item) => item.id === approved.id)!;
+    const activeOutbox = activeState.outbox.find((record) => record.idempotencyKey === claim.idempotencyKey)!;
+
+    const expectRejectedWithoutMutation = async (
+      corrupt: () => Promise<void>,
+      message: string,
+      candidateClaim = claim
+    ) => {
+      await writeWorkflowFileState(activeState);
+      await corrupt();
+      const before = await readWorkflowFileState();
+      await expect(workflow.failWorkflowPublication(candidateClaim, publisher, "Engine callback failed"))
+        .rejects.toThrow(message);
+      expect(await readWorkflowFileState()).toEqual(before);
+    };
+
+    await expectRejectedWithoutMutation(
+      () => patchStoredWorkflowItem(approved.id, { question: "Corrupted mutable projection before failure callback." }),
+      "Current workflow projection no longer matches the approved revision"
+    );
+    await expectRejectedWithoutMutation(
+      () => patchStoredWorkflowItem(approved.id, { revisions: [] }),
+      "Approved revision snapshot is unavailable or invalid"
+    );
+    await expectRejectedWithoutMutation(
+      () => patchStoredWorkflowItem(approved.id, {
+        reviewComments: activeItem.reviewComments.map((review) => (
+          review.decision === "approved"
+            ? { ...review, attestation: { ...attestation, sourcesChecked: false } }
+            : review
+        )),
+      }),
+      "approval audit evidence is missing or inconsistent"
+    );
+    await expectRejectedWithoutMutation(
+      async () => undefined,
+      "Publication claim evidence is missing or inconsistent",
+      { ...claim, idempotencyKey: "publish:wrong-failure-claim" }
+    );
+    await expectRejectedWithoutMutation(
+      () => patchStoredWorkflowItem(approved.id, { publicationIdempotencyKey: undefined }),
+      "Publication claim evidence is missing or inconsistent"
+    );
+    await expectRejectedWithoutMutation(
+      () => patchStoredWorkflowOutbox(approved.id, { revisionId: "wf_rev_stale_failure", contentHash: "f".repeat(64) }),
+      "Publication outbox evidence is missing or inconsistent"
+    );
+    await expectRejectedWithoutMutation(
+      () => patchStoredWorkflowOutbox(approved.id, { workflowItemId: "wf_wrong_failure_owner" }),
+      "Publication outbox evidence is missing or inconsistent"
+    );
+    await expectRejectedWithoutMutation(
+      () => patchStoredWorkflowOutbox(approved.id, { idempotencyKey: "publish:wrong-failure-key" }),
+      "Publication outbox evidence is missing or inconsistent"
+    );
+    await expectRejectedWithoutMutation(
+      () => patchStoredWorkflowOutbox(approved.id, { status: "failed" }),
+      "Only a processing publication claim can record a failure"
+    );
+    await expectRejectedWithoutMutation(async () => {
+      const duplicateState = await readWorkflowFileState();
+      duplicateState.outbox.push({ ...activeOutbox, idempotencyKey: `${activeOutbox.idempotencyKey}:duplicate` });
+      await writeWorkflowFileState(duplicateState);
+    }, "Publication outbox evidence is missing or inconsistent");
+
+    await writeWorkflowFileState(activeState);
+    const failed = await workflow.failWorkflowPublication(claim, publisher, "temporary Engine failure\nwith unsafe formatting");
+    expect(failed).toMatchObject({ status: "approved", version: activeItem.version + 1 });
+    expect(failed.history[0]).toMatchObject({ type: "publication_failed" });
+    const failedState = await readWorkflowFileState();
+    expect(failedState.outbox.find((record) => record.idempotencyKey === claim.idempotencyKey)).toMatchObject({
+      status: "failed",
+      lastError: "temporary Engine failure with unsafe formatting",
+    });
+
+    const retry = await workflow.prepareWorkflowPublication(approved.id, publisher, ["trinity"], []);
+    await workflow.completeWorkflowPublication(retry, publisher, { added: 1, updated: 0, bankSize: 1 });
+    const completedState = await readWorkflowFileState();
+    const completedReplay = await workflow.failWorkflowPublication(retry, publisher, "late duplicate failure callback");
+    expect(completedReplay.status).toBe("published");
+    expect(await readWorkflowFileState()).toEqual(completedState);
+
+    await patchStoredWorkflowOutbox(approved.id, { completedAt: undefined });
+    const corruptCompletedState = await readWorkflowFileState();
+    await expect(workflow.failWorkflowPublication(retry, publisher, "corrupt late callback"))
+      .rejects.toThrow("Completed publication evidence is missing or inconsistent");
+    expect(await readWorkflowFileState()).toEqual(corruptCompletedState);
+  });
+
   it("idempotently reconciles file evidence without replacing newer database workflow state", async () => {
     const workflow = await import("./workflowStore");
     const draft = await workflow.createWorkflowDraft({ ...sourcedQuestion, id: "edt_0004" }, author, ["trinity"], [], false);

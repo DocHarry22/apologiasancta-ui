@@ -8,6 +8,7 @@ import type { Question, QuestionChoiceId } from "@/types/content";
 import type { AdminRoomStatus, AdminStatus, ContentStatusResponse, TopicSequenceConfig } from "@/lib/engineAdmin";
 import { useTheme } from "@/lib/theme";
 import { roleLabels, hasAnyPermission, hasPermission, type Permission } from "@/lib/auth/roles";
+import { canCreateWorkflow, canEditWorkflowItem, canSubmitWorkflowItem } from "@/lib/workflowPermissions";
 import { adminProxy, contentProxy, quizProxy, roomProxy, topicProxy } from "@/lib/adminProxyClient";
 import { getEngineUrl } from "@/lib/publicEnv";
 import { validateQuestion, hasBlockingValidationIssues, type ValidationIssue } from "@/lib/contentValidation";
@@ -444,7 +445,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   const selectedSection = sections.find((section) => section.id === activeTab);
   const selectedPublishedRecord = publishedQuestions.find((record) => record.question.id === selectedQuestionId) || publishedQuestions[0];
   const currentRoom = rooms.find((room) => room.roomId === selectedRoomId) || rooms.find((room) => room.roomId === "global") || null;
-  const canAuthor = hasPermission(currentUser.role, "content:draft:create");
+  const canAuthor = canCreateWorkflow(currentUser.role);
   const canReview = currentUser.role === "admin" || currentUser.role === "super_admin" || hasPermission(currentUser.role, "content:review");
   const canPublish = hasPermission(currentUser.role, "content:publish");
   const canManageDanger = hasPermission(currentUser.role, "dangerous:execute");
@@ -592,7 +593,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   };
 
   const loadWorkflowItemForEditing = (item: DraftQuestion) => {
-    if (!["draft", "changes_requested"].includes(item.status)) return;
+    if (!canEditWorkflowItem(currentUser.role, currentUser.id, item) || !["draft", "changes_requested"].includes(item.status)) return;
     setEditingWorkflowId(item.id);
     setSelectedWorkflowId(item.id);
     setSelectedTopicId(item.topicId);
@@ -660,7 +661,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
 
   const saveWorkflowRevision = async () => {
     const item = workflowItems.find((candidate) => candidate.id === editingWorkflowId);
-    if (!item || !["draft", "changes_requested"].includes(item.status)) return;
+    if (!item || !canEditWorkflowItem(currentUser.role, currentUser.id, item) || !["draft", "changes_requested"].includes(item.status)) return;
     const question = buildQuestionJson();
     setLoading(true);
     const response = await dashboardApi<{ ok: true; item: DraftQuestion }>(`/api/workflow/items/${encodeURIComponent(item.id)}`, {
@@ -685,7 +686,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   };
 
   const submitWorkflowItem = async (item: DraftQuestion) => {
-    if (!hasPermission(currentUser.role, "content:submit_review")) return;
+    if (!canSubmitWorkflowItem(currentUser.role, currentUser.id, item)) return;
     if (item.status === "changes_requested" && !hasRevisedRequestedChanges(item)) {
       setMessage({ type: "error", text: "Save a new immutable revision with changed content before resubmitting." });
       return;
@@ -983,7 +984,10 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     || currentRevisionCreatorId(selectedReviewItem) === currentUser.id
   ));
   const editingWorkflowItem = workflowItems.find((item) => item.id === editingWorkflowId);
-  const ownDrafts = workflowItems.filter((item) => item.authorId === currentUser.id && item.status !== "archived");
+  const authoringItems = workflowItems.filter((item) => (
+    item.status !== "archived"
+    && (item.authorId === currentUser.id || canEditWorkflowItem(currentUser.role, currentUser.id, item))
+  ));
   const filteredAuditEvents = auditEvents;
 
   return (
@@ -1257,7 +1261,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
             <Panel title="My Drafts and Submissions" description="Review comments and status from persisted workflow storage.">
               {workflowLoading && <EmptyState text="Loading persisted workflow items..." />}
               {workflowUnavailable && <div className="rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-3 text-sm text-yellow-200">Workflow persistence is unavailable. Draft actions will not be shown as saved until the server route recovers.</div>}
-              {ownDrafts.map((item) => (
+              {authoringItems.map((item) => (
                 <WorkflowCard
                   key={item.id}
                   item={item}
@@ -1265,11 +1269,11 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
                   onEdit={() => loadWorkflowItemForEditing(item)}
                   onSubmit={() => void submitWorkflowItem(item)}
                   onArchive={() => void archiveWorkflowItem(item)}
-                  canSubmit={hasPermission(currentUser.role, "content:submit_review")}
-                  canArchive={true}
+                  canSubmit={canSubmitWorkflowItem(currentUser.role, currentUser.id, item)}
+                  canArchive={canEditWorkflowItem(currentUser.role, currentUser.id, item)}
                 />
               ))}
-              {!workflowLoading && ownDrafts.length === 0 && <EmptyState text="No persisted draft workflow items are visible for your user." />}
+              {!workflowLoading && authoringItems.length === 0 && <EmptyState text="No persisted workflow items are visible for your user." />}
             </Panel>
           </div>
         )}

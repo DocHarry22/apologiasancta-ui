@@ -84,8 +84,10 @@ const databaseState = {
     createdAt: string;
     updatedAt: string;
     completedAt?: string;
+    lastError?: string;
   }>,
   publicationCompletionUpdates: [] as string[],
+  publicationFailureUpdates: [] as string[],
 };
 
 let databaseDialect: "postgres" | "mysql" = "postgres";
@@ -211,6 +213,18 @@ const executor: WorkflowDatabaseExecutor = {
       }
       return [];
     }
+    if (sql.includes("UPDATE content_publication_outbox SET status = 'failed'")) {
+      const idempotencyKey = String(values[2]);
+      databaseState.publicationFailureUpdates.push(idempotencyKey);
+      const claim = databaseState.publicationClaims.find((record) => record.idempotencyKey === idempotencyKey);
+      if (claim) {
+        claim.status = "failed";
+        claim.leaseExpiresAt = undefined;
+        claim.lastError = String(values[0]);
+        claim.updatedAt = String(values[1]);
+      }
+      return [];
+    }
     if (sql.includes("INSERT INTO content_workflow_events")) {
       databaseState.events.push({ id: String(values[0]), workflowItemId: String(values[1]) });
       return [];
@@ -260,6 +274,7 @@ beforeEach(() => {
   databaseState.events.length = 0;
   databaseState.publicationClaims.length = 0;
   databaseState.publicationCompletionUpdates.length = 0;
+  databaseState.publicationFailureUpdates.length = 0;
 });
 
 afterAll(async () => {
@@ -781,6 +796,127 @@ describe("database-backed workflow edits", () => {
         .rejects.toThrow("Published content requires a coherent completed publication receipt");
       expect(databaseState.publicationCompletionUpdates).toEqual([claim.idempotencyKey]);
       databaseState.publicationClaims.push(claimedOutbox);
+    }
+  );
+
+  it.each(["postgres", "mysql"] as const)(
+    "fails a %s publication callback closed before any local mutation",
+    async (dialect) => {
+      databaseDialect = dialect;
+      const submitted = await workflow.createWorkflowDraft(
+        { ...sourcedQuestion, id: `edt_${dialect === "postgres" ? "0900" : "0901"}` },
+        author,
+        ["trinity"],
+        [],
+        true
+      );
+      const approved = await workflow.transitionWorkflowItem(submitted.id, "approved", reviewer, {
+        comment: "This exact immutable revision was independently checked before failure callback handling.",
+        attestation,
+        topicIds: ["trinity"],
+      });
+      const approvalRow = databaseState.reviews.find((review) => review.decision === "approved")!;
+      const claim = await workflow.prepareWorkflowPublication(approved.id, adminEditor, ["trinity"], []);
+      const activeProjection = structuredClone(databaseState.items.get(approved.id)!);
+      const activeOutbox = structuredClone(databaseState.publicationClaims[0]);
+      const activeApproval = structuredClone(approvalRow);
+
+      const restoreActiveEvidence = () => {
+        databaseState.items.set(approved.id, structuredClone(activeProjection));
+        databaseState.publicationClaims.splice(0, databaseState.publicationClaims.length, structuredClone(activeOutbox));
+        Object.assign(approvalRow, structuredClone(activeApproval));
+        databaseState.publicationFailureUpdates.length = 0;
+      };
+      const expectRejectedWithoutMutation = async (
+        corrupt: () => void,
+        message: string,
+        candidateClaim = claim
+      ) => {
+        restoreActiveEvidence();
+        corrupt();
+        const itemBefore = structuredClone(databaseState.items.get(approved.id));
+        const outboxBefore = structuredClone(databaseState.publicationClaims);
+        const eventCountBefore = databaseState.events.length;
+        await expect(workflow.failWorkflowPublication(candidateClaim, adminEditor, "Engine failure callback"))
+          .rejects.toThrow(message);
+        expect(databaseState.items.get(approved.id)).toEqual(itemBefore);
+        expect(databaseState.publicationClaims).toEqual(outboxBefore);
+        expect(databaseState.events).toHaveLength(eventCountBefore);
+        expect(databaseState.publicationFailureUpdates).toHaveLength(0);
+      };
+
+      await expectRejectedWithoutMutation(() => {
+        databaseState.items.set(approved.id, {
+          ...activeProjection,
+          question: "Corrupted mutable projection before failure callback.",
+        });
+      }, "Current workflow projection no longer matches the approved revision");
+      await expectRejectedWithoutMutation(() => {
+        databaseState.items.set(approved.id, { ...activeProjection, revisions: [] });
+      }, "Approved revision snapshot is unavailable or invalid");
+      await expectRejectedWithoutMutation(() => {
+        approvalRow.reviewerId = adminEditor.id;
+      }, "approval audit evidence is missing or inconsistent");
+      await expectRejectedWithoutMutation(
+        () => undefined,
+        "Publication claim evidence is missing or inconsistent",
+        { ...claim, idempotencyKey: "publish:wrong-database-failure-claim" }
+      );
+      await expectRejectedWithoutMutation(() => {
+        databaseState.items.set(approved.id, { ...activeProjection, publicationIdempotencyKey: undefined });
+      }, "Publication claim evidence is missing or inconsistent");
+      await expectRejectedWithoutMutation(() => {
+        databaseState.publicationClaims[0].revisionId = "wf_rev_stale_database_failure";
+        databaseState.publicationClaims[0].contentHash = "f".repeat(64);
+      }, "Publication outbox evidence is missing or inconsistent");
+      await expectRejectedWithoutMutation(() => {
+        databaseState.publicationClaims[0].workflowItemId = "wf_wrong_database_failure_owner";
+      }, "Publication outbox evidence is missing or inconsistent");
+      await expectRejectedWithoutMutation(() => {
+        databaseState.publicationClaims[0].idempotencyKey = "publish:wrong-database-failure-key";
+      }, "Publication outbox evidence is missing or inconsistent");
+      await expectRejectedWithoutMutation(() => {
+        databaseState.publicationClaims[0].status = "failed";
+      }, "Only a processing publication claim can record a failure");
+      await expectRejectedWithoutMutation(() => {
+        databaseState.publicationClaims.push({
+          ...structuredClone(activeOutbox),
+          idempotencyKey: `${activeOutbox.idempotencyKey}:duplicate`,
+        });
+      }, "Publication outbox evidence is missing or inconsistent");
+
+      restoreActiveEvidence();
+      const failed = await workflow.failWorkflowPublication(claim, adminEditor, "temporary Engine failure\nwith unsafe formatting");
+      expect(failed).toMatchObject({ status: "approved", version: activeProjection.version + 1 });
+      expect(failed.history[0]).toMatchObject({ type: "publication_failed" });
+      expect(databaseState.publicationFailureUpdates).toEqual([claim.idempotencyKey]);
+      expect(databaseState.publicationClaims[0]).toMatchObject({
+        status: "failed",
+        lastError: "temporary Engine failure with unsafe formatting",
+      });
+
+      const retry = await workflow.prepareWorkflowPublication(approved.id, adminEditor, ["trinity"], []);
+      await workflow.completeWorkflowPublication(retry, adminEditor, { added: 1, updated: 0, bankSize: 1 });
+      const completedItem = structuredClone(databaseState.items.get(approved.id));
+      const completedOutbox = structuredClone(databaseState.publicationClaims);
+      const completedEvents = structuredClone(databaseState.events);
+      const completedReplay = await workflow.failWorkflowPublication(retry, adminEditor, "late duplicate failure callback");
+      expect(completedReplay.status).toBe("published");
+      expect(databaseState.items.get(approved.id)).toEqual(completedItem);
+      expect(databaseState.publicationClaims).toEqual(completedOutbox);
+      expect(databaseState.events).toEqual(completedEvents);
+      expect(databaseState.publicationFailureUpdates).toEqual([claim.idempotencyKey]);
+
+      databaseState.publicationClaims[0].completedAt = undefined;
+      const corruptCompletedItem = structuredClone(databaseState.items.get(approved.id));
+      const corruptCompletedOutbox = structuredClone(databaseState.publicationClaims);
+      const corruptCompletedEventCount = databaseState.events.length;
+      await expect(workflow.failWorkflowPublication(retry, adminEditor, "corrupt late callback"))
+        .rejects.toThrow("Completed publication evidence is missing or inconsistent");
+      expect(databaseState.items.get(approved.id)).toEqual(corruptCompletedItem);
+      expect(databaseState.publicationClaims).toEqual(corruptCompletedOutbox);
+      expect(databaseState.events).toHaveLength(corruptCompletedEventCount);
+      expect(databaseState.publicationFailureUpdates).toEqual([claim.idempotencyKey]);
     }
   );
 });

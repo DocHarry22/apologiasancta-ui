@@ -15,7 +15,7 @@ import {
   WorkflowPublicationError,
   WorkflowValidationError,
 } from "./storage/workflowStore";
-import { canCreateWorkflow, canEditWorkflowItem, canPublishWorkflowItem, canReviewWorkflowItem, canSubmitWorkflowItem, canViewWorkflowItem } from "./workflowPermissions";
+import { canCreateWorkflow, canEditWorkflowItem, canPublishWorkflowItem, canReviewWorkflowItem, canSubmitWorkflowItem, canViewWorkflowItem } from "../workflowPermissions";
 import { forbidden, readJsonBody, requireAuthorSession, requireCsrf, safeJson } from "./apiAuth";
 import type { AuditEventType } from "./storage/types";
 import type { ReviewStatus } from "@/lib/contentWorkflow";

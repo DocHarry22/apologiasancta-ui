@@ -5,6 +5,7 @@ import { cleanup, render, screen, waitFor, within } from "@testing-library/react
 import userEvent from "@testing-library/user-event";
 import type { DraftQuestion } from "@/lib/contentWorkflow";
 import type { CurrentUser } from "@/lib/server/currentUser";
+import { canCreateWorkflow, canEditWorkflowItem, canSubmitWorkflowItem } from "@/lib/workflowPermissions";
 import AuthorDashboardClient from "./AuthorDashboardClient";
 
 const operationalMocks = vi.hoisted(() => ({
@@ -101,6 +102,14 @@ const superAdmin: CurrentUser = {
   source: "database",
 };
 
+const admin: CurrentUser = {
+  id: "admin-1",
+  displayName: "Admin One",
+  role: "admin",
+  accountType: "staff",
+  source: "database",
+};
+
 function changesRequestedItem(): DraftQuestion {
   const timestamp = "2026-07-16T12:00:00.000Z";
   const currentRevisionId = "wf_rev_0600";
@@ -178,6 +187,26 @@ describe("AuthorDashboardClient editorial queue", () => {
     cleanup();
     vi.unstubAllGlobals();
     document.cookie = "as_csrf_token=; Max-Age=0; path=/";
+  });
+
+  it("keeps shared workflow authoring capabilities scoped to admin and owning authors", () => {
+    const ownDraft = { authorId: "author-1", status: "draft" };
+    const otherDraft = { authorId: "author-2", status: "draft" };
+    const submittedItem = { authorId: "author-1", status: "submitted" };
+
+    expect(canCreateWorkflow("admin")).toBe(true);
+    expect(canEditWorkflowItem("admin", "admin-1", otherDraft)).toBe(true);
+    expect(canSubmitWorkflowItem("admin", "admin-1", otherDraft)).toBe(true);
+    expect(canCreateWorkflow("author")).toBe(true);
+    expect(canEditWorkflowItem("author", "author-1", ownDraft)).toBe(true);
+    expect(canSubmitWorkflowItem("author", "author-1", ownDraft)).toBe(true);
+    expect(canEditWorkflowItem("author", "author-1", submittedItem)).toBe(false);
+    expect(canEditWorkflowItem("author", "author-1", otherDraft)).toBe(false);
+    for (const role of ["reviewer", "host", "viewer"] as const) {
+      expect(canCreateWorkflow(role)).toBe(false);
+      expect(canEditWorkflowItem(role, `${role}-1`, otherDraft)).toBe(false);
+      expect(canSubmitWorkflowItem(role, `${role}-1`, otherDraft)).toBe(false);
+    }
   });
 
   it("keeps approved revisions selectable and retryable after reload without changing submitted review controls", async () => {
@@ -352,6 +381,89 @@ describe("AuthorDashboardClient editorial queue", () => {
     );
     expect(screen.queryByRole("button", { name: "Resubmit revised question" })).not.toBeInTheDocument();
   });
+
+  it("uses canonical workflow capabilities for an admin to create, edit, and submit without widening other roles", async () => {
+    const user = userEvent.setup();
+    const draft: DraftQuestion = {
+      ...submitted,
+      id: "wf_0700",
+      questionId: "edt_0700",
+      question: "Admin editable draft question",
+      status: "draft",
+      submittedAt: undefined,
+      version: 1,
+    };
+    const changesRequested: DraftQuestion = {
+      ...changesRequestedItem(),
+      id: "wf_0701",
+      questionId: "edt_0701",
+      question: "Admin editable requested-change question",
+    };
+    const createdByAdmin: DraftQuestion = {
+      ...draft,
+      id: "wf_0702",
+      questionId: "edt_0702",
+      question: "Admin-created draft",
+      authorId: admin.id,
+      authorName: admin.displayName,
+    };
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const url = String(input);
+      const method = init?.method ?? "GET";
+      if (url === "/api/workflow/items" && method === "GET") {
+        return response(true, 200, { ok: true, items: [draft, changesRequested] });
+      }
+      if (url === `/api/workflow/items/${draft.id}/submit` && method === "POST") {
+        return response(true, 200, { ok: true, item: { ...draft, status: "submitted" } });
+      }
+      if (url === `/api/workflow/items/${changesRequested.id}` && method === "PATCH") {
+        return response(true, 200, { ok: true, item: changesRequested });
+      }
+      if (url === "/api/workflow/items" && method === "POST") {
+        return response(true, 200, { ok: true, item: createdByAdmin });
+      }
+      throw new Error(`Unexpected fetch: ${method} ${url}`);
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(
+      <AuthorDashboardClient
+        topics={[{
+          id: "trinity",
+          title: "The Trinity",
+          description: "Catholic doctrine of the Trinity",
+          tags: ["doctrine"],
+          questionCount: 2,
+          existingIds: [],
+        }]}
+        publishedQuestions={[]}
+        currentUser={admin}
+        initialTab="authoring"
+      />
+    );
+
+    expect(await screen.findByRole("heading", { name: "Create Draft Question" })).toBeInTheDocument();
+    const draftCard = (await screen.findByText("Admin editable draft question")).closest(".rounded-lg");
+    expect(draftCard).not.toBeNull();
+    await user.click(within(draftCard as HTMLElement).getByRole("button", { name: "Submit" }));
+    expect(await screen.findByText("Question submitted for review.")).toBeInTheDocument();
+
+    const requestedChangeCard = screen.getByText("Admin editable requested-change question").closest(".rounded-lg");
+    expect(requestedChangeCard).not.toBeNull();
+    await user.click(within(requestedChangeCard as HTMLElement).getByRole("button", { name: "Edit requested changes" }));
+    expect(screen.getByRole("heading", { name: "Edit Requested Changes" })).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Save new revision" }));
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(
+      `/api/workflow/items/${changesRequested.id}`,
+      expect.objectContaining({ method: "PATCH" })
+    ));
+
+    await user.click(screen.getByRole("button", { name: "Cancel edit" }));
+    expect(screen.getByRole("heading", { name: "Create Draft Question" })).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Save Draft" }));
+    expect(await screen.findByText("Draft saved to workflow storage.")).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledWith("/api/workflow/items", expect.objectContaining({ method: "POST" }));
+  }, 10_000);
 
   it("disables every review decision when the signed-in admin created the current revision", async () => {
     const adminAuthoredRevision: DraftQuestion = {
