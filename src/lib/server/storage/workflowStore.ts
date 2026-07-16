@@ -780,6 +780,7 @@ export async function updateWorkflowDraft(
     const updated: WorkflowItem = {
       ...item,
       ...questionForPublication(question, sourceReferences),
+      id: item.id,
       questionId: question.id,
       sourceReferences,
       updatedAt: event.createdAt,
