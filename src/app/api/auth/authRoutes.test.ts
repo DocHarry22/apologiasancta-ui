@@ -208,6 +208,22 @@ describe("auth routes", () => {
     expect(setCookie).toContain("Max-Age=0");
   });
 
+  it("logout redirects to the configured public origin instead of an internal host", async () => {
+    process.env.NEXT_PUBLIC_APP_URL = "https://ui.example.test";
+    try {
+      const response = await logout(new NextRequest(
+        "http://0.0.0.0:3000/api/auth/logout?next=/author/login",
+        { method: "POST" }
+      ));
+
+      expect(response.status).toBe(303);
+      expect(response.headers.get("location")).toBe("https://ui.example.test/author/login");
+      expect(response.headers.get("cache-control")).toBe("no-store");
+    } finally {
+      delete process.env.NEXT_PUBLIC_APP_URL;
+    }
+  });
+
   it("/api/auth/csrf returns 401 when logged out", async () => {
     cookieGet.mockReturnValue(undefined);
 
