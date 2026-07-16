@@ -26,10 +26,11 @@ import {
   getWorkflowDatabase,
   parseWorkflowDatabaseJson,
   workflowDatabaseEnabled,
+  type WorkflowDatabase,
   type WorkflowDatabaseExecutor,
 } from "./workflowDatabase";
 
-interface WorkflowFileState {
+export interface WorkflowFileState {
   schemaVersion: 1;
   items: WorkflowItem[];
   outbox: WorkflowPublicationOutboxRecord[];
@@ -276,6 +277,77 @@ async function insertEvent(executor: WorkflowDatabaseExecutor, itemId: string, e
   );
 }
 
+function duplicateSafeInsert(sql: string, executor: WorkflowDatabaseExecutor): string {
+  return executor.dialect === "postgres"
+    ? `${sql} ON CONFLICT DO NOTHING`
+    : sql.replace(/^INSERT\s+/i, "INSERT IGNORE ");
+}
+
+async function insertMigrationRevision(executor: WorkflowDatabaseExecutor, itemId: string, revision: WorkflowRevisionSnapshot): Promise<void> {
+  await executor.query(
+    duplicateSafeInsert(
+      `INSERT INTO content_workflow_revisions
+        (id, workflow_item_id, revision_number, content_hash, snapshot, created_by, created_at)
+        VALUES (?, ?, ?, ?, ${databaseJsonCast(executor)}, ?, ?)`,
+      executor
+    ),
+    [revision.id, itemId, revision.revisionNumber, revision.contentHash, JSON.stringify(revision), revision.createdBy, revision.createdAt]
+  );
+}
+
+async function insertMigrationReview(executor: WorkflowDatabaseExecutor, itemId: string, review: WorkflowReviewComment): Promise<void> {
+  if (!["approved", "rejected", "changes_requested"].includes(review.decision) || !review.revisionId || !isSha256Hash(review.contentHash)) return;
+  await executor.query(
+    duplicateSafeInsert(
+      `INSERT INTO content_review_records
+        (id, workflow_item_id, revision_id, content_hash, reviewer_id, decision, comment, attestation, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ${databaseJsonCast(executor)}, ?)`,
+      executor
+    ),
+    [review.id, itemId, review.revisionId, review.contentHash, review.authorId, review.decision, review.body, review.attestation ? JSON.stringify(review.attestation) : null, review.createdAt]
+  );
+}
+
+async function insertMigrationEvent(executor: WorkflowDatabaseExecutor, itemId: string, event: WorkflowHistoryEvent, contentHash: string): Promise<void> {
+  if (!event.id || !event.type || !event.actorId || !event.createdAt) return;
+  await executor.query(
+    duplicateSafeInsert(
+      `INSERT INTO content_workflow_events
+        (id, workflow_item_id, event_type, actor_id, content_hash, event, created_at)
+        VALUES (?, ?, ?, ?, ?, ${databaseJsonCast(executor)}, ?)`,
+      executor
+    ),
+    [event.id, itemId, event.type, event.actorId, contentHash, JSON.stringify(event), event.createdAt]
+  );
+}
+
+async function insertMigrationOutbox(executor: WorkflowDatabaseExecutor, record: WorkflowPublicationOutboxRecord, targetItemId: string): Promise<void> {
+  if (!record.idempotencyKey || !record.revisionId || !isSha256Hash(record.contentHash)) return;
+  await executor.query(
+    duplicateSafeInsert(
+      `INSERT INTO content_publication_outbox
+        (idempotency_key, workflow_item_id, revision_id, content_hash, status, attempts, lease_expires_at, last_error,
+         engine_result, created_at, updated_at, completed_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ${databaseJsonCast(executor)}, ?, ?, ?)`,
+      executor
+    ),
+    [
+      record.idempotencyKey,
+      targetItemId,
+      record.revisionId,
+      record.contentHash,
+      record.status,
+      Math.max(0, Number(record.attempts) || 0),
+      record.leaseExpiresAt || null,
+      record.lastError || null,
+      record.engineResult ? JSON.stringify(record.engineResult) : null,
+      record.createdAt,
+      record.updatedAt,
+      record.completedAt || null,
+    ]
+  );
+}
+
 async function saveNewDatabaseItem(executor: WorkflowDatabaseExecutor, mutation: WorkflowMutation): Promise<void> {
   const item = mutation.item;
   await executor.query(databaseItemSql("INSERT", executor), [
@@ -325,37 +397,67 @@ async function loadDatabaseItem(executor: WorkflowDatabaseExecutor, id: string, 
   return rows[0]?.payload ? hydrateWorkflowItem(parseWorkflowDatabaseJson<WorkflowItem>(rows[0].payload)) : null;
 }
 
+export async function migrateWorkflowSourcesToDatabase(
+  database: WorkflowDatabase,
+  editorialState: WorkflowFileState,
+  legacyItems: WorkflowItem[]
+): Promise<void> {
+  const targetItemIds = new Map<string, string>();
+  const sourceItems = [
+    ...(Array.isArray(editorialState.items) ? editorialState.items : []),
+    ...(Array.isArray(legacyItems) ? legacyItems : []),
+  ];
+
+  for (const raw of sourceItems) {
+    const item = hydrateWorkflowItem(raw);
+    const targetItemId = await database.transaction(async (executor) => {
+      await executor.query(duplicateSafeInsert(databaseItemSql("INSERT", executor), executor), [
+        item.id,
+        item.questionId,
+        item.questionId.toLowerCase(),
+        item.topicId,
+        item.status,
+        item.authorId,
+        item.reviewerId || null,
+        item.currentRevisionId,
+        item.contentHash,
+        JSON.stringify(item),
+        item.createdAt,
+        item.updatedAt,
+      ]);
+
+      let rows = await executor.query<{ id: string }>("SELECT id FROM content_workflow_items WHERE id = ? LIMIT 1", [item.id]);
+      if (rows.length === 0) {
+        rows = await executor.query<{ id: string }>("SELECT id FROM content_workflow_items WHERE question_id_normalized = ? LIMIT 1", [item.questionId.toLowerCase()]);
+      }
+      const persistedItemId = rows[0]?.id;
+      if (!persistedItemId) throw new Error("Migrated workflow item could not be located after insert.");
+
+      for (const revision of item.revisions) await insertMigrationRevision(executor, persistedItemId, revision);
+      for (const review of item.reviewComments) await insertMigrationReview(executor, persistedItemId, review);
+      for (const event of item.history) await insertMigrationEvent(executor, persistedItemId, event, item.contentHash);
+      return persistedItemId;
+    });
+    targetItemIds.set(item.id, targetItemId);
+  }
+
+  for (const record of Array.isArray(editorialState.outbox) ? editorialState.outbox : []) {
+    const targetItemId = targetItemIds.get(record.workflowItemId) ?? record.workflowItemId;
+    await database.transaction((executor) => insertMigrationOutbox(executor, record, targetItemId));
+  }
+}
+
 async function ensureWorkflowMigration(): Promise<void> {
   if (migrationPromise) return migrationPromise;
   const pending = (async () => {
     if (!workflowDatabaseEnabled()) return;
     await ensureWorkflowDatabaseSchema();
     const database = await getWorkflowDatabase();
-    const countRows = await database.query<{ total: string | number }>("SELECT COUNT(*) AS total FROM content_workflow_items");
-    if (Number(countRows[0]?.total || 0) > 0) return;
-    const legacyItems = await legacyWorkflowStore.read();
-    if (legacyItems.length === 0) return;
-    for (const raw of legacyItems) {
-      const item = hydrateWorkflowItem(raw);
-      const revision = item.revisions.find((candidate) => candidate.id === item.currentRevisionId) ?? item.revisions[0];
-      const migrationActor: CurrentUser = {
-        id: item.authorId,
-        displayName: item.authorName,
-        role: "super_admin",
-        accountType: "staff",
-        source: "transitional_env",
-      };
-      const event = history(migrationActor, "legacy_migrated", "Legacy workflow record migrated to the guarded editorial schema.", {
-        originalStatus: item.status,
-        contentHash: item.contentHash,
-      });
-      try {
-        await database.transaction((executor) => saveNewDatabaseItem(executor, { item, revision, event }));
-      } catch (error) {
-        const message = error instanceof Error ? error.message.toLowerCase() : "";
-        if (!message.includes("duplicate") && !message.includes("unique")) throw error;
-      }
-    }
+    const [editorialState, legacyItems] = await Promise.all([
+      editorialFileStore.read(),
+      legacyWorkflowStore.read(),
+    ]);
+    await migrateWorkflowSourcesToDatabase(database, editorialState, legacyItems);
   })();
   migrationPromise = pending;
   try {
