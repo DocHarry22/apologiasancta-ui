@@ -10,6 +10,7 @@ import { CSRF_COOKIE_NAME, generateCsrfToken } from "@/lib/csrf";
 import { getRoleHomePath } from "@/lib/auth/access";
 import { authenticateAdminUser } from "@/lib/server/adminUserStore";
 import { authUnavailableResponse } from "@/lib/server/authUnavailableResponse";
+import { getLearningProgressAccountScope } from "@/lib/server/learningProgressAccountScope";
 
 export async function POST(req: NextRequest) {
   const readiness = getAdminAuthReadiness();
@@ -62,6 +63,7 @@ export async function POST(req: NextRequest) {
   const response = NextResponse.json({
     ok: true,
     redirectTo: getRoleHomePath(user.role),
+    accountScope: getLearningProgressAccountScope(user.id),
     user: {
       id: user.id,
       email: user.email,

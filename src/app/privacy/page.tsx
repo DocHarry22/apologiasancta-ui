@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const sections = [
-  ["Data kept on this device", "Theme preference, a resilient copy of lesson completion and practice totals, Library bookmarks, and the lightweight live-quiz identity are stored in this browser. The learning copy remains usable offline; bookmarks and live-quiz identity are not account-synced."],
+  ["Data kept on this device", "Theme preference, resilient account-separated and anonymous copies of lesson completion and practice totals, Library bookmarks, and the lightweight live-quiz identity are stored in this browser. Learning remains usable offline; bookmarks and live-quiz identity are not account-synced."],
   ["Authenticated account data", "When account services and cloud learning sync are configured, the server stores profile and security records plus merged lesson completions, practice best score, practice attempt count, revision metadata, and deduplication IDs. Server credentials and database errors are not exposed to the browser."],
   ["Live quiz data", "A room may process your public display name, submitted answer, timing result, score, and streak. Display names and scores can appear to other room participants and in returned leaderboards, so do not use contact details as a quiz name."],
   ["Research Graph", "Apologia Graph is a separate public application with its own deployment and storage behaviour. Opening it leaves Apologia Sancta; this site does not copy Graph workspace data into your account."],

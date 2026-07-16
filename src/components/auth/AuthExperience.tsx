@@ -12,6 +12,7 @@ import {
 } from "react";
 import { BrandMark } from "@/components/shell/BrandMark";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { activateLearningProgressAccountScope, detachLearningProgressAccount } from "@/lib/learningProgressSync";
 
 type AuthMode = "signin" | "signup";
 type FormState = "idle" | "loading" | "error" | "success";
@@ -25,6 +26,7 @@ export interface AuthExperienceProps {
 
 interface AuthPayload {
   redirectTo?: string;
+  accountScope?: string;
   error?: string;
   code?: string;
   reason?: string;
@@ -215,6 +217,7 @@ export function AuthExperience({
 
       const payload = (await response.json().catch(() => null)) as AuthPayload | null;
       if (response.ok) {
+        if (payload?.accountScope) activateLearningProgressAccountScope(payload.accountScope);
         setFormState("success");
         navigateAfterAuth(destinationAfterAuth(payload));
         return;
@@ -263,6 +266,7 @@ export function AuthExperience({
 
       const payload = (await response.json().catch(() => null)) as AuthPayload | null;
       if (response.ok) {
+        if (payload?.accountScope) activateLearningProgressAccountScope(payload.accountScope);
         setFormState("success");
         navigateAfterAuth(destinationAfterAuth(payload));
         return;
@@ -286,7 +290,9 @@ export function AuthExperience({
     setFormState("loading");
     setMessage("");
     try {
-      await fetch("/api/auth/logout", { method: "POST" });
+      const response = await fetch("/api/auth/logout", { method: "POST" });
+      if (!response.ok) throw new Error("Session clear failed");
+      detachLearningProgressAccount();
       setFormState("success");
       setMessage("Saved session cleared. You can sign in with another account.");
       router.refresh();

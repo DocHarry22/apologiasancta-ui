@@ -14,12 +14,13 @@ import { SHOW_WHATS_NEW_EVENT } from "@/components/releases/WhatsNewPopup";
 import { ProgressBar, ProgressRing, SectionHeading, StatusBadge } from "@/components/ui/Primitives";
 import { useScoreHistory } from "@/hooks/useScoreHistory";
 import {
-  LEARNING_PROGRESS_KEY,
   parseLearningProgress,
   type LearningProgress,
 } from "@/lib/learningProgress";
 import {
   LEARNING_PROGRESS_CHANGED_EVENT,
+  clearActiveLearningProgressDeviceCopy,
+  detachLearningProgressAccount,
   readLocalLearningProgress,
   syncLocalLearningProgress,
   type LearningProgressSyncStatus,
@@ -175,7 +176,7 @@ export function AccountDashboard({
       return;
     }
     try {
-      window.localStorage.removeItem(LEARNING_PROGRESS_KEY);
+      if (!clearActiveLearningProgressDeviceCopy()) throw new Error("Device progress clear failed");
       setLearningProgress(parseLearningProgress(null));
       setPrivacyMessage("This device copy was cleared. Signed-in cloud progress may be restored on the next successful sync.");
     } catch {
@@ -477,7 +478,9 @@ function SecurityPanel({ lastLoginAt, onSignedOut }: { lastLoginAt: string | nul
     setBusyAction("logout");
     setMessage(null);
     try {
-      await fetch("/api/auth/logout", { method: "POST" });
+      const response = await fetch("/api/auth/logout", { method: "POST" });
+      if (!response.ok) throw new Error("Sign out failed");
+      detachLearningProgressAccount();
       onSignedOut();
     } catch {
       setMessage({ tone: "error", text: "Sign out failed. Check your connection and try again." });

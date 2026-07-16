@@ -21,7 +21,7 @@ Every learning table has an indexed foreign key to `admin_users(id)` with `ON DE
 
 ## API contract
 
-`GET /api/learning/progress` and `POST /api/learning/progress` require the existing signed HttpOnly session. POST additionally requires the existing HMAC double-submit CSRF token. Responses are `private, no-store`.
+`GET /api/learning/progress` and `POST /api/learning/progress` require the existing signed HttpOnly session. POST additionally requires the existing HMAC double-submit CSRF token. Responses are `private, no-store` and include server UTC plus a stable, one-way hashed `accountScope`. Login/signup return the same scope so the browser selects the correct offline archive before navigation; requests never accept that scope or an account ID from the client.
 
 POST accepts only:
 
@@ -53,14 +53,20 @@ The v1 aggregate is upgraded with:
 
 - a preserved legacy attempt floor;
 - a durable pending queue for new practice-attempt events;
-- last observed server revision and sync timestamp.
+- last observed server revision and sync timestamp;
+- an opaque server-issued account scope.
 
-On sign-in, reconnect, dashboard load, or a new progress action, the client reads cloud state, unions it with the latest local value, sends at most 100 events per request, and removes events only after acknowledgment. Requests are serialized per tab and re-read local storage after every network response so in-flight lesson changes are not overwritten. Network, auth, flag, or database failures leave the local copy intact.
+The browser keeps separate account archives plus a separate anonymous workspace. First sign-in can claim anonymous work once. Direct account switching archives account A before activating account B, so A's progress is never considered for B's request. Explicit logout archives the account and restores anonymous progress. Returning to an account restores its archive. In-flight responses are discarded when either this tab's account context or the browser-wide active local scope changed, including a switch made in another tab. This association is only a local-selection guard; the HttpOnly session remains the sole server authorization authority.
+
+On sign-in, reconnect, dashboard load, or a new progress action, the client reads cloud state, unions it with the selected account-local value, sends at most 100 events per request, and removes events only after acknowledgment. Unknown/retired lesson IDs remain in local history but are excluded from comparisons and POST payloads because the strict API accepts only the current learning path. Requests are serialized per tab and re-read local storage after every network response so in-flight lesson changes are not overwritten. Network, auth, flag, or database failures leave the selected local copy intact.
+
+The API still rejects client timestamps more than five minutes ahead. Each successful response supplies server UTC; the browser normalizes only server-bound `clientUpdatedAt` and event timestamps to that clock when its local value is invalid, before 2020, or over four minutes ahead. Original offline data remains untouched, so a misconfigured device clock cannot permanently poison the pending queue or erase study history.
 
 ## Security and current limits
 
 - The session remains an HttpOnly, Secure `__Host-` cookie in production; no token is moved to local storage.
 - Mutations use same-origin credentials and CSRF verification.
+- Shared-browser account changes select isolated opaque-scope archives before any write payload is built.
 - Logs include only operation and error class, never SQL, payloads, cookies, connection strings, or driver messages.
 - An account can report its own study totals; these are formation indicators, not prize-grade competition evidence.
 - Account-wide progress deletion/export is intentionally not claimed by this slice. The Account control clears only the device copy and says cloud progress may return. Add a revisioned deletion tombstone and verified export before public commercial launch.

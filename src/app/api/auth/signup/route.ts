@@ -12,6 +12,7 @@ import { resolveSignupRole } from "@/lib/auth/invite";
 import { getAuthInviteSettings } from "@/lib/server/authInviteSettings";
 import { createAdminUser } from "@/lib/server/adminUserStore";
 import { authUnavailableResponse } from "@/lib/server/authUnavailableResponse";
+import { getLearningProgressAccountScope } from "@/lib/server/learningProgressAccountScope";
 
 interface SignupBody {
   name?: unknown;
@@ -125,6 +126,7 @@ export async function POST(req: NextRequest) {
   const response = NextResponse.json({
     ok: true,
     redirectTo: getRoleHomePath(created.role),
+    accountScope: getLearningProgressAccountScope(created.id),
     user: {
       id: created.id,
       email: created.email,

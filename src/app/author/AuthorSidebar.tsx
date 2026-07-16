@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/lib/theme";
 import { roleLabels } from "@/lib/auth/roles";
+import { detachLearningProgressAccount } from "@/lib/learningProgressSync";
 import type { CurrentUser } from "@/lib/server/currentUser";
 
 const NAV_ITEMS = [
@@ -84,7 +85,7 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
           >
             {theme === "dark" ? "Light" : "Dark"}
           </button>
-          <form method="post" action={`/api/auth/logout?next=${encodeURIComponent(`${basePath}/login`)}`} className="flex-1">
+          <form method="post" action={`/api/auth/logout?next=${encodeURIComponent(`${basePath}/login`)}`} onSubmit={detachLearningProgressAccount} className="flex-1">
             <button
               type="submit"
               className="w-full rounded-lg border border-(--border) py-1.5 text-xs text-(--muted) hover:border-red-500 hover:text-red-500 transition-colors"

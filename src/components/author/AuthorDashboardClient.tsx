@@ -15,6 +15,7 @@ import { validateTopic } from "@/lib/topicOperations";
 import { buildTopicSequenceConfig, validateTopicSequenceConfig } from "@/lib/topicSequence";
 import { dangerousActions, isDangerConfirmationValid, requiresTypedConfirmation, type DangerousActionDefinition } from "@/lib/dangerousActions";
 import { getNextQuestionId, getWorkflowQuestionId, hasQuestionFormContent, requiresReviewComment, type DraftQuestion, type ReviewStatus } from "@/lib/contentWorkflow";
+import { detachLearningProgressAccount } from "@/lib/learningProgressSync";
 import type { AuditEvent } from "@/lib/server/storage/types";
 import AuthorForm from "./AuthorForm";
 import JsonPreview from "./JsonPreview";
@@ -722,7 +723,8 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
+      const response = await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
+      if (response.ok) detachLearningProgressAccount();
     } finally {
       const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
       window.location.href = `${basePath}/login`;

@@ -8,7 +8,9 @@ export type PendingPracticeAttempt = {
 };
 
 export type LearningProgressSyncMetadata = {
-  /** Last server revision observed by this browser. It is advisory, never an account identifier. */
+  /** Opaque server-issued scope used only to select this account's local archive. */
+  accountScope: string | null;
+  /** Last server revision observed for accountScope. */
   revision: number;
   /** Attempts inherited from the v1 aggregate before idempotent attempt events were introduced. */
   practiceAttemptsFloor: number;
@@ -31,6 +33,7 @@ export const EMPTY_LEARNING_PROGRESS: LearningProgress = {
   practiceAttempts: 0,
   updatedAt: null,
   sync: {
+    accountScope: null,
     revision: 0,
     practiceAttemptsFloor: 0,
     pendingPracticeAttempts: [],
@@ -40,6 +43,7 @@ export const EMPTY_LEARNING_PROGRESS: LearningProgress = {
 
 const MAX_SAFE_PROGRESS_COUNT = 1_000_000;
 const MUTATION_ID_PATTERN = /^[A-Za-z0-9_-]{16,80}$/;
+const ACCOUNT_SCOPE_PATTERN = /^[A-Za-z0-9_-]{16,80}$/;
 
 function finiteInteger(value: unknown, fallback = 0): number {
   if (!Number.isFinite(value)) return fallback;
@@ -95,6 +99,9 @@ export function parseLearningProgress(value: string | null): LearningProgress {
       practiceAttempts,
       updatedAt: Number.isFinite(parsed.updatedAt) ? Math.max(0, Number(parsed.updatedAt)) : null,
       sync: {
+        accountScope: typeof rawSync?.accountScope === "string" && ACCOUNT_SCOPE_PATTERN.test(rawSync.accountScope)
+          ? rawSync.accountScope
+          : null,
         revision: finiteInteger(rawSync?.revision),
         // A legacy v1 value has no sync metadata. Treat its full aggregate as a
         // floor, then count all newly-created events exactly once.

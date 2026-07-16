@@ -17,6 +17,10 @@ export type LearningProgressSyncInput = {
 
 export type LearningProgressSuccessResponse = {
   ok: true;
+  /** Stable opaque server-derived account association; never accepted in a request. */
+  accountScope: string;
+  /** Server UTC used to normalize browser clocks before strict timestamp validation. */
+  serverTime: string;
   progress: RemoteLearningProgress;
   conflictMerged?: boolean;
   acknowledgedMutationIds?: string[];

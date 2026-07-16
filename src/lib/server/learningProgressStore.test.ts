@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { LearningProgressSyncInput } from "@/lib/learningProgressContract";
 import { getLearningProgressMigrationStatements } from "./learningProgressSchema";
+import { getLearningProgressAccountScope } from "./learningProgressAccountScope";
 import { calculateLearningProgressMerge, isLearningCloudSyncConfigured } from "./learningProgressStore";
 
 const input: LearningProgressSyncInput = {
@@ -18,6 +19,14 @@ const input: LearningProgressSyncInput = {
 };
 
 describe("learning progress transactional merge", () => {
+  it("derives stable opaque local archive scopes without exposing account IDs", () => {
+    const first = getLearningProgressAccountScope("account-a-private-id");
+    expect(first).toBe(getLearningProgressAccountScope("account-a-private-id"));
+    expect(first).not.toBe(getLearningProgressAccountScope("account-b-private-id"));
+    expect(first).toMatch(/^[A-Za-z0-9_-]{43}$/);
+    expect(first).not.toContain("account-a-private-id");
+  });
+
   it("adds a new event once, advances one revision, and reports stale merges", () => {
     const merged = calculateLearningProgressMerge({
       revision: 5,

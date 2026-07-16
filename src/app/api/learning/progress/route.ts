@@ -7,6 +7,7 @@ import {
   syncLearningProgress,
 } from "@/lib/server/learningProgressStore";
 import { validateLearningProgressSyncBody } from "@/lib/server/learningProgressValidation";
+import { getLearningProgressAccountScope } from "@/lib/server/learningProgressAccountScope";
 
 const NO_STORE_HEADERS = { "Cache-Control": "private, no-store, max-age=0" };
 
@@ -48,7 +49,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   if (!isLearningCloudSyncConfigured()) return unavailable();
 
   try {
-    return json({ ok: true, progress: await getLearningProgress(auth.user.id) });
+    return json({
+      ok: true,
+      accountScope: getLearningProgressAccountScope(auth.user.id),
+      serverTime: new Date().toISOString(),
+      progress: await getLearningProgress(auth.user.id),
+    });
   } catch (error) {
     logStorageFailure("read", error);
     return unavailable();
@@ -99,6 +105,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const result = await syncLearningProgress(auth.user.id, validated.value);
     return json({
       ok: true,
+      accountScope: getLearningProgressAccountScope(auth.user.id),
+      serverTime: new Date().toISOString(),
       progress: result.progress,
       conflictMerged: result.conflictMerged,
       acknowledgedMutationIds: result.acknowledgedMutationIds,
