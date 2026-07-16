@@ -19,7 +19,7 @@ The operational MVP now connects four product pillars: a clear home/dashboard, a
 - Competition: spectator mode, challenge/rematch links, question review, report-a-question, ranked daily quiz, seasonal/category boards and difficulty calibration.
 - Groups: parish/class cohorts, invitations, group dashboards and moderator reporting queue.
 - Content: normalized question/version tables, source URL validation, editorial ownership, version history, CSV export and a human-review gate for AI-assisted drafts.
-- UX: first-run onboarding, dark theme, richer offline lesson caching and accessibility testing with screen readers.
+- UX: richer first-run onboarding, offline lesson caching and manual accessibility testing with VoiceOver, TalkBack, NVDA and keyboard-only navigation.
 - Quality: Playwright end-to-end coverage against an ephemeral engine/database and production monitoring/alerts.
 
 ## Later
@@ -36,7 +36,7 @@ The operational MVP now connects four product pillars: a clear home/dashboard, a
 - Do not add separate half-built debate, social-feed or chat products to the MVP.
 - Delay public Catholic-vs-Protestant, Catholic-vs-Islamic and atheist comparison packs until each has named theological/editorial review, charitable language standards and primary citations.
 - Keep AI to draft assistance; never auto-publish doctrinal answers or questions.
-- Do not provision Redis or multi-instance infrastructure until the shared controller is redesigned for distributed coordination.
+- Do not provision Redis or multi-instance infrastructure until the room-controller model is redesigned for distributed coordination.
 
 ## Content governance
 
@@ -48,4 +48,3 @@ Every doctrinal claim should link to an authoritative source: Catechism paragrap
 2. Run the end-to-end room smoke script in the production environment with a non-public test room.
 3. Complete human review of the Foundations path and a launch-sized curated question set.
 4. Add durable learner accounts/progress and reporting before ranked prizes, subscriptions or school licensing.
-
