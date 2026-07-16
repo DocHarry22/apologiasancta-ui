@@ -12,6 +12,12 @@ export default defineConfig({
   test: {
     environment: "node",
     globals: true,
+    // Fork startup can exceed Vitest's worker handshake timeout when this
+    // workspace is OneDrive-backed. Keep local runs deterministic while CI
+    // retains file-level parallelism on its local runner disk.
+    pool: process.env.CI ? "forks" : "threads",
+    fileParallelism: Boolean(process.env.CI),
+    maxWorkers: process.env.CI ? undefined : 1,
     setupFiles: ["./vitest.setup.ts"],
     exclude: [
       "node_modules",
