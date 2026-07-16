@@ -225,6 +225,128 @@ function hydrateWorkflowItem(raw: WorkflowItem): WorkflowItem {
   };
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function isCompleteMigrationProjection(raw: unknown): boolean {
+  if (!isRecord(raw)) return false;
+  if (
+    typeof raw.id !== "string"
+    || typeof raw.questionId !== "string"
+    || typeof raw.currentRevisionId !== "string"
+    || !isSha256Hash(raw.contentHash)
+    || !Number.isSafeInteger(raw.version)
+    || Number(raw.version) < 1
+    || !Number.isSafeInteger(raw.revisionNumber)
+    || Number(raw.revisionNumber) < 1
+    || !Array.isArray(raw.revisions)
+    || !Array.isArray(raw.reviewComments)
+    || !Array.isArray(raw.history)
+    || !Array.isArray(raw.validationIssues)
+    || !Array.isArray(raw.doctrinalFlags)
+    || !Array.isArray(raw.referenceFlags)
+  ) {
+    return false;
+  }
+
+  return raw.revisions.some((candidate) => (
+    isRecord(candidate)
+    && candidate.id === raw.currentRevisionId
+    && candidate.contentHash === raw.contentHash
+    && candidate.revisionNumber === raw.revisionNumber
+  ));
+}
+
+function parseMigrationProjection(payload: unknown): { complete: boolean; item: WorkflowItem | null } {
+  try {
+    const raw = parseWorkflowDatabaseJson<unknown>(payload);
+    if (!isRecord(raw)) return { complete: false, item: null };
+    return {
+      complete: isCompleteMigrationProjection(raw),
+      item: hydrateWorkflowItem(raw as unknown as WorkflowItem),
+    };
+  } catch {
+    return { complete: false, item: null };
+  }
+}
+
+function compareIsoTimestamps(left: string, right: string): number {
+  const leftTimestamp = Date.parse(left);
+  const rightTimestamp = Date.parse(right);
+  const normalizedLeft = Number.isFinite(leftTimestamp) ? leftTimestamp : 0;
+  const normalizedRight = Number.isFinite(rightTimestamp) ? rightTimestamp : 0;
+  return normalizedLeft - normalizedRight;
+}
+
+function chooseMigrationProjectionBase(
+  source: WorkflowItem,
+  existing: WorkflowItem,
+  existingProjectionComplete: boolean
+): WorkflowItem {
+  // Migration precedence is deliberately monotonic: repair an incomplete projection first,
+  // otherwise prefer the higher content revision, then database state for a divergent hash,
+  // then the higher workflow version, then the newer timestamp. Exact ties stay in the database.
+  if (!existingProjectionComplete) return source;
+  if (source.revisionNumber !== existing.revisionNumber) {
+    return source.revisionNumber > existing.revisionNumber ? source : existing;
+  }
+
+  // A same-number/different-hash revision is divergent rather than provably older.
+  // Keep the database copy so a file bootstrap can never replace live authored work.
+  if (source.contentHash !== existing.contentHash) return existing;
+  if (source.version !== existing.version) return source.version > existing.version ? source : existing;
+  return compareIsoTimestamps(source.updatedAt, existing.updatedAt) > 0 ? source : existing;
+}
+
+function mergeMigrationRecords<T extends { id: string }>(
+  source: T[],
+  existing: T[],
+  compare: (left: T, right: T) => number
+): T[] {
+  const merged = new Map<string, T>();
+  for (const record of source) {
+    if (record?.id) merged.set(record.id, record);
+  }
+  // Database evidence wins if the same immutable identifier somehow diverged.
+  for (const record of existing) {
+    if (record?.id) merged.set(record.id, record);
+  }
+  return [...merged.values()].sort(compare);
+}
+
+function mergeMigrationStrings(source: string[], existing: string[]): string[] {
+  return [...new Set([...source, ...existing].filter(Boolean))].sort((left, right) => left.localeCompare(right));
+}
+
+function reconcileMigrationProjection(
+  source: WorkflowItem,
+  persistedItemId: string,
+  existing: WorkflowItem | null,
+  existingProjectionComplete: boolean
+): WorkflowItem {
+  if (!existing) return { ...source, id: persistedItemId };
+  const base = chooseMigrationProjectionBase(source, existing, existingProjectionComplete);
+  return {
+    ...base,
+    id: persistedItemId,
+    revisions: mergeMigrationRecords(source.revisions, existing.revisions, (left, right) => (
+      left.revisionNumber - right.revisionNumber
+      || compareIsoTimestamps(left.createdAt, right.createdAt)
+      || left.id.localeCompare(right.id)
+    )),
+    reviewComments: mergeMigrationRecords(source.reviewComments, existing.reviewComments, (left, right) => (
+      compareIsoTimestamps(left.createdAt, right.createdAt) || left.id.localeCompare(right.id)
+    )),
+    history: mergeMigrationRecords(source.history, existing.history, (left, right) => (
+      compareIsoTimestamps(right.createdAt, left.createdAt) || left.id.localeCompare(right.id)
+    )),
+    validationIssues: mergeMigrationStrings(source.validationIssues, existing.validationIssues),
+    doctrinalFlags: mergeMigrationStrings(source.doctrinalFlags, existing.doctrinalFlags),
+    referenceFlags: mergeMigrationStrings(source.referenceFlags, existing.referenceFlags),
+  };
+}
+
 function matchesFilters(item: WorkflowItem, filters: WorkflowFilters): boolean {
   if (filters.status && item.status !== filters.status) return false;
   if (filters.topicId && item.topicId !== filters.topicId) return false;
@@ -389,6 +511,22 @@ async function updateDatabaseItem(executor: WorkflowDatabaseExecutor, mutation: 
   await insertEvent(executor, item.id, mutation.event, item.contentHash);
 }
 
+async function updateMigrationProjection(executor: WorkflowDatabaseExecutor, item: WorkflowItem): Promise<void> {
+  await executor.query(databaseItemSql("UPDATE", executor), [
+    item.questionId,
+    item.questionId.toLowerCase(),
+    item.topicId,
+    item.status,
+    item.authorId,
+    item.reviewerId || null,
+    item.currentRevisionId,
+    item.contentHash,
+    JSON.stringify(item),
+    item.updatedAt,
+    item.id,
+  ]);
+}
+
 async function loadDatabaseItem(executor: WorkflowDatabaseExecutor, id: string, forUpdate = false): Promise<WorkflowItem | null> {
   const rows = await executor.query<{ payload: unknown }>(
     `SELECT payload FROM content_workflow_items WHERE id = ? OR question_id = ? LIMIT 1${forUpdate ? " FOR UPDATE" : ""}`,
@@ -426,16 +564,32 @@ export async function migrateWorkflowSourcesToDatabase(
         item.updatedAt,
       ]);
 
-      let rows = await executor.query<{ id: string }>("SELECT id FROM content_workflow_items WHERE id = ? LIMIT 1", [item.id]);
+      let rows = await executor.query<{ id: string; payload: unknown }>(
+        "SELECT id, payload FROM content_workflow_items WHERE id = ? LIMIT 1 FOR UPDATE",
+        [item.id]
+      );
       if (rows.length === 0) {
-        rows = await executor.query<{ id: string }>("SELECT id FROM content_workflow_items WHERE question_id_normalized = ? LIMIT 1", [item.questionId.toLowerCase()]);
+        rows = await executor.query<{ id: string; payload: unknown }>(
+          "SELECT id, payload FROM content_workflow_items WHERE question_id_normalized = ? LIMIT 1 FOR UPDATE",
+          [item.questionId.toLowerCase()]
+        );
       }
-      const persistedItemId = rows[0]?.id;
+      const persistedRow = rows[0];
+      const persistedItemId = persistedRow?.id;
       if (!persistedItemId) throw new Error("Migrated workflow item could not be located after insert.");
 
-      for (const revision of item.revisions) await insertMigrationRevision(executor, persistedItemId, revision);
-      for (const review of item.reviewComments) await insertMigrationReview(executor, persistedItemId, review);
-      for (const event of item.history) await insertMigrationEvent(executor, persistedItemId, event, item.contentHash);
+      const existingProjection = parseMigrationProjection(persistedRow.payload);
+      const reconciled = reconcileMigrationProjection(
+        item,
+        persistedItemId,
+        existingProjection.item,
+        existingProjection.complete
+      );
+      await updateMigrationProjection(executor, reconciled);
+
+      for (const revision of reconciled.revisions) await insertMigrationRevision(executor, persistedItemId, revision);
+      for (const review of reconciled.reviewComments) await insertMigrationReview(executor, persistedItemId, review);
+      for (const event of reconciled.history) await insertMigrationEvent(executor, persistedItemId, event, reconciled.contentHash);
       return persistedItemId;
     });
     targetItemIds.set(item.id, targetItemId);

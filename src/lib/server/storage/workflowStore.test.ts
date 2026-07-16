@@ -7,6 +7,7 @@ import type { CurrentUser } from "../currentUser";
 import type { Question } from "@/types/content";
 import type { WorkflowDatabase, WorkflowDatabaseExecutor } from "./workflowDatabase";
 import type { WorkflowFileState } from "./workflowStore";
+import type { WorkflowHistoryEvent, WorkflowItem } from "./types";
 
 const author: CurrentUser = {
   id: "author-1",
@@ -144,7 +145,7 @@ describe("guarded editorial workflow", () => {
     expect(replay.idempotencyKey).toBe(firstClaim.idempotencyKey);
   });
 
-  it("resumably migrates editorial file evidence into a partially populated database", async () => {
+  it("idempotently reconciles file evidence without replacing newer database workflow state", async () => {
     const workflow = await import("./workflowStore");
     const draft = await workflow.createWorkflowDraft({ ...sourcedQuestion, id: "edt_0004" }, author, ["trinity"], [], false);
     const revised = await workflow.updateWorkflowDraft(draft.id, {
@@ -173,8 +174,18 @@ describe("guarded editorial workflow", () => {
     expect(sourceState.items[0].reviewComments).toHaveLength(1);
     expect(sourceState.outbox[0]).toMatchObject({ status: "completed", attempts: 2, engineResult: { bankSize: 4 } });
 
+    const partialProjection = { ...published } as Record<string, unknown>;
+    partialProjection.status = "approved";
+    partialProjection.version = Math.max(1, published.version - 1);
+    partialProjection.updatedAt = approved.updatedAt;
+    delete partialProjection.publishedAt;
+    delete partialProjection.publishTarget;
+    delete partialProjection.reviewComments;
+    delete partialProjection.history;
+
     const itemIds = new Map<string, string>([[published.id, published.id], ["already-in-db", "already-in-db"]]);
     const questionIds = new Map<string, string>([[published.questionId.toLowerCase(), published.id]]);
+    const itemPayloads = new Map<string, unknown>([[published.id, partialProjection]]);
     const revisions = new Set<string>();
     const reviews = new Set<string>();
     const events = new Set<string>();
@@ -190,16 +201,21 @@ describe("guarded editorial workflow", () => {
           if (!itemIds.has(id) && !questionIds.has(normalized)) {
             itemIds.set(id, id);
             questionIds.set(normalized, id);
+            itemPayloads.set(id, JSON.parse(String(values[9])));
           }
           return [];
         }
-        if (sql.includes("SELECT id FROM content_workflow_items WHERE id")) {
+        if (sql.includes("SELECT id, payload FROM content_workflow_items WHERE id")) {
           const id = itemIds.get(String(values[0]));
-          return (id ? [{ id }] : []) as Row[];
+          return (id ? [{ id, payload: itemPayloads.get(id) }] : []) as Row[];
         }
-        if (sql.includes("SELECT id FROM content_workflow_items WHERE question_id_normalized")) {
+        if (sql.includes("SELECT id, payload FROM content_workflow_items WHERE question_id_normalized")) {
           const id = questionIds.get(String(values[0]));
-          return (id ? [{ id }] : []) as Row[];
+          return (id ? [{ id, payload: itemPayloads.get(id) }] : []) as Row[];
+        }
+        if (sql.includes("UPDATE content_workflow_items SET")) {
+          itemPayloads.set(String(values[10]), JSON.parse(String(values[8])));
+          return [];
         }
         if (sql.includes("INSERT INTO content_workflow_revisions")) revisions.add(String(values[0]));
         if (sql.includes("INSERT INTO content_review_records")) reviews.add(String(values[0]));
@@ -216,12 +232,59 @@ describe("guarded editorial workflow", () => {
     };
 
     await workflow.migrateWorkflowSourcesToDatabase(database, sourceState, []);
+    const firstReconciledJson = JSON.stringify(itemPayloads.get(published.id));
     await workflow.migrateWorkflowSourcesToDatabase(database, sourceState, []);
+
+    const reconciled = itemPayloads.get(published.id) as WorkflowItem;
+    expect(JSON.stringify(reconciled)).toBe(firstReconciledJson);
+    expect(reconciled).toMatchObject({
+      status: "published",
+      version: published.version,
+      revisionNumber: published.revisionNumber,
+      currentRevisionId: published.currentRevisionId,
+      contentHash: published.contentHash,
+      publishTarget: "engine",
+    });
+    expect(reconciled.revisions.map((revision) => revision.id)).toEqual(published.revisions.map((revision) => revision.id));
+    expect(reconciled.reviewComments.map((review) => review.id)).toEqual(published.reviewComments.map((review) => review.id));
+    expect(new Set(reconciled.history.map((event) => event.id))).toEqual(new Set(published.history.map((event) => event.id)));
+
+    const newerTimestamp = new Date(Date.parse(published.updatedAt) + 60_000).toISOString();
+    const databaseOnlyEvent: WorkflowHistoryEvent = {
+      id: "wf_evt_database_only",
+      type: "archived",
+      actorId: publisher.id,
+      actorName: publisher.displayName,
+      actorRole: publisher.role,
+      createdAt: newerTimestamp,
+      summary: "Archived after the source file snapshot was created.",
+    };
+    const newerDatabaseProjection: WorkflowItem = {
+      ...reconciled,
+      status: "archived",
+      version: published.version + 1,
+      updatedAt: newerTimestamp,
+      archivedAt: newerTimestamp,
+      history: [databaseOnlyEvent, ...reconciled.history],
+    };
+    itemPayloads.set(published.id, newerDatabaseProjection);
+
+    await workflow.migrateWorkflowSourcesToDatabase(database, sourceState, []);
+    const preserved = itemPayloads.get(published.id) as WorkflowItem;
+    expect(preserved).toMatchObject({
+      status: "archived",
+      version: newerDatabaseProjection.version,
+      updatedAt: newerTimestamp,
+      archivedAt: newerTimestamp,
+      contentHash: newerDatabaseProjection.contentHash,
+    });
+    expect(preserved.history.some((event) => event.id === databaseOnlyEvent.id)).toBe(true);
+    expect(published.history.every((event) => preserved.history.some((candidate) => candidate.id === event.id))).toBe(true);
 
     expect(itemIds.has("already-in-db")).toBe(true);
     expect(revisions.size).toBe(published.revisions.length);
     expect(reviews.size).toBe(published.reviewComments.length);
-    expect(events.size).toBe(published.history.length);
+    expect(events.size).toBe(published.history.length + 1);
     expect(outbox.size).toBe(1);
     expect(insertStatements.length).toBeGreaterThan(0);
     expect(insertStatements.every((sql) => sql.endsWith("ON CONFLICT DO NOTHING"))).toBe(true);
