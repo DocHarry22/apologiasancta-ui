@@ -328,7 +328,9 @@ function hydrateWorkflowItem(raw: WorkflowItem): WorkflowItem {
     changesRequestedRevisionId: changesRequest?.revisionId,
     changesRequestedContentHash: changesRequest?.contentHash,
     changesRequestedEvidenceConflict: changesRequestedEvidenceConflict || undefined,
-    revisions: revisions.length > 0 ? revisions : [migratedRevision],
+    revisions: revisions.length > 0
+      ? revisions
+      : (["approved", "published"].includes(raw.status) && !legacyApprovalNeedsReview ? [] : [migratedRevision]),
     validationIssues: [
       ...(Array.isArray(raw.validationIssues) ? raw.validationIssues : []),
       ...(legacyApprovalNeedsReview ? ["Legacy approval reopened: structured sources and independent reviewer attestation are required."] : []),
@@ -1168,16 +1170,23 @@ function publicationLeaseExpiry(): string {
   return new Date(Date.now() + seconds * 1000).toISOString();
 }
 
-function assertPublishableApproval(
-  item: WorkflowItem,
-  topicIds: string[],
-  existingIds: string[]
+function assertApprovedRevisionIntegrity(
+  item: WorkflowItem
 ): { revision: WorkflowRevisionSnapshot; approval: WorkflowReviewComment } {
   if (item.status !== "approved" && item.status !== "published") {
     throw new WorkflowConflictError("Only an approved revision can be published.");
   }
-  assertValidForStatus(item, "published", topicIds, existingIds);
-  if (!item.reviewerId || item.reviewerId === item.authorId) throw new WorkflowConflictError("Publication requires an independent human reviewer.");
+  if (
+    typeof item.authorId !== "string"
+    || item.authorId.trim().length === 0
+    || item.authorId !== item.authorId.trim()
+    || typeof item.reviewerId !== "string"
+    || item.reviewerId.trim().length === 0
+    || item.reviewerId !== item.reviewerId.trim()
+    || item.reviewerId === item.authorId
+  ) {
+    throw new WorkflowConflictError("Publication requires an independent human reviewer.");
+  }
   if (!item.approvedRevisionId || !item.approvedContentHash || !item.approvalAttestation) {
     throw new WorkflowConflictError("Publication requires an attested approval for the current revision.");
   }
@@ -1185,14 +1194,39 @@ function assertPublishableApproval(
   if (item.approvedRevisionId !== item.currentRevisionId || item.approvedContentHash !== item.contentHash) {
     throw new WorkflowConflictError("Approved revision does not match the current immutable revision.");
   }
+  let currentProjectionHash = "";
+  try {
+    currentProjectionHash = computeEditorialContentHash(workflowItemQuestion(item), item.sourceReferences);
+  } catch {
+    throw new WorkflowConflictError("Current workflow projection no longer matches the approved revision.");
+  }
+  if (currentProjectionHash !== item.contentHash) {
+    throw new WorkflowConflictError("Current workflow projection no longer matches the approved revision.");
+  }
   const revision = item.revisions.find((candidate) => candidate.id === item.approvedRevisionId);
   if (!revision || revision.contentHash !== item.approvedContentHash) throw new WorkflowConflictError("Approved revision snapshot is unavailable or invalid.");
   if (item.changesRequestedEvidenceConflict) throw new WorkflowConflictError("Publication is blocked because requested-change audit evidence is inconsistent.");
+  if (
+    typeof revision.createdBy !== "string"
+    || revision.createdBy.trim().length === 0
+    || revision.createdBy !== revision.createdBy.trim()
+  ) {
+    throw new WorkflowConflictError("Publication requires a known author for the approved revision.");
+  }
   if (item.reviewerId === revision.createdBy) throw new WorkflowConflictError("Publication requires a reviewer independent from the approved revision's author.");
   const recomputedHash = computeEditorialContentHash(revision.question, revision.sourceReferences);
   if (recomputedHash !== revision.contentHash) throw new WorkflowConflictError("Approved revision content hash verification failed.");
   const approval = assertPayloadApprovalEvidence(item);
   return { revision, approval };
+}
+
+function assertPublishableApproval(
+  item: WorkflowItem,
+  topicIds: string[],
+  existingIds: string[]
+): { revision: WorkflowRevisionSnapshot; approval: WorkflowReviewComment } {
+  assertValidForStatus(item, "published", topicIds, existingIds);
+  return assertApprovedRevisionIntegrity(item);
 }
 
 function newOutbox(item: WorkflowItem, timestamp: string): WorkflowPublicationOutboxRecord {
@@ -1209,6 +1243,94 @@ function newOutbox(item: WorkflowItem, timestamp: string): WorkflowPublicationOu
   };
 }
 
+function assertPublicationOutboxTuple(item: WorkflowItem, outbox: WorkflowPublicationOutboxRecord): void {
+  if (
+    outbox.idempotencyKey !== publicationKey(item)
+    || outbox.workflowItemId !== item.id
+    || outbox.revisionId !== item.approvedRevisionId
+    || outbox.contentHash !== item.approvedContentHash
+  ) {
+    throw new WorkflowConflictError("Publication outbox evidence is missing or inconsistent.");
+  }
+}
+
+function assertCompletedPublicationCoherence(item: WorkflowItem, outbox: WorkflowPublicationOutboxRecord): void {
+  assertPublicationOutboxTuple(item, outbox);
+  if (
+    outbox.status !== "completed"
+    || item.status !== "published"
+    || item.publishTarget !== "engine"
+    || item.publicationIdempotencyKey !== outbox.idempotencyKey
+    || typeof item.publishedAt !== "string"
+    || item.publishedAt.length === 0
+    || typeof outbox.completedAt !== "string"
+    || outbox.completedAt.length === 0
+    || item.publishedAt !== outbox.completedAt
+    || item.updatedAt !== outbox.updatedAt
+    || outbox.completedAt !== outbox.updatedAt
+  ) {
+    throw new WorkflowConflictError("Completed publication evidence is missing or inconsistent.");
+  }
+}
+
+function assertClaimedPublicationCoherence(
+  item: WorkflowItem,
+  outbox: WorkflowPublicationOutboxRecord,
+  claimIdempotencyKey: string
+): void {
+  assertPublicationOutboxTuple(item, outbox);
+  if (
+    claimIdempotencyKey !== outbox.idempotencyKey
+    || item.publicationIdempotencyKey !== outbox.idempotencyKey
+  ) {
+    throw new WorkflowConflictError("Publication claim evidence is missing or inconsistent.");
+  }
+}
+
+function databaseOutboxRecord(row: Record<string, unknown>): WorkflowPublicationOutboxRecord {
+  return {
+    idempotencyKey: typeof row.idempotency_key === "string" ? row.idempotency_key : "",
+    workflowItemId: typeof row.workflow_item_id === "string" ? row.workflow_item_id : "",
+    revisionId: typeof row.revision_id === "string" ? row.revision_id : "",
+    contentHash: typeof row.content_hash === "string" ? row.content_hash : "",
+    status: row.status as WorkflowPublicationOutboxRecord["status"],
+    attempts: Number(row.attempts),
+    createdAt: typeof row.created_at === "string" ? row.created_at : "",
+    updatedAt: typeof row.updated_at === "string" ? row.updated_at : "",
+    leaseExpiresAt: typeof row.lease_expires_at === "string" ? row.lease_expires_at : undefined,
+    completedAt: typeof row.completed_at === "string" ? row.completed_at : undefined,
+  };
+}
+
+function findFilePublicationOutbox(
+  state: WorkflowFileState,
+  item: WorkflowItem,
+  idempotencyKey: string
+): WorkflowPublicationOutboxRecord | undefined {
+  const candidates = state.outbox.filter((record) => (
+    record.idempotencyKey === idempotencyKey || record.workflowItemId === item.id
+  ));
+  if (candidates.length > 1) {
+    throw new WorkflowConflictError("Publication outbox evidence is missing or inconsistent.");
+  }
+  return candidates[0];
+}
+
+async function loadDatabasePublicationOutbox(
+  executor: WorkflowDatabaseExecutor,
+  item: WorkflowItem,
+  idempotencyKey: string
+): Promise<WorkflowPublicationOutboxRecord | undefined> {
+  const rows = await executor.query<Record<string, unknown>>(
+    "SELECT * FROM content_publication_outbox WHERE idempotency_key = ? OR workflow_item_id = ? ORDER BY created_at DESC FOR UPDATE",
+    [idempotencyKey, item.id]
+  );
+  if (rows.length > 1) {
+    throw new WorkflowConflictError("Publication outbox evidence is missing or inconsistent.");
+  }
+  return rows[0] ? databaseOutboxRecord(rows[0]) : undefined;
+}
+
 export async function prepareWorkflowPublication(
   id: string,
   actor: CurrentUser,
@@ -1222,9 +1344,19 @@ export async function prepareWorkflowPublication(
       const item = state.items[index];
       const { revision } = assertPublishableApproval(item, topicIds, existingIds);
       const idempotencyKey = publicationKey(item);
-      const existing = state.outbox.find((record) => record.idempotencyKey === idempotencyKey);
+      const existing = findFilePublicationOutbox(state, item, idempotencyKey);
       if (existing?.status === "completed") {
+        assertCompletedPublicationCoherence(item, existing);
         return { item, question: revision.question, idempotencyKey, alreadyCompleted: true };
+      }
+      if (item.status === "published") {
+        throw new WorkflowConflictError("Published content requires a coherent completed publication receipt.");
+      }
+      if (existing) {
+        assertPublicationOutboxTuple(item, existing);
+        if (existing.status !== "processing" && existing.status !== "failed") {
+          throw new WorkflowConflictError("Publication outbox evidence is missing or inconsistent.");
+        }
       }
       if (existing?.status === "processing" && existing.leaseExpiresAt && Date.parse(existing.leaseExpiresAt) > Date.now()) {
         throw new WorkflowConflictError("Publication is already in progress. Retry after the processing lease expires.");
@@ -1258,13 +1390,21 @@ export async function prepareWorkflowPublication(
     const { revision, approval } = assertPublishableApproval(item, topicIds, existingIds);
     await assertDatabaseApprovalEvidence(executor, item, approval);
     const idempotencyKey = publicationKey(item);
-    const rows = await executor.query<Record<string, unknown>>(
-      "SELECT * FROM content_publication_outbox WHERE idempotency_key = ? FOR UPDATE",
-      [idempotencyKey]
-    );
-    const existing = rows[0];
-    if (existing?.status === "completed") return { item, question: revision.question, idempotencyKey, alreadyCompleted: true };
-    if (existing?.status === "processing" && typeof existing.lease_expires_at === "string" && Date.parse(existing.lease_expires_at) > Date.now()) {
+    const existing = await loadDatabasePublicationOutbox(executor, item, idempotencyKey);
+    if (existing?.status === "completed") {
+      assertCompletedPublicationCoherence(item, existing);
+      return { item, question: revision.question, idempotencyKey, alreadyCompleted: true };
+    }
+    if (item.status === "published") {
+      throw new WorkflowConflictError("Published content requires a coherent completed publication receipt.");
+    }
+    if (existing) {
+      assertPublicationOutboxTuple(item, existing);
+      if (existing.status !== "processing" && existing.status !== "failed") {
+        throw new WorkflowConflictError("Publication outbox evidence is missing or inconsistent.");
+      }
+    }
+    if (existing?.status === "processing" && existing.leaseExpiresAt && Date.parse(existing.leaseExpiresAt) > Date.now()) {
       throw new WorkflowConflictError("Publication is already in progress. Retry after the processing lease expires.");
     }
     const timestamp = nowIso();
@@ -1299,13 +1439,22 @@ export async function completeWorkflowPublication(
   actor: CurrentUser,
   engineResult: Record<string, unknown>
 ): Promise<WorkflowItem> {
-  const complete = (item: WorkflowItem, outbox: WorkflowPublicationOutboxRecord): WorkflowMutation => {
+  const complete = (
+    item: WorkflowItem,
+    outbox: WorkflowPublicationOutboxRecord,
+    claimIdempotencyKey: string
+  ): WorkflowMutation => {
+    assertApprovedRevisionIntegrity(item);
+    assertClaimedPublicationCoherence(item, outbox, claimIdempotencyKey);
     if (outbox.status === "completed") {
+      assertCompletedPublicationCoherence(item, outbox);
       return { item, event: item.history[0] };
     }
-    assertPayloadApprovalEvidence(item);
-    if (outbox.revisionId !== item.approvedRevisionId || outbox.contentHash !== item.approvedContentHash) {
-      throw new WorkflowConflictError("Publication completion does not match the approved revision.");
+    if (item.status !== "approved") {
+      throw new WorkflowConflictError("Only an approved in-progress publication can be completed.");
+    }
+    if (outbox.status !== "processing") {
+      throw new WorkflowConflictError("Only a processing publication claim can be completed.");
     }
     const timestamp = nowIso();
     outbox.status = "completed";
@@ -1337,10 +1486,11 @@ export async function completeWorkflowPublication(
   if (!workflowDatabaseEnabled()) {
     return mutateFileState((state) => {
       const index = state.items.findIndex((item) => item.id === claim.item.id);
-      const outbox = state.outbox.find((record) => record.idempotencyKey === claim.idempotencyKey);
-      if (index < 0 || !outbox) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
-      if (outbox.status === "completed") return state.items[index];
-      const mutation = complete(state.items[index], outbox);
+      if (index < 0) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
+      const item = state.items[index];
+      const outbox = findFilePublicationOutbox(state, item, claim.idempotencyKey);
+      if (!outbox) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
+      const mutation = complete(item, outbox, claim.idempotencyKey);
       state.items[index] = mutation.item;
       return mutation.item;
     });
@@ -1351,23 +1501,14 @@ export async function completeWorkflowPublication(
   return database.transaction(async (executor) => {
     const item = await loadDatabaseItem(executor, claim.item.id, true);
     if (!item) throw new Error("Workflow item not found.");
-    const rows = await executor.query<Record<string, unknown>>("SELECT * FROM content_publication_outbox WHERE idempotency_key = ? FOR UPDATE", [claim.idempotencyKey]);
-    const row = rows[0];
-    if (!row) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
-    if (row.status === "completed") return item;
-    const approval = assertPayloadApprovalEvidence(item);
+    const { approval } = assertApprovedRevisionIntegrity(item);
     await assertDatabaseApprovalEvidence(executor, item, approval);
-    const outbox: WorkflowPublicationOutboxRecord = {
-      idempotencyKey: String(row.idempotency_key),
-      workflowItemId: String(row.workflow_item_id),
-      revisionId: String(row.revision_id),
-      contentHash: String(row.content_hash),
-      status: row.status as WorkflowPublicationOutboxRecord["status"],
-      attempts: Number(row.attempts),
-      createdAt: String(row.created_at),
-      updatedAt: String(row.updated_at),
-    };
-    const mutation = complete(item, outbox);
+    const outbox = await loadDatabasePublicationOutbox(executor, item, claim.idempotencyKey);
+    if (!outbox) throw new WorkflowPublicationError("Publication outbox record is unavailable.");
+    if (outbox.status === "completed") {
+      return complete(item, outbox, claim.idempotencyKey).item;
+    }
+    const mutation = complete(item, outbox, claim.idempotencyKey);
     await executor.query(
       `UPDATE content_publication_outbox SET status = 'completed', lease_expires_at = NULL, last_error = NULL,
        engine_result = ${databaseJsonCast(executor)}, completed_at = ?, updated_at = ? WHERE idempotency_key = ?`,
