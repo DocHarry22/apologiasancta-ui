@@ -68,6 +68,40 @@ describe("authenticated learning progress browser sync", () => {
     expect((post[1] as RequestInit).headers).toMatchObject({ "x-csrf-token": "csrf-token" });
   });
 
+  it("performs only GET when local progress adds nothing to the remote snapshot", async () => {
+    window.localStorage.setItem(LEARNING_PROGRESS_KEY, JSON.stringify({
+      completedLessonIds: ["real-presence-eucharist"],
+      practiceBest: 6,
+      practiceAttempts: 5,
+      // A newer local timestamp alone must not cause a write or revision bump.
+      updatedAt: Date.parse("2026-07-16T12:05:00.000Z"),
+      sync: {
+        revision: 4,
+        practiceAttemptsFloor: 3,
+        pendingPracticeAttempts: [],
+        lastSyncedAt: "2026-07-16T12:00:00.000Z",
+      },
+    }));
+    const fetchMock = vi.fn().mockResolvedValueOnce(new Response(JSON.stringify({
+      ok: true,
+      progress: {
+        completedLessonIds: ["real-presence-eucharist"],
+        practiceBest: 6,
+        practiceAttempts: 5,
+        revision: 4,
+        updatedAt: "2026-07-16T12:01:00.000Z",
+      },
+    }), { status: 200, headers: { "Content-Type": "application/json" } }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const outcome = await syncLocalLearningProgress();
+
+    expect(outcome.status).toBe("synced");
+    expect(outcome.progress.practiceAttempts).toBe(5);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledWith("/api/learning/progress", expect.objectContaining({ method: "GET" }));
+  });
+
   it("leaves all local data and queued events intact while offline", async () => {
     const local = recordPracticeAttempt(parseLearningProgress(null), 4, {
       id: "practice_event_00000002",

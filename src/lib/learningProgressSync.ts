@@ -98,13 +98,6 @@ function statusForFailedResponse(response: Response): LearningProgressSyncStatus
   return "local_only";
 }
 
-function hasLocalData(progress: LearningProgress): boolean {
-  return progress.completedLessonIds.length > 0
-    || progress.practiceBest > 0
-    || progress.sync.practiceAttemptsFloor > 0
-    || progress.sync.pendingPracticeAttempts.length > 0;
-}
-
 function hasProgressNotYetInRemote(local: LearningProgress, remote: RemoteLearningProgress): boolean {
   const remoteLessons = new Set(remote.completedLessonIds);
   return local.completedLessonIds.some((lessonId) => !remoteLessons.has(lessonId))
@@ -134,7 +127,12 @@ async function runSync(): Promise<LearningProgressSyncOutcome> {
   // request was in flight cannot be overwritten.
   local = mergeRemoteLearningProgress(readLocalLearningProgress(), remoteBody.progress);
   writeLocalLearningProgress(local);
-  if (!hasLocalData(local)) return { status: "synced", progress: local };
+  // A read can update local revision/sync metadata without creating anything
+  // the server needs. Avoid fetching CSRF or issuing a revision-bumping POST
+  // unless the local copy contributes actual monotonic progress.
+  if (!hasProgressNotYetInRemote(local, remoteBody.progress)) {
+    return { status: "synced", progress: local };
+  }
 
   const csrfToken = await getCsrfToken();
   if (!csrfToken) return { status: "local_only", progress: local };
