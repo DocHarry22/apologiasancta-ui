@@ -68,7 +68,7 @@ export function validateQuestion(
   if (!Array.isArray(question.teaching?.refs)) {
     issues.push({ field: "teaching.refs", message: "Teaching refs must be an array.", severity: "error" });
   } else if (question.teaching.refs.length === 0) {
-    issues.push({ field: "teaching.refs", message: "At least one teaching reference is required.", severity: "warning" });
+    issues.push({ field: "teaching.refs", message: "At least one teaching reference is required.", severity: "error" });
   }
   if (!Array.isArray(question.tags)) {
     issues.push({ field: "tags", message: "Tags must be an array.", severity: "error" });

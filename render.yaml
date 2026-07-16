@@ -5,7 +5,7 @@ services:
     plan: free
     branch: main
     autoDeploy: true
-    buildCommand: npm install && npm run build
+    buildCommand: npm ci --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /
     envVars:
@@ -13,12 +13,18 @@ services:
         value: production
       - key: NEXT_PUBLIC_ENGINE_URL
         sync: false
+      - key: ENGINE_INTERNAL_URL
+        sync: false
       - key: NEXT_PUBLIC_APP_URL
         sync: false
       - key: NEXT_PUBLIC_ANDROID_APK_URL
         sync: false
       - key: CAPACITOR_SERVER_URL
         sync: false
+      - key: NEXT_PUBLIC_RESEARCH_GRAPH_URL
+        sync: false
+      - key: NEXT_PUBLIC_AUTHOR_ENABLED
+        value: "true"
       - key: AUTHOR_SESSION_SECRET
         sync: false
       - key: DATABASE_URL
@@ -27,5 +33,5 @@ services:
         sync: false
       - key: ADMIN_PASSWORD
         sync: false
-      - key: ADMIN_TOKEN
+      - key: ENGINE_ADMIN_TOKEN
         sync: false

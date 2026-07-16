@@ -2,18 +2,19 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { isNativePlatform } from "@/lib/native";
 
 /**
  * Silently redirects Capacitor (APK) users to /native.
  * Has no visual output — renders nothing.
- * In a normal web browser window.Capacitor is never defined, so
- * this component is a no-op for web users.
+ * Capacitor also exposes a web shim in browsers, so platform detection must
+ * use the bridge's native-platform signal rather than global presence alone.
  */
 export function CapacitorRedirect() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined" && !!(window as { Capacitor?: unknown }).Capacitor) {
+    if (isNativePlatform()) {
       router.replace("/native");
     }
   }, [router]);

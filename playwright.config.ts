@@ -2,7 +2,12 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./e2e",
-  timeout: 30_000,
+  // Next.js dev compilation on the synced workspace can exceed 30 seconds on
+  // the first route load, while authenticated RSC navigations can take >5s.
+  timeout: 60_000,
+  expect: {
+    timeout: 10_000,
+  },
   fullyParallel: true,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? "github" : "list",

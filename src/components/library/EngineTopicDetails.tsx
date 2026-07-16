@@ -1,42 +1,20 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { useEffect, useMemo, useState } from "react";
+import { EmptyState, Skeleton, StatusBadge } from "@/components/ui/Primitives";
 import { getEngineUrl } from "@/lib/publicEnv";
 
-const ENGINE_URL = getEngineUrl();
-
-interface EngineChoice {
-  id: string;
-  label: string;
-  text: string;
-}
-
-interface EngineQuestion {
-  id: string;
-  text: string;
-  themeTitle: string;
-  difficulty: number;
-  choices: EngineChoice[];
-}
-
-interface EngineTopicResponse {
+export interface EngineTopicResponse {
   id: string;
   title: string;
   questionCount: number;
-  questions: EngineQuestion[];
+  questions: Array<{ id: string; text: string; themeTitle: string; difficulty: number; choices: Array<{ id: string; label: string; text: string }> }>;
 }
 
-interface Props {
-  topicId: string;
-}
-
-/**
- * Client component that fetches and displays topic details from the engine.
- */
-export function EngineTopicDetails({ topicId }: Props) {
+export function EngineTopicDetails({ topicId, fallbackTopic = null }: { topicId: string; fallbackTopic?: EngineTopicResponse | null }) {
   const [topic, setTopic] = useState<EngineTopicResponse | null>(null);
+  const [source, setSource] = useState<"engine" | "bundled" | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -44,204 +22,43 @@ export function EngineTopicDetails({ topicId }: Props) {
   const [sortBy, setSortBy] = useState<"index" | "id-asc" | "id-desc">("index");
 
   useEffect(() => {
-    console.log(`[EngineTopicDetails] Loading topic: ${topicId}, ENGINE_URL: ${ENGINE_URL}`);
-    if (!ENGINE_URL) {
-      setError("Engine URL not configured");
-      setLoading(false);
-      return;
-    }
+    const engineUrl = getEngineUrl();
+    const applyFallback = () => { if (fallbackTopic) { setTopic(fallbackTopic); setSource("bundled"); setError(null); } else { setError("This topic is unavailable from both the live Engine and bundled catalogue."); } setLoading(false); };
+    if (!engineUrl) { applyFallback(); return; }
+    const controller = new AbortController();
+    fetch(`${engineUrl}/topics/${encodeURIComponent(topicId)}`, { cache: "no-store", signal: controller.signal })
+      .then(async (response) => { if (!response.ok) throw new Error(`Topic unavailable (${response.status})`); return response.json() as Promise<EngineTopicResponse>; })
+      .then((data) => { setTopic(data); setSource("engine"); setError(null); setLoading(false); })
+      .catch((loadError) => { if ((loadError as Error).name !== "AbortError") applyFallback(); });
+    return () => controller.abort();
+  }, [fallbackTopic, topicId]);
 
-    const fetchTopic = async () => {
-      const url = `${ENGINE_URL}/topics/${encodeURIComponent(topicId)}`;
-      console.log(`[EngineTopicDetails] Fetching from: ${url}`);
-      try {
-        const res = await fetch(url);
-        console.log(`[EngineTopicDetails] Response status: ${res.status}`);
-        if (!res.ok) {
-          if (res.status === 404) {
-            throw new Error("Topic not found in engine bank");
-          }
-          throw new Error(`Failed to fetch topic: ${res.status}`);
-        }
-        const data: EngineTopicResponse = await res.json();
-        console.log(`[EngineTopicDetails] Received: ${data.questions?.length || 0} questions`);
-        setTopic(data);
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load topic");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTopic();
-  }, [topicId]);
-
-  const getDifficultyLabel = (d: number) => {
-    if (d <= 1) return "Easy";
-    if (d <= 2) return "Easy";
-    if (d === 3) return "Medium";
-    if (d === 4) return "Hard";
-    return "Very Hard";
-  };
-
-  const getDifficultyColor = (d: number) => {
-    if (d <= 2) return "text-green-500";
-    if (d === 3) return "text-yellow-500";
-    return "text-red-500";
-  };
-
-  const filteredQuestions = useMemo(() => {
+  const filtered = useMemo(() => {
     if (!topic) return [];
-
     const normalized = query.trim().toLowerCase();
-    const withIndex = topic.questions.map((question, index) => ({ question, index }));
-
-    const filtered = withIndex.filter(({ question }) => {
-      if (!normalized) return true;
-      return (
-        question.text.toLowerCase().includes(normalized) ||
-        question.id.toLowerCase().includes(normalized)
-      );
-    });
-
-    if (sortBy === "id-asc") {
-      filtered.sort((a, b) => a.question.id.localeCompare(b.question.id, undefined, { numeric: true }));
-    } else if (sortBy === "id-desc") {
-      filtered.sort((a, b) => b.question.id.localeCompare(a.question.id, undefined, { numeric: true }));
-    }
-
-    return filtered;
-  }, [topic, query, sortBy]);
+    const next = topic.questions.map((question, index) => ({ question, index })).filter(({ question }) => !normalized || question.text.toLowerCase().includes(normalized) || question.id.toLowerCase().includes(normalized));
+    if (sortBy === "id-asc") next.sort((a, b) => a.question.id.localeCompare(b.question.id, undefined, { numeric: true }));
+    if (sortBy === "id-desc") next.sort((a, b) => b.question.id.localeCompare(a.question.id, undefined, { numeric: true }));
+    return next;
+  }, [query, sortBy, topic]);
 
   return (
-    <main className="min-h-screen bg-background text-foreground p-6">
-      <div className="mx-auto max-w-4xl space-y-6">
-        <header className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Link href="/library" className="text-sm text-[var(--accent)] hover:underline">
-              ← Back to topics
-            </Link>
-            <ThemeToggle />
-          </div>
-          
-          {loading ? (
-            <div className="animate-pulse">
-              <div className="h-4 w-24 bg-[var(--muted)]/20 rounded mb-2" />
-              <div className="h-8 w-48 bg-[var(--muted)]/20 rounded" />
-            </div>
-          ) : error ? (
-            <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/10 p-4">
-              <p className="text-sm text-yellow-500">{error}</p>
-            </div>
-          ) : topic ? (
-            <>
-              <p className="text-xs uppercase tracking-widest text-(--muted)">{topic.id}</p>
-              <h1 className="text-3xl font-semibold">{topic.title}</h1>
-              <p className="text-sm text-(--text-secondary)">{topic.questionCount} questions</p>
-            </>
-          ) : null}
-        </header>
-
-        {!loading && !error && topic && (
-          <section className="space-y-3">
-            <div className="rounded-xl border border-(--border) bg-(--card) p-4 space-y-3">
-              <div className="grid gap-3 sm:grid-cols-2">
-                <input
-                  type="search"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search by question text or ID"
-                  className="w-full rounded-lg border border-[var(--border)] bg-transparent px-3 py-2 text-sm outline-none focus:border-[var(--accent)]"
-                />
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as "index" | "id-asc" | "id-desc")}
-                  className="w-full rounded-lg border border-(--border) bg-(--card) px-3 py-2 text-sm text-foreground outline-none focus:border-(--accent)"
-                  style={{ color: "var(--foreground)", backgroundColor: "var(--card)" }}
-                >
-                  <option value="index" style={{ color: "var(--foreground)", backgroundColor: "var(--card)" }}>
-                    Sort: Original Order
-                  </option>
-                  <option value="id-asc" style={{ color: "var(--foreground)", backgroundColor: "var(--card)" }}>
-                    Sort: ID (A→Z)
-                  </option>
-                  <option value="id-desc" style={{ color: "var(--foreground)", backgroundColor: "var(--card)" }}>
-                    Sort: ID (Z→A)
-                  </option>
-                </select>
-              </div>
-              <p className="text-xs text-(--muted)">
-                Showing {filteredQuestions.length} of {topic.questions.length} questions
-              </p>
-            </div>
-
-            {filteredQuestions.map(({ question: q, index }) => (
-              <div
-                key={q.id}
-                className="rounded-xl border border-(--border) bg-(--card) overflow-hidden"
-              >
-                <button
-                  onClick={() => setExpandedId(expandedId === q.id ? null : q.id)}
-                  className="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-(--card-border)/5 transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono text-(--muted)">
-                      #{index + 1}
-                    </span>
-                    <span className="text-xs font-mono text-(--muted)">{q.id}</span>
-                    <span className="text-sm font-medium line-clamp-1">{q.text}</span>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className={`text-xs font-medium ${getDifficultyColor(q.difficulty)}`}>
-                      {getDifficultyLabel(q.difficulty)}
-                    </span>
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      className={`text-(--muted) transition-transform ${expandedId === q.id ? "rotate-180" : ""}`}
-                    >
-                      <polyline points="6 9 12 15 18 9" />
-                    </svg>
-                  </div>
-                </button>
-
-                {expandedId === q.id && (
-                  <div className="px-4 pb-4 pt-2 border-t border-(--border)">
-                    <p className="text-sm mb-3">{q.text}</p>
-                    <div className="grid gap-2">
-                      {q.choices.map((choice) => (
-                        <div
-                          key={choice.id}
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-background border border-(--border)"
-                        >
-                          <span className="w-6 h-6 flex items-center justify-center rounded-full border border-(--accent) text-xs font-bold text-(--accent)">
-                            {choice.label}
-                          </span>
-                          <span className="text-sm">{choice.text}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <p className="mt-3 text-xs text-(--muted)">
-                      Theme: {q.themeTitle} • ID: {q.id} • Index: {index + 1}
-                    </p>
-                  </div>
-                )}
-              </div>
-            ))}
-
-            {filteredQuestions.length === 0 && (
-              <div className="rounded-xl border border-(--border) bg-(--card) p-6 text-center">
-                <p className="text-sm text-(--muted)">No questions match your search.</p>
-              </div>
-            )}
-          </section>
-        )}
+    <div className="page-container py-8 sm:py-11">
+      <div className="mx-auto max-w-4xl">
+        <Link href="/library" className="text-sm font-bold text-(--gold-hover) hover:underline">← Back to library</Link>
+        {loading ? <header className="mt-6 space-y-3"><Skeleton className="h-4 w-28" /><Skeleton className="h-12 w-72 max-w-full" /></header>
+        : error ? <div className="mt-6"><EmptyState title="Topic unavailable" description={error} action={<Link href="/library" className="btn-secondary">Browse the library</Link>} /></div>
+        : topic ? <>
+          <header className="mt-6 border-b border-(--border) pb-7"><div className="flex flex-wrap items-center gap-2"><p className="eyebrow">Question collection</p><StatusBadge tone={source === "engine" ? "success" : "warning"}>{source === "engine" ? "Live Engine" : "Bundled offline copy"}</StatusBadge></div><h1 className="editorial-heading mt-2 text-4xl font-semibold sm:text-5xl">{topic.title}</h1><p className="mt-3 text-(--text-muted)">{topic.questionCount} published questions. Answers are intentionally hidden in library browsing; use Practice to test yourself with explanations.</p></header>
+          <section className="surface-card mt-6 p-4" aria-label="Question filters"><div className="grid gap-3 sm:grid-cols-2"><label className="text-xs font-bold text-(--text-muted)">Search questions<input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Question text or ID" className="form-control mt-1" /></label><label className="text-xs font-bold text-(--text-muted)">Sort order<select value={sortBy} onChange={(event) => setSortBy(event.target.value as typeof sortBy)} className="form-control mt-1"><option value="index">Original order</option><option value="id-asc">ID (A→Z)</option><option value="id-desc">ID (Z→A)</option></select></label></div><p className="mt-3 text-xs text-(--text-muted)">Showing {filtered.length} of {topic.questions.length} questions</p></section>
+          <section className="mt-4 space-y-3" aria-label={`${topic.title} questions`}>{filtered.map(({ question, index }) => {
+            const expanded = expandedId === question.id;
+            const difficulty = question.difficulty <= 2 ? "Foundation" : question.difficulty === 3 ? "Intermediate" : "Advanced";
+            return <article key={question.id} className="surface-card overflow-hidden"><h2><button type="button" onClick={() => setExpandedId(expanded ? null : question.id)} aria-expanded={expanded} className="flex min-h-16 w-full items-center gap-3 px-4 py-3 text-left hover:bg-(--surface-elevated)"><span className="font-mono text-xs text-(--text-muted)">#{index + 1}</span><span className="min-w-0 flex-1 font-semibold">{question.text}</span><StatusBadge>{difficulty}</StatusBadge><span className={expanded ? "rotate-180" : ""} aria-hidden="true">⌄</span></button></h2>{expanded ? <div className="border-t border-(--border) p-4"><div className="grid gap-2 sm:grid-cols-2">{question.choices.map((choice) => <div key={choice.id} className="flex min-h-12 items-center gap-3 rounded-lg border border-(--border) bg-(--surface-elevated) px-3 py-2"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-(--gold) text-xs font-bold text-(--gold-hover)">{choice.label}</span><span className="text-sm">{choice.text}</span></div>)}</div><p className="mt-3 text-xs text-(--text-muted)">Topic: {question.themeTitle} · ID: {question.id}</p></div> : null}</article>;
+          })}</section>
+          {!filtered.length ? <EmptyState title="No matching questions" description="Try a different word or clear the search field." /> : null}
+        </> : null}
       </div>
-    </main>
+    </div>
   );
 }

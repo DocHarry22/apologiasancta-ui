@@ -60,7 +60,7 @@ jobs:
           java-version: 21
 
       - name: Install
-        run: npm install
+        run: npm ci
 
       - name: Decode signing keystore
         run: |

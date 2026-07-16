@@ -5,22 +5,26 @@ import { usePathname } from "next/navigation";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { NativeBottomTabs } from "./NativeBottomTabs";
 import { StartupBootOverlay } from "@/components/startup/StartupBootOverlay";
+import { isNativePlatform } from "@/lib/native";
 
 const STARTUP_OVERLAY_MIN_MS = 1700;
 const SPLASH_FAILSAFE_HIDE_MS = 4000;
 
 export function CapacitorShell() {
   const pathname = usePathname();
+  const currentPath = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
   const [isCapacitor, setIsCapacitor] = useState(false);
   const [showBootOverlay, setShowBootOverlay] = useState(false);
   const showNativeTabs =
     isCapacitor &&
     !pathname.startsWith("/admin") &&
     !pathname.startsWith("/author") &&
+    !pathname.startsWith("/login") &&
+    !pathname.startsWith("/signup") &&
     !pathname.startsWith("/api");
 
   useEffect(() => {
-    const isNative = !!(window as { Capacitor?: unknown }).Capacitor;
+    const isNative = isNativePlatform();
     setIsCapacitor(isNative);
     setShowBootOverlay(isNative);
 
@@ -64,7 +68,7 @@ export function CapacitorShell() {
   }, [isCapacitor, showBootOverlay]);
 
   if (!isCapacitor) {
-    return pathname === "/native" ? <NativeBottomTabs /> : null;
+    return currentPath === "/native" ? <div className="lg:hidden"><NativeBottomTabs /></div> : null;
   }
 
   return (

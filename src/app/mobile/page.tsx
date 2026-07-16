@@ -24,6 +24,7 @@ import {
   StreakToast,
 } from "@/components/mobile";
 import type { LeaderboardMode } from "@/components/mobile/LeaderboardColumn";
+import { MobileBottomNavigation } from "@/components/shell/MobileBottomNavigation";
 import { useLeaderboardDiff } from "@/hooks/useLeaderboardDiff";
 import { useQuizSSE } from "@/hooks/useQuizSSE";
 import { useLocalPlayer } from "@/hooks/useLocalPlayer";
@@ -181,7 +182,6 @@ function MobilePageContent() {
     roomId,
     roomName,
     roomNotice,
-    setRoomNotice,
     applyRoomSelection,
   } = useRoomSelectionBootstrap(searchParams);
   const [isRoomPickerOpen, setIsRoomPickerOpen] = useState(false);
@@ -194,6 +194,7 @@ function MobilePageContent() {
   const {
     userId,
     username,
+    joinToken,
     isRegistered,
     isCheckingRegistration,
     handleJoined,
@@ -241,7 +242,7 @@ function MobilePageContent() {
   const selectedIdAtAnswerRef = useRef<string | undefined>(undefined);
   
   // Handle topic start event - reset all personal scores and answer state for new topic
-  const handleTopicStart = useCallback((_event: TopicStartEvent) => {
+  const handleTopicStart = useCallback(() => {
     console.log("[MobilePage] Topic start - resetting all state for new topic");
     setMePreviousPoints(0);
     setMeLastAwardedPoints(0);
@@ -399,7 +400,7 @@ function MobilePageContent() {
       cancelled = true;
       window.clearInterval(intervalId);
     };
-  }, [ENGINE_URL, isUsingSSE, leaderboardMode, roomId, leaderboardRefreshKey]);
+  }, [isUsingSSE, leaderboardMode, roomId, leaderboardRefreshKey]);
 
   const leaderboardState = useMemo(() => {
     return remoteLeaderboard ?? quizState.leaderboard;
@@ -694,7 +695,10 @@ function MobilePageContent() {
       try {
         const response = await fetch(`${ENGINE_URL}/answer`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            ...(joinToken ? { Authorization: `Bearer ${joinToken}` } : {}),
+          },
           body: JSON.stringify({
             userId,
             username: username ?? undefined,
@@ -766,7 +770,7 @@ function MobilePageContent() {
         }, 1500);
       }, 100);
     }
-  }, [quizState.phase, quizState.questionIndex, quizState.endsAtMs, isUsingSSE, setMockQuizState, userId, username, roomId]);
+  }, [quizState.phase, quizState.questionIndex, quizState.endsAtMs, isUsingSSE, setMockQuizState, userId, username, joinToken, roomId]);
 
   // Demo: Reset for testing (only in mock mode)
   const handleReset = useCallback(() => {
@@ -864,7 +868,7 @@ function MobilePageContent() {
           <div className="quiz-mobile-score-summary relative mx-4 mt-3 grid grid-cols-2 overflow-hidden rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) shadow-[0_10px_28px_var(--mobile-shadow)] lg:hidden">
             <div className="relative px-5 py-4">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-(--mobile-muted)">
-                <svg className="h-4 w-4 text-[#c99516]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <svg className="h-4 w-4 text-(--gold-hover)" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="m12 2 2.9 6 6.6.9-4.8 4.6 1.1 6.5-5.8-3.1L6.2 20l1.1-6.5-4.8-4.6 6.6-.9L12 2Z" />
                 </svg>
                 Score
@@ -874,7 +878,7 @@ function MobilePageContent() {
             </div>
             <div className="relative border-l border-(--mobile-border-strong) px-5 py-4">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-(--mobile-muted)">
-                <svg className="h-4 w-4 text-[#d77b22]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <svg className="h-4 w-4 text-(--warning)" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M12 2s4 4 4 8a4 4 0 0 1-8 0c0-4 4-8 4-8Zm-5.5 9.5C4.8 13 4 15 4 17a8 8 0 0 0 16 0c0-2-1-4-2.4-5.6.1.6.1 1.1.1 1.6a5.7 5.7 0 1 1-11.4 0c0-.5.1-1 .2-1.5Z" />
                 </svg>
                 Streak
@@ -990,11 +994,11 @@ function MobilePageContent() {
 
           <div className="px-4 pb-3 lg:hidden">
             <div className="flex items-center gap-3 text-sm font-semibold text-(--mobile-muted)">
-              <span className="text-[#b98512]">Q{quizState.questionIndex + 1}</span>
+              <span className="text-(--gold-hover)">Q{quizState.questionIndex + 1}</span>
               <span>/ {quizState.totalQuestions || 0}</span>
               <div className="h-2 flex-1 overflow-hidden rounded-full bg-(--mobile-border)">
                 <div
-                  className="h-full rounded-full bg-linear-to-r from-[#d9a51c] to-[#b98512]"
+                  className="h-full rounded-full bg-(--progress)"
                   style={{
                     width: `${quizState.totalQuestions > 0 ? ((quizState.questionIndex + 1) / quizState.totalQuestions) * 100 : 0}%`,
                   }}
@@ -1115,6 +1119,7 @@ function MobilePageContent() {
           onComplete={clearTopicCountdown}
         />
       )}
+      <MobileBottomNavigation suppressOnNative />
     </>
   );
 }

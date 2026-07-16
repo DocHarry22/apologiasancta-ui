@@ -1,19 +1,21 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PLAYER_NAME_KEY } from "./YourScoreCard";
 import { getEngineUrl } from "@/lib/publicEnv";
 import {
   clearStoredPlayerIdentity,
   readStoredPlayerIdentity,
+  saveStoredJoinToken,
   saveStoredPlayerIdentity,
 } from "@/lib/playerIdentity";
-import { getReusableStoredUserId, getSavedIdentityDecision } from "@/lib/registrationRecovery";
+import { getReusableStoredUserId } from "@/lib/registrationRecovery";
+import { Dialog } from "@/components/ui/Dialog";
 
 interface JoinGameModalProps {
   roomId: string;
   roomName?: string | null;
-  onJoined: (userId: string, username: string) => void;
+  onJoined: (userId: string, username: string, joinToken?: string | null) => void;
   onCancel?: () => void;
 }
 
@@ -29,192 +31,117 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
   const [state, setState] = useState<RegistrationState>({ status: "idle" });
 
   useEffect(() => {
-    if (!API_URL) return;
-    let cancelled = false;
+    const stored = readStoredPlayerIdentity();
+    if (stored.username) setUsername(stored.username);
+  }, []);
 
-    const { userId: storedUserId, username: storedUsername } = readStoredPlayerIdentity();
-    if (storedUsername) {
-      setUsername(storedUsername);
+  const handleSubmit = useCallback(async (event: React.FormEvent) => {
+    event.preventDefault();
+    const trimmed = username.trim();
+    if (!trimmed) return;
+
+    if (!API_URL) {
+      setState({ status: "error", errorMessage: "The live engine is not configured yet." });
+      return;
     }
 
-    if (!storedUserId || !storedUsername) return;
     setState({ status: "loading" });
-
-    fetch(`${API_URL}/register/me?userId=${encodeURIComponent(storedUserId)}&roomId=${encodeURIComponent(roomId)}`)
-      .then(async (res) => {
-        if (cancelled) return;
-        const data = await res.json().catch(() => ({})) as {
-          userId?: string;
-          username?: string;
-          reason?: string;
-          error?: string;
-          message?: string;
-        };
-        const decision = getSavedIdentityDecision({ ok: res.ok, status: res.status, reason: data.reason });
-
-        if (decision === "resume" && data.userId && data.username) {
-          onJoined(data.userId, data.username);
-          return;
-        }
-
-        if (decision === "clear_identity") {
-          clearStoredPlayerIdentity();
-          setState({ status: "idle" });
-          return;
-        }
-
-        setState({
-          status: "error",
-          errorMessage: decision === "choose_room"
-            ? data.error || data.message || "That room is no longer available. Choose another room."
-            : "We could not verify your saved player yet. Check your connection or retry below.",
-        });
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setState({
-          status: "error",
-          errorMessage: "We could not verify your saved player yet. Check your connection or retry below.",
-        });
+    try {
+      const stored = readStoredPlayerIdentity();
+      const reusableUserId = stored.joinToken
+        ? getReusableStoredUserId(stored.userId, stored.username, trimmed)
+        : undefined;
+      const response = await fetch(`${API_URL}/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(stored.joinToken ? { Authorization: `Bearer ${stored.joinToken}` } : {}),
+        },
+        body: JSON.stringify({ username: trimmed, roomId, userId: reusableUserId }),
       });
+      const data = await response.json().catch(() => ({})) as {
+        userId?: string;
+        username?: string;
+        joinToken?: string;
+        error?: string;
+        message?: string;
+      };
 
-    return () => {
-      cancelled = true;
-    };
-  }, [onJoined, roomId]);
-
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-
-      const trimmed = username.trim();
-      if (!trimmed) return;
-
-      if (!API_URL) {
-        setState({
-          status: "error",
-          errorMessage: "Engine unavailable. Live registration is not configured yet.",
-        });
+      if (response.ok && data.userId && data.username) {
+        saveStoredPlayerIdentity(data.userId, data.username);
+        if (data.joinToken) saveStoredJoinToken(data.joinToken);
+        localStorage.setItem(PLAYER_NAME_KEY, data.username);
+        onJoined(data.userId, data.username, data.joinToken ?? null);
         return;
       }
 
-      setState({ status: "loading" });
-
-      try {
-        const storedIdentity = readStoredPlayerIdentity();
-        const reusableUserId = getReusableStoredUserId(
-          storedIdentity.userId,
-          storedIdentity.username,
-          trimmed
-        );
-        const res = await fetch(`${API_URL}/register`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username: trimmed, roomId, userId: reusableUserId }),
-        });
-
-        const data = await res.json();
-
-        if (res.ok) {
-          saveStoredPlayerIdentity(data.userId, data.username);
-          localStorage.setItem(PLAYER_NAME_KEY, data.username);
-          onJoined(data.userId, data.username);
-          return;
-        }
-
-        if (res.status === 409) {
-          setState({ status: "error", errorMessage: data.error || data.message || "That name is already taken in this room." });
-          return;
-        }
-
-        if (res.status === 400) {
-          setState({ status: "error", errorMessage: data.error || data.message || "Use 3-20 letters, numbers, or underscores." });
-          return;
-        }
-
-        if (res.status === 429) {
-          setState({ status: "error", errorMessage: "Too many attempts. Please wait a moment and try again." });
-          return;
-        }
-
-        setState({ status: "error", errorMessage: data.error || data.message || "Registration failed. Please try again." });
-      } catch {
-        setState({ status: "error", errorMessage: "Engine unavailable. Check your connection and try again." });
+      if (response.status === 401) {
+        clearStoredPlayerIdentity();
+        localStorage.removeItem(PLAYER_NAME_KEY);
+        setState({ status: "error", errorMessage: "Your saved room session is no longer valid. Choose a new display name to create a fresh player session." });
+        return;
       }
-    },
-    [username, roomId, onJoined]
-  );
+      if (response.status === 409) {
+        setState({ status: "error", errorMessage: data.error || data.message || "That display name is already in use." });
+        return;
+      }
+      if (response.status === 429) {
+        setState({ status: "error", errorMessage: "Too many attempts. Wait a moment and try again." });
+        return;
+      }
+      setState({ status: "error", errorMessage: data.error || data.message || "Could not join this room." });
+    } catch {
+      setState({ status: "error", errorMessage: "The live engine could not be reached. Check your connection and retry." });
+    }
+  }, [onJoined, roomId, username]);
 
-  const isValidUsername =
-    username.trim().length >= 3 &&
-    username.trim().length <= 20 &&
-    /^[a-zA-Z0-9_]+$/.test(username.trim());
+  const isValidUsername = username.trim().length >= 3 && username.trim().length <= 20 && /^[a-zA-Z0-9_]+$/.test(username.trim());
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-md rounded-2xl border border-(--card-border) bg-(--card) p-6 shadow-2xl">
+    <Dialog titleId="join-room-title" descriptionId="join-room-description" onClose={onCancel} className="max-w-md rounded-2xl p-6">
         <div className="mb-6 text-center">
-          <h1 className="mb-2 text-3xl font-bold text-(--accent)">Apologia Sancta</h1>
-          <p className="text-sm text-(--text-secondary)">
-            Join room <span className="font-semibold text-foreground">{roomName || roomId}</span>
-          </p>
-          {roomName && roomName !== roomId ? (
-            <p className="mt-1 text-xs uppercase tracking-[0.18em] text-(--muted)">{roomId}</p>
-          ) : null}
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-(--muted)">Live quiz</p>
+          <h2 id="join-room-title" className="editorial-heading mt-2 text-3xl font-semibold">Join {roomName || roomId}</h2>
+          <p id="join-room-description" className="mt-2 text-sm text-(--text-muted)">Choose a safe public display name for this room.</p>
+          {roomName && roomName !== roomId ? <p className="mt-1 text-xs uppercase tracking-[0.18em] text-(--muted)">{roomId}</p> : null}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="username" className="mb-2 block text-sm font-medium text-foreground">
-              Enter your display name
-            </label>
+            <label htmlFor="username" className="mb-2 block text-sm font-medium text-foreground">Safe display name</label>
             <input
               id="username"
               type="text"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter your display name"
+              onChange={(event) => setUsername(event.target.value)}
+              placeholder="e.g. Thomas_Aquinas"
               disabled={state.status === "loading"}
-              className="min-h-12 w-full rounded-lg border-2 border-(--option-border) bg-(--option-bg) px-4 py-3 text-lg text-foreground outline-none transition-all focus:border-(--accent)"
+              className="min-h-12 w-full rounded-lg border-2 border-(--option-border) bg-(--option-bg) px-4 py-3 text-lg text-foreground outline-none transition-all focus:border-(--accent) focus:ring-2 focus:ring-(--accent)/20"
               autoFocus
               autoComplete="nickname"
               maxLength={20}
             />
-            <p className="mt-2 text-sm text-(--muted)">3-20 characters: letters, numbers, underscores.</p>
+            <p className="mt-2 text-sm text-(--muted)">3–20 letters, numbers, or underscores. Do not use personal contact details.</p>
           </div>
 
-          {state.status === "error" && state.errorMessage && (
-            <div className="rounded-lg bg-(--wrong-bg) p-3 text-sm text-(--wrong)">
-              {state.errorMessage}
-            </div>
-          )}
+          {state.status === "error" && state.errorMessage ? (
+            <div role="alert" className="rounded-lg bg-(--wrong-bg) p-3 text-sm text-(--wrong)">{state.errorMessage}</div>
+          ) : null}
 
           <button
             type="submit"
             disabled={!API_URL || !isValidUsername || state.status === "loading"}
-            className="min-h-12 w-full rounded-lg bg-(--accent) py-3 text-lg font-bold text-white transition-all disabled:cursor-not-allowed disabled:bg-(--muted) disabled:text-(--text-secondary) disabled:opacity-60"
+            className="btn-primary min-h-12 w-full text-base disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {state.status === "loading" ? "Joining..." : "Join Game"}
+            {state.status === "loading" ? "Joining securely…" : "Join game"}
           </button>
 
           {onCancel ? (
-            <button
-              type="button"
-              onClick={onCancel}
-              disabled={state.status === "loading"}
-              className="min-h-11 w-full rounded-lg border border-(--option-border) py-2.5 text-sm font-semibold text-(--text-secondary) transition-colors hover:text-foreground disabled:cursor-not-allowed disabled:opacity-60"
-            >
+            <button type="button" onClick={onCancel} disabled={state.status === "loading"} className="min-h-11 w-full rounded-lg border border-(--option-border) py-2.5 text-sm font-semibold text-(--text-secondary) disabled:opacity-50">
               Choose another room
             </button>
           ) : null}
         </form>
-
-        <p className="mt-6 text-center text-xs text-(--muted)">
-          {API_URL
-            ? "Your name and score will be tracked inside this room."
-            : "Engine unavailable. Live registration is disabled until NEXT_PUBLIC_ENGINE_URL is configured."}
-        </p>
-      </div>
-    </div>
+    </Dialog>
   );
 }

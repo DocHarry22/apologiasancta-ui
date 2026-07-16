@@ -29,15 +29,6 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
     return pathname.startsWith(href);
   };
 
-  const handleLogout = () => {
-    const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = `/api/auth/logout?next=${encodeURIComponent(`${basePath}/login`)}`;
-    document.body.appendChild(form);
-    form.submit();
-  };
-
   return (
     <aside className="flex w-56 shrink-0 flex-col border-r border-(--border) bg-(--card) sticky top-0 h-screen">
       <div className="border-b border-(--border) px-4 py-4">
@@ -93,13 +84,14 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
           >
             {theme === "dark" ? "Light" : "Dark"}
           </button>
-          <button
-            type="button"
-            onClick={() => void handleLogout()}
-            className="flex-1 rounded-lg border border-(--border) py-1.5 text-xs text-(--muted) hover:border-red-500 hover:text-red-500 transition-colors"
-          >
-            Log out
-          </button>
+          <form method="post" action={`/api/auth/logout?next=${encodeURIComponent(`${basePath}/login`)}`} className="flex-1">
+            <button
+              type="submit"
+              className="w-full rounded-lg border border-(--border) py-1.5 text-xs text-(--muted) hover:border-red-500 hover:text-red-500 transition-colors"
+            >
+              Log out
+            </button>
+          </form>
         </div>
       </div>
     </aside>

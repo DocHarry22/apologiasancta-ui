@@ -7,6 +7,18 @@ async function mockEngine(page: import("@playwright/test").Page) {
       await route.fulfill({ json: { ok: true } });
       return;
     }
+    if (url.pathname === "/rooms") {
+      await route.fulfill({ json: { rooms: [{ roomId: "global", name: "Global Room", isActive: true, playerCount: 0 }] } });
+      return;
+    }
+    if (url.pathname === "/leaderboard") {
+      await route.fulfill({ json: { topScorers: [], topStreaks: [], period: url.searchParams.get("period") || "weekly", scope: "global" } });
+      return;
+    }
+    if (url.pathname === "/releases/latest") {
+      await route.fulfill({ json: { release: null } });
+      return;
+    }
     if (url.pathname === "/state") {
       await route.fulfill({
         json: {
@@ -86,7 +98,16 @@ test("public routes load", async ({ page }) => {
   );
 
   await page.goto("/library");
-  await expect(page.locator("body")).toContainText(/library/i);
+  await expect(page.getByRole("heading", { name: /Explore the treasury/i })).toBeVisible();
+
+  await page.goto("/learn");
+  await expect(page.getByRole("heading", { name: /Learn the Faith/i })).toBeVisible();
+
+  await page.goto("/research");
+  await expect(page.getByRole("heading", { name: /See how the truths/i })).toBeVisible();
+
+  await page.goto("/privacy");
+  await expect(page.getByRole("heading", { name: /Privacy overview/i })).toBeVisible();
 
   await page.goto("/mobile");
   await expect(page.locator("body")).toContainText(/join|waiting|question|room/i);
@@ -119,56 +140,37 @@ test("wake-lock permission denial remains a contained progressive-enhancement fa
   expect(pageErrors.filter((message) => /wake lock|notallowederror/i.test(message))).toEqual([]);
 });
 
-test("native home navigation and update actions work on narrow browser screens", async ({ page }) => {
-  const release = {
-    id: "ui-release",
-    repository: "apologiasancta-ui",
-    commitSha: "abc123",
-    createdAt: "2026-07-12T18:00:00.000Z",
-    category: "UI/UX",
-    title: "Responsive navigation",
-    summary: "Navigation now works across browser and app views.",
-    features: ["Browser bottom navigation"],
-    fixes: [],
-    changes: [],
-    deploymentStatus: "deployed",
-    read: false,
-    email: { status: "skipped" },
-  };
-  await page.route("https://engine.test/releases/latest", (route) => route.fulfill({ json: { release } }));
-  await page.addInitScript(() => window.localStorage.setItem("apologia-seen-release", "apologiasancta-ui:abc123"));
+test("native home uses the unified theme and five-destination navigation at 320px", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 740 });
   await page.goto("/native");
 
   const navigation = page.getByRole("navigation", { name: "Primary navigation" });
   await expect(navigation).toBeVisible();
   await expect(navigation.getByRole("link", { name: "Home" })).toHaveAttribute("aria-current", "page");
-  const researchTab = navigation.getByRole("link", { name: "Research (opens in a new tab)" });
-  await expect(researchTab).toHaveAttribute(
-    "href",
-    "https://mediumvioletred-kingfisher-797460.hostingersite.com",
-  );
-  await expect(researchTab).toHaveAttribute("target", "_blank");
-  await expect(researchTab).toHaveAttribute("rel", "noopener noreferrer");
-  await expect(page.getByRole("link", { name: "Open Research Graph (opens in a new tab)" })).toHaveAttribute(
-    "href",
-    "https://mediumvioletred-kingfisher-797460.hostingersite.com",
-  );
+  await expect(navigation.getByRole("link", { name: "Learn" })).toHaveAttribute("href", /^\/learn\/?$/);
+  await expect(navigation.getByRole("link", { name: "Library" })).toHaveAttribute("href", /^\/library\/?$/);
+  await expect(navigation.getByRole("link", { name: "Account" })).toHaveAttribute("href", /^\/account\/?$/);
+  const graphLink = page.getByRole("link", { name: /Open Graph/i });
+  await expect(graphLink).toHaveAttribute("target", "_blank");
+  await expect(graphLink).toHaveAttribute("rel", "noopener noreferrer");
   await expect(page.locator('a[href*="github.com/DocHarry22/apologia-graph"]')).toHaveCount(0);
-  const genesisTopic = page.getByRole("link", { name: "Genesis, 91 questions" });
-  await expect(genesisTopic).toHaveAttribute("href", "/library/genesis/");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  const themeToggle = page.getByRole("button", { name: /Switch to (light|dark) mode/ }).first();
+  await themeToggle.click();
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.theme)).toMatch(/light|dark/);
+});
 
-  await genesisTopic.click();
-  await expect(page).toHaveURL(/\/library\/genesis\/$/);
-  await expect(page.getByRole("heading", { name: "Genesis" })).toBeVisible();
-
-  await page.goto("/native");
-
-  await page.getByRole("button", { name: "Show latest updates" }).click();
-  await expect(page.getByRole("dialog", { name: "Responsive navigation" })).toBeVisible();
-  await page.getByRole("button", { name: "Got it" }).click();
-  await expect(page.getByRole("dialog")).toHaveCount(0);
+test("unified public pages do not overflow the required responsive widths", async ({ page }) => {
+  await page.goto("/");
+  for (const [width, height] of [[320,568],[360,800],[390,844],[412,915],[768,1024],[1024,768],[1280,800],[1440,900],[1920,1080]] as const) {
+    await page.setViewportSize({ width, height });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `${width}x${height} overflow`).toBe(true);
+  }
+  for (const route of ["/learn", "/library", "/leaderboard", "/research", "/privacy"]) {
+    await page.setViewportSize({ width: 320, height: 568 });
+    await page.goto(route);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `${route} overflow`).toBe(true);
+  }
 });
 
 test("admin route redirects when logged out", async ({ page }) => {
@@ -179,12 +181,12 @@ test("admin route redirects when logged out", async ({ page }) => {
 test("admin auth succeeds and logout blocks dashboard again", async ({ page }) => {
   await page.goto("/admin/login");
   await page.getByLabel(/email/i).fill("admin@example.test");
-  await page.getByLabel(/password/i).fill("wrong-password");
+  await page.getByLabel("Password", { exact: true }).fill("wrong-password");
   await page.getByRole("button", { name: /sign in/i }).click();
   await expect(page.locator("body")).toContainText(/incorrect email or password/i);
 
   await page.getByLabel(/email/i).fill("admin@example.test");
-  await page.getByLabel(/password/i).fill("test-author-password");
+  await page.getByLabel("Password", { exact: true }).fill("test-author-password");
   await page.getByRole("button", { name: /sign in/i }).click();
   await expect(page).toHaveURL(/\/admin\/?$/);
   await expect(page.locator("body")).toContainText(/overview|dashboard|operations/i);
@@ -207,7 +209,7 @@ test("admin security behavior is enforced in browser context", async ({ page }) 
 
   await page.goto("/admin/login");
   await page.getByLabel(/email/i).fill("admin@example.test");
-  await page.getByLabel(/password/i).fill("test-author-password");
+  await page.getByLabel("Password", { exact: true }).fill("test-author-password");
   await page.getByRole("button", { name: /sign in/i }).click();
   await expect(page).toHaveURL(/\/admin\/?$/);
 
@@ -226,7 +228,7 @@ test("admin security behavior is enforced in browser context", async ({ page }) 
 test("authoring workflow rejects duplicate IDs, invalid submissions, and empty rejection comments", async ({ page }) => {
   await page.goto("/admin/login");
   await page.getByLabel(/email/i).fill("admin@example.test");
-  await page.getByLabel(/password/i).fill("test-author-password");
+  await page.getByLabel("Password", { exact: true }).fill("test-author-password");
   await page.getByRole("button", { name: /sign in/i }).click();
   await expect(page).toHaveURL(/\/admin\/?$/);
   await page.goto("/admin/authoring");
@@ -296,7 +298,7 @@ test("mobile does not expose raw admin token controls", async ({ page }) => {
 });
 
 test("switching rooms preserves and reuses the saved player identity", async ({ page }) => {
-  const verificationRequests: Array<{ userId: string | null; roomId: string | null }> = [];
+  const joinRequests: Array<{ roomId: string; authorization: string | null }> = [];
   const rooms = [
     { roomId: "alpha", name: "Alpha Room", isActive: true, playerCount: 2 },
     { roomId: "beta", name: "Beta Room", isActive: true, playerCount: 1 },
@@ -308,17 +310,19 @@ test("switching rooms preserves and reuses the saved player identity", async ({ 
       await route.fulfill({ json: { rooms } });
       return;
     }
-    if (url.pathname === "/register/me") {
-      verificationRequests.push({
-        userId: url.searchParams.get("userId"),
-        roomId: url.searchParams.get("roomId"),
+    if (/^\/rooms\/(alpha|beta)\/join$/.test(url.pathname)) {
+      const roomId = url.pathname.split("/")[2];
+      joinRequests.push({
+        roomId,
+        authorization: route.request().headers().authorization || null,
       });
       await route.fulfill({
         json: {
           ok: true,
           userId: "player-1",
           username: "Thabo",
-          roomId: url.searchParams.get("roomId"),
+          roomId,
+          joinToken: `room-token-${roomId}`,
         },
       });
       return;
@@ -328,6 +332,7 @@ test("switching rooms preserves and reuses the saved player identity", async ({ 
   await page.addInitScript(() => {
     window.localStorage.setItem("userId", "player-1");
     window.localStorage.setItem("playerName", "Thabo");
+    window.localStorage.setItem("playerJoinToken", "room-token-alpha");
     window.localStorage.setItem("selectedRoomId", "alpha");
     window.localStorage.setItem("selectedRoomName", "Alpha Room");
   });
@@ -340,11 +345,13 @@ test("switching rooms preserves and reuses the saved player identity", async ({ 
   await page.getByRole("button", { name: "Join room" }).click();
 
   await expect(page.getByRole("button", { name: /Beta Room/ })).toBeVisible();
-  await expect.poll(() => verificationRequests).toContainEqual({ userId: "player-1", roomId: "beta" });
+  await expect.poll(() => joinRequests).toContainEqual({ roomId: "alpha", authorization: "Bearer room-token-alpha" });
+  await expect.poll(() => joinRequests).toContainEqual({ roomId: "beta", authorization: "Bearer room-token-alpha" });
   await expect.poll(() => page.evaluate(() => ({
     userId: window.localStorage.getItem("userId"),
     username: window.localStorage.getItem("playerName"),
-  }))).toEqual({ userId: "player-1", username: "Thabo" });
+    joinToken: window.localStorage.getItem("playerJoinToken"),
+  }))).toEqual({ userId: "player-1", username: "Thabo", joinToken: "room-token-beta" });
   await expect(page.getByLabel("Enter your display name")).toHaveCount(0);
 });
 

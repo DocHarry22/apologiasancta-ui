@@ -5,6 +5,11 @@ export type AnswerRejectionReason =
   | "game_paused"
   | "not_started"
   | "not_registered"
+  | "not_joined"
+  | "join_token_expired"
+  | "invalid_join_token"
+  | "join_token_room_mismatch"
+  | "join_token_user_mismatch"
   | string;
 
 export function isAnswerWindowLocallyOpen(input: {
@@ -22,5 +27,10 @@ export function getAnswerRejectionNotice(reason?: AnswerRejectionReason): string
   if (reason === "game_paused") return "The quiz is paused. Wait for the host to resume.";
   if (reason === "not_started") return "This round has not started yet.";
   if (reason === "not_registered") return "Join the game before submitting an answer.";
+  if (reason === "not_joined") return "Rejoin this room before submitting an answer.";
+  if (reason === "join_token_expired") return "Your room session expired. Rejoin to keep playing.";
+  if (reason === "invalid_join_token" || reason === "join_token_room_mismatch" || reason === "join_token_user_mismatch") {
+    return "Your room session changed. Rejoin the game to continue.";
+  }
   return "Could not submit. Try again.";
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Dialog } from "@/components/ui/Dialog";
 import { getEngineUrl } from "@/lib/publicEnv";
 import type { ReleaseNotification } from "@/types/releases";
 
@@ -10,7 +11,6 @@ export const SHOW_WHATS_NEW_EVENT = "apologia:show-whats-new";
 export function WhatsNewPopup() {
   const [release, setRelease] = useState<ReleaseNotification | null>(null);
   const latestReleaseRef = useRef<ReleaseNotification | null>(null);
-  const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const engineUrl = getEngineUrl();
@@ -23,7 +23,6 @@ export function WhatsNewPopup() {
         latestReleaseRef.current = latest ?? null;
         if (latest && (forceOpen || window.localStorage.getItem(SEEN_KEY) !== `${latest.repository}:${latest.commitSha}`)) {
           setRelease(latest);
-          window.setTimeout(() => closeRef.current?.focus(), 0);
         }
       })
       .catch(() => undefined);
@@ -31,7 +30,6 @@ export function WhatsNewPopup() {
     const showLatest = () => {
       if (latestReleaseRef.current) {
         setRelease(latestReleaseRef.current);
-        window.setTimeout(() => closeRef.current?.focus(), 0);
       } else {
         void loadLatest(true);
       }
@@ -52,20 +50,14 @@ export function WhatsNewPopup() {
 
   const highlights = [...release.features, ...release.fixes, ...release.changes].slice(0, 6);
   return (
-    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/55 p-3 sm:items-center sm:p-6" role="presentation">
-      <section
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="whats-new-title"
-        className="w-full max-w-xl rounded-2xl border border-(--accent)/40 bg-(--card) p-5 text-(--text) shadow-2xl sm:p-7"
-      >
+    <Dialog titleId="whats-new-title" onClose={dismiss} className="max-w-xl rounded-2xl p-5 text-(--text) sm:p-7">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-(--accent)">What’s new</p>
             <h2 id="whats-new-title" className="mt-2 text-xl font-bold sm:text-2xl">{release.title}</h2>
             <p className="mt-1 text-xs text-(--muted)">{release.repository} · {new Date(release.createdAt).toLocaleDateString()}</p>
           </div>
-          <button ref={closeRef} type="button" onClick={dismiss} aria-label="Dismiss update" className="rounded-full border border-(--border) px-3 py-1.5 text-sm hover:border-(--accent) hover:text-(--accent)">Close</button>
+          <button type="button" onClick={dismiss} aria-label="Dismiss update" className="btn-quiet min-h-10 px-3 py-1.5 text-sm">Close</button>
         </div>
         <p className="mt-4 text-sm leading-6 text-(--text-secondary)">{release.summary}</p>
         {highlights.length > 0 && (
@@ -74,9 +66,8 @@ export function WhatsNewPopup() {
           </ul>
         )}
         <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-end">
-          <button type="button" onClick={dismiss} className="rounded-xl bg-(--accent) px-5 py-2.5 text-sm font-semibold text-black hover:opacity-90">Got it</button>
+          <button type="button" onClick={dismiss} className="btn-primary">Got it</button>
         </div>
-      </section>
-    </div>
+    </Dialog>
   );
 }

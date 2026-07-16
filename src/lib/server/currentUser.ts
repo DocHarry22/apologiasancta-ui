@@ -5,9 +5,12 @@ import { getOrCreateTransitionalUser } from "./storage/userStore";
 export interface CurrentUser {
   id: string;
   displayName: string;
+  email?: string | null;
   role: Role;
   accountType: "staff" | "public";
   phone?: string | null;
+  createdAt?: string | null;
+  lastLoginAt?: string | null;
   passwordChangedAt?: string | null;
   source: "database" | "transitional_env" | "json_user_store";
 }
@@ -43,9 +46,12 @@ export async function getCurrentUser(userId?: string): Promise<CurrentUser> {
     return {
       id: user.id,
       displayName: user.displayName,
+      email: user.email,
       role: user.role,
       accountType: user.accountType,
       phone: user.phone ?? null,
+      createdAt: user.createdAt,
+      lastLoginAt: user.lastLoginAt ?? null,
       passwordChangedAt: user.passwordChangedAt ?? null,
       source: "database",
     };
@@ -56,8 +62,12 @@ export async function getCurrentUser(userId?: string): Promise<CurrentUser> {
     return {
       id: user.id,
       displayName: user.displayName,
+      email: null,
       role: user.role,
       accountType: user.role === "viewer" ? "public" : "staff",
+      phone: null,
+      createdAt: null,
+      lastLoginAt: null,
       passwordChangedAt: null,
       source: "json_user_store",
     };
@@ -69,8 +79,12 @@ export async function getCurrentUser(userId?: string): Promise<CurrentUser> {
   return {
     id: "local-author",
     displayName: "Author",
+    email: null,
     role: resolveDefaultRole(),
     accountType: "staff",
+    phone: null,
+    createdAt: null,
+    lastLoginAt: null,
     passwordChangedAt: null,
     source: "transitional_env",
   };

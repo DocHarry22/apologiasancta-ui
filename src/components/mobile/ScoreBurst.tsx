@@ -15,7 +15,7 @@ export function ScoreBurst({ points, eventKey }: ScoreBurstProps) {
       {points > 0 ? (
         <motion.span
           key={eventKey}
-          className="pointer-events-none absolute left-[58%] top-3 z-10 rounded-full px-3 py-1 text-lg font-black text-[#c89412]"
+          className="pointer-events-none absolute left-[58%] top-3 z-10 rounded-full px-3 py-1 text-lg font-black text-(--gold-hover)"
           initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.72, y: 8 }}
           animate={
             prefersReducedMotion
@@ -24,7 +24,7 @@ export function ScoreBurst({ points, eventKey }: ScoreBurstProps) {
           }
           exit={{ opacity: 0 }}
           transition={{ duration: 1.05, ease: "easeOut" }}
-          style={{ textShadow: "0 0 18px rgba(245, 195, 65, 0.9)" }}
+          style={{ textShadow: "0 0 18px var(--accent-glow)" }}
         >
           +{points}
         </motion.span>

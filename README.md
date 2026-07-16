@@ -1,52 +1,35 @@
 # Apologia Sancta UI
 
-Next.js frontend for Apologia Sancta Live, including the public landing page, room-aware mobile play experience, authoring dashboard, installable web app flow, and Android wrapper scaffolding.
+Next.js frontend for Apologia Sancta: a sourced Catholic formation, research, practice, and live quiz competition platform across web, PWA, and Android.
 
 Built with Next.js 16, React 19, Tailwind CSS 4, and Capacitor 7.
 
 Deployed on Hostinger: `https://sandybrown-bear-488955.hostingersite.com`
 Android package: `com.apologiasancta.live`
 
-## Current State (v1 — June 2026)
+## Operational platform update (July 2026)
 
-The UI is deployed to Hostinger and the Android debug APK has been built and verified locally.
+This branch adds the sourced Foundations learning path, lesson progress, practice assessment, public leaderboard, fast room join, signed room sessions and production deployment hardening. The complete repository/deployment audit, founder-level roadmap and release procedure are maintained in:
 
-**What's working:**
-- Room-aware mobile trivia flow with room switching while preserving global player identity
-- Real-time SSE state updates with automatic reconnect and polling fallback
-- Room and global leaderboard views driven by the engine's `daily`, `weekly`, and `all-time` windows
-- Admin dashboard for content import, engine controls, persistence status, and room management
-- Server-side admin proxy — the browser never receives the engine admin token
-- CSRF double-submit cookie pattern protecting all admin proxy routes
-- Security headers: HSTS, CSP, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`
-- Installable PWA flow with manifest, generated app icons (all standard sizes), offline fallback page, and service-worker bypass for SSE/API traffic
-- Android wrapper via Capacitor pointing at the deployed Hostinger URL
-- Landing page install/download CTAs for Chromium browser install, iPhone Add to Home Screen, and Android APK distribution
-- CI on GitHub Actions: lint, typecheck, unit tests, Next build, and Playwright E2E on every push; debug APK artifact on pushes to `main`, including auto-synced `apologia-sancta.apk` packaged filenames
+- [Operational audit](./docs/OPERATIONAL_AUDIT.md)
+- [Product roadmap](./docs/PRODUCT_ROADMAP.md)
+- [Production runbook](./docs/PRODUCTION_RUNBOOK.md)
+- [Unified product redesign](./docs/UNIFIED_REDESIGN.md)
 
-**Known limitations / v1 gates not yet cleared:**
-- Hostinger routes `/mobile/`, `/admin/login`, and `/library` currently return HTTP 403 — requires redeploying the latest build with the Apache `.htaccess` rewrite rule to Hostinger
-- Engine route `/rooms/global/stages` returns HTTP 404 on the live Render deployment — requires redeploying the engine after the latest source is pushed to GitHub
-- Signed APK release workflow is configured but not yet end-to-end verified (requires Android keystore secrets in GitHub Actions)
-- APK is currently distributed only as an internal debug build; public signed release is gated on keystore setup
+The active frontend is the Hostinger Node/Next deployment. The old `apologiasancta-ui.onrender.com` service is not an active frontend. Merge-to-production depends on Hostinger's Git project being connected to `main`; see the runbook before release.
 
-## Current Files And Deployment Status Snapshot (June 3, 2026)
+## Release-candidate state (July 2026)
 
-- Workspace root is documentation-focused and not a git repository; source control is split between `apologiasancta-ui` and `apologiasancta-engine`
-- UI repository currently contains active local edits across Android assets/config, workflows, mobile UI hooks/components, and deployment files
-- Hostinger production root route `/` is expected up, but `/mobile/`, `/author/login`, and `/library` remain blocked until latest static export and `.htaccess` rewrites are redeployed
-- Render engine APIs are generally up, but `/rooms/global/stages` remains blocked on the currently deployed engine build until redeploy from latest source
-- Signed Android release is still pending GitHub Actions keystore secrets (`ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD`)
+The reviewed source now provides a unified responsive product across web, PWA, and Capacitor: an honest learner Home, a four-lesson sourced formation path, explanation-led practice, a searchable Library, a separate Research Graph gateway, real Engine leaderboards, secure account/staff access, and server-authoritative live rooms with reconnect support.
 
-## Future Goals
+Production has deliberately not been changed by this branch. Release in this order:
 
-- **Clear remaining v1 gates** — redeploy Hostinger static export with `.htaccess`, confirm all routes return HTTP 200, and ship signed APK to testers
-- **Signed APK/AAB release pipeline** — set `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, and `ANDROID_KEY_PASSWORD` in GitHub Actions secrets to enable automated signed release builds
-- **Per-room topic flow in UI** — update room state display when the engine delivers independent per-room question tracks
-- **Nonce-based CSP** — remove `unsafe-inline` from `script-src` once Next.js nonce support lands
-- **Play Store submission** — migrate from debug to production-signed AAB and prepare store listing assets
-- **Push notification support** — native push via Capacitor for round-start announcements to installed users
-- **Offline queue** — buffer answer submissions locally when SSE is down and replay when reconnected
+1. Confirm the Hostinger Git project builds the reviewed UI commit as a Node/Next application, then deploy the dual-contract UI and smoke-test the current live Engine.
+2. Configure a generated 32+ byte `PLAYER_JOIN_SECRET` and healthy PostgreSQL persistence on Render.
+3. Deploy the hardened Engine commit and smoke-test registration, signed room joins, answer timing, duplicate rejection, SSE reconnect, results, and leaderboards.
+4. Restart or redeploy the Graph Node process from its current `main` before advertising reliable deep links.
+
+Remaining external gates are Hostinger branch ownership, the Render secret/persistence check, accountable theological review of legacy content, Android signing credentials, and a legal privacy policy. The repository must not be described as publicly launch-ready until those owner-controlled checks are complete.
 
 ## Features
 
@@ -63,9 +46,18 @@ The UI is deployed to Hostinger and the Android debug APK has been built and ver
 | Route | Description |
 |-------|-------------|
 | `/` | Landing page with install/download actions |
+| `/login` | Combined learner/staff sign-in and account creation |
+| `/account` | Authenticated profile, progress, appearance, security, notifications, and privacy |
+| `/privacy` | Public plain-language overview of current data handling and launch-policy limitations |
+| `/learn` | Learner dashboard and structured apologetics path |
+| `/learn/[lessonId]` | Sourced lesson page with objections and responses |
+| `/practice` | Foundations practice assessment with explanations |
+| `/leaderboard` | Public daily, weekly, and all-time rankings |
+| `/dashboard` | Learner-dashboard compatibility redirect |
 | `/mobile` | Mobile player experience |
 | `/library` | Public topic library |
 | `/library/[topicId]` | Topic detail page |
+| `/research` | Internal gateway to the separate public Apologia Graph application |
 | `/admin` | Protected admin and engine dashboard |
 | `/admin/login` | Admin login |
 | `/author` | Compatibility alias for the protected dashboard |

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { createSessionCookie, SESSION_COOKIE_NAME, SESSION_MAX_AGE_SECONDS } from "@/lib/auth/session";
 import { CSRF_COOKIE_NAME, generateCsrfToken } from "@/lib/csrf";
 import { revokeAdminUserOtherSessions } from "@/lib/server/adminUserStore";
-import { forbidden, requireAuthorSession, requireCsrf, safeJson } from "@/lib/server/apiAuth";
+import { forbidden, requireAuthorSession, requireCsrf } from "@/lib/server/apiAuth";
 import { appendAuditEvent } from "@/lib/server/storage/auditStore";
 import { getClientIp } from "@/lib/auth/rateLimit";
 

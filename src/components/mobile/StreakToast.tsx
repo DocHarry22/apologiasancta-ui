@@ -15,7 +15,7 @@ export function StreakToast({ streak, eventKey }: StreakToastProps) {
       {streak > 1 ? (
         <motion.div
           key={eventKey}
-          className="pointer-events-none absolute right-4 top-5 z-10 rounded-full border border-[#f1c761]/80 bg-[#fff7df]/95 px-3 py-1.5 text-xs font-bold text-[#b5790b] shadow-[0_0_28px_rgba(226,176,50,0.36)]"
+          className="pointer-events-none absolute right-4 top-5 z-10 rounded-full border border-(--warning) bg-(--surface-elevated) px-3 py-1.5 text-xs font-bold text-(--warning) shadow-[0_0_28px_var(--accent-glow)]"
           initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.86, x: 12 }}
           animate={
             prefersReducedMotion

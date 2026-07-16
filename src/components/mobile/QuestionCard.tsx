@@ -15,7 +15,7 @@ export function QuestionCard({ text }: QuestionCardProps) {
           {text}
         </h2>
       </div>
-      <div className="mx-auto mt-3 h-px w-16 bg-[#d9a51c]/45 lg:mt-2 lg:w-12 lg:bg-(--border)" />
+      <div className="mx-auto mt-3 h-px w-16 bg-(--gold)/45 lg:mt-2 lg:w-12 lg:bg-(--border)" />
     </div>
   );
 }
