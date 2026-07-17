@@ -173,7 +173,8 @@ describe("human-reviewed editorial workflow on a real SQL dialect", () => {
 
     const submitted = await workflow.createWorkflowDraft(question, author, ["trinity"], [], true);
     workflowItemId = submitted.id;
-    expect(submitted).toMatchObject({ status: "submitted", authorId: author.id, reviewerId: undefined });
+    expect(submitted).toMatchObject({ status: "submitted", authorId: author.id });
+    expect(submitted.reviewerId).toBe(undefined);
     expect(submitted.revisions).toHaveLength(1);
     expect(submitted.revisions[0]).toMatchObject({
       id: submitted.currentRevisionId,
