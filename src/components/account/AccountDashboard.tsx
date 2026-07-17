@@ -19,7 +19,7 @@ import {
   type LearningProgress,
 } from "@/lib/learningProgress";
 import { LIBRARY_BOOKMARKS_KEY, parseLibraryBookmarks } from "@/lib/libraryBookmarks";
-import { clearStoredPlayerIdentity } from "@/lib/playerIdentity";
+import { clearStoredAccountPlayerIdentity, clearStoredPlayerIdentity } from "@/lib/playerIdentity";
 import { useTheme, type ThemePreference } from "@/lib/theme";
 
 export type AccountSection =
@@ -426,6 +426,7 @@ function SecurityPanel({ lastLoginAt, onSignedOut }: { lastLoginAt: string | nul
       });
       const payload = (await response.json().catch(() => null)) as { error?: string } | null;
       if (!response.ok) throw new Error(payload?.error || "Password could not be changed.");
+      clearStoredAccountPlayerIdentity();
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
@@ -445,6 +446,7 @@ function SecurityPanel({ lastLoginAt, onSignedOut }: { lastLoginAt: string | nul
       const response = await fetch("/api/auth/sessions/revoke", { method: "POST", headers: { "x-csrf-token": csrf } });
       const payload = (await response.json().catch(() => null)) as { error?: string } | null;
       if (!response.ok) throw new Error(payload?.error || "Other sessions could not be revoked.");
+      clearStoredAccountPlayerIdentity();
       setMessage({ tone: "success", text: "Other signed-in sessions revoked. This session remains active." });
     } catch (error) {
       setMessage({ tone: "error", text: error instanceof Error ? error.message : "Other sessions could not be revoked." });
@@ -458,6 +460,7 @@ function SecurityPanel({ lastLoginAt, onSignedOut }: { lastLoginAt: string | nul
     setMessage(null);
     try {
       await fetch("/api/auth/logout", { method: "POST" });
+      clearStoredAccountPlayerIdentity();
       onSignedOut();
     } catch {
       setMessage({ tone: "error", text: "Sign out failed. Check your connection and try again." });

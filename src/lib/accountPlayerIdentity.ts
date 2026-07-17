@@ -4,11 +4,13 @@ export type AccountPlayerIdentityResult =
       userId: string;
       username: string;
       joinToken: string;
+      sessionBinding: string;
     }
   | { kind: "guest_fallback" }
   | { kind: "error"; message: string };
 
 type FetchLike = typeof fetch;
+const SESSION_BINDING_PATTERN = /^[a-zA-Z0-9_-]{43}$/;
 
 /**
  * Requests an account-linked room credential without ever exposing the
@@ -55,6 +57,8 @@ export async function requestAccountPlayerIdentity(
     userId?: string;
     username?: string;
     joinToken?: string;
+    sessionBinding?: string;
+    code?: string;
     error?: string;
   } | null;
 
@@ -63,13 +67,19 @@ export async function requestAccountPlayerIdentity(
     && identityPayload?.userId
     && identityPayload.username
     && identityPayload.joinToken
+    && typeof identityPayload.sessionBinding === "string"
+    && SESSION_BINDING_PATTERN.test(identityPayload.sessionBinding)
   ) {
     return {
       kind: "joined",
       userId: identityPayload.userId,
       username: identityPayload.username,
       joinToken: identityPayload.joinToken,
+      sessionBinding: identityPayload.sessionBinding,
     };
+  }
+  if (identityPayload?.code === "account_identity_room_unsupported") {
+    return { kind: "guest_fallback" };
   }
   if ([401, 404, 502, 503].includes(identityResponse.status)) {
     return { kind: "guest_fallback" };
@@ -78,4 +88,29 @@ export async function requestAccountPlayerIdentity(
     kind: "error",
     message: identityPayload?.error || "Account-linked quiz identity could not be created.",
   };
+}
+
+/**
+ * Confirms that a stored account room credential belongs to the currently
+ * authenticated HTTP-only session. Failure is closed: callers must not resume
+ * an account-linked Engine token when same-origin session proof is unavailable.
+ */
+export async function isAccountPlayerSessionCurrent(
+  storedSessionBinding: string,
+  fetchImpl: FetchLike = fetch
+): Promise<boolean> {
+  if (!storedSessionBinding) return false;
+  try {
+    const response = await fetchImpl("/api/quiz/identity", {
+      method: "GET",
+      credentials: "same-origin",
+      cache: "no-store",
+    });
+    const payload = await response.json().catch(() => null) as { sessionBinding?: string } | null;
+    return response.ok
+      && typeof payload?.sessionBinding === "string"
+      && payload.sessionBinding === storedSessionBinding;
+  } catch {
+    return false;
+  }
 }

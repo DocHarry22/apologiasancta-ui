@@ -2,9 +2,12 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { PLAYER_NAME_KEY } from "@/components/mobile/YourScoreCard";
+import { isAccountPlayerSessionCurrent } from "@/lib/accountPlayerIdentity";
 import {
   clearStoredJoinToken,
   clearStoredPlayerIdentity,
+  isStoredAccountPlayerIdentity,
+  PLAYER_IDENTITY_STORAGE_KEYS,
   readStoredPlayerIdentity,
   saveStoredJoinToken,
   saveStoredPlayerIdentity,
@@ -20,6 +23,7 @@ export function useRoomRegistration({ engineUrl, roomId }: UseRoomRegistrationPa
   const [joinToken, setJoinToken] = useState<string | null>(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [isCheckingRegistration, setIsCheckingRegistration] = useState(true);
+  const [identityStorageRevision, setIdentityStorageRevision] = useState(0);
 
   const resetRegistrationState = useCallback(() => {
     clearStoredPlayerIdentity(); localStorage.removeItem(PLAYER_NAME_KEY);
@@ -32,6 +36,16 @@ export function useRoomRegistration({ engineUrl, roomId }: UseRoomRegistrationPa
     localStorage.setItem(PLAYER_NAME_KEY, nextUsername);
     setUserId(nextUserId); setUsername(nextUsername); setJoinToken(nextJoinToken);
     setIsRegistered(true); setIsCheckingRegistration(false);
+  }, []);
+
+  useEffect(() => {
+    const handleStorage = (event: StorageEvent) => {
+      if (event.storageArea !== localStorage) return;
+      if (event.key && !PLAYER_IDENTITY_STORAGE_KEYS.some((key) => key === event.key)) return;
+      setIdentityStorageRevision((revision) => revision + 1);
+    };
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
   useEffect(() => {
@@ -53,6 +67,17 @@ export function useRoomRegistration({ engineUrl, roomId }: UseRoomRegistrationPa
     };
 
     const resume = async () => {
+      if (isStoredAccountPlayerIdentity(stored)) {
+        const sessionIsCurrent = Boolean(
+          stored.accountSessionBinding
+          && stored.joinToken
+          && await isAccountPlayerSessionCurrent(stored.accountSessionBinding)
+        );
+        if (!sessionIsCurrent) {
+          if (!cancelled) resetRegistrationState();
+          return;
+        }
+      }
       if (!stored.joinToken) { await resumeLegacy(); return; }
       const response = await fetch(`${engineUrl}/rooms/${encodeURIComponent(roomId)}/join`, {
         method: "POST",
@@ -69,7 +94,7 @@ export function useRoomRegistration({ engineUrl, roomId }: UseRoomRegistrationPa
 
     void resume().catch(() => { if (!cancelled) { setIsRegistered(false); setUserId(null); setUsername(stored.username); setJoinToken(null); } }).finally(() => { if (!cancelled) setIsCheckingRegistration(false); });
     return () => { cancelled = true; };
-  }, [applyRegistration, engineUrl, resetRegistrationState, roomId]);
+  }, [applyRegistration, engineUrl, identityStorageRevision, resetRegistrationState, roomId]);
 
   const handleJoined = useCallback((nextUserId: string, nextUsername: string, nextJoinToken?: string | null) => { applyRegistration(nextUserId, nextUsername, nextJoinToken ?? null); }, [applyRegistration]);
   return { userId, username, joinToken, isRegistered, isCheckingRegistration, handleJoined, resetRegistrationState };

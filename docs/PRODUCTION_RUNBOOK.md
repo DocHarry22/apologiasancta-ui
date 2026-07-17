@@ -18,6 +18,10 @@ The Next app uses middleware, route handlers, staff sessions and server-side eng
 - `ENGINE_INTERNAL_URL=https://apologiasancta-engine.onrender.com`
 - `AUTHOR_SESSION_SECRET` (high-entropy, server only)
 - `ENGINE_ADMIN_TOKEN` (UI server only; must match the Engine's `ADMIN_TOKEN`)
+- `ACCOUNT_IDENTITY_ENABLED=false` until the coordinated staff-only rollout
+- `ACCOUNT_IDENTITY_SECRET` (new independent 32+ byte random secret, server only; must match Render and must not reuse admin/session/join secrets)
+- `ACCOUNT_IDENTITY_ISSUER=apologia-ui`
+- `ACCOUNT_IDENTITY_ASSERTION_TTL_SECONDS=120`
 - `DATABASE_URL` for durable staff/workflow/audit storage
 - `ADMIN_EMAIL` and `ADMIN_PASSWORD` for initial bootstrap only; rotate after first successful durable login
 - Optional: `NEXT_PUBLIC_ANDROID_APK_URL`, `CAPACITOR_SERVER_URL`, `NEXT_PUBLIC_RESEARCH_GRAPH_URL`, `NEXT_PUBLIC_AUTHOR_ENABLED`
@@ -28,13 +32,25 @@ The Next app uses middleware, route handlers, staff sessions and server-side eng
 - `PORT` (Render supplies this; blueprint default is `10000`)
 - `ADMIN_TOKEN` (high-entropy, must match UI `ENGINE_ADMIN_TOKEN`)
 - `PLAYER_JOIN_SECRET` (new independent high-entropy secret)
+- `ACCOUNT_IDENTITY_ENABLED=false` until the same dedicated secret is configured on both providers
+- `ACCOUNT_IDENTITY_SECRET` (must match the UI value and differ from `PLAYER_JOIN_SECRET`)
+- `ACCOUNT_IDENTITY_ISSUER=apologia-ui`
+- `ACCOUNT_IDENTITY_ASSERTION_TTL_SECONDS=120`
+- `ACCOUNT_IDENTITY_CLOCK_SKEW_SECONDS=15`
 - `CORS_ORIGINS=https://sandybrown-bear-488955.hostingersite.com`
 - `ALLOW_LOCAL_ORIGINS=false`
 - `DATABASE_URL` (Render PostgreSQL connection)
 - `STATE_PERSISTENCE_DRIVER=postgres`
 - Optional: `YOUTUBE_API_KEY`, `YOUTUBE_VIDEO_ID`, phase duration values
 
-Never expose `ENGINE_ADMIN_TOKEN`, `ADMIN_TOKEN`, `PLAYER_JOIN_SECRET`, database credentials or Supabase service-role keys through `NEXT_PUBLIC_*` variables.
+Never expose `ACCOUNT_IDENTITY_SECRET`, `ENGINE_ADMIN_TOKEN`, `ADMIN_TOKEN`, `PLAYER_JOIN_SECRET`, database credentials or Supabase service-role keys through `NEXT_PUBLIC_*` variables.
+
+Account-linked room credentials are bound in browser storage to a one-way HMAC
+of the current HTTP-only UI session. Logout, account switching, session
+rotation, or identity-secret rotation invalidates that browser binding before
+the UI will resume the Engine token. The raw UI session and account subject are
+never written to local storage. Existing first-release `acct_*` credentials
+without binding metadata are intentionally cleared once after this update.
 
 ### Android CI and release signing
 
@@ -60,6 +76,11 @@ The optional non-secret repository variables `ANDROID_APP_URL`, `ANDROID_ENGINE_
 5. Add a newly generated `PLAYER_JOIN_SECRET` of at least 32 random bytes to Render. Never copy an example value from the repository.
 6. Merge the Engine PR; wait for Render `/health` to report healthy PostgreSQL persistence and check `/diagnostics` for readiness booleans only.
 7. Smoke-test signed registration, room join, answer, SSE reconnect and leaderboard with a non-public test room. Confirm browser requests use the Render HTTPS origin and that an unapproved Origin is rejected.
+
+For the account-identity rollout, enable the Engine first and confirm its
+secret-free diagnostics. Then enable the UI for a staff cohort and test logout,
+account switching in the same browser, cross-tab logout, stable identity
+reissue, and legacy guest fallback before broadening access.
 
 Merging GitHub cannot update Hostinger unless that project has automatic Git deployment enabled. If it does not, deploy the exact merged UI commit through Hostinger and record the commit SHA in the release notes.
 

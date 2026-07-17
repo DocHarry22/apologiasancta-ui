@@ -1,10 +1,11 @@
 import { NextRequest } from "next/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { generateCsrfToken } from "@/lib/csrf";
+import { clearSignupRateLimit } from "@/lib/auth/rateLimit";
 import { SESSION_COOKIE_NAME } from "@/lib/auth/session";
 import { resetAdminUserStoreForTests } from "@/lib/server/adminUserStore";
 import { POST as signup } from "@/app/api/auth/signup/route";
-import { POST as exchangeIdentity } from "./route";
+import { GET as getIdentitySession, POST as exchangeIdentity } from "./route";
 
 async function createSession(): Promise<string> {
   const response = await signup(new NextRequest("https://ui.test/api/auth/signup", {
@@ -24,7 +25,11 @@ async function createSession(): Promise<string> {
   return session;
 }
 
-async function identityRequest(session: string, withCsrf = true): Promise<NextRequest> {
+async function identityRequest(
+  session: string,
+  withCsrf = true,
+  body: { roomId: string; displayName: string } = { roomId: "global", displayName: "Identity_Test" }
+): Promise<NextRequest> {
   const headers: Record<string, string> = {
     "content-type": "application/json",
     cookie: `${SESSION_COOKIE_NAME}=${session}`,
@@ -33,12 +38,13 @@ async function identityRequest(session: string, withCsrf = true): Promise<NextRe
   return new NextRequest("https://ui.test/api/quiz/identity", {
     method: "POST",
     headers,
-    body: JSON.stringify({ roomId: "global", displayName: "Identity_Test" }),
+    body: JSON.stringify(body),
   });
 }
 
 describe("account quiz identity route", () => {
   beforeEach(() => {
+    clearSignupRateLimit("unknown");
     resetAdminUserStoreForTests();
     process.env.ACCOUNT_IDENTITY_ENABLED = "true";
     process.env.ACCOUNT_IDENTITY_SECRET = "test-account-identity-secret-with-more-than-32-bytes";
@@ -68,10 +74,10 @@ describe("account quiz identity route", () => {
     const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({
       ok: true,
       identityType: "account",
-      userId: "acct_durable_identity",
+      userId: "acct_11111111-1111-4111-8111-111111111111",
       username: "Identity_Test",
       roomId: "global",
-      joinToken: "ordinary-room-join-token",
+      joinToken: "ordinary-room-token.signature",
       identityCreated: true,
       displayNameAdjusted: false,
     }), { status: 200, headers: { "content-type": "application/json" } }));
@@ -84,14 +90,88 @@ describe("account quiz identity route", () => {
 
     expect(response.status).toBe(200);
     expect(payload).toEqual(expect.objectContaining({
-      userId: "acct_durable_identity",
+      userId: "acct_11111111-1111-4111-8111-111111111111",
       username: "Identity_Test",
-      joinToken: "ordinary-room-join-token",
+      joinToken: "ordinary-room-token.signature",
     }));
     expect(payload).not.toHaveProperty("assertion");
+    expect(payload).not.toHaveProperty("subject");
+    expect(payload.sessionBinding).toMatch(/^[a-zA-Z0-9_-]{43}$/);
     expect(assertionPayload.subject).toMatch(/^[a-zA-Z0-9:_-]{8,128}$/);
     expect(assertionPayload.subject).not.toContain("@");
     expect(JSON.stringify(payload)).not.toContain(process.env.ACCOUNT_IDENTITY_SECRET!);
+    expect(fetchMock.mock.calls[0][1]).toEqual(expect.objectContaining({ redirect: "error" }));
+    expect(response.headers.get("cache-control")).toBe("no-store");
+  });
+
+  it("returns the same one-way binding only for the current authenticated session", async () => {
+    const session = await createSession();
+    const request = new NextRequest("https://ui.test/api/quiz/identity", {
+      headers: { cookie: `${SESSION_COOKIE_NAME}=${session}` },
+    });
+
+    const first = await getIdentitySession(request);
+    const second = await getIdentitySession(request);
+    const firstPayload = await first.json();
+    const secondPayload = await second.json();
+
+    expect(first.status).toBe(200);
+    expect(firstPayload.sessionBinding).toBe(secondPayload.sessionBinding);
+    expect(firstPayload.sessionBinding).not.toContain(session);
+    expect(first.headers.get("cache-control")).toBe("no-store");
+  });
+
+  it("falls back before signing when a legacy mobile room ID is outside the Engine contract", async () => {
+    const session = await createSession();
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await exchangeIdentity(await identityRequest(session, true, {
+      roomId: "RCIA_1",
+      displayName: "Identity_Test",
+    }));
+
+    expect(response.status).toBe(422);
+    await expect(response.json()).resolves.toEqual(expect.objectContaining({
+      code: "account_identity_room_unsupported",
+    }));
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects an Engine credential that is not correlated to the signed room", async () => {
+    const session = await createSession();
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify({
+      ok: true,
+      identityType: "account",
+      userId: "acct_11111111-1111-4111-8111-111111111111",
+      username: "Identity_Test",
+      roomId: "different-room",
+      joinToken: "ordinary-room-token.signature",
+    }), { status: 200, headers: { "content-type": "application/json" } })));
+
+    const response = await exchangeIdentity(await identityRequest(session));
+    expect(response.status).toBe(502);
+    await expect(response.json()).resolves.toEqual(expect.objectContaining({
+      code: "invalid_engine_identity_response",
+    }));
+  });
+
+  it("rejects a malformed Engine account identifier", async () => {
+    const session = await createSession();
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify({
+      ok: true,
+      identityType: "account",
+      userId: "acct_------------------------------------",
+      username: "Identity_Test",
+      roomId: "global",
+      joinToken: "ordinary-room-token.signature",
+    }), { status: 200, headers: { "content-type": "application/json" } })));
+
+    const response = await exchangeIdentity(await identityRequest(session));
+    expect(response.status).toBe(502);
+    await expect(response.json()).resolves.toEqual(expect.objectContaining({
+      code: "invalid_engine_identity_response",
+    }));
   });
 
   it("fails closed before contacting the Engine when the rollout is disabled", async () => {

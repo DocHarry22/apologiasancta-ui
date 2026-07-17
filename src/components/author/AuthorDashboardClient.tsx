@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { PublishedQuestionRecord, TopicWithCount } from "@/lib/content";
 import type { CurrentUser } from "@/lib/server/currentUser";
+import { clearStoredAccountPlayerIdentity } from "@/lib/playerIdentity";
 import type { Question, QuestionChoiceId } from "@/types/content";
 import type { AdminRoomStatus, AdminStatus, ContentStatusResponse, TopicSequenceConfig } from "@/lib/engineAdmin";
 import { useTheme } from "@/lib/theme";
@@ -501,6 +502,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     });
 
     if (response.ok) {
+      clearStoredAccountPlayerIdentity();
       setCurrentPasswordInput("");
       setNewPasswordInput("");
       setConfirmPasswordInput("");
@@ -519,6 +521,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     });
 
     if (response.ok) {
+      clearStoredAccountPlayerIdentity();
       setMessage({ type: "success", text: "Other sessions were signed out." });
     } else {
       setMessage({ type: "error", text: response.error || "Unable to revoke other sessions." });
@@ -723,6 +726,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   const handleLogout = async () => {
     try {
       await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
+      clearStoredAccountPlayerIdentity();
     } finally {
       const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
       window.location.href = `${basePath}/login`;

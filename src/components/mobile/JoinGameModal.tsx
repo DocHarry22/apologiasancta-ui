@@ -5,9 +5,10 @@ import { PLAYER_NAME_KEY } from "./YourScoreCard";
 import { getEngineUrl } from "@/lib/publicEnv";
 import {
   clearStoredPlayerIdentity,
+  isStoredAccountPlayerIdentity,
   readStoredPlayerIdentity,
-  saveStoredJoinToken,
-  saveStoredPlayerIdentity,
+  saveStoredAccountPlayerIdentity,
+  saveStoredGuestPlayerIdentity,
 } from "@/lib/playerIdentity";
 import { getReusableStoredUserId } from "@/lib/registrationRecovery";
 import { requestAccountPlayerIdentity } from "@/lib/accountPlayerIdentity";
@@ -50,8 +51,12 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
     try {
       const accountIdentity = await requestAccountPlayerIdentity({ roomId, displayName: trimmed });
       if (accountIdentity.kind === "joined") {
-        saveStoredPlayerIdentity(accountIdentity.userId, accountIdentity.username);
-        saveStoredJoinToken(accountIdentity.joinToken);
+        saveStoredAccountPlayerIdentity(
+          accountIdentity.userId,
+          accountIdentity.username,
+          accountIdentity.joinToken,
+          accountIdentity.sessionBinding
+        );
         localStorage.setItem(PLAYER_NAME_KEY, accountIdentity.username);
         onJoined(accountIdentity.userId, accountIdentity.username, accountIdentity.joinToken);
         return;
@@ -61,7 +66,11 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
         return;
       }
 
-      const stored = readStoredPlayerIdentity();
+      let stored = readStoredPlayerIdentity();
+      if (isStoredAccountPlayerIdentity(stored)) {
+        clearStoredPlayerIdentity();
+        stored = readStoredPlayerIdentity();
+      }
       const reusableUserId = stored.joinToken
         ? getReusableStoredUserId(stored.userId, stored.username, trimmed)
         : undefined;
@@ -82,8 +91,7 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
       };
 
       if (response.ok && data.userId && data.username) {
-        saveStoredPlayerIdentity(data.userId, data.username);
-        if (data.joinToken) saveStoredJoinToken(data.joinToken);
+        saveStoredGuestPlayerIdentity(data.userId, data.username, data.joinToken);
         localStorage.setItem(PLAYER_NAME_KEY, data.username);
         onJoined(data.userId, data.username, data.joinToken ?? null);
         return;
