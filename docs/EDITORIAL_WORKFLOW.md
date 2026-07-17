@@ -56,6 +56,20 @@ Production must use database storage. File storage is retained for local develop
 4. Keep `EDITORIAL_EMERGENCY_IMPORT_ENABLED=false` for ordinary operation.
 5. Roll back application code if necessary, but retain the additive tables and outbox records. Dropping them loses review and retry evidence.
 
+## Executable database acceptance gate
+
+`npm run test:editorial-database` runs the complete author -> independent reviewer -> publisher path against a real SQL server. It checks the additive schema, immutable revision and approval rows, reviewer independence, failed publication retry, deterministic outbox key, completed receipt, actor audit trail, and mutation-free completed replay.
+
+The command requires `EDITORIAL_ACCEPTANCE_DATABASE_URL`. For safety, it refuses non-loopback hosts and database names that do not end in `_acceptance`; it never reads production credentials. UI CI starts disposable PostgreSQL 16 and MySQL 8.4 service containers and runs the same acceptance suite once against each dialect. To run it locally, create a disposable loopback database such as `apologia_editorial_acceptance`, then set only the acceptance URL for that shell:
+
+```powershell
+$env:EDITORIAL_ACCEPTANCE_DATABASE_URL = "postgresql://local-user:local-password@127.0.0.1:5432/apologia_editorial_acceptance"
+npm run test:editorial-database
+Remove-Item Env:EDITORIAL_ACCEPTANCE_DATABASE_URL
+```
+
+Do not substitute a production or shared staging database. Production-dialect staging should use an isolated clone or disposable database with the same major PostgreSQL/MySQL family and a separate author, reviewer, and publisher account.
+
 ## Current limitations
 
 - Engine-level administrators who possess its raw admin token can still call the Engine directly; protect and rotate that credential and restrict it to the UI server/deployment operators.

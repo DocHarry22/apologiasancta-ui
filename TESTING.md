@@ -6,6 +6,7 @@ Apologia Sancta UI uses Node's test runner and Vitest for unit/integration tests
 
 - `npm run test` runs the lightweight Node unit/security suite.
 - `npm run test:vitest` runs the component, hook, and API-route suite once.
+- `npm run test:editorial-database` runs the human-reviewed publication workflow against the disposable PostgreSQL/MySQL URL in `EDITORIAL_ACCEPTANCE_DATABASE_URL`.
 - `npm run test:e2e` runs Playwright browser tests.
 
 Before deployment, run:
@@ -18,6 +19,8 @@ npm run test:vitest
 npm run build
 npm run test:e2e
 ```
+
+Pull-request CI additionally provisions secret-free PostgreSQL 16 and MySQL 8.4 service containers and runs `npm run test:editorial-database` against both. The acceptance command refuses remote hosts and database names without the `_acceptance` suffix, so production credentials cannot be used accidentally.
 
 ## Test Environment
 
