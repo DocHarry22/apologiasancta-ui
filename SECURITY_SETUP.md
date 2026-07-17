@@ -194,24 +194,28 @@ Required GitHub secrets:
 - `ANDROID_KEY_ALIAS`
 - `ANDROID_KEY_PASSWORD`
 
-Required GitHub variable:
+Optional non-secret GitHub repository variables:
 
-- `CAPACITOR_SERVER_URL`
+- `ANDROID_APP_URL`: overrides the reviewed production UI origin and is mapped
+  to `CAPACITOR_SERVER_URL` by the Android workflows.
+- `ANDROID_ENGINE_URL`: overrides the production Engine origin.
+- `ANDROID_GRAPH_URL`: overrides the production Research Graph origin.
 
-Recommended GitHub variable:
-
-- `NEXT_PUBLIC_ENGINE_URL`
+Local release builds set `CAPACITOR_SERVER_URL` directly. GitHub Actions uses
+the source-controlled production Hostinger origin when `ANDROID_APP_URL` is not
+set, so a domain change must update the repository variable or the reviewed
+workflow default before a release is created.
 
 ### Verify before building
 
 Run `npx cap sync android` with `CAPACITOR_BUILD_MODE=production` set.  
 If the URL is missing or invalid, the command exits immediately with a clear error before any files are written.
 
-### Why silent fallback URLs are not allowed
+### Production URL resolution
 
-Previous versions of `capacitor.config.ts` fell back silently to a temporary Hostinger preview URL (`sandybrown-bear-488955.hostingersite.com`). This meant a release APK could accidentally point to an unstable host with no error. The hardened config makes this impossible in production mode.
+`capacitor.config.ts` requires a valid HTTPS URL in production mode and rejects local or placeholder origins.
 
-Hostinger URLs are allowed when they are explicitly configured through `CAPACITOR_SERVER_URL`, because that makes the release target intentional and visible in GitHub Actions.
+For local builds, configure that URL through `CAPACITOR_SERVER_URL`. In GitHub Actions, configure the non-secret `ANDROID_APP_URL` repository variable; the workflows map it to `CAPACITOR_SERVER_URL` and otherwise use their reviewed, source-controlled production default.
 
 ---
 

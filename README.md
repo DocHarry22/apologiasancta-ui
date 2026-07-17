@@ -29,7 +29,7 @@ Production has deliberately not been changed by this branch. Release in this ord
 3. Deploy the hardened Engine commit and smoke-test registration, signed room joins, answer timing, duplicate rejection, SSE reconnect, results, and leaderboards.
 4. Restart or redeploy the Graph Node process from its current `main` before advertising reliable deep links.
 
-Remaining external gates are Hostinger branch ownership, the Render secret/persistence check, accountable theological review of legacy content, Android signing credentials, and a legal privacy policy. The repository must not be described as publicly launch-ready until those owner-controlled checks are complete.
+Remaining external gates are Hostinger branch ownership, the Render secret/persistence check, accountable theological review of legacy content, physical-device Android release verification and signing-key custody, and a legal privacy policy. The repository must not be described as publicly launch-ready until those owner-controlled checks are complete.
 
 ## Features
 

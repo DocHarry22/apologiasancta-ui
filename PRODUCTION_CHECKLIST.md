@@ -34,7 +34,7 @@
 ## App Readiness
 
 - [ ] Capacitor production URL is configured correctly.
-- [ ] Android release workflow has `CAPACITOR_SERVER_URL`, `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, and `ANDROID_KEY_PASSWORD` configured.
+- [ ] Android release workflow resolves the intended HTTPS UI origin through `ANDROID_APP_URL` or its reviewed production default, and has `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, and `ANDROID_KEY_PASSWORD` configured.
 - [ ] Latest Android release contains `apologia-sancta.apk` so the homepage download link resolves through GitHub Releases.
 - [ ] Security headers are present on production responses.
 - [ ] PWA manifest loads and install metadata is correct.
