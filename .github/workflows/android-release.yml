@@ -179,8 +179,21 @@ jobs:
           "$sdk_root/build-tools/35.0.0/apksigner" verify --verbose "$apk_path"
           # Android upload keys are normally self-signed. `-strict` turns that
           # expected certificate-chain warning into exit code 4, so verify the
-          # archive signature without promoting trust warnings to failures.
-          jarsigner -verify "$aab_path" >/dev/null
+          # archive without strict trust checks and require jarsigner's positive
+          # verification result. An unsigned archive otherwise exits with zero.
+          if ! aab_verification="$(
+            jarsigner \
+              -J-Duser.language=en \
+              -J-Duser.country=US \
+              -verify "$aab_path" 2>&1
+          )"; then
+            echo "AAB signature verification failed." >&2
+            exit 1
+          fi
+          if ! grep -Fqx "jar verified." <<< "$aab_verification"; then
+            echo "AAB signature verification did not report a verified archive." >&2
+            exit 1
+          fi
 
           safe_version="${APP_VERSION_NAME//[^0-9A-Za-z._-]/-}"
           artifact_dir="$RUNNER_TEMP/android-release"
