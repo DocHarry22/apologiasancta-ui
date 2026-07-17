@@ -5,8 +5,8 @@
 - UI host: `https://sandybrown-bear-488955.hostingersite.com/`
 - Engine host: `https://apologiasancta-engine.onrender.com`
 - Android package: `com.apologiasancta.live`
-- First APK channel: internal debug APK for testers
-- Public signed release: blocked until Android keystore secrets and release workflow are verified
+- Current APK channel: signed APK and AAB assets through GitHub Releases
+- Public signed release: [`android-v1.0.2`](https://github.com/DocHarry22/apologiasancta-ui/releases/tag/android-v1.0.2), built and signature-verified by [GitHub Actions](https://github.com/DocHarry22/apologiasancta-ui/actions/runs/29536915005) on 2026-07-16
 
 ## Current Smoke Status
 
