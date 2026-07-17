@@ -49,6 +49,7 @@ describe("account identity assertion signer", () => {
     expect(getAccountIdentityConfiguration(env)).toEqual(expect.objectContaining({
       enabled: true,
       ready: true,
+      secretPresent: true,
       secretConfigured: true,
       engineUrlConfigured: true,
     }));
@@ -65,6 +66,30 @@ describe("account identity assertion signer", () => {
       ...env,
       ENGINE_ADMIN_TOKEN: env.ACCOUNT_IDENTITY_SECRET,
     }).secretConfigured).toBe(false);
+  });
+
+  it("distinguishes a missing or blank secret from a present secret that is rejected", () => {
+    expect(getAccountIdentityConfiguration({
+      ...env,
+      ACCOUNT_IDENTITY_SECRET: undefined,
+    })).toEqual(expect.objectContaining({
+      secretPresent: false,
+      secretConfigured: false,
+    }));
+    expect(getAccountIdentityConfiguration({
+      ...env,
+      ACCOUNT_IDENTITY_SECRET: "   ",
+    })).toEqual(expect.objectContaining({
+      secretPresent: false,
+      secretConfigured: false,
+    }));
+    expect(getAccountIdentityConfiguration({
+      ...env,
+      ACCOUNT_IDENTITY_SECRET: "present-but-rejected",
+    })).toEqual(expect.objectContaining({
+      secretPresent: true,
+      secretConfigured: false,
+    }));
   });
 
   it("rejects mutable or unsafe account assertion fields", () => {

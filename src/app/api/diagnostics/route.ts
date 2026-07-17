@@ -14,6 +14,7 @@ export async function GET() {
     },
     readiness: {
       accountIdentity: identity.ready,
+      accountIdentitySecretPresent: identity.secretPresent,
       accountIdentitySecret: identity.secretConfigured,
       engineInternalUrl: identity.engineUrlConfigured,
     },

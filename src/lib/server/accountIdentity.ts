@@ -27,6 +27,7 @@ export interface AccountIdentityConfiguration {
   issuer: string;
   assertionTtlSeconds: number;
   engineUrlConfigured: boolean;
+  secretPresent: boolean;
   secretConfigured: boolean;
 }
 
@@ -91,6 +92,7 @@ export function getAccountIdentityConfiguration(
   const issuer = env.ACCOUNT_IDENTITY_ISSUER?.trim() || DEFAULT_ISSUER;
   const enabled = env.ACCOUNT_IDENTITY_ENABLED?.trim().toLowerCase() === "true";
   const engineUrlConfigured = parseEngineBaseUrl(env) !== null;
+  const secretPresent = Boolean(env.ACCOUNT_IDENTITY_SECRET?.trim());
   const secretConfigured = hasStrongDedicatedSecret(env.ACCOUNT_IDENTITY_SECRET, env);
   const ready = enabled
     && engineUrlConfigured
@@ -103,6 +105,7 @@ export function getAccountIdentityConfiguration(
     issuer,
     assertionTtlSeconds: boundedTtl(env.ACCOUNT_IDENTITY_ASSERTION_TTL_SECONDS),
     engineUrlConfigured,
+    secretPresent,
     secretConfigured,
   };
 }

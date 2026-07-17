@@ -87,6 +87,16 @@ secret-free diagnostics. Then enable the UI for a staff cohort and test logout,
 account switching in the same browser, cross-tab logout, stable identity
 reissue, and legacy guest fallback before broadening access.
 
+With `ACCOUNT_IDENTITY_ENABLED=false`, a correctly staged UI reports
+`features.accountIdentity=false`, `readiness.accountIdentity=false`,
+`readiness.accountIdentitySecretPresent=true`,
+`readiness.accountIdentitySecret=true`, and
+`readiness.engineInternalUrl=true`. The two secret booleans deliberately
+separate presence from acceptance: `accountIdentitySecretPresent=true` with
+`accountIdentitySecret=false` means a non-blank value was supplied but rejected
+by the safety checks. Neither field exposes the secret, its length, a hash, or
+the rejected comparison target.
+
 Merging GitHub cannot update Hostinger unless that project has automatic Git deployment enabled. If it does not, deploy the exact merged UI commit through Hostinger and record the commit SHA in the release notes.
 
 ## Health and rollback
