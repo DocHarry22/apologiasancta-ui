@@ -48,9 +48,14 @@ Never expose `ACCOUNT_IDENTITY_SECRET`, `ENGINE_ADMIN_TOKEN`, `ADMIN_TOKEN`, `PL
 Account-linked room credentials are bound in browser storage to a one-way HMAC
 of the current HTTP-only UI session. Logout, account switching, session
 rotation, or identity-secret rotation invalidates that browser binding before
-the UI will resume the Engine token. The raw UI session and account subject are
-never written to local storage. Existing first-release `acct_*` credentials
-without binding metadata are intentionally cleared once after this update.
+the UI will resume the Engine token. A monotonic browser auth epoch is bumped
+before and after every auth/session request, so it also rejects an identity
+response started during or completed after a cross-tab transition—even when
+the HTTP response is lost. Disabling the UI flag stops both new exchanges and
+stored-token validation. The raw UI session and account subject are never
+written to local storage. Existing
+first-release `acct_*` credentials without binding metadata are intentionally
+cleared once after this update.
 
 ### Android CI and release signing
 

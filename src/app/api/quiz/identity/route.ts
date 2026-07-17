@@ -50,6 +50,12 @@ export async function GET(request: NextRequest) {
   const auth = await requireAuthorSession(request);
   if (!auth.ok) return auth.response;
 
+  // The UI flag is also the rollback boundary for credentials that were
+  // minted earlier. Do not validate a stored account token while this side of
+  // the bridge is disabled or otherwise incomplete.
+  const configuration = getAccountIdentityConfiguration();
+  if (!configuration.ready) return unavailableResponse();
+
   const sessionValue = request.cookies.get(SESSION_COOKIE_NAME)?.value;
   if (!sessionValue) return unavailableResponse();
 

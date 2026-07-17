@@ -3,9 +3,13 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   ACCOUNT_SESSION_BINDING_STORAGE_KEY,
+  AUTH_SESSION_EPOCH_STORAGE_KEY,
+  bumpAuthSessionEpoch,
   clearStoredAccountPlayerIdentity,
+  invalidateStoredAccountPlayerSession,
   isStoredAccountPlayerIdentity,
   readStoredPlayerIdentity,
+  readAuthSessionEpoch,
   saveStoredAccountPlayerIdentity,
   saveStoredGuestPlayerIdentity,
   USER_ID_STORAGE_KEY,
@@ -63,5 +67,26 @@ describe("stored live-player identity ownership", () => {
     localStorage.setItem(ACCOUNT_SESSION_BINDING_STORAGE_KEY, "account-binding");
     expect(clearStoredAccountPlayerIdentity()).toBe(true);
     expect(localStorage.getItem(USER_ID_STORAGE_KEY)).toBeNull();
+  });
+
+  it("keeps a monotonic auth epoch after account credentials are cleared", () => {
+    const first = bumpAuthSessionEpoch();
+    const second = bumpAuthSessionEpoch();
+    expect(second).toBeGreaterThan(first);
+
+    saveStoredAccountPlayerIdentity("acct_old", "Old_Name", "old.token", "old-binding");
+    expect(clearStoredAccountPlayerIdentity()).toBe(true);
+
+    expect(readAuthSessionEpoch()).toBe(second);
+    expect(localStorage.getItem(AUTH_SESSION_EPOCH_STORAGE_KEY)).toBe(String(second));
+  });
+
+  it("bumps the auth epoch even when no account credential exists", () => {
+    expect(readStoredPlayerIdentity().userId).toBeNull();
+    const invalidatedEpoch = invalidateStoredAccountPlayerSession();
+
+    expect(invalidatedEpoch).toBeGreaterThan(0);
+    expect(readAuthSessionEpoch()).toBe(invalidatedEpoch);
+    expect(readStoredPlayerIdentity().userId).toBeNull();
   });
 });

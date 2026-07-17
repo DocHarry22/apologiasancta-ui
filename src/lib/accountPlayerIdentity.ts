@@ -1,3 +1,8 @@
+import {
+  isAuthSessionEpochCurrent,
+  readAuthSessionEpoch,
+} from "./playerIdentity";
+
 export type AccountPlayerIdentityResult =
   | {
       kind: "joined";
@@ -21,6 +26,7 @@ export async function requestAccountPlayerIdentity(
   input: { roomId: string; displayName: string },
   fetchImpl: FetchLike = fetch
 ): Promise<AccountPlayerIdentityResult> {
+  const authSessionEpoch = readAuthSessionEpoch();
   let csrfResponse: Response;
   try {
     csrfResponse = await fetchImpl("/api/auth/csrf", {
@@ -70,6 +76,16 @@ export async function requestAccountPlayerIdentity(
     && typeof identityPayload.sessionBinding === "string"
     && SESSION_BINDING_PATTERN.test(identityPayload.sessionBinding)
   ) {
+    if (!isAuthSessionEpochCurrent(authSessionEpoch)) {
+      // A logout/account switch won the race while the server-to-server
+      // exchange was in flight. Reject without touching storage: a newer
+      // request may already have saved a valid credential with the same
+      // session binding.
+      return {
+        kind: "error",
+        message: "Your account session changed while joining. Try again.",
+      };
+    }
     return {
       kind: "joined",
       userId: identityPayload.userId,

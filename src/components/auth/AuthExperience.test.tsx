@@ -3,6 +3,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import {
+  readAuthSessionEpoch,
+  readStoredPlayerIdentity,
+  saveStoredAccountPlayerIdentity,
+} from "@/lib/playerIdentity";
 import { AuthExperience } from "./AuthExperience";
 
 const router = vi.hoisted(() => ({
@@ -31,6 +36,7 @@ describe("AuthExperience", () => {
   beforeEach(() => {
     router.push.mockReset();
     router.refresh.mockReset();
+    localStorage.clear();
     window.history.replaceState({}, "", "/login");
   });
 
@@ -89,5 +95,36 @@ describe("AuthExperience", () => {
 
     expect(router.push).toHaveBeenCalledWith("/account");
     expect(router.refresh).not.toHaveBeenCalled();
+  });
+
+  it("invalidates the account room credential before a dropped logout response", async () => {
+    const user = userEvent.setup();
+    saveStoredAccountPlayerIdentity(
+      "acct_11111111-1111-4111-8111-111111111111",
+      "Thomas_A",
+      "room-token.signature",
+      "session-binding"
+    );
+    const initialEpoch = readAuthSessionEpoch();
+    let dispatchEpoch = initialEpoch;
+    const fetchMock = vi.fn().mockImplementation(() => {
+      dispatchEpoch = readAuthSessionEpoch();
+      return Promise.reject(new Error("response dropped"));
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<AuthExperience {...defaultProps} initialMode="signin" />);
+    await user.click(screen.getByRole("button", { name: "Clear saved session" }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("could not be cleared");
+    expect(fetchMock).toHaveBeenCalledWith("/api/auth/logout", { method: "POST" });
+    expect(dispatchEpoch).toBeGreaterThan(initialEpoch);
+    expect(readAuthSessionEpoch()).toBeGreaterThan(dispatchEpoch);
+    expect(readStoredPlayerIdentity()).toEqual({
+      userId: null,
+      username: null,
+      joinToken: null,
+      accountSessionBinding: null,
+    });
   });
 });

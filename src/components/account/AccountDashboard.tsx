@@ -19,7 +19,7 @@ import {
   type LearningProgress,
 } from "@/lib/learningProgress";
 import { LIBRARY_BOOKMARKS_KEY, parseLibraryBookmarks } from "@/lib/libraryBookmarks";
-import { clearStoredAccountPlayerIdentity, clearStoredPlayerIdentity } from "@/lib/playerIdentity";
+import { clearStoredPlayerIdentity, runWithStoredAccountSessionBoundary } from "@/lib/playerIdentity";
 import { useTheme, type ThemePreference } from "@/lib/theme";
 
 export type AccountSection =
@@ -419,14 +419,13 @@ function SecurityPanel({ lastLoginAt, onSignedOut }: { lastLoginAt: string | nul
     setBusyAction("password");
     try {
       const csrf = await csrfToken();
-      const response = await fetch("/api/auth/password", {
+      const response = await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/password", {
         method: "PATCH",
         headers: { "Content-Type": "application/json", "x-csrf-token": csrf },
         body: JSON.stringify({ currentPassword, newPassword, confirmPassword }),
-      });
+      }));
       const payload = (await response.json().catch(() => null)) as { error?: string } | null;
       if (!response.ok) throw new Error(payload?.error || "Password could not be changed.");
-      clearStoredAccountPlayerIdentity();
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
@@ -443,10 +442,12 @@ function SecurityPanel({ lastLoginAt, onSignedOut }: { lastLoginAt: string | nul
     setMessage(null);
     try {
       const csrf = await csrfToken();
-      const response = await fetch("/api/auth/sessions/revoke", { method: "POST", headers: { "x-csrf-token": csrf } });
+      const response = await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/sessions/revoke", {
+        method: "POST",
+        headers: { "x-csrf-token": csrf },
+      }));
       const payload = (await response.json().catch(() => null)) as { error?: string } | null;
       if (!response.ok) throw new Error(payload?.error || "Other sessions could not be revoked.");
-      clearStoredAccountPlayerIdentity();
       setMessage({ tone: "success", text: "Other signed-in sessions revoked. This session remains active." });
     } catch (error) {
       setMessage({ tone: "error", text: error instanceof Error ? error.message : "Other sessions could not be revoked." });
@@ -459,8 +460,7 @@ function SecurityPanel({ lastLoginAt, onSignedOut }: { lastLoginAt: string | nul
     setBusyAction("logout");
     setMessage(null);
     try {
-      await fetch("/api/auth/logout", { method: "POST" });
-      clearStoredAccountPlayerIdentity();
+      await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/logout", { method: "POST" }));
       onSignedOut();
     } catch {
       setMessage({ tone: "error", text: "Sign out failed. Check your connection and try again." });

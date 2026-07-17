@@ -121,6 +121,22 @@ describe("account quiz identity route", () => {
     expect(first.headers.get("cache-control")).toBe("no-store");
   });
 
+  it("refuses to validate a stored account credential when the UI rollout is disabled", async () => {
+    const session = await createSession();
+    process.env.ACCOUNT_IDENTITY_ENABLED = "false";
+    const request = new NextRequest("https://ui.test/api/quiz/identity", {
+      headers: { cookie: `${SESSION_COOKIE_NAME}=${session}` },
+    });
+
+    const response = await getIdentitySession(request);
+
+    expect(response.status).toBe(503);
+    await expect(response.json()).resolves.toEqual(expect.objectContaining({
+      code: "account_identity_unavailable",
+    }));
+    expect(response.headers.get("cache-control")).toBe("no-store");
+  });
+
   it("falls back before signing when a legacy mobile room ID is outside the Engine contract", async () => {
     const session = await createSession();
     const fetchMock = vi.fn();

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "@/lib/theme";
 import { roleLabels } from "@/lib/auth/roles";
 import type { CurrentUser } from "@/lib/server/currentUser";
-import { clearStoredAccountPlayerIdentity } from "@/lib/playerIdentity";
+import { runWithStoredAccountSessionBoundary } from "@/lib/playerIdentity";
 
 const NAV_ITEMS = [
   { id: "overview", label: "Overview", path: "", icon: "+" },
@@ -89,7 +89,13 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
             method="post"
             action={`/api/auth/logout?next=${encodeURIComponent(`${basePath}/login`)}`}
             className="flex-1"
-            onSubmit={() => { clearStoredAccountPlayerIdentity(); }}
+            onSubmit={(event) => {
+              event.preventDefault();
+              void runWithStoredAccountSessionBoundary(() => fetch("/api/auth/logout", {
+                method: "POST",
+                credentials: "same-origin",
+              })).finally(() => { window.location.href = `${basePath}/login`; });
+            }}
           >
             <button
               type="submit"

@@ -5,7 +5,9 @@ import { PLAYER_NAME_KEY } from "./YourScoreCard";
 import { getEngineUrl } from "@/lib/publicEnv";
 import {
   clearStoredPlayerIdentity,
+  isAuthSessionEpochCurrent,
   isStoredAccountPlayerIdentity,
+  readAuthSessionEpoch,
   readStoredPlayerIdentity,
   saveStoredAccountPlayerIdentity,
   saveStoredGuestPlayerIdentity,
@@ -48,9 +50,17 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
     }
 
     setState({ status: "loading" });
+    const authSessionEpoch = readAuthSessionEpoch();
     try {
       const accountIdentity = await requestAccountPlayerIdentity({ roomId, displayName: trimmed });
       if (accountIdentity.kind === "joined") {
+        // Recheck at the final browser side-effect boundary. The request helper
+        // also rejects an epoch change while awaiting the server, while this
+        // closes the smaller gap between promise resolution and persistence.
+        if (!isAuthSessionEpochCurrent(authSessionEpoch)) {
+          setState({ status: "error", errorMessage: "Your account session changed while joining. Try again." });
+          return;
+        }
         saveStoredAccountPlayerIdentity(
           accountIdentity.userId,
           accountIdentity.username,
