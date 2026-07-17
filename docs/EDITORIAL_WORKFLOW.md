@@ -60,7 +60,7 @@ Production must use database storage. File storage is retained for local develop
 
 `npm run test:editorial-database` runs the complete author -> independent reviewer -> publisher path against a real SQL server. It checks the additive schema, immutable revision and approval rows, reviewer independence, failed publication retry, deterministic outbox key, completed receipt, actor audit trail, and mutation-free completed replay.
 
-The command requires `EDITORIAL_ACCEPTANCE_DATABASE_URL`. For safety, it refuses non-loopback hosts and database names that do not end in `_acceptance`; it never reads production credentials. UI CI starts disposable PostgreSQL 16 and MySQL 8.4 service containers and runs the same acceptance suite once against each dialect. To run it locally, create a disposable loopback database such as `apologia_editorial_acceptance`, then set only the acceptance URL for that shell:
+The command requires `EDITORIAL_ACCEPTANCE_DATABASE_URL`. For safety, it refuses non-loopback hosts, connection-string query/fragment overrides, nested or unsafe database paths, and database names that do not end in `_acceptance`; it never reads production credentials. UI CI starts disposable PostgreSQL 16 and MySQL 8.4 service containers and runs the same acceptance suite once against each dialect. To run it locally, create a disposable loopback database such as `apologia_editorial_acceptance`, then set only the acceptance URL for that shell:
 
 ```powershell
 $env:EDITORIAL_ACCEPTANCE_DATABASE_URL = "postgresql://local-user:local-password@127.0.0.1:5432/apologia_editorial_acceptance"

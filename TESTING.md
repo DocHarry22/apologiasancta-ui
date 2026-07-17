@@ -20,7 +20,7 @@ npm run build
 npm run test:e2e
 ```
 
-Pull-request CI additionally provisions secret-free PostgreSQL 16 and MySQL 8.4 service containers and runs `npm run test:editorial-database` against both. The acceptance command refuses remote hosts and database names without the `_acceptance` suffix, so production credentials cannot be used accidentally.
+Pull-request CI additionally provisions secret-free PostgreSQL 16 and MySQL 8.4 service containers and runs `npm run test:editorial-database` against both. The acceptance command refuses remote hosts, URL query/fragment overrides, unsafe database paths, and database names without the `_acceptance` suffix, so production credentials cannot be used accidentally.
 
 ## Test Environment
 

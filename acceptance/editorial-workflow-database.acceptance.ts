@@ -6,6 +6,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { CurrentUser } from "@/lib/server/currentUser";
 import type { WorkflowDatabase } from "@/lib/server/storage/workflowDatabase";
 import type { Question } from "@/types/content";
+import { assertDisposableDatabaseUrl } from "./editorial-database-safety";
 
 type WorkflowModule = typeof import("@/lib/server/storage/workflowStore");
 type WorkflowDatabaseModule = typeof import("@/lib/server/storage/workflowDatabase");
@@ -41,26 +42,6 @@ const publisher: CurrentUser = {
   accountType: "staff",
   source: "database",
 };
-
-function assertDisposableDatabaseUrl(rawUrl: string | undefined): asserts rawUrl is string {
-  if (!rawUrl) {
-    throw new Error(
-      "EDITORIAL_ACCEPTANCE_DATABASE_URL is required. Point it to a disposable local database whose name ends in _acceptance."
-    );
-  }
-
-  const url = new URL(rawUrl);
-  if (!["postgres:", "postgresql:", "mysql:"].includes(url.protocol)) {
-    throw new Error("Editorial database acceptance supports only PostgreSQL or MySQL URLs.");
-  }
-  if (!["127.0.0.1", "localhost", "::1"].includes(url.hostname)) {
-    throw new Error("Editorial database acceptance refuses non-loopback database hosts.");
-  }
-  const databaseName = decodeURIComponent(url.pathname.replace(/^\//, ""));
-  if (!databaseName.endsWith("_acceptance")) {
-    throw new Error("Editorial database acceptance requires a database name ending in _acceptance.");
-  }
-}
 
 function parseJson<T>(value: unknown): T {
   return (typeof value === "string" ? JSON.parse(value) : value) as T;
