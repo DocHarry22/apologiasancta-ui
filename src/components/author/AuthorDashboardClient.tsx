@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { PublishedQuestionRecord, TopicWithCount } from "@/lib/content";
 import type { CurrentUser } from "@/lib/server/currentUser";
+import { runWithStoredAccountSessionBoundary } from "@/lib/playerIdentity";
 import type { Question, QuestionChoiceId } from "@/types/content";
 import type { AdminRoomStatus, AdminStatus, ContentStatusResponse, TopicSequenceConfig } from "@/lib/engineAdmin";
 import { useTheme } from "@/lib/theme";
@@ -491,14 +492,14 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
 
   const changePassword = useCallback(async () => {
     setPasswordLoading(true);
-    const response = await dashboardApi<{ ok: true }>("/api/auth/password", {
+    const response = await runWithStoredAccountSessionBoundary(() => dashboardApi<{ ok: true }>("/api/auth/password", {
       method: "PATCH",
       body: {
         currentPassword: currentPasswordInput,
         newPassword: newPasswordInput,
         confirmPassword: confirmPasswordInput,
       },
-    });
+    }));
 
     if (response.ok) {
       setCurrentPasswordInput("");
@@ -513,10 +514,10 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
 
   const revokeOtherSessions = useCallback(async () => {
     setRevokeSessionsLoading(true);
-    const response = await dashboardApi<{ ok: true }>("/api/auth/sessions/revoke", {
+    const response = await runWithStoredAccountSessionBoundary(() => dashboardApi<{ ok: true }>("/api/auth/sessions/revoke", {
       method: "POST",
       body: {},
-    });
+    }));
 
     if (response.ok) {
       setMessage({ type: "success", text: "Other sessions were signed out." });
@@ -722,7 +723,10 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
+      await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "same-origin",
+      }));
     } finally {
       const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
       window.location.href = `${basePath}/login`;

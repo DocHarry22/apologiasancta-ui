@@ -12,6 +12,7 @@ import {
 } from "react";
 import { BrandMark } from "@/components/shell/BrandMark";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { runWithStoredAccountSessionBoundary } from "@/lib/playerIdentity";
 
 type AuthMode = "signin" | "signup";
 type FormState = "idle" | "loading" | "error" | "success";
@@ -207,11 +208,11 @@ export function AuthExperience({
     setMessage("");
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
-      });
+      }));
 
       const payload = (await response.json().catch(() => null)) as AuthPayload | null;
       if (response.ok) {
@@ -248,7 +249,7 @@ export function AuthExperience({
     }
 
     try {
-      const response = await fetch("/api/auth/signup", {
+      const response = await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -259,7 +260,7 @@ export function AuthExperience({
           phone,
           inviteCode: accountKind === "staff" ? inviteCode : "",
         }),
-      });
+      }));
 
       const payload = (await response.json().catch(() => null)) as AuthPayload | null;
       if (response.ok) {
@@ -286,7 +287,7 @@ export function AuthExperience({
     setFormState("loading");
     setMessage("");
     try {
-      await fetch("/api/auth/logout", { method: "POST" });
+      await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/logout", { method: "POST" }));
       setFormState("success");
       setMessage("Saved session cleared. You can sign in with another account.");
       router.refresh();

@@ -106,3 +106,31 @@ export function checkAdminMutationRateLimit(ip: string): {
 } {
   return checkFixedWindow(adminMutationAttempts, ip, ADMIN_MUTATION_MAX, ADMIN_MUTATION_WINDOW_MS);
 }
+
+// ---------------------------------------------------------------------------
+// Account-linked quiz identity rate limiter
+// ---------------------------------------------------------------------------
+// The Engine sees Hostinger's shared egress IP, so it cannot fairly apply a
+// small per-IP limit. Apply a narrower per-account ceiling before minting an
+// assertion and keep the Engine's high shared-server ceiling as defence in
+// depth.
+
+const ACCOUNT_IDENTITY_MAX = 30;
+const ACCOUNT_IDENTITY_WINDOW_MS = 60 * 1000;
+const accountIdentityAttempts = new Map<string, RateEntry>();
+
+export function checkAccountIdentityRateLimit(accountId: string): {
+  allowed: boolean;
+  retryAfterSeconds?: number;
+} {
+  return checkFixedWindow(
+    accountIdentityAttempts,
+    `account:${accountId}`,
+    ACCOUNT_IDENTITY_MAX,
+    ACCOUNT_IDENTITY_WINDOW_MS
+  );
+}
+
+export function clearAccountIdentityRateLimit(accountId: string): void {
+  accountIdentityAttempts.delete(normalizeRateLimitKey(`account:${accountId}`));
+}

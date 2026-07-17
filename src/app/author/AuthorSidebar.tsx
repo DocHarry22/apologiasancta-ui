@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "@/lib/theme";
 import { roleLabels } from "@/lib/auth/roles";
 import type { CurrentUser } from "@/lib/server/currentUser";
+import { runWithStoredAccountSessionBoundary } from "@/lib/playerIdentity";
 
 const NAV_ITEMS = [
   { id: "overview", label: "Overview", path: "", icon: "+" },
@@ -84,7 +85,18 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
           >
             {theme === "dark" ? "Light" : "Dark"}
           </button>
-          <form method="post" action={`/api/auth/logout?next=${encodeURIComponent(`${basePath}/login`)}`} className="flex-1">
+          <form
+            method="post"
+            action={`/api/auth/logout?next=${encodeURIComponent(`${basePath}/login`)}`}
+            className="flex-1"
+            onSubmit={(event) => {
+              event.preventDefault();
+              void runWithStoredAccountSessionBoundary(() => fetch("/api/auth/logout", {
+                method: "POST",
+                credentials: "same-origin",
+              })).finally(() => { window.location.href = `${basePath}/login`; });
+            }}
+          >
             <button
               type="submit"
               className="w-full rounded-lg border border-(--border) py-1.5 text-xs text-(--muted) hover:border-red-500 hover:text-red-500 transition-colors"

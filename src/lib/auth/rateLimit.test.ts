@@ -1,5 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
-import { checkAdminMutationRateLimit, checkLoginRateLimit, clearLoginRateLimit } from "./rateLimit";
+import {
+  checkAccountIdentityRateLimit,
+  checkAdminMutationRateLimit,
+  checkLoginRateLimit,
+  clearAccountIdentityRateLimit,
+  clearLoginRateLimit,
+} from "./rateLimit";
 
 describe("rate limiters", () => {
   it("allows login requests within limit and blocks after limit", () => {
@@ -50,5 +56,19 @@ describe("rate limiters", () => {
 
     vi.setSystemTime(new Date("2026-01-01T00:06:00Z"));
     expect(checkAdminMutationRateLimit(key).allowed).toBe(true);
+  });
+
+  it("limits assertion minting per authenticated account, not shared egress IP", () => {
+    const accountId = "account-rate-limit-test";
+    clearAccountIdentityRateLimit(accountId);
+
+    for (let i = 0; i < 30; i++) {
+      expect(checkAccountIdentityRateLimit(accountId).allowed).toBe(true);
+    }
+
+    const blocked = checkAccountIdentityRateLimit(accountId);
+    expect(blocked.allowed).toBe(false);
+    expect(blocked.retryAfterSeconds).toBeGreaterThan(0);
+    expect(checkAccountIdentityRateLimit("different-account").allowed).toBe(true);
   });
 });
