@@ -72,7 +72,7 @@ The connected Supabase project was also inspected before any mutation. Its unrel
 | Engine | `codex/phase1-learning-platform` in `apologiasancta-engine-phase1-learning` | `origin/main` at `bddbc38` |
 | Graph | Existing audit worktree on `hotfix/hostinger-build-artifact` | `283998e`; no Phase 1 diff |
 
-No direct change to `main` and no production deployment was made. UI commit `34c2615` is published in draft PR [#34](https://github.com/DocHarry22/apologiasancta-ui/pull/34); Engine commit `65bf88c` is published in draft PR [#19](https://github.com/DocHarry22/apologiasancta-engine/pull/19). Neither PR has been merged.
+No direct change to `main` and no production deployment was made. UI commit `ffee8d9` is published in draft PR [#34](https://github.com/DocHarry22/apologiasancta-ui/pull/34); Engine commit `f4690c1` is published in draft PR [#19](https://github.com/DocHarry22/apologiasancta-engine/pull/19). Neither PR has been merged.
 
 ## 4. Database schemas and tables added or changed
 
@@ -292,8 +292,9 @@ These controls are code- and database-test results. Hosted policies, secret rota
 | Bookmark component | Focused Vitest for `src/components/learn/LearningPlatform.test.tsx` | Passed: 1/1 test, covering account-linked save and precise ID-based removal; related typecheck/lint/diff checks also passed. |
 | UI Node suite | `npm test` | Passed: 37/37 tests; batch-import utility internal checks 27/0. Only Node module-type reparsing warnings were emitted. |
 | UI type check | `npm run typecheck` | Passed after the bookmark addition. |
-| UI production build | Exact source copied outside OneDrive; `next build --webpack` | Passed: compiled in 79s, completed Next's TypeScript phase in 17.2s, and generated 43/43 static pages. |
+| UI production build | `npx next build --webpack` | Passed: compiled in 26.5s, completed Next's TypeScript phase in 12.9s, and generated 43/43 static pages. |
 | Engine build/tests | `npm run build`; `npm test` | Passed on rerun: TypeScript build and 50/50 tests. |
+| GitHub Actions | UI PR #34 and Engine PR #19 | Passed: UI `verify`, UI `Debug APK / SDK 35`, and Engine `verify`. |
 | Service worker syntax | `node --check public/sw.js` | Passed. |
 | Patch hygiene | `git diff --check` in UI and Engine | Passed; line-ending conversion warnings are informational. |
 | Capacitor sync | `npm run cap:sync` | Exited `0` and detected three plugins. Environment warning: no app URL was supplied and generated paths followed sibling junctions; generated Android changes were restored rather than retained. |
@@ -304,7 +305,8 @@ The full browser E2E matrix, manual CMS workflow, production live-room test, and
 
 - Engine TypeScript production build: **passed**.
 - UI TypeScript check: **passed** after the final UI addition.
-- UI production Next.js build: **passed** from an exact temporary source copy outside OneDrive using `next build --webpack`. Next compiled successfully in 79 seconds, completed its TypeScript phase in 17.2 seconds, generated 43/43 static pages in 10.2 seconds, finalized optimization, and exited `0`. The ordinary `npm run build` in the feature worktree did not reach compilation because Turbopack rejected its intentionally shared `node_modules` junction, and an initial Webpack attempt inside OneDrive timed out during type checking. The isolated build removes those environment artifacts and is the source-code production-build verdict.
+- UI production Next.js build: **passed** with `npx next build --webpack`. Next compiled successfully in 26.5 seconds, completed its TypeScript phase in 12.9 seconds, generated 43/43 static pages in 6.6 seconds, finalized optimization, and exited `0`. The ordinary `npm run build` in the feature worktree still does not reach source compilation because Turbopack rejects this checkout's intentionally shared `node_modules` junction before compiling the app.
+- GitHub Actions: **passed** for UI PR #34 (`verify`, `Debug APK / SDK 35`) and Engine PR #19 (`verify`) after the final pushed commits.
 - UI changed-source lint: **passed** after the bookmark addition across 71 changed JavaScript/TypeScript files with 0 errors and 0 warnings. A whole-repository lint attempt did not complete in the OneDrive worktree and is not claimed as passed.
 - PWA service-worker syntax: **passed**.
 - Capacitor sync tooling: **exited successfully**, with the environment/path qualification described above. Generated Android changes were restored; no APK is claimed.
