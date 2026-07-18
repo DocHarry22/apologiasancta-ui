@@ -5,7 +5,6 @@ import { AccountDashboard, type AccountSection } from "@/components/account/Acco
 import { AppShell } from "@/components/shell/AppShell";
 import { roleLabels } from "@/lib/auth/roles";
 import { readSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
-import { learningPath, practiceQuestions } from "@/lib/learningContent";
 import { listTopicsWithCounts } from "@/lib/content";
 import { getCurrentUser, type CurrentUser } from "@/lib/server/currentUser";
 import { isSessionFreshForUser } from "@/lib/server/sessionFreshness";
@@ -59,7 +58,6 @@ export default async function AccountPage({
   try { topicOptions = await listTopicsWithCounts(); } catch { /* account remains available without the bundled catalogue */ }
   const savedResourceOptions = [
     ...topicOptions.map((topic) => ({ id: topic.id, title: topic.title, href: `/library/${topic.id}` })),
-    ...learningPath.lessons.map((lesson) => ({ id: `lesson-${lesson.id}`, title: lesson.title, href: `/learn/${lesson.id}` })),
   ];
 
   return (
@@ -75,9 +73,9 @@ export default async function AccountPage({
           createdAt: currentUser.createdAt ?? null,
           lastLoginAt: currentUser.lastLoginAt ?? null,
         }}
-        learningPathTitle={learningPath.title}
-        learningLessonIds={learningPath.lessons.map((lesson) => lesson.id)}
-        practiceQuestionCount={practiceQuestions.length}
+        learningPathTitle="Published learning programmes"
+        learningLessonIds={[]}
+        practiceQuestionCount={0}
         savedResourceOptions={savedResourceOptions}
       />
     </AppShell>

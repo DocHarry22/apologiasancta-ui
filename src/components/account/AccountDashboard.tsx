@@ -51,6 +51,11 @@ interface AccountDashboardProps {
   savedResourceOptions: Array<{ id: string; title: string; href: string }>;
 }
 
+type OfficialLearningProgress = {
+  lessons?: Array<{ lessonId?: string; state?: string; status?: string; readingProgressPercent?: number; progressPercent?: number }>;
+  mastery?: { masteredAttemptCount?: number };
+};
+
 const sections: Array<{ id: AccountSection; label: string; description: string }> = [
   { id: "overview", label: "Overview", description: "Profile and account summary" },
   { id: "learning", label: "Learning", description: "Device learning progress" },
@@ -102,6 +107,7 @@ export function AccountDashboard({
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const [activeSection, setActiveSection] = useState<AccountSection>(initialSection);
   const [learningProgress, setLearningProgress] = useState<LearningProgress>(() => parseLearningProgress(null));
+  const [officialLearning, setOfficialLearning] = useState<OfficialLearningProgress | null>(null);
   const [privacyMessage, setPrivacyMessage] = useState("");
   const [learningClearArmed, setLearningClearArmed] = useState(false);
   const [savedResourceIds, setSavedResourceIds] = useState<string[]>([]);
@@ -117,12 +123,23 @@ export function AccountDashboard({
     }
   }, []);
 
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch("/api/v1/learning/progress", { cache: "no-store", signal: controller.signal })
+      .then(async (response) => response.ok ? response.json() as Promise<{ data?: OfficialLearningProgress }> : null)
+      .then((payload) => setOfficialLearning(payload?.data ?? null))
+      .catch((error) => { if ((error as Error).name !== "AbortError") setOfficialLearning(null); });
+    return () => controller.abort();
+  }, []);
+
   const completedLessons = useMemo(() => {
+    if (officialLearning) return officialLearning.lessons?.filter((lesson) => lesson.state === "completed" || lesson.status === "completed" || Number(lesson.readingProgressPercent ?? lesson.progressPercent) >= 100).length ?? 0;
     const knownLessons = new Set(learningLessonIds);
     return new Set(learningProgress.completedLessonIds.filter((id) => knownLessons.has(id))).size;
-  }, [learningLessonIds, learningProgress.completedLessonIds]);
-  const learningPercent = learningLessonIds.length > 0
-    ? Math.round((completedLessons / learningLessonIds.length) * 100)
+  }, [learningLessonIds, learningProgress.completedLessonIds, officialLearning]);
+  const trackedLessonCount = officialLearning?.lessons?.length ?? learningLessonIds.length;
+  const learningPercent = trackedLessonCount > 0
+    ? Math.round((completedLessons / trackedLessonCount) * 100)
     : 0;
 
   const selectSection = (section: AccountSection, focus = false) => {
@@ -220,8 +237,8 @@ export function AccountDashboard({
           </nav>
 
           <div className="min-w-0 bg-(--background) p-5 sm:p-7 lg:p-9">
-            {activeSection === "overview" ? <OverviewPanel profile={profile} completedLessons={completedLessons} lessonCount={learningLessonIds.length} totalQuizzes={totalQuizzes} /> : null}
-            {activeSection === "learning" ? <LearningPanel progress={learningProgress} completedLessons={completedLessons} lessonCount={learningLessonIds.length} percent={learningPercent} pathTitle={learningPathTitle} practiceQuestionCount={practiceQuestionCount} /> : null}
+            {activeSection === "overview" ? <OverviewPanel profile={profile} completedLessons={completedLessons} lessonCount={trackedLessonCount} totalQuizzes={totalQuizzes} /> : null}
+            {activeSection === "learning" ? <LearningPanel progress={learningProgress} completedLessons={completedLessons} lessonCount={trackedLessonCount} percent={learningPercent} pathTitle={learningPathTitle} practiceQuestionCount={practiceQuestionCount} official={Boolean(officialLearning)} masteryCount={officialLearning?.mastery?.masteredAttemptCount ?? 0} /> : null}
             {activeSection === "quiz" ? <QuizPanel history={history} totalQuizzes={totalQuizzes} bestScore={bestScore} /> : null}
             {activeSection === "saved" ? <SavedPanel savedIds={savedResourceIds} resources={savedResourceOptions} /> : null}
             {activeSection === "appearance" ? <AppearancePanel /> : null}
@@ -259,7 +276,7 @@ function OverviewPanel({ profile, completedLessons, lessonCount, totalQuizzes }:
   return (
     <Panel id="overview">
       <SectionHeading eyebrow="Profile" title="Account overview" />
-      <p className="max-w-2xl text-sm leading-6 text-(--text-muted)">Your authenticated profile is stored by the account service. Learning and quiz summaries below are read from this device.</p>
+      <p className="max-w-2xl text-sm leading-6 text-(--text-muted)">Your authenticated profile and official learning record are account-linked. Live-quiz history remains a device summary.</p>
       <dl className="mt-6 grid gap-3 sm:grid-cols-2">
         {fields.map(([label, value]) => (
           <div key={label} className="surface-card p-4">
@@ -277,23 +294,23 @@ function OverviewPanel({ profile, completedLessons, lessonCount, totalQuizzes }:
   );
 }
 
-function LearningPanel({ progress, completedLessons, lessonCount, percent, pathTitle, practiceQuestionCount }: { progress: LearningProgress; completedLessons: number; lessonCount: number; percent: number; pathTitle: string; practiceQuestionCount: number }) {
+function LearningPanel({ progress, completedLessons, lessonCount, percent, pathTitle, practiceQuestionCount, official, masteryCount }: { progress: LearningProgress; completedLessons: number; lessonCount: number; percent: number; pathTitle: string; practiceQuestionCount: number; official: boolean; masteryCount: number }) {
   return (
     <Panel id="learning">
-      <SectionHeading eyebrow="Formation" title="Learning progress" action={<DeviceOnlyBadge />} />
+      <SectionHeading eyebrow="Formation" title="Learning progress" action={official ? <StatusBadge tone="success">Account synced</StatusBadge> : <DeviceOnlyBadge />} />
       <div className="surface-card flex flex-col gap-6 p-5 sm:flex-row sm:items-center sm:p-6">
         <ProgressRing value={percent} label="complete" detail={`${completedLessons} of ${lessonCount} lessons`} size={126} />
         <div className="min-w-0 flex-1">
           <h3 className="editorial-heading text-2xl font-semibold">{pathTitle}</h3>
-          <p className="mt-2 text-sm leading-6 text-(--text-muted)">Completion is stored in this browser and is not yet synced to your account on other devices.</p>
+          <p className="mt-2 text-sm leading-6 text-(--text-muted)">{official ? "Official lesson progress and mastery are loaded from your account." : "Official progress is unavailable; this view is showing device-only preview activity."}</p>
           <div className="mt-4"><ProgressBar value={percent} label="Learning path completion" /></div>
           <Link href="/learn" className="btn-primary mt-5">Open learning path</Link>
         </div>
       </div>
       <div className="mt-5 grid gap-3 sm:grid-cols-3">
         <div className="surface-card p-4"><span className="text-xs font-black uppercase tracking-[0.12em] text-(--text-muted)">Lessons</span><strong className="editorial-heading mt-2 block text-3xl">{completedLessons}/{lessonCount}</strong></div>
-        <div className="surface-card p-4"><span className="text-xs font-black uppercase tracking-[0.12em] text-(--text-muted)">Practice best</span><strong className="editorial-heading mt-2 block text-3xl">{progress.practiceBest}/{practiceQuestionCount}</strong></div>
-        <div className="surface-card p-4"><span className="text-xs font-black uppercase tracking-[0.12em] text-(--text-muted)">Practice attempts</span><strong className="editorial-heading mt-2 block text-3xl">{progress.practiceAttempts}</strong></div>
+        <div className="surface-card p-4"><span className="text-xs font-black uppercase tracking-[0.12em] text-(--text-muted)">{official ? "Mastered groups" : "Practice best"}</span><strong className="editorial-heading mt-2 block text-3xl">{official ? masteryCount : `${progress.practiceBest}/${practiceQuestionCount || "—"}`}</strong></div>
+        <div className="surface-card p-4"><span className="text-xs font-black uppercase tracking-[0.12em] text-(--text-muted)">Device practice attempts</span><strong className="editorial-heading mt-2 block text-3xl">{progress.practiceAttempts}</strong></div>
       </div>
       <p className="mt-5 text-xs leading-5 text-(--text-muted)">Last local update: {progress.updatedAt ? formatDate(new Date(progress.updatedAt).toISOString(), true) : "No progress recorded yet"}.</p>
     </Panel>

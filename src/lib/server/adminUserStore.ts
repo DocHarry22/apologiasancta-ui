@@ -77,6 +77,20 @@ function hasDatabaseConfig(): boolean {
   return getAdminDatabaseDialect() !== null;
 }
 
+function getPostgresAdminSchema(): string {
+  const configured = process.env.ADMIN_DB_SCHEMA?.trim() || "private";
+  if (!/^[a-z_][a-z0-9_]*$/i.test(configured)) {
+    throw new Error("ADMIN_DB_SCHEMA must be a simple PostgreSQL identifier.");
+  }
+  return configured;
+}
+
+function getAdminTableName(dialect: AdminDatabaseDialect = getAdminDatabaseDialect() ?? "mysql"): string {
+  return dialect === "postgres"
+    ? `"${getPostgresAdminSchema()}"."admin_users"`
+    : "admin_users";
+}
+
 function allowMemoryStore(): boolean {
   return process.env.NODE_ENV !== "production" || process.env.ADMIN_AUTH_MEMORY_STORE === "true";
 }
@@ -152,10 +166,14 @@ async function getDatabasePool(): Promise<DatabasePool> {
 async function ensureSchema(): Promise<void> {
   const pool = await getDatabasePool();
   const dialect: AdminDatabaseDialect = getAdminDatabaseDialect() ?? "mysql";
+  const tableName = getAdminTableName(dialect);
 
   if (dialect === "postgres") {
+    const schemaName = getPostgresAdminSchema();
+    await pool.execute(`CREATE SCHEMA IF NOT EXISTS "${schemaName}"`);
+    await pool.execute(`REVOKE ALL ON SCHEMA "${schemaName}" FROM PUBLIC`);
     await pool.execute(`
-      CREATE TABLE IF NOT EXISTS admin_users (
+      CREATE TABLE IF NOT EXISTS ${tableName} (
         id VARCHAR(64) PRIMARY KEY,
         email VARCHAR(255) NOT NULL UNIQUE,
         password_hash VARCHAR(255) NOT NULL,
@@ -170,11 +188,52 @@ async function ensureSchema(): Promise<void> {
         last_login_at TIMESTAMPTZ NULL
       )
     `);
-    await pool.execute("CREATE INDEX IF NOT EXISTS idx_admin_users_email ON admin_users (email)");
-    await pool.execute("CREATE INDEX IF NOT EXISTS idx_admin_users_status ON admin_users (status)");
-    await pool.execute("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS account_type VARCHAR(32) NOT NULL DEFAULT 'staff'");
-    await pool.execute("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS phone VARCHAR(64) NULL");
-    await pool.execute("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS password_changed_at TIMESTAMPTZ NULL");
+    await pool.execute(`CREATE INDEX IF NOT EXISTS idx_admin_users_email ON ${tableName} (email)`);
+    await pool.execute(`CREATE INDEX IF NOT EXISTS idx_admin_users_status ON ${tableName} (status)`);
+    await pool.execute(`ALTER TABLE ${tableName} ADD COLUMN IF NOT EXISTS account_type VARCHAR(32) NOT NULL DEFAULT 'staff'`);
+    await pool.execute(`ALTER TABLE ${tableName} ADD COLUMN IF NOT EXISTS phone VARCHAR(64) NULL`);
+    await pool.execute(`ALTER TABLE ${tableName} ADD COLUMN IF NOT EXISTS password_changed_at TIMESTAMPTZ NULL`);
+    await pool.execute(`REVOKE ALL ON TABLE ${tableName} FROM PUBLIC`);
+    await pool.execute(`
+      DO $$
+      DECLARE exposed_role text;
+      BEGIN
+        FOR exposed_role IN SELECT rolname FROM pg_roles WHERE rolname IN ('anon', 'authenticated') LOOP
+          EXECUTE format('REVOKE ALL ON TABLE ${tableName} FROM %I', exposed_role);
+        END LOOP;
+      END $$
+    `);
+
+    // One-way compatibility copy for deployments that previously created the
+    // credential table in Supabase's Data API-exposed public schema. The old
+    // table is retained for rollback, but browser-facing database roles are
+    // explicitly denied and RLS defaults to no access.
+    if (schemaName !== "public") {
+      await pool.execute(`
+        DO $$
+        DECLARE exposed_role text;
+        BEGIN
+          IF to_regclass('public.admin_users') IS NOT NULL THEN
+            EXECUTE 'ALTER TABLE public.admin_users ADD COLUMN IF NOT EXISTS account_type VARCHAR(32) NOT NULL DEFAULT ''staff''';
+            EXECUTE 'ALTER TABLE public.admin_users ADD COLUMN IF NOT EXISTS phone VARCHAR(64) NULL';
+            EXECUTE 'ALTER TABLE public.admin_users ADD COLUMN IF NOT EXISTS password_changed_at TIMESTAMPTZ NULL';
+            INSERT INTO ${tableName} (
+              id, email, password_hash, display_name, role, account_type, phone,
+              password_changed_at, status, created_at, updated_at, last_login_at
+            )
+            SELECT id, email, password_hash, display_name, role, account_type,
+              phone, password_changed_at, status, created_at, updated_at, last_login_at
+            FROM public.admin_users
+            ON CONFLICT (id) DO NOTHING;
+            EXECUTE 'REVOKE ALL ON TABLE public.admin_users FROM PUBLIC';
+            FOR exposed_role IN SELECT rolname FROM pg_roles WHERE rolname IN ('anon', 'authenticated') LOOP
+              EXECUTE format('REVOKE ALL ON TABLE public.admin_users FROM %I', exposed_role);
+            END LOOP;
+            EXECUTE 'ALTER TABLE public.admin_users ENABLE ROW LEVEL SECURITY';
+          END IF;
+        END $$
+      `);
+    }
     return;
   }
 
@@ -227,14 +286,14 @@ function rowToUser(row: Record<string, unknown>): AdminUser {
 
 async function findDbUserByEmail(email: string): Promise<AdminUser | null> {
   const pool = await getDatabasePool();
-  const [rows] = await pool.execute("SELECT * FROM admin_users WHERE email = ? LIMIT 1", [normalizeEmail(email)]);
+  const [rows] = await pool.execute(`SELECT * FROM ${getAdminTableName()} WHERE email = ? LIMIT 1`, [normalizeEmail(email)]);
   const first = (rows as Record<string, unknown>[])[0];
   return first ? rowToUser(first) : null;
 }
 
 async function findDbUserById(id: string): Promise<AdminUser | null> {
   const pool = await getDatabasePool();
-  const [rows] = await pool.execute("SELECT * FROM admin_users WHERE id = ? LIMIT 1", [id]);
+  const [rows] = await pool.execute(`SELECT * FROM ${getAdminTableName()} WHERE id = ? LIMIT 1`, [id]);
   const first = (rows as Record<string, unknown>[])[0];
   return first ? rowToUser(first) : null;
 }
@@ -257,7 +316,7 @@ function toAdminUserProfile(user: AdminUser): AdminUserProfile {
 
 async function listDbUsers(): Promise<AdminUser[]> {
   const pool = await getDatabasePool();
-  const [rows] = await pool.execute("SELECT * FROM admin_users ORDER BY created_at DESC");
+  const [rows] = await pool.execute(`SELECT * FROM ${getAdminTableName()} ORDER BY created_at DESC`);
   return (rows as Record<string, unknown>[]).map(rowToUser);
 }
 
@@ -272,13 +331,14 @@ async function countActiveSuperAdmins(): Promise<number> {
 
   const pool = await getDatabasePool();
   const [rows] = await pool.execute(
-    "SELECT COUNT(*) AS count FROM admin_users WHERE role = 'super_admin' AND status = 'active'"
+    `SELECT COUNT(*) AS count FROM ${getAdminTableName()} WHERE role = 'super_admin' AND status = 'active'`
   );
   const first = (rows as Array<{ count?: number | string }>)[0];
   return Number(first?.count ?? 0);
 }
 
 async function upsertSeedAdmin(): Promise<void> {
+  if (process.env.NODE_ENV === "production" && process.env.ADMIN_BOOTSTRAP_ENABLED !== "true") return;
   const email = normalizeEmail(process.env.ADMIN_EMAIL || "");
   const password = process.env.ADMIN_PASSWORD || "";
   if (!email || !password) return;
@@ -330,14 +390,14 @@ async function upsertSeedAdmin(): Promise<void> {
       ? [displayName, role, "active", await hashPassword(password), email]
       : [displayName, role, "active", email];
     await pool.execute(
-      `UPDATE admin_users SET display_name = ?, role = ?, status = ?, updated_at = CURRENT_TIMESTAMP${passwordSql} WHERE email = ?`,
+      `UPDATE ${getAdminTableName()} SET display_name = ?, role = ?, status = ?, updated_at = CURRENT_TIMESTAMP${passwordSql} WHERE email = ?`,
       values
     );
     return;
   }
 
   await pool.execute(
-    `INSERT INTO admin_users (id, email, password_hash, display_name, role, account_type, phone, status, created_at, updated_at)
+    `INSERT INTO ${getAdminTableName()} (id, email, password_hash, display_name, role, account_type, phone, status, created_at, updated_at)
      VALUES (?, ?, ?, ?, ?, 'staff', NULL, 'active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
     [randomUUID(), email, await hashPassword(password), displayName, role]
   );
@@ -402,7 +462,7 @@ export async function markAdminUserLogin(id: string): Promise<void> {
   }
 
   const pool = await getDatabasePool();
-  await pool.execute("UPDATE admin_users SET last_login_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?", [id]);
+  await pool.execute(`UPDATE ${getAdminTableName()} SET last_login_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?`, [id]);
 }
 
 export async function createAdminUser(input: CreateAdminUserInput): Promise<AdminUser | null> {
@@ -451,7 +511,7 @@ export async function createAdminUser(input: CreateAdminUserInput): Promise<Admi
 
   const pool = await getDatabasePool();
   await pool.execute(
-    `INSERT INTO admin_users (id, email, password_hash, display_name, role, account_type, phone, status, created_at, updated_at)
+    `INSERT INTO ${getAdminTableName()} (id, email, password_hash, display_name, role, account_type, phone, status, created_at, updated_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, 'active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
     [created.id, created.email, created.passwordHash, created.displayName, created.role, created.accountType, created.phone]
   );
@@ -508,7 +568,7 @@ export async function updateAdminUser(input: UpdateAdminUserInput): Promise<Admi
 
   const pool = await getDatabasePool();
   await pool.execute(
-    `UPDATE admin_users
+    `UPDATE ${getAdminTableName()}
      SET display_name = ?, role = ?, status = ?, phone = ?, updated_at = CURRENT_TIMESTAMP
      WHERE id = ?`,
     [nextDisplayName, nextRole, nextStatus, nextPhone, input.id]
@@ -550,7 +610,7 @@ export async function changeAdminUserPassword(
 
   const pool = await getDatabasePool();
   await pool.execute(
-    "UPDATE admin_users SET password_hash = ?, password_changed_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+    `UPDATE ${getAdminTableName()} SET password_hash = ?, password_changed_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
     [nextHash, userId]
   );
   return "ok";
@@ -578,7 +638,7 @@ export async function revokeAdminUserOtherSessions(userId: string): Promise<Revo
 
   const pool = await getDatabasePool();
   await pool.execute(
-    "UPDATE admin_users SET password_changed_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+    `UPDATE ${getAdminTableName()} SET password_changed_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
     [userId]
   );
   return "ok";

@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { AppShell } from "@/components/shell/AppShell";
 import { EngineTopicsList, type LibraryResource } from "@/components/library/EngineTopicsList";
-import { learningPath } from "@/lib/learningContent";
 import { listPublishedQuestionRecords, listTopicsWithCounts } from "@/lib/content";
 
 export const metadata = { title: "Catholic Knowledge Library | Apologia Sancta" };
@@ -46,23 +46,7 @@ export default async function LibraryPage() {
     };
   });
 
-  resources.push(...learningPath.lessons.map((lesson) => ({
-    id: `lesson-${lesson.id}`,
-    title: lesson.title,
-    description: lesson.summary,
-    href: `/learn/${lesson.id}`,
-    format: "Lesson" as const,
-    category: lesson.id.includes("eucharist") ? "Sacraments" : "Apologetics",
-    era: "General",
-    tags: [lesson.difficulty.toLowerCase()],
-    difficulty: lesson.difficulty === "Foundation" ? 1 : 3,
-    questionCount: 0,
-    sourceCount: lesson.sources.length,
-    durationMinutes: lesson.durationMinutes,
-  })));
-
   const allReferences = new Set(questionRecords.flatMap((record) => record.question.teaching.refs));
-  for (const lesson of learningPath.lessons) for (const source of lesson.sources) allReferences.add(`${source.reference}:${source.url}`);
 
-  return <AppShell><div className="page-container py-8 sm:py-11"><EngineTopicsList resources={resources} questionTotal={questionRecords.length} sourceTotal={allReferences.size} /></div></AppShell>;
+  return <AppShell><div className="page-container py-8 sm:py-11"><div className="surface-card mb-6 flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between"><div><p className="eyebrow">Formation catalogue</p><p className="mt-2 text-sm text-(--text-muted)">Reviewed lessons now live in the database-backed learning area.</p></div><Link className="btn-primary" href="/learn">Browse learning programmes</Link></div><EngineTopicsList resources={resources} questionTotal={questionRecords.length} sourceTotal={allReferences.size} /></div></AppShell>;
 }
