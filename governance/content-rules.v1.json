@@ -1,0 +1,297 @@
+{
+  "schemaVersion": "1.0.0",
+  "policyId": "apologia-sancta-phase2",
+  "effectiveDate": "2026-07-18",
+  "normative": true,
+  "contentScope": [
+    "lesson",
+    "lesson_section",
+    "learning_objective",
+    "question",
+    "question_option",
+    "source",
+    "doctrinal_claim",
+    "graph_relationship"
+  ],
+  "doctrinal": {
+    "teachingPosition": "catholic",
+    "authorities": [
+      "sacred_scripture",
+      "sacred_tradition",
+      "living_magisterium",
+      "catechism",
+      "ecumenical_council",
+      "papal_magisterium",
+      "dicastery_magisterium"
+    ],
+    "classifications": [
+      "dogma",
+      "definitively_held",
+      "authoritative_doctrine",
+      "discipline",
+      "prudential_application",
+      "permitted_opinion",
+      "historical_claim",
+      "comparative_religion_claim",
+      "disputed_or_unresolved"
+    ],
+    "uncertainClassification": {
+      "classification": "disputed_or_unresolved",
+      "humanReviewRequired": true,
+      "publicationBlocking": true
+    },
+    "attributionModes": [
+      "direct_quotation",
+      "paraphrase",
+      "interpretation",
+      "inference"
+    ]
+  },
+  "lesson": {
+    "requiredComponents": [
+      "central_question",
+      "learning_objectives",
+      "concise_answer",
+      "full_explanation",
+      "scripture",
+      "catholic_doctrinal_evidence",
+      "historical_or_patristic_evidence",
+      "important_distinctions",
+      "serious_objection",
+      "catholic_response",
+      "common_misunderstandings",
+      "summary",
+      "practice_questions",
+      "references",
+      "related_apologia_graph"
+    ],
+    "nonApplicableRequiresReview": true
+  },
+  "question": {
+    "allowedTypes": [
+      "single_choice"
+    ],
+    "enabledOptionCount": {
+      "default": 4,
+      "min": 4,
+      "max": 4,
+      "accessibilityExceptionRequiresApproval": true
+    },
+    "correctOptionCount": 1,
+    "requiredFields": [
+      "stableKey",
+      "objectiveId",
+      "difficultyLevel",
+      "difficultyMode",
+      "prompt",
+      "correctAnswerExplanation",
+      "options",
+      "sources",
+      "denominationScope",
+      "rightsMetadata",
+      "authorId",
+      "version",
+      "publicationStatus",
+      "equivalenceKey"
+    ],
+    "distractorRequiredFields": [
+      "explanation",
+      "misconceptionCode"
+    ],
+    "forbiddenOptionTextPatterns": [
+      "^all of the above\\.?$",
+      "^none of the above\\.?$"
+    ],
+    "forbiddenFeatures": [
+      "joke_or_absurd_distractor",
+      "obvious_correct_answer_length_clue",
+      "repeated_grammar_clue",
+      "unnecessary_double_negative",
+      "ambiguous_pronoun",
+      "missing_context",
+      "multiple_equally_defensible_answers",
+      "theological_trivia_without_objective",
+      "straw_man",
+      "deceptive_wording"
+    ],
+    "comparativeAdvancedSteelmanRequired": true
+  },
+  "difficulty": {
+    "levels": [
+      {
+        "value": 1,
+        "code": "foundations"
+      },
+      {
+        "value": 2,
+        "code": "distinctions"
+      },
+      {
+        "value": 3,
+        "code": "evidence"
+      },
+      {
+        "value": 4,
+        "code": "objections"
+      },
+      {
+        "value": 5,
+        "code": "synthesis"
+      }
+    ],
+    "modes": [
+      "easy",
+      "medium",
+      "hard",
+      "expert",
+      "trick"
+    ],
+    "trickCategories": [
+      "nature_vs_person",
+      "infallibility_vs_impeccability",
+      "veneration_vs_worship",
+      "sign_vs_merely_symbolic",
+      "dogma_vs_discipline",
+      "development_vs_contradiction",
+      "necessary_vs_sufficient",
+      "premise_vs_conclusion",
+      "initial_justification_vs_growth_in_grace",
+      "material_vs_formal_rejection",
+      "correct_doctrine_wrong_subject"
+    ],
+    "trickRequiresAssessmentReview": true
+  },
+  "comparative": {
+    "prohibitedGenericScopes": [
+      "protestants",
+      "muslims"
+    ],
+    "namedTraditionRequired": true,
+    "recognisedSourceRequired": true,
+    "traditions": [
+      "eastern_orthodox",
+      "lutheran",
+      "reformed",
+      "anglican",
+      "baptist",
+      "methodist",
+      "pentecostal",
+      "non_denominational_evangelical",
+      "sunni",
+      "shia",
+      "ahmadi",
+      "jehovahs_witness",
+      "latter_day_saint",
+      "named_atheist_school_or_argument"
+    ]
+  },
+  "source": {
+    "authorityCategories": [
+      "sacred_scripture",
+      "sacred_tradition",
+      "ecumenical_council",
+      "papal_magisterium",
+      "dicastery_magisterium",
+      "catechism",
+      "canon_law",
+      "church_father",
+      "church_doctor",
+      "official_comparative_source",
+      "primary_historical_source",
+      "academic_secondary_source",
+      "credible_reference",
+      "unverified"
+    ],
+    "permissionStatuses": [
+      "unverified",
+      "public_domain",
+      "licensed",
+      "permission_not_required_under_recorded_terms",
+      "permission_requested",
+      "denied",
+      "expired"
+    ],
+    "publishablePermissionStatuses": [
+      "public_domain",
+      "licensed",
+      "permission_not_required_under_recorded_terms"
+    ],
+    "requiredRightsFields": [
+      "copyrightStatus",
+      "permissionStatus",
+      "licenceIdentifier",
+      "attributionText",
+      "quoteLimitWords",
+      "reviewedAt",
+      "reviewedBy"
+    ],
+    "bibleRequiredFields": [
+      "translationName",
+      "translationAbbreviation",
+      "edition",
+      "language",
+      "rightsholder",
+      "permissionStatus"
+    ],
+    "defaultQuoteLimitWords": 0,
+    "approvedDomainDoesNotImplyPermission": true,
+    "prohibitedUseOverridesApproval": true
+  },
+  "workflow": {
+    "stages": [
+      "draft",
+      "author_review",
+      "doctrinal_review",
+      "assessment_review",
+      "source_licence_review",
+      "approval",
+      "publication",
+      "analytics_review"
+    ],
+    "requiredPreApprovalStages": [
+      "author_review",
+      "doctrinal_review",
+      "assessment_review",
+      "source_licence_review"
+    ],
+    "currentVersionReviewsOnly": true,
+    "highRiskEntities": [
+      "lesson",
+      "lesson_section",
+      "doctrinal_claim",
+      "question",
+      "source"
+    ],
+    "soleCreatorApprovalForbidden": true,
+    "reviewerSpecialismRequired": [
+      "doctrinal_review",
+      "assessment_review",
+      "source_licence_review",
+      "analytics_review"
+    ]
+  },
+  "mastery": {
+    "officialDefaultThresholdPercent": 100,
+    "serverSideScoring": true,
+    "unlimitedRetakes": true,
+    "preferUnseenEquivalentQuestions": true,
+    "hintsDuringOfficialAttempt": false,
+    "explanationsAfterSubmission": true,
+    "paidBypass": false,
+    "speedAffectsScore": false,
+    "liveCompetitionUnlock": false,
+    "offlineOfficialUnlock": false,
+    "relockOnContentEdit": false,
+    "quarantineInvalidQuestions": true,
+    "retentionReviewRelocks": false
+  },
+  "findings": {
+    "severities": [
+      "info",
+      "warning",
+      "error"
+    ],
+    "publicationBlockingSeverity": "error",
+    "unknownRulesFailClosed": true
+  }
+}
