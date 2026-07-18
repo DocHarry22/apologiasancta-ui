@@ -6,15 +6,19 @@ Implementation branches: `codex/phase1-learning-platform` in the UI and Engine r
 
 ## Completion status
 
-The repository-local Phase 1 foundation is implemented and its database, API, and Engine core paths have automated coverage. Phase 1 is **not yet a production deployment** and does **not yet satisfy the deployment-dependent acceptance criteria**. In particular:
+Phase 1 is implemented and staged against the approved Apologia Supabase project `akpxlqktnavtptudyxlp` (`https://akpxlqktnavtptudyxlp.supabase.co`). Supabase is now the canonical staging content store; public published lessons, staff authoring/review/publish workflows, learner progress, server-side mastery scoring, unlock computation, draft isolation, answer-key privacy, and the live-quiz canonical feed are implemented in the shared UI/API/Engine system.
 
-- The migration has been validated only in a disposable PostgreSQL 16 environment. It has not been applied to a hosted Supabase project.
-- The original Supabase project, `rgfloeshqjbjfdarwdxn`, contained unrelated commerce/water/maintenance objects and was deliberately not modified. The approved staging project `akpxlqktnavtptudyxlp` is still invisible to the connected Supabase account, so no hosted migration has been attempted.
-- No Hostinger UI deployment, Render Engine deployment, production database backup, production migration, or production content mutation was performed.
-- The available Hostinger integration did not provide a deployment path for the existing Git-backed Next.js application, and no live Render deployment connector was available in this task.
-- The Apologia Graph repository was inspected only; no Phase 1 Graph source change is included.
+This is a staging completion report, not a production promotion. No Hostinger production UI deployment, Render production Engine deployment, production Supabase migration, production backup, or production content mutation was performed. The original unrelated Supabase project `rgfloeshqjbjfdarwdxn` was deliberately not modified.
 
-The draft PRs are published. The safe next state is a controlled staging rollout after the Supabase connector can verify the approved project. Production promotion still requires explicit approval.
+Hosted staging evidence:
+
+- Applied Phase 1 foundation migration, hardening migration, and function ACL hardening migration through the project-scoped Supabase MCP server.
+- Loaded one neutral non-production fixture only: 1 programme, 1 subject, 2 groups, 1 lesson, 1 section, 1 objective, 1 source, 2 questions, 6 options, 3 contexts, 1 content-source link, 19 audit events, 1 public-practice question, 1 live question, and 0 invalid live questions.
+- Created no Supabase Auth users and no learner attempts/progress in hosted staging.
+- Verified all 34 Phase 1 tables have RLS enabled, all 28 Phase 1 foreign-key advisor warnings are resolved, and `public.start_mastery_attempt` / `public.submit_mastery_attempt` are executable only by `authenticated` and `service_role`.
+- Remaining Supabase advisor warnings are pre-existing baseline items outside Phase 1 scope: executable `public.rls_auto_enable()` security-definer function for `anon`/`authenticated`, and leaked-password protection disabled.
+
+The draft PRs remain unmerged. Production promotion still requires explicit approval, a production backup, production environment variable configuration, and final deployment checks.
 
 ## 1. Architecture implemented
 
@@ -128,6 +132,8 @@ No Supabase Storage bucket or policy was created. Asset columns can reference an
 | File | Purpose |
 | --- | --- |
 | `supabase/migrations/20260717175144_phase1_learning_foundation.sql` | Reversible Phase 1 schema, constraints, indexes, views, RLS/grants, audit triggers, and mastery RPCs. |
+| `supabase/migrations/20260718220207_phase1_supabase_hardening.sql` | Hosted-staging hardening for RLS init-plan performance and missing foreign-key indexes. |
+| `supabase/migrations/20260718222110_phase1_supabase_function_acl_hardening.sql` | Hosted-staging hardening that removes direct anonymous execution from public mastery RPCs and grants only `authenticated`/`service_role`. |
 | `supabase/rollback/20260717175144_phase1_learning_foundation.down.sql` | Drops only the Phase 1 objects; destructive to all Phase 1 data and therefore backup-gated. |
 | `supabase/fixtures/phase1_minimal.sql` | Idempotent neutral non-production fixture, including a valid four-option live question and separate practice-only coverage. |
 | `supabase/tests/plain_postgres_bootstrap.sql` | Test-only Supabase role/auth stubs for disposable plain PostgreSQL; never deploy this file to Supabase. |
@@ -135,7 +141,17 @@ No Supabase Storage bucket or policy was created. Asset columns can reference an
 | `supabase/tests/phase1_security_catalog_test.sql` | RLS, grants, safe-view, owner-bypass, answer-key, and security-catalog tests. |
 | `supabase/scripts/export_phase1_content.sql` | Canonical content export without learner/game/audit data. |
 
-The migration, fixture applied twice, functional tests, security tests, export, and rollback were exercised in disposable PostgreSQL 16. The rollback check left none of the Phase 1 custom schemas/objects behind. No hosted migration was attempted.
+The foundation migration, fixture, functional tests, security tests, export, and rollback were exercised in disposable PostgreSQL 16. The rollback check left none of the Phase 1 custom schemas/objects behind.
+
+Hosted Supabase staging migration history differs in timestamp because the project-scoped MCP server records its own remote migration versions:
+
+| Remote version | Remote name | Local source |
+| --- | --- | --- |
+| `20260718195531` | `phase1_learning_foundation` | `20260717175144_phase1_learning_foundation.sql` |
+| `20260718201134` | `phase1_supabase_hardening` | `20260718220207_phase1_supabase_hardening.sql` |
+| `20260718202110` | `phase1_supabase_function_acl_hardening` | `20260718222110_phase1_supabase_function_acl_hardening.sql` |
+
+The hosted foundation SQL SHA-256 was `F21693694E00E58EBAD6825CE13FF5BF09A52E4A378A94884A968C23E9C71626`. The hosted neutral fixture SQL SHA-256 was `7DCF1ACC13D280D7D9FAD16F27587D506F5E6BB154BEF217CD2FF5597FCEFF5B`. The hosted security catalog was verified with a Phase-1-scoped read-only check; the full hosted functional SQL suite was deliberately not run because it creates synthetic Auth users and learner attempts, which exceeded the approved "neutral fixtures only" staging scope.
 
 The offline transfer utility inventories, transforms, validates, exports, and generates transactional idempotent SQL without opening a database connection. Its legacy test transform produced one staging programme, 22 subjects, 22 groups, 265 questions, 1,060 options, 494 deduplicated sources, and 595 source links; a repeat run produced stable identities. Imported legacy content remains hidden, draft, unreviewed, and context-free until human editorial, theological, and rights review.
 
@@ -267,6 +283,9 @@ These controls are code- and database-test results. Hosted policies, secret rota
 | Fixture | Applied twice | Passed; idempotent. |
 | Database functional suite | `phase1_foundation_test.sql` | Passed, including FK/cycles, publication, scoring, replay, successful/failed unlock, multiple prerequisites, metrics, and live feed. |
 | Database security suite | `phase1_security_catalog_test.sql` | Passed, including RLS/grants, owner bypass, public exclusion, and answer-key controls. |
+| Hosted Supabase staging migration | Project `akpxlqktnavtptudyxlp` | Passed: 18 `content` tables, 6 `game` tables, 10 new Phase 1 `public` tables, 20 views, 47 policies, 34/34 Phase 1 tables with RLS, 0 invalid live questions, and 0 remaining Phase 1 FK/auth-RLS advisor warnings. |
+| Hosted Supabase staging fixture | `phase1_minimal.sql` | Passed: neutral published/draft coverage loaded without Auth users, learner progress, mastery attempts, or production data. |
+| Hosted Supabase staging security catalog | Phase-1-scoped read-only catalog check | Passed after function ACL hardening; public mastery RPCs are not executable by `anon`, private functions remain inaccessible to `anon`, drafts are excluded from public views, and answer flags are excluded from pre-submit feeds. |
 | Export and rollback | Canonical export followed by down migration | Passed; Phase 1 objects removed. |
 | Legacy transfer | Inventory, transform, validate, import SQL, and repeat-idempotency checks | Passed for 22 topics / 265 questions; rights review intentionally unresolved. |
 | UI Vitest | `npm run test:vitest` | Passed on final rerun: 36 files, 160 tests, exit `0` (including the bookmark component). |
@@ -279,7 +298,7 @@ These controls are code- and database-test results. Hosted policies, secret rota
 | Patch hygiene | `git diff --check` in UI and Engine | Passed; line-ending conversion warnings are informational. |
 | Capacitor sync | `npm run cap:sync` | Exited `0` and detected three plugins. Environment warning: no app URL was supplied and generated paths followed sibling junctions; generated Android changes were restored rather than retained. |
 
-The full browser E2E matrix, manual CMS workflow, deployed Supabase RLS verification, production live-room test, and APK runtime test were not executed. Lint/build/Capacitor results are stated separately below so a partial result is not mistaken for full acceptance.
+The full browser E2E matrix, manual CMS workflow, production live-room test, and APK runtime test were not executed. Hosted Supabase staging was verified, but production Supabase was not touched. Lint/build/Capacitor results are stated separately below so a partial result is not mistaken for full acceptance.
 
 ## 13. Build results
 
