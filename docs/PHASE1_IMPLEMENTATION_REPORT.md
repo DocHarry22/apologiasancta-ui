@@ -72,7 +72,7 @@ The connected Supabase project was also inspected before any mutation. Its unrel
 | Engine | `codex/phase1-learning-platform` in `apologiasancta-engine-phase1-learning` | `origin/main` at `bddbc38` |
 | Graph | Existing audit worktree on `hotfix/hostinger-build-artifact` | `283998e`; no Phase 1 diff |
 
-No direct change to `main` and no production deployment was made. UI commit `ffee8d9` is published in draft PR [#34](https://github.com/DocHarry22/apologiasancta-ui/pull/34); Engine commit `f4690c1` is published in draft PR [#19](https://github.com/DocHarry22/apologiasancta-engine/pull/19). Neither PR has been merged.
+No direct change to `main` and no production deployment was made. UI commit `260bfe6` is published in draft PR [#34](https://github.com/DocHarry22/apologiasancta-ui/pull/34); Engine commit `f4690c1` is published in draft PR [#19](https://github.com/DocHarry22/apologiasancta-engine/pull/19). Neither PR has been merged.
 
 ## 4. Database schemas and tables added or changed
 
