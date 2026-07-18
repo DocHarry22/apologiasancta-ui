@@ -1,6 +1,6 @@
 # Phase 1 implementation report
 
-Prepared: 2026-07-17
+Prepared: 2026-07-17; delivery status updated 2026-07-18
 Scope: learning-platform structure, storage, functionality, and integration foundation
 Implementation branches: `codex/phase1-learning-platform` in the UI and Engine repositories
 
@@ -9,12 +9,12 @@ Implementation branches: `codex/phase1-learning-platform` in the UI and Engine r
 The repository-local Phase 1 foundation is implemented and its database, API, and Engine core paths have automated coverage. Phase 1 is **not yet a production deployment** and does **not yet satisfy the deployment-dependent acceptance criteria**. In particular:
 
 - The migration has been validated only in a disposable PostgreSQL 16 environment. It has not been applied to a hosted Supabase project.
-- The Supabase project available during this work, `rgfloeshqjbjfdarwdxn`, contained unrelated commerce/water/maintenance objects and was deliberately not modified.
+- The original Supabase project, `rgfloeshqjbjfdarwdxn`, contained unrelated commerce/water/maintenance objects and was deliberately not modified. The approved staging project `akpxlqktnavtptudyxlp` is still invisible to the connected Supabase account, so no hosted migration has been attempted.
 - No Hostinger UI deployment, Render Engine deployment, production database backup, production migration, or production content mutation was performed.
 - The available Hostinger integration did not provide a deployment path for the existing Git-backed Next.js application, and no live Render deployment connector was available in this task.
 - The Apologia Graph repository was inspected only; no Phase 1 Graph source change is included.
 
-The safe next state is a draft PR plus a controlled staging rollout against a verified, dedicated Apologia Supabase project. Production promotion still requires explicit approval.
+The draft PRs are published. The safe next state is a controlled staging rollout after the Supabase connector can verify the approved project. Production promotion still requires explicit approval.
 
 ## 1. Architecture implemented
 
@@ -68,7 +68,7 @@ The connected Supabase project was also inspected before any mutation. Its unrel
 | Engine | `codex/phase1-learning-platform` in `apologiasancta-engine-phase1-learning` | `origin/main` at `bddbc38` |
 | Graph | Existing audit worktree on `hotfix/hostinger-build-artifact` | `283998e`; no Phase 1 diff |
 
-No direct change to `main` and no production deployment was made. At the time this report was drafted, implementation changes were still local working-tree changes and had not been merged. The GitHub CLI was not authenticated, so commit/push/draft-PR publication could not be completed from this environment.
+No direct change to `main` and no production deployment was made. UI commit `34c2615` is published in draft PR [#34](https://github.com/DocHarry22/apologiasancta-ui/pull/34); Engine commit `65bf88c` is published in draft PR [#19](https://github.com/DocHarry22/apologiasancta-engine/pull/19). Neither PR has been merged.
 
 ## 4. Database schemas and tables added or changed
 
@@ -296,11 +296,11 @@ The UI and Engine production builds are clean. A configured Android package/runt
 
 | Target | Result |
 | --- | --- |
-| Supabase/PostgreSQL | Not deployed. The connected project was unrelated and unsafe. No backup or migration was attempted against it. |
+| Supabase/PostgreSQL | Not deployed. The approved staging reference is known, but the connected account has no permission to inspect it. No backup or migration was attempted against it. |
 | Render Engine | Not deployed. `render.yaml` and environment documentation are prepared; `autoDeploy` is disabled for explicit promotion. No live connector/deploy action was available. |
 | Hostinger UI | Not deployed. The available Hostinger surface did not support deploying this existing Git-backed Next.js repository. |
 | PWA/Android | Not released. No production service-worker or APK/AAB was published. |
-| GitHub | Feature worktrees were prepared. The CLI was not authenticated, so commit, push, and draft PR creation were blocked. No direct production branch push or merge occurred. |
+| GitHub | UI draft PR #34 and Engine draft PR #19 are open from `codex/phase1-learning-platform`. No direct production branch push or merge occurred. |
 | Apologia Graph | No deployment and no source change. |
 
 Consequently, the live URLs remain the pre-existing deployments and cannot yet demonstrate the database-backed Phase 1 architecture. The read-only baseline remained reachable (UI, Engine, and Graph roots `200`; Engine persistence healthy), while the UI's new `/api/v1/learning/programmes` route returned `404` as expected for undeployed code. Production health and full web/mobile/live-quiz flows must be rechecked after a controlled staging deployment and explicit production promotion.
@@ -397,7 +397,7 @@ The down migration destroys all Phase 1 content, learner, and game data. It is n
 
 ## 18. Remaining risks
 
-1. **Hosted target absent:** there is no verified Apologia Supabase target, backup, migration result, or deployed RLS proof.
+1. **Hosted target permission missing:** the approved staging project is not visible to the connected Supabase account, so there is no backup, migration result, or deployed RLS proof.
 2. **Deployment absent:** Hostinger and Render still serve the prior production versions, so canonical end-to-end behavior is unverified.
 3. **Worktree build layout:** the ordinary Turbopack command cannot accept this feature worktree's out-of-root `node_modules` junction, and an in-OneDrive Webpack attempt timed out. The exact source passed an isolated Webpack production build, but the deployment checkout must use an ordinary in-root dependency installation.
 4. **Browser/device coverage:** no full Playwright matrix, signed APK/AAB runtime test, offline/reconnect device test, or production live-room rehearsal has been completed.
@@ -409,7 +409,7 @@ The down migration destroys all Phase 1 content, learner, and game data. It is n
 10. **Legacy rights:** the 265-question legacy inventory is structurally valid but not theologically/editorially/licensing approved and must not be published automatically.
 11. **Graph integration:** relationship columns/tables are present, but no new Graph API contract or Graph deployment was required or validated in this phase.
 12. **Capacitor environment:** sync tooling ran, but the missing application URL and sibling-junction paths made its generated native changes unsuitable to retain. Regenerate from the intended checkout with production configuration, then build and test the APK/AAB.
-13. **Delivery authentication:** the GitHub CLI was not authenticated, blocking commit/push/draft-PR publication from this task environment.
+13. **Supabase connector access:** reauthentication still exposes only the two original projects; `akpxlqktnavtptudyxlp` returns `You do not have permission to perform this action`.
 14. **Observability:** health/diagnostic fields exist, but alerting and production runbooks must be connected to the deployed services.
 
 ## 19. Decisions deferred to the Rules phase
