@@ -847,6 +847,14 @@ export async function updateAdminEntity(input: {
       }
     }
 
+    if (spec.versioned && ["approved", "scheduled", "published", "archived"].includes(String(current.status))) {
+      throw new LearningApiError(
+        "new_version_required",
+        409,
+        "Approved, scheduled, published, or archived content must be opened as a new draft version before editing.",
+      );
+    }
+
     if (spec.versioned) {
       await client.query(
         `INSERT INTO content.content_versions
@@ -863,6 +871,16 @@ export async function updateAdminEntity(input: {
     values.push(id);
     const assignments = entries.map(([field], index) => `${field} = $${index + 1}`);
     if (spec.versioned) assignments.push("version = version + 1");
+    if (spec.versioned && governedEntityKinds.has(spec.entityKind)) {
+      assignments.push(
+        "status = 'draft'",
+        "review_status = 'unreviewed'",
+        "governance_stage = 'draft'",
+        "reviewed_by = NULL",
+        "reviewed_at = NULL",
+        "scheduled_for = NULL",
+      );
+    }
     const result = await client.query<Record<string, unknown>>(
       `UPDATE content.${spec.table}
           SET ${assignments.join(", ")}
