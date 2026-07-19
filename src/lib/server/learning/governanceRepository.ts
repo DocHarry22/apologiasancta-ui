@@ -13,7 +13,7 @@ const governedEntities: Record<GovernedAdminEntity, { table: string; kind: strin
 };
 
 export function isGovernedAdminEntity(entity: AdminEntityName): entity is GovernedAdminEntity {
-  return Object.hasOwn(governedEntities, entity);
+  return Object.prototype.hasOwnProperty.call(governedEntities, entity);
 }
 
 export async function getAdminGovernanceValidation(input: {
