@@ -12,6 +12,7 @@ type EntitySpec = {
   entityKind: string;
   allowedFields: readonly string[];
   jsonFields?: readonly string[];
+  jsonArrayFields?: readonly string[];
   arrayFields?: readonly string[];
   uuidFields?: readonly string[];
   numericFields?: readonly string[];
@@ -118,6 +119,19 @@ const entitySpecs: Record<Exclude<AdminEntityName, "prerequisites">, EntitySpec>
     versioned: true,
     actorFields: true,
   },
+  "lesson-requirements": {
+    table: "lesson_requirements",
+    entityKind: "lesson_requirement",
+    allowedFields: [
+      "lesson_id", "requirement", "satisfied", "non_applicable",
+      "non_applicable_reason", "attribution_mode", "source_locator",
+    ],
+    uuidFields: ["lesson_id"],
+    booleanFields: ["satisfied", "non_applicable"],
+    parentField: "lesson_id",
+    searchableFields: ["requirement", "non_applicable_reason", "source_locator"],
+    orderBy: "requirement, id",
+  },
   objectives: {
     table: "learning_objectives",
     entityKind: "learning_objective",
@@ -126,6 +140,22 @@ const entitySpecs: Record<Exclude<AdminEntityName, "prerequisites">, EntitySpec>
     numericFields: ["display_order", "mastery_weight"],
     parentField: "lesson_id",
     searchableFields: ["code", "description"],
+    archiveable: true,
+    versioned: true,
+    actorFields: true,
+  },
+  "doctrinal-claims": {
+    table: "doctrinal_claims",
+    entityKind: "doctrinal_claim",
+    allowedFields: [
+      "entity_kind", "entity_id", "proposition", "classification", "attribution_mode",
+      "source_locators", "human_review_required", "qualified_reviewer_id", "review_note",
+    ],
+    jsonArrayFields: ["source_locators"],
+    uuidFields: ["entity_id", "qualified_reviewer_id"],
+    booleanFields: ["human_review_required"],
+    parentField: "entity_id",
+    searchableFields: ["proposition", "classification", "review_note"],
     archiveable: true,
     versioned: true,
     actorFields: true,
@@ -269,7 +299,7 @@ const prerequisiteSpecs: Record<PrerequisiteKind, PrerequisiteSpec> = {
 
 const publicationStatuses = new Set(["draft", "in_review", "changes_requested", "approved", "scheduled", "published", "archived"]);
 const visibilityValues = new Set(["public", "authenticated", "hidden", "locked", "coming_soon"]);
-const entityKinds = new Set(["programme", "subject", "learning_group", "lesson", "lesson_section", "learning_objective", "question", "source"]);
+const entityKinds = new Set(["programme", "subject", "learning_group", "lesson", "lesson_section", "learning_objective", "doctrinal_claim", "question", "source"]);
 const questionKinds = new Set(["single_choice"]);
 const questionContexts = new Set(["lesson_practice", "group_practice", "mastery_assessment", "expert_challenge", "live_quiz", "daily_challenge", "review_quiz"]);
 const retirementStatuses = new Set(["active", "retired", "quarantined"]);
@@ -291,6 +321,11 @@ const sourceAuthorityCategories = new Set([
 const permissionStatuses = new Set([
   "unverified", "public_domain", "licensed", "permission_not_required_under_recorded_terms",
   "permission_requested", "denied", "expired",
+]);
+const doctrinalClassifications = new Set([
+  "dogma", "definitively_held", "authoritative_doctrine", "discipline",
+  "prudential_application", "permitted_opinion", "historical_claim",
+  "comparative_religion_claim", "disputed_or_unresolved",
 ]);
 
 function snakeKey(value: string): string {
@@ -316,6 +351,7 @@ function ensureText(value: unknown, field: string): string | null {
 function normalizeFields(spec: EntitySpec, body: Record<string, unknown>): Record<string, unknown> {
   const allowed = new Set(spec.allowedFields);
   const jsonFields = new Set(spec.jsonFields ?? []);
+  const jsonArrayFields = new Set(spec.jsonArrayFields ?? []);
   const arrayFields = new Set(spec.arrayFields ?? []);
   const uuidFields = new Set(spec.uuidFields ?? []);
   const numericFields = new Set(spec.numericFields ?? []);
@@ -337,6 +373,11 @@ function normalizeFields(spec: EntitySpec, body: Record<string, unknown>): Recor
         throw new LearningValidationError("One or more JSON fields are invalid.", { [inputKey]: "Expected an object" });
       }
       output[field] = rawValue;
+    } else if (jsonArrayFields.has(field)) {
+      if (!Array.isArray(rawValue)) {
+        throw new LearningValidationError("One or more JSON list fields are invalid.", { [inputKey]: "Expected an array" });
+      }
+      output[field] = JSON.stringify(rawValue);
     } else if (arrayFields.has(field)) {
       if (!Array.isArray(rawValue) || !rawValue.every((item) => typeof item === "string" && item.length <= 160)) {
         throw new LearningValidationError("One or more list fields are invalid.", { [inputKey]: "Expected a text array" });
@@ -390,6 +431,18 @@ function normalizeFields(spec: EntitySpec, body: Record<string, unknown>): Recor
       }
       if (field === "permission_status" && value !== null && !permissionStatuses.has(value)) {
         throw new LearningValidationError("The permission status is invalid.", { [inputKey]: "Unsupported permission status" });
+      }
+      if (field === "classification" && value !== null && !doctrinalClassifications.has(value)) {
+        throw new LearningValidationError("The doctrinal classification is invalid.", { [inputKey]: "Use a defined Phase 2 classification or request qualified review" });
+      }
+      if (field === "requirement" && value !== null && ![
+        "central_question", "learning_objectives", "concise_answer", "full_explanation",
+        "scripture", "catholic_doctrinal_evidence", "historical_or_patristic_evidence",
+        "important_distinctions", "serious_objection", "catholic_response",
+        "common_misunderstandings", "summary", "practice_questions", "references",
+        "related_apologia_graph",
+      ].includes(value)) {
+        throw new LearningValidationError("The lesson requirement is invalid.", { [inputKey]: "Unsupported lesson component" });
       }
       if (field === "status" && value !== null && !publicationStatuses.has(value)) {
         throw new LearningValidationError("The publication status is invalid.", { [inputKey]: "Unsupported status" });
@@ -506,6 +559,10 @@ export async function listAdminEntities(input: {
                 version, created_by, updated_by, updated_at, scheduled_for, published_at
            FROM content.learning_objectives
          UNION ALL
+         SELECT id, 'doctrinal_claim', id::text, left(proposition, 200), classification::text,
+                status::text, 'unreviewed'::text, version, created_by, updated_by, updated_at, NULL::timestamptz, published_at
+           FROM content.doctrinal_claims
+         UNION ALL
          SELECT id, 'question', stable_key, coalesce(prompt ->> 'text', stable_key), NULL::text,
                 status::text, review_status::text, version, created_by, updated_by, updated_at, scheduled_for, published_at
            FROM content.questions
@@ -614,6 +671,9 @@ export async function listPublicationCalendar(page: PageRequest) {
        UNION ALL
        SELECT id, 'learning_objective', code, description, scheduled_for, status::text, version
          FROM content.learning_objectives WHERE status = 'scheduled'
+       UNION ALL
+       SELECT id, 'doctrinal_claim', id::text, left(proposition, 200), NULL::timestamptz, status::text, version
+         FROM content.doctrinal_claims WHERE status = 'scheduled'
        UNION ALL
        SELECT id, 'question', stable_key, coalesce(prompt ->> 'text', stable_key), scheduled_for, status::text, version
          FROM content.questions WHERE status = 'scheduled'
@@ -847,6 +907,17 @@ export async function updateAdminEntity(input: {
       }
     }
 
+    if (spec.entityKind === "lesson_requirement" && fields.non_applicable === true) {
+      if (["author", "contributor"].includes(input.actor.role)) {
+        throw new LearningApiError("forbidden", 403, "Only an independent reviewer may approve a non-applicable lesson component.");
+      }
+      fields.reviewed_by = actorId;
+      fields.reviewed_at = new Date().toISOString();
+    } else if (spec.entityKind === "lesson_requirement" && fields.non_applicable === false) {
+      fields.reviewed_by = null;
+      fields.reviewed_at = null;
+    }
+
     if (spec.versioned && ["approved", "scheduled", "published", "archived"].includes(String(current.status))) {
       throw new LearningApiError(
         "new_version_required",
@@ -914,6 +985,9 @@ export async function deleteAdminEntity(input: {
   const spec = getEntitySpec(input.entity);
   if (spec.readOnly) throw new LearningApiError("method_not_allowed", 405, "This learning resource is read-only.");
   const id = validateEntityId(spec, input.id);
+  if (spec.entityKind === "lesson_requirement") {
+    throw new LearningApiError("method_not_allowed", 405, "Lesson requirement inventory is fixed; update the existing component instead.");
+  }
 
   return withLearningTransaction(async (client) => {
     const actorId = await setAuditContext(client, input.actorId, input.requestId);
@@ -1208,6 +1282,8 @@ const workflowEntityAliases: Record<string, Exclude<AdminEntityName, "prerequisi
   objective: "objectives",
   learning_objective: "objectives",
   objectives: "objectives",
+  doctrinal_claim: "doctrinal-claims",
+  "doctrinal-claims": "doctrinal-claims",
   question: "questions",
   questions: "questions",
   source: "sources",
@@ -1221,7 +1297,7 @@ function workflowSpec(value: unknown): EntitySpec {
   return getEntitySpec(workflowEntityAliases[value]);
 }
 
-const governedEntityKinds = new Set(["lesson", "lesson_section", "question", "source"]);
+const governedEntityKinds = new Set(["lesson", "lesson_section", "doctrinal_claim", "question", "source"]);
 const governedReviewStages = new Set([
   "author_review", "doctrinal_review", "assessment_review",
   "source_licence_review", "approval",
