@@ -661,11 +661,22 @@ begin
       where source_link.entity_kind = 'question'
         and source_link.entity_id = p_entity_id
         and coalesce(btrim(source_link.citation_locator), '') <> ''
+        and source_row.status = 'published'
+        and source_row.governance_stage in ('publication', 'analytics_review')
         and source_row.authority_category <> 'unverified'
         and source_row.permission_status in (
           'public_domain', 'licensed', 'permission_not_required_under_recorded_terms'
         )
         and cardinality(source_row.prohibited_use_flags) = 0
+        and (source_row.permission_expires_at is null or source_row.permission_expires_at > now())
+        and (source_row.rights_review_due_at is null or source_row.rights_review_due_at > now())
+        and (
+          coalesce(btrim(source_link.quoted_text), '') = ''
+          or (
+            source_row.quote_limit_words > 0
+            and cardinality(regexp_split_to_array(btrim(source_link.quoted_text), '\s+')) <= source_row.quote_limit_words
+          )
+        )
     ) then
       return query select 'question.authoritative_source_required', 'error', 'source_licence_review'::content.workflow_stage, 'An authoritative, precisely located and rights-cleared source is required.';
     end if;
@@ -974,6 +985,11 @@ after insert or update on content.lessons
 deferrable initially deferred
 for each row execute function private.revalidate_governed_dependency();
 
+create constraint trigger lesson_sections_governance_revalidate
+after insert or update on content.lesson_sections
+deferrable initially deferred
+for each row execute function private.revalidate_governed_dependency();
+
 create constraint trigger sources_governance_revalidate
 after insert or update on content.sources
 deferrable initially deferred
@@ -1144,6 +1160,11 @@ where q.status = 'published'
   and q.retirement_status = 'active'
   and q.question_type = 'single_choice'
   and q.governance_stage in ('publication', 'analytics_review')
+  and not exists (
+    select 1
+    from content.governance_findings('question', q.id, q.version, true) finding_row
+    where finding_row.severity = 'error'
+  )
   and s.status = 'published' and s.published_at <= now() and s.visibility = 'public'
   and p.status = 'published' and p.published_at <= now() and p.visibility = 'public'
   and (g.id is null or (
