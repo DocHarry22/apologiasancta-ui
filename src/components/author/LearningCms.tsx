@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-const entityTabs = ["programmes", "subjects", "groups", "lessons", "sections", "objectives", "questions", "question-options", "question-contexts", "sources", "content-sources", "prerequisites"] as const;
+const entityTabs = ["programmes", "subjects", "groups", "lessons", "sections", "lesson-requirements", "objectives", "doctrinal-claims", "questions", "question-options", "question-contexts", "sources", "content-sources", "prerequisites"] as const;
 const operationalTabs = ["review", "calendar", "audit", "import-export"] as const;
 type Entity = (typeof entityTabs)[number];
 type Tab = Entity | (typeof operationalTabs)[number];
@@ -18,6 +18,7 @@ type CmsRecord = {
   publicationStatus?: string;
   status?: string;
   reviewStatus?: string;
+  governanceStage?: string;
   visibility?: string;
   displayOrder?: number;
   scheduledFor?: string;
@@ -28,6 +29,56 @@ type CmsRecord = {
   version?: number;
   [key: string]: unknown;
 };
+
+type GovernedEntity = "lessons" | "sections" | "doctrinal-claims" | "questions" | "sources";
+
+type GovernanceFinding = {
+  code: string;
+  severity: "info" | "warning" | "error";
+  reviewStage: string;
+  message: string;
+};
+
+type GovernanceValidation = {
+  entity: GovernedEntity;
+  entityKind: string;
+  id: string;
+  version: number;
+  status: string;
+  governanceStage: string;
+  findings: GovernanceFinding[];
+  reviews: Array<{
+    stage: string;
+    decision: string;
+    reviewerRole: string;
+    specialism: string | null;
+    comment: string | null;
+  }>;
+  summary: {
+    errors: number;
+    warnings: number;
+    publishable: boolean;
+    machinePassIsSufficient: false;
+  };
+};
+
+const governedEntityAliases: Record<string, GovernedEntity> = {
+  lessons: "lessons",
+  lesson: "lessons",
+  sections: "sections",
+  lesson_section: "sections",
+  "doctrinal-claims": "doctrinal-claims",
+  doctrinal_claim: "doctrinal-claims",
+  questions: "questions",
+  question: "questions",
+  sources: "sources",
+  source: "sources",
+};
+
+function governedEntityFor(tab: Tab, record: CmsRecord): GovernedEntity | null {
+  const value = String(record.entity || record.entityKind || tab);
+  return governedEntityAliases[value] ?? null;
+}
 
 type FormState = {
   id: string;
@@ -49,12 +100,14 @@ const extraFields: Partial<Record<Entity, readonly string[]>> = {
   subjects: ["coverAssetPath", "estimatedMinutes", "level", "apologiaGraphRelationship", "searchMetadata", "localisation"],
   groups: ["coverAssetPath", "estimatedMinutes", "level", "apologiaGraphRelationship", "searchMetadata", "localisation", "masteryThresholdPercent", "masteryPolicy", "isInitiallyUnlocked", "isOptionalExpertChallenge"],
   lessons: ["coverAssetPath", "estimatedMinutes", "level", "apologiaGraphRelationship", "searchMetadata", "localisation"],
-  sections: ["parentSectionId", "blockKind", "content"],
+  sections: ["parentSectionId", "blockKind", "content", "attributionMode"],
+  "lesson-requirements": ["requirement", "satisfied", "nonApplicable", "nonApplicableReason", "attributionMode", "sourceLocator"],
   objectives: ["code", "description", "masteryWeight"],
-  questions: ["stableKey", "groupId", "lessonId", "objectiveId", "difficulty", "questionType", "prompt", "correctAnswerExplanation", "privateNotes", "misconceptionIds", "denominationScope", "rightsMetadata", "answerPolicy", "retirementStatus", "quarantineReason"],
+  "doctrinal-claims": ["entityKind", "proposition", "classification", "attributionMode", "sourceLocators", "humanReviewRequired", "qualifiedReviewerId", "reviewNote"],
+  questions: ["stableKey", "groupId", "lessonId", "objectiveId", "difficulty", "difficultyMode", "trickCategory", "equivalenceKey", "qualityFlags", "questionType", "prompt", "correctAnswerExplanation", "privateNotes", "misconceptionIds", "denominationScope", "rightsMetadata", "answerPolicy", "retirementStatus", "quarantineReason"],
   "question-options": ["position", "label", "content", "isCorrect", "explanation", "misconceptionId"],
   "question-contexts": ["context", "programmeId", "subjectId", "groupId", "lessonId", "enabled", "weight", "settings", "validFrom", "validUntil"],
-  sources: ["sourceKind", "author", "publisher", "publicationYear", "url", "citation", "rightsMetadata"],
+  sources: ["sourceKind", "author", "publisher", "publicationYear", "url", "citation", "rightsMetadata", "authorityCategory", "copyrightStatus", "permissionStatus", "licenceIdentifier", "attributionText", "quoteLimitWords", "translationMetadata", "prohibitedUseFlags", "permissionExpiresAt", "rightsReviewDueAt", "approvedDomainId"],
   "content-sources": ["entityKind", "sourceId", "relationshipType", "citationLocator", "quotedText", "rightsMetadata", "displayOrder"],
   prerequisites: ["kind", "prerequisiteId", "requirement", "minimumScorePercent"],
 };
@@ -70,6 +123,8 @@ function parentField(entity: Entity): string | null {
   if (entity === "groups") return "subjectId";
   if (["lessons", "sections", "objectives"].includes(entity)) return entity === "lessons" ? "groupId" : "lessonId";
   if (entity === "questions") return "subjectId";
+  if (entity === "lesson-requirements") return "lessonId";
+  if (entity === "doctrinal-claims") return "entityId";
   if (["question-options", "question-contexts"].includes(entity)) return "questionId";
   if (entity === "content-sources") return "entityId";
   if (entity === "prerequisites") return "dependentId";
@@ -91,7 +146,7 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
   return (body && typeof body === "object" && "data" in body ? body.data : body) as T;
 }
 
-function displayName(record: CmsRecord) { return record.title || record.name || String(record.stableKey || record.code || record.label || record.slug || record.id); }
+function displayName(record: CmsRecord) { return record.title || record.name || String(record.proposition || record.requirement || record.stableKey || record.code || record.label || record.slug || record.id); }
 
 function StatusPill({ value }: { value?: string }) {
   return <span className="rounded-full border border-(--border) px-2 py-1 text-[0.68rem] font-bold uppercase tracking-wide text-(--text-muted)">{value || "draft"}</span>;
@@ -111,10 +166,31 @@ export default function LearningCms() {
   const [statusFilter, setStatusFilter] = useState("");
   const [dirty, setDirty] = useState(false);
   const [draggedId, setDraggedId] = useState<string | null>(null);
+  const [governance, setGovernance] = useState<GovernanceValidation | null>(null);
+  const [validationLoading, setValidationLoading] = useState(false);
   const importRef = useRef<HTMLInputElement>(null);
 
   const isEntity = entityTabs.includes(tab as Entity);
   const endpoint = isEntity ? `/api/v1/admin/learning/${tab}` : tab === "review" ? "/api/v1/admin/learning/workflow" : tab === "audit" ? "/api/v1/admin/learning/audit" : tab === "calendar" ? "/api/v1/admin/learning/calendar" : "";
+
+  const loadGovernance = useCallback(async (record: CmsRecord, currentTab: Tab) => {
+    const entity = governedEntityFor(currentTab, record);
+    if (!entity) {
+      setGovernance(null);
+      return;
+    }
+    setValidationLoading(true);
+    try {
+      setGovernance(await request<GovernanceValidation>(
+        `/api/v1/admin/learning/workflow/${encodeURIComponent(record.id)}/validation?entity=${entity}&forPublication=true`,
+      ));
+    } catch (cause) {
+      setGovernance(null);
+      setError(cause instanceof Error ? cause.message : "Governance validation is unavailable.");
+    } finally {
+      setValidationLoading(false);
+    }
+  }, []);
 
   const load = useCallback(async () => {
     if (!endpoint) { setRecords([]); return; }
@@ -144,9 +220,10 @@ export default function LearningCms() {
     const parent = parentField(entity);
     setForm({ id: record.id, title: String(record.title || record.name || ""), slug: String(record.slug || ""), shortDescription: String(record.shortDescription || record.description || ""), publicationStatus: String(record.status || record.publicationStatus || "draft"), visibility: String(record.visibility || "public"), displayOrder: String(record.displayOrder || 0), parentId: String(parent ? record[parent] || "" : ""), structuredContent: JSON.stringify(editableExtras(entity, record), null, 2) });
     setDirty(false); setMessage(""); setError("");
+    void loadGovernance(normalizedRecord, tab);
   };
 
-  const newRecord = () => { if (dirty && !window.confirm("Discard unsaved changes?")) return; setSelected(null); setForm(emptyForm); setDirty(false); setMessage(""); };
+  const newRecord = () => { if (dirty && !window.confirm("Discard unsaved changes?")) return; setSelected(null); setGovernance(null); setForm(emptyForm); setDirty(false); setMessage(""); };
   const updateForm = (key: keyof FormState, value: string) => { setForm((current) => ({ ...current, [key]: value })); setDirty(true); };
 
   const save = async (event: React.FormEvent) => {
@@ -168,7 +245,9 @@ export default function LearningCms() {
       if (parent) body[parent] = form.parentId || null;
       const url = selected ? `${endpoint}/${encodeURIComponent(selected.id)}` : endpoint;
       const saved = await request<CmsRecord>(url, { method: selected ? "PATCH" : "POST", headers, body: JSON.stringify(body) });
-      setSelected({ ...saved, publicationStatus: saved.status ?? saved.publicationStatus }); setDirty(false); setMessage(selected ? "Changes saved." : "Draft created."); await load();
+      const normalizedSaved = { ...saved, publicationStatus: saved.status ?? saved.publicationStatus };
+      setSelected(normalizedSaved); setDirty(false); setMessage(selected ? "Changes saved." : "Draft created."); await load();
+      void loadGovernance(normalizedSaved, tab);
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Record could not be saved."); }
     finally { setSaving(false); }
   };
@@ -189,7 +268,7 @@ export default function LearningCms() {
     const scheduledFor = action === "schedule" ? window.prompt("Schedule publication (ISO date/time):", new Date(Date.now() + 86_400_000).toISOString()) : undefined;
     if (action === "schedule" && !scheduledFor?.trim()) return;
     setSaving(true); setError("");
-    try { const headers = await csrfHeaders(); const entity = String(record.entity || record.entityKind || tab); await request(`/api/v1/admin/learning/workflow/${encodeURIComponent(record.id)}/${action}`, { method: "POST", headers, body: JSON.stringify({ comment, scheduledFor, entity }) }); setMessage(`Workflow action “${action}” completed.`); await load(); }
+    try { const headers = await csrfHeaders(); const entity = String(record.entity || record.entityKind || tab); const updated = await request<CmsRecord>(`/api/v1/admin/learning/workflow/${encodeURIComponent(record.id)}/${action}`, { method: "POST", headers, body: JSON.stringify({ comment, scheduledFor, entity }) }); const normalizedUpdated = { ...updated, publicationStatus: updated.status ?? updated.publicationStatus }; setSelected(normalizedUpdated); setMessage(`Workflow action “${action}” completed.`); await load(); void loadGovernance(normalizedUpdated, tab); }
     catch (cause) { setError(cause instanceof Error ? cause.message : "Workflow action failed."); }
     finally { setSaving(false); }
   };
@@ -231,7 +310,7 @@ export default function LearningCms() {
 
   return <main className="min-h-screen bg-(--background) p-4 text-(--text) sm:p-6 xl:p-8" id="main-content">
     <header className="flex flex-col gap-4 border-b border-(--border) pb-6 lg:flex-row lg:items-end lg:justify-between"><div><p className="eyebrow">Platform CMS</p><h1 className="editorial-heading mt-2 text-3xl font-semibold sm:text-4xl">Learning content management</h1><p className="mt-2 max-w-3xl text-sm leading-6 text-(--text-muted)">Create, review, schedule, publish, version, and archive the canonical curriculum without exposing drafts to learners or the live engine.</p></div><div className="flex flex-wrap gap-2"><Link className="btn-secondary" href="/learn" target="_blank">Preview public catalogue</Link>{isEntity ? <button className="btn-primary" type="button" onClick={newRecord}>New {tab.replace(/s$/, "")}</button> : null}</div></header>
-    <nav className="mt-5 flex gap-2 overflow-x-auto pb-2" aria-label="Learning CMS sections">{[...entityTabs, ...operationalTabs].map((item) => <button key={item} type="button" className={`min-h-10 whitespace-nowrap rounded-lg border px-3 text-sm font-semibold ${tab === item ? "border-(--gold) bg-[color-mix(in_srgb,var(--gold)_10%,transparent)] text-(--gold-hover)" : "border-(--border) text-(--text-muted)"}`} onClick={() => { if (!dirty || window.confirm("Discard unsaved changes?")) { setTab(item); setSelected(null); setForm(emptyForm); setDirty(false); setMessage(""); setError(""); } }}>{item.replace("import-export", "Import / export").replace(/-/g, " ")}</button>)}</nav>
+    <nav className="mt-5 flex gap-2 overflow-x-auto pb-2" aria-label="Learning CMS sections">{[...entityTabs, ...operationalTabs].map((item) => <button key={item} type="button" className={`min-h-10 whitespace-nowrap rounded-lg border px-3 text-sm font-semibold ${tab === item ? "border-(--gold) bg-[color-mix(in_srgb,var(--gold)_10%,transparent)] text-(--gold-hover)" : "border-(--border) text-(--text-muted)"}`} onClick={() => { if (!dirty || window.confirm("Discard unsaved changes?")) { setTab(item); setSelected(null); setGovernance(null); setForm(emptyForm); setDirty(false); setMessage(""); setError(""); } }}>{item.replace("import-export", "Import / export").replace(/-/g, " ")}</button>)}</nav>
     {message ? <div className="mt-4 rounded-lg border border-(--success) p-3 text-sm text-(--success)" role="status">{message}</div> : null}{error ? <div className="mt-4 rounded-lg border border-(--danger) p-3 text-sm text-(--danger)" role="alert">{error}</div> : null}
 
     {tab === "import-export" ? <section className="mt-6 grid gap-5 lg:grid-cols-2"><div className="surface-card p-6"><h2 className="editorial-heading text-2xl font-semibold">Portable, reviewable data</h2><p className="mt-3 text-sm leading-6 text-(--text-muted)">Export a canonical entity for review or import a validated, idempotent batch. Production content remains in PostgreSQL—not in this file.</p><div className="mt-5 flex flex-wrap gap-3"><select className="form-control max-w-52" value={transferEntity} onChange={(event) => setTransferEntity(event.target.value as Entity)}>{entityTabs.map((entity) => <option key={entity}>{entity}</option>)}</select><button className="btn-secondary" type="button" disabled={saving} onClick={() => void exportJson()}>{saving ? "Working…" : "Export JSON"}</button><label className="btn-primary cursor-pointer">Import JSON<input ref={importRef} className="sr-only" type="file" accept="application/json" onChange={(event) => { const file = event.target.files?.[0]; if (file) void importJson(file); }} /></label></div></div><div className="surface-card p-6"><h2 className="editorial-heading text-2xl font-semibold">Migration safeguards</h2><ul className="mt-4 space-y-2 text-sm leading-6 text-(--text-muted)"><li>• Stable identifiers are preserved when valid.</li><li>• Records are validated before commit.</li><li>• Published records are archived/versioned, never silently deleted.</li><li>• Original source files remain until an import report is verified.</li></ul></div></section> : null}
@@ -246,9 +325,22 @@ export default function LearningCms() {
             {hasParentField ? <label className="text-sm font-semibold">Parent UUID<input className="form-control mt-1" required value={form.parentId} onChange={(event) => updateForm("parentId", event.target.value)} /></label> : null}
             <label className="text-sm font-semibold sm:col-span-2">Additional fields JSON<textarea className="form-control mt-1 min-h-52 font-mono text-xs" value={form.structuredContent} onChange={(event) => updateForm("structuredContent", event.target.value)} spellCheck={false} /><span id="workflow-state-help" className="mt-1 block text-xs font-normal text-(--text-muted)">Use entity-specific validated fields. Publication state changes only through workflow actions.</span></label>
           </div>
+          {selected && governedEntityFor(tab, selected) ? <aside className="mt-5 rounded-lg border border-(--border) p-4" aria-live="polite">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div><p className="eyebrow">Phase 2 governance</p><h3 className="mt-1 font-semibold">Publication validation · {governance?.governanceStage?.replace(/_/g, " ") || selected.governanceStage?.replace(/_/g, " ") || "draft"}</h3></div>
+              <button className="btn-secondary" type="button" disabled={validationLoading} onClick={() => void loadGovernance(selected, tab)}>{validationLoading ? "Validating…" : "Run validation"}</button>
+            </div>
+            {governance ? <>
+              <p className={`mt-3 text-sm font-semibold ${governance.summary.errors ? "text-(--danger)" : governance.summary.warnings ? "text-(--warning)" : "text-(--success)"}`}>
+                {governance.summary.errors} blocking error(s) · {governance.summary.warnings} warning(s) · human review remains required
+              </p>
+              {governance.findings.length ? <ul className="mt-3 space-y-2">{governance.findings.map((finding) => <li className="rounded-md border border-(--border) p-3 text-sm" key={`${finding.code}:${finding.reviewStage}`}><strong className={finding.severity === "error" ? "text-(--danger)" : "text-(--warning)"}>{finding.code}</strong><span className="ml-2 text-xs uppercase text-(--text-muted)">{finding.reviewStage.replace(/_/g, " ")}</span><p className="mt-1 text-(--text-muted)">{finding.message}</p></li>)}</ul> : <p className="mt-3 text-sm text-(--success)">No machine-detectable publication blockers. Required qualified reviews still govern approval.</p>}
+              {governance.reviews.length ? <details className="mt-3"><summary className="cursor-pointer text-sm font-semibold">Current-version review trail ({governance.reviews.length})</summary><ul className="mt-2 space-y-1 text-sm text-(--text-muted)">{governance.reviews.map((review, index) => <li key={`${review.stage}:${index}`}>{review.stage.replace(/_/g, " ")} · {review.decision.replace(/_/g, " ")} · {review.reviewerRole}{review.specialism ? ` (${review.specialism})` : ""}</li>)}</ul></details> : null}
+            </> : <p className="mt-3 text-sm text-(--text-muted)">{validationLoading ? "Checking the central policy layer…" : "Run validation to inspect publication blockers."}</p>}
+          </aside> : null}
           <div className="mt-5 flex flex-wrap gap-2">
             <button className="btn-primary" type="submit" disabled={saving}>{saving ? "Saving…" : "Save draft"}</button>
-            {selected && !["prerequisites", "question-options", "question-contexts", "content-sources"].includes(editingEntity) ? <>
+            {selected && !["prerequisites", "lesson-requirements", "question-options", "question-contexts", "content-sources"].includes(editingEntity) ? <>
               {["draft", "changes_requested"].includes(selected.publicationStatus || "draft") ? <button className="btn-secondary" type="button" disabled={saving} onClick={() => void workflowAction(selected, "submit")}>Submit for review</button> : null}
               {selected.publicationStatus === "approved" ? <><button className="btn-primary" type="button" disabled={saving} onClick={() => void workflowAction(selected, "publish")}>Publish now</button><button className="btn-secondary" type="button" disabled={saving} onClick={() => void workflowAction(selected, "schedule")}>Schedule</button></> : null}
               {["published", "archived"].includes(selected.publicationStatus || "") ? <button className="btn-secondary" type="button" disabled={saving} onClick={() => void workflowAction(selected, "new-version")}>Create new version</button> : null}
@@ -257,7 +349,7 @@ export default function LearningCms() {
               {selected.slug ? <Link className="btn-quiet" target="_blank" href={editingEntity === "lessons" ? `/learn/${selected.slug}` : "/learn"}>Preview</Link> : null}
             </> : null}
           </div>
-        </form> : <div><p className="eyebrow">{tab}</p><h2 className="editorial-heading mt-2 text-2xl font-semibold">{selected ? displayName(selected) : tab === "review" ? "Review queue" : tab === "calendar" ? "Publication calendar" : "Content audit history"}</h2>{selected ? <><dl className="mt-5 grid gap-3 text-sm"><div><dt className="text-(--text-muted)">State</dt><dd className="mt-1 font-bold">{String(selected.publicationStatus || selected.reviewStatus || "draft")}</dd></div><div><dt className="text-(--text-muted)">Last updated</dt><dd className="mt-1">{selected.updatedAt ? new Date(selected.updatedAt).toLocaleString() : "Unknown"}</dd></div></dl>{tab === "review" ? <div className="mt-6 flex flex-wrap gap-2"><button className="btn-secondary" onClick={() => void workflowAction(selected, "request-changes")}>Request changes</button><button className="btn-secondary" onClick={() => void workflowAction(selected, "approve")}>Approve</button><button className="btn-primary" onClick={() => void workflowAction(selected, "publish")}>Publish</button><button className="btn-quiet" onClick={() => void workflowAction(selected, "archive")}>Archive</button></div> : null}</> : <p className="mt-4 text-sm text-(--text-muted)">Select an item to inspect its details and history.</p>}</div>}
+        </form> : <div><p className="eyebrow">{tab}</p><h2 className="editorial-heading mt-2 text-2xl font-semibold">{selected ? displayName(selected) : tab === "review" ? "Review queue" : tab === "calendar" ? "Publication calendar" : "Content audit history"}</h2>{selected ? <><dl className="mt-5 grid gap-3 text-sm"><div><dt className="text-(--text-muted)">State</dt><dd className="mt-1 font-bold">{String(selected.publicationStatus || selected.reviewStatus || "draft")}</dd></div><div><dt className="text-(--text-muted)">Last updated</dt><dd className="mt-1">{selected.updatedAt ? new Date(selected.updatedAt).toLocaleString() : "Unknown"}</dd></div></dl>{tab === "review" ? <><div className="mt-4 rounded-lg border border-(--border) p-3 text-sm"><strong>Governance stage:</strong> {String(governance?.governanceStage || selected.governanceStage || "not governed").replace(/_/g, " ")}{governance ? <span className={`ml-2 ${governance.summary.errors ? "text-(--danger)" : "text-(--success)"}`}>{governance.summary.errors} blocker(s)</span> : null}</div><div className="mt-6 flex flex-wrap gap-2">{selected.publicationStatus === "in_review" ? <><button className="btn-secondary" onClick={() => void workflowAction(selected, "request-changes")}>Request changes</button><button className="btn-secondary" onClick={() => void workflowAction(selected, "approve")}>Approve current stage</button></> : null}{selected.publicationStatus === "approved" || selected.publicationStatus === "scheduled" ? <button className="btn-primary" onClick={() => void workflowAction(selected, "publish")}>Publish</button> : null}{selected.publicationStatus === "published" && governedEntityFor(tab, selected) ? <button className="btn-secondary" onClick={() => void workflowAction(selected, "analytics-review")}>Record analytics review</button> : null}<button className="btn-quiet" onClick={() => void workflowAction(selected, "archive")}>Archive</button></div></> : null}</> : <p className="mt-4 text-sm text-(--text-muted)">Select an item to inspect its details and history.</p>}</div>}
       </section></div> : null}
   </main>;
 }

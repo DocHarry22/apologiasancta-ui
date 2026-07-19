@@ -57,7 +57,9 @@ export const adminEntityNames = [
   "groups",
   "lessons",
   "sections",
+  "lesson-requirements",
   "objectives",
+  "doctrinal-claims",
   "questions",
   "question-options",
   "question-contexts",
@@ -83,6 +85,7 @@ export const workflowActions = [
   "restore",
   "duplicate",
   "new-version",
+  "analytics-review",
 ] as const;
 
 export type WorkflowAction = (typeof workflowActions)[number];

@@ -24,7 +24,8 @@
     "cap:add:android": "cap add android",
     "cap:open:android": "cap open android",
     "apk:sync": "node scripts/sync-latest-apk.cjs",
-    "apk:release": "node scripts/build-release-apk.cjs"
+    "apk:release": "node scripts/build-release-apk.cjs",
+    "content:lint": "vitest run src/lib/learning/governance.test.ts"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.3",
