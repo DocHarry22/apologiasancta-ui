@@ -332,13 +332,18 @@ create table content.doctrinal_claims (
   qualified_reviewer_id uuid,
   review_note text,
   status content.publication_status not null default 'draft',
+  review_status content.review_status not null default 'unreviewed',
   governance_stage content.workflow_stage not null default 'draft',
   version integer not null default 1 check (version > 0),
   created_by uuid,
   updated_by uuid,
+  reviewed_by uuid,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
+  reviewed_at timestamptz,
+  scheduled_for timestamptz,
   published_at timestamptz,
+  archived_at timestamptz,
   constraint doctrinal_claim_review_check check (
     classification <> 'disputed_or_unresolved'
     or human_review_required
