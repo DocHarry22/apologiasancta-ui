@@ -42,3 +42,22 @@ jobs:
 
       - name: E2E tests
         run: npm run test:e2e
+
+
+  database-policy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v2
+        with:
+          version: 2.84.2
+          github-token: ${{ github.token }}
+
+      - name: Apply migrations to disposable database
+        run: supabase db start
+
+      - name: Run Phase 2 governance SQL regression
+        run: psql postgresql://postgres:postgres@127.0.0.1:54322/postgres --set=ON_ERROR_STOP=1 --file=supabase/tests/phase2_governance_test.sql
