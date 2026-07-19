@@ -30,6 +30,10 @@ const api28Styles = readFileSync(
   ),
   "utf8",
 );
+const apkSyncScript = readFileSync(
+  join(repositoryRoot, "scripts", "sync-latest-apk.cjs"),
+  "utf8",
+);
 
 test("Android debug CI installs the pinned SDK and validates the APK without secrets", () => {
   assert.match(debugWorkflow, /pull_request:\s*\n\s+branches: \[main\]/);
@@ -107,4 +111,11 @@ test("Capacitor Java 21 compatibility is not downgraded in Gradle", () => {
 test("display-cutout styling is limited to Android API 28 and newer", () => {
   assert.doesNotMatch(baseStyles, /windowLayoutInDisplayCutoutMode/);
   assert.match(api28Styles, /windowLayoutInDisplayCutoutMode/);
+});
+
+test("public APK sync rejects debug-signed build artifacts", () => {
+  assert.match(apkSyncScript, /jarsigner/);
+  assert.match(apkSyncScript, /CN=Android Debug/);
+  assert.match(apkSyncScript, /Refusing to publish an APK signed with the Android debug certificate/);
+  assert.doesNotMatch(apkSyncScript, /outputs", "apk", "debug"/);
 });

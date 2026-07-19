@@ -149,7 +149,7 @@ The repository includes Capacitor scaffolding and a generated Android project.
 # Sync web assets/config into Android
 npm run cap:sync
 
-# Copy the newest local APK into public/downloads and ../release-artifacts
+# Verify and copy the newest production-signed APK into public/downloads and ../release-artifacts
 npm run apk:sync
 
 # Add Android platform if needed
@@ -160,7 +160,7 @@ npm run cap:open:android
 ```
 
 The native shell points at the deployed web app URL configured by `CAPACITOR_SERVER_URL` or `NEXT_PUBLIC_APP_URL`.
-When you update APK files locally, run `npm run apk:sync` before pushing so the latest APK filenames are refreshed for release packaging.
+When you update APK files locally, run `npm run apk:sync` before pushing so the latest production-signed APK filenames are refreshed for release packaging. The sync command rejects Android debug certificates.
 
 ## Mobile Play Flow
 
