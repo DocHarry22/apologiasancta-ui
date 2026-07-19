@@ -5,22 +5,22 @@ create policy learner_profiles_select_own
   on public.learner_profiles
   for select
   to authenticated
-  using (user_id = (select auth.uid()));
+  using (auth_user_id = (select auth.uid()));
 
 drop policy if exists learner_profiles_insert_own on public.learner_profiles;
 create policy learner_profiles_insert_own
   on public.learner_profiles
   for insert
   to authenticated
-  with check (user_id = (select auth.uid()));
+  with check (auth_user_id = (select auth.uid()));
 
 drop policy if exists learner_profiles_update_own on public.learner_profiles;
 create policy learner_profiles_update_own
   on public.learner_profiles
   for update
   to authenticated
-  using (user_id = (select auth.uid()))
-  with check (user_id = (select auth.uid()));
+  using (auth_user_id = (select auth.uid()))
+  with check (auth_user_id = (select auth.uid()));
 
 create index if not exists content_sources_source_id_idx on content.content_sources (source_id);
 create index if not exists group_prerequisites_prerequisite_group_id_idx on content.group_prerequisites (prerequisite_group_id);
