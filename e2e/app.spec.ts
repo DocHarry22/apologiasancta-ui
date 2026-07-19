@@ -225,7 +225,7 @@ test("admin security behavior is enforced in browser context", async ({ page }) 
   expect(adminRequests).toEqual([]);
 });
 
-test("authoring workflow rejects duplicate IDs, invalid submissions, and empty rejection comments", async ({ page }) => {
+test("authoring workflow rejects duplicate IDs, invalid submissions, and self-review", async ({ page }) => {
   await page.goto("/admin/login");
   await page.getByLabel(/email/i).fill("admin@example.test");
   await page.getByLabel("Password", { exact: true }).fill("test-author-password");
@@ -245,6 +245,7 @@ test("authoring workflow rejects duplicate IDs, invalid submissions, and empty r
     correctId: "A",
     teaching: { title: "The eternal Word", body: "John identifies Christ as the eternal Word.", refs: ["John 1:1"] },
     tags: ["christology"],
+    sourceReferences: [{ kind: "scripture", citation: "John 1:1" }],
   };
 
   const statuses = await page.evaluate(async ({ question, invalidId }) => {
@@ -285,10 +286,10 @@ test("authoring workflow rejects duplicate IDs, invalid submissions, and empty r
     duplicate: 409,
     invalid: 400,
     submitted: 201,
-    rejected: 400,
-    approved: 200,
-    publish: 502,
-    statusAfterFailedPublish: "approved",
+    rejected: 403,
+    approved: 403,
+    publish: 409,
+    statusAfterFailedPublish: "submitted",
   });
 });
 

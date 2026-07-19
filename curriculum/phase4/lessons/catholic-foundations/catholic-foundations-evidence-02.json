@@ -1,0 +1,338 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.catholic-foundations.evidence.02",
+  "phase3LessonId": "les.catholic-foundations.evidence.02",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.catholic-foundations",
+  "groupId": "grp.catholic-foundations.evidence",
+  "title": "Creed, Worship, Life, and Prayer as One Whole",
+  "slug": "catholic-foundations-evidence-02",
+  "centralQuestion": "How do belief, worship, moral life, and prayer provide mutually supporting evidence for the coherence of Catholic faith?",
+  "learningObjectives": [
+    "Explain how Creed, sacraments, moral life, and prayer interpret and test one another.",
+    "Distinguish a cumulative Catholic case from a single proof-text or isolated historical argument.",
+    "Construct a simple four-dimensional evidence map for one Catholic claim."
+  ],
+  "shortDirectAnswer": "Catholic faith is presented as a lived whole: what the Church believes identifies the God she worships; sacramental worship enacts the mystery confessed; moral life shows the human shape of grace; and prayer expresses communion with God. Their convergence does not remove the need to test particular claims, but it gives a richer cumulative case than any isolated citation.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The whole life of faith bears witness"
+    },
+    {
+      "type": "paragraph",
+      "text": "A creed can be recited without being understood, a ritual can be performed without conversion, and a moral ideal can be admired without grace. Catholic formation therefore does not treat one dimension as self-sufficient. Apostolic teaching, sacramental communion, shared life, and prayer appear together in Acts, and the Catechism deliberately preserves that integration.",
+      "sourceIds": [
+        "src.scripture.acts-2",
+        "src.ccc.main"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "A cumulative case uses different kinds of evidence"
+    },
+    {
+      "type": "paragraph",
+      "text": "Scriptural exegesis asks what a text means in its literary and canonical context. Historical study asks what communities believed and practiced and how sources should be weighed. Doctrinal reasoning asks how claims cohere with the whole deposit. Liturgy and sanctity are not shortcuts around those tasks, but they are relevant evidence about how the faith has been received and embodied.",
+      "sourceIds": [
+        "src.vatican2.dei-verbum",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.didache"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Convergence is not immunity from criticism"
+    },
+    {
+      "type": "paragraph",
+      "text": "A coherent Catholic pattern does not make every Catholic person's conduct coherent, nor does devotional popularity prove divine revelation. Each claim still needs evidence and classification. The cumulative approach is disciplined when it states what each source can establish, acknowledges tensions, and avoids making a practice carry more weight than it can bear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.scripture.james-1"
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "Appealing to Catholic worship and life is circular: Catholic practices cannot serve as evidence for doctrines that supposedly justify those same practices.",
+      "fairRepresentation": "The objection is correct when an argument simply assumes that every Catholic practice is apostolic or that coherence equals truth. It presses Catholics to offer external textual and historical evidence and to distinguish ancient reception from later custom.",
+      "response": "A cumulative case need not treat practice as self-authenticating. Scripture, historical testimony, doctrinal continuity, worship, and moral fruit ask partly different questions and can correct one another. Liturgical practice may show early reception; it cannot alone prove every later formulation. Moral failure can discredit a witness without logically falsifying the Creed. The Catholic case is strongest when the limits of each line are stated and the lines genuinely converge.",
+      "sourceIds": [
+        "src.scripture.acts-2",
+        "src.scripture.romans-12",
+        "src.scripture.james-1",
+        "src.scripture.colossians-3",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.didache"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.catholic-foundations.foundations.02",
+        "les.catholic-foundations.evidence.01",
+        "les.catholic-foundations.objections.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "historical",
+        "eucharist"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Cumulative case",
+      "definition": "An argument in which several relevant and partly independent lines of evidence converge toward a conclusion.",
+      "sourceIds": [
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "term": "Lex orandi",
+      "definition": "A shorthand for the Church's rule or pattern of prayer, considered in relation to the faith she professes and the life she lives.",
+      "sourceIds": [
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "term": "Coherence",
+      "definition": "The fitting consistency and mutual illumination of claims within the whole faith; coherence supports but does not by itself prove every claim.",
+      "sourceIds": [
+        "src.ccc.main"
+      ]
+    },
+    {
+      "term": "Embodied witness",
+      "definition": "The expression of professed faith through worship, virtue, communal practice, and concrete action.",
+      "sourceIds": [
+        "src.scripture.james-1",
+        "src.scripture.romans-12"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Acts 2:37-47",
+      "paraphrase": "The baptized community holds together apostolic teaching, communion, breaking of bread, prayer, care for needs, and public witness.",
+      "sourceId": "src.scripture.acts-2",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Romans 12:1-2",
+      "paraphrase": "Paul describes embodied self-offering and renewed discernment as fitting worship.",
+      "sourceId": "src.scripture.romans-12",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "James 1:22-27",
+      "paraphrase": "Hearing God's word must issue in action, disciplined speech, mercy, and holiness rather than self-deception.",
+      "sourceId": "src.scripture.james-1",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Colossians 3:12-17",
+      "paraphrase": "Doctrine, virtue, worship, gratitude, and ordinary action are integrated under the lordship of Christ.",
+      "sourceId": "src.scripture.colossians-3",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 13-17",
+      "summary": "The four-part organization itself witnesses to the interdependence of profession, celebration, moral life, and prayer.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1066-1075",
+      "summary": "The sacramental economy is rooted in the Paschal Mystery confessed by the Church.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1691-1698",
+      "summary": "Christian morality is presented as grace-enabled life in Christ rather than an independent ethics system.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "Sacrosanctum Concilium 10",
+      "summary": "The council relates liturgical worship to the Church's entire activity and mission.",
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "Dei Verbum 8",
+      "summary": "The council describes apostolic Tradition as developing in the Church's contemplation, study, lived understanding, and preaching.",
+      "sourceId": "src.vatican2.dei-verbum",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Very early Christian sources combine instruction, worship, moral demands, and community practice, giving historical evidence against treating these as late, unrelated additions.",
+    "items": [
+      {
+        "summary": "The Didache moves between the way of life, baptism, fasting, prayer, Eucharistic practice, and community discipline.",
+        "sourceId": "src.didache",
+        "locator": "Didache 1-4; 7-10; 14"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "What each dimension contributes",
+      "columns": [
+        "Term",
+        "Meaning",
+        "Why it matters"
+      ],
+      "rows": [
+        [
+          "Creed",
+          "Identifies the God, events, and promises confessed",
+          "Supplies doctrinal content and guards worship from ambiguity"
+        ],
+        [
+          "Sacramental worship",
+          "Enacts and receives the saving mystery ecclesially",
+          "Displays how doctrine is prayed and celebrated"
+        ],
+        [
+          "Moral life",
+          "Shows the human action and character grace is ordered to produce",
+          "Tests empty profession without making holiness a private achievement"
+        ],
+        [
+          "Prayer",
+          "Expresses dependence, praise, repentance, petition, and communion",
+          "Reveals faith's personal and relational end"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "Appealing to Catholic worship and life is circular: Catholic practices cannot serve as evidence for doctrines that supposedly justify those same practices.",
+  "opposingPosition": "The objection is correct when an argument simply assumes that every Catholic practice is apostolic or that coherence equals truth. It presses Catholics to offer external textual and historical evidence and to distinguish ancient reception from later custom.",
+  "catholicResponse": "A cumulative case need not treat practice as self-authenticating. Scripture, historical testimony, doctrinal continuity, worship, and moral fruit ask partly different questions and can correct one another. Liturgical practice may show early reception; it cannot alone prove every later formulation. Moral failure can discredit a witness without logically falsifying the Creed. The Catholic case is strongest when the limits of each line are stated and the lines genuinely converge.",
+  "commonMistakes": [
+    "Treating coherence as a substitute for historical or exegetical evidence.",
+    "Assuming every old practice is apostolic.",
+    "Arguing that a saint's holiness proves every contested Catholic claim.",
+    "Using Christian moral failure as if it were irrelevant to witness.",
+    "Collecting citations without explaining how they support the conclusion."
+  ],
+  "practicalSpiritualApplication": "Choose one belief such as the Resurrection. Make four notes: how it is professed, celebrated, lived, and prayed. Then add the independent scriptural and historical questions that still need to be answered.",
+  "summary": "Catholic evidence is cumulative and embodied. Creed, sacraments, moral life, and prayer mutually illuminate the one mystery of Christ, while Scripture, history, and careful reasoning test particular claims. Convergence is valuable only when each source's proper weight and limits are respected.",
+  "reviewPrompts": [
+    "What makes an argument cumulative rather than merely repetitive?",
+    "How can worship be relevant evidence without becoming self-authenticating?",
+    "What limitation belongs to each of the four dimensions?"
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.catholic-foundations.evidence.02.01",
+      "format": "scenario",
+      "promptIntent": "Build a four-dimensional evidence map without overstating any source.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.catholic-foundations.evidence.02.02",
+      "format": "true_false",
+      "promptIntent": "Distinguish coherence, historical evidence, and proof.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.acts-2",
+      "locator": "Acts 2:37-47",
+      "use": "Integrated apostolic community"
+    },
+    {
+      "sourceId": "src.scripture.romans-12",
+      "locator": "Romans 12:1-2",
+      "use": "Embodied worship and transformation"
+    },
+    {
+      "sourceId": "src.scripture.james-1",
+      "locator": "James 1:22-27",
+      "use": "Hearing joined to action"
+    },
+    {
+      "sourceId": "src.scripture.colossians-3",
+      "locator": "Colossians 3:12-17",
+      "use": "Virtue, teaching, worship, and action in Christ"
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 13-17; 1066-1075; 1691-1698",
+      "use": "Four-part unity and life in Christ"
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "Section 8",
+      "use": "Living reception of apostolic Tradition"
+    },
+    {
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "locator": "Section 10",
+      "use": "Liturgy within the Church's whole life"
+    },
+    {
+      "sourceId": "src.didache",
+      "locator": "Chapters 1-4; 7-10; 14",
+      "use": "Early integrated Christian practice"
+    }
+  ],
+  "relatedLessonIds": [
+    "les.catholic-foundations.foundations.02",
+    "les.catholic-foundations.evidence.01",
+    "les.catholic-foundations.objections.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "historical",
+      "eucharist"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine",
+      "historical_claim",
+      "philosophical_claim"
+    ],
+    "comparativeTraditions": [],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-19"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.catholic-foundations.01",
+    "batchOrder": 6,
+    "contentHash": "41ae02a0524fa58037e0d2840e50d312c9817a0af7b2d96dfaceb2c00124f892",
+    "approximateWordCount": 1544
+  }
+}

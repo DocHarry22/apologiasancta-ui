@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "as.phase4.review-queue.catholic-foundations.01",
+  "status": "active",
+  "generatedOn": "2026-07-19",
+  "submissionMode": "local_draft_queue",
+  "publicationEffect": "none",
+  "workflowLimitation": "The implemented editorial workflow is question-specific. Lesson drafts are queued locally until a lesson-review persistence model is approved.",
+  "items": [
+    {
+      "stableId": "review.les.catholic-foundations.foundations.01.r1",
+      "lessonId": "les.catholic-foundations.foundations.01",
+      "contentHash": "cef9d232c2b802fc5931a60425116ea4272f42b0d350b3eb16bf90733517bad4",
+      "revision": 1,
+      "status": "awaiting_assignment",
+      "requiredReviewRoles": [
+        "doctrinal_reviewer",
+        "source_editor",
+        "instructional_editor",
+        "licensing_reviewer"
+      ],
+      "assignedReviewers": [],
+      "gates": {
+        "automatedStructure": "pending_validation",
+        "citationResolution": "pending_validation",
+        "doctrinalClassification": "pending_human_review",
+        "comparativeFairness": "not_applicable",
+        "scriptureLicence": "pending_policy_approval",
+        "finalApproval": "pending_human_review"
+      }
+    },
+    {
+      "stableId": "review.les.catholic-foundations.foundations.02.r1",
+      "lessonId": "les.catholic-foundations.foundations.02",
+      "contentHash": "68d3c1aa25f0e9d871634902bde9bf87679955c5a457f096dfa781e416da5430",
+      "revision": 1,
+      "status": "awaiting_assignment",
+      "requiredReviewRoles": [
+        "doctrinal_reviewer",
+        "source_editor",
+        "instructional_editor",
+        "licensing_reviewer"
+      ],
+      "assignedReviewers": [],
+      "gates": {
+        "automatedStructure": "pending_validation",
+        "citationResolution": "pending_validation",
+        "doctrinalClassification": "pending_human_review",
+        "comparativeFairness": "not_applicable",
+        "scriptureLicence": "pending_policy_approval",
+        "finalApproval": "pending_human_review"
+      }
+    },
+    {
+      "stableId": "review.les.catholic-foundations.distinctions.01.r1",
+      "lessonId": "les.catholic-foundations.distinctions.01",
+      "contentHash": "5bb4cab10b58a165bfa307514cf190ef72d5bc4f6a9a5d14b5a4103c521b4fd4",
+      "revision": 1,
+      "status": "awaiting_assignment",
+      "requiredReviewRoles": [
+        "doctrinal_reviewer",
+        "source_editor",
+        "instructional_editor",
+        "licensing_reviewer"
+      ],
+      "assignedReviewers": [],
+      "gates": {
+        "automatedStructure": "pending_validation",
+        "citationResolution": "pending_validation",
+        "doctrinalClassification": "pending_human_review",
+        "comparativeFairness": "not_applicable",
+        "scriptureLicence": "pending_policy_approval",
+        "finalApproval": "pending_human_review"
+      }
+    },
+    {
+      "stableId": "review.les.catholic-foundations.distinctions.02.r1",
+      "lessonId": "les.catholic-foundations.distinctions.02",
+      "contentHash": "fe4cb9352c5f8e5c9f0049753e23ad837ab7d1901f8493fb2fcbcde9cb2ad2c8",
+      "revision": 1,
+      "status": "awaiting_assignment",
+      "requiredReviewRoles": [
+        "doctrinal_reviewer",
+        "source_editor",
+        "instructional_editor",
+        "licensing_reviewer"
+      ],
+      "assignedReviewers": [],
+      "gates": {
+        "automatedStructure": "pending_validation",
+        "citationResolution": "pending_validation",
+        "doctrinalClassification": "pending_human_review",
+        "comparativeFairness": "not_applicable",
+        "scriptureLicence": "pending_policy_approval",
+        "finalApproval": "pending_human_review"
+      }
+    },
+    {
+      "stableId": "review.les.catholic-foundations.evidence.01.r1",
+      "lessonId": "les.catholic-foundations.evidence.01",
+      "contentHash": "ed5511bcca85166590b4711e1952d4441fa1043317dadcfb05ae117e3b3ed604",
+      "revision": 1,
+      "status": "awaiting_assignment",
+      "requiredReviewRoles": [
+        "doctrinal_reviewer",
+        "source_editor",
+        "instructional_editor",
+        "licensing_reviewer"
+      ],
+      "assignedReviewers": [],
+      "gates": {
+        "automatedStructure": "pending_validation",
+        "citationResolution": "pending_validation",
+        "doctrinalClassification": "pending_human_review",
+        "comparativeFairness": "pending_human_review",
+        "scriptureLicence": "pending_policy_approval",
+        "finalApproval": "pending_human_review"
+      }
+    },
+    {
+      "stableId": "review.les.catholic-foundations.evidence.02.r1",
+      "lessonId": "les.catholic-foundations.evidence.02",
+      "contentHash": "41ae02a0524fa58037e0d2840e50d312c9817a0af7b2d96dfaceb2c00124f892",
+      "revision": 1,
+      "status": "awaiting_assignment",
+      "requiredReviewRoles": [
+        "doctrinal_reviewer",
+        "source_editor",
+        "instructional_editor",
+        "licensing_reviewer"
+      ],
+      "assignedReviewers": [],
+      "gates": {
+        "automatedStructure": "pending_validation",
+        "citationResolution": "pending_validation",
+        "doctrinalClassification": "pending_human_review",
+        "comparativeFairness": "not_applicable",
+        "scriptureLicence": "pending_policy_approval",
+        "finalApproval": "pending_human_review"
+      }
+    },
+    {
+      "stableId": "review.les.catholic-foundations.objections.01.r1",
+      "lessonId": "les.catholic-foundations.objections.01",
+      "contentHash": "1e76b851288914b89fcf249751fbb0150c0f15ddc7f2dfc9056036558e5ce544",
+      "revision": 1,
+      "status": "awaiting_assignment",
+      "requiredReviewRoles": [
+        "doctrinal_reviewer",
+        "source_editor",
+        "instructional_editor",
+        "licensing_reviewer"
+      ],
+      "assignedReviewers": [],
+      "gates": {
+        "automatedStructure": "pending_validation",
+        "citationResolution": "pending_validation",
+        "doctrinalClassification": "pending_human_review",
+        "comparativeFairness": "not_applicable",
+        "scriptureLicence": "pending_policy_approval",
+        "finalApproval": "pending_human_review"
+      }
+    },
+    {
+      "stableId": "review.les.catholic-foundations.objections.02.r1",
+      "lessonId": "les.catholic-foundations.objections.02",
+      "contentHash": "13446a0933941298958b99e3b5828c6b68d3f542548ec2c46df6494ea5aab3d6",
+      "revision": 1,
+      "status": "awaiting_assignment",
+      "requiredReviewRoles": [
+        "doctrinal_reviewer",
+        "source_editor",
+        "instructional_editor",
+        "licensing_reviewer"
+      ],
+      "assignedReviewers": [],
+      "gates": {
+        "automatedStructure": "pending_validation",
+        "citationResolution": "pending_validation",
+        "doctrinalClassification": "pending_human_review",
+        "comparativeFairness": "not_applicable",
+        "scriptureLicence": "pending_policy_approval",
+        "finalApproval": "pending_human_review"
+      }
+    },
+    {
+      "stableId": "review.les.catholic-foundations.synthesis.01.r1",
+      "lessonId": "les.catholic-foundations.synthesis.01",
+      "contentHash": "34c0a2d554fb896cc00cce87428c89413fc6e8e42de39bde0db249b878cc47d2",
+      "revision": 1,
+      "status": "awaiting_assignment",
+      "requiredReviewRoles": [
+        "doctrinal_reviewer",
+        "source_editor",
+        "instructional_editor",
+        "licensing_reviewer"
+      ],
+      "assignedReviewers": [],
+      "gates": {
+        "automatedStructure": "pending_validation",
+        "citationResolution": "pending_validation",
+        "doctrinalClassification": "pending_human_review",
+        "comparativeFairness": "not_applicable",
+        "scriptureLicence": "pending_policy_approval",
+        "finalApproval": "pending_human_review"
+      }
+    },
+    {
+      "stableId": "review.les.catholic-foundations.synthesis.02.r1",
+      "lessonId": "les.catholic-foundations.synthesis.02",
+      "contentHash": "abfc795785c3af8fa5dd193954cefbdc1c3aa43d88ecf95876f624d6541f4f55",
+      "revision": 1,
+      "status": "awaiting_assignment",
+      "requiredReviewRoles": [
+        "doctrinal_reviewer",
+        "source_editor",
+        "instructional_editor",
+        "licensing_reviewer"
+      ],
+      "assignedReviewers": [],
+      "gates": {
+        "automatedStructure": "pending_validation",
+        "citationResolution": "pending_validation",
+        "doctrinalClassification": "pending_human_review",
+        "comparativeFairness": "not_applicable",
+        "scriptureLicence": "pending_policy_approval",
+        "finalApproval": "pending_human_review"
+      }
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import { appendAuditEvent } from "./storage/auditStore";
 import type { Role } from "@/lib/auth/roles";
 import type { Question } from "@/types/content";
 import type { ContentImportResponse } from "@/lib/engineAdmin";
+import { getEditorialEngineTimeoutMs } from "./editorialWorkflow";
 
 // ---------------------------------------------------------------------------
 // Engine config helpers (server-side only)
@@ -31,7 +32,7 @@ export type EnginePublishResult =
   | { ok: true; data: ContentImportResponse }
   | { ok: false; status: number; error: string };
 
-export async function publishQuestionToEngine(question: Question): Promise<EnginePublishResult> {
+export async function publishQuestionToEngine(question: Question, idempotencyKey: string): Promise<EnginePublishResult> {
   const engineUrl = getEngineBaseUrl();
   const adminToken = getAdminToken();
   if (!engineUrl || !adminToken) {
@@ -48,12 +49,15 @@ export async function publishQuestionToEngine(question: Question): Promise<Engin
   try {
     const response = await fetch(url, {
       method: "POST",
+      signal: AbortSignal.timeout(getEditorialEngineTimeoutMs()),
       headers: {
         "Content-Type": "application/json",
         "x-admin-token": adminToken,
+        "Idempotency-Key": idempotencyKey,
       },
       body: JSON.stringify({
         questions: [question],
+        idempotencyKey,
         commitToGitHub: false,
         refreshActivePool: false,
         commitMessage: `Publish approved question ${question.id}`,
@@ -71,7 +75,10 @@ export async function publishQuestionToEngine(question: Question): Promise<Engin
       return { ok: false, status: 502, error: "Live Engine did not confirm the published question ID." };
     }
     return { ok: true, data };
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError")) {
+      return { ok: false, status: 504, error: "Live Engine publishing timed out." };
+    }
     return { ok: false, status: 502, error: "Live Engine is unreachable." };
   }
 }
@@ -348,6 +355,38 @@ export async function proxyAdminRequest(
   }
   const currentUser = await getCurrentUser(session.userId);
   const requiredPermission = requiredPermissionForRoute(joinedPath, request.method);
+
+  if (joinedPath === "content/import" && request.method === "POST") {
+    const emergencyImportEnabled = process.env.EDITORIAL_EMERGENCY_IMPORT_ENABLED === "true";
+    if (!emergencyImportEnabled || currentUser.role !== "super_admin") {
+      auditLog({
+        method: request.method,
+        path: joinedPath,
+        ip,
+        outcome: "blocked_forbidden",
+        statusCode: 403,
+        reason: emergencyImportEnabled ? "emergency import requires super_admin" : "direct import disabled by editorial gate",
+        userId: currentUser.id,
+        role: currentUser.role,
+      });
+      await appendAuditEvent({
+        actor: currentUser,
+        eventType: "admin.proxy_blocked",
+        action: "Direct Engine content import blocked by editorial gate",
+        resourceType: "engine_content",
+        method: request.method,
+        path: joinedPath,
+        status: "blocked",
+        blockedBy: emergencyImportEnabled ? "super_admin_required" : "editorial_workflow_required",
+        ip,
+        severity: "warning",
+      });
+      return NextResponse.json(
+        { success: false, error: "Direct content import is disabled. Submit sourced drafts through the human review workflow." },
+        { status: 403 }
+      );
+    }
+  }
 
   if (!hasPermission(currentUser.role, requiredPermission)) {
     auditLog({

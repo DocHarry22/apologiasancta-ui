@@ -18,6 +18,9 @@ export type WorkflowEventType =
   | "archived"
   | "comment_added";
 
+import type { EditorialSourceReference } from "@/types/content";
+import type { WorkflowReviewerAttestation, WorkflowRevisionSnapshot } from "@/lib/editorialPolicy";
+
 export interface ReviewComment {
   id: string;
   authorId: string;
@@ -27,6 +30,10 @@ export interface ReviewComment {
   createdAt: string;
   doctrinalFlag?: boolean;
   referenceFlag?: boolean;
+  decision?: "approved" | "rejected" | "changes_requested";
+  revisionId?: string;
+  contentHash?: string;
+  attestation?: WorkflowReviewerAttestation;
 }
 
 export interface DraftQuestion {
@@ -47,6 +54,7 @@ export interface DraftQuestion {
     refs: string[];
   };
   tags: string[];
+  sourceReferences?: EditorialSourceReference[];
   status: ReviewStatus;
   authorId: string;
   authorName?: string;
@@ -61,11 +69,21 @@ export interface DraftQuestion {
   reviewComments: ReviewComment[];
   validationIssues: string[];
   version: number;
+  revisionNumber?: number;
+  currentRevisionId?: string;
+  contentHash?: string;
+  changesRequestedRevisionId?: string;
+  changesRequestedContentHash?: string;
+  approvedRevisionId?: string;
+  approvedContentHash?: string;
+  approvalAttestation?: WorkflowReviewerAttestation;
+  revisions?: WorkflowRevisionSnapshot[];
   questionId?: string;
   doctrinalFlags?: string[];
   referenceFlags?: string[];
   history?: ContentWorkflowEvent[];
   publishTarget?: "workflow_store" | "engine";
+  publicationIdempotencyKey?: string;
 }
 
 export interface ReviewSubmission {

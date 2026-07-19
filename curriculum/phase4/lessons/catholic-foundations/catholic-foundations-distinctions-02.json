@@ -1,0 +1,321 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.catholic-foundations.distinctions.02",
+  "phase3LessonId": "les.catholic-foundations.distinctions.02",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.catholic-foundations",
+  "groupId": "grp.catholic-foundations.distinctions",
+  "title": "The Hierarchy of Truths and Doctrinal Proportion",
+  "slug": "catholic-foundations-distinctions-02",
+  "centralQuestion": "What does the Catholic 'hierarchy of truths' mean, and what does it not mean?",
+  "learningObjectives": [
+    "Define the hierarchy of truths as an ordering by relationship to the foundation of Christian faith.",
+    "Distinguish doctrinal centrality from truth, certainty, and the obligation of assent.",
+    "Use doctrinal proportion in catechesis without suppressing difficult teachings."
+  ],
+  "shortDirectAnswer": "The hierarchy of truths means that Catholic doctrines have different relationships to the foundation of Christian faith in the Trinity and Christ's saving mystery. It does not mean that some revealed truths are false, dispensable, or open to denial.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "An order within one faith"
+    },
+    {
+      "type": "paragraph",
+      "text": "Catholic doctrine is an organic whole, yet not every doctrine functions as the immediate centre of every explanation. The Trinity, Incarnation, and Paschal Mystery illuminate teachings about grace, Church, sacraments, morality, prayer, and final destiny. The hierarchy is therefore relational: it asks how a teaching connects to the foundation and how it helps disclose the saving mystery.",
+      "sourceIds": [
+        "src.ccc.interpretation",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Centrality is not a truth-value scale"
+    },
+    {
+      "type": "paragraph",
+      "text": "A doctrine does not become less true because it is less foundational. Nor does 'pastoral' communication permit concealment or contradiction. Proportion governs sequence, emphasis, and connection. The central proclamation should remain visible, while the full faith is taught in an ordered way appropriate to the learner and question.",
+      "sourceIds": [
+        "src.francis.evangelii-gaudium",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Why apologists need proportion"
+    },
+    {
+      "type": "paragraph",
+      "text": "Controversy naturally magnifies disputed issues. An apologist can spend hours on a Marian title, a disciplinary scandal, or a difficult historical episode without ever explaining the triune God or Christ's victory. The solution is not to evade the dispute but to locate it: state the Catholic claim accurately, its level, its link to more central mysteries, and the evidence appropriate to it.",
+      "sourceIds": [
+        "src.ccc.interpretation",
+        "src.francis.evangelii-gaudium"
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "If all defined dogmas are binding, speaking of a hierarchy either changes nothing or quietly licenses Catholics to ignore unpopular doctrines.",
+      "fairRepresentation": "The objection correctly separates binding authority from rhetorical preference. It resists using 'central' as a synonym for 'the only thing that matters.'",
+      "response": "The hierarchy answers a different question from the degree of assent. It maps relationship to the foundation and therefore matters greatly for explanation, ecumenical dialogue, curriculum order, and spiritual integration. It never grants permission to deny a truth. Instead, it helps show why a teaching belongs and prevents it from appearing as an isolated burden.",
+      "sourceIds": [
+        "src.scripture.1-corinthians-15",
+        "src.scripture.matthew-28",
+        "src.scripture.ephesians-4",
+        "src.ccc.interpretation",
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio",
+        "src.francis.evangelii-gaudium",
+        "src.cyril.catechetical-lectures"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.catholic-foundations.distinctions.01",
+        "les.catholic-foundations.synthesis.01",
+        "les.trinity.foundations.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "trinity",
+        "christology"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Hierarchy of truths",
+      "definition": "The ordering of doctrines according to their differing relationships to the foundation of Christian faith.",
+      "sourceIds": [
+        "src.vatican2.unitatis-redintegratio",
+        "src.ccc.interpretation"
+      ]
+    },
+    {
+      "term": "Doctrinal proportion",
+      "definition": "Presenting each teaching with emphasis, sequence, and context suited to its place within the whole Gospel.",
+      "sourceIds": [
+        "src.francis.evangelii-gaudium"
+      ]
+    },
+    {
+      "term": "Organic unity",
+      "definition": "The mutual connection of the mysteries of faith within the one saving plan of God.",
+      "sourceIds": [
+        "src.ccc.interpretation"
+      ]
+    },
+    {
+      "term": "Foundation",
+      "definition": "Here, the triune God and the saving mystery of Christ from which other teachings receive their Christian meaning and connection.",
+      "sourceIds": [
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "1 Corinthians 15:1-5",
+      "paraphrase": "Paul can transmit a broad apostolic teaching while marking Christ's death and resurrection as matters of first importance.",
+      "sourceId": "src.scripture.1-corinthians-15",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 28:18-20",
+      "paraphrase": "Christian initiation and mission are explicitly ordered to the Father, Son, and Holy Spirit and to the whole teaching of Christ.",
+      "sourceId": "src.scripture.matthew-28",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 4:1-16",
+      "paraphrase": "Paul joins one faith and baptism to growth into the fullness of Christ, holding unity and maturation together.",
+      "sourceId": "src.scripture.ephesians-4",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 90",
+      "summary": "The Catechism states that a hierarchy exists because doctrines differ in their relationship to the foundation of Christian faith.",
+      "sourceId": "src.ccc.interpretation",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "Unitatis Redintegratio 11",
+      "summary": "The council asks Catholic explanation, especially in ecumenical dialogue, to observe the hierarchy of truths while expressing the full faith.",
+      "sourceId": "src.vatican2.unitatis-redintegratio",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "Evangelii Gaudium 34-39",
+      "summary": "Francis applies hierarchy and proportion to evangelizing proclamation so that secondary emphases do not eclipse the Gospel's heart.",
+      "sourceId": "src.francis.evangelii-gaudium",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 234",
+      "summary": "The Catechism identifies the mystery of the Most Holy Trinity as central to Christian faith and life.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "The Church's creedal practice shows an ordered summary of the whole faith around the triune God and Christ's saving work.",
+    "items": [
+      {
+        "summary": "Cyril explains the Creed as a concise, ordered presentation for catechumens rather than an exhaustive replacement for Scripture.",
+        "sourceId": "src.cyril.catechetical-lectures",
+        "locator": "Catechetical Lecture 5"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Questions the hierarchy does and does not answer",
+      "columns": [
+        "Term",
+        "Meaning",
+        "Why it matters"
+      ],
+      "rows": [
+        [
+          "Centrality",
+          "How directly a doctrine relates to the foundation",
+          "Guides order and emphasis"
+        ],
+        [
+          "Truth",
+          "Whether the claim corresponds to reality and revelation",
+          "A less central doctrine is not thereby less true"
+        ],
+        [
+          "Certainty or authority",
+          "How the claim is taught and what assent it requires",
+          "Must be assessed by its own doctrinal status"
+        ],
+        [
+          "Pastoral sequence",
+          "When and how to introduce a teaching",
+          "Can adapt to learners without falsifying content"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "If all defined dogmas are binding, speaking of a hierarchy either changes nothing or quietly licenses Catholics to ignore unpopular doctrines.",
+  "opposingPosition": "The objection correctly separates binding authority from rhetorical preference. It resists using 'central' as a synonym for 'the only thing that matters.'",
+  "catholicResponse": "The hierarchy answers a different question from the degree of assent. It maps relationship to the foundation and therefore matters greatly for explanation, ecumenical dialogue, curriculum order, and spiritual integration. It never grants permission to deny a truth. Instead, it helps show why a teaching belongs and prevents it from appearing as an isolated burden.",
+  "commonMistakes": [
+    "Calling secondary truths optional or merely symbolic.",
+    "Confusing hierarchy with a ranking of certainty.",
+    "Using a difficult secondary controversy as the first explanation of Catholicism.",
+    "Invoking the Gospel centre to avoid answering a legitimate doctrinal question."
+  ],
+  "practicalSpiritualApplication": "Take one Catholic teaching you find difficult. Draw a three-step chain from that teaching to Christ's saving work and the Trinity. If a link is weak, note the missing concept for study rather than demoting the teaching by preference.",
+  "summary": "The hierarchy of truths orders one coherent faith around its triune and Christological foundation. It guides proportion and pedagogy, not selective belief. Good apologetics tells the whole truth while making its centre and connections unmistakable.",
+  "reviewPrompts": [
+    "What relationship does the hierarchy of truths measure?",
+    "Why does hierarchy not imply that some revealed doctrines may be denied?",
+    "How should doctrinal proportion change an apologetic answer?"
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.catholic-foundations.distinctions.02.01",
+      "format": "true_false",
+      "promptIntent": "Distinguish centrality from truth and required assent.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.catholic-foundations.distinctions.02.02",
+      "format": "scenario",
+      "promptIntent": "Reorder an apologetic explanation so its Christological centre remains visible.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.1-corinthians-15",
+      "locator": "1 Corinthians 15:1-5",
+      "use": "Apostolic use of ordered importance"
+    },
+    {
+      "sourceId": "src.scripture.matthew-28",
+      "locator": "Matthew 28:18-20",
+      "use": "Trinitarian foundation and comprehensive teaching"
+    },
+    {
+      "sourceId": "src.scripture.ephesians-4",
+      "locator": "Ephesians 4:1-16",
+      "use": "One faith ordered toward mature fullness in Christ"
+    },
+    {
+      "sourceId": "src.ccc.interpretation",
+      "locator": "CCC 90",
+      "use": "Definition of hierarchy of truths"
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 234",
+      "use": "Centrality of the Trinity"
+    },
+    {
+      "sourceId": "src.vatican2.unitatis-redintegratio",
+      "locator": "Section 11",
+      "use": "Full presentation and hierarchy in ecumenical dialogue"
+    },
+    {
+      "sourceId": "src.francis.evangelii-gaudium",
+      "locator": "Sections 34-39",
+      "use": "Pastoral and missionary proportion"
+    },
+    {
+      "sourceId": "src.cyril.catechetical-lectures",
+      "locator": "Catechetical Lecture 5",
+      "use": "Creedal synthesis in early catechesis"
+    }
+  ],
+  "relatedLessonIds": [
+    "les.catholic-foundations.distinctions.01",
+    "les.catholic-foundations.synthesis.01",
+    "les.trinity.foundations.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "trinity",
+      "christology"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine"
+    ],
+    "comparativeTraditions": [],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-19"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.catholic-foundations.01",
+    "batchOrder": 4,
+    "contentHash": "fe4cb9352c5f8e5c9f0049753e23ad837ab7d1901f8493fb2fcbcde9cb2ad2c8",
+    "approximateWordCount": 1418
+  }
+}

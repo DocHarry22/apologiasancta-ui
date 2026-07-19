@@ -84,8 +84,8 @@ Protected actions include:
 
 ## Known Limitations
 
-- Workflow and audit data use local JSON files under `.data/`; this is durable for a single app instance but not a transactional multi-instance production store.
-- Publishing currently marks approved workflow items as published in the workflow store only. It does not modify public library content or GitHub.
+- Production workflow records use the configured PostgreSQL/MySQL database with indexed immutable revisions, review records, audit events, and publication outbox state. Local `.data/` storage remains development-only.
+- Publishing uses an immutable, reviewer-attested revision and a durable idempotent outbox before sending the exact question to the live Engine. It does not modify public library content or GitHub.
 - Live leaderboard top scorers/streaks are not shown because the current admin status endpoint does not expose them.
 - User and role management permissions exist, but full database-backed user administration is not implemented.
 
@@ -98,4 +98,4 @@ The Author dashboard now loads workflow items from authenticated `/api/workflow/
 
 The Audit tab reads persisted events from `/api/audit/events`. It shows an unavailable state when storage or permissions block the request and does not render fake audit logs as real data.
 
-Publishing currently marks approved items as published in the workflow store only. It does not silently modify public library content or GitHub.
+Direct dashboard import is disabled by default. Reviewed publishing sends only the approved immutable revision to the Engine and does not silently modify public library content or GitHub.

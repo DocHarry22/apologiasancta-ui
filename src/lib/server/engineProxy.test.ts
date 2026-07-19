@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { generateCsrfToken } from "@/lib/csrf";
 import { createSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
 import { authenticateAdminUser, resetAdminUserStoreForTests } from "./adminUserStore";
@@ -9,9 +9,16 @@ vi.mock("./adminAuth", () => ({
 }));
 
 import { verifyAdminSession } from "./adminAuth";
-import { checkAllowedRoute, proxyAdminRequest } from "./engineProxy";
+import { getEditorialEngineTimeoutMs } from "./editorialWorkflow";
+import { checkAllowedRoute, proxyAdminRequest, publishQuestionToEngine } from "./engineProxy";
 
 const mockedVerifyAdminSession = vi.mocked(verifyAdminSession);
+
+afterEach(() => {
+  delete process.env.EDITORIAL_PUBLISH_LEASE_SECONDS;
+  delete process.env.EDITORIAL_ENGINE_TIMEOUT_MS;
+  delete process.env.EDITORIAL_EMERGENCY_IMPORT_ENABLED;
+});
 
 function request(path: string, init: RequestInit = {}) {
   return new NextRequest(`https://ui.test/api/admin/${path}`, init);
@@ -118,6 +125,45 @@ describe("engine admin proxy", () => {
       })
     );
     expect(await response.text()).not.toContain("server-only-admin-token");
+  });
+
+  it("blocks the direct content-import bypass unless the emergency gate is explicitly enabled", async () => {
+    delete process.env.EDITORIAL_EMERGENCY_IMPORT_ENABLED;
+
+    const response = await proxyAdminRequest(await authedPost("content/import", JSON.stringify({ questions: [] })), ["content", "import"]);
+
+    expect(response.status).toBe(403);
+    expect(await response.text()).toContain("human review workflow");
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("bounds Engine publication below the outbox lease and returns a safe timeout", async () => {
+    const controller = new AbortController();
+    vi.spyOn(AbortSignal, "timeout").mockReturnValue(controller.signal);
+    vi.mocked(fetch).mockImplementationOnce((_input, init) => new Promise((_resolve, reject) => {
+      const signal = init?.signal;
+      signal?.addEventListener("abort", () => reject(signal.reason), { once: true });
+    }));
+    process.env.EDITORIAL_PUBLISH_LEASE_SECONDS = "30";
+    process.env.EDITORIAL_ENGINE_TIMEOUT_MS = "999999";
+
+    const publishing = publishQuestionToEngine({
+      id: "timeout_0001",
+      topicId: "trinity",
+      difficulty: 1,
+      question: "Timeout test?",
+      choices: { A: "A", B: "B", C: "C", D: "D" },
+      correctId: "A",
+      teaching: { title: "Timeout", body: "A bounded timeout protects the publication lease.", refs: ["Matthew 28:19"] },
+      tags: ["test"],
+    }, "publish:test:revision:hash");
+    controller.abort(new DOMException("request timed out", "TimeoutError"));
+    const result = await publishing;
+
+    expect(AbortSignal.timeout).toHaveBeenCalledWith(25_000);
+    expect(getEditorialEngineTimeoutMs({ EDITORIAL_PUBLISH_LEASE_SECONDS: "30", EDITORIAL_ENGINE_TIMEOUT_MS: "999999" })).toBe(25_000);
+    expect(result).toEqual({ ok: false, status: 504, error: "Live Engine publishing timed out." });
+    expect(JSON.stringify(result)).not.toContain("https://engine.test");
   });
 
   it("safely handles non-JSON engine responses", async () => {

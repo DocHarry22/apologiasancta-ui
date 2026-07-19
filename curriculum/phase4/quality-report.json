@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedOn": "2026-07-19",
+  "status": "passed",
+  "scope": {
+    "phase3PlannedLessons": 815,
+    "phase4DraftedLessons": 10,
+    "phase4RemainingPlannedLessons": 805,
+    "sources": 24
+  },
+  "checks": {
+    "stableIdsAndSlugsUnique": true,
+    "phase3IdentityPreserved": true,
+    "prerequisitesSatisfiedForDraftedBatch": true,
+    "completeTemplatePresent": true,
+    "sourceRecordsResolved": true,
+    "scriptureQuotationPolicyObserved": true,
+    "excessiveQuotationCheck": true,
+    "internalDuplicateAndSimilarityCheck": true,
+    "arbitraryHtmlRejected": true,
+    "comparativeSourceCheck": true,
+    "doctrinalStatusSafe": true,
+    "reviewAndPublicationSafe": true
+  },
+  "metrics": {
+    "scriptureCards": 36,
+    "quotationBlocks": 0,
+    "practicePlaceholders": 20,
+    "averageDraftWords": 1526,
+    "internalTextReuseAudit": {
+      "scope": "Exact substantive-paragraph duplication plus pairwise five-word-sequence similarity across this batch; this is not an external commercial-corpus plagiarism search.",
+      "highestSimilarityPairs": [
+        {
+          "lessons": [
+            "les.catholic-foundations.evidence.02",
+            "les.catholic-foundations.foundations.01"
+          ],
+          "fiveGramJaccard": 0.0015
+        },
+        {
+          "lessons": [
+            "les.catholic-foundations.foundations.01",
+            "les.catholic-foundations.synthesis.01"
+          ],
+          "fiveGramJaccard": 0.0014
+        },
+        {
+          "lessons": [
+            "les.catholic-foundations.distinctions.01",
+            "les.catholic-foundations.distinctions.02"
+          ],
+          "fiveGramJaccard": 0
+        },
+        {
+          "lessons": [
+            "les.catholic-foundations.distinctions.01",
+            "les.catholic-foundations.evidence.01"
+          ],
+          "fiveGramJaccard": 0
+        },
+        {
+          "lessons": [
+            "les.catholic-foundations.distinctions.01",
+            "les.catholic-foundations.evidence.02"
+          ],
+          "fiveGramJaccard": 0
+        }
+      ]
+    },
+    "readability": [
+      {
+        "lessonId": "les.catholic-foundations.distinctions.01",
+        "sentences": 10,
+        "averageWordsPerSentence": 18.9,
+        "maximumWordsInSentence": 29,
+        "maximumWordsInParagraph": 68,
+        "approximateRecordWordCount": 1511
+      },
+      {
+        "lessonId": "les.catholic-foundations.distinctions.02",
+        "sentences": 10,
+        "averageWordsPerSentence": 16.7,
+        "maximumWordsInSentence": 31,
+        "maximumWordsInParagraph": 62,
+        "approximateRecordWordCount": 1418
+      },
+      {
+        "lessonId": "les.catholic-foundations.evidence.01",
+        "sentences": 11,
+        "averageWordsPerSentence": 17.3,
+        "maximumWordsInSentence": 29,
+        "maximumWordsInParagraph": 71,
+        "approximateRecordWordCount": 1671
+      },
+      {
+        "lessonId": "les.catholic-foundations.evidence.02",
+        "sentences": 10,
+        "averageWordsPerSentence": 16.6,
+        "maximumWordsInSentence": 27,
+        "maximumWordsInParagraph": 60,
+        "approximateRecordWordCount": 1544
+      },
+      {
+        "lessonId": "les.catholic-foundations.foundations.01",
+        "sentences": 10,
+        "averageWordsPerSentence": 20.2,
+        "maximumWordsInSentence": 35,
+        "maximumWordsInParagraph": 83,
+        "approximateRecordWordCount": 1578
+      },
+      {
+        "lessonId": "les.catholic-foundations.foundations.02",
+        "sentences": 13,
+        "averageWordsPerSentence": 12.4,
+        "maximumWordsInSentence": 29,
+        "maximumWordsInParagraph": 63,
+        "approximateRecordWordCount": 1441
+      },
+      {
+        "lessonId": "les.catholic-foundations.objections.01",
+        "sentences": 9,
+        "averageWordsPerSentence": 16.4,
+        "maximumWordsInSentence": 23,
+        "maximumWordsInParagraph": 51,
+        "approximateRecordWordCount": 1441
+      },
+      {
+        "lessonId": "les.catholic-foundations.objections.02",
+        "sentences": 9,
+        "averageWordsPerSentence": 19.2,
+        "maximumWordsInSentence": 27,
+        "maximumWordsInParagraph": 61,
+        "approximateRecordWordCount": 1546
+      },
+      {
+        "lessonId": "les.catholic-foundations.synthesis.01",
+        "sentences": 12,
+        "averageWordsPerSentence": 15.8,
+        "maximumWordsInSentence": 23,
+        "maximumWordsInParagraph": 80,
+        "approximateRecordWordCount": 1559
+      },
+      {
+        "lessonId": "les.catholic-foundations.synthesis.02",
+        "sentences": 10,
+        "averageWordsPerSentence": 16.2,
+        "maximumWordsInSentence": 31,
+        "maximumWordsInParagraph": 62,
+        "approximateRecordWordCount": 1548
+      }
+    ]
+  },
+  "warnings": [],
+  "errors": []
+}

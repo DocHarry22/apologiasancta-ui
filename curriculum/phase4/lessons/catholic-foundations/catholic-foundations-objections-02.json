@@ -1,0 +1,348 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.catholic-foundations.objections.02",
+  "phase3LessonId": "les.catholic-foundations.objections.02",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.catholic-foundations",
+  "groupId": "grp.catholic-foundations.objections",
+  "title": "Avoiding Proof-Texting, Triumphalism, and False Certainty",
+  "slug": "catholic-foundations-objections-02",
+  "centralQuestion": "How can a Catholic avoid proof-texting, triumphalism, and false certainty while still giving a clear defense?",
+  "learningObjectives": [
+    "Identify proof-texting, triumphalism, and false certainty in sample arguments.",
+    "Apply context, source hierarchy, claim classification, and confidence labels to an apologetic answer.",
+    "Explain why intellectual humility strengthens rather than weakens Catholic witness."
+  ],
+  "shortDirectAnswer": "A responsible Catholic reads texts in context and within the whole canon, represents others in terms they recognize, distinguishes doctrine from opinion and history, and matches confidence to evidence. Clarity concerns what the Church teaches; humility concerns the limits of the speaker and argument.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "A citation is not yet an interpretation"
+    },
+    {
+      "type": "paragraph",
+      "text": "Proof-texting extracts a line from its literary, historical, canonical, or doctrinal context and makes it bear more than it can establish. A sound answer first asks who is speaking, to whom, about what, in which genre, and how the passage fits the whole of Scripture. Catholic interpretation also attends to the unity of Scripture, living Tradition, and the analogy of faith.",
+      "sourceIds": [
+        "src.vatican2.dei-verbum",
+        "src.ccc.main"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Truth is not served by triumphalism"
+    },
+    {
+      "type": "paragraph",
+      "text": "Triumphalism narrates Catholic history as though grace erased sin, prudential failure, coercion, or legitimate complexity. It may also treat every opponent as dishonest. The Church's holiness comes from Christ and the Spirit, while her members remain in need of purification. Honest confession of failure does not require denying the truth of the Gospel or the real holiness present in the Church.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Confidence must track the claim"
+    },
+    {
+      "type": "paragraph",
+      "text": "A defined dogma, an authoritative but non-definitive doctrine, a disciplinary judgment, a theological explanation, and a reconstruction of motives do not carry identical certainty. The apologist should use calibrated language: 'the Church teaches,' 'a common theological account is,' 'the evidence suggests,' or 'I do not know.' This is accuracy, not evasion.",
+      "sourceIds": [
+        "src.ccc.interpretation",
+        "src.scripture.james-1"
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "Qualifications and humility merely weaken the case; if Catholicism is true, its defenders should speak with unhesitating certainty.",
+      "fairRepresentation": "The objection values clarity and fears that endless caveats will make teaching impossible. It also recognizes that some Catholic claims, especially dogmas, are presented as definitive rather than tentative hypotheses.",
+      "response": "Clarity and calibration are allies. One can state a dogma clearly while admitting that a favorite proof-text is not conclusive, a historical date is uncertain, or an opponent's motive is unknown. Overclaiming gives critics an easy reason to distrust even the stronger case. Humility concerns fidelity to truth: no less confidence than warranted and no more.",
+      "sourceIds": [
+        "src.scripture.2-timothy-2",
+        "src.scripture.james-1",
+        "src.scripture.1-peter-3",
+        "src.scripture.luke-24",
+        "src.vatican2.dei-verbum",
+        "src.ccc.main",
+        "src.ccc.interpretation",
+        "src.vatican2.unitatis-redintegratio",
+        "src.irenaeus.against-heresies",
+        "src.augustine.christian-doctrine"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.catholic-foundations.objections.01",
+        "les.catholic-foundations.synthesis.02",
+        "les.debate-reasoning-source-evaluation.distinctions.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "historical",
+        "canon",
+        "protestant"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Proof-texting",
+      "definition": "Using a short citation apart from relevant context or as though the citation alone establishes a larger disputed conclusion.",
+      "sourceIds": [
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "term": "Triumphalism",
+      "definition": "A self-congratulatory account that minimizes sin, complexity, dependence on grace, or truth present in others.",
+      "sourceIds": [
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "term": "False certainty",
+      "definition": "Claiming a degree of confidence, authority, or precision not warranted by the sources or the type of claim.",
+      "sourceIds": [
+        "src.ccc.interpretation"
+      ]
+    },
+    {
+      "term": "Analogy of faith",
+      "definition": "The coherence of the truths of faith with one another and within the whole plan of revelation.",
+      "sourceIds": [
+        "src.ccc.main"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "2 Timothy 2:14-26",
+      "paraphrase": "Paul warns against word battles and foolish disputes while requiring patient, gentle, capable instruction.",
+      "sourceId": "src.scripture.2-timothy-2",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "James 1:19-22",
+      "paraphrase": "Believers are to listen readily, restrain speech and anger, and become doers rather than self-deceived hearers.",
+      "sourceId": "src.scripture.james-1",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "1 Peter 3:15-16",
+      "paraphrase": "A defense of hope must be joined to reverence, gentleness, and integrity.",
+      "sourceId": "src.scripture.1-peter-3",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Luke 24:25-49",
+      "paraphrase": "Jesus interprets a broad scriptural pattern concerning the Messiah rather than isolating an unexplained fragment.",
+      "sourceId": "src.scripture.luke-24",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 109-119",
+      "summary": "The Catechism summarizes attention to authorial intention, literary forms, the Spirit's guidance, canonical unity, Tradition, and the analogy of faith.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "Dei Verbum 12",
+      "summary": "The council requires attention to literary, historical, and canonical dimensions while reading Scripture in the Spirit in whom it was written.",
+      "sourceId": "src.vatican2.dei-verbum",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 84-90; 891-892",
+      "summary": "Different teaching acts and claim types call for accurate classification and response.",
+      "sourceId": "src.ccc.interpretation",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "Unitatis Redintegratio 4 and 11",
+      "summary": "Ecumenical engagement requires conversion, fairness, charity, and accurate presentation of the full Catholic faith.",
+      "sourceId": "src.vatican2.unitatis-redintegratio",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Patristic controversy shows both the need to read Scripture as a coherent whole and the danger of rearranging fragments into a foreign picture.",
+    "items": [
+      {
+        "summary": "Irenaeus argues that biblical phrases can be rearranged into a misleading system when the Church's received rule of faith is discarded.",
+        "sourceId": "src.irenaeus.against-heresies",
+        "locator": "Against Heresies I.8"
+      },
+      {
+        "summary": "Augustine's interpretive work repeatedly connects responsible reading with the rule of faith and the goal of love of God and neighbor.",
+        "sourceId": "src.augustine.christian-doctrine",
+        "locator": "On Christian Doctrine I and III"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Three failures and their remedies",
+      "columns": [
+        "Term",
+        "Meaning",
+        "Why it matters"
+      ],
+      "rows": [
+        [
+          "Proof-texting",
+          "Overloads an isolated citation",
+          "Read literary and canonical context; state exactly what the text supports"
+        ],
+        [
+          "Triumphalism",
+          "Confuses fidelity with self-exaltation",
+          "Tell the truth about grace, sin, history, and goods found in others"
+        ],
+        [
+          "False certainty",
+          "Claims more confidence than evidence permits",
+          "Classify the claim and use calibrated language"
+        ],
+        [
+          "Clear conviction",
+          "States a warranted conclusion plainly",
+          "Compatible with humility about oneself and fair treatment of objections"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "Qualifications and humility merely weaken the case; if Catholicism is true, its defenders should speak with unhesitating certainty.",
+  "opposingPosition": "The objection values clarity and fears that endless caveats will make teaching impossible. It also recognizes that some Catholic claims, especially dogmas, are presented as definitive rather than tentative hypotheses.",
+  "catholicResponse": "Clarity and calibration are allies. One can state a dogma clearly while admitting that a favorite proof-text is not conclusive, a historical date is uncertain, or an opponent's motive is unknown. Overclaiming gives critics an easy reason to distrust even the stronger case. Humility concerns fidelity to truth: no less confidence than warranted and no more.",
+  "commonMistakes": [
+    "Quoting a verse without reading the paragraph, book, or major alternative interpretation.",
+    "Using a secondary apologetics summary when a primary source is available.",
+    "Describing another tradition only by Catholic critics of it.",
+    "Treating admission of Catholic sin as surrender of Catholic doctrine.",
+    "Turning a probable historical reconstruction into a claim that the Church teaches."
+  ],
+  "practicalSpiritualApplication": "Revise one answer you have given online. Add the surrounding context, one fair sentence for the strongest alternative reading, a claim classification, and a confidence label. Remove any assertion about another person's motives.",
+  "summary": "Responsible apologetics interprets rather than merely cites, tells the truth about the Church's members and history, and calibrates confidence to evidence and authority. These disciplines make conviction more credible because they place the defense under the truth it serves.",
+  "reviewPrompts": [
+    "What questions should be asked before using a biblical citation as evidence?",
+    "How does clear conviction differ from false certainty?",
+    "Why can acknowledging Catholic failure strengthen an apologetic answer?"
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.catholic-foundations.objections.02.01",
+      "format": "scenario",
+      "promptIntent": "Diagnose proof-texting, triumphalism, or false certainty in a sample answer.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.catholic-foundations.objections.02.02",
+      "format": "short_response",
+      "promptIntent": "Rewrite an overconfident claim with accurate classification and confidence.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.2-timothy-2",
+      "locator": "2 Timothy 2:14-26",
+      "use": "Manner of dispute and correction"
+    },
+    {
+      "sourceId": "src.scripture.james-1",
+      "locator": "James 1:19-22",
+      "use": "Listening, speech, anger, and action"
+    },
+    {
+      "sourceId": "src.scripture.1-peter-3",
+      "locator": "1 Peter 3:15-16",
+      "use": "Gentle, conscientious defense"
+    },
+    {
+      "sourceId": "src.scripture.luke-24",
+      "locator": "Luke 24:25-49",
+      "use": "Christological reading across the scriptural whole"
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "Section 12",
+      "use": "Principles of Catholic biblical interpretation"
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 109-119",
+      "use": "Scriptural senses and interpretive criteria"
+    },
+    {
+      "sourceId": "src.ccc.interpretation",
+      "locator": "CCC 84-90; 891-892",
+      "use": "Claim and authority classification"
+    },
+    {
+      "sourceId": "src.vatican2.unitatis-redintegratio",
+      "locator": "Sections 4 and 11",
+      "use": "Conversion, charity, and accurate ecumenical explanation"
+    },
+    {
+      "sourceId": "src.irenaeus.against-heresies",
+      "locator": "Book I, chapter 8",
+      "use": "Misleading rearrangement of scriptural fragments"
+    },
+    {
+      "sourceId": "src.augustine.christian-doctrine",
+      "locator": "Books I and III",
+      "use": "Interpretation ordered by faith and charity"
+    }
+  ],
+  "relatedLessonIds": [
+    "les.catholic-foundations.objections.01",
+    "les.catholic-foundations.synthesis.02",
+    "les.debate-reasoning-source-evaluation.distinctions.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "historical",
+      "canon",
+      "protestant"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine",
+      "historical_claim",
+      "philosophical_claim"
+    ],
+    "comparativeTraditions": [],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-19"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.catholic-foundations.01",
+    "batchOrder": 8,
+    "contentHash": "13446a0933941298958b99e3b5828c6b68d3f542548ec2c46df6494ea5aab3d6",
+    "approximateWordCount": 1546
+  }
+}
