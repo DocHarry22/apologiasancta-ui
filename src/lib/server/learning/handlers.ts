@@ -455,7 +455,7 @@ export function adminEntityWorkflowRoute(
   return withLearningApiErrors(request, async () => {
     enforceMutationRateLimit(request);
     const entity = parseAdminEntity(entityValue);
-    if (["prerequisites", "workflow", "audit", "question-options", "question-contexts", "content-sources"].includes(entity)) {
+    if (["prerequisites", "workflow", "audit", "lesson-requirements", "question-options", "question-contexts", "content-sources"].includes(entity)) {
       throw new LearningApiError("invalid_request", 400, "This learning resource does not support publication workflow.");
     }
     const action = parseWorkflowAction(actionValue);
