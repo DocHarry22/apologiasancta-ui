@@ -45,7 +45,7 @@ type ManagedUser = {
   updatedAt: string;
   lastLoginAt?: string | null;
 };
-type InviteStaffRole = "admin" | "author" | "reviewer" | "host";
+type InviteStaffRole = "admin" | "editor" | "author" | "contributor" | "reviewer" | "host";
 type InviteSettingsState = {
   inviteCode: string;
   staffRole: InviteStaffRole;
@@ -1564,8 +1564,10 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
                       className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm"
                     >
                       <option value="host">Host</option>
-                      <option value="reviewer">Reviewer</option>
+                      <option value="editor">Editor</option>
                       <option value="author">Author</option>
+                      <option value="contributor">Contributor</option>
+                      <option value="reviewer">Reviewer (legacy)</option>
                       <option value="admin">Admin</option>
                     </select>
                     <button

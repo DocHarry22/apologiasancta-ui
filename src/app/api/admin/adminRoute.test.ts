@@ -96,6 +96,18 @@ describe("admin proxy API route", () => {
     expect(response.status).toBe(200);
   });
 
+  it("allows canonical content status and authenticated refresh only", async () => {
+    expect((await GET(
+      req("content/canonical/status", { headers: await authHeaders() }),
+      ctx(["content", "canonical", "status"])
+    )).status).toBe(200);
+
+    expect((await POST(
+      req("content/refresh", { method: "POST", headers: await csrfHeaders(), body: "{}" }),
+      ctx(["content", "refresh"])
+    )).status).toBe(200);
+  });
+
   it("returns safe errors for missing config without leaking secrets", async () => {
     delete process.env.ENGINE_ADMIN_TOKEN;
 

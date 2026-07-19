@@ -4,7 +4,7 @@ import { JsonStore } from "@/lib/server/storage/jsonStore";
 
 const inviteSettingsStore = new JsonStore<AuthInviteSettingsRecord | null>("auth-invite-settings.json", null);
 
-const ALLOWED_STAFF_INVITE_ROLES: readonly Role[] = ["admin", "author", "reviewer", "host"];
+const ALLOWED_STAFF_INVITE_ROLES: readonly Role[] = ["admin", "editor", "author", "contributor", "reviewer", "host"];
 
 interface AuthInviteSettingsRecord {
   inviteCode: string;

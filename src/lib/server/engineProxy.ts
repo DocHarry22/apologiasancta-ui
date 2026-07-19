@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { verifyAdminSession } from "./adminAuth";
 import { getCurrentUser } from "./currentUser";
 import { readSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
+import { isSessionFreshForUser } from "./sessionFreshness";
 import { verifyCsrfToken } from "@/lib/csrf";
 import { checkAdminMutationRateLimit, getClientIp } from "@/lib/auth/rateLimit";
 import { hasPermission, type Permission } from "@/lib/auth/roles";
@@ -172,6 +173,8 @@ const ADMIN_ROUTE_ALLOWLIST: RouteRule[] = [
 
   // ── Content management ────────────────────────────────────────────────────
   { pattern: /^content\/status$/,        methods: ["GET"] },
+  { pattern: /^content\/canonical\/status$/, methods: ["GET"] },
+  { pattern: /^content\/refresh$/,       methods: ["POST"] },
   { pattern: /^content\/import$/,        methods: ["POST"] },
   { pattern: /^content\/clear$/,         methods: ["POST"] },
   { pattern: /^content\/sync$/,          methods: ["POST"] },
@@ -256,12 +259,12 @@ export function checkAllowedRoute(segments: string[], method: string): RouteChec
 function requiredPermissionForRoute(path: string, method: string): Permission {
   if (method === "GET" && path === "status") return "overview:view";
   if (method === "GET" && /^rooms\/[a-zA-Z0-9_-]+\/status$/.test(path)) return "overview:view";
-  if (method === "GET" && path === "content/status") return "content:view";
+  if (method === "GET" && (path === "content/status" || path === "content/canonical/status")) return "content:view";
   if (method === "GET" && path === "rooms") return "rooms:manage";
   if (/^releases(?:\/|$)/.test(path)) return "audit:view";
   if (method === "GET" && /(^|\/)topic\/sequence$/.test(path)) return "topic_sequence:manage";
 
-  if (/content\/import$/.test(path)) return "content:import";
+  if (/content\/(import|refresh)$/.test(path)) return "content:import";
   if (/content\/clear$/.test(path) || /content\/github\/clear$/.test(path) || /reset$/.test(path) || path === "persistence/save") return "dangerous:execute";
   if (path === "rooms" || /rooms\/[a-zA-Z0-9_-]+\/close$/.test(path)) return "rooms:manage";
   if (path === "quiz/set" || /(^|\/)topic\/sequence$/.test(path)) return "topic_sequence:manage";
@@ -354,6 +357,10 @@ export async function proxyAdminRequest(
     return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
   }
   const currentUser = await getCurrentUser(session.userId);
+  if (!isSessionFreshForUser(session, currentUser)) {
+    auditLog({ method: request.method, path: joinedPath, ip, outcome: "blocked_unauthed", statusCode: 401, reason: "stale session" });
+    return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+  }
   const requiredPermission = requiredPermissionForRoute(joinedPath, request.method);
 
   if (joinedPath === "content/import" && request.method === "POST") {

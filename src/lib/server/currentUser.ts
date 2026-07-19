@@ -64,7 +64,7 @@ export async function getCurrentUser(userId?: string): Promise<CurrentUser> {
       displayName: user.displayName,
       email: null,
       role: user.role,
-      accountType: user.role === "viewer" ? "public" : "staff",
+      accountType: user.role === "viewer" || user.role === "member" ? "public" : "staff",
       phone: null,
       createdAt: null,
       lastLoginAt: null,
