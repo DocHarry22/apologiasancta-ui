@@ -1421,7 +1421,11 @@ export async function transitionAdminWorkflow(input: {
     if (input.action === "duplicate") {
       const fields: Record<string, unknown> = {};
       for (const field of spec.allowedFields) {
-        if (Object.prototype.hasOwnProperty.call(current, field)) fields[field] = current[field];
+        if (Object.prototype.hasOwnProperty.call(current, field)) {
+          fields[field] = spec.jsonArrayFields?.includes(field)
+            ? JSON.stringify(current[field])
+            : current[field];
+        }
       }
       const suffix = randomUUID().slice(0, 8);
       if (typeof fields.slug === "string") fields.slug = `${fields.slug.slice(0, 145)}-copy-${suffix}`;
