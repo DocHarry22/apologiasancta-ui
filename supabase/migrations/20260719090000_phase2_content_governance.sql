@@ -296,9 +296,9 @@ create table content.lesson_requirements (
 );
 
 insert into content.lesson_requirements (lesson_id, requirement)
-select lesson_row.id, requirement_kind
+select lesson_row.id, requirement_row.requirement
 from content.lessons lesson_row
-cross join unnest(enum_range(null::content.lesson_requirement_kind)) requirement_kind
+cross join unnest(enum_range(null::content.lesson_requirement_kind)) as requirement_row(requirement)
 on conflict (lesson_id, requirement) do nothing;
 
 create or replace function private.seed_lesson_requirements()
@@ -309,8 +309,8 @@ set search_path = ''
 as $
 begin
   insert into content.lesson_requirements (lesson_id, requirement)
-  select new.id, requirement_kind
-  from unnest(enum_range(null::content.lesson_requirement_kind)) requirement_kind
+  select new.id, requirement_row.requirement
+  from unnest(enum_range(null::content.lesson_requirement_kind)) as requirement_row(requirement)
   on conflict (lesson_id, requirement) do nothing;
   return new;
 end;
