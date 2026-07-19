@@ -1,0 +1,352 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.catholic-foundations.synthesis.01",
+  "phase3LessonId": "les.catholic-foundations.synthesis.01",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.catholic-foundations",
+  "groupId": "grp.catholic-foundations.synthesis",
+  "title": "Giving a Two-Minute Account of Catholic Faith",
+  "slug": "catholic-foundations-synthesis-01",
+  "centralQuestion": "How can a Catholic give a faithful two-minute account of the faith without turning it into a list?",
+  "learningObjectives": [
+    "Give a concise account ordered by creation, the Paschal Mystery, the Spirit and Church, discipleship, and final hope.",
+    "Adapt the account to a listener while preserving its Trinitarian and Christological centre.",
+    "Distinguish a doorway summary from a complete proof or lesson."
+  ],
+  "shortDirectAnswer": "Begin with the God who creates and calls humanity, name sin and the need for salvation, proclaim the Father's gift of the incarnate Son and Christ's death and Resurrection, explain the Spirit's work in the Church and sacraments, and end with grace-enabled discipleship and resurrection hope. Then invite the listener's real question.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "A faithful doorway"
+    },
+    {
+      "type": "paragraph",
+      "text": "A two-minute account cannot prove every claim or mention every devotion. Its purpose is orientation: to name the agent, action, gift, and goal of Christian faith so that later doctrines have a home. It should be recognizably Trinitarian, centred on Christ's Paschal Mystery, ecclesial rather than isolated, and directed toward communion with God.",
+      "sourceIds": [
+        "src.scripture.1-corinthians-15",
+        "src.scripture.matthew-28",
+        "src.ccc.main"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "A five-movement account"
+    },
+    {
+      "type": "paragraph",
+      "text": "First, the one God freely creates human persons for communion. Second, sin wounds that vocation and cannot be healed by self-salvation. Third, the Father sends the eternal Son, who becomes man, announces the kingdom, dies, rises, and reigns. Fourth, the Holy Spirit joins believers to Christ in his Church through faith, Baptism, sacramental life, teaching, and charity. Fifth, grace forms disciples who pray, love, seek holiness and justice, and hope for resurrection and the life of the world to come.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.scripture.acts-2",
+        "src.scripture.matthew-28"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Conversation, not recitation"
+    },
+    {
+      "type": "paragraph",
+      "text": "The same centre can be expressed differently to a catechumen, a lapsed Catholic, a Protestant Christian, or a person unsure whether God exists. Adaptation means beginning near the listener's question and defining unfamiliar terms. It does not mean hiding Catholic teaching. End by asking what seems clear, implausible, attractive, or troubling; that answer determines the next lesson.",
+      "sourceIds": [
+        "src.jp2.catechesi-tradendae",
+        "src.francis.evangelii-gaudium"
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A two-minute account either oversimplifies Catholicism into generic Christianity or overwhelms the listener with Catholic additions.",
+      "fairRepresentation": "The objection identifies the tension between brevity and completeness. A generic summary may hide the Church and sacraments, while a denominational inventory may obscure Christ and the Gospel.",
+      "response": "The hierarchy of truths resolves the false choice. A summary can state the central Trinitarian and Christological mystery and include the Spirit's ecclesial and sacramental work as part of the same saving movement. It openly admits that it is a doorway. The listener's next question then determines which claim receives evidence and detail.",
+      "sourceIds": [
+        "src.scripture.1-corinthians-15",
+        "src.scripture.matthew-28",
+        "src.scripture.acts-2",
+        "src.scripture.ephesians-4",
+        "src.ccc.main",
+        "src.francis.evangelii-gaudium",
+        "src.jp2.catechesi-tradendae",
+        "src.cyril.catechetical-lectures",
+        "src.irenaeus.against-heresies"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.catholic-foundations.foundations.01",
+        "les.catholic-foundations.distinctions.02",
+        "les.catholic-foundations.synthesis.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "trinity",
+        "christology",
+        "historical"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Salvation history",
+      "definition": "The ordered history of God's creative, covenantal, redemptive, and consummating work, centred on Christ.",
+      "sourceIds": [
+        "src.ccc.main"
+      ]
+    },
+    {
+      "term": "Incarnation",
+      "definition": "The mystery by which the eternal Son of God truly became man without ceasing to be God.",
+      "sourceIds": [
+        "src.ccc.main"
+      ]
+    },
+    {
+      "term": "Grace",
+      "definition": "God's free and undeserved gift that heals, sanctifies, and enables participation in divine life.",
+      "sourceIds": [
+        "src.ccc.main"
+      ]
+    },
+    {
+      "term": "Resurrection hope",
+      "definition": "Christian hope in Christ's victory, the resurrection of the body, judgment, and everlasting communion with God.",
+      "sourceIds": [
+        "src.scripture.1-corinthians-15",
+        "src.ccc.main"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "1 Corinthians 15:1-8",
+      "paraphrase": "Paul offers a compact received proclamation focused on Christ's saving death, burial, resurrection, and witnessed appearances.",
+      "sourceId": "src.scripture.1-corinthians-15",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 28:18-20",
+      "paraphrase": "The risen Jesus joins Trinitarian Baptism, disciple-making, and continuing instruction.",
+      "sourceId": "src.scripture.matthew-28",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Acts 2:22-42",
+      "paraphrase": "Peter proclaims Jesus' death, resurrection, and lordship, calls for conversion and Baptism, and the new believers enter apostolic communal life.",
+      "sourceId": "src.scripture.acts-2",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 4:1-16",
+      "paraphrase": "The one body grows in unity, truth, love, and maturity under Christ its head.",
+      "sourceId": "src.scripture.ephesians-4",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1-3",
+      "summary": "The Catechism opens with God creating and calling humanity to share divine life, then sending the Son and Spirit and the Church to announce communion.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 422-429",
+      "summary": "Christian catechesis transmits and seeks communion with Jesus Christ.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 571-573",
+      "summary": "The Paschal Mystery stands at the centre of the Good News.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 748-750",
+      "summary": "The treatment of the Church begins with the Holy Spirit's work in bringing the Father's plan to completion.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "Evangelii Gaudium 164-165",
+      "summary": "Francis describes the foundational proclamation as Trinitarian, Christ-centred, grace-filled, and continually necessary.",
+      "sourceId": "src.francis.evangelii-gaudium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Creeds and catechetical summaries served as concise rules that oriented learners to the scriptural whole without replacing it.",
+    "items": [
+      {
+        "summary": "Cyril presents the Creed as a concise form to be learned and then unfolded through scriptural teaching.",
+        "sourceId": "src.cyril.catechetical-lectures",
+        "locator": "Catechetical Lecture 5"
+      },
+      {
+        "summary": "Irenaeus appeals to an ordered apostolic rule of faith shared across the churches when summarizing creation, Christ, the Spirit, and final fulfillment.",
+        "sourceId": "src.irenaeus.against-heresies",
+        "locator": "Against Heresies I.10; III.3"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "What a short account can and cannot do",
+      "columns": [
+        "Term",
+        "Meaning",
+        "Why it matters"
+      ],
+      "rows": [
+        [
+          "Summary",
+          "Orients the listener to the whole through its centre and major movements",
+          "Creates a truthful map for later learning"
+        ],
+        [
+          "Proof",
+          "Offers evidence sufficient for a disputed conclusion",
+          "Usually requires more time, sources, and engagement with alternatives"
+        ],
+        [
+          "Testimony",
+          "Describes how the speaker has encountered and lived the faith",
+          "Can be powerful but does not replace the Church's public claim"
+        ],
+        [
+          "Adaptation",
+          "Changes vocabulary and entry point for a real listener",
+          "Must preserve the substance rather than conceal it"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A two-minute account either oversimplifies Catholicism into generic Christianity or overwhelms the listener with Catholic additions.",
+  "opposingPosition": "The objection identifies the tension between brevity and completeness. A generic summary may hide the Church and sacraments, while a denominational inventory may obscure Christ and the Gospel.",
+  "catholicResponse": "The hierarchy of truths resolves the false choice. A summary can state the central Trinitarian and Christological mystery and include the Spirit's ecclesial and sacramental work as part of the same saving movement. It openly admits that it is a doorway. The listener's next question then determines which claim receives evidence and detail.",
+  "commonMistakes": [
+    "Opening with a secondary Catholic-Protestant controversy.",
+    "Speaking of Jesus without the Father and Holy Spirit.",
+    "Ending at forgiveness while omitting incorporation, discipleship, and resurrection hope.",
+    "Treating memorized wording as more important than listening.",
+    "Presenting the summary as though it proved every claim it names."
+  ],
+  "practicalSpiritualApplication": "Draft a 180- to 220-word account using the five movements. Say it aloud in under two minutes. Ask a trusted listener to mark where Christ disappears, jargon accumulates, or a claim sounds unsupported, then revise.",
+  "summary": "A concise Catholic account follows the triune saving movement from creation and sin through the incarnate Son's Paschal victory, the Spirit's work in Church and sacraments, grace-enabled discipleship, and final hope. It is a faithful doorway that invites the listener's next real question.",
+  "reviewPrompts": [
+    "Name the five movements of the proposed two-minute account.",
+    "What makes the account distinctly Catholic without making it a list of disputes?",
+    "Why should the speaker end with a question?"
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.catholic-foundations.synthesis.01.01",
+      "format": "short_response",
+      "promptIntent": "Compose a concise Trinitarian and Christ-centred account of Catholic faith.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.catholic-foundations.synthesis.01.02",
+      "format": "scenario",
+      "promptIntent": "Adapt the entry point for different audiences without changing the substance.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.1-corinthians-15",
+      "locator": "1 Corinthians 15:1-8",
+      "use": "Compact apostolic Gospel proclamation"
+    },
+    {
+      "sourceId": "src.scripture.matthew-28",
+      "locator": "Matthew 28:18-20",
+      "use": "Trinitarian mission and initiation"
+    },
+    {
+      "sourceId": "src.scripture.acts-2",
+      "locator": "Acts 2:22-42",
+      "use": "Paschal proclamation, conversion, Baptism, and Church"
+    },
+    {
+      "sourceId": "src.scripture.ephesians-4",
+      "locator": "Ephesians 4:1-16",
+      "use": "Ecclesial unity and maturity under Christ"
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 1-3; 422-429; 571-573; 748-750",
+      "use": "Whole-plan and Christ-centred synthesis"
+    },
+    {
+      "sourceId": "src.francis.evangelii-gaudium",
+      "locator": "Sections 164-165",
+      "use": "Foundational proclamation"
+    },
+    {
+      "sourceId": "src.jp2.catechesi-tradendae",
+      "locator": "Sections 5-6",
+      "use": "Christocentric and audience-aware catechesis"
+    },
+    {
+      "sourceId": "src.cyril.catechetical-lectures",
+      "locator": "Catechetical Lecture 5",
+      "use": "Creedal summary for formation"
+    },
+    {
+      "sourceId": "src.irenaeus.against-heresies",
+      "locator": "Books I.10 and III.3",
+      "use": "Early rule-of-faith synthesis"
+    }
+  ],
+  "relatedLessonIds": [
+    "les.catholic-foundations.foundations.01",
+    "les.catholic-foundations.distinctions.02",
+    "les.catholic-foundations.synthesis.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "trinity",
+      "christology",
+      "historical"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-19"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.catholic-foundations.01",
+    "batchOrder": 9,
+    "contentHash": "34c0a2d554fb896cc00cce87428c89413fc6e8e42de39bde0db249b878cc47d2",
+    "approximateWordCount": 1559
+  }
+}

@@ -1,0 +1,362 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.catholic-foundations.synthesis.02",
+  "phase3LessonId": "les.catholic-foundations.synthesis.02",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.catholic-foundations",
+  "groupId": "grp.catholic-foundations.synthesis",
+  "title": "Formation before Argument",
+  "slug": "catholic-foundations-synthesis-02",
+  "centralQuestion": "Why should formation normally come before argument in Catholic apologetics?",
+  "learningObjectives": [
+    "Explain how doctrinal, spiritual, moral, and interpretive formation make apologetic judgment possible.",
+    "Distinguish formation before argument from indefinite delay or avoidance of urgent questions.",
+    "Create a safe response path for questions that exceed the learner's competence."
+  ],
+  "shortDirectAnswer": "Formation comes first because a defender must know the faith as an integrated life before judging sources, classifying claims, or representing objections. This priority does not forbid early answers; it makes them proportionate, supervised, honest about limits, and ordered to growth in Christ.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Apologetics depends on formed judgment"
+    },
+    {
+      "type": "paragraph",
+      "text": "A database can retrieve citations, but it cannot by itself determine whether a question is pastoral, historical, doctrinal, or merely verbal. Formed judgment recognizes the hierarchy of truths, the type and authority of a source, the strongest relevant objection, and the difference between what the Church teaches and what one Catholic thinks.",
+      "sourceIds": [
+        "src.ccc.interpretation",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The apologist is also a disciple"
+    },
+    {
+      "type": "paragraph",
+      "text": "Christian truth is ordered to communion with God and a life of charity. Scripture joins teaching with maturity, virtue, worship, patience, and action. Formation therefore includes prayer, sacramental life, moral conversion, intellectual habits, and accountability. These do not guarantee correctness, but their absence makes knowledge easier to weaponize.",
+      "sourceIds": [
+        "src.scripture.ephesians-4",
+        "src.scripture.colossians-3",
+        "src.scripture.james-1",
+        "src.ccc.main"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Answer now, learn next, refer when needed"
+    },
+    {
+      "type": "paragraph",
+      "text": "Beginners will encounter urgent questions before completing a curriculum. They can give the short answer they actually know, cite an authoritative source, and name what requires further study. High-risk matters involving trauma, canon law, medicine, abuse, or contested history should move to qualified pastoral or professional review. Formation is a path of increasingly responsible participation, not a gate that forbids all speech.",
+      "sourceIds": [
+        "src.scripture.1-peter-3",
+        "src.scripture.2-timothy-2"
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "People ask difficult questions now. Requiring formation first creates passive Catholics who never share the faith and leaves the internet unanswered.",
+      "fairRepresentation": "The objection rightly resists perfectionism and recognizes that ordinary believers have real baptismal witness and can communicate truths they genuinely know. Endless preparation can become fear or institutional control.",
+      "response": "Formation is staged, not all-or-nothing. A beginner can testify, give a clear foundational answer, and point to reliable sources. What formation forbids is pretending to specialist certainty. The safe pattern is: clarify the question, state the known Catholic teaching, distinguish evidence from inference, flag uncertainty, and refer high-risk issues. This produces active disciples whose responsibility grows with competence.",
+      "sourceIds": [
+        "src.scripture.ephesians-4",
+        "src.scripture.colossians-3",
+        "src.scripture.2-timothy-2",
+        "src.scripture.james-1",
+        "src.scripture.1-peter-3",
+        "src.ccc.main",
+        "src.ccc.interpretation",
+        "src.jp2.catechesi-tradendae",
+        "src.vatican2.unitatis-redintegratio",
+        "src.cyril.catechetical-lectures",
+        "src.didache"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.catholic-foundations.objections.01",
+        "les.catholic-foundations.objections.02",
+        "les.catholic-foundations.synthesis.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "historical",
+        "christology"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Formation",
+      "definition": "The integrated shaping of understanding, worship, character, prayer, habits, and mission in Christ and the Church.",
+      "sourceIds": [
+        "src.jp2.catechesi-tradendae",
+        "src.ccc.main"
+      ]
+    },
+    {
+      "term": "Competence",
+      "definition": "Demonstrated ability to handle a defined kind of question with suitable knowledge, method, and accountability.",
+      "sourceIds": [
+        "src.scripture.2-timothy-2"
+      ]
+    },
+    {
+      "term": "Referral",
+      "definition": "Directing a question to a pastor, theologian, historian, canonist, clinician, safeguarding officer, or other qualified person when the issue exceeds one's role.",
+      "sourceIds": [
+        "src.scripture.ephesians-4"
+      ]
+    },
+    {
+      "term": "Intellectual humility",
+      "definition": "Truthful recognition of one's knowledge, evidence, fallibility, and dependence on God and others.",
+      "sourceIds": [
+        "src.scripture.james-1"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 4:11-16",
+      "paraphrase": "Christ gives diverse ministries so the body grows toward doctrinal stability, mature judgment, and truth spoken in love.",
+      "sourceId": "src.scripture.ephesians-4",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Colossians 3:12-17",
+      "paraphrase": "Teaching belongs within compassion, humility, patience, forgiveness, peace, worship, and gratitude.",
+      "sourceId": "src.scripture.colossians-3",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "2 Timothy 2:14-26",
+      "paraphrase": "A teacher must handle truth carefully, avoid foolish quarrels, and correct with patient gentleness.",
+      "sourceId": "src.scripture.2-timothy-2",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "James 1:19-27",
+      "paraphrase": "Listening, disciplined speech, moral action, and care for the vulnerable expose merely verbal religion.",
+      "sourceId": "src.scripture.james-1",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "Catechesi Tradendae 5-6",
+      "summary": "Catechesis is centred on Christ and ordered to communion with him, not merely the transfer of religious data.",
+      "sourceId": "src.jp2.catechesi-tradendae",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 426-429",
+      "summary": "At the heart of catechesis is a Person, and the teacher transmits Christ's teaching rather than a private system.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1691-1698",
+      "summary": "Moral catechesis is life in Christ, grace, beatitude, virtue, and the Holy Spirit, not detached rule memorization.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 2558-2565",
+      "summary": "Prayer is living covenant and communion, making it intrinsic to formation rather than an optional preface to study.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "Unitatis Redintegratio 11",
+      "summary": "Ecumenical explanation requires qualified knowledge, fidelity, charity, humility, and proportion.",
+      "sourceId": "src.vatican2.unitatis-redintegratio",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "The ancient catechumenate treated learning as preparation of belief, conduct, prayer, and sacramental participation rather than immediate specialization in controversy.",
+    "items": [
+      {
+        "summary": "Cyril addresses candidates preparing for initiation and stresses receptive, disciplined participation in a sustained course of catechesis.",
+        "sourceId": "src.cyril.catechetical-lectures",
+        "locator": "Procatechesis"
+      },
+      {
+        "summary": "The Didache places moral formation before its instructions on baptism, prayer, Eucharistic practice, and community life.",
+        "sourceId": "src.didache",
+        "locator": "Didache 1-10"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Formation and responsible participation",
+      "columns": [
+        "Term",
+        "Meaning",
+        "Why it matters"
+      ],
+      "rows": [
+        [
+          "Foundation",
+          "Core grasp of Christ, the four-part faith, sources, and claim types",
+          "Makes later specialization intelligible"
+        ],
+        [
+          "Supervised practice",
+          "Low-risk explanations with sources and feedback",
+          "Builds skill before public authority is assumed"
+        ],
+        [
+          "Specialist competence",
+          "Deeper mastery of a defined doctrinal, historical, or comparative field",
+          "Needed for high-complexity disputes"
+        ],
+        [
+          "Avoidance",
+          "Refusal to engage merely because a question is difficult",
+          "Not justified by the priority of formation"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "People ask difficult questions now. Requiring formation first creates passive Catholics who never share the faith and leaves the internet unanswered.",
+  "opposingPosition": "The objection rightly resists perfectionism and recognizes that ordinary believers have real baptismal witness and can communicate truths they genuinely know. Endless preparation can become fear or institutional control.",
+  "catholicResponse": "Formation is staged, not all-or-nothing. A beginner can testify, give a clear foundational answer, and point to reliable sources. What formation forbids is pretending to specialist certainty. The safe pattern is: clarify the question, state the known Catholic teaching, distinguish evidence from inference, flag uncertainty, and refer high-risk issues. This produces active disciples whose responsibility grows with competence.",
+  "commonMistakes": [
+    "Waiting for total knowledge before ever speaking about Christ.",
+    "Confusing access to many citations with competence to interpret them.",
+    "Answering pastoral pain as though it were only an argument.",
+    "Using prayer language to avoid evidence or using evidence to avoid conversion.",
+    "Failing to refer legal, medical, safeguarding, or trauma-related issues to qualified help."
+  ],
+  "practicalSpiritualApplication": "Create a three-level response card: 'I can explain,' 'I can research with sources,' and 'I must refer.' Place five common questions under the appropriate level and name one trusted source or person for each referral.",
+  "summary": "Formation gives apologetics its Christian centre, conceptual map, interpretive discipline, virtues, and accountability. It precedes argument as a normal order, while staged practice lets beginners witness truthfully and refer questions beyond their competence.",
+  "reviewPrompts": [
+    "Which dimensions of formation are necessary beyond doctrinal information?",
+    "How does staged practice answer the charge of indefinite delay?",
+    "What kinds of question require referral rather than an improvised apologetic answer?"
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.catholic-foundations.synthesis.02.01",
+      "format": "scenario",
+      "promptIntent": "Choose among answering, researching, and referring in a realistic question.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.catholic-foundations.synthesis.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain why formation and active witness are not opposites.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.ephesians-4",
+      "locator": "Ephesians 4:11-16",
+      "use": "Ministry, maturity, and truth in love"
+    },
+    {
+      "sourceId": "src.scripture.colossians-3",
+      "locator": "Colossians 3:12-17",
+      "use": "Teaching within formed Christian character and worship"
+    },
+    {
+      "sourceId": "src.scripture.2-timothy-2",
+      "locator": "2 Timothy 2:14-26",
+      "use": "Competent, patient, and gentle instruction"
+    },
+    {
+      "sourceId": "src.scripture.james-1",
+      "locator": "James 1:19-27",
+      "use": "Listening and enacted religion"
+    },
+    {
+      "sourceId": "src.scripture.1-peter-3",
+      "locator": "1 Peter 3:13-16",
+      "use": "Prepared and gentle witness"
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 426-429; 1691-1698; 2558-2565",
+      "use": "Christ-centred, moral, and prayer formation"
+    },
+    {
+      "sourceId": "src.ccc.interpretation",
+      "locator": "CCC 84-90",
+      "use": "Claim classification and the hierarchy of truths"
+    },
+    {
+      "sourceId": "src.jp2.catechesi-tradendae",
+      "locator": "Sections 5-6",
+      "use": "Communion with Christ as catechetical aim"
+    },
+    {
+      "sourceId": "src.vatican2.unitatis-redintegratio",
+      "locator": "Section 11",
+      "use": "Qualified and charitable explanation"
+    },
+    {
+      "sourceId": "src.cyril.catechetical-lectures",
+      "locator": "Procatechesis",
+      "use": "Ancient catechumenal preparation"
+    },
+    {
+      "sourceId": "src.didache",
+      "locator": "Chapters 1-10",
+      "use": "Formation joined to initiation and worship"
+    }
+  ],
+  "relatedLessonIds": [
+    "les.catholic-foundations.objections.01",
+    "les.catholic-foundations.objections.02",
+    "les.catholic-foundations.synthesis.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "historical",
+      "christology"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine",
+      "discipline",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-19"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.catholic-foundations.01",
+    "batchOrder": 10,
+    "contentHash": "abfc795785c3af8fa5dd193954cefbdc1c3aa43d88ecf95876f624d6541f4f55",
+    "approximateWordCount": 1548
+  }
+}

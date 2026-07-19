@@ -1,0 +1,326 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.catholic-foundations.foundations.02",
+  "phase3LessonId": "les.catholic-foundations.foundations.02",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.catholic-foundations",
+  "groupId": "grp.catholic-foundations.foundations",
+  "title": "The Catechism's Four-Part Symphony",
+  "slug": "catholic-foundations-foundations-02",
+  "centralQuestion": "Why does the Catechism organize Catholic formation around Creed, sacraments, moral life, and prayer?",
+  "learningObjectives": [
+    "Name the Catechism's four parts and describe the question each part answers.",
+    "Explain how profession, celebration, life in Christ, and prayer form one movement rather than four unrelated courses.",
+    "Use the four-part pattern to diagnose an unbalanced account of Catholic life."
+  ],
+  "shortDirectAnswer": "The four parts express one Christian life: the faith the Church professes, the mystery she celebrates, the life grace enables, and the prayer by which believers live in communion with God. Christ unites all four.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "One mystery, four inseparable dimensions"
+    },
+    {
+      "type": "paragraph",
+      "text": "The Catechism's architecture follows a classic catechetical pattern. Part One asks what the Church believes; Part Two how the saving mystery is celebrated; Part Three how the baptized live in Christ; and Part Four how Christians pray. These are not departments competing for attention. The God confessed in the Creed acts in the liturgy, conforms believers to Christ, and draws them into prayer.",
+      "sourceIds": [
+        "src.ccc.main"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The pattern is visible in the apostolic community"
+    },
+    {
+      "type": "paragraph",
+      "text": "Acts presents the first believers persevering in apostolic teaching, common life, the breaking of bread, and prayers. Paul likewise joins the indwelling word of Christ, worshipful gratitude, and concrete virtue. These passages do not reproduce the later table of contents, but they show why Christian formation cannot be reduced to information alone.",
+      "sourceIds": [
+        "src.scripture.acts-2",
+        "src.scripture.colossians-3"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "A diagnostic for curriculum and discipleship"
+    },
+    {
+      "type": "paragraph",
+      "text": "The four parts provide a practical balance test. Belief without worship can become abstraction. Worship without truth can lose its object. Moral instruction without grace becomes moralism. Prayer detached from the Church's faith can become self-designed spirituality. A healthy curriculum repeatedly reconnects the four around Christ.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "The Catechism's four-part outline is an artificial filing system imposed on the more fluid life of the New Testament.",
+      "fairRepresentation": "This objection rightly observes that the New Testament is not arranged as a modern systematic manual and that no outline can exhaust Christian life. It warns against mistaking a teaching aid for revelation itself.",
+      "response": "The four-part structure is a catechetical synthesis, not a claim that the biblical books use the same table of contents. Its value lies in preserving biblical dimensions that appear together: confession, sacramental communion, transformed conduct, and prayer. The structure serves the mystery; it does not replace Scripture or the lived Church.",
+      "sourceIds": [
+        "src.scripture.acts-2",
+        "src.scripture.colossians-3",
+        "src.scripture.romans-12",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.didache",
+        "src.cyril.catechetical-lectures"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.catholic-foundations.foundations.01",
+        "les.catholic-foundations.evidence.02",
+        "les.liturgy.foundations.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "christology",
+        "historical"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Creed",
+      "definition": "The Church's ordered profession of the faith received from the apostles.",
+      "sourceIds": [
+        "src.ccc.main"
+      ]
+    },
+    {
+      "term": "Sacramental economy",
+      "definition": "The communication of the fruits of Christ's Paschal Mystery in the Church's sacramental life.",
+      "sourceIds": [
+        "src.ccc.main"
+      ]
+    },
+    {
+      "term": "Life in Christ",
+      "definition": "The moral and spiritual life made possible by grace and ordered to beatitude and charity.",
+      "sourceIds": [
+        "src.ccc.main"
+      ]
+    },
+    {
+      "term": "Christian prayer",
+      "definition": "A living relationship with the triune God, learned and lived in Christ and the Holy Spirit.",
+      "sourceIds": [
+        "src.ccc.main"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Acts 2:37-47",
+      "paraphrase": "The apostolic community responds in conversion and Baptism, then perseveres in apostolic teaching, fellowship, the breaking of bread, and prayers.",
+      "sourceId": "src.scripture.acts-2",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Colossians 3:12-17",
+      "paraphrase": "Paul unites Christ-shaped virtues, mutual instruction, worship, gratitude, and daily action in the Lord's name.",
+      "sourceId": "src.scripture.colossians-3",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Romans 12:1-2",
+      "paraphrase": "Christian worship includes the offering of embodied life and the renewal of the mind for discernment.",
+      "sourceId": "src.scripture.romans-12",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 13-17",
+      "summary": "The Catechism's prologue explains its four-part arrangement: profession of faith, sacraments of faith, life of faith, and prayer in the life of faith.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1066-1068",
+      "summary": "The opening of Part Two links liturgy to the Paschal Mystery confessed in the Creed.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1691-1698",
+      "summary": "The opening synthesis of Part Three presents Christian morality as life in Christ and catechesis in the Holy Spirit.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 2558-2565",
+      "summary": "The opening of Part Four describes prayer as covenant and communion with God.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "Sacrosanctum Concilium 10",
+      "summary": "The council describes liturgy as the high point toward which the Church's activity is directed and the source from which her power flows.",
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Early catechetical practice commonly joined teaching, moral preparation, sacramental initiation, and prayer.",
+    "items": [
+      {
+        "summary": "The Didache combines moral formation, baptismal instruction, prayer, Eucharistic practice, and community order in one early Christian manual.",
+        "sourceId": "src.didache",
+        "locator": "Didache 1-4; 7-10; 14"
+      },
+      {
+        "summary": "Cyril's Jerusalem catecheses prepare candidates through instruction and conversion for sacramental initiation into the Church's confessed faith.",
+        "sourceId": "src.cyril.catechetical-lectures",
+        "locator": "Procatechesis; Catechetical Lecture 5"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "The four parts as mutually dependent dimensions",
+      "columns": [
+        "Term",
+        "Meaning",
+        "Why it matters"
+      ],
+      "rows": [
+        [
+          "Creed",
+          "What the Church believes about God's saving work",
+          "Supplies the truth confessed in worship and life"
+        ],
+        [
+          "Sacraments",
+          "How Christ's mystery is celebrated and communicated",
+          "Makes formation ecclesial and grace-centred"
+        ],
+        [
+          "Moral life",
+          "How grace bears fruit in freedom, virtue, and charity",
+          "Prevents belief from remaining merely verbal"
+        ],
+        [
+          "Prayer",
+          "How believers receive and respond to God in communion",
+          "Keeps every part relational and doxological"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "The Catechism's four-part outline is an artificial filing system imposed on the more fluid life of the New Testament.",
+  "opposingPosition": "This objection rightly observes that the New Testament is not arranged as a modern systematic manual and that no outline can exhaust Christian life. It warns against mistaking a teaching aid for revelation itself.",
+  "catholicResponse": "The four-part structure is a catechetical synthesis, not a claim that the biblical books use the same table of contents. Its value lies in preserving biblical dimensions that appear together: confession, sacramental communion, transformed conduct, and prayer. The structure serves the mystery; it does not replace Scripture or the lived Church.",
+  "commonMistakes": [
+    "Treating the four parts as independent modules with no common centre.",
+    "Equating moral life with earning grace.",
+    "Reducing sacraments to ceremonies or prayer to private feeling.",
+    "Using the Catechism as a quotation warehouse instead of following its argument and cross-references."
+  ],
+  "practicalSpiritualApplication": "Audit one week of Catholic life under four headings: what you professed, celebrated, practiced, and prayed. Identify the weakest connection and choose one small action that reconnects it to Christ.",
+  "summary": "The Catechism's four parts form a single symphony: the mystery confessed in the Creed is celebrated in the sacraments, lived by grace, and received and answered in prayer. The pattern protects formation from becoming merely intellectual, ritual, moralistic, or individualistic.",
+  "reviewPrompts": [
+    "What question does each part of the Catechism answer?",
+    "Why is moral life placed after the sacramental economy?",
+    "Give one example of imbalance that the four-part pattern can expose."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.catholic-foundations.foundations.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Match each Catechism part to its governing question.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.catholic-foundations.foundations.02.02",
+      "format": "scenario",
+      "promptIntent": "Diagnose which dimension is missing from a one-sided formation plan.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.acts-2",
+      "locator": "Acts 2:37-47",
+      "use": "Apostolic teaching, sacramental life, fellowship, and prayer"
+    },
+    {
+      "sourceId": "src.scripture.colossians-3",
+      "locator": "Colossians 3:12-17",
+      "use": "Doctrine, virtue, worship, and action held together"
+    },
+    {
+      "sourceId": "src.scripture.romans-12",
+      "locator": "Romans 12:1-2",
+      "use": "Embodied worship and moral transformation"
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 13-17; 1066-1068; 1691-1698; 2558-2565",
+      "use": "Four-part architecture and its internal unity"
+    },
+    {
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "locator": "Section 10",
+      "use": "Liturgy as summit and source"
+    },
+    {
+      "sourceId": "src.didache",
+      "locator": "Chapters 1-4; 7-10; 14",
+      "use": "Early integration of teaching, life, sacraments, and prayer"
+    },
+    {
+      "sourceId": "src.cyril.catechetical-lectures",
+      "locator": "Procatechesis; Catechetical Lecture 5",
+      "use": "Integrated catechumenal formation"
+    }
+  ],
+  "relatedLessonIds": [
+    "les.catholic-foundations.foundations.01",
+    "les.catholic-foundations.evidence.02",
+    "les.liturgy.foundations.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "christology",
+      "historical"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine",
+      "discipline",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-19"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.catholic-foundations.01",
+    "batchOrder": 2,
+    "contentHash": "68d3c1aa25f0e9d871634902bde9bf87679955c5a457f096dfa781e416da5430",
+    "approximateWordCount": 1441
+  }
+}

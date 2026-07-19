@@ -1,0 +1,336 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.catholic-foundations.evidence.01",
+  "phase3LessonId": "les.catholic-foundations.evidence.01",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.catholic-foundations",
+  "groupId": "grp.catholic-foundations.evidence",
+  "title": "Scripture, Tradition, and Magisterium at First Glance",
+  "slug": "catholic-foundations-evidence-01",
+  "centralQuestion": "How do Sacred Scripture, Sacred Tradition, and the Magisterium relate in Catholic faith?",
+  "learningObjectives": [
+    "Describe Scripture, Tradition, and Magisterium without treating them as three rival sources.",
+    "Distinguish apostolic Tradition from local customs and the Magisterium from new revelation.",
+    "Represent a confessional Reformed objection to Catholic authority fairly before giving a Catholic response."
+  ],
+  "shortDirectAnswer": "Scripture and Tradition transmit the one apostolic deposit of God's revelation, while the Magisterium authentically interprets that deposit in service to the Word of God. None operates properly in isolation, and the Magisterium does not create new public revelation.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "One deposit transmitted in related modes"
+    },
+    {
+      "type": "paragraph",
+      "text": "The Catholic account begins with God's self-revelation completed in Christ and entrusted to the apostles. Their Gospel is transmitted in inspired writings and in the Church's living apostolic Tradition. Scripture is the Word of God set down under the inspiration of the Holy Spirit; Tradition hands on the Word entrusted by Christ and the Spirit to the apostles. They flow from the same divine source and converge toward the same end.",
+      "sourceIds": [
+        "src.vatican2.dei-verbum",
+        "src.ccc.interpretation"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "A teaching office that serves"
+    },
+    {
+      "type": "paragraph",
+      "text": "The Magisterium is the teaching office exercised by the bishops in communion with the Bishop of Rome. It is not above the Word of God and does not add a second stream of fresh public revelation. Its task is to listen, guard, expound, and authentically judge what belongs to the apostolic deposit. Scripture, Tradition, and Magisterium therefore have different roles within one economy of transmission.",
+      "sourceIds": [
+        "src.vatican2.dei-verbum",
+        "src.ccc.interpretation"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Tradition is not every tradition"
+    },
+    {
+      "type": "paragraph",
+      "text": "Apostolic Tradition must be distinguished from theological, liturgical, devotional, or disciplinary traditions that arose in particular times and places. Such traditions may be valuable and may express the faith, but they can be reformed under the Church's authority. The distinction prevents both contempt for living transmission and the inflation of every custom into revelation.",
+      "sourceIds": [
+        "src.ccc.interpretation"
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "Scripture is sufficient as the only infallible rule; adding an unwritten Tradition and an infallible Magisterium subjects God's Word to human authorities.",
+      "fairRepresentation": "Confessional Reformed Christianity classically teaches that the whole counsel necessary for salvation, faith, and life is expressly set down in Scripture or can be deduced from it, and that the supreme judge of religious controversies is the Holy Spirit speaking in Scripture. Reformed churches still use creeds, teachers, and inherited interpretation, but deny that these form a second infallible rule alongside Scripture. Other Protestant traditions formulate authority differently.",
+      "response": "Catholic teaching agrees that the Magisterium is under and serves God's Word, not over it. The disagreement concerns how Christ willed the apostolic Gospel to remain identifiable and authoritatively interpreted. The New Testament itself is received within apostolic teaching, worship, and ordered transmission. Catholicism therefore sees Scripture and apostolic Tradition as inseparable modes of one deposit and the Magisterium as its servant interpreter, not as competing revelations. Later lessons must examine canon, succession, and particular definitions rather than treating this introductory synthesis as a complete proof.",
+      "sourceIds": [
+        "src.scripture.1-corinthians-15",
+        "src.scripture.2-timothy-2",
+        "src.scripture.acts-2",
+        "src.scripture.1-timothy-3",
+        "src.vatican2.dei-verbum",
+        "src.ccc.interpretation",
+        "src.irenaeus.against-heresies",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.catholic-foundations.evidence.02",
+        "les.revelation-and-faith.foundations.01",
+        "les.scripture-and-canon.foundations.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "canon",
+        "historical",
+        "papacy",
+        "protestant"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Deposit of faith",
+      "definition": "The saving revelation entrusted by Christ and the Holy Spirit to the apostles and handed on in the Church.",
+      "sourceIds": [
+        "src.ccc.interpretation"
+      ]
+    },
+    {
+      "term": "Sacred Scripture",
+      "definition": "The inspired written Word of God received in the Church's canon.",
+      "sourceIds": [
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "term": "Sacred Tradition",
+      "definition": "The living transmission of the apostolic Gospel in the Church under the Holy Spirit, distinct from merely local or changeable customs.",
+      "sourceIds": [
+        "src.vatican2.dei-verbum",
+        "src.ccc.interpretation"
+      ]
+    },
+    {
+      "term": "Magisterium",
+      "definition": "The Church's living teaching office, exercised by the bishops in communion with the successor of Peter, in service to the Word of God.",
+      "sourceIds": [
+        "src.vatican2.dei-verbum",
+        "src.ccc.interpretation"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "1 Corinthians 15:1-5",
+      "paraphrase": "Paul describes a Gospel that he received, handed on, and also attests through the scriptural witness to Christ's saving death and resurrection.",
+      "sourceId": "src.scripture.1-corinthians-15",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "2 Timothy 2:1-2",
+      "paraphrase": "Timothy is to entrust Paul's received teaching to reliable people capable of teaching others, displaying an ordered chain of transmission.",
+      "sourceId": "src.scripture.2-timothy-2",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Acts 2:42",
+      "paraphrase": "The first baptized community perseveres in the apostles' teaching within the worshiping life of the Church.",
+      "sourceId": "src.scripture.acts-2",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "1 Timothy 3:14-15",
+      "paraphrase": "Paul links ordered ecclesial life with the Church's responsibility toward the truth.",
+      "sourceId": "src.scripture.1-timothy-3",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "Dei Verbum 7-10",
+      "summary": "The council explains apostolic transmission, the relationship of Scripture and Tradition, and the Magisterium's servant role.",
+      "sourceId": "src.vatican2.dei-verbum",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 74-83",
+      "summary": "The Catechism summarizes the handing on of revelation and distinguishes apostolic Tradition from later ecclesial traditions.",
+      "sourceId": "src.ccc.interpretation",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 84-87",
+      "summary": "The deposit is entrusted to the Church, and authentic interpretation is assigned to the living teaching office without placing it above God's Word.",
+      "sourceId": "src.ccc.interpretation",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 95",
+      "summary": "The Catechism presents Scripture, Tradition, and Magisterium as so connected that each works properly with the others.",
+      "sourceId": "src.ccc.interpretation",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "The second-century appeal to public apostolic succession and teaching is evidence for a living, ecclesial account of transmission very near the apostolic age.",
+    "items": [
+      {
+        "summary": "Irenaeus answers secret or revisionist teachings by pointing to the publicly traceable apostolic tradition preserved in the churches.",
+        "sourceId": "src.irenaeus.against-heresies",
+        "locator": "Against Heresies III.3"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Three roles within one transmission",
+      "columns": [
+        "Term",
+        "Meaning",
+        "Why it matters"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "Inspired written witness within the apostolic deposit",
+          "Normative Word of God, read in the living Church"
+        ],
+        [
+          "Apostolic Tradition",
+          "Living transmission of the Gospel entrusted to the apostles",
+          "Includes more than changeable customs"
+        ],
+        [
+          "Magisterium",
+          "Authentic ecclesial interpretation of the deposit",
+          "Serves rather than supersedes the Word"
+        ],
+        [
+          "Ecclesial traditions",
+          "Later theological, liturgical, devotional, or disciplinary forms",
+          "May express the faith yet can be distinguished and reformed"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "Scripture is sufficient as the only infallible rule; adding an unwritten Tradition and an infallible Magisterium subjects God's Word to human authorities.",
+  "opposingPosition": "Confessional Reformed Christianity classically teaches that the whole counsel necessary for salvation, faith, and life is expressly set down in Scripture or can be deduced from it, and that the supreme judge of religious controversies is the Holy Spirit speaking in Scripture. Reformed churches still use creeds, teachers, and inherited interpretation, but deny that these form a second infallible rule alongside Scripture. Other Protestant traditions formulate authority differently.",
+  "catholicResponse": "Catholic teaching agrees that the Magisterium is under and serves God's Word, not over it. The disagreement concerns how Christ willed the apostolic Gospel to remain identifiable and authoritatively interpreted. The New Testament itself is received within apostolic teaching, worship, and ordered transmission. Catholicism therefore sees Scripture and apostolic Tradition as inseparable modes of one deposit and the Magisterium as its servant interpreter, not as competing revelations. Later lessons must examine canon, succession, and particular definitions rather than treating this introductory synthesis as a complete proof.",
+  "commonMistakes": [
+    "Calling Scripture, Tradition, and Magisterium three separate revelations.",
+    "Using 'Tradition' to defend every Catholic custom.",
+    "Saying the Magisterium can teach whatever it chooses.",
+    "Representing all Protestants as holding one identical version of sola Scriptura.",
+    "Citing a Church Father as if one passage alone settles the whole authority question."
+  ],
+  "practicalSpiritualApplication": "When studying a doctrine, record three columns: principal biblical texts, the Church's received interpretation and practice, and the relevant Magisterial judgment. Use the columns to seek coherence, not to make one source silence the others.",
+  "summary": "Catholicism receives one apostolic deposit through inspired Scripture and living apostolic Tradition, authentically interpreted by a Magisterium that serves God's Word. This framework must be distinguished from both private custom and the claim that ecclesial authority creates new revelation.",
+  "reviewPrompts": [
+    "Why does Catholic teaching reject the image of three rival sources?",
+    "How does apostolic Tradition differ from later ecclesial traditions?",
+    "State the Reformed concern about authority without caricature, then identify the precise Catholic disagreement."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.catholic-foundations.evidence.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Match Scripture, Tradition, and Magisterium to their distinct roles.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.catholic-foundations.evidence.01.02",
+      "format": "short_response",
+      "promptIntent": "Fairly state the Reformed objection and the Catholic reply.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.1-corinthians-15",
+      "locator": "1 Corinthians 15:1-5",
+      "use": "Received and transmitted apostolic Gospel"
+    },
+    {
+      "sourceId": "src.scripture.2-timothy-2",
+      "locator": "2 Timothy 2:1-2",
+      "use": "Ordered teaching transmission"
+    },
+    {
+      "sourceId": "src.scripture.acts-2",
+      "locator": "Acts 2:42",
+      "use": "Apostolic teaching in ecclesial life"
+    },
+    {
+      "sourceId": "src.scripture.1-timothy-3",
+      "locator": "1 Timothy 3:14-15",
+      "use": "Ecclesial order and responsibility toward truth"
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "Sections 7-10",
+      "use": "Catholic account of transmission and authority"
+    },
+    {
+      "sourceId": "src.ccc.interpretation",
+      "locator": "CCC 74-95",
+      "use": "Scripture, Tradition, deposit, Magisterium, and traditions"
+    },
+    {
+      "sourceId": "src.irenaeus.against-heresies",
+      "locator": "Book III, chapter 3",
+      "use": "Public apostolic tradition"
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "Chapter 1, sections 6 and 10",
+      "use": "Confessional Reformed account represented in the objection"
+    }
+  ],
+  "relatedLessonIds": [
+    "les.catholic-foundations.evidence.02",
+    "les.revelation-and-faith.foundations.01",
+    "les.scripture-and-canon.foundations.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "canon",
+      "historical",
+      "papacy",
+      "protestant"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [
+      "Confessional Reformed Protestantism (Westminster tradition; not all Protestants)"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-19"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.catholic-foundations.01",
+    "batchOrder": 5,
+    "contentHash": "ed5511bcca85166590b4711e1952d4441fa1043317dadcfb05ae117e3b3ed604",
+    "approximateWordCount": 1671
+  }
+}

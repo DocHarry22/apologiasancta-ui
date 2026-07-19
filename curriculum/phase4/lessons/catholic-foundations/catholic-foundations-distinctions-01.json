@@ -1,0 +1,329 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.catholic-foundations.distinctions.01",
+  "phase3LessonId": "les.catholic-foundations.distinctions.01",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.catholic-foundations",
+  "groupId": "grp.catholic-foundations.distinctions",
+  "title": "Dogma, Doctrine, Discipline, and Opinion",
+  "slug": "catholic-foundations-distinctions-01",
+  "centralQuestion": "How should Catholics distinguish dogma, doctrine, discipline, theological opinion, and historical claim?",
+  "learningObjectives": [
+    "Define five common claim categories without treating them as interchangeable.",
+    "Explain why authority, object, and required assent must be examined before evaluating a Catholic claim.",
+    "Classify representative examples cautiously and identify when expert review is needed."
+  ],
+  "shortDirectAnswer": "Dogma is divinely revealed truth definitively proposed by the Church; doctrine is the broader body of authoritative teaching; discipline regulates ecclesial life; theological opinion is a reasoned but non-definitive proposal; and a historical claim concerns contingent events assessed through evidence. Confusing these categories produces false contradictions and exaggerated certainty.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Begin with the kind of claim"
+    },
+    {
+      "type": "paragraph",
+      "text": "The word 'Catholic' can describe teachings of very different authority, changeable laws, common customs, schools of theology, or claims made by particular historians. Before asking whether a statement is true, obligatory, reformable, or disputed, identify what sort of statement it is and who has made it. The Catechism itself distinguishes dogmas and their organic connection from the Church's disciplines and diverse theological work.",
+      "sourceIds": [
+        "src.ccc.interpretation",
+        "src.ccc.main"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Doctrine is broader than dogma"
+    },
+    {
+      "type": "paragraph",
+      "text": "Doctrine is a broad term for authoritative Christian teaching. Dogmas are doctrines presented as divinely revealed and definitively binding. Other teachings may be definitive because they are required to guard or expound revelation, while still others are taught authoritatively without being defined irreformably. A beginner need not memorize every canonical formula yet, but must resist the binary mistake that every teaching is either a dogma or merely optional.",
+      "sourceIds": [
+        "src.ccc.interpretation"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Practices and explanations require their own tests"
+    },
+    {
+      "type": "paragraph",
+      "text": "A discipline can change because pastoral governance responds to circumstances, yet its doctrinal purposes may remain. A theological opinion can be respected without becoming the faith of the Church. A historical claim requires primary sources and historical method; an officeholder's mistake does not automatically falsify a dogma, and a dogmatic definition does not settle every disputed historical detail.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "Catholics use labels such as 'discipline' or 'opinion' as escape hatches whenever the Church appears to have changed or made a mistake.",
+      "fairRepresentation": "The objection reasonably demands consistent classifications rather than after-the-fact relabelling. It also notes that disciplines can express doctrine and that historical claims sometimes affect the credibility of doctrinal narratives.",
+      "response": "The categories are not excuses; they impose harder questions. A Catholic must identify the competent authority, text, object, level of teaching, historical context, and response required. A discipline cannot be used to deny a dogma, and calling something doctrine does not make every explanation of it irreformable. Where classification is contested, the honest answer is to flag it for qualified review rather than claim certainty.",
+      "sourceIds": [
+        "src.scripture.1-timothy-3",
+        "src.scripture.ephesians-4",
+        "src.scripture.acts-2",
+        "src.ccc.interpretation",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.irenaeus.against-heresies"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.catholic-foundations.distinctions.02",
+        "les.revelation-and-faith.distinctions.01",
+        "les.papacy-and-magisterium.distinctions.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "historical",
+        "papacy"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Dogma",
+      "definition": "A truth contained in divine revelation and definitively proposed by the Church as divinely revealed, requiring the assent of theological faith.",
+      "sourceIds": [
+        "src.ccc.interpretation"
+      ]
+    },
+    {
+      "term": "Doctrine",
+      "definition": "Authoritative teaching concerning faith or morals; the term is broader than formally defined dogma.",
+      "sourceIds": [
+        "src.ccc.interpretation"
+      ]
+    },
+    {
+      "term": "Discipline",
+      "definition": "An ecclesial rule or regulated practice governing Christian and institutional life; it is not identical with the doctrine it may protect or express.",
+      "sourceIds": [
+        "src.ccc.main"
+      ]
+    },
+    {
+      "term": "Theological opinion",
+      "definition": "A reasoned proposal within theology that has not been definitively taught and may be debated within the bounds of faith.",
+      "sourceIds": [
+        "src.ccc.main"
+      ]
+    },
+    {
+      "term": "Historical claim",
+      "definition": "A claim about contingent persons, actions, texts, dates, causes, or developments evaluated through historical evidence.",
+      "sourceIds": [
+        "src.vatican2.dei-verbum"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "1 Timothy 3:14-15",
+      "paraphrase": "Paul describes the Church with a truth-bearing role while instructing Timothy about ordered conduct within the household of God.",
+      "sourceId": "src.scripture.1-timothy-3",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 4:11-16",
+      "paraphrase": "The Church's ministries serve unity in faith, maturity, and stability so believers are not driven by every new teaching.",
+      "sourceId": "src.scripture.ephesians-4",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Acts 2:42",
+      "paraphrase": "The earliest Jerusalem community perseveres in the apostles' teaching as well as common and sacramental life.",
+      "sourceId": "src.scripture.acts-2",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 84-87",
+      "summary": "The apostolic deposit is entrusted to the whole Church, with an authentic teaching office serving the Word of God.",
+      "sourceId": "src.ccc.interpretation",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 88-90",
+      "summary": "The Catechism describes dogmas and emphasizes their coherence and hierarchy within the whole mystery of Christ.",
+      "sourceId": "src.ccc.interpretation",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 891-892",
+      "summary": "The Catechism distinguishes infallible definitions from the ordinary exercise of authoritative teaching and the responses they call for.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "Dei Verbum 10",
+      "summary": "The council distinguishes the teaching office from the Word it serves and locates Scripture, Tradition, and Magisterium within one divine plan.",
+      "sourceId": "src.vatican2.dei-verbum",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Early disputes already required Christians to distinguish the apostolic rule of faith from private speculation and local practice.",
+    "items": [
+      {
+        "summary": "Irenaeus contrasts the churches' public apostolic tradition with speculative systems claimed by rival teachers.",
+        "sourceId": "src.irenaeus.against-heresies",
+        "locator": "Against Heresies III.3"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Claim categories and their proper questions",
+      "columns": [
+        "Term",
+        "Meaning",
+        "Why it matters"
+      ],
+      "rows": [
+        [
+          "Dogma",
+          "Divinely revealed truth definitively proposed",
+          "Ask how it is contained in revelation and proposed by the Church"
+        ],
+        [
+          "Doctrine",
+          "Authoritative teaching in faith or morals",
+          "Ask its level, object, continuity, and required response"
+        ],
+        [
+          "Discipline",
+          "Changeable ecclesial regulation or practice",
+          "Ask who enacted it, whom it binds, and its doctrinal rationale"
+        ],
+        [
+          "Theological opinion",
+          "Permitted non-definitive theological judgment",
+          "Ask whether it fits established teaching and how strongly evidence supports it"
+        ],
+        [
+          "Historical claim",
+          "Judgment about a contingent past event",
+          "Ask about sources, method, probability, and competing interpretations"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "Catholics use labels such as 'discipline' or 'opinion' as escape hatches whenever the Church appears to have changed or made a mistake.",
+  "opposingPosition": "The objection reasonably demands consistent classifications rather than after-the-fact relabelling. It also notes that disciplines can express doctrine and that historical claims sometimes affect the credibility of doctrinal narratives.",
+  "catholicResponse": "The categories are not excuses; they impose harder questions. A Catholic must identify the competent authority, text, object, level of teaching, historical context, and response required. A discipline cannot be used to deny a dogma, and calling something doctrine does not make every explanation of it irreformable. Where classification is contested, the honest answer is to flag it for qualified review rather than claim certainty.",
+  "commonMistakes": [
+    "Calling every papal remark infallible.",
+    "Calling every long-standing Catholic practice a dogma.",
+    "Assuming a change in discipline proves a reversal of doctrine.",
+    "Presenting a favored theological school as the only Catholic position.",
+    "Using a doctrinal citation to avoid evaluating a separate historical claim."
+  ],
+  "practicalSpiritualApplication": "Choose a disputed Catholic claim and write five lines: exact wording, speaker or document, claim type, authority level, and evidence still needed. Practice saying 'I do not yet know the classification' when the record is incomplete.",
+  "summary": "Catholic reasoning improves when it distinguishes dogma, broader doctrine, discipline, theological opinion, and historical claim. The categories do not remove the duty to seek truth; they direct the right evidence, authority question, and degree of confidence to each claim.",
+  "reviewPrompts": [
+    "Why is 'doctrine' broader than 'dogma'?",
+    "How can a discipline change while a doctrine remains?",
+    "What evidence is needed before classifying a contested statement?"
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.catholic-foundations.distinctions.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Classify representative Catholic statements by claim type.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.catholic-foundations.distinctions.01.02",
+      "format": "scenario",
+      "promptIntent": "Identify which authority and evidence questions are missing from an online dispute.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.1-timothy-3",
+      "locator": "1 Timothy 3:14-15",
+      "use": "Church, truth, and ecclesial conduct"
+    },
+    {
+      "sourceId": "src.scripture.ephesians-4",
+      "locator": "Ephesians 4:11-16",
+      "use": "Teaching ministry, unity, and doctrinal maturity"
+    },
+    {
+      "sourceId": "src.scripture.acts-2",
+      "locator": "Acts 2:42",
+      "use": "Perseverance in apostolic teaching"
+    },
+    {
+      "sourceId": "src.ccc.interpretation",
+      "locator": "CCC 84-90",
+      "use": "Deposit of faith, Magisterium, dogmas, and hierarchy"
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 891-892",
+      "use": "Modes of Magisterial teaching"
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "Section 10",
+      "use": "Teaching office in service to revelation"
+    },
+    {
+      "sourceId": "src.irenaeus.against-heresies",
+      "locator": "Book III, chapter 3",
+      "use": "Apostolic tradition and rival speculation"
+    }
+  ],
+  "relatedLessonIds": [
+    "les.catholic-foundations.distinctions.02",
+    "les.revelation-and-faith.distinctions.01",
+    "les.papacy-and-magisterium.distinctions.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "historical",
+      "papacy"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "theological_opinion",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-19"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.catholic-foundations.01",
+    "batchOrder": 3,
+    "contentHash": "5bb4cab10b58a165bfa307514cf190ef72d5bc4f6a9a5d14b5a4103c521b4fd4",
+    "approximateWordCount": 1511
+  }
+}

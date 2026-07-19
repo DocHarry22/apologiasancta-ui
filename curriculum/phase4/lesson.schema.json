@@ -1,0 +1,385 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://apologiasancta.example/schemas/phase4-lesson.schema.json",
+  "title": "Apologia Sancta Phase 4 Draft Lesson",
+  "description": "Safe structured-content contract for an unpublished lesson draft. Arbitrary HTML is intentionally unsupported.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "stableId",
+    "phase3LessonId",
+    "programmeId",
+    "subjectId",
+    "groupId",
+    "title",
+    "slug",
+    "centralQuestion",
+    "learningObjectives",
+    "shortDirectAnswer",
+    "fullExplanation",
+    "essentialTerminology",
+    "scriptureEvidence",
+    "catechismMagisterialEvidence",
+    "patristicHistoricalEvidence",
+    "importantDistinctions",
+    "strongObjection",
+    "opposingPosition",
+    "catholicResponse",
+    "commonMistakes",
+    "practicalSpiritualApplication",
+    "summary",
+    "reviewPrompts",
+    "practiceQuestionPlaceholders",
+    "references",
+    "relatedLessonIds",
+    "relatedGraphReferences",
+    "editorial",
+    "_generation"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "stableId": { "type": "string", "pattern": "^content\\.les\\.[a-z0-9.-]+$" },
+    "phase3LessonId": { "type": "string", "pattern": "^les\\.[a-z0-9.-]+$" },
+    "programmeId": { "type": "string", "pattern": "^prog\\.[a-z0-9.-]+$" },
+    "subjectId": { "type": "string", "pattern": "^subj\\.[a-z0-9.-]+$" },
+    "groupId": { "type": "string", "pattern": "^grp\\.[a-z0-9.-]+$" },
+    "title": { "$ref": "#/$defs/nonEmptyText" },
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "centralQuestion": { "$ref": "#/$defs/nonEmptyText" },
+    "learningObjectives": { "$ref": "#/$defs/textList" },
+    "shortDirectAnswer": { "$ref": "#/$defs/nonEmptyText" },
+    "fullExplanation": {
+      "type": "array",
+      "minItems": 3,
+      "items": { "$ref": "#/$defs/contentBlock" }
+    },
+    "essentialTerminology": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["term", "definition"],
+        "properties": {
+          "term": { "$ref": "#/$defs/nonEmptyText" },
+          "definition": { "$ref": "#/$defs/nonEmptyText" },
+          "sourceIds": { "$ref": "#/$defs/sourceIds" }
+        }
+      }
+    },
+    "scriptureEvidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/scriptureCard" }
+    },
+    "catechismMagisterialEvidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/catechismCard" }
+    },
+    "patristicHistoricalEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relevance", "items"],
+      "properties": {
+        "relevance": { "$ref": "#/$defs/nonEmptyText" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["summary", "sourceId", "locator"],
+            "properties": {
+              "summary": { "$ref": "#/$defs/nonEmptyText" },
+              "sourceId": { "$ref": "#/$defs/sourceId" },
+              "locator": { "$ref": "#/$defs/nonEmptyText" }
+            }
+          }
+        }
+      }
+    },
+    "importantDistinctions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/distinctionTable" }
+    },
+    "strongObjection": { "$ref": "#/$defs/nonEmptyText" },
+    "opposingPosition": { "$ref": "#/$defs/nonEmptyText" },
+    "catholicResponse": { "$ref": "#/$defs/nonEmptyText" },
+    "commonMistakes": { "$ref": "#/$defs/textList" },
+    "practicalSpiritualApplication": { "$ref": "#/$defs/nonEmptyText" },
+    "summary": { "$ref": "#/$defs/nonEmptyText" },
+    "reviewPrompts": { "$ref": "#/$defs/textList" },
+    "practiceQuestionPlaceholders": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stableId", "format", "promptIntent", "status"],
+        "properties": {
+          "stableId": { "type": "string", "pattern": "^placeholder\\.[a-z0-9.-]+$" },
+          "format": { "enum": ["multiple_choice", "true_false", "short_response", "scenario"] },
+          "promptIntent": { "$ref": "#/$defs/nonEmptyText" },
+          "status": { "const": "placeholder" }
+        }
+      }
+    },
+    "references": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/reference" }
+    },
+    "relatedLessonIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^les\\.[a-z0-9.-]+$" }
+    },
+    "relatedGraphReferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["categoryIds", "recordIds"],
+      "properties": {
+        "categoryIds": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+        "recordIds": { "type": "array", "uniqueItems": true, "items": { "type": "string" } }
+      }
+    },
+    "editorial": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "productionStatus",
+        "reviewStatus",
+        "publicationStatus",
+        "doctrinalClassifications",
+        "comparativeTraditions",
+        "scripturePolicy",
+        "licenceReviewRequired",
+        "humanApprovalRequired",
+        "generatedOn"
+      ],
+      "properties": {
+        "productionStatus": { "const": "drafted" },
+        "reviewStatus": { "enum": ["awaiting_assignment", "in_review", "changes_requested", "reviewed"] },
+        "publicationStatus": { "const": "unpublished" },
+        "doctrinalClassifications": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["dogma", "doctrine", "discipline", "theological_opinion", "historical_claim", "philosophical_claim", "scientific_claim"] }
+        },
+        "comparativeTraditions": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+        "scripturePolicy": { "const": "references_and_original_paraphrases_only" },
+        "licenceReviewRequired": { "const": true },
+        "humanApprovalRequired": { "const": true },
+        "generatedOn": { "type": "string", "format": "date" }
+      }
+    },
+    "_generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["batchId", "batchOrder", "contentHash", "approximateWordCount"],
+      "properties": {
+        "batchId": { "type": "string", "pattern": "^batch\\.[a-z0-9.-]+$" },
+        "batchOrder": { "type": "integer", "minimum": 1 },
+        "contentHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "approximateWordCount": { "type": "integer", "minimum": 1 }
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyText": { "type": "string", "minLength": 1 },
+    "textList": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmptyText" } },
+    "sourceId": { "type": "string", "pattern": "^src\\.[a-z0-9.-]+$" },
+    "sourceIds": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/sourceId" } },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceId", "locator", "use"],
+      "properties": {
+        "sourceId": { "$ref": "#/$defs/sourceId" },
+        "locator": { "$ref": "#/$defs/nonEmptyText" },
+        "use": { "$ref": "#/$defs/nonEmptyText" }
+      }
+    },
+    "paragraphBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text"],
+      "properties": {
+        "type": { "const": "paragraph" },
+        "text": { "$ref": "#/$defs/nonEmptyText" },
+        "sourceIds": { "$ref": "#/$defs/sourceIds" }
+      }
+    },
+    "headingBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "level", "text"],
+      "properties": {
+        "type": { "const": "heading" },
+        "level": { "enum": [2, 3, 4] },
+        "text": { "$ref": "#/$defs/nonEmptyText" }
+      }
+    },
+    "scriptureCard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "reference", "paraphrase", "sourceId", "quotationIncluded"],
+      "properties": {
+        "type": { "const": "scripture_card" },
+        "reference": { "$ref": "#/$defs/nonEmptyText" },
+        "paraphrase": { "$ref": "#/$defs/nonEmptyText" },
+        "sourceId": { "$ref": "#/$defs/sourceId" },
+        "quotationIncluded": { "const": false }
+      }
+    },
+    "catechismCard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "locator", "summary", "sourceId", "quotationIncluded"],
+      "properties": {
+        "type": { "const": "catechism_card" },
+        "locator": { "$ref": "#/$defs/nonEmptyText" },
+        "summary": { "$ref": "#/$defs/nonEmptyText" },
+        "sourceId": { "$ref": "#/$defs/sourceId" },
+        "quotationIncluded": { "const": false }
+      }
+    },
+    "quotationBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text", "sourceId", "locator", "wordCount", "rightsStatus"],
+      "properties": {
+        "type": { "const": "quotation" },
+        "text": { "$ref": "#/$defs/nonEmptyText" },
+        "sourceId": { "$ref": "#/$defs/sourceId" },
+        "locator": { "$ref": "#/$defs/nonEmptyText" },
+        "wordCount": { "type": "integer", "minimum": 1, "maximum": 25 },
+        "rightsStatus": { "enum": ["public_domain", "permission_confirmed", "licence_review_required"] }
+      }
+    },
+    "distinctionTable": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "caption", "columns", "rows"],
+      "properties": {
+        "type": { "const": "distinction_table" },
+        "caption": { "$ref": "#/$defs/nonEmptyText" },
+        "columns": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/nonEmptyText" } },
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/nonEmptyText" } }
+        }
+      }
+    },
+    "objectionResponseBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "objection", "fairRepresentation", "response", "sourceIds"],
+      "properties": {
+        "type": { "const": "objection_response" },
+        "objection": { "$ref": "#/$defs/nonEmptyText" },
+        "fairRepresentation": { "$ref": "#/$defs/nonEmptyText" },
+        "response": { "$ref": "#/$defs/nonEmptyText" },
+        "sourceIds": { "$ref": "#/$defs/sourceIds" }
+      }
+    },
+    "timelineBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "caption", "events"],
+      "properties": {
+        "type": { "const": "timeline" },
+        "caption": { "$ref": "#/$defs/nonEmptyText" },
+        "events": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "description", "sourceIds"],
+            "properties": {
+              "label": { "$ref": "#/$defs/nonEmptyText" },
+              "description": { "$ref": "#/$defs/nonEmptyText" },
+              "sourceIds": { "$ref": "#/$defs/sourceIds" }
+            }
+          }
+        }
+      }
+    },
+    "imageBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "assetId", "alt", "caption", "rightsStatus"],
+      "properties": {
+        "type": { "const": "image" },
+        "assetId": { "$ref": "#/$defs/nonEmptyText" },
+        "alt": { "$ref": "#/$defs/nonEmptyText" },
+        "caption": { "$ref": "#/$defs/nonEmptyText" },
+        "rightsStatus": { "enum": ["owned", "public_domain", "permission_confirmed", "licence_review_required"] }
+      }
+    },
+    "footnotesBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": { "const": "footnotes" },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["marker", "text", "sourceId", "locator"],
+            "properties": {
+              "marker": { "$ref": "#/$defs/nonEmptyText" },
+              "text": { "$ref": "#/$defs/nonEmptyText" },
+              "sourceId": { "$ref": "#/$defs/sourceId" },
+              "locator": { "$ref": "#/$defs/nonEmptyText" }
+            }
+          }
+        }
+      }
+    },
+    "relatedContentBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "lessonIds"],
+      "properties": {
+        "type": { "const": "related_content" },
+        "lessonIds": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^les\\.[a-z0-9.-]+$" } }
+      }
+    },
+    "graphReferencesBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "categoryIds", "recordIds"],
+      "properties": {
+        "type": { "const": "graph_references" },
+        "categoryIds": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+        "recordIds": { "type": "array", "uniqueItems": true, "items": { "type": "string" } }
+      }
+    },
+    "contentBlock": {
+      "oneOf": [
+        { "$ref": "#/$defs/paragraphBlock" },
+        { "$ref": "#/$defs/headingBlock" },
+        { "$ref": "#/$defs/scriptureCard" },
+        { "$ref": "#/$defs/catechismCard" },
+        { "$ref": "#/$defs/quotationBlock" },
+        { "$ref": "#/$defs/distinctionTable" },
+        { "$ref": "#/$defs/objectionResponseBlock" },
+        { "$ref": "#/$defs/timelineBlock" },
+        { "$ref": "#/$defs/imageBlock" },
+        { "$ref": "#/$defs/footnotesBlock" },
+        { "$ref": "#/$defs/relatedContentBlock" },
+        { "$ref": "#/$defs/graphReferencesBlock" }
+      ]
+    }
+  }
+}

@@ -1,0 +1,362 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "as.phase4.citation-verification.2026-07-19",
+  "verifiedOn": "2026-07-19",
+  "sourceCatalogSha256": "4916ec4d64a95d38b799e9ec18607a262343d03c6953778e95aba27ee0bf2b13",
+  "status": "passed_with_publisher_access_limitations",
+  "scope": {
+    "sources": 24,
+    "liveOfficialUrls": 18,
+    "bibliographicRecords": 6,
+    "lessonLocators": "Validated structurally; exact semantic use remains part of named human source review before approval."
+  },
+  "summary": {
+    "passed": 24,
+    "failed": 0,
+    "publisherAccessLimitations": 9
+  },
+  "results": [
+    {
+      "sourceId": "src.scripture.matthew-28",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://bible.usccb.org/bible/matthew/28",
+      "publisherHost": "bible.usccb.org",
+      "expectedIdentityMarkers": [
+        "matthew"
+      ],
+      "matchedIdentityMarkers": [
+        "matthew"
+      ],
+      "responseBytesInspected": 68533,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.scripture.luke-24",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://bible.usccb.org/bible/luke/24",
+      "publisherHost": "bible.usccb.org",
+      "expectedIdentityMarkers": [
+        "luke"
+      ],
+      "matchedIdentityMarkers": [
+        "luke"
+      ],
+      "responseBytesInspected": 78074,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.scripture.acts-2",
+      "verificationMode": "prior_browser_identity_check_plus_automated_fetch",
+      "status": "passed_with_publisher_access_limitation",
+      "httpStatus": 403,
+      "resolvedUrl": "https://bible.usccb.org/bible/acts/2",
+      "publisherHost": "bible.usccb.org",
+      "expectedIdentityMarkers": [
+        "acts"
+      ],
+      "matchedIdentityMarkers": [],
+      "responseBytesInspected": 15748,
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "error": null
+    },
+    {
+      "sourceId": "src.scripture.romans-12",
+      "verificationMode": "prior_browser_identity_check_plus_automated_fetch",
+      "status": "passed_with_publisher_access_limitation",
+      "httpStatus": 403,
+      "resolvedUrl": "https://bible.usccb.org/bible/romans/12",
+      "publisherHost": "bible.usccb.org",
+      "expectedIdentityMarkers": [
+        "romans"
+      ],
+      "matchedIdentityMarkers": [],
+      "responseBytesInspected": 15748,
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "error": null
+    },
+    {
+      "sourceId": "src.scripture.1-corinthians-15",
+      "verificationMode": "prior_browser_identity_check_plus_automated_fetch",
+      "status": "passed_with_publisher_access_limitation",
+      "httpStatus": 403,
+      "resolvedUrl": "https://bible.usccb.org/bible/1corinthians/15",
+      "publisherHost": "bible.usccb.org",
+      "expectedIdentityMarkers": [
+        "corinthians"
+      ],
+      "matchedIdentityMarkers": [],
+      "responseBytesInspected": 15748,
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "error": null
+    },
+    {
+      "sourceId": "src.scripture.ephesians-4",
+      "verificationMode": "prior_browser_identity_check_plus_automated_fetch",
+      "status": "passed_with_publisher_access_limitation",
+      "httpStatus": 403,
+      "resolvedUrl": "https://bible.usccb.org/bible/ephesians/4",
+      "publisherHost": "bible.usccb.org",
+      "expectedIdentityMarkers": [
+        "ephesians"
+      ],
+      "matchedIdentityMarkers": [],
+      "responseBytesInspected": 15748,
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "error": null
+    },
+    {
+      "sourceId": "src.scripture.colossians-3",
+      "verificationMode": "prior_browser_identity_check_plus_automated_fetch",
+      "status": "passed_with_publisher_access_limitation",
+      "httpStatus": 403,
+      "resolvedUrl": "https://bible.usccb.org/bible/colossians/3",
+      "publisherHost": "bible.usccb.org",
+      "expectedIdentityMarkers": [
+        "colossians"
+      ],
+      "matchedIdentityMarkers": [],
+      "responseBytesInspected": 15748,
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "error": null
+    },
+    {
+      "sourceId": "src.scripture.1-timothy-3",
+      "verificationMode": "prior_browser_identity_check_plus_automated_fetch",
+      "status": "passed_with_publisher_access_limitation",
+      "httpStatus": 403,
+      "resolvedUrl": "https://bible.usccb.org/bible/1timothy/3",
+      "publisherHost": "bible.usccb.org",
+      "expectedIdentityMarkers": [
+        "timothy"
+      ],
+      "matchedIdentityMarkers": [],
+      "responseBytesInspected": 15748,
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "error": null
+    },
+    {
+      "sourceId": "src.scripture.2-timothy-2",
+      "verificationMode": "prior_browser_identity_check_plus_automated_fetch",
+      "status": "passed_with_publisher_access_limitation",
+      "httpStatus": 403,
+      "resolvedUrl": "https://bible.usccb.org/bible/2timothy/2",
+      "publisherHost": "bible.usccb.org",
+      "expectedIdentityMarkers": [
+        "timothy"
+      ],
+      "matchedIdentityMarkers": [],
+      "responseBytesInspected": 15748,
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "error": null
+    },
+    {
+      "sourceId": "src.scripture.james-1",
+      "verificationMode": "prior_browser_identity_check_plus_automated_fetch",
+      "status": "passed_with_publisher_access_limitation",
+      "httpStatus": 403,
+      "resolvedUrl": "https://bible.usccb.org/bible/james/1",
+      "publisherHost": "bible.usccb.org",
+      "expectedIdentityMarkers": [
+        "james"
+      ],
+      "matchedIdentityMarkers": [],
+      "responseBytesInspected": 15748,
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "error": null
+    },
+    {
+      "sourceId": "src.scripture.1-peter-3",
+      "verificationMode": "prior_browser_identity_check_plus_automated_fetch",
+      "status": "passed_with_publisher_access_limitation",
+      "httpStatus": 403,
+      "resolvedUrl": "https://bible.usccb.org/bible/1peter/3",
+      "publisherHost": "bible.usccb.org",
+      "expectedIdentityMarkers": [
+        "peter"
+      ],
+      "matchedIdentityMarkers": [],
+      "responseBytesInspected": 15748,
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "error": null
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.vatican.va/content/catechism/en.html",
+      "publisherHost": "www.vatican.va",
+      "expectedIdentityMarkers": [
+        "catechism"
+      ],
+      "matchedIdentityMarkers": [
+        "catechism"
+      ],
+      "responseBytesInspected": 106296,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.ccc.interpretation",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.vatican.va/content/catechism/en/part_one/section_one/chapter_two/artcile_2/iii_the_interpretation_of_the_heritage_of_faith.html",
+      "publisherHost": "www.vatican.va",
+      "expectedIdentityMarkers": [
+        "interpretation",
+        "heritage",
+        "faith"
+      ],
+      "matchedIdentityMarkers": [
+        "interpretation",
+        "heritage",
+        "faith"
+      ],
+      "responseBytesInspected": 114230,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.vatican.va/archive/hist_councils/ii_vatican_council/documents/vat-ii_const_19651118_dei-verbum_en.html",
+      "publisherHost": "www.vatican.va",
+      "expectedIdentityMarkers": [
+        "verbum"
+      ],
+      "matchedIdentityMarkers": [
+        "verbum"
+      ],
+      "responseBytesInspected": 43095,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.vatican2.unitatis-redintegratio",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.vatican.va/archive/hist_councils/ii_vatican_council/documents/vat-ii_decree_19641121_unitatis-redintegratio_en.html",
+      "publisherHost": "www.vatican.va",
+      "expectedIdentityMarkers": [
+        "unitatis",
+        "redintegratio"
+      ],
+      "matchedIdentityMarkers": [
+        "unitatis",
+        "redintegratio"
+      ],
+      "responseBytesInspected": 50959,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.vatican.va/archive/hist_councils/ii_vatican_council/documents/vat-ii_const_19631204_sacrosanctum-concilium_en.html",
+      "publisherHost": "www.vatican.va",
+      "expectedIdentityMarkers": [
+        "sacrosanctum",
+        "concilium"
+      ],
+      "matchedIdentityMarkers": [
+        "sacrosanctum",
+        "concilium"
+      ],
+      "responseBytesInspected": 91960,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.jp2.catechesi-tradendae",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.vatican.va/content/john-paul-ii/en/apost_exhortations/documents/hf_jp-ii_exh_16101979_catechesi-tradendae.html",
+      "publisherHost": "www.vatican.va",
+      "expectedIdentityMarkers": [
+        "catechesi",
+        "tradendae"
+      ],
+      "matchedIdentityMarkers": [
+        "catechesi",
+        "tradendae"
+      ],
+      "responseBytesInspected": 169662,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.francis.evangelii-gaudium",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.vatican.va/content/francesco/en/apost_exhortations/documents/papa-francesco_esortazione-ap_20131124_evangelii-gaudium.html",
+      "publisherHost": "www.vatican.va",
+      "expectedIdentityMarkers": [
+        "evangelii",
+        "gaudium"
+      ],
+      "matchedIdentityMarkers": [
+        "evangelii",
+        "gaudium"
+      ],
+      "responseBytesInspected": 462252,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.irenaeus.against-heresies",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Books I and III",
+      "error": null
+    },
+    {
+      "sourceId": "src.didache",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Chapters 1-4 and 14",
+      "error": null
+    },
+    {
+      "sourceId": "src.cyril.catechetical-lectures",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Procatechesis; Catechetical Lecture 5",
+      "error": null
+    },
+    {
+      "sourceId": "src.justin.first-apology",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Chapters 1-8",
+      "error": null
+    },
+    {
+      "sourceId": "src.augustine.christian-doctrine",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Books I and III",
+      "error": null
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Chapter 1, sections 6 and 10",
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "batchId": "batch.as.phase3.curriculum.2026-07",
+  "blueprintId": "as.phase3.curriculum.2026-07",
+  "blueprintVersion": "1.0.0-draft",
+  "manifestSha256": "2e634f08aa9b3d1216010befca90f949c3bcda5832f59d3c9b14a92325511c1a",
+  "mode": "draft-structural-records-only",
+  "publish": false,
+  "generatedOn": "2026-07-19",
+  "counts": {
+    "programmeCount": 8,
+    "subjectCount": 118,
+    "nonBibleSubjectCount": 45,
+    "bibleBookSubjectCount": 73,
+    "groupCount": 590,
+    "lessonOutlineCount": 815,
+    "estimatedStudyMinutes": 34440,
+    "estimatedStudyHours": 574,
+    "suggestedPracticeQuestionVolume": 6846,
+    "suggestedMasteryPoolVolume": 10286,
+    "liveQuizEligibleLessonCount": 545,
+    "optionalLessonCount": 375,
+    "expertChallengeLessonCount": 10
+  },
+  "targetMappingStatus": "requires-user-approval",
+  "records": {
+    "programmes": "programmes.json",
+    "subjects": "subjects.json",
+    "groups": "groups.json",
+    "lessons": "lessons.json",
+    "prerequisiteEdges": "prerequisite-edges.json"
+  }
+}

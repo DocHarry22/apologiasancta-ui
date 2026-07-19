@@ -1,0 +1,853 @@
+[
+  {
+    "stableId": "prog.core-foundation",
+    "name": "Compulsory Catholic Foundation Route",
+    "slug": "compulsory-catholic-foundation-route",
+    "description": "A Christ-centred entry route through revelation, Scripture, salvation history, Trinity, Christ, Church, grace, sacraments, moral life, and prayer before specialist branching.",
+    "audience": [
+      "beginners",
+      "catechumens and converts",
+      "Catholics seeking systematic formation",
+      "casual quiz players"
+    ],
+    "difficulty": "foundation-to-intermediate",
+    "order": 1,
+    "prerequisites": [],
+    "unlockCondition": {
+      "type": "always"
+    },
+    "estimatedStudyTimeMinutes": 2584,
+    "learningOutcomes": [
+      "Give a coherent Christ-centred account of Catholic faith",
+      "Navigate the Catechism's Creed, Sacraments, Moral Life, and Prayer",
+      "Distinguish doctrinal authority levels",
+      "Use Scripture, Tradition, and Magisterium together",
+      "Enter specialist tracks with the required prior concepts"
+    ],
+    "requiredPriorConcepts": [
+      "none"
+    ],
+    "majorDoctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "theological_opinion",
+      "historical_claim"
+    ],
+    "requiredSourceTypes": [
+      "Sacred Scripture",
+      "Catechism of the Catholic Church",
+      "Ecumenical council",
+      "Authoritative liturgical text",
+      "Authoritative papal document",
+      "Church Fathers",
+      "Recognised Catholic scholarship",
+      "Primary historical source",
+      "Reputable academic scholarship"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant"
+    ],
+    "suggestedLessonCount": 80,
+    "suggestedPracticeQuestionVolume": 672,
+    "suggestedMasteryPoolVolume": 1024,
+    "liveQuizEligible": true,
+    "relatedApologiaGraphCategories": [
+      "christology",
+      "canon",
+      "historical",
+      "trinity",
+      "papacy",
+      "eucharist"
+    ],
+    "reviewRiskLevel": "critical",
+    "subjectIds": [
+      "subj.catholic-foundations",
+      "subj.revelation-faith",
+      "subj.scripture-canon",
+      "subj.salvation-history",
+      "subj.god-trinity-creation",
+      "subj.christ-paschal-mystery",
+      "subj.church-grace-sacraments",
+      "subj.moral-prayer-foundations"
+    ],
+    "editorialStatus": "draft",
+    "publicationStatus": "unpublished",
+    "approvalRequired": true
+  },
+  {
+    "stableId": "prog.dogma-sacraments",
+    "name": "Dogma and Sacramental Theology",
+    "slug": "dogma-and-sacramental-theology",
+    "description": "Advanced parallel study of God, Trinity, Christ, redemption, grace, sacraments, Eucharist, and Christian hope.",
+    "audience": [
+      "formed Catholics",
+      "catechists",
+      "apologists",
+      "advanced learners"
+    ],
+    "difficulty": "intermediate-to-advanced",
+    "order": 2,
+    "prerequisites": [
+      {
+        "type": "group",
+        "stableId": "grp.moral-prayer-foundations.synthesis"
+      }
+    ],
+    "unlockCondition": {
+      "type": "all",
+      "conditions": [
+        {
+          "type": "mastery",
+          "targetId": "grp.moral-prayer-foundations.synthesis",
+          "minimumScorePercent": 80
+        }
+      ]
+    },
+    "estimatedStudyTimeMinutes": 2584,
+    "learningOutcomes": [
+      "Explain central dogmas with technical precision",
+      "Integrate biblical, patristic, conciliar, and philosophical evidence",
+      "Answer major sacramental and salvation disputes",
+      "Relate doctrine to liturgy and spiritual life"
+    ],
+    "requiredPriorConcepts": [
+      "mastery of the compulsory Catholic foundation route or specified gateway"
+    ],
+    "majorDoctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "theological_opinion",
+      "philosophical_claim",
+      "historical_claim",
+      "discipline"
+    ],
+    "requiredSourceTypes": [
+      "Sacred Scripture",
+      "Catechism of the Catholic Church",
+      "Ecumenical council",
+      "Church Fathers",
+      "Doctors of the Church",
+      "Recognised Catholic scholarship",
+      "Authoritative papal document"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant",
+      "Islam",
+      "Unitarian movements",
+      "Oriental Orthodox",
+      "Lutheran",
+      "Reformed",
+      "Wesleyan",
+      "Baptist",
+      "Anglican",
+      "Adventist movements"
+    ],
+    "suggestedLessonCount": 80,
+    "suggestedPracticeQuestionVolume": 672,
+    "suggestedMasteryPoolVolume": 1024,
+    "liveQuizEligible": true,
+    "relatedApologiaGraphCategories": [
+      "trinity",
+      "secular",
+      "christology",
+      "historical",
+      "islam",
+      "protestant",
+      "eucharist"
+    ],
+    "reviewRiskLevel": "critical",
+    "subjectIds": [
+      "subj.divine-attributes",
+      "subj.trinity",
+      "subj.christology",
+      "subj.redemption-resurrection",
+      "subj.grace-justification-salvation",
+      "subj.sacraments",
+      "subj.eucharist",
+      "subj.eschatology"
+    ],
+    "editorialStatus": "draft",
+    "publicationStatus": "unpublished",
+    "approvalRequired": true
+  },
+  {
+    "stableId": "prog.church-tradition",
+    "name": "Church, Tradition, and History",
+    "slug": "church-tradition-and-history",
+    "description": "Parallel specialist formation in ecclesiology, succession, papacy, liturgy, Mary, saints, history, Fathers, councils, and heresies.",
+    "audience": [
+      "formed Catholics",
+      "catechists",
+      "apologists",
+      "advanced learners"
+    ],
+    "difficulty": "intermediate-to-expert",
+    "order": 3,
+    "prerequisites": [
+      {
+        "type": "group",
+        "stableId": "grp.moral-prayer-foundations.synthesis"
+      }
+    ],
+    "unlockCondition": {
+      "type": "all",
+      "conditions": [
+        {
+          "type": "mastery",
+          "targetId": "grp.moral-prayer-foundations.synthesis",
+          "minimumScorePercent": 80
+        }
+      ]
+    },
+    "estimatedStudyTimeMinutes": 3123,
+    "learningOutcomes": [
+      "Explain the Church's visible and spiritual constitution",
+      "Use early and conciliar sources responsibly",
+      "Distinguish development from corruption",
+      "Address authority and Marian disputes without overstatement"
+    ],
+    "requiredPriorConcepts": [
+      "mastery of the compulsory Catholic foundation route or specified gateway"
+    ],
+    "majorDoctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "historical_claim",
+      "theological_opinion"
+    ],
+    "requiredSourceTypes": [
+      "Sacred Scripture",
+      "Catechism of the Catholic Church",
+      "Ecumenical council",
+      "Authoritative papal document",
+      "Church Fathers",
+      "Recognised Catholic scholarship",
+      "Authoritative dicastery document",
+      "Authoritative liturgical text",
+      "Primary historical source",
+      "Reputable academic scholarship"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant",
+      "Oriental Orthodox",
+      "Anglican",
+      "Latin Catholic",
+      "Eastern Catholic",
+      "Islam",
+      "secular historiography",
+      "Protestant patristic retrieval",
+      "Assyrian Church of the East"
+    ],
+    "suggestedLessonCount": 90,
+    "suggestedPracticeQuestionVolume": 756,
+    "suggestedMasteryPoolVolume": 1152,
+    "liveQuizEligible": true,
+    "relatedApologiaGraphCategories": [
+      "papacy",
+      "protestant",
+      "historical",
+      "eucharist",
+      "eastern",
+      "christology",
+      "islam",
+      "pagan",
+      "trinity"
+    ],
+    "reviewRiskLevel": "critical",
+    "subjectIds": [
+      "subj.church-authority",
+      "subj.apostolic-succession",
+      "subj.papacy-magisterium",
+      "subj.liturgy",
+      "subj.mary",
+      "subj.saints-communion",
+      "subj.church-history",
+      "subj.church-fathers",
+      "subj.councils-heresies"
+    ],
+    "editorialStatus": "draft",
+    "publicationStatus": "unpublished",
+    "approvalRequired": true
+  },
+  {
+    "stableId": "prog.moral-spiritual",
+    "name": "Moral and Spiritual Formation",
+    "slug": "moral-and-spiritual-formation",
+    "description": "Parallel formation in moral reasoning, conscience, virtue, bioethics, marriage, prayer, spiritual traditions, and Catholic social teaching.",
+    "audience": [
+      "formed Catholics",
+      "catechists",
+      "apologists",
+      "advanced learners"
+    ],
+    "difficulty": "intermediate-to-advanced",
+    "order": 4,
+    "prerequisites": [
+      {
+        "type": "group",
+        "stableId": "grp.moral-prayer-foundations.synthesis"
+      }
+    ],
+    "unlockCondition": {
+      "type": "all",
+      "conditions": [
+        {
+          "type": "mastery",
+          "targetId": "grp.moral-prayer-foundations.synthesis",
+          "minimumScorePercent": 80
+        }
+      ]
+    },
+    "estimatedStudyTimeMinutes": 1938,
+    "learningOutcomes": [
+      "Reason from beatitude, dignity, virtue, and moral object",
+      "Form conscience within truth and grace",
+      "Apply principles to contested cases with pastoral care",
+      "Develop a stable sacramental and prayer life"
+    ],
+    "requiredPriorConcepts": [
+      "mastery of the compulsory Catholic foundation route or specified gateway"
+    ],
+    "majorDoctrinalClassifications": [
+      "doctrine",
+      "discipline",
+      "theological_opinion",
+      "scientific_claim",
+      "dogma",
+      "historical_claim"
+    ],
+    "requiredSourceTypes": [
+      "Sacred Scripture",
+      "Catechism of the Catholic Church",
+      "Ecumenical council",
+      "Authoritative papal document",
+      "Authoritative dicastery document",
+      "Doctors of the Church",
+      "Recognised Catholic scholarship",
+      "Church Fathers",
+      "Reputable academic scholarship",
+      "Peer-reviewed scientific source or consensus statement",
+      "Authoritative liturgical text",
+      "Primary historical source"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant",
+      "secular ethical theories",
+      "secular bioethics",
+      "other Christian bioethics",
+      "secular gender and sexual theories",
+      "Latin Catholic spiritual schools",
+      "Eastern Catholic spiritual schools",
+      "Eastern Orthodox spirituality",
+      "liberal",
+      "conservative",
+      "socialist",
+      "libertarian",
+      "nationalist political traditions"
+    ],
+    "suggestedLessonCount": 60,
+    "suggestedPracticeQuestionVolume": 504,
+    "suggestedMasteryPoolVolume": 768,
+    "liveQuizEligible": true,
+    "relatedApologiaGraphCategories": [
+      "secular",
+      "protestant",
+      "eastern"
+    ],
+    "reviewRiskLevel": "critical",
+    "subjectIds": [
+      "subj.moral-theology",
+      "subj.conscience-virtue-sin",
+      "subj.life-bioethics",
+      "subj.marriage-sexuality-family",
+      "subj.prayer-spiritual-life",
+      "subj.catholic-social-teaching"
+    ],
+    "editorialStatus": "draft",
+    "publicationStatus": "unpublished",
+    "approvalRequired": true
+  },
+  {
+    "stableId": "prog.reason-culture",
+    "name": "Reason, Philosophy, and Contemporary Culture",
+    "slug": "reason-philosophy-and-contemporary-culture",
+    "description": "Parallel formation in philosophy, natural theology, evil, science, secularism, debate, and source evaluation.",
+    "audience": [
+      "advanced learners",
+      "apologists",
+      "catechists",
+      "source researchers"
+    ],
+    "difficulty": "intermediate-to-advanced",
+    "order": 5,
+    "prerequisites": [
+      {
+        "type": "group",
+        "stableId": "grp.moral-prayer-foundations.synthesis"
+      }
+    ],
+    "unlockCondition": {
+      "type": "all",
+      "conditions": [
+        {
+          "type": "mastery",
+          "targetId": "grp.moral-prayer-foundations.synthesis",
+          "minimumScorePercent": 80
+        }
+      ]
+    },
+    "estimatedStudyTimeMinutes": 1938,
+    "learningOutcomes": [
+      "Construct valid and proportionate arguments",
+      "Distinguish philosophical, theological, historical, and scientific claims",
+      "Engage unbelief and suffering honestly",
+      "Verify sources and communicate uncertainty"
+    ],
+    "requiredPriorConcepts": [
+      "mastery of the compulsory Catholic foundation route or specified gateway"
+    ],
+    "majorDoctrinalClassifications": [
+      "philosophical_claim",
+      "theological_opinion",
+      "doctrine",
+      "scientific_claim",
+      "historical_claim"
+    ],
+    "requiredSourceTypes": [
+      "Authoritative papal document",
+      "Doctors of the Church",
+      "Recognised Catholic scholarship",
+      "Reputable academic scholarship",
+      "Sacred Scripture",
+      "Catechism of the Catholic Church",
+      "Ecumenical council",
+      "Peer-reviewed scientific source or consensus statement",
+      "Church Fathers",
+      "Authoritative dicastery document",
+      "Primary historical source",
+      "Official comparative-tradition source"
+    ],
+    "comparativeTraditions": [
+      "Aristotelian-Thomist",
+      "Augustinian",
+      "analytic",
+      "continental",
+      "secular philosophical traditions",
+      "classical theism",
+      "atheism",
+      "agnosticism",
+      "deism",
+      "pantheism",
+      "Catholic",
+      "atheist",
+      "skeptical",
+      "other Christian theodicies",
+      "scientific naturalism",
+      "young-earth creationism",
+      "intelligent design",
+      "evolutionary creation",
+      "secular humanism",
+      "naturalism",
+      "post-Christian spirituality",
+      "all comparative traditions as applicable"
+    ],
+    "suggestedLessonCount": 60,
+    "suggestedPracticeQuestionVolume": 504,
+    "suggestedMasteryPoolVolume": 768,
+    "liveQuizEligible": true,
+    "relatedApologiaGraphCategories": [
+      "secular",
+      "historical",
+      "protestant",
+      "islam"
+    ],
+    "reviewRiskLevel": "critical",
+    "subjectIds": [
+      "subj.philosophy-logic",
+      "subj.natural-theology",
+      "subj.problem-evil",
+      "subj.faith-science",
+      "subj.atheism-secularism",
+      "subj.debate-source-evaluation"
+    ],
+    "editorialStatus": "draft",
+    "publicationStatus": "unpublished",
+    "approvalRequired": true
+  },
+  {
+    "stableId": "prog.comparative-apologetics",
+    "name": "Comparative Apologetics",
+    "slug": "comparative-apologetics",
+    "description": "Tradition-specific comparison with Protestant, Orthodox, Jewish, Islamic, world-religion, and new-religious-movement claims.",
+    "audience": [
+      "advanced learners",
+      "apologists",
+      "catechists",
+      "source researchers"
+    ],
+    "difficulty": "advanced-to-expert",
+    "order": 6,
+    "prerequisites": [
+      {
+        "type": "group",
+        "stableId": "grp.moral-prayer-foundations.synthesis"
+      }
+    ],
+    "unlockCondition": {
+      "type": "all",
+      "conditions": [
+        {
+          "type": "mastery",
+          "targetId": "grp.moral-prayer-foundations.synthesis",
+          "minimumScorePercent": 80
+        }
+      ]
+    },
+    "estimatedStudyTimeMinutes": 1938,
+    "learningOutcomes": [
+      "Describe other traditions from their recognised sources",
+      "Distinguish internal variations",
+      "Build claim-specific Catholic responses",
+      "Practise dialogue ordered to truth, freedom, and charity"
+    ],
+    "requiredPriorConcepts": [
+      "mastery of the compulsory Catholic foundation route or specified gateway"
+    ],
+    "majorDoctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "historical_claim",
+      "theological_opinion",
+      "philosophical_claim"
+    ],
+    "requiredSourceTypes": [
+      "Sacred Scripture",
+      "Catechism of the Catholic Church",
+      "Ecumenical council",
+      "Church Fathers",
+      "Primary historical source",
+      "Recognised Catholic scholarship",
+      "Reputable academic scholarship",
+      "Official comparative-tradition source",
+      "Authoritative papal document",
+      "Authoritative liturgical text",
+      "Authoritative dicastery document"
+    ],
+    "comparativeTraditions": [
+      "Lutheran",
+      "Reformed",
+      "Anglican",
+      "Methodist",
+      "Baptist",
+      "Pentecostal",
+      "non-denominational Evangelical",
+      "Adventist",
+      "Catholic",
+      "Eastern Orthodox",
+      "Eastern Catholic",
+      "Oriental Orthodox where distinguished",
+      "Sunni Islam",
+      "Shia Islam",
+      "Ahmadiyya where distinguished",
+      "Rabbinic Judaism",
+      "Orthodox Judaism",
+      "Conservative Judaism",
+      "Reform Judaism",
+      "Hindu traditions",
+      "Buddhist traditions",
+      "Sikhism",
+      "Chinese religions",
+      "indigenous religions",
+      "Bahá'í Faith",
+      "Latter-day Saints",
+      "Jehovah's Witnesses",
+      "Christian Science",
+      "New Age movements",
+      "high-control religious groups",
+      "modern esoteric movements"
+    ],
+    "suggestedLessonCount": 60,
+    "suggestedPracticeQuestionVolume": 504,
+    "suggestedMasteryPoolVolume": 768,
+    "liveQuizEligible": true,
+    "relatedApologiaGraphCategories": [
+      "protestant",
+      "canon",
+      "papacy",
+      "eucharist",
+      "eastern",
+      "trinity",
+      "islam",
+      "christology",
+      "historical",
+      "judaism",
+      "pagan"
+    ],
+    "reviewRiskLevel": "critical",
+    "subjectIds": [
+      "subj.protestant-controversies",
+      "subj.eastern-orthodox-relations",
+      "subj.islam-christianity",
+      "subj.judaism-christianity",
+      "subj.world-religions",
+      "subj.new-religious-movements"
+    ],
+    "editorialStatus": "draft",
+    "publicationStatus": "unpublished",
+    "approvalRequired": true
+  },
+  {
+    "stableId": "prog.apologist-lab",
+    "name": "Apologist Lab and Expert Challenges",
+    "slug": "apologist-lab-and-expert-challenges",
+    "description": "Performance-based capstones for verified research, case construction, live explanation, dialogue, peer review, and expert challenge work.",
+    "audience": [
+      "apologists",
+      "catechists",
+      "advanced learners",
+      "live-quiz presenters"
+    ],
+    "difficulty": "advanced-to-expert",
+    "order": 7,
+    "prerequisites": [
+      {
+        "type": "group",
+        "stableId": "grp.debate-source-evaluation.synthesis"
+      }
+    ],
+    "unlockCondition": {
+      "type": "all",
+      "conditions": [
+        {
+          "type": "mastery",
+          "targetId": "grp.debate-source-evaluation.synthesis",
+          "minimumScorePercent": 80
+        }
+      ]
+    },
+    "estimatedStudyTimeMinutes": 990,
+    "learningOutcomes": [
+      "Produce a source-audited apologetic case",
+      "Perform under time and audience constraints",
+      "Receive and act on independent review",
+      "Record limitations, corrections, and unresolved issues"
+    ],
+    "requiredPriorConcepts": [
+      "mastery of the compulsory Catholic foundation route or specified gateway"
+    ],
+    "majorDoctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "theological_opinion",
+      "historical_claim",
+      "philosophical_claim",
+      "scientific_claim"
+    ],
+    "requiredSourceTypes": [
+      "Sacred Scripture",
+      "Catechism of the Catholic Church",
+      "Ecumenical council",
+      "Authoritative papal document",
+      "Authoritative dicastery document",
+      "Church Fathers",
+      "Doctors of the Church",
+      "Authoritative liturgical text",
+      "Code of Canon Law or Eastern canon law",
+      "Primary historical source",
+      "Recognised Catholic scholarship",
+      "Reputable academic scholarship",
+      "Official comparative-tradition source",
+      "Peer-reviewed scientific source or consensus statement"
+    ],
+    "comparativeTraditions": [
+      "selected according to case",
+      "multiple traditions according to challenge"
+    ],
+    "suggestedLessonCount": 20,
+    "suggestedPracticeQuestionVolume": 168,
+    "suggestedMasteryPoolVolume": 256,
+    "liveQuizEligible": false,
+    "relatedApologiaGraphCategories": [
+      "islam",
+      "judaism",
+      "secular",
+      "pagan",
+      "eastern",
+      "protestant",
+      "historical",
+      "canon",
+      "christology",
+      "trinity",
+      "papacy",
+      "eucharist"
+    ],
+    "reviewRiskLevel": "critical",
+    "subjectIds": [
+      "subj.apologist-lab",
+      "subj.expert-challenges"
+    ],
+    "editorialStatus": "draft",
+    "publicationStatus": "unpublished",
+    "approvalRequired": true
+  },
+  {
+    "stableId": "prog.bible-books",
+    "name": "Independent Bible-Book Studies",
+    "slug": "independent-bible-book-studies",
+    "description": "Seventy-three independent Catholic book tracks with canonical context, literary structure, theology, difficult texts, and Christological-ecclesial synthesis.",
+    "audience": [
+      "beginners with Scripture foundations",
+      "Bible-study groups",
+      "catechists",
+      "apologists",
+      "advanced learners"
+    ],
+    "difficulty": "foundation-to-advanced",
+    "order": 8,
+    "prerequisites": [
+      {
+        "type": "group",
+        "stableId": "grp.scripture-canon.distinctions"
+      }
+    ],
+    "unlockCondition": {
+      "type": "all",
+      "conditions": [
+        {
+          "type": "mastery",
+          "targetId": "grp.scripture-canon.distinctions",
+          "minimumScorePercent": 80
+        }
+      ]
+    },
+    "estimatedStudyTimeMinutes": 19345,
+    "learningOutcomes": [
+      "Read every biblical book within the Catholic canon",
+      "Respect genre, historical setting, and literary structure",
+      "Relate each book to Christ and the Church without arbitrary proof-texting",
+      "Address difficult texts and apologetic disputes responsibly"
+    ],
+    "requiredPriorConcepts": [
+      "mastery of the compulsory Catholic foundation route or specified gateway"
+    ],
+    "majorDoctrinalClassifications": [
+      "doctrine",
+      "historical_claim",
+      "theological_opinion"
+    ],
+    "requiredSourceTypes": [
+      "Sacred Scripture",
+      "Catechism of the Catholic Church",
+      "Ecumenical council",
+      "Church Fathers",
+      "Authoritative liturgical text",
+      "Recognised Catholic scholarship",
+      "Reputable academic scholarship"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant canon traditions"
+    ],
+    "suggestedLessonCount": 365,
+    "suggestedPracticeQuestionVolume": 3066,
+    "suggestedMasteryPoolVolume": 4526,
+    "liveQuizEligible": true,
+    "relatedApologiaGraphCategories": [
+      "canon",
+      "christology",
+      "historical"
+    ],
+    "reviewRiskLevel": "critical",
+    "subjectIds": [
+      "subj.bible.genesis",
+      "subj.bible.exodus",
+      "subj.bible.leviticus",
+      "subj.bible.numbers",
+      "subj.bible.deuteronomy",
+      "subj.bible.joshua",
+      "subj.bible.judges",
+      "subj.bible.ruth",
+      "subj.bible.1-samuel",
+      "subj.bible.2-samuel",
+      "subj.bible.1-kings",
+      "subj.bible.2-kings",
+      "subj.bible.1-chronicles",
+      "subj.bible.2-chronicles",
+      "subj.bible.ezra",
+      "subj.bible.nehemiah",
+      "subj.bible.tobit",
+      "subj.bible.judith",
+      "subj.bible.esther",
+      "subj.bible.1-maccabees",
+      "subj.bible.2-maccabees",
+      "subj.bible.job",
+      "subj.bible.psalms",
+      "subj.bible.proverbs",
+      "subj.bible.ecclesiastes",
+      "subj.bible.song-of-songs",
+      "subj.bible.wisdom",
+      "subj.bible.sirach",
+      "subj.bible.isaiah",
+      "subj.bible.jeremiah",
+      "subj.bible.lamentations",
+      "subj.bible.baruch",
+      "subj.bible.ezekiel",
+      "subj.bible.daniel",
+      "subj.bible.hosea",
+      "subj.bible.joel",
+      "subj.bible.amos",
+      "subj.bible.obadiah",
+      "subj.bible.jonah",
+      "subj.bible.micah",
+      "subj.bible.nahum",
+      "subj.bible.habakkuk",
+      "subj.bible.zephaniah",
+      "subj.bible.haggai",
+      "subj.bible.zechariah",
+      "subj.bible.malachi",
+      "subj.bible.matthew",
+      "subj.bible.mark",
+      "subj.bible.luke",
+      "subj.bible.john",
+      "subj.bible.acts",
+      "subj.bible.romans",
+      "subj.bible.1-corinthians",
+      "subj.bible.2-corinthians",
+      "subj.bible.galatians",
+      "subj.bible.ephesians",
+      "subj.bible.philippians",
+      "subj.bible.colossians",
+      "subj.bible.1-thessalonians",
+      "subj.bible.2-thessalonians",
+      "subj.bible.1-timothy",
+      "subj.bible.2-timothy",
+      "subj.bible.titus",
+      "subj.bible.philemon",
+      "subj.bible.hebrews",
+      "subj.bible.james",
+      "subj.bible.1-peter",
+      "subj.bible.2-peter",
+      "subj.bible.1-john",
+      "subj.bible.2-john",
+      "subj.bible.3-john",
+      "subj.bible.jude",
+      "subj.bible.revelation"
+    ],
+    "editorialStatus": "draft",
+    "publicationStatus": "unpublished",
+    "approvalRequired": true
+  }
+]

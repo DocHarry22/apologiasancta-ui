@@ -1,0 +1,316 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.catholic-foundations.foundations.01",
+  "phase3LessonId": "les.catholic-foundations.foundations.01",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.catholic-foundations",
+  "groupId": "grp.catholic-foundations.foundations",
+  "title": "The Gospel at the Centre",
+  "slug": "catholic-foundations-foundations-01",
+  "centralQuestion": "What is the centre that gives unity and proportion to the whole Catholic faith?",
+  "learningObjectives": [
+    "State the Gospel as the good news of the triune God's saving work in Jesus Christ.",
+    "Explain why the Paschal Mystery is central without reducing Catholic faith to one isolated slogan.",
+    "Relate conversion, Baptism, discipleship, the Church, and final hope to Christ's saving work."
+  ],
+  "shortDirectAnswer": "The centre of Catholic faith is Jesus Christ, the eternal Son sent by the Father, crucified and risen for our salvation, who gives the Holy Spirit and gathers us into his life. Every doctrine, sacrament, moral demand, and prayer is understood in relation to this triune saving mystery.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "A person and saving event, not a detached formula"
+    },
+    {
+      "type": "paragraph",
+      "text": "Christianity begins with what God has done, not with a catalogue of Catholic peculiarities. The Father sends the Son; the Son truly enters human history, dies, rises, and reigns; the Holy Spirit makes Christ's saving work present and forms a people who live toward resurrection. The Gospel is therefore both an announcement and a summons: receive God's gift in faith, conversion, Baptism, worship, and a transformed life.",
+      "sourceIds": [
+        "src.scripture.1-corinthians-15",
+        "src.scripture.matthew-28",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The Paschal Mystery orders the rest"
+    },
+    {
+      "type": "paragraph",
+      "text": "Paul identifies Christ's death, burial, resurrection, and appearances as matters of first importance. Luke presents the risen Christ as the key to the Scriptures and the source of the Church's mission. This priority does not make creation, the Trinity, the Incarnation, the Church, sacraments, morality, or prayer optional. It shows their living connection: the one God creates and promises; the Son assumes human nature and accomplishes redemption; the Spirit joins believers to Christ; and the Church hands on, celebrates, and embodies this gift.",
+      "sourceIds": [
+        "src.scripture.1-corinthians-15",
+        "src.scripture.luke-24",
+        "src.ccc.main"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Christ remains the subject of catechesis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Catholic catechesis is not finally about the teacher's ideas or victory in an argument. Its subject is Christ and its aim is communion with him. A well-formed apologist therefore asks of every explanation: Does this reveal Christ truthfully, preserve the shape of the whole faith, and invite a free response to grace?",
+      "sourceIds": [
+        "src.jp2.catechesi-tradendae",
+        "src.francis.evangelii-gaudium"
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "Catholicism seems to bury the simple Gospel beneath institutions, devotions, moral rules, and disputed doctrines.",
+      "fairRepresentation": "The concern protects the priority of Christ's saving work and warns that religious practices can obscure rather than reveal him when presented as an unranked list. It is strongest when Catholic explanations fail to connect a practice to the Gospel. The objection by itself does not specify a complete alternative account of Church, sacraments, and authority.",
+      "response": "The concern identifies a real catechetical danger, but not an intrinsic defect in Catholic faith. Catholic teaching insists on a centre and a hierarchy of truths. The Church, sacraments, moral life, and prayer are not rival gospels; rightly understood, they are gifts and consequences of the triune saving mystery. Catholics should correct cluttered presentation while refusing to separate Christ from the body, worship, and discipleship he establishes.",
+      "sourceIds": [
+        "src.scripture.1-corinthians-15",
+        "src.scripture.luke-24",
+        "src.scripture.matthew-28",
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae",
+        "src.francis.evangelii-gaudium",
+        "src.irenaeus.against-heresies"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.catholic-foundations.foundations.02",
+        "les.catholic-foundations.synthesis.01",
+        "les.christology.foundations.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "christology",
+        "trinity",
+        "historical"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Gospel",
+      "definition": "The good news of God's definitive saving action in Jesus Christ, proclaimed for faith, conversion, and new life.",
+      "sourceIds": [
+        "src.scripture.1-corinthians-15",
+        "src.ccc.main"
+      ]
+    },
+    {
+      "term": "Paschal Mystery",
+      "definition": "Christ's saving Passion, death, Resurrection, and glorification, understood as one redemptive mystery.",
+      "sourceIds": [
+        "src.ccc.main"
+      ]
+    },
+    {
+      "term": "Kerygma",
+      "definition": "The foundational apostolic proclamation of Jesus Christ and God's saving work in him.",
+      "sourceIds": [
+        "src.francis.evangelii-gaudium"
+      ]
+    },
+    {
+      "term": "Conversion",
+      "definition": "The grace-enabled turning of mind, heart, and life toward God in response to the Gospel.",
+      "sourceIds": [
+        "src.scripture.luke-24",
+        "src.ccc.main"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "1 Corinthians 15:1-5",
+      "paraphrase": "Paul reminds the Corinthians of the Gospel they received and handed on, placing Christ's death, burial, resurrection, and appearances at its core.",
+      "sourceId": "src.scripture.1-corinthians-15",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Luke 24:25-49",
+      "paraphrase": "The risen Jesus interprets the Scriptures around his suffering and glory, then commissions witnesses to announce repentance and forgiveness.",
+      "sourceId": "src.scripture.luke-24",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 28:18-20",
+      "paraphrase": "The risen Lord sends the apostles to make disciples through Baptism and teaching, in the name of the Father, Son, and Holy Spirit.",
+      "sourceId": "src.scripture.matthew-28",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 422-429",
+      "summary": "The Catechism begins its treatment of Christ by presenting the transmission of Christian faith as the proclamation of Jesus Christ and communion with him.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 571-573",
+      "summary": "The Catechism places Christ's Passion and Resurrection at the centre of the Good News handed on by the apostles.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "Catechesi Tradendae 5-6",
+      "summary": "John Paul II teaches that catechesis has Christ himself as its primary subject and seeks communion with him.",
+      "sourceId": "src.jp2.catechesi-tradendae",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "Evangelii Gaudium 34-39",
+      "summary": "Francis calls proclamation to preserve proportion and the hierarchy among truths, keeping the saving centre visible.",
+      "sourceId": "src.francis.evangelii-gaudium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Early Christian teachers defended the apostolic proclamation as a received whole, not a private reconstruction.",
+    "items": [
+      {
+        "summary": "Irenaeus appeals to the public apostolic tradition of the churches when defending the rule of faith against rival systems.",
+        "sourceId": "src.irenaeus.against-heresies",
+        "locator": "Against Heresies III.3"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Keeping the Gospel central without shrinking it",
+      "columns": [
+        "Term",
+        "Meaning",
+        "Why it matters"
+      ],
+      "rows": [
+        [
+          "Centre",
+          "The triune God's saving work in the incarnate, crucified, and risen Christ",
+          "Provides the reference point for every other teaching"
+        ],
+        [
+          "Whole",
+          "The full deposit of faith and the life that flows from it",
+          "Prevents a slogan from replacing Creed, sacraments, morality, and prayer"
+        ],
+        [
+          "Response",
+          "Faith, conversion, sacramental incorporation, discipleship, and hope",
+          "Shows that grace creates a lived communion, not mere information"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "Catholicism seems to bury the simple Gospel beneath institutions, devotions, moral rules, and disputed doctrines.",
+  "opposingPosition": "The concern protects the priority of Christ's saving work and warns that religious practices can obscure rather than reveal him when presented as an unranked list. It is strongest when Catholic explanations fail to connect a practice to the Gospel. The objection by itself does not specify a complete alternative account of Church, sacraments, and authority.",
+  "catholicResponse": "The concern identifies a real catechetical danger, but not an intrinsic defect in Catholic faith. Catholic teaching insists on a centre and a hierarchy of truths. The Church, sacraments, moral life, and prayer are not rival gospels; rightly understood, they are gifts and consequences of the triune saving mystery. Catholics should correct cluttered presentation while refusing to separate Christ from the body, worship, and discipleship he establishes.",
+  "commonMistakes": [
+    "Defining the Gospel only as an individual decision and omitting the Father, the Holy Spirit, the Church, and resurrection hope.",
+    "Beginning an explanation of Catholicism with a secondary controversy instead of Christ.",
+    "Treating central truths as the only truths that matter.",
+    "Speaking as if apologetic skill, rather than grace, produces faith."
+  ],
+  "practicalSpiritualApplication": "Pray slowly through the events named in 1 Corinthians 15:1-5. Then explain one Catholic practice by completing the sentence, 'This belongs to Christian life because Christ…'. If the connection is unclear, mark the question for further study rather than improvising.",
+  "summary": "Catholic faith is one coherent response to the Father who saves through the incarnate, crucified, and risen Son and gives the Holy Spirit. Christ and the Paschal Mystery are the centre; the rest of Catholic teaching unfolds their meaning and fruit without becoming optional.",
+  "reviewPrompts": [
+    "Why is the Gospel more than a detached formula?",
+    "How can a truth be central without making other doctrines optional?",
+    "Give one example of connecting a sacrament or moral teaching to the Paschal Mystery."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.catholic-foundations.foundations.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Identify the most complete Christ-centred description of the Gospel.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.catholic-foundations.foundations.01.02",
+      "format": "short_response",
+      "promptIntent": "Connect one major area of Catholic life to the Paschal Mystery.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.1-corinthians-15",
+      "locator": "1 Corinthians 15:1-5",
+      "use": "Apostolic summary and order of importance"
+    },
+    {
+      "sourceId": "src.scripture.luke-24",
+      "locator": "Luke 24:25-49",
+      "use": "Christological reading and missionary commission"
+    },
+    {
+      "sourceId": "src.scripture.matthew-28",
+      "locator": "Matthew 28:18-20",
+      "use": "Trinitarian mission, Baptism, and teaching"
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 422-429; 571-573",
+      "use": "Christ and the Paschal Mystery at the heart of proclamation"
+    },
+    {
+      "sourceId": "src.jp2.catechesi-tradendae",
+      "locator": "Sections 5-6",
+      "use": "Christocentric purpose of catechesis"
+    },
+    {
+      "sourceId": "src.francis.evangelii-gaudium",
+      "locator": "Sections 34-39",
+      "use": "Doctrinal proportion and Gospel centre"
+    },
+    {
+      "sourceId": "src.irenaeus.against-heresies",
+      "locator": "Book III, chapter 3",
+      "use": "Public apostolic transmission"
+    }
+  ],
+  "relatedLessonIds": [
+    "les.catholic-foundations.foundations.02",
+    "les.catholic-foundations.synthesis.01",
+    "les.christology.foundations.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "christology",
+      "trinity",
+      "historical"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-19"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.catholic-foundations.01",
+    "batchOrder": 1,
+    "contentHash": "cef9d232c2b802fc5931a60425116ea4272f42b0d350b3eb16bf90733517bad4",
+    "approximateWordCount": 1578
+  }
+}
