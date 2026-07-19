@@ -517,6 +517,10 @@ begin
     else null
   end;
 
+  if v_required_specialism is not null and new.specialism is distinct from v_required_specialism then
+    raise exception using errcode = '23514', message = 'review record must name the required specialism';
+  end if;
+
   if v_required_specialism is not null and not exists (
     select 1
     from content.reviewer_qualifications qualification
@@ -850,6 +854,131 @@ $$;
 create trigger learning_groups_mastery_threshold
 before insert or update of mastery_threshold_percent on content.learning_groups
 for each row execute function private.enforce_mastery_threshold_override();
+
+create or replace function private.revalidate_governed_dependency()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $
+declare
+  v_kind text;
+  v_id uuid;
+  v_version integer;
+  v_status content.publication_status;
+  v_errors integer;
+  v_linked record;
+begin
+  if tg_table_name = 'question_options' then
+    v_kind := 'question';
+    v_id := coalesce(new.question_id, old.question_id);
+  elsif tg_table_name = 'content_sources' then
+    v_kind := coalesce(new.entity_kind::text, old.entity_kind::text);
+    v_id := coalesce(new.entity_id, old.entity_id);
+  elsif tg_table_name = 'lesson_requirements' then
+    v_kind := 'lesson';
+    v_id := coalesce(new.lesson_id, old.lesson_id);
+  elsif tg_table_name = 'governance_reviews' then
+    v_kind := coalesce(new.entity_kind, old.entity_kind);
+    v_id := coalesce(new.entity_id, old.entity_id);
+  elsif tg_table_name = 'questions' then
+    v_kind := 'question';
+    v_id := coalesce(new.id, old.id);
+  elsif tg_table_name = 'lessons' then
+    v_kind := 'lesson';
+    v_id := coalesce(new.id, old.id);
+  elsif tg_table_name = 'sources' then
+    v_kind := 'source';
+    v_id := coalesce(new.id, old.id);
+  elsif tg_table_name = 'doctrinal_claims' then
+    v_kind := 'doctrinal_claim';
+    v_id := coalesce(new.id, old.id);
+  else
+    return null;
+  end if;
+
+  if v_kind in ('question', 'lesson', 'source', 'doctrinal_claim') then
+    v_version := private.current_entity_version(v_kind, v_id);
+    case v_kind
+      when 'question' then select status into v_status from content.questions where id = v_id;
+      when 'lesson' then select status into v_status from content.lessons where id = v_id;
+      when 'source' then select status into v_status from content.sources where id = v_id;
+      when 'doctrinal_claim' then select status into v_status from content.doctrinal_claims where id = v_id;
+      else v_status := 'draft';
+    end case;
+
+    if v_status in ('approved', 'scheduled', 'published') then
+      select count(*) into v_errors
+      from content.governance_findings(v_kind, v_id, v_version, true) finding_row
+      where finding_row.severity = 'error';
+      if v_errors > 0 then
+        raise exception using errcode = '23514', message = format(
+          'governed dependency change creates %s blocking finding(s)', v_errors
+        );
+      end if;
+    end if;
+  end if;
+
+  if tg_table_name = 'sources' then
+    for v_linked in
+      select question_row.id, question_row.version
+      from content.content_sources link_row
+      join content.questions question_row on question_row.id = link_row.entity_id
+      where link_row.source_id = v_id
+        and link_row.entity_kind = 'question'
+        and question_row.status in ('approved', 'scheduled', 'published')
+    loop
+      select count(*) into v_errors
+      from content.governance_findings('question', v_linked.id, v_linked.version, true) finding_row
+      where finding_row.severity = 'error';
+      if v_errors > 0 then
+        raise exception using errcode = '23514', message = 'source change would invalidate approved or published question content';
+      end if;
+    end loop;
+  end if;
+  return null;
+end;
+$;
+
+create constraint trigger questions_governance_revalidate
+after insert or update on content.questions
+deferrable initially deferred
+for each row execute function private.revalidate_governed_dependency();
+
+create constraint trigger lessons_governance_revalidate
+after insert or update on content.lessons
+deferrable initially deferred
+for each row execute function private.revalidate_governed_dependency();
+
+create constraint trigger sources_governance_revalidate
+after insert or update on content.sources
+deferrable initially deferred
+for each row execute function private.revalidate_governed_dependency();
+
+create constraint trigger doctrinal_claims_governance_revalidate
+after insert or update on content.doctrinal_claims
+deferrable initially deferred
+for each row execute function private.revalidate_governed_dependency();
+
+create constraint trigger question_options_governance_revalidate
+after insert or update or delete on content.question_options
+deferrable initially deferred
+for each row execute function private.revalidate_governed_dependency();
+
+create constraint trigger content_sources_governance_revalidate
+after insert or update or delete on content.content_sources
+deferrable initially deferred
+for each row execute function private.revalidate_governed_dependency();
+
+create constraint trigger lesson_requirements_governance_revalidate
+after insert or update or delete on content.lesson_requirements
+deferrable initially deferred
+for each row execute function private.revalidate_governed_dependency();
+
+create constraint trigger governance_reviews_revalidate
+after insert or update or delete on content.governance_reviews
+deferrable initially deferred
+for each row execute function private.revalidate_governed_dependency();
 
 alter table public.unlocks
   add constraint unlock_reason_governed check (
@@ -1304,6 +1433,7 @@ revoke execute on function private.current_entity_creator(text, uuid) from publi
 revoke execute on function private.validate_governance_review() from public, anon, authenticated;
 revoke execute on function private.assert_governed_entity_publishable() from public, anon, authenticated;
 revoke execute on function private.enforce_mastery_threshold_override() from public, anon, authenticated;
+revoke execute on function private.revalidate_governed_dependency() from public, anon, authenticated;
 revoke execute on function private.prevent_ordinary_unlock_relock() from public, anon, authenticated;
 revoke execute on function private.create_corrective_recommendations() from public, anon, authenticated;
 grant execute on all functions in schema content to service_role;
