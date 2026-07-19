@@ -306,7 +306,7 @@ returns trigger
 language plpgsql
 security definer
 set search_path = ''
-as $
+as $$
 begin
   insert into content.lesson_requirements (lesson_id, requirement)
   select new.id, requirement_row.requirement
@@ -314,7 +314,7 @@ begin
   on conflict (lesson_id, requirement) do nothing;
   return new;
 end;
-$;
+$$;
 
 create trigger lessons_seed_phase2_requirements
 after insert on content.lessons
@@ -951,7 +951,7 @@ returns trigger
 language plpgsql
 security definer
 set search_path = ''
-as $
+as $$
 declare
   v_kind text;
   v_id uuid;
@@ -1030,7 +1030,7 @@ begin
   end if;
   return null;
 end;
-$;
+$$;
 
 create constraint trigger questions_governance_revalidate
 after insert or update on content.questions
