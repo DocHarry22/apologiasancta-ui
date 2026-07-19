@@ -304,6 +304,7 @@ create table content.doctrinal_claims (
   qualified_reviewer_id uuid,
   review_note text,
   status content.publication_status not null default 'draft',
+  governance_stage content.workflow_stage not null default 'draft',
   version integer not null default 1 check (version > 0),
   created_by uuid,
   updated_by uuid,
@@ -592,9 +593,6 @@ begin
     if v_question.correct_answer_explanation = '{}'::jsonb then
       return query select 'question.correct_explanation_required', 'error', 'assessment_review'::content.workflow_stage, 'A correct-answer explanation is required.';
     end if;
-    if v_question.permission_status is null then
-      null;
-    end if;
     if coalesce(v_question.rights_metadata ->> 'permissionStatus', v_question.rights_metadata ->> 'permission_status', '') not in (
       'public_domain', 'licensed', 'permission_not_required_under_recorded_terms'
     ) then
@@ -606,7 +604,7 @@ begin
     if lower(v_question.prompt::text) ~ '\m(protestants|muslims)\s+believe\M' then
       return query select 'comparative.generic_claim', 'error', 'doctrinal_review'::content.workflow_stage, 'Name the relevant tradition rather than using a generic family claim.';
     end if;
-    if coalesce((v_question.denomination_scope ->> 'comparative')::boolean, false) then
+    if lower(coalesce(v_question.denomination_scope ->> 'comparative', 'false')) = 'true' then
       if coalesce(v_question.denomination_scope ->> 'tradition', '') = ''
         or lower(v_question.denomination_scope ->> 'tradition') in ('protestants', 'protestant', 'muslims', 'muslim') then
         return query select 'comparative.named_tradition_required', 'error', 'doctrinal_review'::content.workflow_stage, 'Comparative content requires a named tradition.';
@@ -669,10 +667,6 @@ begin
 
   elsif p_entity_kind = 'lesson' then
     select * into v_lesson from content.lessons where id = p_entity_id;
-    for v_required_stage in select unnest(enum_range(null::content.lesson_requirement_kind))::text::content.workflow_stage
-    loop
-      null;
-    end loop;
     if (
       select count(*)
       from content.lesson_requirements requirement
