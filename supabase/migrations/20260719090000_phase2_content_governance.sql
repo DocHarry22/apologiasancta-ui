@@ -127,6 +127,8 @@ create type content.permission_status as enum (
   'expired'
 );
 
+alter type content.entity_kind add value if not exists 'doctrinal_claim';
+
 create table content.governance_policies (
   policy_key text primary key check (policy_key ~ '^[a-z0-9_]+$'),
   schema_version integer not null check (schema_version > 0),
@@ -265,6 +267,7 @@ alter table content.sources
   add column approved_domain_id uuid references content.approved_source_domains(id) on delete restrict;
 
 create table content.lesson_requirements (
+  id uuid not null default gen_random_uuid() unique,
   lesson_id uuid not null references content.lessons(id) on delete restrict,
   requirement content.lesson_requirement_kind not null,
   satisfied boolean not null default false,
@@ -291,6 +294,31 @@ create table content.lesson_requirements (
     or attribution_mode is not null
   )
 );
+
+insert into content.lesson_requirements (lesson_id, requirement)
+select lesson_row.id, requirement_kind
+from content.lessons lesson_row
+cross join unnest(enum_range(null::content.lesson_requirement_kind)) requirement_kind
+on conflict (lesson_id, requirement) do nothing;
+
+create or replace function private.seed_lesson_requirements()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $
+begin
+  insert into content.lesson_requirements (lesson_id, requirement)
+  select new.id, requirement_kind
+  from unnest(enum_range(null::content.lesson_requirement_kind)) requirement_kind
+  on conflict (lesson_id, requirement) do nothing;
+  return new;
+end;
+$;
+
+create trigger lessons_seed_phase2_requirements
+after insert on content.lessons
+for each row execute function private.seed_lesson_requirements();
 
 create table content.doctrinal_claims (
   id uuid primary key default gen_random_uuid(),
@@ -1184,11 +1212,6 @@ where q.status = 'published'
       and live_context.enabled
       and (live_context.valid_from is null or live_context.valid_from <= now())
       and (live_context.valid_until is null or live_context.valid_until > now())
-  )
-  and not exists (
-    select 1
-    from content.governance_findings('question', q.id, q.version, true) finding_row
-    where finding_row.severity = 'error'
   );
 
 create or replace function private.start_mastery_attempt(
@@ -1481,6 +1504,7 @@ revoke execute on function private.enforce_mastery_threshold_override() from pub
 revoke execute on function private.revalidate_governed_dependency() from public, anon, authenticated;
 revoke execute on function private.prevent_ordinary_unlock_relock() from public, anon, authenticated;
 revoke execute on function private.create_corrective_recommendations() from public, anon, authenticated;
+revoke execute on function private.seed_lesson_requirements() from public, anon, authenticated;
 grant execute on all functions in schema content to service_role;
 grant execute on all functions in schema private to service_role;
 
