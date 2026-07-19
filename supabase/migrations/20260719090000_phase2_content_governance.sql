@@ -784,20 +784,18 @@ begin
     else null
   end;
 
-  if v_kind = 'lesson_section' then
-    if new.attribution_mode is null then
-      raise exception using errcode = '23514', message = 'lesson section attribution mode is required before approval';
-    end if;
-  else
-    select count(*) into v_error_count
-    from content.governance_findings(v_kind, new.id, new.version, true) finding_row
-    where finding_row.severity = 'error';
+  if v_kind = 'lesson_section' and new.attribution_mode is null then
+    raise exception using errcode = '23514', message = 'lesson section attribution mode is required before approval';
+  end if;
 
-    if v_error_count > 0 then
-      raise exception using
-        errcode = '23514',
-        message = format('Phase 2 governance validation failed with %s blocking finding(s)', v_error_count);
-    end if;
+  select count(*) into v_error_count
+  from content.governance_findings(v_kind, new.id, new.version, true) finding_row
+  where finding_row.severity = 'error';
+
+  if v_error_count > 0 then
+    raise exception using
+      errcode = '23514',
+      message = format('Phase 2 governance validation failed with %s blocking finding(s)', v_error_count);
   end if;
 
   if new.status = 'published' and new.governance_stage <> 'publication' then
@@ -897,11 +895,12 @@ begin
     return null;
   end if;
 
-  if v_kind in ('question', 'lesson', 'source', 'doctrinal_claim') then
+  if v_kind in ('question', 'lesson', 'lesson_section', 'source', 'doctrinal_claim') then
     v_version := private.current_entity_version(v_kind, v_id);
     case v_kind
       when 'question' then select status into v_status from content.questions where id = v_id;
       when 'lesson' then select status into v_status from content.lessons where id = v_id;
+      when 'lesson_section' then select status into v_status from content.lesson_sections where id = v_id;
       when 'source' then select status into v_status from content.sources where id = v_id;
       when 'doctrinal_claim' then select status into v_status from content.doctrinal_claims where id = v_id;
       else v_status := 'draft';
