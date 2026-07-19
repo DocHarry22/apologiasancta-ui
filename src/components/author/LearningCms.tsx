@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-const entityTabs = ["programmes", "subjects", "groups", "lessons", "sections", "objectives", "questions", "question-options", "question-contexts", "sources", "content-sources", "prerequisites"] as const;
+const entityTabs = ["programmes", "subjects", "groups", "lessons", "sections", "lesson-requirements", "objectives", "doctrinal-claims", "questions", "question-options", "question-contexts", "sources", "content-sources", "prerequisites"] as const;
 const operationalTabs = ["review", "calendar", "audit", "import-export"] as const;
 type Entity = (typeof entityTabs)[number];
 type Tab = Entity | (typeof operationalTabs)[number];
@@ -30,7 +30,7 @@ type CmsRecord = {
   [key: string]: unknown;
 };
 
-type GovernedEntity = "lessons" | "sections" | "questions" | "sources";
+type GovernedEntity = "lessons" | "sections" | "doctrinal-claims" | "questions" | "sources";
 
 type GovernanceFinding = {
   code: string;
@@ -67,6 +67,8 @@ const governedEntityAliases: Record<string, GovernedEntity> = {
   lesson: "lessons",
   sections: "sections",
   lesson_section: "sections",
+  "doctrinal-claims": "doctrinal-claims",
+  doctrinal_claim: "doctrinal-claims",
   questions: "questions",
   question: "questions",
   sources: "sources",
@@ -99,7 +101,9 @@ const extraFields: Partial<Record<Entity, readonly string[]>> = {
   groups: ["coverAssetPath", "estimatedMinutes", "level", "apologiaGraphRelationship", "searchMetadata", "localisation", "masteryThresholdPercent", "masteryPolicy", "isInitiallyUnlocked", "isOptionalExpertChallenge"],
   lessons: ["coverAssetPath", "estimatedMinutes", "level", "apologiaGraphRelationship", "searchMetadata", "localisation"],
   sections: ["parentSectionId", "blockKind", "content", "attributionMode"],
+  "lesson-requirements": ["requirement", "satisfied", "nonApplicable", "nonApplicableReason", "attributionMode", "sourceLocator"],
   objectives: ["code", "description", "masteryWeight"],
+  "doctrinal-claims": ["entityKind", "proposition", "classification", "attributionMode", "sourceLocators", "humanReviewRequired", "qualifiedReviewerId", "reviewNote"],
   questions: ["stableKey", "groupId", "lessonId", "objectiveId", "difficulty", "difficultyMode", "trickCategory", "equivalenceKey", "qualityFlags", "questionType", "prompt", "correctAnswerExplanation", "privateNotes", "misconceptionIds", "denominationScope", "rightsMetadata", "answerPolicy", "retirementStatus", "quarantineReason"],
   "question-options": ["position", "label", "content", "isCorrect", "explanation", "misconceptionId"],
   "question-contexts": ["context", "programmeId", "subjectId", "groupId", "lessonId", "enabled", "weight", "settings", "validFrom", "validUntil"],
@@ -119,6 +123,8 @@ function parentField(entity: Entity): string | null {
   if (entity === "groups") return "subjectId";
   if (["lessons", "sections", "objectives"].includes(entity)) return entity === "lessons" ? "groupId" : "lessonId";
   if (entity === "questions") return "subjectId";
+  if (entity === "lesson-requirements") return "lessonId";
+  if (entity === "doctrinal-claims") return "entityId";
   if (["question-options", "question-contexts"].includes(entity)) return "questionId";
   if (entity === "content-sources") return "entityId";
   if (entity === "prerequisites") return "dependentId";
@@ -140,7 +146,7 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
   return (body && typeof body === "object" && "data" in body ? body.data : body) as T;
 }
 
-function displayName(record: CmsRecord) { return record.title || record.name || String(record.stableKey || record.code || record.label || record.slug || record.id); }
+function displayName(record: CmsRecord) { return record.title || record.name || String(record.proposition || record.requirement || record.stableKey || record.code || record.label || record.slug || record.id); }
 
 function StatusPill({ value }: { value?: string }) {
   return <span className="rounded-full border border-(--border) px-2 py-1 text-[0.68rem] font-bold uppercase tracking-wide text-(--text-muted)">{value || "draft"}</span>;
@@ -334,7 +340,7 @@ export default function LearningCms() {
           </aside> : null}
           <div className="mt-5 flex flex-wrap gap-2">
             <button className="btn-primary" type="submit" disabled={saving}>{saving ? "Saving…" : "Save draft"}</button>
-            {selected && !["prerequisites", "question-options", "question-contexts", "content-sources"].includes(editingEntity) ? <>
+            {selected && !["prerequisites", "lesson-requirements", "question-options", "question-contexts", "content-sources"].includes(editingEntity) ? <>
               {["draft", "changes_requested"].includes(selected.publicationStatus || "draft") ? <button className="btn-secondary" type="button" disabled={saving} onClick={() => void workflowAction(selected, "submit")}>Submit for review</button> : null}
               {selected.publicationStatus === "approved" ? <><button className="btn-primary" type="button" disabled={saving} onClick={() => void workflowAction(selected, "publish")}>Publish now</button><button className="btn-secondary" type="button" disabled={saving} onClick={() => void workflowAction(selected, "schedule")}>Schedule</button></> : null}
               {["published", "archived"].includes(selected.publicationStatus || "") ? <button className="btn-secondary" type="button" disabled={saving} onClick={() => void workflowAction(selected, "new-version")}>Create new version</button> : null}
