@@ -35,6 +35,7 @@ import {
   workflowPermission,
 } from "./adminRepository";
 import { requireLearnerContext, requireStaffContext } from "./auth";
+import { getAdminGovernanceValidation } from "./governanceRepository";
 import { engineQuestionsResponse } from "./engineFeed";
 import { LearningApiError } from "./errors";
 import {
@@ -411,6 +412,20 @@ export function adminItemDeleteRoute(request: NextRequest, entityValue: string, 
         entity, id, actorId: auth.context.user.id, requestId: requestId(request),
       });
     return noStore(dataResponse(data));
+  });
+}
+
+export function adminGovernanceValidationRoute(request: NextRequest, id: string) {
+  return withLearningApiErrors(request, async () => {
+    const auth = await requireStaffContext(request, "learning:view");
+    if (!auth.ok) return auth.response;
+    const entity = parseAdminEntity(request.nextUrl.searchParams.get("entity") ?? "");
+    const forPublication = request.nextUrl.searchParams.get("forPublication") === "true";
+    return noStore(dataResponse(await getAdminGovernanceValidation({
+      entity,
+      id,
+      forPublication,
+    })));
   });
 }
 
