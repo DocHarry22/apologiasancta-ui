@@ -74,6 +74,9 @@ test("signed release builds are gated by every required secret", () => {
 });
 
 test("signed release requires jarsigner to positively verify the AAB", () => {
+  assert.match(releaseWorkflow, /apksigner" \\\n\s+verify --verbose --print-certs/);
+  assert.match(releaseWorkflow, /grep -Fqi "CN=Android Debug"/);
+  assert.match(releaseWorkflow, /Refusing to publish an APK signed with the Android debug certificate/);
   assert.match(releaseWorkflow, /-J-Duser\.language=en/);
   assert.match(releaseWorkflow, /-J-Duser\.country=US/);
   assert.match(releaseWorkflow, /-verify "\$aab_path" 2>&1/);

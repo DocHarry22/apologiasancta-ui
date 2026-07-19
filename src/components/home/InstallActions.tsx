@@ -189,7 +189,7 @@ export function InstallActions() {
 
         <InstallCard
           title="Android APK"
-          description="Download the latest signed Android wrapper if you want a native launcher around the hosted live app."
+          description="Download the latest production-signed Android wrapper if you want a native launcher around the hosted live app."
         >
           {apkUrl ? (
             <a
@@ -208,7 +208,7 @@ export function InstallActions() {
             </span>
           )}
           <p className="text-xs leading-relaxed text-(--muted)">
-            Points to the newest published GitHub release asset unless a production host override is configured.
+            Production downloads always use the newest verified GitHub release asset.
           </p>
         </InstallCard>
 

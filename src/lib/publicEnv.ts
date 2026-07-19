@@ -6,8 +6,40 @@ const DEFAULT_ANDROID_APK_URL =
 const DEFAULT_RESEARCH_GRAPH_URL =
   "https://mediumvioletred-kingfisher-797460.hostingersite.com";
 
+const OFFICIAL_ANDROID_RELEASE_PATH =
+  "/DocHarry22/apologiasancta-ui/releases/";
+
+/**
+ * Production must never advertise a locally hosted debug APK. Hostinger used
+ * to override the official release URL with /downloads/apologia-sancta.apk,
+ * which can be useful for development but bypasses the signed-release gate.
+ */
+export function resolveAndroidApkUrl(
+  configuredUrl: string | undefined,
+  environment: string | undefined,
+): string {
+  const candidate = configuredUrl?.trim();
+  if (!candidate) return DEFAULT_ANDROID_APK_URL;
+  if (environment !== "production") return candidate;
+
+  try {
+    const parsed = new URL(candidate);
+    const isOfficialRelease =
+      parsed.protocol === "https:" &&
+      parsed.hostname === "github.com" &&
+      parsed.pathname.startsWith(OFFICIAL_ANDROID_RELEASE_PATH) &&
+      parsed.pathname.endsWith("/apologia-sancta.apk");
+    return isOfficialRelease ? candidate : DEFAULT_ANDROID_APK_URL;
+  } catch {
+    return DEFAULT_ANDROID_APK_URL;
+  }
+}
+
 const ENGINE_URL = process.env.NEXT_PUBLIC_ENGINE_URL?.trim() || DEFAULT_ENGINE_URL;
-const ANDROID_APK_URL = process.env.NEXT_PUBLIC_ANDROID_APK_URL?.trim() || DEFAULT_ANDROID_APK_URL;
+const ANDROID_APK_URL = resolveAndroidApkUrl(
+  process.env.NEXT_PUBLIC_ANDROID_APK_URL,
+  process.env.NODE_ENV,
+);
 const RESEARCH_GRAPH_URL =
   process.env.NEXT_PUBLIC_RESEARCH_GRAPH_URL?.trim() || DEFAULT_RESEARCH_GRAPH_URL;
 

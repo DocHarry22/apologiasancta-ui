@@ -176,7 +176,15 @@ jobs:
           test -s "$aab_path"
 
           sdk_root="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
-          "$sdk_root/build-tools/35.0.0/apksigner" verify --verbose "$apk_path"
+          apk_verification="$(
+            "$sdk_root/build-tools/35.0.0/apksigner" \
+              verify --verbose --print-certs "$apk_path"
+          )"
+          printf '%s\n' "$apk_verification"
+          if grep -Fqi "CN=Android Debug" <<< "$apk_verification"; then
+            echo "Refusing to publish an APK signed with the Android debug certificate." >&2
+            exit 1
+          fi
           # Android upload keys are normally self-signed. `-strict` turns that
           # expected certificate-chain warning into exit code 4, so verify the
           # archive without strict trust checks and require jarsigner's positive
