@@ -732,6 +732,19 @@ begin
     ) <> 15 then
       return query select 'lesson.components_incomplete', 'error', 'author_review'::content.workflow_stage, 'All fifteen lesson requirements must be satisfied or have reviewed non-applicability.';
     end if;
+    if exists (
+      select 1
+      from content.lesson_requirements requirement
+      where requirement.lesson_id = p_entity_id
+        and requirement.satisfied
+        and requirement.requirement in (
+          'scripture', 'catholic_doctrinal_evidence', 'historical_or_patristic_evidence',
+          'references', 'related_apologia_graph'
+        )
+        and coalesce(btrim(requirement.source_locator), '') = ''
+    ) then
+      return query select 'lesson.evidence_locator_required', 'error', 'source_licence_review'::content.workflow_stage, 'Evidence and reference components require a precise source or graph locator.';
+    end if;
 
   elsif p_entity_kind = 'lesson_section' then
     select * into v_section from content.lesson_sections where id = p_entity_id;
@@ -797,8 +810,19 @@ begin
     if v_claim.classification = 'disputed_or_unresolved' and not v_claim.human_review_required then
       return query select 'claim.human_review_required', 'error', 'doctrinal_review'::content.workflow_stage, 'Disputed or unresolved claims require qualified human review.';
     end if;
-    if v_claim.classification in ('dogma', 'definitively_held') and v_claim.qualified_reviewer_id is null then
-      return query select 'claim.qualified_reviewer_required', 'error', 'doctrinal_review'::content.workflow_stage, 'High-risk doctrinal classifications require a qualified reviewer.';
+    if v_claim.classification in ('dogma', 'definitively_held') and (
+      v_claim.qualified_reviewer_id is null
+      or not exists (
+        select 1
+        from content.reviewer_qualifications qualification
+        where qualification.reviewer_id = v_claim.qualified_reviewer_id
+          and qualification.specialism = 'doctrinal'
+          and qualification.active
+          and qualification.revoked_at is null
+          and (qualification.expires_at is null or qualification.expires_at > now())
+      )
+    ) then
+      return query select 'claim.qualified_reviewer_required', 'error', 'doctrinal_review'::content.workflow_stage, 'High-risk doctrinal classifications require an active qualified doctrinal reviewer.';
     end if;
     if jsonb_array_length(v_claim.source_locators) = 0 then
       return query select 'claim.source_required', 'error', 'doctrinal_review'::content.workflow_stage, 'Every doctrinal claim requires a precise source locator.';
