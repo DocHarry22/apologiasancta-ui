@@ -238,7 +238,7 @@ alter table content.questions
   add column equivalence_key text,
   add column quality_flags jsonb not null default '{}'::jsonb
     check (jsonb_typeof(quality_flags) = 'object'),
-  add constraint questions_phase2_type check (question_type = 'single_choice'),
+  add constraint questions_phase2_type check (question_type = 'single_choice') not valid,
   add constraint questions_phase2_trick check (
     (difficulty_mode = 'trick' and trick_category is not null)
     or (difficulty_mode is distinct from 'trick' and trick_category is null)
@@ -570,6 +570,7 @@ as $$
 declare
   v_question content.questions%rowtype;
   v_lesson content.lessons%rowtype;
+  v_section content.lesson_sections%rowtype;
   v_source content.sources%rowtype;
   v_claim content.doctrinal_claims%rowtype;
   v_required_stage content.workflow_stage;
@@ -688,6 +689,12 @@ begin
       return query select 'lesson.components_incomplete', 'error', 'author_review'::content.workflow_stage, 'All fifteen lesson requirements must be satisfied or have reviewed non-applicability.';
     end if;
 
+  elsif p_entity_kind = 'lesson_section' then
+    select * into v_section from content.lesson_sections where id = p_entity_id;
+    if v_section.attribution_mode is null then
+      return query select 'lesson_section.attribution_required', 'error', 'author_review'::content.workflow_stage, 'Every lesson section must identify quotation, paraphrase, interpretation, or inference.';
+    end if;
+
   elsif p_entity_kind = 'source' then
     select * into v_source from content.sources where id = p_entity_id;
     if v_source.authority_category = 'unverified' then
@@ -701,6 +708,24 @@ begin
     end if;
     if cardinality(v_source.prohibited_use_flags) > 0 then
       return query select 'source.prohibited_use', 'error', 'source_licence_review'::content.workflow_stage, 'A prohibited-use flag overrides domain approval.';
+    end if;
+    if v_source.permission_expires_at is not null and v_source.permission_expires_at <= now() then
+      return query select 'source.permission_expired', 'error', 'source_licence_review'::content.workflow_stage, 'The recorded permission has expired.';
+    end if;
+    if v_source.rights_review_due_at is not null and v_source.rights_review_due_at <= now() then
+      return query select 'source.rights_review_overdue', 'error', 'source_licence_review'::content.workflow_stage, 'The source and licence record is overdue for review.';
+    end if;
+    if exists (
+      select 1
+      from content.content_sources source_link
+      where source_link.source_id = p_entity_id
+        and coalesce(btrim(source_link.quoted_text), '') <> ''
+        and (
+          v_source.quote_limit_words = 0
+          or cardinality(regexp_split_to_array(btrim(source_link.quoted_text), '\s+')) > v_source.quote_limit_words
+        )
+    ) then
+      return query select 'source.quote_limit_exceeded', 'error', 'source_licence_review'::content.workflow_stage, 'A linked quotation exceeds the verified source-specific word limit.';
     end if;
     if v_source.permission_status = 'licensed' and coalesce(btrim(v_source.licence_identifier), '') = '' then
       return query select 'source.licence_required', 'error', 'source_licence_review'::content.workflow_stage, 'Licensed material requires a licence identifier.';
