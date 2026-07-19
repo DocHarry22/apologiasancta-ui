@@ -1300,7 +1300,7 @@ function workflowSpec(value: unknown): EntitySpec {
 const governedEntityKinds = new Set(["lesson", "lesson_section", "doctrinal_claim", "question", "source"]);
 const governedReviewStages = new Set([
   "author_review", "doctrinal_review", "assessment_review",
-  "source_licence_review", "approval",
+  "source_licence_review", "approval", "analytics_review",
 ]);
 const governedNextStage: Record<string, string> = {
   doctrinal_review: "assessment_review",
@@ -1313,6 +1313,7 @@ const stageSpecialism: Record<string, string | null> = {
   assessment_review: "assessment",
   source_licence_review: "source_licence",
   approval: null,
+  analytics_review: "analytics",
 };
 const governanceReviewerRoles = new Set(["super_admin", "admin", "editor", "author", "contributor", "reviewer"]);
 
@@ -1374,6 +1375,7 @@ function assertWorkflowTransition(action: WorkflowAction, status: unknown): void
     restore: ["archived"],
     duplicate: ["draft", "in_review", "changes_requested", "approved", "scheduled", "published", "archived"],
     "new-version": ["approved", "scheduled", "published", "archived"],
+    "analytics-review": ["published"],
   };
   if (typeof status !== "string" || !allowed[action].includes(status)) {
     throw new LearningApiError("invalid_transition", 409, "The requested workflow transition is not valid for this record.");
@@ -1381,7 +1383,7 @@ function assertWorkflowTransition(action: WorkflowAction, status: unknown): void
 }
 
 export function workflowPermission(action: WorkflowAction): "learning:manage" | "learning:review" | "learning:publish" {
-  if (["request-changes", "approve"].includes(action)) return "learning:review";
+  if (["request-changes", "approve", "analytics-review"].includes(action)) return "learning:review";
   if (["publish", "schedule", "archive", "restore"].includes(action)) return "learning:publish";
   return "learning:manage";
 }
@@ -1408,7 +1410,7 @@ export async function transitionAdminWorkflow(input: {
     if (!current) throw notFound("Learning record");
     assertWorkflowTransition(input.action, current.status);
 
-    if (["approve", "request-changes"].includes(input.action)
+    if (["approve", "request-changes", "analytics-review"].includes(input.action)
       && current.created_by === actorId) {
       throw new LearningApiError("self_review_forbidden", 403, "The content creator cannot perform an independent governance review.");
     }
@@ -1542,6 +1544,22 @@ export async function transitionAdminWorkflow(input: {
         } else {
           sql = "status = 'approved', review_status = 'approved', reviewed_by = $2::uuid, reviewed_at = now()";
         }
+        break;
+      case "analytics-review":
+        if (!governed) {
+          throw new LearningApiError("invalid_request", 400, "Analytics review is available only for Phase 2 governed content.");
+        }
+        await recordGovernanceReview(client, {
+          entityKind: spec.entityKind,
+          entityId: id,
+          entityVersion,
+          stage: "analytics_review",
+          decision: "approved",
+          reviewerId: actorId,
+          reviewerRole: input.actor.role,
+          comment: reviewComment,
+        });
+        sql = "status = 'published', review_status = 'approved', governance_stage = 'analytics_review', reviewed_by = $2::uuid, reviewed_at = now()";
         break;
       case "publish":
         sql = governed
