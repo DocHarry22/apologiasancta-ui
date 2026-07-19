@@ -176,11 +176,25 @@ begin
   insert into content.governance_reviews (
     entity_kind, entity_id, entity_version, stage, decision, reviewer_id, reviewer_role, specialism, comment
   ) values
+    ('source', v_source, 1, 'author_review', 'approved', v_author, 'author', null, 'Author review complete.'),
+    ('source', v_source, 1, 'doctrinal_review', 'approved', v_doctrinal, 'reviewer', 'doctrinal', 'Source authority review complete.'),
+    ('source', v_source, 1, 'assessment_review', 'approved', v_assessment, 'reviewer', 'assessment', 'Assessment-use review complete.'),
+    ('source', v_source, 1, 'source_licence_review', 'approved', v_licence, 'reviewer', 'source_licence', 'Rights review complete.'),
+    ('source', v_source, 1, 'approval', 'approved', v_approver, 'editor', null, 'Independent final approval.'),
     ('question', v_question, 1, 'author_review', 'approved', v_author, 'author', null, 'Author review complete.'),
     ('question', v_question, 1, 'doctrinal_review', 'approved', v_doctrinal, 'reviewer', 'doctrinal', 'Doctrinal review complete.'),
     ('question', v_question, 1, 'assessment_review', 'approved', v_assessment, 'reviewer', 'assessment', 'Assessment review complete.'),
     ('question', v_question, 1, 'source_licence_review', 'approved', v_licence, 'reviewer', 'source_licence', 'Rights review complete.'),
     ('question', v_question, 1, 'approval', 'approved', v_approver, 'editor', null, 'Independent final approval.');
+
+  update content.sources
+  set status = 'published',
+      governance_stage = 'publication',
+      review_status = 'approved',
+      reviewed_by = v_approver,
+      reviewed_at = now(),
+      published_at = now()
+  where id = v_source;
 
   select count(*) into v_errors
   from content.governance_findings('question', v_question, 1, true)
