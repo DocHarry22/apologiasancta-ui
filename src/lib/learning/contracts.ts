@@ -85,6 +85,7 @@ export const workflowActions = [
   "restore",
   "duplicate",
   "new-version",
+  "analytics-review",
 ] as const;
 
 export type WorkflowAction = (typeof workflowActions)[number];
