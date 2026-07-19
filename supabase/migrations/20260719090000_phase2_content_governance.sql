@@ -683,7 +683,7 @@ begin
       select 1 from content.question_options option_row
       where option_row.question_id = p_entity_id
         and option_row.enabled
-        and lower(btrim(coalesce(option_row.content ->> 'text', trim(both '"' from option_row.content::text)))) ~ '^(all|none) of the above\.?
+        and lower(btrim(coalesce(option_row.content ->> 'text', trim(both '"' from option_row.content::text)))) ~ '^(all|none) of the above\.?$'
     ) then
       return query select 'question.forbidden_option', 'error', 'assessment_review'::content.workflow_stage, 'All/None of the above is prohibited.';
     end if;
