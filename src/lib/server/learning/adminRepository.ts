@@ -560,7 +560,7 @@ export async function listAdminEntities(input: {
            FROM content.learning_objectives
          UNION ALL
          SELECT id, 'doctrinal_claim', id::text, left(proposition, 200), classification::text,
-                status::text, 'unreviewed'::text, version, created_by, updated_by, updated_at, NULL::timestamptz, published_at
+                status::text, review_status::text, version, created_by, updated_by, updated_at, scheduled_for, published_at
            FROM content.doctrinal_claims
          UNION ALL
          SELECT id, 'question', stable_key, coalesce(prompt ->> 'text', stable_key), NULL::text,
@@ -672,7 +672,7 @@ export async function listPublicationCalendar(page: PageRequest) {
        SELECT id, 'learning_objective', code, description, scheduled_for, status::text, version
          FROM content.learning_objectives WHERE status = 'scheduled'
        UNION ALL
-       SELECT id, 'doctrinal_claim', id::text, left(proposition, 200), NULL::timestamptz, status::text, version
+       SELECT id, 'doctrinal_claim', id::text, left(proposition, 200), scheduled_for, status::text, version
          FROM content.doctrinal_claims WHERE status = 'scheduled'
        UNION ALL
        SELECT id, 'question', stable_key, coalesce(prompt ->> 'text', stable_key), scheduled_for, status::text, version
