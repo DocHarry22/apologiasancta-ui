@@ -877,7 +877,7 @@ begin
     else null
   end;
 
-  if v_kind = 'lesson_section' and new.attribution_mode is null then
+  if v_kind = 'lesson_section' and (to_jsonb(new) ->> 'attribution_mode') is null then
     raise exception using errcode = '23514', message = 'lesson section attribution mode is required before approval';
   end if;
 
