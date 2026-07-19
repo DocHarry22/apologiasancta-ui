@@ -3,11 +3,12 @@ import { isUuid, LearningValidationError } from "@/lib/learning/validation";
 import { learningQuery } from "./database";
 import { LearningApiError } from "./errors";
 
-type GovernedAdminEntity = "lessons" | "sections" | "questions" | "sources";
+type GovernedAdminEntity = "lessons" | "sections" | "doctrinal-claims" | "questions" | "sources";
 
 const governedEntities: Record<GovernedAdminEntity, { table: string; kind: string }> = {
   lessons: { table: "lessons", kind: "lesson" },
   sections: { table: "lesson_sections", kind: "lesson_section" },
+  "doctrinal-claims": { table: "doctrinal_claims", kind: "doctrinal_claim" },
   questions: { table: "questions", kind: "question" },
   sources: { table: "sources", kind: "source" },
 };
@@ -23,7 +24,7 @@ export async function getAdminGovernanceValidation(input: {
 }) {
   if (!isGovernedAdminEntity(input.entity)) {
     throw new LearningValidationError("This entity does not use Phase 2 governance.", {
-      entity: "Select a lesson, section, question or source",
+      entity: "Select a lesson, section, doctrinal claim, question or source",
     });
   }
   if (!isUuid(input.id)) {
