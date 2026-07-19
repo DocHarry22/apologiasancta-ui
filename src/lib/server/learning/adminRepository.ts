@@ -107,7 +107,7 @@ const entitySpecs: Record<Exclude<AdminEntityName, "prerequisites">, EntitySpec>
     entityKind: "lesson_section",
     allowedFields: [
       "lesson_id", "parent_section_id", "slug", "title", "block_kind", "content",
-      "display_order", "visibility",
+      "display_order", "visibility", "attribution_mode",
     ],
     jsonFields: ["content"],
     uuidFields: ["lesson_id", "parent_section_id"],
@@ -135,11 +135,15 @@ const entitySpecs: Record<Exclude<AdminEntityName, "prerequisites">, EntitySpec>
     entityKind: "question",
     allowedFields: [
       "stable_key", "subject_id", "group_id", "lesson_id", "objective_id", "difficulty",
+      "difficulty_mode", "trick_category", "equivalence_key", "quality_flags",
       "question_type", "prompt", "correct_answer_explanation", "private_notes",
       "misconception_ids", "denomination_scope", "rights_metadata", "answer_policy",
       "retirement_status", "quarantine_reason",
     ],
-    jsonFields: ["prompt", "correct_answer_explanation", "denomination_scope", "rights_metadata", "answer_policy"],
+    jsonFields: [
+      "prompt", "correct_answer_explanation", "denomination_scope", "rights_metadata",
+      "answer_policy", "quality_flags",
+    ],
     arrayFields: ["misconception_ids"],
     uuidFields: ["subject_id", "group_id", "lesson_id", "objective_id"],
     numericFields: ["difficulty"],
@@ -181,10 +185,16 @@ const entitySpecs: Record<Exclude<AdminEntityName, "prerequisites">, EntitySpec>
     entityKind: "source",
     allowedFields: [
       "slug", "title", "source_kind", "author", "publisher", "publication_year", "url",
-      "citation", "rights_metadata", "visibility",
+      "citation", "rights_metadata", "visibility", "authority_category", "copyright_status",
+      "permission_status", "licence_identifier", "attribution_text", "quote_limit_words",
+      "translation_metadata", "prohibited_use_flags", "permission_expires_at",
+      "rights_review_due_at", "approved_domain_id",
     ],
-    jsonFields: ["rights_metadata"],
-    numericFields: ["publication_year"],
+    jsonFields: ["rights_metadata", "translation_metadata"],
+    arrayFields: ["prohibited_use_flags"],
+    uuidFields: ["approved_domain_id"],
+    numericFields: ["publication_year", "quote_limit_words"],
+    timestampFields: ["permission_expires_at", "rights_review_due_at"],
     searchableFields: ["slug", "title", "source_kind", "author", "publisher", "citation"],
     archiveable: true,
     versioned: true,
@@ -260,9 +270,28 @@ const prerequisiteSpecs: Record<PrerequisiteKind, PrerequisiteSpec> = {
 const publicationStatuses = new Set(["draft", "in_review", "changes_requested", "approved", "scheduled", "published", "archived"]);
 const visibilityValues = new Set(["public", "authenticated", "hidden", "locked", "coming_soon"]);
 const entityKinds = new Set(["programme", "subject", "learning_group", "lesson", "lesson_section", "learning_objective", "question", "source"]);
-const questionKinds = new Set(["single_choice", "multiple_choice", "true_false", "short_answer"]);
+const questionKinds = new Set(["single_choice"]);
 const questionContexts = new Set(["lesson_practice", "group_practice", "mastery_assessment", "expert_challenge", "live_quiz", "daily_challenge", "review_quiz"]);
 const retirementStatuses = new Set(["active", "retired", "quarantined"]);
+const difficultyModes = new Set(["easy", "medium", "hard", "expert", "trick"]);
+const trickCategories = new Set([
+  "nature_vs_person", "infallibility_vs_impeccability", "veneration_vs_worship",
+  "sign_vs_merely_symbolic", "dogma_vs_discipline", "development_vs_contradiction",
+  "necessary_vs_sufficient", "premise_vs_conclusion",
+  "initial_justification_vs_growth_in_grace", "material_vs_formal_rejection",
+  "correct_doctrine_wrong_subject",
+]);
+const attributionModes = new Set(["direct_quotation", "paraphrase", "interpretation", "inference"]);
+const sourceAuthorityCategories = new Set([
+  "sacred_scripture", "sacred_tradition", "ecumenical_council", "papal_magisterium",
+  "dicastery_magisterium", "catechism", "canon_law", "church_father", "church_doctor",
+  "official_comparative_source", "primary_historical_source", "academic_secondary_source",
+  "credible_reference", "unverified",
+]);
+const permissionStatuses = new Set([
+  "unverified", "public_domain", "licensed", "permission_not_required_under_recorded_terms",
+  "permission_requested", "denied", "expired",
+]);
 
 function snakeKey(value: string): string {
   return value.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`).replace(/-/g, "_");
@@ -346,6 +375,21 @@ function normalizeFields(spec: EntitySpec, body: Record<string, unknown>): Recor
       }
       if (field === "retirement_status" && value !== null && !retirementStatuses.has(value)) {
         throw new LearningValidationError("The retirement status is invalid.", { [inputKey]: "Unsupported status" });
+      }
+      if (field === "difficulty_mode" && value !== null && !difficultyModes.has(value)) {
+        throw new LearningValidationError("The difficulty mode is invalid.", { [inputKey]: "Use easy, medium, hard, expert, or trick" });
+      }
+      if (field === "trick_category" && value !== null && !trickCategories.has(value)) {
+        throw new LearningValidationError("The trick category is invalid.", { [inputKey]: "Unsupported approved trick category" });
+      }
+      if (field === "attribution_mode" && value !== null && !attributionModes.has(value)) {
+        throw new LearningValidationError("The attribution mode is invalid.", { [inputKey]: "Distinguish quotation, paraphrase, interpretation, or inference" });
+      }
+      if (field === "authority_category" && value !== null && !sourceAuthorityCategories.has(value)) {
+        throw new LearningValidationError("The source authority category is invalid.", { [inputKey]: "Unsupported authority category" });
+      }
+      if (field === "permission_status" && value !== null && !permissionStatuses.has(value)) {
+        throw new LearningValidationError("The permission status is invalid.", { [inputKey]: "Unsupported permission status" });
       }
       if (field === "status" && value !== null && !publicationStatuses.has(value)) {
         throw new LearningValidationError("The publication status is invalid.", { [inputKey]: "Unsupported status" });
@@ -1159,6 +1203,72 @@ function workflowSpec(value: unknown): EntitySpec {
   return getEntitySpec(workflowEntityAliases[value]);
 }
 
+const governedEntityKinds = new Set(["lesson", "lesson_section", "question", "source"]);
+const governedReviewStages = new Set([
+  "author_review", "doctrinal_review", "assessment_review",
+  "source_licence_review", "approval",
+]);
+const governedNextStage: Record<string, string> = {
+  doctrinal_review: "assessment_review",
+  assessment_review: "source_licence_review",
+  source_licence_review: "approval",
+};
+const stageSpecialism: Record<string, string | null> = {
+  author_review: null,
+  doctrinal_review: "doctrinal",
+  assessment_review: "assessment",
+  source_licence_review: "source_licence",
+  approval: null,
+};
+const governanceReviewerRoles = new Set(["super_admin", "admin", "editor", "author", "contributor", "reviewer"]);
+
+function governanceStage(value: unknown): string {
+  if (typeof value !== "string" || !governedReviewStages.has(value)) {
+    throw new LearningApiError("invalid_governance_stage", 409, "The governed record is not at a reviewable stage.");
+  }
+  return value;
+}
+
+async function recordGovernanceReview(
+  client: PoolClient,
+  input: {
+    entityKind: string;
+    entityId: string;
+    entityVersion: number;
+    stage: string;
+    decision: "approved" | "changes_requested";
+    reviewerId: string;
+    reviewerRole: Role;
+    comment: string | null;
+  },
+): Promise<void> {
+  if (!governanceReviewerRoles.has(input.reviewerRole)) {
+    throw new LearningApiError("forbidden", 403, "This staff role cannot record a governance review.");
+  }
+  await client.query(
+    `INSERT INTO content.governance_reviews
+       (entity_kind, entity_id, entity_version, stage, decision, reviewer_id, reviewer_role, specialism, comment)
+     VALUES ($1, $2, $3, $4::content.workflow_stage, $5::content.review_decision, $6::uuid, $7, $8::content.review_specialism, $9)
+     ON CONFLICT (entity_kind, entity_id, entity_version, stage, reviewer_id)
+     DO UPDATE SET decision = EXCLUDED.decision,
+                   reviewer_role = EXCLUDED.reviewer_role,
+                   specialism = EXCLUDED.specialism,
+                   comment = EXCLUDED.comment,
+                   created_at = now()`,
+    [
+      input.entityKind,
+      input.entityId,
+      input.entityVersion,
+      input.stage,
+      input.decision,
+      input.reviewerId,
+      input.reviewerRole,
+      stageSpecialism[input.stage],
+      input.comment,
+    ],
+  );
+}
+
 function assertWorkflowTransition(action: WorkflowAction, status: unknown): void {
   const allowed: Record<WorkflowAction, string[]> = {
     submit: ["draft", "changes_requested"],
@@ -1192,6 +1302,7 @@ export async function transitionAdminWorkflow(input: {
   const id = parseUuid(input.id, "id");
   const spec = workflowSpec(input.body.entity ?? input.body.entityKind ?? input.body.entity_kind);
   if (!spec.versioned) throw new LearningApiError("invalid_request", 400, "This record does not support publication workflow.");
+  const governed = governedEntityKinds.has(spec.entityKind);
 
   return withLearningTransaction(async (client) => {
     const actorId = await setAuditContext(client, input.actor.id, input.requestId);
@@ -1204,9 +1315,8 @@ export async function transitionAdminWorkflow(input: {
     assertWorkflowTransition(input.action, current.status);
 
     if (["approve", "request-changes"].includes(input.action)
-      && current.created_by === actorId
-      && !["admin", "super_admin"].includes(input.actor.role)) {
-      throw new LearningApiError("self_review_forbidden", 403, "Authors cannot review their own content.");
+      && current.created_by === actorId) {
+      throw new LearningApiError("self_review_forbidden", 403, "The content creator cannot perform an independent governance review.");
     }
     if (["author", "contributor"].includes(input.actor.role)
       && ["submit", "duplicate", "new-version"].includes(input.action)
@@ -1246,20 +1356,99 @@ export async function transitionAdminWorkflow(input: {
       ],
     );
 
+    const entityVersion = Number(current.version);
+    const reviewComment = typeof input.body.comment === "string" && input.body.comment.trim()
+      ? input.body.comment.trim().slice(0, 2_000)
+      : null;
     let sql: string;
     const values: unknown[] = [id, actorId];
+
     switch (input.action) {
       case "submit":
-        sql = "status = 'in_review', review_status = 'pending', reviewed_by = NULL, reviewed_at = NULL";
+        if (governed) {
+          await client.query(
+            `DELETE FROM content.governance_reviews
+              WHERE entity_kind = $1 AND entity_id = $2 AND entity_version = $3`,
+            [spec.entityKind, id, entityVersion],
+          );
+          await recordGovernanceReview(client, {
+            entityKind: spec.entityKind,
+            entityId: id,
+            entityVersion,
+            stage: "author_review",
+            decision: "approved",
+            reviewerId: actorId,
+            reviewerRole: input.actor.role,
+            comment: reviewComment,
+          });
+          sql = "status = 'in_review', review_status = 'pending', governance_stage = 'doctrinal_review', reviewed_by = NULL, reviewed_at = NULL";
+        } else {
+          sql = "status = 'in_review', review_status = 'pending', reviewed_by = NULL, reviewed_at = NULL";
+        }
         break;
-      case "request-changes":
-        sql = "status = 'changes_requested', review_status = 'changes_requested', reviewed_by = $2::uuid, reviewed_at = now()";
+      case "request-changes": {
+        if (!reviewComment) {
+          throw new LearningValidationError("A review comment is required when requesting changes.", { comment: "Explain the required changes" });
+        }
+        if (governed) {
+          const stage = governanceStage(current.governance_stage);
+          await recordGovernanceReview(client, {
+            entityKind: spec.entityKind,
+            entityId: id,
+            entityVersion,
+            stage,
+            decision: "changes_requested",
+            reviewerId: actorId,
+            reviewerRole: input.actor.role,
+            comment: reviewComment,
+          });
+          sql = "status = 'changes_requested', review_status = 'changes_requested', governance_stage = 'draft', reviewed_by = $2::uuid, reviewed_at = now()";
+        } else {
+          sql = "status = 'changes_requested', review_status = 'changes_requested', reviewed_by = $2::uuid, reviewed_at = now()";
+        }
         break;
+      }
       case "approve":
-        sql = "status = 'approved', review_status = 'approved', reviewed_by = $2::uuid, reviewed_at = now()";
+        if (governed) {
+          const stage = governanceStage(current.governance_stage);
+          if (stage === "author_review") {
+            throw new LearningApiError("invalid_governance_stage", 409, "Submit the draft to complete author review.");
+          }
+          await recordGovernanceReview(client, {
+            entityKind: spec.entityKind,
+            entityId: id,
+            entityVersion,
+            stage,
+            decision: "approved",
+            reviewerId: actorId,
+            reviewerRole: input.actor.role,
+            comment: reviewComment,
+          });
+          if (stage === "source_licence_review" && spec.entityKind === "source") {
+            await client.query(
+              `UPDATE content.sources
+                  SET rights_reviewed_by = $2::uuid, rights_reviewed_at = now()
+                WHERE id = $1`,
+              [id, actorId],
+            );
+          }
+          const nextStage = governedNextStage[stage];
+          if (nextStage) {
+            values.push(nextStage);
+            sql = "status = 'in_review', review_status = 'pending', governance_stage = $3::content.workflow_stage, reviewed_by = $2::uuid, reviewed_at = now()";
+          } else if (stage === "approval") {
+            sql = "status = 'approved', review_status = 'approved', governance_stage = 'approval', reviewed_by = $2::uuid, reviewed_at = now()";
+          } else {
+            throw new LearningApiError("invalid_governance_stage", 409, "The review stage cannot be advanced.");
+          }
+        } else {
+          sql = "status = 'approved', review_status = 'approved', reviewed_by = $2::uuid, reviewed_at = now()";
+        }
         break;
       case "publish":
-        sql = "status = 'published', review_status = 'approved', published_at = now(), scheduled_for = NULL, archived_at = NULL";
+        sql = governed
+          ? "status = 'published', review_status = 'approved', governance_stage = 'publication', published_at = now(), scheduled_for = NULL, archived_at = NULL"
+          : "status = 'published', review_status = 'approved', published_at = now(), scheduled_for = NULL, archived_at = NULL";
         break;
       case "schedule": {
         const scheduledFor = parseIsoTimestamp(input.body.scheduledFor ?? input.body.scheduled_for, "scheduledFor");
@@ -1267,17 +1456,23 @@ export async function transitionAdminWorkflow(input: {
           throw new LearningValidationError("The scheduled publication time must be in the future.");
         }
         values.push(scheduledFor);
-        sql = "status = 'scheduled', review_status = 'approved', scheduled_for = $3::timestamptz, archived_at = NULL";
+        sql = governed
+          ? "status = 'scheduled', review_status = 'approved', governance_stage = 'approval', scheduled_for = $3::timestamptz, archived_at = NULL"
+          : "status = 'scheduled', review_status = 'approved', scheduled_for = $3::timestamptz, archived_at = NULL";
         break;
       }
       case "archive":
         sql = "status = 'archived', archived_at = now(), scheduled_for = NULL";
         break;
       case "restore":
-        sql = "status = 'draft', review_status = 'unreviewed', published_at = NULL, scheduled_for = NULL, archived_at = NULL, reviewed_by = NULL, reviewed_at = NULL";
+        sql = governed
+          ? "status = 'draft', review_status = 'unreviewed', governance_stage = 'draft', published_at = NULL, scheduled_for = NULL, archived_at = NULL, reviewed_by = NULL, reviewed_at = NULL"
+          : "status = 'draft', review_status = 'unreviewed', published_at = NULL, scheduled_for = NULL, archived_at = NULL, reviewed_by = NULL, reviewed_at = NULL";
         break;
       case "new-version":
-        sql = "version = version + 1, status = 'draft', review_status = 'unreviewed', published_at = NULL, scheduled_for = NULL, archived_at = NULL, reviewed_by = NULL, reviewed_at = NULL";
+        sql = governed
+          ? "version = version + 1, status = 'draft', review_status = 'unreviewed', governance_stage = 'draft', published_at = NULL, scheduled_for = NULL, archived_at = NULL, reviewed_by = NULL, reviewed_at = NULL"
+          : "version = version + 1, status = 'draft', review_status = 'unreviewed', published_at = NULL, scheduled_for = NULL, archived_at = NULL, reviewed_by = NULL, reviewed_at = NULL";
         break;
       default:
         throw new LearningApiError("invalid_transition", 409, "The workflow transition is invalid.");
