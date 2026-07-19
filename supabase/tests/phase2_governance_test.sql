@@ -225,11 +225,11 @@ begin
     update content.question_options
     set content = '{"text":"All of the above"}'::jsonb
     where id = '30000000-0000-0000-0000-000000000002';
-    set constraints question_options_governance_revalidate immediate;
+    set constraints content.question_options_governance_revalidate immediate;
     raise exception 'invalid post-publication option update should fail';
   exception
     when check_violation then
-      set constraints question_options_governance_revalidate deferred;
+      set constraints content.question_options_governance_revalidate deferred;
   end;
 
   if (select status from content.questions where id = v_question) <> 'published' then
