@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-habakkuk.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.habakkuk",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.habakkuk.context.01",
+    "les.bible.habakkuk.structure.01",
+    "les.bible.habakkuk.theology.01",
+    "les.bible.habakkuk.difficult-texts.01",
+    "les.bible.habakkuk.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.habakkuk.context.01": "35eb8ff019b489a0bafdb8907a4da59126542da83c525ec94c5781b7cd66883d",
+    "les.bible.habakkuk.structure.01": "df7dbb4090f1ecbc041144037d6f3a1e002ef3f2d180e40f3f87a7ddf1c987a8",
+    "les.bible.habakkuk.theology.01": "b05cd9f229150897dcf7c812ebae934ceae7b905e881996f853bfe7721c8953f",
+    "les.bible.habakkuk.difficult-texts.01": "93bda6b9c91e1ff56104c85607d4916ead7572f0ed97dd221308baaa07de1fde",
+    "les.bible.habakkuk.synthesis.01": "2c2123b041c5a6d17557416907cbd8c3e9286ffc075273b2340112c7c24ba314"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.papacy-and-magisterium.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.papacy-magisterium",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.papacy-magisterium.foundations.01",
+    "les.papacy-magisterium.foundations.02",
+    "les.papacy-magisterium.distinctions.01",
+    "les.papacy-magisterium.distinctions.02",
+    "les.papacy-magisterium.evidence.01",
+    "les.papacy-magisterium.evidence.02",
+    "les.papacy-magisterium.objections.01",
+    "les.papacy-magisterium.objections.02",
+    "les.papacy-magisterium.synthesis.01",
+    "les.papacy-magisterium.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.papacy-magisterium.foundations.01": "527eb4d64e0bde0b1cdcea7f1967b4bc24a5d8f721364ba9c682029c86066280",
+    "les.papacy-magisterium.foundations.02": "e33dc0a48d9335f332b6682b26df295b62661c36cb04d8e6efb96f0238db3a6b",
+    "les.papacy-magisterium.distinctions.01": "0f74cc6ad4ca3fff9104783d9f58e6117022c673ccf103a0cda0e53b367c63af",
+    "les.papacy-magisterium.distinctions.02": "8116106aa50c94329723edb4d711b691144e97cc9518c24437d91954ae1681ad",
+    "les.papacy-magisterium.evidence.01": "9e8c43d28c858f8867dda4416389642d21642dcdf2de8a15eaa614d929233722",
+    "les.papacy-magisterium.evidence.02": "7cf69fcc1d7cae243f2fd31526c349382d71f0ef5692a0ac1f99bf710dbd15fb",
+    "les.papacy-magisterium.objections.01": "b77cf405f77fa6f79a2cd83485fb765c239d9a9321b8d2469f9570d6fb81af0a",
+    "les.papacy-magisterium.objections.02": "4a58efaaae1c289c7d526dda01ea137566347b537d28ef4f980725d670296c8c",
+    "les.papacy-magisterium.synthesis.01": "43319711ac43f83eb1fd67af4abb7db3e204d5c169bbda88671ae31bae325055",
+    "les.papacy-magisterium.synthesis.02": "0844a58324306263f8b769932fde73107143a0e6fa01c38f57f223f33db40d2e"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

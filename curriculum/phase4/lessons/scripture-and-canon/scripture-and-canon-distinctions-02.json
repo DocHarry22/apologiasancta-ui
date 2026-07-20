@@ -1,0 +1,524 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.scripture-canon.distinctions.02",
+  "phase3LessonId": "les.scripture-canon.distinctions.02",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.scripture-canon",
+  "groupId": "grp.scripture-canon.distinctions",
+  "title": "Canon, Text, Translation, and Lectionary",
+  "slug": "scripture-and-canon-distinctions-02",
+  "centralQuestion": "How should Catholic teaching understand Canon, Text, Translation, and Lectionary?",
+  "learningObjectives": [
+    "State a clear Catholic account of Canon, Text, Translation, and Lectionary in the context of Scripture and Canon.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Canon, Text, Translation, and Lectionary.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Scripture and Canon supplies the frame for Canon, Text, Translation, and Lectionary: Forms learners in inspiration, truth, interpretation, canon formation, and the ecclesial reading of the Catholic Bible. Catholic teaching gives the doctrinal conclusion with its authority, the reasons supporting it, the limits of those reasons, and the practical response asked of the learner.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Canon, Text, Translation, and Lectionary"
+    },
+    {
+      "type": "paragraph",
+      "text": "The approved curriculum places Canon, Text, Translation, and Lectionary inside Scripture and Canon, whose scope is this: Forms learners in inspiration, truth, interpretation, canon formation, and the ecclesial reading of the Catholic Bible. A reliable Catholic explanation assigns biblical, doctrinal, historical, philosophical, and scientific statements to the proper source. It then discloses the inference joining those statements. That transparency is part of the lesson's substance, not only an editorial note.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Canon, Text, Translation, and Lectionary are Hebrews 1:1-2, 2 Timothy 3:14-17, 1 Timothy 3:14-15. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Canon, Text, Translation, and Lectionary cannot be explained responsibly until Sacred Scripture, Canon, Inspiration, Biblical truth are distinguished. The definitions organise the evidence and determine what would count as a valid objection. They also prevent a translation choice, popular usage, or polemical shorthand from silently replacing the Church's intended technical sense.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Distinctions"
+    },
+    {
+      "type": "paragraph",
+      "text": "Canon, Text, Translation, and Lectionary takes its educational direction from Distinctions: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. Within Scripture and Canon, the learner must use Sacred Scripture, Canon, Inspiration, Biblical truth with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Eastern Orthodox, Protestant. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Canon gives Canon, Text, Translation, and Lectionary a concrete analytical task. In treating Canon, Canon, Text, Translation, and Lectionary should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Canon within Scripture and Canon remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Text gives Canon, Text, Translation, and Lectionary a concrete analytical task. In treating Text, Canon, Text, Translation, and Lectionary should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Text within Scripture and Canon remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Translation matters specifically to Canon, Text, Translation, and Lectionary. Ask first what Translation denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Translation under Scripture and Canon should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Lectionary matters specifically to Canon, Text, Translation, and Lectionary. Ask first what Lectionary denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Lectionary under Scripture and Canon should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Canon, Text, Translation, and Lectionary, recall revelation. Scripture and Canon uses revelation in this lesson. Link revelation with Tradition in Canon, Text, Translation, and Lectionary. Classify every revelation claim in Canon, Text, Translation, and Lectionary. Check revelation evidence for Scripture and Canon. Revise Canon, Text, Translation, and Lectionary if revelation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Canon, Text, Translation, and Lectionary, recall Tradition. Scripture and Canon uses Tradition in this lesson. Link Tradition with Magisterium in Canon, Text, Translation, and Lectionary. Classify every Tradition claim in Canon, Text, Translation, and Lectionary. Check Tradition evidence for Scripture and Canon. Revise Canon, Text, Translation, and Lectionary if Tradition remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Canon, Text, Translation, and Lectionary, recall Magisterium. Scripture and Canon uses Magisterium in this lesson. Link Magisterium with Foundations in Canon, Text, Translation, and Lectionary. Classify every Magisterium claim in Canon, Text, Translation, and Lectionary. Check Magisterium evidence for Scripture and Canon. Revise Canon, Text, Translation, and Lectionary if Magisterium remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Canon, Text, Translation, and Lectionary, recall Foundations. Scripture and Canon uses Foundations in this lesson. Link Foundations with Canon in Canon, Text, Translation, and Lectionary. Classify every Foundations claim in Canon, Text, Translation, and Lectionary. Check Foundations evidence for Scripture and Canon. Revise Canon, Text, Translation, and Lectionary if Foundations remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Canon, Text, Translation, and Lectionary, recall Canon. Scripture and Canon uses Canon in this lesson. Link Canon with revelation in Canon, Text, Translation, and Lectionary. Classify every Canon claim in Canon, Text, Translation, and Lectionary. Check Canon evidence for Scripture and Canon. Revise Canon, Text, Translation, and Lectionary if Canon remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Canon, Text, Translation, and Lectionary follows this approved curriculum purpose: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. This lesson focuses on canon, text, translation, and lectionary. Within Canon, Text, Translation, and Lectionary, that purpose limits the draft to the evidence and conclusions needed for Distinctions.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Canon, Text, Translation, and Lectionary prepares the learner for this mastery work: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. Success in Canon, Text, Translation, and Lectionary therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Canon, Text, Translation, and Lectionary carries a high lesson review risk inside the high risk profile for Scripture and Canon. The recorded reason for Scripture and Canon is comparative fairness and tradition-specific sourcing, so Canon, Text, Translation, and Lectionary cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Canon, Text, Translation, and Lectionary must keep these classifications visible: doctrine. For Canon, Text, Translation, and Lectionary, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Canon, Text, Translation, and Lectionary uses the biblical path Hebrews 1:1-2, 2 Timothy 3:14-17, 1 Timothy 3:14-15. Its Catholic synthesis is checked against CCC 50-73 and CCC 74-141 and sections 2-13 and 21-26, while Canon, Text, Translation, and Lectionary reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Canon, Text, Translation, and Lectionary names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Catholic in Canon, Text, Translation, and Lectionary; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Canon, Text, Translation, and Lectionary names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Eastern Orthodox in Canon, Text, Translation, and Lectionary; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Canon, Text, Translation, and Lectionary names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Protestant in Canon, Text, Translation, and Lectionary; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "To audit Canon, Text, Translation, and Lectionary, follow the locators rather than trusting the summary: CCC 50-73 and CCC 74-141; sections 2-13 and 21-26; Books I and III; and articles on inspiration, interpretation, and canon. Each source should support the precise sentence for which it is cited. Edition, translation, context, and attribution remain explicit items for the review queue.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.augustine.christian-doctrine",
+        "src.scholarship.new-jerome-biblical-commentary"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Canon, Text, Translation, and Lectionary",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "The sharpest challenge to Canon, Text, Translation, and Lectionary is methodological: if Scripture, history, and Magisterium are disputed, does the lesson merely assume the ecclesiology needed to win the argument?",
+      "fairRepresentation": "Catholic, Eastern Orthodox, Protestant includes positions that can differ sharply from one another. A fair alternative reading of Canon, Text, Translation, and Lectionary may prioritise a different canon, rule of faith, philosophical account, or historical reconstruction. It should be stated from a source its own advocates recognise, with internal variation named rather than suppressed.",
+      "response": "In response, the lesson argues that Canon, Text, Translation, and Lectionary is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.augustine.christian-doctrine",
+        "src.scholarship.new-jerome-biblical-commentary",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.scripture-canon.distinctions.01",
+        "les.scripture-canon.evidence.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "canon"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Sacred Scripture",
+      "definition": "The inspired canonical writings received by the Church as the word of God in human words.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "term": "Canon",
+      "definition": "The normative list of books received by the Church as Sacred Scripture; canon, textual form, translation, and lectionary are related but distinct.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "term": "Inspiration",
+      "definition": "The Holy Spirit's action by which God is author of Scripture while human authors truly use their own powers and faculties.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "term": "Biblical truth",
+      "definition": "What God wished to be written for the sake of salvation, interpreted according to authorial intention, genre, and the unity of Scripture.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Hebrews 1:1-2",
+      "paraphrase": "God's many earlier communications reach their decisive fullness in the Son; revelation is first God's action and gift, not a human discovery.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "2 Timothy 3:14-17",
+      "paraphrase": "The sacred writings lead toward salvation in Christ and equip God's servant; inspiration and the formative purpose of Scripture belong together.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "1 Timothy 3:14-15",
+      "paraphrase": "The apostolic letter describes the household of God as the Church and assigns it a public responsibility for the truth.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 50-73",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Canon, Text, Translation, and Lectionary; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 74-141",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Canon, Text, Translation, and Lectionary and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 2-13 and 21-26",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Canon, Text, Translation, and Lectionary must be assessed.",
+      "sourceId": "src.vatican2.dei-verbum",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Canon, Text, Translation, and Lectionary must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.augustine.christian-doctrine",
+        "locator": "Books I and III"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Canon, Text, Translation, and Lectionary",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "The sharpest challenge to Canon, Text, Translation, and Lectionary is methodological: if Scripture, history, and Magisterium are disputed, does the lesson merely assume the ecclesiology needed to win the argument?",
+  "opposingPosition": "Catholic, Eastern Orthodox, Protestant includes positions that can differ sharply from one another. A fair alternative reading of Canon, Text, Translation, and Lectionary may prioritise a different canon, rule of faith, philosophical account, or historical reconstruction. It should be stated from a source its own advocates recognise, with internal variation named rather than suppressed.",
+  "catholicResponse": "In response, the lesson argues that Canon, Text, Translation, and Lectionary is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Canon, Text, Translation, and Lectionary as an isolated slogan instead of a question within Scripture and Canon.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Protestant despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Canon, Text, Translation, and Lectionary: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "In summary, Canon, Text, Translation, and Lectionary is answered by ordering evidence rather than accumulating quotations. Scripture and Canon supplies the doctrinal horizon; the assigned sources establish biblical, ecclesial, historical, and specialist premises. Fair scope and explicit inference keep the Catholic response both confident and corrigible where claims remain non-definitive.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Canon, Text, Translation, and Lectionary without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.scripture-canon.distinctions.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Canon, Text, Translation, and Lectionary.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.scripture-canon.distinctions.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain Canon, Text, Translation, and Lectionary in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Hebrews 1:1-2; 2 Timothy 3:14-17; 1 Timothy 3:14-15",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 50-73; CCC 74-141",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 2-13 and 21-26",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.augustine.christian-doctrine",
+      "locator": "Books I and III",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.scholarship.new-jerome-biblical-commentary",
+      "locator": "articles on inspiration, interpretation, and canon",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.scripture-canon.distinctions.01",
+    "les.scripture-canon.evidence.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "canon"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.scripture-and-canon.01",
+    "batchOrder": 4,
+    "contentHash": "8106f4c48449a1dc1cde59f279b5e68344756fa7afa9040fc21c6c20a809effa",
+    "approximateWordCount": 3150
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-wisdom.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.wisdom",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.wisdom.context.01",
+    "les.bible.wisdom.structure.01",
+    "les.bible.wisdom.theology.01",
+    "les.bible.wisdom.difficult-texts.01",
+    "les.bible.wisdom.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.wisdom.context.01": "6f96ec21254043601e4e32e5c889a2a1fad6fa23087c6eb96a1da3de0c4286cb",
+    "les.bible.wisdom.structure.01": "1b87ca2234f28d1f2ff07ca661700155978aedde633261c4e7976ce92cc67712",
+    "les.bible.wisdom.theology.01": "0a086122373444cd681ac45b1f01f1a0450e7f1eb9aa8ef3d502cf22f18e6787",
+    "les.bible.wisdom.difficult-texts.01": "9f12ad05622ebe5b507602ec6105138e683fa74ad84f567ba11733386786b23f",
+    "les.bible.wisdom.synthesis.01": "a07dc76be83ab03c6e99bf52f2d93cf78bb9980ddcc10316e0ddec2da70247e5"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

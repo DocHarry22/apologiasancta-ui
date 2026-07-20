@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-lamentations.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.lamentations",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.lamentations.context.01",
+    "les.bible.lamentations.structure.01",
+    "les.bible.lamentations.theology.01",
+    "les.bible.lamentations.difficult-texts.01",
+    "les.bible.lamentations.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.lamentations.context.01": "168e72e8ba39e992e2afe2b942ea79341b5090c9b015c45b4a98509ee69b33ae",
+    "les.bible.lamentations.structure.01": "8313ac9f4f9e06f135e17403080cba488323c9aa734d6ccd98695ceccfb74b9d",
+    "les.bible.lamentations.theology.01": "41a3e4ee492b794cf8e42385bd8c7d74b39a5d31296cf8045155b69778c2e9a1",
+    "les.bible.lamentations.difficult-texts.01": "95dbba62f81bb3e63d7289d51623c7045e4ac26c347ed31e994d3a98cd3c7c47",
+    "les.bible.lamentations.synthesis.01": "3e46320994f9e69fbaa8f2c44bbb37ccf750609b050974ad5ee3d9e4a930b541"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

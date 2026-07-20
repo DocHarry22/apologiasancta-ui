@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-sirach.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.sirach",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.sirach.context.01",
+    "les.bible.sirach.structure.01",
+    "les.bible.sirach.theology.01",
+    "les.bible.sirach.difficult-texts.01",
+    "les.bible.sirach.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.sirach.context.01": "a8350a3d9ada39afaa0791a005ae2f605aac25797d72519bf753184f85575d2d",
+    "les.bible.sirach.structure.01": "4eb4daa2da63900bf39a42f7a185e1fbcbbb483b6a80eda0d7c232e14259efa9",
+    "les.bible.sirach.theology.01": "8391205e483416572f9ecb9106cca8b42b31f6b764e1c741a13343816cc4b103",
+    "les.bible.sirach.difficult-texts.01": "df8ad3a9f4ffeebea750165bf32f5a15b8985e798ed43fff8469cf2062d26aae",
+    "les.bible.sirach.synthesis.01": "a3aefae8751e35beef67b2b0edc018003a340cba4afb68a0741cdd0541466e82"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

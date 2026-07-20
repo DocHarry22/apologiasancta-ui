@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-ezekiel.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.ezekiel",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.ezekiel.context.01",
+    "les.bible.ezekiel.structure.01",
+    "les.bible.ezekiel.theology.01",
+    "les.bible.ezekiel.difficult-texts.01",
+    "les.bible.ezekiel.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.ezekiel.context.01": "e190c48b4b62c38bbcf81808489ef44d7fc1864086d63f15a4a032f736907410",
+    "les.bible.ezekiel.structure.01": "a73b9c60de39b3b7806a97801bd879cc99ed5e1e156a932e4d789ac3bf8112dd",
+    "les.bible.ezekiel.theology.01": "8859f1b3be37f5da1ab4e3fa21e6e12b444ee2b218d2b45eed48f3ca1bea2e0e",
+    "les.bible.ezekiel.difficult-texts.01": "33ec6dbf0a4cda3c74b855748fa9d4eee5fcfac95cc47e3fee3d0673e4e20de8",
+    "les.bible.ezekiel.synthesis.01": "3119a8809278595b45e046f0e46d011284ad09878f520d5bb526bee02150ebb6"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-malachi.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.malachi",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.malachi.context.01",
+    "les.bible.malachi.structure.01",
+    "les.bible.malachi.theology.01",
+    "les.bible.malachi.difficult-texts.01",
+    "les.bible.malachi.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.malachi.context.01": "3d45a21d7511a7316bcb61eda0e0acf0f88fcddee24021ef8ae6c2122e99d4c6",
+    "les.bible.malachi.structure.01": "1e02f2e86c2253c36a0ec6dd3e71ae970632353f3bd608607e801894ab594bb3",
+    "les.bible.malachi.theology.01": "e8623d3ad694b04800928626d4973f6ce6ce56c19556ad00fc448e4ebc30e2bf",
+    "les.bible.malachi.difficult-texts.01": "c268c96f0ffc415ea3017cf8dbf814336ec0db61a3f415a18721b3ebacecb7a1",
+    "les.bible.malachi.synthesis.01": "a8b3536961199159e8c0fac9a41d53a93d17b32ea492772def1d2ea48fa54287"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

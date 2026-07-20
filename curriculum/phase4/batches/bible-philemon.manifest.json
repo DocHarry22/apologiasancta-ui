@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-philemon.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.philemon",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.philemon.context.01",
+    "les.bible.philemon.structure.01",
+    "les.bible.philemon.theology.01",
+    "les.bible.philemon.difficult-texts.01",
+    "les.bible.philemon.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.philemon.context.01": "a6a91f40621d2f55008fc991508a6eb9f0dab1617a307893aa51bb2bfb7649a9",
+    "les.bible.philemon.structure.01": "f5077d4618b0bc267dec5eb951077d0567dd4d9a89b4a4f719e27529242c0542",
+    "les.bible.philemon.theology.01": "413299a0c44ffc42d101fd1b36691ddbf59a42772e500adc159046eef462a6e5",
+    "les.bible.philemon.difficult-texts.01": "a19276084e645fe910e967e4b630cebccaa2c213ec32ea29c375d35fb03dd95d",
+    "les.bible.philemon.synthesis.01": "f44e91918ffc9ef353d60ae0ae2d1389e27b4080808eb4664b028d20cf666851"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

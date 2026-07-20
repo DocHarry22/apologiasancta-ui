@@ -1,0 +1,515 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.life-bioethics.distinctions.02",
+  "phase3LessonId": "les.life-bioethics.distinctions.02",
+  "programmeId": "prog.moral-spiritual",
+  "subjectId": "subj.life-bioethics",
+  "groupId": "grp.life-bioethics.distinctions",
+  "title": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity",
+  "slug": "human-life-and-bioethics-distinctions-02",
+  "centralQuestion": "How should Catholic teaching understand Embryo, Foetus, Patient, Personhood, and Bodily Integrity?",
+  "learningObjectives": [
+    "State a clear Catholic account of Embryo, Foetus, Patient, Personhood, and Bodily Integrity in the context of Human Life and Bioethics.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Embryo, Foetus, Patient, Personhood, and Bodily Integrity.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity belongs to the Catholic account of Human Life and Bioethics. Applies human dignity, natural law, ordinary and extraordinary care, double effect, and solidarity to life, medicine, technology, and death. A sound answer coordinates biblical witness and authoritative teaching while marking historical, philosophical, scientific, disciplinary, and theological claims at their proper level.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Embryo, Foetus, Patient, Personhood, and Bodily Integrity"
+    },
+    {
+      "type": "paragraph",
+      "text": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity is a focused lesson within Human Life and Bioethics. Applies human dignity, natural law, ordinary and extraordinary care, double effect, and solidarity to life, medicine, technology, and death. The Catholic account begins with sources competent for each claim: Scripture for canonical witness, Magisterium for Catholic judgment, primary evidence for events and reception, and scholarship for specialised analysis. This order neither makes the sources equal nor permits one source to answer a question beyond its competence.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Embryo, Foetus, Patient, Personhood, and Bodily Integrity are Genesis 1:26-31, Psalm 139:1-18, Matthew 25:31-46. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Person, Human dignity, Solidarity control the reasoning in Embryo, Foetus, Patient, Personhood, and Bodily Integrity. A definition is useful only if it is applied consistently. The learner should identify the subject of each claim, distinguish analogous from univocal language where necessary, and resist moving from a word shared by two sources to an agreement those sources do not actually state.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Distinctions"
+    },
+    {
+      "type": "paragraph",
+      "text": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity takes its educational direction from Distinctions: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. Within Human Life and Bioethics, the learner must use Person, Human dignity, Solidarity with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, secular bioethics, other Christian bioethics. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity uses Embryo as a checkpoint for understanding. The learner should locate Embryo in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Embryo is disputed within Human Life and Bioethics, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Foetus gives Embryo, Foetus, Patient, Personhood, and Bodily Integrity a concrete analytical task. In treating Foetus, Embryo, Foetus, Patient, Personhood, and Bodily Integrity should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Foetus within Human Life and Bioethics remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Embryo, Foetus, Patient, Personhood, and Bodily Integrity, Patient cannot remain an undefined slogan. State the proposition involving Patient, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Patient in Human Life and Bioethics must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Embryo, Foetus, Patient, Personhood, and Bodily Integrity, Personhood cannot remain an undefined slogan. State the proposition involving Personhood, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Personhood in Human Life and Bioethics must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Embryo, Foetus, Patient, Personhood, and Bodily Integrity, recall human dignity. Human Life and Bioethics uses human dignity in this lesson. Link human dignity with moral object in Embryo, Foetus, Patient, Personhood, and Bodily Integrity. Classify every human dignity claim in Embryo, Foetus, Patient, Personhood, and Bodily Integrity. Check human dignity evidence for Human Life and Bioethics. Revise Embryo, Foetus, Patient, Personhood, and Bodily Integrity if human dignity remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Embryo, Foetus, Patient, Personhood, and Bodily Integrity, recall moral object. Human Life and Bioethics uses moral object in this lesson. Link moral object with double effect in Embryo, Foetus, Patient, Personhood, and Bodily Integrity. Classify every moral object claim in Embryo, Foetus, Patient, Personhood, and Bodily Integrity. Check moral object evidence for Human Life and Bioethics. Revise Embryo, Foetus, Patient, Personhood, and Bodily Integrity if moral object remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Embryo, Foetus, Patient, Personhood, and Bodily Integrity, recall double effect. Human Life and Bioethics uses double effect in this lesson. Link double effect with cooperation in Embryo, Foetus, Patient, Personhood, and Bodily Integrity. Classify every double effect claim in Embryo, Foetus, Patient, Personhood, and Bodily Integrity. Check double effect evidence for Human Life and Bioethics. Revise Embryo, Foetus, Patient, Personhood, and Bodily Integrity if double effect remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Embryo, Foetus, Patient, Personhood, and Bodily Integrity, recall cooperation. Human Life and Bioethics uses cooperation in this lesson. Link cooperation with Foundations in Embryo, Foetus, Patient, Personhood, and Bodily Integrity. Classify every cooperation claim in Embryo, Foetus, Patient, Personhood, and Bodily Integrity. Check cooperation evidence for Human Life and Bioethics. Revise Embryo, Foetus, Patient, Personhood, and Bodily Integrity if cooperation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Embryo, Foetus, Patient, Personhood, and Bodily Integrity, recall Foundations. Human Life and Bioethics uses Foundations in this lesson. Link Foundations with human dignity in Embryo, Foetus, Patient, Personhood, and Bodily Integrity. Classify every Foundations claim in Embryo, Foetus, Patient, Personhood, and Bodily Integrity. Check Foundations evidence for Human Life and Bioethics. Revise Embryo, Foetus, Patient, Personhood, and Bodily Integrity if Foundations remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity follows this approved curriculum purpose: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. This lesson focuses on embryo, foetus, patient, personhood, and bodily integrity. Within Embryo, Foetus, Patient, Personhood, and Bodily Integrity, that purpose limits the draft to the evidence and conclusions needed for Distinctions.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity prepares the learner for this mastery work: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. Success in Embryo, Foetus, Patient, Personhood, and Bodily Integrity therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity carries a critical lesson review risk inside the critical risk profile for Human Life and Bioethics. The recorded reason for Human Life and Bioethics is current scientific review; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Embryo, Foetus, Patient, Personhood, and Bodily Integrity cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity must keep these classifications visible: doctrine, discipline, theological_opinion, scientific_claim. For Embryo, Foetus, Patient, Personhood, and Bodily Integrity, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity uses the biblical path Genesis 1:26-31, Psalm 139:1-18, Matthew 25:31-46. Its Catholic synthesis is checked against CCC 2258-2330 and CCC 2270-2296 and sections 7-32 and 47-62, while Embryo, Foetus, Patient, Personhood, and Bodily Integrity reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for Catholic in Embryo, Foetus, Patient, Personhood, and Bodily Integrity; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity names secular bioethics rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for secular bioethics in Embryo, Foetus, Patient, Personhood, and Bodily Integrity; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity names other Christian bioethics rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for other Christian bioethics in Embryo, Foetus, Patient, Personhood, and Bodily Integrity; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Embryo, Foetus, Patient, Personhood, and Bodily Integrity uses four documentary controls: Catechism CCC 2258-2330 and CCC 2270-2296, Magisterium sections 7-32 and 47-62, historical witness chapters 1-2, and scholarship sections 12-27 and 51. The sequence clarifies authority and makes later checking possible. A locator that proves too broad or semantically mismatched must be corrected before approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita",
+        "src.didache",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Embryo, Foetus, Patient, Personhood, and Bodily Integrity",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "The objection presses the burden of proof for Embryo, Foetus, Patient, Personhood, and Bodily Integrity: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+      "fairRepresentation": "A careful representative of Catholic, secular bioethics, other Christian bioethics may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+      "response": "In response, the lesson argues that Embryo, Foetus, Patient, Personhood, and Bodily Integrity is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.ddf.dignitas-infinita",
+        "src.didache",
+        "src.vatican2.gaudium-et-spes",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.life-bioethics.distinctions.01",
+        "les.life-bioethics.evidence.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "secular"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Person",
+      "definition": "The distinct who that subsists and acts; in Trinitarian and Christological theology the term is used analogically and precisely.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "term": "Human dignity",
+      "definition": "The inherent worth of every human person, grounded in creation in God's image and fulfilled in the call to communion with God.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "term": "Solidarity",
+      "definition": "A stable commitment to the good of each and all because human persons are mutually responsible.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Genesis 1:26-31",
+      "paraphrase": "Human beings, male and female, are created in God's image and receive creaturely responsibility within a creation declared good.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Psalm 139:1-18",
+      "paraphrase": "The psalmist prays from the conviction that God's knowledge and care embrace the whole embodied life, including hidden beginnings.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 25:31-46",
+      "paraphrase": "Christ identifies service or neglect of vulnerable persons with a response made to him, giving ordinary acts grave moral significance.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 2258-2330",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Embryo, Foetus, Patient, Personhood, and Bodily Integrity; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 2270-2296",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Embryo, Foetus, Patient, Personhood, and Bodily Integrity and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 7-32 and 47-62",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Embryo, Foetus, Patient, Personhood, and Bodily Integrity must be assessed.",
+      "sourceId": "src.ddf.dignitas-infinita",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Embryo, Foetus, Patient, Personhood, and Bodily Integrity must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.didache",
+        "locator": "chapters 1-2"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Embryo, Foetus, Patient, Personhood, and Bodily Integrity",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "The objection presses the burden of proof for Embryo, Foetus, Patient, Personhood, and Bodily Integrity: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+  "opposingPosition": "A careful representative of Catholic, secular bioethics, other Christian bioethics may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+  "catholicResponse": "In response, the lesson argues that Embryo, Foetus, Patient, Personhood, and Bodily Integrity is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Embryo, Foetus, Patient, Personhood, and Bodily Integrity as an isolated slogan instead of a question within Human Life and Bioethics.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, secular bioethics, other Christian bioethics despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Embryo, Foetus, Patient, Personhood, and Bodily Integrity: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "The central lesson of Embryo, Foetus, Patient, Personhood, and Bodily Integrity is methodological and substantive: name the Catholic claim, ground it in competent sources, test its historical and conceptual continuity, answer the strongest scoped objection, and state no more than the evidence warrants. In Human Life and Bioethics, that discipline serves truth and charity together.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Embryo, Foetus, Patient, Personhood, and Bodily Integrity without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.life-bioethics.distinctions.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Embryo, Foetus, Patient, Personhood, and Bodily Integrity.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.life-bioethics.distinctions.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain Embryo, Foetus, Patient, Personhood, and Bodily Integrity in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Genesis 1:26-31; Psalm 139:1-18; Matthew 25:31-46",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 2258-2330; CCC 2270-2296",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.ddf.dignitas-infinita",
+      "locator": "sections 7-32 and 47-62",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.didache",
+      "locator": "chapters 1-2",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.gaudium-et-spes",
+      "locator": "sections 12-27 and 51",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.secular.representative-sources",
+      "locator": "named argument or declaration identified by the lesson topic",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.life-bioethics.distinctions.01",
+    "les.life-bioethics.evidence.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "secular"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine",
+      "discipline",
+      "theological_opinion",
+      "scientific_claim"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "secular bioethics",
+      "other Christian bioethics"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.human-life-and-bioethics.01",
+    "batchOrder": 4,
+    "contentHash": "cb9afbc4d9789f6da1bc91a1692f059d4a26a10ca46d918eda0fa9389e3467ec",
+    "approximateWordCount": 3270
+  }
+}

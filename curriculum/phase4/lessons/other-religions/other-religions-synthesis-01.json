@@ -1,0 +1,549 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.world-religions.synthesis.01",
+  "phase3LessonId": "les.world-religions.synthesis.01",
+  "programmeId": "prog.comparative-apologetics",
+  "subjectId": "subj.world-religions",
+  "groupId": "grp.world-religions.synthesis",
+  "title": "Comparison through Specific Claims and Primary Sources",
+  "slug": "other-religions-synthesis-01",
+  "centralQuestion": "How should Catholic teaching understand Comparison through Specific Claims and Primary Sources?",
+  "learningObjectives": [
+    "State a clear Catholic account of Comparison through Specific Claims and Primary Sources in the context of Other Religions.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Comparison through Specific Claims and Primary Sources.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic formation treats Comparison through Specific Claims and Primary Sources as part of Other Religions. Builds a Catholic framework for Hindu, Buddhist, Sikh, indigenous, Chinese, and other religious traditions without collapsing their internal diversity. The short answer must therefore preserve the hierarchy of truths, use sources within their competence, and avoid turning a probable interpretation or historical reconstruction into settled dogma.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Comparison through Specific Claims and Primary Sources"
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources is a focused lesson within Other Religions. Builds a Catholic framework for Hindu, Buddhist, Sikh, indigenous, Chinese, and other religious traditions without collapsing their internal diversity. The Catholic account begins with sources competent for each claim: Scripture for canonical witness, Magisterium for Catholic judgment, primary evidence for events and reception, and scholarship for specialised analysis. This order neither makes the sources equal nor permits one source to answer a question beyond its competence.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Comparison through Specific Claims and Primary Sources are Genesis 1:26-27, Acts 17:22-34, 1 Peter 3:15-16. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The terms Sacred Tradition, Theotokos, Sin, Comparative scope provide a small conceptual map for Comparison through Specific Claims and Primary Sources. Use the map to ask what reality is named, what contrast gives the term meaning, and which source controls the definition. If an opposing tradition uses the same word differently, state that difference instead of manufacturing a verbal contradiction.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Synthesis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources takes its educational direction from Synthesis: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. Within Other Religions, the learner must use Sacred Tradition, Theotokos, Sin, Comparative scope with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Hindu traditions, Buddhist traditions, Sikhism, Chinese religions, indigenous religions, Bahá'í Faith. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate",
+        "src.religions.primary-texts"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources uses Comparison as a checkpoint for understanding. The learner should locate Comparison in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Comparison is disputed within Other Religions, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Specific Claims gives Comparison through Specific Claims and Primary Sources a concrete analytical task. In treating Specific Claims, Comparison through Specific Claims and Primary Sources should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Specific Claims within Other Religions remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Comparison through Specific Claims and Primary Sources, the focus on Primary Sources fixes one part of the lesson's scope. Primary Sources must be defined as it functions in Comparison through Specific Claims and Primary Sources, then supported by a source competent for that definition. Within Other Religions, the learner should separate what the source states about Primary Sources from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Comparison through Specific Claims and Primary Sources, Sacred Tradition cannot remain an undefined slogan. State the proposition involving Sacred Tradition, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Sacred Tradition in Other Religions must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Comparison through Specific Claims and Primary Sources, recall Objections. Other Religions uses Objections in this lesson. Link Objections with Comparison in Comparison through Specific Claims and Primary Sources. Classify every Objections claim in Comparison through Specific Claims and Primary Sources. Check Objections evidence for Other Religions. Revise Comparison through Specific Claims and Primary Sources if Objections remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Comparison through Specific Claims and Primary Sources, recall Comparison. Other Religions uses Comparison in this lesson. Link Comparison with Specific Claims in Comparison through Specific Claims and Primary Sources. Classify every Comparison claim in Comparison through Specific Claims and Primary Sources. Check Comparison evidence for Other Religions. Revise Comparison through Specific Claims and Primary Sources if Comparison remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Comparison through Specific Claims and Primary Sources, recall Specific Claims. Other Religions uses Specific Claims in this lesson. Link Specific Claims with Primary Sources in Comparison through Specific Claims and Primary Sources. Classify every Specific Claims claim in Comparison through Specific Claims and Primary Sources. Check Specific Claims evidence for Other Religions. Revise Comparison through Specific Claims and Primary Sources if Specific Claims remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Comparison through Specific Claims and Primary Sources, recall Primary Sources. Other Religions uses Primary Sources in this lesson. Link Primary Sources with Sacred Tradition in Comparison through Specific Claims and Primary Sources. Classify every Primary Sources claim in Comparison through Specific Claims and Primary Sources. Check Primary Sources evidence for Other Religions. Revise Comparison through Specific Claims and Primary Sources if Primary Sources remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Comparison through Specific Claims and Primary Sources, recall Sacred Tradition. Other Religions uses Sacred Tradition in this lesson. Link Sacred Tradition with Objections in Comparison through Specific Claims and Primary Sources. Classify every Sacred Tradition claim in Comparison through Specific Claims and Primary Sources. Check Sacred Tradition evidence for Other Religions. Revise Comparison through Specific Claims and Primary Sources if Sacred Tradition remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources follows this approved curriculum purpose: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. This lesson focuses on comparison through specific claims and primary sources. Within Comparison through Specific Claims and Primary Sources, that purpose limits the draft to the evidence and conclusions needed for Synthesis.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources prepares the learner for this mastery work: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. Success in Comparison through Specific Claims and Primary Sources therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources carries a critical lesson review risk inside the critical risk profile for Other Religions. The recorded reason for Other Religions is primary-source and chronology verification; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Comparison through Specific Claims and Primary Sources cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources must keep these classifications visible: doctrine, historical_claim, philosophical_claim, theological_opinion. For Comparison through Specific Claims and Primary Sources, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources uses the biblical path Genesis 1:26-27, Acts 17:22-34, 1 Peter 3:15-16. Its Catholic synthesis is checked against CCC 839-856 and CCC 2104-2109 and sections 1-5, while Comparison through Specific Claims and Primary Sources reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources names Hindu traditions rather than assigning a generic non-Catholic position. The relevant controls among src.religions.primary-texts set the descriptive boundary for Hindu traditions in Comparison through Specific Claims and Primary Sources; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.religions.primary-texts"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources names Buddhist traditions rather than assigning a generic non-Catholic position. The relevant controls among src.religions.primary-texts set the descriptive boundary for Buddhist traditions in Comparison through Specific Claims and Primary Sources; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.religions.primary-texts"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources names Sikhism rather than assigning a generic non-Catholic position. The relevant controls among src.religions.primary-texts set the descriptive boundary for Sikhism in Comparison through Specific Claims and Primary Sources; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.religions.primary-texts"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources names Chinese religions rather than assigning a generic non-Catholic position. The relevant controls among src.religions.primary-texts set the descriptive boundary for Chinese religions in Comparison through Specific Claims and Primary Sources; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.religions.primary-texts"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources names indigenous religions rather than assigning a generic non-Catholic position. The relevant controls among src.religions.primary-texts set the descriptive boundary for indigenous religions in Comparison through Specific Claims and Primary Sources; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.religions.primary-texts"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources names Bahá'í Faith rather than assigning a generic non-Catholic position. The relevant controls among src.religions.primary-texts set the descriptive boundary for Bahá'í Faith in Comparison through Specific Claims and Primary Sources; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.religions.primary-texts"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Comparison through Specific Claims and Primary Sources uses four documentary controls: Catechism CCC 839-856 and CCC 2104-2109, Magisterium sections 1-5, historical witness chapters 1-8; reasoned Christian witness, and scholarship sections 70-72. The sequence clarifies authority and makes later checking possible. A locator that proves too broad or semantically mismatched must be corrected before approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate",
+        "src.justin.first-apology",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Comparison through Specific Claims and Primary Sources",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A strong objection says that the Catholic treatment of Comparison through Specific Claims and Primary Sources begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Hindu traditions, Buddhist traditions, Sikhism, Chinese religions, indigenous religions, Bahá'í Faith, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Comparison through Specific Claims and Primary Sources concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "In response, the lesson argues that Comparison through Specific Claims and Primary Sources is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.nostra-aetate",
+        "src.justin.first-apology",
+        "src.jp2.fides-et-ratio",
+        "src.religions.primary-texts"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.world-religions.objections.02",
+        "les.world-religions.synthesis.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "eastern",
+        "pagan"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Sacred Tradition",
+      "definition": "The living transmission of the apostolic faith in the Church under the Holy Spirit, distinct from merely human customs.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "term": "Theotokos",
+      "definition": "The title 'God-bearer' or 'Mother of God,' safeguarding that the one born of Mary is the divine Person of the Son.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "term": "Sin",
+      "definition": "A culpable offence against reason, truth, and right conscience that wounds love of God and neighbour.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    },
+    {
+      "term": "Comparative scope",
+      "definition": "The exact community, school, source, period, and degree of authority to which a description applies.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.nostra-aetate"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Genesis 1:26-27",
+      "paraphrase": "Shared human dignity rests on creation in God's image and governs Christian speech about every neighbour.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Acts 17:22-34",
+      "paraphrase": "Paul listens, identifies points of contact, corrects error, and proclaims creation, repentance, judgment, and resurrection without contempt.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "1 Peter 3:15-16",
+      "paraphrase": "Christian explanation is joined to reverence, a clear conscience, and conduct that does not betray the hope being defended.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 839-856",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Comparison through Specific Claims and Primary Sources; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 2104-2109",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Comparison through Specific Claims and Primary Sources and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 1-5",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Comparison through Specific Claims and Primary Sources must be assessed.",
+      "sourceId": "src.vatican2.nostra-aetate",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Comparison through Specific Claims and Primary Sources must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.justin.first-apology",
+        "locator": "chapters 1-8; reasoned Christian witness"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Comparison through Specific Claims and Primary Sources",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A strong objection says that the Catholic treatment of Comparison through Specific Claims and Primary Sources begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Hindu traditions, Buddhist traditions, Sikhism, Chinese religions, indigenous religions, Bahá'í Faith, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Comparison through Specific Claims and Primary Sources concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "In response, the lesson argues that Comparison through Specific Claims and Primary Sources is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Comparison through Specific Claims and Primary Sources as an isolated slogan instead of a question within Other Religions.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Hindu traditions, Buddhist traditions, Sikhism, Chinese religions, indigenous religions, Bahá'í Faith despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Comparison through Specific Claims and Primary Sources: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "The central lesson of Comparison through Specific Claims and Primary Sources is methodological and substantive: name the Catholic claim, ground it in competent sources, test its historical and conceptual continuity, answer the strongest scoped objection, and state no more than the evidence warrants. In Other Religions, that discipline serves truth and charity together.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Comparison through Specific Claims and Primary Sources without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.world-religions.synthesis.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Comparison through Specific Claims and Primary Sources.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.world-religions.synthesis.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Comparison through Specific Claims and Primary Sources in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Genesis 1:26-27; Acts 17:22-34; 1 Peter 3:15-16",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 839-856; CCC 2104-2109",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.nostra-aetate",
+      "locator": "sections 1-5",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.justin.first-apology",
+      "locator": "chapters 1-8; reasoned Christian witness",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.jp2.fides-et-ratio",
+      "locator": "sections 70-72",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.religions.primary-texts",
+      "locator": "named tradition, primary text, and internal locator identified by the lesson topic",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.world-religions.objections.02",
+    "les.world-religions.synthesis.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "eastern",
+      "pagan"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine",
+      "historical_claim",
+      "philosophical_claim",
+      "theological_opinion"
+    ],
+    "comparativeTraditions": [
+      "Hindu traditions",
+      "Buddhist traditions",
+      "Sikhism",
+      "Chinese religions",
+      "indigenous religions",
+      "Bahá'í Faith"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.other-religions.01",
+    "batchOrder": 9,
+    "contentHash": "572464f44a87eba20fd7a425088b4f86a4ae55929fa5b2269f1293822b589b14",
+    "approximateWordCount": 3534
+  }
+}

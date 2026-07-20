@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-1-timothy.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.1-timothy",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.1-timothy.context.01",
+    "les.bible.1-timothy.structure.01",
+    "les.bible.1-timothy.theology.01",
+    "les.bible.1-timothy.difficult-texts.01",
+    "les.bible.1-timothy.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.1-timothy.context.01": "22c6982f5b5f020cb69a0367ee38208bfea983277d72187806e37cd8e9f4e90c",
+    "les.bible.1-timothy.structure.01": "e042c25e13364c073fd032ec66b3d07946a4569cdfa345bc315eb4ee7b1d6d15",
+    "les.bible.1-timothy.theology.01": "d8a1b008777a8e7a844911c39c67e2b0f9917c51e2fae1844d7ab2815e632493",
+    "les.bible.1-timothy.difficult-texts.01": "fe7069a6dcb91ac4fef2594576e6fa708738c9a297bc56f8caf8ac39e8c245a2",
+    "les.bible.1-timothy.synthesis.01": "5bda10ffcbca2817190aff6b13a943aff3b7c74b5ff91123302a59726c69cd29"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

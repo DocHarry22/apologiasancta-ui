@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-jude.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.jude",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.jude.context.01",
+    "les.bible.jude.structure.01",
+    "les.bible.jude.theology.01",
+    "les.bible.jude.difficult-texts.01",
+    "les.bible.jude.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.jude.context.01": "7e13c16f7e33f76d5954fcc5b56525ce2ca1572c7bfa25dd17dc1cc815db9a4d",
+    "les.bible.jude.structure.01": "62d683c69f82b752385f4eb4ed1c7b9ca90859583ecca257dd7a0e0b80950b8d",
+    "les.bible.jude.theology.01": "a2283949f57ef24d469dd525e7079a6102fed5c3fb6d7963e4902833810d8314",
+    "les.bible.jude.difficult-texts.01": "bcb73c8d3a4cd31b29c0616fca4d54c72d5ece4d7967edb51ce23a2ea2b00cf0",
+    "les.bible.jude.synthesis.01": "5ba31b8c922979974866664f64814168909535c117d9c1982d703f4f72f12632"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,57 +1,49 @@
 # Apologia Sancta Phase 4 Production Status
 
-Generated: 2026-07-19
+Generated: 2026-07-20
 
-Status: **in progress; unpublished**
+Status: **all lesson drafts produced; human review and licensing outstanding; unpublished**
 
 ## Outcome
 
-The first complete subject batch contains 10 drafted Catholic Foundations lessons. The approved Phase 3 blueprint contains 815 planned lessons, so 805 lessons remain to be drafted. No lesson is marked reviewed, approved, or published.
+All 815 approved Phase 3 outlines now have safe structured lesson drafts. They are submitted to a local non-publishing review queue. No lesson is marked reviewed, approved, or published, so Phase 4 remains in progress.
 
 ## Counts
 
 | Measure | Count |
 |---|---:|
 | Phase 3 planned lessons | 815 |
-| Drafted | 10 |
-| Awaiting draft | 805 |
-| Awaiting reviewer assignment | 10 |
+| Drafted | 815 |
+| Awaiting draft | 0 |
+| Awaiting named reviewer assignment | 815 |
 | Reviewed | 0 |
 | Approved | 0 |
 | Blocked lesson drafts | 0 |
-| Drafts requiring Scripture licence review | 10 |
-| Missing source records in drafted lessons | 0 |
-
-## Active batch
-
-- Subject: Catholic Foundations
-- Groups: Foundations, Distinctions, Evidence, Objections, Synthesis
-- Lessons: 10 of 10 drafted
-- Practice content: two structural placeholders per lesson; no bulk question bank
-- Scripture text: references and original paraphrases only
-- Review submission: local draft queue, awaiting named human assignment
-
-| Group | Planned | Drafted | Awaiting review | Approved | Published |
-|---|---:|---:|---:|---:|---:|
-| Foundations | 2 | 2 | 2 | 0 | 0 |
-| Distinctions | 2 | 2 | 2 | 0 | 0 |
-| Evidence | 2 | 2 | 2 | 0 | 0 |
-| Objections | 2 | 2 | 2 | 0 | 0 |
-| Synthesis | 2 | 2 | 2 | 0 | 0 |
-
-## Quality and issue status
-
-| Check | Result |
-|---|---|
+| Drafts requiring Scripture licence review | 815 |
 | Missing source records | 0 |
-| Direct Scripture quotations stored | 0 |
-| Other direct quotation blocks | 0 |
-| Blocked lesson drafts | 0 |
-| Scripture licence review | Required for all 10 drafts |
-| Named theological review | Awaiting assignment for all 10 drafts |
-| Desktop/mobile and dark/light rendering of new drafts | Pending approved persistence and rendering adapter |
-| Remaining curriculum gap | 805 approved outlines have no lesson draft yet |
+
+## Counts by programme
+
+| Programme | Subjects | Planned | Drafted | Reviewed | Approved | Blocked |
+|---|---:|---:|---:|---:|---:|---:|
+| Compulsory Catholic Foundation Route | 8 | 80 | 80 | 0 | 0 | 0 |
+| Dogma and Sacramental Theology | 8 | 80 | 80 | 0 | 0 | 0 |
+| Church, Tradition, and History | 9 | 90 | 90 | 0 | 0 | 0 |
+| Moral and Spiritual Formation | 6 | 60 | 60 | 0 | 0 | 0 |
+| Reason, Philosophy, and Contemporary Culture | 6 | 60 | 60 | 0 | 0 | 0 |
+| Comparative Apologetics | 6 | 60 | 60 | 0 | 0 | 0 |
+| Apologist Lab and Expert Challenges | 2 | 20 | 20 | 0 | 0 | 0 |
+| Independent Bible-Book Studies | 73 | 365 | 365 | 0 | 0 | 0 |
+
+## Quality and workflow boundary
+
+- Every record uses the approved structured-block contract and contains no arbitrary HTML.
+- Scripture is stored only as references and original paraphrases.
+- Practice content is limited to two placeholders per lesson.
+- Automated checks may validate structure, source resolution, quotation limits, duplication, readability, prerequisites, and workflow safety; they cannot perform theological approval.
+- All graph record identifiers remain empty pending an approved taxonomy mapping.
+- Draft import artifacts are non-publishing and prohibit upsert.
 
 ## Completion statement
 
-Phase 4 is not complete. The manifest deliberately retains every undrafted lesson as planned, and the generator cannot approve or publish content.
+The lesson-drafting inventory is complete, but Phase 4 is not approved or publishable. Named doctrinal, source, instructional, comparative, licensing, and final approval work remains outstanding for all 815 drafts.

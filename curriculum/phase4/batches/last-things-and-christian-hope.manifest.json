@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.last-things-and-christian-hope.01",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.eschatology",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.eschatology.foundations.01",
+    "les.eschatology.foundations.02",
+    "les.eschatology.distinctions.01",
+    "les.eschatology.distinctions.02",
+    "les.eschatology.evidence.01",
+    "les.eschatology.evidence.02",
+    "les.eschatology.objections.01",
+    "les.eschatology.objections.02",
+    "les.eschatology.synthesis.01",
+    "les.eschatology.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.eschatology.foundations.01": "8f14586b7517305e61780fd0b3e5b509c77b8863d366e89912c129342984d987",
+    "les.eschatology.foundations.02": "109cd53efc06e68c59e93d4bb0795f094a2decd728937443b1502abfc73e6f61",
+    "les.eschatology.distinctions.01": "c2ef867224ccb06626718ef8e48e84e98ac69b55154e565936495a2195ec52fb",
+    "les.eschatology.distinctions.02": "2074bdfa3f27b1583a6103f30dddff8489a51e6b952726c8a1211f867f86f5e6",
+    "les.eschatology.evidence.01": "ba7c2713b54a613cf429148a1038b4e3e1e70270503c09f20f8c8b3f6117e0dd",
+    "les.eschatology.evidence.02": "ca5ce8d240f46b9ff70e75590456decc76932b3084749ecf34d4bbe95ecbd551",
+    "les.eschatology.objections.01": "5fef00c34b53a0442bcc3dd79a3989bae75592de5a8e466aca5063f703222ffb",
+    "les.eschatology.objections.02": "479b3756e3c801c3f7bed40b14bc73ff3ae021da76168f48b6f3e49391122dc6",
+    "les.eschatology.synthesis.01": "eb6ec26585fe3079b9e815211f0b23ee64be9556cafdba701ee34222513bafd2",
+    "les.eschatology.synthesis.02": "a94c8ff69f20bcf952531529341825768996a4c63b81e3756794dc45fa3e32b1"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

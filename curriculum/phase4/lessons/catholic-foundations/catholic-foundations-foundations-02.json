@@ -315,12 +315,12 @@
     "scripturePolicy": "references_and_original_paraphrases_only",
     "licenceReviewRequired": true,
     "humanApprovalRequired": true,
-    "generatedOn": "2026-07-19"
+    "generatedOn": "2026-07-20"
   },
   "_generation": {
     "batchId": "batch.phase4.catholic-foundations.01",
     "batchOrder": 2,
-    "contentHash": "68d3c1aa25f0e9d871634902bde9bf87679955c5a457f096dfa781e416da5430",
+    "contentHash": "9f53cac954ed8a7d6bbe6ccd768c9d54fe08f463aad81a82860976647e5ff794",
     "approximateWordCount": 1441
   }
 }

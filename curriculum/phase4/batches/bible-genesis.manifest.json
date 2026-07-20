@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-genesis.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.genesis",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.genesis.context.01",
+    "les.bible.genesis.structure.01",
+    "les.bible.genesis.theology.01",
+    "les.bible.genesis.difficult-texts.01",
+    "les.bible.genesis.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.genesis.context.01": "f8618fc3413bc7f5a2d3ddb4999c734e6c7e8935b861223defac65e4b47ddd82",
+    "les.bible.genesis.structure.01": "0dda169040b574afaed0d6a07adc5d030bfb24f9d61719afa75b3d6e9f03c46e",
+    "les.bible.genesis.theology.01": "c33039354b9f201b1b1f927b956e71107a2d3806c3613759bf4c71d546731bbf",
+    "les.bible.genesis.difficult-texts.01": "a07c313c74cd5269c7fe21f15098cb73ca3dd13d924652a9f83d45a1542d139b",
+    "les.bible.genesis.synthesis.01": "e63723466025d9f372f021dc8a329c84cfa5335cf1a52d44ad1d9975ddc9ea55"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-obadiah.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.obadiah",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.obadiah.context.01",
+    "les.bible.obadiah.structure.01",
+    "les.bible.obadiah.theology.01",
+    "les.bible.obadiah.difficult-texts.01",
+    "les.bible.obadiah.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.obadiah.context.01": "15aaf2d6d65ff7c0bc966265b05ac59ef97ecebef6deb72fbcb692c947fc2fac",
+    "les.bible.obadiah.structure.01": "3297d30ea9944fcdaed2df733c4ebce2364e30d9e62fb6abd5636f87df66bf1a",
+    "les.bible.obadiah.theology.01": "e0ed4db01a63f8d12bbd8545c0f4506179340e47bfab24634d1a742ffec8d051",
+    "les.bible.obadiah.difficult-texts.01": "08ccac9fbf4174d11ee2aa320ab78277e8089a4a33286c611684038c46408da3",
+    "les.bible.obadiah.synthesis.01": "d8ca9dd207ab795d8c2a7254efbc292d0dda1ec9c0b74cbe274008cacfa39f26"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

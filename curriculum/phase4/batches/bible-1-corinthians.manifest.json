@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-1-corinthians.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.1-corinthians",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.1-corinthians.context.01",
+    "les.bible.1-corinthians.structure.01",
+    "les.bible.1-corinthians.theology.01",
+    "les.bible.1-corinthians.difficult-texts.01",
+    "les.bible.1-corinthians.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.1-corinthians.context.01": "2026373e4a33edacdeaefc090628047767b6239a28978f0534e0caadfda53394",
+    "les.bible.1-corinthians.structure.01": "46602f9480b156465cf9e898dfe5e07d181cba217f4c2bb9ffe2ce08ae32ea22",
+    "les.bible.1-corinthians.theology.01": "6c8b3b5c7534ac0853c3e13c0fbc04afe7a81d6403fe837b9cf85da1f1f74f0f",
+    "les.bible.1-corinthians.difficult-texts.01": "2ca6b1ca8714c3c9015b0c19a1b9ea0d0a6fec4a1f9a2395eff46c46b522b549",
+    "les.bible.1-corinthians.synthesis.01": "a451a2590b8d966fee7495436248038daf50cb9d08c3d89ee8fa83e7137ad5f4"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

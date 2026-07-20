@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.debate-reasoning-and-source-evaluation.01",
+  "programmeId": "prog.reason-culture",
+  "subjectId": "subj.debate-source-evaluation",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.debate-source-evaluation.foundations.01",
+    "les.debate-source-evaluation.foundations.02",
+    "les.debate-source-evaluation.distinctions.01",
+    "les.debate-source-evaluation.distinctions.02",
+    "les.debate-source-evaluation.evidence.01",
+    "les.debate-source-evaluation.evidence.02",
+    "les.debate-source-evaluation.objections.01",
+    "les.debate-source-evaluation.objections.02",
+    "les.debate-source-evaluation.synthesis.01",
+    "les.debate-source-evaluation.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.debate-source-evaluation.foundations.01": "68e9e64e54c808b70269b1fffd96025a4da5c7cca2ff03aa13f0e9fe93648d6e",
+    "les.debate-source-evaluation.foundations.02": "68d9a6ddb4ec4006055e08c566131bac170cdd9a08cd1d1eed2c85556079c027",
+    "les.debate-source-evaluation.distinctions.01": "1cfd65ad1721606cdfded0eb1feda7b95f44263c4c9d6d76b6314970411b684a",
+    "les.debate-source-evaluation.distinctions.02": "eb1a6933ce51db6447cfd13b47a4e4460bbd7572094f1f5b495385c4a2e5ea7d",
+    "les.debate-source-evaluation.evidence.01": "c8a204116fac16c4b2dbbe7b00a90e992dbd511ab8f4c6ade6f4b2a0e25b426e",
+    "les.debate-source-evaluation.evidence.02": "96ee674042de23c7a4e918c14be3ff0f863751badf79b724bf5b37a50e4ec095",
+    "les.debate-source-evaluation.objections.01": "24ee1a20f35bdcd459f8c2b1caeed0e24efa04f0d1935e8e06ab7b1eb93aa322",
+    "les.debate-source-evaluation.objections.02": "612098e2b4decc9435090998e7409b5b69939fddc19e2d0c8a4c3a92beecca5c",
+    "les.debate-source-evaluation.synthesis.01": "d6c00ce04880fe7d1c8c2cf60831cba27f4bcc77e56c94e4514368108d8bfb0c",
+    "les.debate-source-evaluation.synthesis.02": "d8ed4e759621c974ec0948fe430c6fc629bc1030b7abaf89592f6ad10b50d86d"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

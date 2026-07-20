@@ -1,12 +1,12 @@
 # Phase 4 Unresolved Issues
 
-1. **Scripture licensing:** select the permitted translation or translations, platform territories, storage rules, and quotation limits. Every current draft uses references and original paraphrases only.
-2. **Lesson review persistence:** approve a lesson-specific review schema and role permissions. The current application workflow is question-specific, so this batch is submitted only to a local non-publishing queue.
-3. **Theological approval:** assign named doctrinal reviewers before any lesson changes from drafted to reviewed.
-4. **Comparative review:** assign a reviewer competent in confessional Reformed sources for the authority lesson; later comparative subjects require tradition-specific reviewers.
-5. **Patristic editions:** approve house editions and translations before direct quotations are added. Current content paraphrases bibliographically verified works.
-6. **Graph mapping:** approve stable Apologia Graph record identifiers. Category links are present, but record links remain empty.
-7. **Database mapping:** approve how the safe structured block model maps to persistent records before any database import is attempted.
-8. **Rendering and API integration:** the new lessons are safe structured draft records, but no persistence adapter or lesson API has been approved. Desktop/mobile and dark/light rendering checks for these records must follow that integration.
-9. **External text reuse review:** the automated gate checks internal duplication, five-word-sequence similarity, and quotation limits; approve an editorial or licensed external-corpus review policy before publication.
-10. **Remaining production:** 805 approved outlines remain planned and may not be silently skipped.
+1. **Scripture licensing:** select permitted translation(s), territories, storage rules, notices, and quotation limits. All 815 drafts currently use references and original paraphrases only.
+2. **Lesson review persistence:** approve a lesson-specific review schema and role permissions. The generated queue is local and cannot publish.
+3. **Human review:** assign named doctrinal, source, instructional, comparative, licensing, and final-approval roles. No automated process may satisfy these gates.
+4. **Comparative scope:** reviewers competent in each named tradition must confirm semantic accuracy, internal variation, and source selection before approval.
+5. **Edition and reuse review:** approve house editions and translations for patristic, conciliar, comparative, and academic sources before introducing any direct quotation.
+6. **Graph mapping:** approve stable Apologia Graph record identifiers. Category links are present; record links remain empty rather than invented.
+7. **Database mapping:** approve how the safe structured block model maps to persistent lesson records before import.
+8. **External text reuse:** the automated gate checks internal duplication and quotation blocks; a licensed external-corpus or accountable editorial review remains required before publication.
+9. **Semantic citation review:** automated URL and bibliography checks establish source identity, not that every paraphrase and locator fully supports its lesson claim.
+10. **Publication:** all 815 lessons remain unpublished; none may be described as approved until the governed human workflow is complete.

@@ -1,0 +1,527 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.saints-communion.foundations.02",
+  "phase3LessonId": "les.saints-communion.foundations.02",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.saints-communion",
+  "groupId": "grp.saints-communion.foundations",
+  "title": "Saints, Relics, Images, and Canonisation",
+  "slug": "saints-and-the-communion-of-saints-foundations-02",
+  "centralQuestion": "How should Catholic teaching understand Saints, Relics, Images, and Canonisation?",
+  "learningObjectives": [
+    "State a clear Catholic account of Saints, Relics, Images, and Canonisation in the context of Saints and the Communion of Saints.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Saints, Relics, Images, and Canonisation.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Saints, Relics, Images, and Canonisation belongs to the Catholic account of Saints and the Communion of Saints. Covers holiness, canonisation, heavenly intercession, relics, images, patronage, prayer for the dead, and Christ's unique mediation. A sound answer coordinates biblical witness and authoritative teaching while marking historical, philosophical, scientific, disciplinary, and theological claims at their proper level.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Saints, Relics, Images, and Canonisation"
+    },
+    {
+      "type": "paragraph",
+      "text": "Within Saints and the Communion of Saints, the question Saints, Relics, Images, and Canonisation must be answered at the right level of authority. Covers holiness, canonisation, heavenly intercession, relics, images, patronage, prayer for the dead, and Christ's unique mediation. Scripture, ecclesial teaching, historical testimony, and specialist research contribute different kinds of evidence. The lesson therefore identifies which source establishes each premise and labels every interpretive step rather than presenting a synthesis as though it were a direct quotation.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "For the biblical dimension of Saints, Relics, Images, and Canonisation, consult Hebrews 12:1-2, 22-24, Revelation 5:6-10; 8:1-4, 2 Maccabees 12:38-46. The stored summaries are deliberately not substitute Bible text. Their purpose is to direct close reading: establish the passage's immediate claim, test the connection to the lesson, and only then relate that claim to Catholic doctrine through the interpretive rules of Dei Verbum.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Canon, Communion of saints, Prayer control the reasoning in Saints, Relics, Images, and Canonisation. A definition is useful only if it is applied consistently. The learner should identify the subject of each claim, distinguish analogous from univocal language where necessary, and resist moving from a word shared by two sources to an agreement those sources do not actually state.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Foundations"
+    },
+    {
+      "type": "paragraph",
+      "text": "Saints, Relics, Images, and Canonisation takes its educational direction from Foundations: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. Within Saints and the Communion of Saints, the learner must use Canon, Communion of saints, Prayer with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Eastern Orthodox, Protestant. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Saints, Relics, Images, and Canonisation, Saints cannot remain an undefined slogan. State the proposition involving Saints, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Saints in Saints and the Communion of Saints must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Saints, Relics, Images, and Canonisation uses Relics as a checkpoint for understanding. The learner should locate Relics in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Relics is disputed within Saints and the Communion of Saints, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Saints, Relics, Images, and Canonisation, Images cannot remain an undefined slogan. State the proposition involving Images, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Images in Saints and the Communion of Saints must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Saints, Relics, Images, and Canonisation, the focus on Canonisation fixes one part of the lesson's scope. Canonisation must be defined as it functions in Saints, Relics, Images, and Canonisation, then supported by a source competent for that definition. Within Saints and the Communion of Saints, the learner should separate what the source states about Canonisation from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Saints, Relics, Images, and Canonisation, recall Church as communion. Saints and the Communion of Saints uses Church as communion in this lesson. Link Church as communion with Resurrection in Saints, Relics, Images, and Canonisation. Classify every Church as communion claim in Saints, Relics, Images, and Canonisation. Check Church as communion evidence for Saints and the Communion of Saints. Revise Saints, Relics, Images, and Canonisation if Church as communion remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Saints, Relics, Images, and Canonisation, recall Resurrection. Saints and the Communion of Saints uses Resurrection in this lesson. Link Resurrection with intercession in Saints, Relics, Images, and Canonisation. Classify every Resurrection claim in Saints, Relics, Images, and Canonisation. Check Resurrection evidence for Saints and the Communion of Saints. Revise Saints, Relics, Images, and Canonisation if Resurrection remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Saints, Relics, Images, and Canonisation, recall intercession. Saints and the Communion of Saints uses intercession in this lesson. Link intercession with Saints in Saints, Relics, Images, and Canonisation. Classify every intercession claim in Saints, Relics, Images, and Canonisation. Check intercession evidence for Saints and the Communion of Saints. Revise Saints, Relics, Images, and Canonisation if intercession remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Saints, Relics, Images, and Canonisation, recall Saints. Saints and the Communion of Saints uses Saints in this lesson. Link Saints with Relics in Saints, Relics, Images, and Canonisation. Classify every Saints claim in Saints, Relics, Images, and Canonisation. Check Saints evidence for Saints and the Communion of Saints. Revise Saints, Relics, Images, and Canonisation if Saints remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Saints, Relics, Images, and Canonisation, recall Relics. Saints and the Communion of Saints uses Relics in this lesson. Link Relics with Church as communion in Saints, Relics, Images, and Canonisation. Classify every Relics claim in Saints, Relics, Images, and Canonisation. Check Relics evidence for Saints and the Communion of Saints. Revise Saints, Relics, Images, and Canonisation if Relics remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Saints, Relics, Images, and Canonisation follows this approved curriculum purpose: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. This lesson focuses on saints, relics, images, and canonisation. Within Saints, Relics, Images, and Canonisation, that purpose limits the draft to the evidence and conclusions needed for Foundations.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Saints, Relics, Images, and Canonisation prepares the learner for this mastery work: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. Success in Saints, Relics, Images, and Canonisation therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Saints, Relics, Images, and Canonisation carries a high lesson review risk inside the high risk profile for Saints and the Communion of Saints. The recorded reason for Saints and the Communion of Saints is dogmatic precision; primary-source and chronology verification; comparative fairness and tradition-specific sourcing, so Saints, Relics, Images, and Canonisation cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Saints, Relics, Images, and Canonisation must keep these classifications visible: dogma, doctrine, discipline, historical_claim. For Saints, Relics, Images, and Canonisation, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Saints, Relics, Images, and Canonisation uses the biblical path Hebrews 12:1-2, 22-24, Revelation 5:6-10; 8:1-4, 2 Maccabees 12:38-46. Its Catholic synthesis is checked against CCC 946-962 and CCC 1020-1065 and sections 48-51, while Saints, Relics, Images, and Canonisation reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Saints, Relics, Images, and Canonisation names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Catholic in Saints, Relics, Images, and Canonisation; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Saints, Relics, Images, and Canonisation names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Eastern Orthodox in Saints, Relics, Images, and Canonisation; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Saints, Relics, Images, and Canonisation names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Protestant in Saints, Relics, Images, and Canonisation; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The source path for Saints, Relics, Images, and Canonisation is deliberately inspectable. Read CCC 946-962 and CCC 1020-1065 for the Catechism frame, then sections 48-51 for authoritative context. Compare Mystagogical catecheses on the Eucharistic commemoration and Nicaea II and Trent as relevant without treating reception and modern analysis as the same evidence. Human source review must confirm every use.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.cyril.catechetical-lectures",
+        "src.conciliar.tanner-decrees"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Saints, Relics, Images, and Canonisation",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "The objection presses the burden of proof for Saints, Relics, Images, and Canonisation: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+      "fairRepresentation": "A careful representative of Catholic, Eastern Orthodox, Protestant may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+      "response": "The Catholic response to Saints, Relics, Images, and Canonisation is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.lumen-gentium",
+        "src.cyril.catechetical-lectures",
+        "src.conciliar.tanner-decrees",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.saints-communion.foundations.01",
+        "les.saints-communion.distinctions.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "protestant",
+        "eastern"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Canon",
+      "definition": "The normative list of books received by the Church as Sacred Scripture; canon, textual form, translation, and lectionary are related but distinct.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Communion of saints",
+      "definition": "Communion in holy things and among holy persons in Christ across the pilgrim, purifying, and glorified Church.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Prayer",
+      "definition": "The living covenantal relationship of God's children with the Father, through the Son, in the Holy Spirit.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Hebrews 12:1-2, 22-24",
+      "paraphrase": "Christian perseverance is pictured in the presence of a great cloud of witnesses and the heavenly assembly gathered around Jesus.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Revelation 5:6-10; 8:1-4",
+      "paraphrase": "Heavenly worship portrays the prayers of the holy ones offered before God through symbolic liturgical imagery.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "2 Maccabees 12:38-46",
+      "paraphrase": "The narrative presents prayer and an offering for fallen Israelites in light of resurrection hope and accountability before God.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 946-962",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Saints, Relics, Images, and Canonisation; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1020-1065",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Saints, Relics, Images, and Canonisation and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 48-51",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Saints, Relics, Images, and Canonisation must be assessed.",
+      "sourceId": "src.vatican2.lumen-gentium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Saints, Relics, Images, and Canonisation must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.cyril.catechetical-lectures",
+        "locator": "Mystagogical catecheses on the Eucharistic commemoration"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Saints, Relics, Images, and Canonisation",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "The objection presses the burden of proof for Saints, Relics, Images, and Canonisation: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+  "opposingPosition": "A careful representative of Catholic, Eastern Orthodox, Protestant may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+  "catholicResponse": "The Catholic response to Saints, Relics, Images, and Canonisation is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+  "commonMistakes": [
+    "Treating Saints, Relics, Images, and Canonisation as an isolated slogan instead of a question within Saints and the Communion of Saints.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Protestant despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Saints, Relics, Images, and Canonisation: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Saints, Relics, Images, and Canonisation can be explained clearly without erasing complexity. The biblical evidence remains contextual, authoritative Catholic teaching remains properly classified, historical and scholarly claims remain reviewable, and comparative positions remain tradition-specific. This ordered account integrates Saints and the Communion of Saints with formation and mission.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Saints, Relics, Images, and Canonisation without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.saints-communion.foundations.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Saints, Relics, Images, and Canonisation.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.saints-communion.foundations.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain Saints, Relics, Images, and Canonisation in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Hebrews 12:1-2, 22-24; Revelation 5:6-10; 8:1-4; 2 Maccabees 12:38-46",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 946-962; CCC 1020-1065",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.lumen-gentium",
+      "locator": "sections 48-51",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.cyril.catechetical-lectures",
+      "locator": "Mystagogical catecheses on the Eucharistic commemoration",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "locator": "Nicaea II and Trent as relevant",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.saints-communion.foundations.01",
+    "les.saints-communion.distinctions.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "protestant",
+      "eastern"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.saints-and-the-communion-of-saints.01",
+    "batchOrder": 2,
+    "contentHash": "47f8a58d22808c92c2eb0b79af36ecb4d7134a7ec5b7d4860e6b7c2b0836192d",
+    "approximateWordCount": 3243
+  }
+}

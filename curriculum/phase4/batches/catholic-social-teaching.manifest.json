@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.catholic-social-teaching.01",
+  "programmeId": "prog.moral-spiritual",
+  "subjectId": "subj.catholic-social-teaching",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.catholic-social-teaching.foundations.01",
+    "les.catholic-social-teaching.foundations.02",
+    "les.catholic-social-teaching.distinctions.01",
+    "les.catholic-social-teaching.distinctions.02",
+    "les.catholic-social-teaching.evidence.01",
+    "les.catholic-social-teaching.evidence.02",
+    "les.catholic-social-teaching.objections.01",
+    "les.catholic-social-teaching.objections.02",
+    "les.catholic-social-teaching.synthesis.01",
+    "les.catholic-social-teaching.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.catholic-social-teaching.foundations.01": "c9608907a36081195cc7c788dd59ed5929cd75c04a1c1ede20265bad29298698",
+    "les.catholic-social-teaching.foundations.02": "bd7b7eab4655d97a542b85e8910907ddd4c56caf2acf1442fa7b335b8e80d987",
+    "les.catholic-social-teaching.distinctions.01": "1478b332e2686c8a5b6aca464106af92a169aa044facc44eb3b1b68d364ec1a5",
+    "les.catholic-social-teaching.distinctions.02": "d096c9f0d242e83fc1211544e3bd17a4ce1c138988a2176cf8a929b04328b309",
+    "les.catholic-social-teaching.evidence.01": "bd492e7e3b1d9ff723296ba1a7695388338f8cd5be0092f9330187421011161c",
+    "les.catholic-social-teaching.evidence.02": "4287473c43b64ba04eb385aa316e3e56dc10117e4c5cede8724adf01d7ba8846",
+    "les.catholic-social-teaching.objections.01": "5c0f2a6f95b93ccb0d1bbae0d63ef3e5c3edf988b0e25eacb5a37e5dd57633b0",
+    "les.catholic-social-teaching.objections.02": "d09eda679b42d083b975c4d2926550a32c427096772882bf19a126bd42fb9396",
+    "les.catholic-social-teaching.synthesis.01": "9e6da8293335f85302c7ab261539f04ebada560a89174a849cc5f7ae811a451a",
+    "les.catholic-social-teaching.synthesis.02": "b397e7c7162bfede9675444a5a927647c09cf42552ebb0e0480901cdd545c1b7"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

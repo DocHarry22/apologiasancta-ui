@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.councils-and-heresies.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.councils-heresies",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.councils-heresies.orientation.01",
+    "les.councils-heresies.orientation.02",
+    "les.councils-heresies.sources.01",
+    "les.councils-heresies.sources.02",
+    "les.councils-heresies.development.01",
+    "les.councils-heresies.development.02",
+    "les.councils-heresies.contested.01",
+    "les.councils-heresies.contested.02",
+    "les.councils-heresies.synthesis.01",
+    "les.councils-heresies.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.councils-heresies.orientation.01": "e3bce76e496991be98776fbd8834fe155ab8e5e7ab659d9d050445b4907445f2",
+    "les.councils-heresies.orientation.02": "6d56c98d1c1153d3b7579a375b630ad06638d75a98e041edda041a1ad72a516d",
+    "les.councils-heresies.sources.01": "df24b97c590ef50277a9749f0129c492a0c6b1a145da6eade327e31d676349e7",
+    "les.councils-heresies.sources.02": "ec44445c6235d3b4f9ddc7339ce993eabb6a7804b99923e6c8158103573d27be",
+    "les.councils-heresies.development.01": "e46dd701021b01b3354961554b0c773e0e8e1a23547b7e2a3d3188802ec99fab",
+    "les.councils-heresies.development.02": "04b8c9062d5f552579eb8954103585aa177188ac605c78fb38ae90bd6a8ad2e6",
+    "les.councils-heresies.contested.01": "521d128df4392477c1b3698000f7be8606e2dd629e0f93ba465b3432f5d4f976",
+    "les.councils-heresies.contested.02": "d03140d060f331222642ed9b190421f257b0a72c6e9870438a02b9cd07310b0f",
+    "les.councils-heresies.synthesis.01": "98ad1ecedcb060e40d625e0076a3ab9a08efefaff30c38fee5902cf0b39327fc",
+    "les.councils-heresies.synthesis.02": "27301292be860558abc1bae71e6fcf8d2d9ed820ca19a8f8313c8c9ddb78a5a3"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

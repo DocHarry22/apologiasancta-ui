@@ -1,0 +1,555 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.mary.foundations.01",
+  "phase3LessonId": "les.mary.foundations.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.mary",
+  "groupId": "grp.mary.foundations",
+  "title": "Mary in the Mystery of Christ and the Church",
+  "slug": "mary-foundations-01",
+  "centralQuestion": "How should Catholic teaching understand Mary in the Mystery of Christ and the Church?",
+  "learningObjectives": [
+    "State a clear Catholic account of Mary in the Mystery of Christ and the Church in the context of Mary.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Mary in the Mystery of Christ and the Church.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "To understand Mary in the Mystery of Christ and the Church as a Catholic, begin from the inspired witness and the Church's received teaching, then distinguish what is defined from what is explanatory or contingent. This method serves the wider purpose of Mary: Places Marian doctrine within Christology and ecclesiology: divine motherhood, perpetual virginity, Immaculate Conception, Assumption, typology, devotion, and mediation.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Mary in the Mystery of Christ and the Church"
+    },
+    {
+      "type": "paragraph",
+      "text": "Mary provides the larger frame for Mary in the Mystery of Christ and the Church. Places Marian doctrine within Christology and ecclesiology: divine motherhood, perpetual virginity, Immaculate Conception, Assumption, typology, devotion, and mediation. Catholic method here moves from the inspired text to doctrinal judgment while also examining reception and reasoned scholarship. The movement is cumulative: a historical source cannot define dogma, a theological conclusion cannot rewrite an event, and an academic proposal cannot function as an ecclesial act.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "Mary in the Mystery of Christ and the Church is anchored in Luke 1:26-56, John 2:1-12, John 19:25-27; Revelation 12:1-17. No protected translation wording is reproduced. Instead, each card states in fresh language what the passage contributes and leaves the reference visible for verification. The learner should read what precedes and follows, identify genre and speaker, and compare the proposed use with the wider canon.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In Mary in the Mystery of Christ and the Church, vocabulary carries doctrinal weight. Doctrine, Typology, Church, Theotokos must each retain its proper object and range. The learner should be able to define every term without circularity, give a nearby term that must not be confused with it, and identify the source that warrants the distinction.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Foundations"
+    },
+    {
+      "type": "paragraph",
+      "text": "At the foundation stage, Mary in the Mystery of Christ and the Church should give the learner a stable first model rather than an inventory of every later dispute. The governing terms are Doctrine, Typology, Church, Theotokos. Each must retain its defined scope so that a biblical image, a doctrinal proposition, a disciplinary rule, and a theological explanation do not collapse into one category. The learner should be able to state the core account plainly before attempting technical qualifications.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Mary in the Mystery of Christ and the Church, the focus on Mary in the Mystery of Christ fixes one part of the lesson's scope. Mary in the Mystery of Christ must be defined as it functions in Mary in the Mystery of Christ and the Church, then supported by a source competent for that definition. Within Mary, the learner should separate what the source states about Mary in the Mystery of Christ from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase the Church matters specifically to Mary in the Mystery of Christ and the Church. Ask first what the Church denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of the Church under Mary should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Doctrine gives Mary in the Mystery of Christ and the Church a concrete analytical task. In treating Doctrine, Mary in the Mystery of Christ and the Church should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Doctrine within Mary remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Typology gives Mary in the Mystery of Christ and the Church a concrete analytical task. In treating Typology, Mary in the Mystery of Christ and the Church should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Typology within Mary remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Mary in the Mystery of Christ and the Church, recall Incarnation. Mary uses Incarnation in this lesson. Link Incarnation with grace in Mary in the Mystery of Christ and the Church. Classify every Incarnation claim in Mary in the Mystery of Christ and the Church. Check Incarnation evidence for Mary. Revise Mary in the Mystery of Christ and the Church if Incarnation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Mary in the Mystery of Christ and the Church, recall grace. Mary uses grace in this lesson. Link grace with typology in Mary in the Mystery of Christ and the Church. Classify every grace claim in Mary in the Mystery of Christ and the Church. Check grace evidence for Mary. Revise Mary in the Mystery of Christ and the Church if grace remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Mary in the Mystery of Christ and the Church, recall typology. Mary uses typology in this lesson. Link typology with communion of saints in Mary in the Mystery of Christ and the Church. Classify every typology claim in Mary in the Mystery of Christ and the Church. Check typology evidence for Mary. Revise Mary in the Mystery of Christ and the Church if typology remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Mary in the Mystery of Christ and the Church, recall communion of saints. Mary uses communion of saints in this lesson. Link communion of saints with Mary in the Mystery of Christ in Mary in the Mystery of Christ and the Church. Classify every communion of saints claim in Mary in the Mystery of Christ and the Church. Check communion of saints evidence for Mary. Revise Mary in the Mystery of Christ and the Church if communion of saints remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Mary in the Mystery of Christ and the Church, recall Mary in the Mystery of Christ. Mary uses Mary in the Mystery of Christ in this lesson. Link Mary in the Mystery of Christ with Incarnation in Mary in the Mystery of Christ and the Church. Classify every Mary in the Mystery of Christ claim in Mary in the Mystery of Christ and the Church. Check Mary in the Mystery of Christ evidence for Mary. Revise Mary in the Mystery of Christ and the Church if Mary in the Mystery of Christ remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Mary in the Mystery of Christ and the Church follows this approved curriculum purpose: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. This lesson focuses on mary in the mystery of christ and the church. Within Mary in the Mystery of Christ and the Church, that purpose limits the draft to the evidence and conclusions needed for Foundations.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Mary in the Mystery of Christ and the Church prepares the learner for this mastery work: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. Success in Mary in the Mystery of Christ and the Church therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Mary in the Mystery of Christ and the Church carries a critical lesson review risk inside the critical risk profile for Mary. The recorded reason for Mary is dogmatic precision; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Mary in the Mystery of Christ and the Church cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Mary in the Mystery of Christ and the Church must keep these classifications visible: dogma, doctrine, discipline, theological_opinion. For Mary in the Mystery of Christ and the Church, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Mary in the Mystery of Christ and the Church uses the biblical path Luke 1:26-56, John 2:1-12, John 19:25-27; Revelation 12:1-17. Its Catholic synthesis is checked against CCC 484-511 and CCC 963-975 and sections 52-69, while Mary in the Mystery of Christ and the Church reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Mary in the Mystery of Christ and the Church names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran set the descriptive boundary for Catholic in Mary in the Mystery of Christ and the Church; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Mary in the Mystery of Christ and the Church names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran set the descriptive boundary for Eastern Orthodox in Mary in the Mystery of Christ and the Church; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Mary in the Mystery of Christ and the Church names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran set the descriptive boundary for Protestant in Mary in the Mystery of Christ and the Church; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Mary in the Mystery of Christ and the Church names Islam rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran set the descriptive boundary for Islam in Mary in the Mystery of Christ and the Church; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Documentation for Mary in the Mystery of Christ and the Church is distributed by task. CCC 484-511 and CCC 963-975 identify Catholic synthesis; sections 52-69 supplies governing context; Book III; Eve-Mary typology tests reception; Ephesus and later Marian definitions as relevant tests specialist claims. The draft records these locations but does not convert a resolved reference into automatic theological approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.irenaeus.against-heresies",
+        "src.conciliar.tanner-decrees"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Mary in the Mystery of Christ and the Church",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A critical reader may ask whether Mary in the Mystery of Christ and the Church is supported by the cited evidence or insulated by Catholic authority claims. What independent reason connects the premises to the conclusion?",
+      "fairRepresentation": "A careful representative of Catholic, Eastern Orthodox, Protestant, Islam may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+      "response": "The Catholic answer concerning Mary in the Mystery of Christ and the Church accepts the stated burden of proof. It reads the primary texts in context, explains why the Church's interpretive authority is relevant, and checks whether historical reception fits the proposed development. A failed locator or unsupported premise blocks approval instead of being covered by devotional confidence.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.lumen-gentium",
+        "src.irenaeus.against-heresies",
+        "src.conciliar.tanner-decrees",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.mary.foundations.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "christology",
+        "protestant",
+        "islam"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Doctrine",
+      "definition": "A teaching proposed by the Church; its authority and required assent depend on what is taught and how it is proposed.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Typology",
+      "definition": "A canonical relationship in which earlier persons, events, or institutions prefigure later fulfilment without losing their literal historical meaning.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Church",
+      "definition": "The people gathered by the Father through Christ in the Holy Spirit, at once spiritual communion and visible apostolic society.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Theotokos",
+      "definition": "The title 'God-bearer' or 'Mother of God,' safeguarding that the one born of Mary is the divine Person of the Son.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Luke 1:26-56",
+      "paraphrase": "Mary receives God's initiative in faith, consents to the incarnation, and praises the covenant mercy fulfilled through her Son.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "John 2:1-12",
+      "paraphrase": "At Cana Mary directs attention to Jesus, while his sign manifests glory and moves the disciples toward faith.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "John 19:25-27; Revelation 12:1-17",
+      "paraphrase": "John places the mother of Jesus beside the cross and later portrays a symbolic mother within the conflict involving Messiah and his people; the texts require careful literary distinction.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 484-511",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Mary in the Mystery of Christ and the Church; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 963-975",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Mary in the Mystery of Christ and the Church and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 52-69",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Mary in the Mystery of Christ and the Church must be assessed.",
+      "sourceId": "src.vatican2.lumen-gentium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Mary in the Mystery of Christ and the Church must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.irenaeus.against-heresies",
+        "locator": "Book III; Eve-Mary typology"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Mary in the Mystery of Christ and the Church",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A critical reader may ask whether Mary in the Mystery of Christ and the Church is supported by the cited evidence or insulated by Catholic authority claims. What independent reason connects the premises to the conclusion?",
+  "opposingPosition": "A careful representative of Catholic, Eastern Orthodox, Protestant, Islam may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+  "catholicResponse": "The Catholic answer concerning Mary in the Mystery of Christ and the Church accepts the stated burden of proof. It reads the primary texts in context, explains why the Church's interpretive authority is relevant, and checks whether historical reception fits the proposed development. A failed locator or unsupported premise blocks approval instead of being covered by devotional confidence.",
+  "commonMistakes": [
+    "Treating Mary in the Mystery of Christ and the Church as an isolated slogan instead of a question within Mary.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Protestant, Islam despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Mary in the Mystery of Christ and the Church: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Mary in the Mystery of Christ and the Church belongs within Mary and requires a disciplined Catholic synthesis. Scripture, Catechism, Magisterium, historical witness, scholarship, and comparative sources answer connected but different questions. The lesson states the claim, marks authority and uncertainty, represents alternatives in scope, and connects truth to Christian life.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Mary in the Mystery of Christ and the Church without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.mary.foundations.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Mary in the Mystery of Christ and the Church.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.mary.foundations.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Mary in the Mystery of Christ and the Church in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Luke 1:26-56; John 2:1-12; John 19:25-27; Revelation 12:1-17",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 484-511; CCC 963-975",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.lumen-gentium",
+      "locator": "sections 52-69",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.irenaeus.against-heresies",
+      "locator": "Book III; Eve-Mary typology",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "locator": "Ephesus and later Marian definitions as relevant",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.islam.quran",
+      "locator": "surahs 1, 3-5, 19, and 112 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.mary.foundations.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "christology",
+      "protestant",
+      "islam"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "theological_opinion"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant",
+      "Islam"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.mary.01",
+    "batchOrder": 1,
+    "contentHash": "e0e5311a0c6260bfac93abef20cd8c929601a4652425e13cb84f56641d374162",
+    "approximateWordCount": 3626
+  }
+}

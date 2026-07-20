@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.faith-and-science.01",
+  "programmeId": "prog.reason-culture",
+  "subjectId": "subj.faith-science",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.faith-science.foundations.01",
+    "les.faith-science.foundations.02",
+    "les.faith-science.distinctions.01",
+    "les.faith-science.distinctions.02",
+    "les.faith-science.evidence.01",
+    "les.faith-science.evidence.02",
+    "les.faith-science.objections.01",
+    "les.faith-science.objections.02",
+    "les.faith-science.synthesis.01",
+    "les.faith-science.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.faith-science.foundations.01": "3111c6b419f77e7c565863816aee85201d9b70dcff81d2ea7d87ad633b6acee8",
+    "les.faith-science.foundations.02": "84533cc9c23d9c827b7bed49ef0a940a2e43138f150061caf9e32f15280194ac",
+    "les.faith-science.distinctions.01": "342e48d086ea9f7c5c7f72e0e897206688096467455f7d49067cc9ff08afa209",
+    "les.faith-science.distinctions.02": "7f5c41441f20374b7b5899db5a843865376ecfb261732d72f23f31db2c115715",
+    "les.faith-science.evidence.01": "0148945586388a2f64b639d1b169f206df9c17193584b8c8c3f9ce192f72c973",
+    "les.faith-science.evidence.02": "4ac3d6938235ad8fa48f3c9dcb6382a0e7408bf128995ee58e455f0ae6500bbe",
+    "les.faith-science.objections.01": "27e98a2e043c9ae9a61a60354946ad7b2e59748685d3475aa1ff6a6be8c7a133",
+    "les.faith-science.objections.02": "ffbc74560c22bb4ae6cd5449a64cd46c895f506889c17fb038874cf9ded0f61b",
+    "les.faith-science.synthesis.01": "dab501e7a000e259862bcc789e4e55d9858f8bbf7b726341f9cefbc69bb52b15",
+    "les.faith-science.synthesis.02": "aa63b3ebc08148a16f08a5352a80213053fd3e8b611926950684981bdbe906a2"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

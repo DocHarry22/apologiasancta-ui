@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.natural-theology.01",
+  "programmeId": "prog.reason-culture",
+  "subjectId": "subj.natural-theology",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.natural-theology.foundations.01",
+    "les.natural-theology.foundations.02",
+    "les.natural-theology.distinctions.01",
+    "les.natural-theology.distinctions.02",
+    "les.natural-theology.evidence.01",
+    "les.natural-theology.evidence.02",
+    "les.natural-theology.objections.01",
+    "les.natural-theology.objections.02",
+    "les.natural-theology.synthesis.01",
+    "les.natural-theology.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.natural-theology.foundations.01": "f09b8b3d281fcc53158521a6b64da045041f5340d5d6a46428c943de8d91b4c9",
+    "les.natural-theology.foundations.02": "8fdda79ea561b920127f11536f0cc80f832512ff742f69cf097f6dbd3de7af86",
+    "les.natural-theology.distinctions.01": "d854279ef9dea8776739bcb6f2a17de93e91d7247207a13aa5a2b3974b63e3d9",
+    "les.natural-theology.distinctions.02": "ddf1f8c21435548072b8b2025f679fc299c77e38632ec0c339c354cc8086ddb1",
+    "les.natural-theology.evidence.01": "5e39e4377ca9ed8fb21c67953727577869601b9f2c285953237ee3588abdb6c1",
+    "les.natural-theology.evidence.02": "cea129e135905fdd994d52b115c31668cbdc04df0782d0650e9e9441841f4534",
+    "les.natural-theology.objections.01": "6dd9640290c7458dd6ac4aa291d86319fc782597c1435f06c563f51f692e220d",
+    "les.natural-theology.objections.02": "822c10863c126c39978295b516ac22fe46804a25fc73a2448164c47e7d0ef89b",
+    "les.natural-theology.synthesis.01": "6ac3d120712c0aa447f74a4b05e3615ea9eaa16f0f097a0491e0763cc506da5d",
+    "les.natural-theology.synthesis.02": "60b39ec45661ae18e9198ac15943be68ee477506b344de2348cc61d844cdde13"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

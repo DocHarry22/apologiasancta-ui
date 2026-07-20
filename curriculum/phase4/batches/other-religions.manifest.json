@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.other-religions.01",
+  "programmeId": "prog.comparative-apologetics",
+  "subjectId": "subj.world-religions",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.world-religions.foundations.01",
+    "les.world-religions.foundations.02",
+    "les.world-religions.distinctions.01",
+    "les.world-religions.distinctions.02",
+    "les.world-religions.evidence.01",
+    "les.world-religions.evidence.02",
+    "les.world-religions.objections.01",
+    "les.world-religions.objections.02",
+    "les.world-religions.synthesis.01",
+    "les.world-religions.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.world-religions.foundations.01": "2b20de293c6a99864e98b20b9958568d76d58c504ae145af41ffa2e1ce31a8fd",
+    "les.world-religions.foundations.02": "48dd386ac25019d62403b43746c34fc7e1139b0634c251c983bdad353bdb5238",
+    "les.world-religions.distinctions.01": "ef7b6e6f03a4d9396af480ff57542a6949bc57bc73cf000fc18632f197b6bbdd",
+    "les.world-religions.distinctions.02": "bd6804310fa625921b84ac98db51ddb34b858305fd796a54a2fa479cd40ada67",
+    "les.world-religions.evidence.01": "30f2f5dc5ce0044b7a8adf63dafdb680954717de34ecaf7e776d53b9c4caa022",
+    "les.world-religions.evidence.02": "2b6c26f4bbd57934ab956ac6bf7cbfd7454715c38bc0952cc1df65e6f46219e4",
+    "les.world-religions.objections.01": "2b764529eb80e2f78e2ce4c34b4b1273141788bca0b9046f0e24897454321739",
+    "les.world-religions.objections.02": "e66d64b5c2dbf345d8eaf25b2ef2dfff7922ebff395888e38dac094f16b47ffa",
+    "les.world-religions.synthesis.01": "572464f44a87eba20fd7a425088b4f86a4ae55929fa5b2269f1293822b589b14",
+    "les.world-religions.synthesis.02": "22cb98d40dc6e34075dfb24390c207e6bbf93e78e0c25c844be98a404e8850ee"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

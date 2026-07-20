@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.human-life-and-bioethics.01",
+  "programmeId": "prog.moral-spiritual",
+  "subjectId": "subj.life-bioethics",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.life-bioethics.foundations.01",
+    "les.life-bioethics.foundations.02",
+    "les.life-bioethics.distinctions.01",
+    "les.life-bioethics.distinctions.02",
+    "les.life-bioethics.evidence.01",
+    "les.life-bioethics.evidence.02",
+    "les.life-bioethics.objections.01",
+    "les.life-bioethics.objections.02",
+    "les.life-bioethics.synthesis.01",
+    "les.life-bioethics.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.life-bioethics.foundations.01": "f1adfbe1b232cecf862d2da9a59e576cb04f9f2fb2c42ba9ec7ed20a9402d54f",
+    "les.life-bioethics.foundations.02": "02cdde4c5f45d9a50b656af4f3774139508cdebc5f255d1603da70a28c8b5281",
+    "les.life-bioethics.distinctions.01": "8719dc632020a1b6b828ae74fd5e3a5522cc8c441ca8c56feea4e3262a24589f",
+    "les.life-bioethics.distinctions.02": "cb9afbc4d9789f6da1bc91a1692f059d4a26a10ca46d918eda0fa9389e3467ec",
+    "les.life-bioethics.evidence.01": "baeb3efe8d2fbf3c291f1c9c91df8d1c014b8140bad3f087d30b37c7f2e2aae4",
+    "les.life-bioethics.evidence.02": "2ea53dd400191ecd7aacd5ecb6b1d00e165b13aee388fbb5ef76a2b1238331fd",
+    "les.life-bioethics.objections.01": "95d44131c554205d381a781c9853effcc24663a9a2a71cc44ff93e9a005d71cd",
+    "les.life-bioethics.objections.02": "fe0f7b113c11913616d933560875cee64be3e6bf0063452aa32189ac9773c9cd",
+    "les.life-bioethics.synthesis.01": "ff26a962c64d5b10a24310159f67a11c10fde16a48b3a9005a6281e3e4c483ac",
+    "les.life-bioethics.synthesis.02": "32347554b11e09cf7b97502cd9ac3bcba6f70a629cd86cdefbc7a88f3a53beb5"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

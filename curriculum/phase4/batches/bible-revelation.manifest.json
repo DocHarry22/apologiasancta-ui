@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-revelation.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.revelation",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.revelation.context.01",
+    "les.bible.revelation.structure.01",
+    "les.bible.revelation.theology.01",
+    "les.bible.revelation.difficult-texts.01",
+    "les.bible.revelation.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.revelation.context.01": "087bfa6cf05ddc78baea06e8cbeada690fbdb2977949ae4dc2acc5d99e001fc4",
+    "les.bible.revelation.structure.01": "8081ea57a2342bae0986edd2241fe6d486333fa63105d35d05db0cbafeafa0f8",
+    "les.bible.revelation.theology.01": "d0c43b68ce5dbf35fd55077f7158bd2c44a1e1f41ab77e917b215981d8bcd89f",
+    "les.bible.revelation.difficult-texts.01": "6e42200a834abe9c820e8b58796c6e8332b3908314694a053125f124e883c3a2",
+    "les.bible.revelation.synthesis.01": "aa0c8a484593be5cd1bc75e2ea2a8c62a28e21be7854762382b686d14f0f50ae"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

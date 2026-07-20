@@ -1,0 +1,513 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.prayer-spiritual-life.synthesis.02",
+  "phase3LessonId": "les.prayer-spiritual-life.synthesis.02",
+  "programmeId": "prog.moral-spiritual",
+  "subjectId": "subj.prayer-spiritual-life",
+  "groupId": "grp.prayer-spiritual-life.synthesis",
+  "title": "Prayer Flowing into Sacrament and Charity",
+  "slug": "prayer-and-spiritual-life-synthesis-02",
+  "centralQuestion": "How should Catholic teaching understand Prayer Flowing into Sacrament and Charity?",
+  "learningObjectives": [
+    "State a clear Catholic account of Prayer Flowing into Sacrament and Charity in the context of Prayer and Spiritual Life.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Prayer Flowing into Sacrament and Charity.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic teaching approaches Prayer Flowing into Sacrament and Charity within Prayer and Spiritual Life: Deepens vocal, meditative, contemplative, liturgical, biblical, and devotional prayer within discernment, asceticism, sacramental life, and charity. It reads Scripture in the Church, applies Catechism and Magisterial distinctions, and separates revealed doctrine from discipline, opinion, and revisable historical or scientific judgment.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Prayer Flowing into Sacrament and Charity"
+    },
+    {
+      "type": "paragraph",
+      "text": "The approved curriculum places Prayer Flowing into Sacrament and Charity inside Prayer and Spiritual Life, whose scope is this: Deepens vocal, meditative, contemplative, liturgical, biblical, and devotional prayer within discernment, asceticism, sacramental life, and charity. A reliable Catholic explanation assigns biblical, doctrinal, historical, philosophical, and scientific statements to the proper source. It then discloses the inference joining those statements. That transparency is part of the lesson's substance, not only an editorial note.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "Prayer Flowing into Sacrament and Charity is anchored in Matthew 6:5-15, Luke 11:1-13, Romans 8:14-27. No protected translation wording is reproduced. Instead, each card states in fresh language what the passage contributes and leaves the reference visible for verification. The learner should read what precedes and follows, identify genre and speaker, and compare the proposed use with the wider canon.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The essential vocabulary for Prayer Flowing into Sacrament and Charity is Sacrament, Prayer, Primary source. Before declaring agreement or conflict, check whether sources use those terms in the same sense, address the same problem, and carry the same authority. Doctrinal, devotional, historical, and comparative language may overlap, but the lesson may not treat them as interchangeable.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Synthesis"
+    },
+    {
+      "type": "paragraph",
+      "text": "The synthesis stage turns Prayer Flowing into Sacrament and Charity into a concise account ordered to faith and life. A strong synthesis preserves the literal sense of Scripture, the hierarchy of truths, the authority level of Church teaching, and the legitimate findings of reason and history. It can be shortened for conversation without erasing qualifications. Its goal is not merely to win a dispute but to make Christ, the Church's faith, and the learner's response intelligible together.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae",
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Prayer Flowing into Sacrament gives Prayer Flowing into Sacrament and Charity a concrete analytical task. In treating Prayer Flowing into Sacrament, Prayer Flowing into Sacrament and Charity should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Prayer Flowing into Sacrament within Prayer and Spiritual Life remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Charity matters specifically to Prayer Flowing into Sacrament and Charity. Ask first what Charity denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Charity under Prayer and Spiritual Life should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Prayer Flowing into Sacrament and Charity uses Sacrament as a checkpoint for understanding. The learner should locate Sacrament in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Sacrament is disputed within Prayer and Spiritual Life, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Prayer matters specifically to Prayer Flowing into Sacrament and Charity. Ask first what Prayer denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Prayer under Prayer and Spiritual Life should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Prayer Flowing into Sacrament and Charity, recall Objections. Prayer and Spiritual Life uses Objections in this lesson. Link Objections with Prayer Flowing into Sacrament in Prayer Flowing into Sacrament and Charity. Classify every Objections claim in Prayer Flowing into Sacrament and Charity. Check Objections evidence for Prayer and Spiritual Life. Revise Prayer Flowing into Sacrament and Charity if Objections remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Prayer Flowing into Sacrament and Charity, recall Prayer Flowing into Sacrament. Prayer and Spiritual Life uses Prayer Flowing into Sacrament in this lesson. Link Prayer Flowing into Sacrament with Charity in Prayer Flowing into Sacrament and Charity. Classify every Prayer Flowing into Sacrament claim in Prayer Flowing into Sacrament and Charity. Check Prayer Flowing into Sacrament evidence for Prayer and Spiritual Life. Revise Prayer Flowing into Sacrament and Charity if Prayer Flowing into Sacrament remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Prayer Flowing into Sacrament and Charity, recall Charity. Prayer and Spiritual Life uses Charity in this lesson. Link Charity with Sacrament in Prayer Flowing into Sacrament and Charity. Classify every Charity claim in Prayer Flowing into Sacrament and Charity. Check Charity evidence for Prayer and Spiritual Life. Revise Prayer Flowing into Sacrament and Charity if Charity remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Prayer Flowing into Sacrament and Charity, recall Sacrament. Prayer and Spiritual Life uses Sacrament in this lesson. Link Sacrament with Prayer in Prayer Flowing into Sacrament and Charity. Classify every Sacrament claim in Prayer Flowing into Sacrament and Charity. Check Sacrament evidence for Prayer and Spiritual Life. Revise Prayer Flowing into Sacrament and Charity if Sacrament remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Prayer Flowing into Sacrament and Charity, recall Prayer. Prayer and Spiritual Life uses Prayer in this lesson. Link Prayer with Objections in Prayer Flowing into Sacrament and Charity. Classify every Prayer claim in Prayer Flowing into Sacrament and Charity. Check Prayer evidence for Prayer and Spiritual Life. Revise Prayer Flowing into Sacrament and Charity if Prayer remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Prayer Flowing into Sacrament and Charity follows this approved curriculum purpose: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. This lesson focuses on prayer flowing into sacrament and charity. Within Prayer Flowing into Sacrament and Charity, that purpose limits the draft to the evidence and conclusions needed for Synthesis.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Prayer Flowing into Sacrament and Charity prepares the learner for this mastery work: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. Success in Prayer Flowing into Sacrament and Charity therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Prayer Flowing into Sacrament and Charity carries a medium lesson review risk inside the medium risk profile for Prayer and Spiritual Life. The recorded reason for Prayer and Spiritual Life is primary-source and chronology verification; comparative fairness and tradition-specific sourcing, so Prayer Flowing into Sacrament and Charity cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Prayer Flowing into Sacrament and Charity must keep these classifications visible: doctrine, discipline, theological_opinion, historical_claim. For Prayer Flowing into Sacrament and Charity, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Prayer Flowing into Sacrament and Charity uses the biblical path Matthew 6:5-15, Luke 11:1-13, Romans 8:14-27. Its Catholic synthesis is checked against CCC 2558-2758 and CCC 2759-2865 and sections 54-55 and 72, while Prayer Flowing into Sacrament and Charity reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Prayer Flowing into Sacrament and Charity names Latin Catholic spiritual schools rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith set the descriptive boundary for Latin Catholic spiritual schools in Prayer Flowing into Sacrament and Charity; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Prayer Flowing into Sacrament and Charity names Eastern Catholic spiritual schools rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith set the descriptive boundary for Eastern Catholic spiritual schools in Prayer Flowing into Sacrament and Charity; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Prayer Flowing into Sacrament and Charity names Eastern Orthodox spirituality rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith set the descriptive boundary for Eastern Orthodox spirituality in Prayer Flowing into Sacrament and Charity; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "To audit Prayer Flowing into Sacrament and Charity, follow the locators rather than trusting the summary: CCC 2558-2758 and CCC 2759-2865; sections 54-55 and 72; Procatechesis and Catechetical Lecture 5; and Book I; enjoyment of God and ordered love. Each source should support the precise sentence for which it is cited. Edition, translation, context, and attribution remain explicit items for the review queue.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae",
+        "src.cyril.catechetical-lectures",
+        "src.augustine.christian-doctrine"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Prayer Flowing into Sacrament and Charity",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "An informed opponent can grant much of the evidence for Prayer Flowing into Sacrament and Charity while denying the Catholic inference. Why is the disputed conclusion more than one confessional construction among several?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Latin Catholic spiritual schools, Eastern Catholic spiritual schools, Eastern Orthodox spirituality, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Prayer Flowing into Sacrament and Charity concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "The Catholic answer concerning Prayer Flowing into Sacrament and Charity accepts the stated burden of proof. It reads the primary texts in context, explains why the Church's interpretive authority is relevant, and checks whether historical reception fits the proposed development. A failed locator or unsupported premise blocks approval instead of being covered by devotional confidence.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.jp2.catechesi-tradendae",
+        "src.cyril.catechetical-lectures",
+        "src.augustine.christian-doctrine",
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.prayer-spiritual-life.synthesis.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "eastern"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Sacrament",
+      "definition": "An efficacious ecclesial sign of grace, instituted by Christ and entrusted to the Church.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "term": "Prayer",
+      "definition": "The living covenantal relationship of God's children with the Father, through the Son, in the Holy Spirit.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "term": "Primary source",
+      "definition": "A text, artefact, or record arising from the authority, community, person, or period being studied.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 6:5-15",
+      "paraphrase": "Jesus rejects prayer as performance, directs disciples to the Father, and teaches a pattern ordered to God's name, kingdom, daily need, forgiveness, and deliverance.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Luke 11:1-13",
+      "paraphrase": "Jesus joins the pattern of prayer to persevering petition and confidence in the Father's gift of the Holy Spirit.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Romans 8:14-27",
+      "paraphrase": "Christian prayer is filial life in the Spirit, who assists weakness and intercedes when words fail.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 2558-2758",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Prayer Flowing into Sacrament and Charity; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 2759-2865",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Prayer Flowing into Sacrament and Charity and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 54-55 and 72",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Prayer Flowing into Sacrament and Charity must be assessed.",
+      "sourceId": "src.jp2.catechesi-tradendae",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Prayer Flowing into Sacrament and Charity must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.cyril.catechetical-lectures",
+        "locator": "Procatechesis and Catechetical Lecture 5"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Prayer Flowing into Sacrament and Charity",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "An informed opponent can grant much of the evidence for Prayer Flowing into Sacrament and Charity while denying the Catholic inference. Why is the disputed conclusion more than one confessional construction among several?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Latin Catholic spiritual schools, Eastern Catholic spiritual schools, Eastern Orthodox spirituality, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Prayer Flowing into Sacrament and Charity concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "The Catholic answer concerning Prayer Flowing into Sacrament and Charity accepts the stated burden of proof. It reads the primary texts in context, explains why the Church's interpretive authority is relevant, and checks whether historical reception fits the proposed development. A failed locator or unsupported premise blocks approval instead of being covered by devotional confidence.",
+  "commonMistakes": [
+    "Treating Prayer Flowing into Sacrament and Charity as an isolated slogan instead of a question within Prayer and Spiritual Life.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Latin Catholic spiritual schools, Eastern Catholic spiritual schools, Eastern Orthodox spirituality despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Prayer Flowing into Sacrament and Charity: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "In summary, Prayer Flowing into Sacrament and Charity is answered by ordering evidence rather than accumulating quotations. Prayer and Spiritual Life supplies the doctrinal horizon; the assigned sources establish biblical, ecclesial, historical, and specialist premises. Fair scope and explicit inference keep the Catholic response both confident and corrigible where claims remain non-definitive.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Prayer Flowing into Sacrament and Charity without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.prayer-spiritual-life.synthesis.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Prayer Flowing into Sacrament and Charity.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.prayer-spiritual-life.synthesis.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain Prayer Flowing into Sacrament and Charity in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Matthew 6:5-15; Luke 11:1-13; Romans 8:14-27",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 2558-2758; CCC 2759-2865",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.jp2.catechesi-tradendae",
+      "locator": "sections 54-55 and 72",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.cyril.catechetical-lectures",
+      "locator": "Procatechesis and Catechetical Lecture 5",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.augustine.christian-doctrine",
+      "locator": "Book I; enjoyment of God and ordered love",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.prayer-spiritual-life.synthesis.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "eastern"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine",
+      "discipline",
+      "theological_opinion",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [
+      "Latin Catholic spiritual schools",
+      "Eastern Catholic spiritual schools",
+      "Eastern Orthodox spirituality"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.prayer-and-spiritual-life.01",
+    "batchOrder": 10,
+    "contentHash": "0459a017e3e6a0845bf83b339d104cb3ae3e887605df22afbda481139d7e6ae2",
+    "approximateWordCount": 3198
+  }
+}

@@ -1,0 +1,592 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.eucharist.objections.01",
+  "phase3LessonId": "les.eucharist.objections.01",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.eucharist",
+  "groupId": "grp.eucharist.objections",
+  "title": "Is the Eucharist Only Symbolic?",
+  "slug": "eucharist-objections-01",
+  "centralQuestion": "How should Catholic teaching understand Is the Eucharist Only Symbolic?",
+  "learningObjectives": [
+    "State a clear Catholic account of Is the Eucharist Only Symbolic in the context of Eucharist.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Is the Eucharist Only Symbolic.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic formation treats Is the Eucharist Only Symbolic as part of Eucharist. Develops the biblical, liturgical, patristic, conciliar, and philosophical account of sacrifice, memorial, Real Presence, transubstantiation, communion, and adoration. The short answer must therefore preserve the hierarchy of truths, use sources within their competence, and avoid turning a probable interpretation or historical reconstruction into settled dogma.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Is the Eucharist Only Symbolic"
+    },
+    {
+      "type": "paragraph",
+      "text": "Eucharist provides the larger frame for Is the Eucharist Only Symbolic?. Develops the biblical, liturgical, patristic, conciliar, and philosophical account of sacrifice, memorial, Real Presence, transubstantiation, communion, and adoration. Catholic method here moves from the inspired text to doctrinal judgment while also examining reception and reasoned scholarship. The movement is cumulative: a historical source cannot define dogma, a theological conclusion cannot rewrite an event, and an academic proposal cannot function as an ecclesial act.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "For the biblical dimension of Is the Eucharist Only Symbolic?, consult John 6:22-71, Luke 22:14-20, 1 Corinthians 10:16-17; 11:23-29. The stored summaries are deliberately not substitute Bible text. Their purpose is to direct close reading: establish the passage's immediate claim, test the connection to the lesson, and only then relate that claim to Catholic doctrine through the interpretive rules of Dei Verbum.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The terms Eucharist, Transubstantiation, Communion of saints provide a small conceptual map for Is the Eucharist Only Symbolic?. Use the map to ask what reality is named, what contrast gives the term meaning, and which source controls the definition. If an opposing tradition uses the same word differently, state that difference instead of manufacturing a verbal contradiction.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Objections"
+    },
+    {
+      "type": "paragraph",
+      "text": "Is the Eucharist Only Symbolic? takes its educational direction from Objections: State serious alternatives fairly, identify internal variations, and answer their strongest forms. Within Eucharist, the learner must use Eucharist, Transubstantiation, Communion of saints with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Eastern Orthodox, Lutheran, Reformed, Baptist, Anglican. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Is the Eucharist Only Symbolic?, the focus on Is the Eucharist Only Symbolic fixes one part of the lesson's scope. Is the Eucharist Only Symbolic must be defined as it functions in Is the Eucharist Only Symbolic?, then supported by a source competent for that definition. Within Eucharist, the learner should separate what the source states about Is the Eucharist Only Symbolic from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Is the Eucharist Only Symbolic? uses Eucharist as a checkpoint for understanding. The learner should locate Eucharist in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Eucharist is disputed within Eucharist, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Is the Eucharist Only Symbolic?, the focus on Transubstantiation fixes one part of the lesson's scope. Transubstantiation must be defined as it functions in Is the Eucharist Only Symbolic?, then supported by a source competent for that definition. Within Eucharist, the learner should separate what the source states about Transubstantiation from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Communion of saints gives Is the Eucharist Only Symbolic? a concrete analytical task. In treating Communion of saints, Is the Eucharist Only Symbolic? should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Communion of saints within Eucharist remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Is the Eucharist Only Symbolic?, recall sacrament. Eucharist uses sacrament in this lesson. Link sacrament with sacrifice in Is the Eucharist Only Symbolic?. Classify every sacrament claim in Is the Eucharist Only Symbolic?. Check sacrament evidence for Eucharist. Revise Is the Eucharist Only Symbolic? if sacrament remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Is the Eucharist Only Symbolic?, recall sacrifice. Eucharist uses sacrifice in this lesson. Link sacrifice with substance and accidents in Is the Eucharist Only Symbolic?. Classify every sacrifice claim in Is the Eucharist Only Symbolic?. Check sacrifice evidence for Eucharist. Revise Is the Eucharist Only Symbolic? if sacrifice remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Is the Eucharist Only Symbolic?, recall substance and accidents. Eucharist uses substance and accidents in this lesson. Link substance and accidents with Paschal Mystery in Is the Eucharist Only Symbolic?. Classify every substance and accidents claim in Is the Eucharist Only Symbolic?. Check substance and accidents evidence for Eucharist. Revise Is the Eucharist Only Symbolic? if substance and accidents remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Is the Eucharist Only Symbolic?, recall Paschal Mystery. Eucharist uses Paschal Mystery in this lesson. Link Paschal Mystery with Evidence in Is the Eucharist Only Symbolic?. Classify every Paschal Mystery claim in Is the Eucharist Only Symbolic?. Check Paschal Mystery evidence for Eucharist. Revise Is the Eucharist Only Symbolic? if Paschal Mystery remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Is the Eucharist Only Symbolic?, recall Evidence. Eucharist uses Evidence in this lesson. Link Evidence with sacrament in Is the Eucharist Only Symbolic?. Classify every Evidence claim in Is the Eucharist Only Symbolic?. Check Evidence evidence for Eucharist. Revise Is the Eucharist Only Symbolic? if Evidence remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Is the Eucharist Only Symbolic? follows this approved curriculum purpose: State serious alternatives fairly, identify internal variations, and answer their strongest forms. This lesson focuses on is the eucharist only symbolic?. Within Is the Eucharist Only Symbolic?, that purpose limits the draft to the evidence and conclusions needed for Objections.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Is the Eucharist Only Symbolic? prepares the learner for this mastery work: State serious alternatives fairly, identify internal variations, and answer their strongest forms. Success in Is the Eucharist Only Symbolic? therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Is the Eucharist Only Symbolic? carries a critical lesson review risk inside the critical risk profile for Eucharist. The recorded reason for Eucharist is dogmatic precision; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Is the Eucharist Only Symbolic? cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Is the Eucharist Only Symbolic? must keep these classifications visible: dogma, doctrine, discipline. For Is the Eucharist Only Symbolic?, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Is the Eucharist Only Symbolic? uses the biblical path John 6:22-71, Luke 22:14-20, 1 Corinthians 10:16-17; 11:23-29. Its Catholic synthesis is checked against CCC 1066-1209 and CCC 1210-1419 and sections 5-14 and 47-61, while Is the Eucharist Only Symbolic? reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Is the Eucharist Only Symbolic? names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.baptist.bfm-2000, src.anglican.cofe-canons-a set the descriptive boundary for Catholic in Is the Eucharist Only Symbolic?; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Is the Eucharist Only Symbolic? names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.baptist.bfm-2000, src.anglican.cofe-canons-a set the descriptive boundary for Eastern Orthodox in Is the Eucharist Only Symbolic?; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Is the Eucharist Only Symbolic? names Lutheran rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.baptist.bfm-2000, src.anglican.cofe-canons-a set the descriptive boundary for Lutheran in Is the Eucharist Only Symbolic?; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Is the Eucharist Only Symbolic? names Reformed rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.baptist.bfm-2000, src.anglican.cofe-canons-a set the descriptive boundary for Reformed in Is the Eucharist Only Symbolic?; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Is the Eucharist Only Symbolic? names Baptist rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.baptist.bfm-2000, src.anglican.cofe-canons-a set the descriptive boundary for Baptist in Is the Eucharist Only Symbolic?; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Is the Eucharist Only Symbolic? names Anglican rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.baptist.bfm-2000, src.anglican.cofe-canons-a set the descriptive boundary for Anglican in Is the Eucharist Only Symbolic?; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Documentation for Is the Eucharist Only Symbolic? is distributed by task. CCC 1066-1209 and CCC 1210-1419 identify Catholic synthesis; sections 5-14 and 47-61 supplies governing context; chapters 61 and 65-67 tests reception; Trent, decrees on the sacraments and Eucharist as relevant tests specialist claims. The draft records these locations but does not convert a resolved reference into automatic theological approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.justin.first-apology",
+        "src.conciliar.tanner-decrees"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Is the Eucharist Only Symbolic?",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A strong objection says that the Catholic treatment of Is the Eucharist Only Symbolic begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Lutheran, Reformed, Baptist, Anglican, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Is the Eucharist Only Symbolic concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "The Catholic response to Is the Eucharist Only Symbolic is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.justin.first-apology",
+        "src.conciliar.tanner-decrees",
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.eucharist.evidence.02",
+        "les.eucharist.objections.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "eucharist",
+        "protestant"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Eucharist",
+      "definition": "The sacrament of Christ's Body and Blood, the memorial of his Passover, sacrificial banquet, and source of ecclesial communion.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "term": "Transubstantiation",
+      "definition": "The change of the whole substance of bread and wine into Christ's Body and Blood while sensible appearances remain.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "term": "Communion of saints",
+      "definition": "Communion in holy things and among holy persons in Christ across the pilgrim, purifying, and glorified Church.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "John 6:22-71",
+      "paraphrase": "Jesus presents himself as the life-giving bread from heaven and presses his hearers beyond merely material expectations.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Luke 22:14-20",
+      "paraphrase": "At the Passover meal Jesus identifies the bread and cup with his self-gift and commands the memorial action of the new covenant.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "1 Corinthians 10:16-17; 11:23-29",
+      "paraphrase": "Paul joins Eucharistic participation to communion in Christ, ecclesial unity, received tradition, and serious moral discernment.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1066-1209",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Is the Eucharist Only Symbolic?; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1210-1419",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Is the Eucharist Only Symbolic? and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 5-14 and 47-61",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Is the Eucharist Only Symbolic? must be assessed.",
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Is the Eucharist Only Symbolic? must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.justin.first-apology",
+        "locator": "chapters 61 and 65-67"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Is the Eucharist Only Symbolic?",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A strong objection says that the Catholic treatment of Is the Eucharist Only Symbolic begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Lutheran, Reformed, Baptist, Anglican, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Is the Eucharist Only Symbolic concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "The Catholic response to Is the Eucharist Only Symbolic is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+  "commonMistakes": [
+    "Treating Is the Eucharist Only Symbolic? as an isolated slogan instead of a question within Eucharist.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Lutheran, Reformed, Baptist, Anglican despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Is the Eucharist Only Symbolic: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Is the Eucharist Only Symbolic? belongs within Eucharist and requires a disciplined Catholic synthesis. Scripture, Catechism, Magisterium, historical witness, scholarship, and comparative sources answer connected but different questions. The lesson states the claim, marks authority and uncertainty, represents alternatives in scope, and connects truth to Christian life.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Is the Eucharist Only Symbolic without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.eucharist.objections.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Is the Eucharist Only Symbolic?.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.eucharist.objections.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Is the Eucharist Only Symbolic? in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "John 6:22-71; Luke 22:14-20; 1 Corinthians 10:16-17; 11:23-29",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 1066-1209; CCC 1210-1419",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "locator": "sections 5-14 and 47-61",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.justin.first-apology",
+      "locator": "chapters 61 and 65-67",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "locator": "Trent, decrees on the sacraments and Eucharist as relevant",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.lutheran.augsburg-confession",
+      "locator": "Articles IV-V, VII-XIV, XX, and XXVIII as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.baptist.bfm-2000",
+      "locator": "Articles I-VI, IV, VII, and XIV-XVIII as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.anglican.cofe-canons-a",
+      "locator": "Canons A1-A5",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.eucharist.evidence.02",
+    "les.eucharist.objections.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "eucharist",
+      "protestant"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Lutheran",
+      "Reformed",
+      "Baptist",
+      "Anglican"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.eucharist.01",
+    "batchOrder": 7,
+    "contentHash": "cc4888dde7ae80b39d37711a7ae1814b74a597a5418b8d06cca52686c15b3b9b",
+    "approximateWordCount": 3623
+  }
+}

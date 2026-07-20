@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-acts.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.acts",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.acts.context.01",
+    "les.bible.acts.structure.01",
+    "les.bible.acts.theology.01",
+    "les.bible.acts.difficult-texts.01",
+    "les.bible.acts.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.acts.context.01": "a563ebfcaf9e48216bfb9ee7555772c5fa5df7e63f5a8821ee16e4d7e2e2d348",
+    "les.bible.acts.structure.01": "f3aecdf3e2f216b3466ab0ab23b7505ba7e6fd8c7195239e79b7922ec0a80678",
+    "les.bible.acts.theology.01": "7ce04093b60d49cf26105c410b9c6591bbb407d217583987ab779b265ae2d909",
+    "les.bible.acts.difficult-texts.01": "50e2a5a095e2f510cbe3e693fd477226a18c00060220c7f3e1c6b5f109b34dae",
+    "les.bible.acts.synthesis.01": "c11cf6148b4f2f872316d7ed919d01e96cabad9401069e477102072430412b90"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

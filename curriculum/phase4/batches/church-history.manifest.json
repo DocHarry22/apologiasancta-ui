@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.church-history.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.church-history",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.church-history.orientation.01",
+    "les.church-history.orientation.02",
+    "les.church-history.sources.01",
+    "les.church-history.sources.02",
+    "les.church-history.development.01",
+    "les.church-history.development.02",
+    "les.church-history.contested.01",
+    "les.church-history.contested.02",
+    "les.church-history.synthesis.01",
+    "les.church-history.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.church-history.orientation.01": "3a70d70796f0ef44a1ad0a1d8ff552fd8f467b0cccd20dff9575b4ec749407c0",
+    "les.church-history.orientation.02": "c0c2c5c623d139d128e16d3d6a03502908f0dde89e97527cfac335dd9803246c",
+    "les.church-history.sources.01": "b4a3eb2bc3a1556387c9d30fb3f3e83d70326fd5df248c107b6aadb622233fab",
+    "les.church-history.sources.02": "cf66c631a1ea1967ca5244c1700ace0e4c43019ab8805864089c966e10729076",
+    "les.church-history.development.01": "db5ebaf95ddc9a51eb78e7d9d721ca323ed8a180a6467d0f122e11045d26e235",
+    "les.church-history.development.02": "3cc5035961146917988f67c214e78bd410b345b8bd10dbfc0b14225fed9a355c",
+    "les.church-history.contested.01": "94f9089a8dcaadc0106d7f9e04dbe0c73e6c45b4be54832287208dc7fa38c319",
+    "les.church-history.contested.02": "1eba91c27ff9e100ea0831b84da25399b1443ff707faa712adfee3012bf52cf9",
+    "les.church-history.synthesis.01": "12144cc4b1c01d15c799a5f1ab30773db856ea3d5157cd5ccd93cec190504912",
+    "les.church-history.synthesis.02": "4bf21e21178cda0e2ca93daed9bc214489cb64630767891bf97c237255c84d90"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

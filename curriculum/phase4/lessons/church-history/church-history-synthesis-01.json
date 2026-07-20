@@ -1,0 +1,581 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.church-history.synthesis.01",
+  "phase3LessonId": "les.church-history.synthesis.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.church-history",
+  "groupId": "grp.church-history.synthesis",
+  "title": "Telling Church History with Truth and Hope",
+  "slug": "church-history-synthesis-01",
+  "centralQuestion": "How should Catholic teaching understand Telling Church History with Truth and Hope?",
+  "learningObjectives": [
+    "State a clear Catholic account of Telling Church History with Truth and Hope in the context of Church History.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Telling Church History with Truth and Hope.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic formation treats Telling Church History with Truth and Hope as part of Church History. Provides a critical, primary-source-oriented survey from the apostolic age to the present without apologetic whitewashing or hostile reductionism. The short answer must therefore preserve the hierarchy of truths, use sources within their competence, and avoid turning a probable interpretation or historical reconstruction into settled dogma.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Telling Church History with Truth and Hope"
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope is a focused lesson within Church History. Provides a critical, primary-source-oriented survey from the apostolic age to the present without apologetic whitewashing or hostile reductionism. The Catholic account begins with sources competent for each claim: Scripture for canonical witness, Magisterium for Catholic judgment, primary evidence for events and reception, and scholarship for specialised analysis. This order neither makes the sources equal nor permits one source to answer a question beyond its competence.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Telling Church History with Truth and Hope are Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The terms Biblical truth, Church, Theotokos provide a small conceptual map for Telling Church History with Truth and Hope. Use the map to ask what reality is named, what contrast gives the term meaning, and which source controls the definition. If an opposing tradition uses the same word differently, state that difference instead of manufacturing a verbal contradiction.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Historical-Apologetic Synthesis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope takes its educational direction from Historical-Apologetic Synthesis: Form a sourced account that neither sanitises nor caricatures Church history. Within Church History, the learner must use Biblical truth, Church, Theotokos with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Eastern Orthodox, Oriental Orthodox, Protestant, Islam, secular historiography. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope uses Telling Church History with Truth as a checkpoint for understanding. The learner should locate Telling Church History with Truth in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Telling Church History with Truth is disputed within Church History, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Hope gives Telling Church History with Truth and Hope a concrete analytical task. In treating Hope, Telling Church History with Truth and Hope should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Hope within Church History remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Telling Church History with Truth and Hope, the focus on Biblical truth fixes one part of the lesson's scope. Biblical truth must be defined as it functions in Telling Church History with Truth and Hope, then supported by a source competent for that definition. Within Church History, the learner should separate what the source states about Biblical truth from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Telling Church History with Truth and Hope, Church cannot remain an undefined slogan. State the proposition involving Church, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Church in Church History must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Telling Church History with Truth and Hope, recall Contested Narratives. Church History uses Contested Narratives in this lesson. Link Contested Narratives with Telling Church History with Truth in Telling Church History with Truth and Hope. Classify every Contested Narratives claim in Telling Church History with Truth and Hope. Check Contested Narratives evidence for Church History. Revise Telling Church History with Truth and Hope if Contested Narratives remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Telling Church History with Truth and Hope, recall Telling Church History with Truth. Church History uses Telling Church History with Truth in this lesson. Link Telling Church History with Truth with Hope in Telling Church History with Truth and Hope. Classify every Telling Church History with Truth claim in Telling Church History with Truth and Hope. Check Telling Church History with Truth evidence for Church History. Revise Telling Church History with Truth and Hope if Telling Church History with Truth remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Telling Church History with Truth and Hope, recall Hope. Church History uses Hope in this lesson. Link Hope with Biblical truth in Telling Church History with Truth and Hope. Classify every Hope claim in Telling Church History with Truth and Hope. Check Hope evidence for Church History. Revise Telling Church History with Truth and Hope if Hope remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Telling Church History with Truth and Hope, recall Biblical truth. Church History uses Biblical truth in this lesson. Link Biblical truth with Church in Telling Church History with Truth and Hope. Classify every Biblical truth claim in Telling Church History with Truth and Hope. Check Biblical truth evidence for Church History. Revise Telling Church History with Truth and Hope if Biblical truth remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Telling Church History with Truth and Hope, recall Church. Church History uses Church in this lesson. Link Church with Contested Narratives in Telling Church History with Truth and Hope. Classify every Church claim in Telling Church History with Truth and Hope. Check Church evidence for Church History. Revise Telling Church History with Truth and Hope if Church remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope follows this approved curriculum purpose: Form a sourced account that neither sanitises nor caricatures Church history. This lesson focuses on telling church history with truth and hope. Within Telling Church History with Truth and Hope, that purpose limits the draft to the evidence and conclusions needed for Historical-Apologetic Synthesis.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope prepares the learner for this mastery work: Form a sourced account that neither sanitises nor caricatures Church history. Success in Telling Church History with Truth and Hope therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope carries a high lesson review risk inside the high risk profile for Church History. The recorded reason for Church History is primary-source and chronology verification; comparative fairness and tradition-specific sourcing, so Telling Church History with Truth and Hope cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope must keep these classifications visible: historical_claim, doctrine, discipline. For Telling Church History with Truth and Hope, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope uses the biblical path Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. Its Catholic synthesis is checked against CCC 74-100 and CCC 817-870 and sections 8, 18-27, and 39-51, while Telling Church History with Truth and Hope reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran, src.secular.representative-sources set the descriptive boundary for Catholic in Telling Church History with Truth and Hope; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran, src.secular.representative-sources set the descriptive boundary for Eastern Orthodox in Telling Church History with Truth and Hope; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope names Oriental Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran, src.secular.representative-sources set the descriptive boundary for Oriental Orthodox in Telling Church History with Truth and Hope; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran, src.secular.representative-sources set the descriptive boundary for Protestant in Telling Church History with Truth and Hope; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope names Islam rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran, src.secular.representative-sources set the descriptive boundary for Islam in Telling Church History with Truth and Hope; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope names secular historiography rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran, src.secular.representative-sources set the descriptive boundary for secular historiography in Telling Church History with Truth and Hope; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Telling Church History with Truth and Hope uses four documentary controls: Catechism CCC 74-100 and CCC 817-870, Magisterium sections 8, 18-27, and 39-51, historical witness book and chapter identified by the historical question, and scholarship chapter identified by the historical question. The sequence clarifies authority and makes later checking possible. A locator that proves too broad or semantically mismatched must be corrected before approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.eusebius.church-history",
+        "src.history.chadwick-early-church"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Telling Church History with Truth and Hope",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A strong objection says that the Catholic treatment of Telling Church History with Truth and Hope begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Oriental Orthodox, Protestant, Islam, secular historiography, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Telling Church History with Truth and Hope concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "In response, the lesson argues that Telling Church History with Truth and Hope is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.lumen-gentium",
+        "src.eusebius.church-history",
+        "src.history.chadwick-early-church",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.church-history.contested.02",
+        "les.church-history.synthesis.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "historical",
+        "pagan",
+        "protestant"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Biblical truth",
+      "definition": "What God wished to be written for the sake of salvation, interpreted according to authorial intention, genre, and the unity of Scripture.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Church",
+      "definition": "The people gathered by the Father through Christ in the Holy Spirit, at once spiritual communion and visible apostolic society.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Theotokos",
+      "definition": "The title 'God-bearer' or 'Mother of God,' safeguarding that the one born of Mary is the divine Person of the Son.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 16:13-20",
+      "paraphrase": "Peter's confession, the promise concerning Christ's Church, and the imagery of keys and binding belong to one ecclesial scene.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Acts 15:1-29",
+      "paraphrase": "The Jerusalem gathering resolves a disputed missionary question through testimony, scriptural reasoning, apostolic deliberation, and a decision attributed to the Holy Spirit.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 4:1-16",
+      "paraphrase": "The Church receives one faith and diverse ministries so that the whole body may grow into mature unity in Christ.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 74-100",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Telling Church History with Truth and Hope; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 817-870",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Telling Church History with Truth and Hope and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 8, 18-27, and 39-51",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Telling Church History with Truth and Hope must be assessed.",
+      "sourceId": "src.vatican2.lumen-gentium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Telling Church History with Truth and Hope must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.eusebius.church-history",
+        "locator": "book and chapter identified by the historical question"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Telling Church History with Truth and Hope",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A strong objection says that the Catholic treatment of Telling Church History with Truth and Hope begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Oriental Orthodox, Protestant, Islam, secular historiography, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Telling Church History with Truth and Hope concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "In response, the lesson argues that Telling Church History with Truth and Hope is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Telling Church History with Truth and Hope as an isolated slogan instead of a question within Church History.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Oriental Orthodox, Protestant, Islam, secular historiography despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Telling Church History with Truth and Hope: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "The central lesson of Telling Church History with Truth and Hope is methodological and substantive: name the Catholic claim, ground it in competent sources, test its historical and conceptual continuity, answer the strongest scoped objection, and state no more than the evidence warrants. In Church History, that discipline serves truth and charity together.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Telling Church History with Truth and Hope without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.church-history.synthesis.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Telling Church History with Truth and Hope.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.church-history.synthesis.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Telling Church History with Truth and Hope in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Matthew 16:13-20; Acts 15:1-29; Ephesians 4:1-16",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 74-100; CCC 817-870",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.lumen-gentium",
+      "locator": "sections 8, 18-27, and 39-51",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.eusebius.church-history",
+      "locator": "book and chapter identified by the historical question",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.history.chadwick-early-church",
+      "locator": "chapter identified by the historical question",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.islam.quran",
+      "locator": "surahs 1, 3-5, 19, and 112 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.secular.representative-sources",
+      "locator": "named argument or declaration identified by the lesson topic",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.church-history.contested.02",
+    "les.church-history.synthesis.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "historical",
+      "pagan",
+      "protestant"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "historical_claim",
+      "doctrine",
+      "discipline"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Oriental Orthodox",
+      "Protestant",
+      "Islam",
+      "secular historiography"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.church-history.01",
+    "batchOrder": 9,
+    "contentHash": "12144cc4b1c01d15c799a5f1ab30773db856ea3d5157cd5ccd93cec190504912",
+    "approximateWordCount": 3769
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-micah.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.micah",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.micah.context.01",
+    "les.bible.micah.structure.01",
+    "les.bible.micah.theology.01",
+    "les.bible.micah.difficult-texts.01",
+    "les.bible.micah.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.micah.context.01": "a903af5cafd1101c33d40ad3eb7b220d6898513739baf285d8ebcc87d3572fe5",
+    "les.bible.micah.structure.01": "c97e6cd1d000b9bd796514cc928399037111cd0ded6ad42220b53a16cd3e68bd",
+    "les.bible.micah.theology.01": "3cd95d733f3144c1e6e9e5f51ed06c837ca8494017a0d925a6396b3e0db95e60",
+    "les.bible.micah.difficult-texts.01": "eb9ee5c77a95b5e5ac5b5bc2ac483961378f11aa3cee1af12f24b64c117fee24",
+    "les.bible.micah.synthesis.01": "9b4809e495898a831b0a57ce07c5d663b2fdbbc72013e64d123a09a07678be1f"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-numbers.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.numbers",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.numbers.context.01",
+    "les.bible.numbers.structure.01",
+    "les.bible.numbers.theology.01",
+    "les.bible.numbers.difficult-texts.01",
+    "les.bible.numbers.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.numbers.context.01": "820c2847b771c839a12306e74e7046eabe20db7c4129d5b1eadd34f406941716",
+    "les.bible.numbers.structure.01": "bc0f5b8e7267a90d6d4a959cb3b1038bb16f73bb6b387c91017391199006ee56",
+    "les.bible.numbers.theology.01": "e6f84f571acbc66ab697567dbf1953993b1b9b95fca230c0fa50f0bd3495fa63",
+    "les.bible.numbers.difficult-texts.01": "f984400311a1db00e22cca1d138a713e5d0624e79707b4439622350266f91ea9",
+    "les.bible.numbers.synthesis.01": "767a9bdb53ce037aa3fc41fcad46f1d0578deb350bf95fa80fa1a627f7ad637f"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.god-and-divine-attributes.01",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.divine-attributes",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.divine-attributes.foundations.01",
+    "les.divine-attributes.foundations.02",
+    "les.divine-attributes.distinctions.01",
+    "les.divine-attributes.distinctions.02",
+    "les.divine-attributes.evidence.01",
+    "les.divine-attributes.evidence.02",
+    "les.divine-attributes.objections.01",
+    "les.divine-attributes.objections.02",
+    "les.divine-attributes.synthesis.01",
+    "les.divine-attributes.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.divine-attributes.foundations.01": "86e0d90f27352cf41352b649e37d222cb6e406706b01dd636374c7dd58078dcf",
+    "les.divine-attributes.foundations.02": "88b8f13c45da19de047f8b5596c00a79f7a9c26f88b3b89423d7678a5622f98f",
+    "les.divine-attributes.distinctions.01": "fa7e0faf6a3c81584f5a6d68f10b4dc5e9bf116dde7e294ae918b1c6bf65f282",
+    "les.divine-attributes.distinctions.02": "b9c1e3d73ccd7816d116f8d062517dc7f66bb788700e71fc2bc697f74560e01f",
+    "les.divine-attributes.evidence.01": "b35eece61eb87c8943ad4b4b302a1a075a6aee23cec70bfd0e3e8dc4df15eba3",
+    "les.divine-attributes.evidence.02": "453e5b9c7f566fbbfd205381b77cf269a54dff0f3edf0ad2c5293c4a7dbc4fc7",
+    "les.divine-attributes.objections.01": "8808909198040a687509ba261e635885a98910c626ca1256f0cb82cbb74cd557",
+    "les.divine-attributes.objections.02": "a1d1c799518dcf495df7febea8294be3227da0e3da7bdec0d122be73fa7a927d",
+    "les.divine-attributes.synthesis.01": "5fb1514db47e20a5192b5de9727806380528119ec37c7095de5a7c129a701f72",
+    "les.divine-attributes.synthesis.02": "63eea8b116e292b0af9875a8d5ef0550a6cc0a9b0b6f53e9a88559f5f358281e"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-ruth.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.ruth",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.ruth.context.01",
+    "les.bible.ruth.structure.01",
+    "les.bible.ruth.theology.01",
+    "les.bible.ruth.difficult-texts.01",
+    "les.bible.ruth.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.ruth.context.01": "872017f0acd20aeff0e8e5ba8aec00037cae85765c4176b2aa3b4f419d6b9eef",
+    "les.bible.ruth.structure.01": "46250ab178082139ca3d51ecc1a54b6c0ebbb0185bdf0215ed07dcb9a8a92071",
+    "les.bible.ruth.theology.01": "f26f2a769e820a0feea54ec6aa82528f0982de7417bc414bdf94fa5a60cd1750",
+    "les.bible.ruth.difficult-texts.01": "0385120feeddf8aceea9e4df2a34c234d967b1454482e0ca13a9b6e74c0e7e97",
+    "les.bible.ruth.synthesis.01": "a8adc3957ee46b40fac06a85ee66a6aacfbd42d1a55baa5735821a03cf27714c"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

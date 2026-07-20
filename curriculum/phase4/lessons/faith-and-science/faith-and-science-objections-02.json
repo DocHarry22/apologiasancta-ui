@@ -1,0 +1,534 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.faith-science.objections.02",
+  "phase3LessonId": "les.faith-science.objections.02",
+  "programmeId": "prog.reason-culture",
+  "subjectId": "subj.faith-science",
+  "groupId": "grp.faith-science.objections",
+  "title": "Can Catholics Accept Evolution and Common Ancestry?",
+  "slug": "faith-and-science-objections-02",
+  "centralQuestion": "How should Catholic teaching understand Can Catholics Accept Evolution and Common Ancestry?",
+  "learningObjectives": [
+    "State a clear Catholic account of Can Catholics Accept Evolution and Common Ancestry in the context of Faith and Science.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Can Catholics Accept Evolution and Common Ancestry.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic formation treats Can Catholics Accept Evolution and Common Ancestry as part of Faith and Science. Distinguishes methods and limits of theology, philosophy, and empirical science while treating cosmology, evolution, human origins, miracles, and technology. The short answer must therefore preserve the hierarchy of truths, use sources within their competence, and avoid turning a probable interpretation or historical reconstruction into settled dogma.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Can Catholics Accept Evolution and Common Ancestry"
+    },
+    {
+      "type": "paragraph",
+      "text": "Faith and Science provides the larger frame for Can Catholics Accept Evolution and Common Ancestry?. Distinguishes methods and limits of theology, philosophy, and empirical science while treating cosmology, evolution, human origins, miracles, and technology. Catholic method here moves from the inspired text to doctrinal judgment while also examining reception and reasoned scholarship. The movement is cumulative: a historical source cannot define dogma, a theological conclusion cannot rewrite an event, and an academic proposal cannot function as an ecclesial act.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Can Catholics Accept Evolution and Common Ancestry? are Genesis 1:1-2:4, Wisdom 11:20-26, Psalm 19:1-7. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The terms Faith, Empirical science, Primary source provide a small conceptual map for Can Catholics Accept Evolution and Common Ancestry?. Use the map to ask what reality is named, what contrast gives the term meaning, and which source controls the definition. If an opposing tradition uses the same word differently, state that difference instead of manufacturing a verbal contradiction.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Objections"
+    },
+    {
+      "type": "paragraph",
+      "text": "Can Catholics Accept Evolution and Common Ancestry? takes its educational direction from Objections: State serious alternatives fairly, identify internal variations, and answer their strongest forms. Within Faith and Science, the learner must use Faith, Empirical science, Primary source with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, scientific naturalism, young-earth creationism, intelligent design, evolutionary creation. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Can Catholics Accept Evolution and Common Ancestry?, the focus on Can Catholics Accept Evolution fixes one part of the lesson's scope. Can Catholics Accept Evolution must be defined as it functions in Can Catholics Accept Evolution and Common Ancestry?, then supported by a source competent for that definition. Within Faith and Science, the learner should separate what the source states about Can Catholics Accept Evolution from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Common Ancestry gives Can Catholics Accept Evolution and Common Ancestry? a concrete analytical task. In treating Common Ancestry, Can Catholics Accept Evolution and Common Ancestry? should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Common Ancestry within Faith and Science remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Can Catholics Accept Evolution and Common Ancestry?, the focus on Faith fixes one part of the lesson's scope. Faith must be defined as it functions in Can Catholics Accept Evolution and Common Ancestry?, then supported by a source competent for that definition. Within Faith and Science, the learner should separate what the source states about Faith from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Empirical science gives Can Catholics Accept Evolution and Common Ancestry? a concrete analytical task. In treating Empirical science, Can Catholics Accept Evolution and Common Ancestry? should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Empirical science within Faith and Science remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Can Catholics Accept Evolution and Common Ancestry?, recall levels of explanation. Faith and Science uses levels of explanation in this lesson. Link levels of explanation with causality in Can Catholics Accept Evolution and Common Ancestry?. Classify every levels of explanation claim in Can Catholics Accept Evolution and Common Ancestry?. Check levels of explanation evidence for Faith and Science. Revise Can Catholics Accept Evolution and Common Ancestry? if levels of explanation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Can Catholics Accept Evolution and Common Ancestry?, recall causality. Faith and Science uses causality in this lesson. Link causality with genre in Can Catholics Accept Evolution and Common Ancestry?. Classify every causality claim in Can Catholics Accept Evolution and Common Ancestry?. Check causality evidence for Faith and Science. Revise Can Catholics Accept Evolution and Common Ancestry? if causality remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Can Catholics Accept Evolution and Common Ancestry?, recall genre. Faith and Science uses genre in this lesson. Link genre with scientific method in Can Catholics Accept Evolution and Common Ancestry?. Classify every genre claim in Can Catholics Accept Evolution and Common Ancestry?. Check genre evidence for Faith and Science. Revise Can Catholics Accept Evolution and Common Ancestry? if genre remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Can Catholics Accept Evolution and Common Ancestry?, recall scientific method. Faith and Science uses scientific method in this lesson. Link scientific method with Evidence in Can Catholics Accept Evolution and Common Ancestry?. Classify every scientific method claim in Can Catholics Accept Evolution and Common Ancestry?. Check scientific method evidence for Faith and Science. Revise Can Catholics Accept Evolution and Common Ancestry? if scientific method remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Can Catholics Accept Evolution and Common Ancestry?, recall Evidence. Faith and Science uses Evidence in this lesson. Link Evidence with levels of explanation in Can Catholics Accept Evolution and Common Ancestry?. Classify every Evidence claim in Can Catholics Accept Evolution and Common Ancestry?. Check Evidence evidence for Faith and Science. Revise Can Catholics Accept Evolution and Common Ancestry? if Evidence remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Can Catholics Accept Evolution and Common Ancestry? follows this approved curriculum purpose: State serious alternatives fairly, identify internal variations, and answer their strongest forms. This lesson focuses on can catholics accept evolution and common ancestry?. Within Can Catholics Accept Evolution and Common Ancestry?, that purpose limits the draft to the evidence and conclusions needed for Objections.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Can Catholics Accept Evolution and Common Ancestry? prepares the learner for this mastery work: State serious alternatives fairly, identify internal variations, and answer their strongest forms. Success in Can Catholics Accept Evolution and Common Ancestry? therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Can Catholics Accept Evolution and Common Ancestry? carries a critical lesson review risk inside the critical risk profile for Faith and Science. The recorded reason for Faith and Science is primary-source and chronology verification; current scientific review; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Can Catholics Accept Evolution and Common Ancestry? cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Can Catholics Accept Evolution and Common Ancestry? must keep these classifications visible: doctrine, theological_opinion, historical_claim, philosophical_claim, scientific_claim. For Can Catholics Accept Evolution and Common Ancestry?, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Can Catholics Accept Evolution and Common Ancestry? uses the biblical path Genesis 1:1-2:4, Wisdom 11:20-26, Psalm 19:1-7. Its Catholic synthesis is checked against CCC 31-35 and CCC 279-324 and sections 25-35 and 64-79, while Can Catholics Accept Evolution and Common Ancestry? reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Can Catholics Accept Evolution and Common Ancestry? names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for Catholic in Can Catholics Accept Evolution and Common Ancestry?; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Can Catholics Accept Evolution and Common Ancestry? names scientific naturalism rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for scientific naturalism in Can Catholics Accept Evolution and Common Ancestry?; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Can Catholics Accept Evolution and Common Ancestry? names young-earth creationism rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for young-earth creationism in Can Catholics Accept Evolution and Common Ancestry?; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Can Catholics Accept Evolution and Common Ancestry? names intelligent design rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for intelligent design in Can Catholics Accept Evolution and Common Ancestry?; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Can Catholics Accept Evolution and Common Ancestry? names evolutionary creation rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for evolutionary creation in Can Catholics Accept Evolution and Common Ancestry?; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Documentation for Can Catholics Accept Evolution and Common Ancestry? is distributed by task. CCC 31-35 and CCC 279-324 identify Catholic synthesis; sections 25-35 and 64-79 supplies governing context; Book III; figurative language and interpretation tests reception; chapters on the nature of science and evidence for evolution tests specialist claims. The draft records these locations but does not convert a resolved reference into automatic theological approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio",
+        "src.augustine.christian-doctrine",
+        "src.science.nas-evolution"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Can Catholics Accept Evolution and Common Ancestry?",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A strong objection says that the Catholic treatment of Can Catholics Accept Evolution and Common Ancestry begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Catholic, scientific naturalism, young-earth creationism, intelligent design, evolutionary creation, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Can Catholics Accept Evolution and Common Ancestry concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "In response, the lesson argues that Can Catholics Accept Evolution and Common Ancestry is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.jp2.fides-et-ratio",
+        "src.augustine.christian-doctrine",
+        "src.science.nas-evolution",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.faith-science.objections.01",
+        "les.faith-science.synthesis.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "secular",
+        "historical"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Faith",
+      "definition": "The grace-enabled human response by which a person entrusts self and intellect to God who reveals.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "term": "Empirical science",
+      "definition": "Systematic inquiry into observable natural realities through testable methods; its competence is real but not identical with philosophy or theology.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "term": "Primary source",
+      "definition": "A text, artefact, or record arising from the authority, community, person, or period being studied.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Genesis 1:1-2:4",
+      "paraphrase": "The ordered creation account confesses God as Creator and the goodness and vocation of creation; its theological claims must not be confused with a modern laboratory report.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Wisdom 11:20-26",
+      "paraphrase": "Divine wisdom is praised through the order and measure of creation and through God's sustaining mercy toward all that exists.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Psalm 19:1-7",
+      "paraphrase": "Creation is poetically portrayed as bearing witness to divine glory without turning that witness into a scientific mechanism.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 31-35",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Can Catholics Accept Evolution and Common Ancestry?; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 279-324",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Can Catholics Accept Evolution and Common Ancestry? and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 25-35 and 64-79",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Can Catholics Accept Evolution and Common Ancestry? must be assessed.",
+      "sourceId": "src.jp2.fides-et-ratio",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Can Catholics Accept Evolution and Common Ancestry? must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.augustine.christian-doctrine",
+        "locator": "Book III; figurative language and interpretation"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Can Catholics Accept Evolution and Common Ancestry?",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A strong objection says that the Catholic treatment of Can Catholics Accept Evolution and Common Ancestry begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Catholic, scientific naturalism, young-earth creationism, intelligent design, evolutionary creation, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Can Catholics Accept Evolution and Common Ancestry concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "In response, the lesson argues that Can Catholics Accept Evolution and Common Ancestry is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Can Catholics Accept Evolution and Common Ancestry? as an isolated slogan instead of a question within Faith and Science.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, scientific naturalism, young-earth creationism, intelligent design, evolutionary creation despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Can Catholics Accept Evolution and Common Ancestry: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Can Catholics Accept Evolution and Common Ancestry? belongs within Faith and Science and requires a disciplined Catholic synthesis. Scripture, Catechism, Magisterium, historical witness, scholarship, and comparative sources answer connected but different questions. The lesson states the claim, marks authority and uncertainty, represents alternatives in scope, and connects truth to Christian life.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Can Catholics Accept Evolution and Common Ancestry without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.faith-science.objections.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Can Catholics Accept Evolution and Common Ancestry?.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.faith-science.objections.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain Can Catholics Accept Evolution and Common Ancestry? in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Genesis 1:1-2:4; Wisdom 11:20-26; Psalm 19:1-7",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 31-35; CCC 279-324",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.jp2.fides-et-ratio",
+      "locator": "sections 25-35 and 64-79",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.augustine.christian-doctrine",
+      "locator": "Book III; figurative language and interpretation",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.science.nas-evolution",
+      "locator": "chapters on the nature of science and evidence for evolution",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.secular.representative-sources",
+      "locator": "named argument or declaration identified by the lesson topic",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.faith-science.objections.01",
+    "les.faith-science.synthesis.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "secular",
+      "historical"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine",
+      "theological_opinion",
+      "historical_claim",
+      "philosophical_claim",
+      "scientific_claim"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "scientific naturalism",
+      "young-earth creationism",
+      "intelligent design",
+      "evolutionary creation"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.faith-and-science.01",
+    "batchOrder": 8,
+    "contentHash": "ffbc74560c22bb4ae6cd5449a64cd46c895f506889c17fb038874cf9ded0f61b",
+    "approximateWordCount": 3502
+  }
+}

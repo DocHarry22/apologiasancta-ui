@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.mary.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.mary",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.mary.foundations.01",
+    "les.mary.foundations.02",
+    "les.mary.distinctions.01",
+    "les.mary.distinctions.02",
+    "les.mary.evidence.01",
+    "les.mary.evidence.02",
+    "les.mary.objections.01",
+    "les.mary.objections.02",
+    "les.mary.synthesis.01",
+    "les.mary.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.mary.foundations.01": "e0e5311a0c6260bfac93abef20cd8c929601a4652425e13cb84f56641d374162",
+    "les.mary.foundations.02": "7d0065917f18b68facd4da45fc92f349032db32ecd2911d4b8b0816e16a1258a",
+    "les.mary.distinctions.01": "13d551e4c26ab577565f17fbdccfc77d25e0be280de8e7a5730ad6fd7304c3e9",
+    "les.mary.distinctions.02": "b8530b55d191232c68f10b3d5549abd61afe41c7a42d0a5cd3a731a6cf9d2a51",
+    "les.mary.evidence.01": "c303af8260b5bad935547bd05eb022cfad2e8f56b8f377677274270735ecd533",
+    "les.mary.evidence.02": "960e496ebe1fb1cbe1a78658e9415b49c665b0e4d07694c92d3d15fbdb981c5c",
+    "les.mary.objections.01": "7231e9ff16235aac7314e68aeaa40ba268e7910e328d663ff1b6ea9de45b7ef5",
+    "les.mary.objections.02": "a8529d9ca4627be2ee5fc51df291f84a321864522226feb4ee76a24071bd8be7",
+    "les.mary.synthesis.01": "d559ffd38e382a34daeadae25ae8ad9cabcd88ae0f096d4617b57c6b3a05aced",
+    "les.mary.synthesis.02": "16b490ab6dea4e56a097e050e76ef868432a113774cb82e566b35fb024fb6cbb"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

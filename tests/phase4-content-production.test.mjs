@@ -11,25 +11,36 @@ const production = await load(phase4, "production.manifest.json");
 const sources = await load(phase4, "source-catalog.json");
 const citations = await load(phase4, "citation-verification-report.json");
 const reviewQueue = await load(phase4, "review-queue.json");
-const lessonRoot = path.join(phase4, "lessons", "catholic-foundations");
-const lessonFiles = (await readdir(lessonRoot)).filter((file) => file.endsWith(".json"));
-const lessons = await Promise.all(lessonFiles.map((file) => load(lessonRoot, file)));
+const batchIndex = await load(phase4, "batch.manifest.json");
+const lessonRoot = path.join(phase4, "lessons");
+const findJsonFiles = async (directory) => {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const nested = await Promise.all(entries.map((entry) => {
+    const target = path.join(directory, entry.name);
+    return entry.isDirectory() ? findJsonFiles(target) : entry.name.endsWith(".json") ? [target] : [];
+  }));
+  return nested.flat();
+};
+const lessonFiles = await findJsonFiles(lessonRoot);
+const lessons = await Promise.all(lessonFiles.map((file) => load(file)));
 
 test("Phase 4 records every Phase 3 lesson without pretending production is complete", () => {
-  assert.equal(production.status, "in_progress");
+  assert.equal(production.status, "in_progress_awaiting_human_review");
   assert.equal(production.publicationStatus, "unpublished");
   assert.equal(production.counts.totalPlanned, 815);
-  assert.equal(production.counts.drafted, 10);
-  assert.equal(production.counts.planned, 805);
+  assert.equal(production.counts.drafted, 815);
+  assert.equal(production.counts.planned, 0);
   assert.equal(production.counts.reviewed, 0);
   assert.equal(production.counts.approved, 0);
   assert.equal(production.policy.phaseMayBeMarkedComplete, false);
   assert.equal(production.subjects.length, 118);
   assert.equal(production.lessons.length, 815);
+  assert.equal(batchIndex.totalBatches, 118);
+  assert.equal(batchIndex.totalLessons, 815);
 });
 
-test("Catholic Foundations has ten complete, safe, unpublished structured lesson drafts", () => {
-  assert.equal(lessons.length, 10);
+test("all 815 lessons are complete, safe, unpublished structured drafts", () => {
+  assert.equal(lessons.length, 815);
   const requiredSections = [
     "centralQuestion",
     "learningObjectives",
@@ -69,6 +80,7 @@ test("Catholic Foundations has ten complete, safe, unpublished structured lesson
 
 test("every cited source resolves to the verified source catalog", () => {
   const sourceIds = new Set(sources.sources.map((source) => source.stableId));
+  assert.equal(sourceIds.size, 47);
   assert.equal(citations.summary.failed, 0);
   assert.ok(["passed", "passed_with_publisher_access_limitations"].includes(citations.status));
   assert.equal(citations.results.length, sources.sources.length);
@@ -80,7 +92,7 @@ test("every cited source resolves to the verified source catalog", () => {
 test("review submission is local, unassigned, and cannot publish", () => {
   assert.equal(reviewQueue.submissionMode, "local_draft_queue");
   assert.equal(reviewQueue.publicationEffect, "none");
-  assert.equal(reviewQueue.items.length, 10);
+  assert.equal(reviewQueue.items.length, 815);
   for (const item of reviewQueue.items) {
     assert.equal(item.status, "awaiting_assignment");
     assert.deepEqual(item.assignedReviewers, []);

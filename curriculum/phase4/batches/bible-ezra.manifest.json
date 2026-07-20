@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-ezra.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.ezra",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.ezra.context.01",
+    "les.bible.ezra.structure.01",
+    "les.bible.ezra.theology.01",
+    "les.bible.ezra.difficult-texts.01",
+    "les.bible.ezra.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.ezra.context.01": "53ebf954015b14224e6398ac6b926e08c7d9928377480c1e96d5f986a9122351",
+    "les.bible.ezra.structure.01": "0832fe71407d088e60ce5d9b6e7a516815610fa51e40aedbf8cd0e0ca7cc758e",
+    "les.bible.ezra.theology.01": "508df7f7c8b52dbffc1c175050545c5ee844ce8c941fe5957156e46adb73b814",
+    "les.bible.ezra.difficult-texts.01": "49a60f67bd5d35a73656018692287678a35dea7ec8a7fdf4045ed3f9ec764d09",
+    "les.bible.ezra.synthesis.01": "37ccdf297fe2cec07c96964efe7ece6889a117547ecd749a5acd1d27f6d2a350"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

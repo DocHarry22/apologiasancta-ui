@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.god-trinity-and-creation.01",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.god-trinity-creation",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.god-trinity-creation.foundations.01",
+    "les.god-trinity-creation.foundations.02",
+    "les.god-trinity-creation.distinctions.01",
+    "les.god-trinity-creation.distinctions.02",
+    "les.god-trinity-creation.evidence.01",
+    "les.god-trinity-creation.evidence.02",
+    "les.god-trinity-creation.objections.01",
+    "les.god-trinity-creation.objections.02",
+    "les.god-trinity-creation.synthesis.01",
+    "les.god-trinity-creation.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.god-trinity-creation.foundations.01": "b9c613d6471267efa346a7d9d5bed80fcaa86e69b0a754f64d17489f6453816b",
+    "les.god-trinity-creation.foundations.02": "732728e6a89e34d71ef8b3ac58e0a67512d7f03bfaa58c6e4ca2bc45ac26ea18",
+    "les.god-trinity-creation.distinctions.01": "7e995809d4c1603551b0fdbe1ed06100009d3b11a48147d1339a3f70fa0b638e",
+    "les.god-trinity-creation.distinctions.02": "b9395630c4c5711866b759e7be3f097767f88d06f14c7a63d420560786bcd0b2",
+    "les.god-trinity-creation.evidence.01": "8b3b721eb4930cd598ac9e5d0974d315910901924ed4dc3be27b46178ff1fe3b",
+    "les.god-trinity-creation.evidence.02": "4212749cc7fe5920f5241f6d79c02e9f2ce8f0cbf47e1c31a0501ccb18cf2d8f",
+    "les.god-trinity-creation.objections.01": "63be55f9fc337a66189cd392e877ef166f9e33d2e197a4956e1b596a80c24f39",
+    "les.god-trinity-creation.objections.02": "23132efe422f53f80777d51c601b96ebed013818a9ab41ec3746a92adae71eb8",
+    "les.god-trinity-creation.synthesis.01": "3711b9ea94e33b6fdb15ae93e239fd849aea893ece77ce040ab185d24b731937",
+    "les.god-trinity-creation.synthesis.02": "f6c9df5b49bbfbc0bddab03545c0a56b4d1d3ac7c678a871844ae93db269c483"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

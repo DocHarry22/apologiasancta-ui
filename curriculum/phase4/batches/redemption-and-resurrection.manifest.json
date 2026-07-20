@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.redemption-and-resurrection.01",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.redemption-resurrection",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.redemption-resurrection.foundations.01",
+    "les.redemption-resurrection.foundations.02",
+    "les.redemption-resurrection.distinctions.01",
+    "les.redemption-resurrection.distinctions.02",
+    "les.redemption-resurrection.evidence.01",
+    "les.redemption-resurrection.evidence.02",
+    "les.redemption-resurrection.objections.01",
+    "les.redemption-resurrection.objections.02",
+    "les.redemption-resurrection.synthesis.01",
+    "les.redemption-resurrection.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.redemption-resurrection.foundations.01": "509cf66c890123b0794b29048bb8dfd79b00d1c9f3faeb6925b74b391bd3e21c",
+    "les.redemption-resurrection.foundations.02": "3742a961641bc134c1a542f4722eea3fc617732ca36dbe5af391080f91cb7fad",
+    "les.redemption-resurrection.distinctions.01": "1781c34d1ad5dcac5451f857e4954b652be6594f644b673ce7ced7a24055f1d0",
+    "les.redemption-resurrection.distinctions.02": "b56f143d4df8465ef936fd5fe1676b1a2be8a7389a2945549c2ea1ee15deb1ed",
+    "les.redemption-resurrection.evidence.01": "4851e25f15eda679953a8d9786d918d696da38dbeb862270057e89bc889806b3",
+    "les.redemption-resurrection.evidence.02": "9ac6d19391fdd95e0206532ac1d0b61e41fd1286da058812a106df9c85f7d840",
+    "les.redemption-resurrection.objections.01": "1dcc5dfa5918a38d49f3e190627084007409a2c55be82c6ebbf28f9a27bd3b74",
+    "les.redemption-resurrection.objections.02": "72bc5d94ba05cca07dd34de23adff5ffb6fdddec6ed52c099b199d8ac1a2a7e0",
+    "les.redemption-resurrection.synthesis.01": "1a01ca78a96579201323d7b3787b7051d8546dc8f710b92d51bc120eb990b1c5",
+    "les.redemption-resurrection.synthesis.02": "45a6207ca99be306652185f08642fad40c9ec3b5aeec4640d3c9f3bd4c82e799"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.problem-of-evil-and-suffering.01",
+  "programmeId": "prog.reason-culture",
+  "subjectId": "subj.problem-evil",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.problem-evil.foundations.01",
+    "les.problem-evil.foundations.02",
+    "les.problem-evil.distinctions.01",
+    "les.problem-evil.distinctions.02",
+    "les.problem-evil.evidence.01",
+    "les.problem-evil.evidence.02",
+    "les.problem-evil.objections.01",
+    "les.problem-evil.objections.02",
+    "les.problem-evil.synthesis.01",
+    "les.problem-evil.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.problem-evil.foundations.01": "02a758588387b6bfc03ee2ceb3fd45d536783c33caf7a780eabfcec7a6009c6f",
+    "les.problem-evil.foundations.02": "b314539ac56368da7f659f5e3bfd95204adf9214aff394e3ddf2ecdbf9e95260",
+    "les.problem-evil.distinctions.01": "41fd01cf2b4dca7eb6593d197461ccfe6d80c0ead9f1c2dbf969018bd8870f6f",
+    "les.problem-evil.distinctions.02": "5c8f30b22bf09984a53fad1a0df2dc6f12077640e3bf617aba117d148bcae246",
+    "les.problem-evil.evidence.01": "aa3df939b8035aab2e0910f51e14fbcfeef0b79a826318df7a5eaffe15da84d6",
+    "les.problem-evil.evidence.02": "bc6ca53225c2b921910396513f0d649d10169a14158e77b2f63bbd695d6d8141",
+    "les.problem-evil.objections.01": "5c1322e961e23400f8acdd41ef0207806df6bde403516ae06a59cfe9babb3132",
+    "les.problem-evil.objections.02": "787a3eccb2fc1301cd9cbc583c18f498ec6d1e05a093d2c85c7dfa63022e6e52",
+    "les.problem-evil.synthesis.01": "afd303db33e1bc02d770940732981b56481e4d88aa4cc6395de5459cff8b7fdf",
+    "les.problem-evil.synthesis.02": "b5068b7a772b29f82eb127ee96b7d45021d35560829bcc5f1ccffe08e835601d"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

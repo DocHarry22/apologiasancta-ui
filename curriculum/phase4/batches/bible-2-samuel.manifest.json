@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-2-samuel.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.2-samuel",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.2-samuel.context.01",
+    "les.bible.2-samuel.structure.01",
+    "les.bible.2-samuel.theology.01",
+    "les.bible.2-samuel.difficult-texts.01",
+    "les.bible.2-samuel.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.2-samuel.context.01": "86ea45655a749d93bce5c8baf6cbd971ba16c772cf44d0b12888d7c4c7c90827",
+    "les.bible.2-samuel.structure.01": "2bf12daa4bd6cbd561bfb1f189ce96b6590610b6e324de71002a0a4a1082a04f",
+    "les.bible.2-samuel.theology.01": "5bb1445cf457599aafaa938344b050d57e8d28046f00f586408ddaec6cff8ae7",
+    "les.bible.2-samuel.difficult-texts.01": "1267b4047d1d8cd3588eeb24c3d342bdfb26ccd50fbcb725f1eb0041137ccaaf",
+    "les.bible.2-samuel.synthesis.01": "54a1de554bd77fb9b663759eda366ea76ada90ffcb16af3e5e4e7360b1e23599"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-hosea.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.hosea",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.hosea.context.01",
+    "les.bible.hosea.structure.01",
+    "les.bible.hosea.theology.01",
+    "les.bible.hosea.difficult-texts.01",
+    "les.bible.hosea.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.hosea.context.01": "dff54f05b1385a3caed8a7dc86e234a200f42ffd20c0ec4fe09bd304a88eb1b4",
+    "les.bible.hosea.structure.01": "b5842a47cf673c2971621508a7ba0daf38fd6af6fe0e9300860559b5018c3cd9",
+    "les.bible.hosea.theology.01": "dd1b594cfd3ba44f6ace5d25dc2757ab979f5d6618ad61bbed227b6b635ccabe",
+    "les.bible.hosea.difficult-texts.01": "82acc1c876f35ff0ae014b6a3f3d556480ed4b88b5d4fcf0520f21b66091df79",
+    "les.bible.hosea.synthesis.01": "ab09c963fbd53fd9a4cee97f70dde66fee70c329ff9760dd9462fc4d65d2e454"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

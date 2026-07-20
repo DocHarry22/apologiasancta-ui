@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.salvation-history.01",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.salvation-history",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.salvation-history.foundations.01",
+    "les.salvation-history.foundations.02",
+    "les.salvation-history.distinctions.01",
+    "les.salvation-history.distinctions.02",
+    "les.salvation-history.evidence.01",
+    "les.salvation-history.evidence.02",
+    "les.salvation-history.objections.01",
+    "les.salvation-history.objections.02",
+    "les.salvation-history.synthesis.01",
+    "les.salvation-history.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.salvation-history.foundations.01": "8819534750f93f6fa2aa4407c121ecd10eec303226a5c31c7f7eab51b4eeb053",
+    "les.salvation-history.foundations.02": "b7b3f6ea7df50d514e395c9fe716e14048c9d6eb9042e663f30e42d5d5331b2c",
+    "les.salvation-history.distinctions.01": "6c446436f84cc4450e3b2d8e61ede6cc427c127f9615aea34e39bdf62132db82",
+    "les.salvation-history.distinctions.02": "6640d65fec3e8b445cbca794a91c034403d28bad3390d57ee0b14e859c804c45",
+    "les.salvation-history.evidence.01": "56a458c0c5a11a2c04bd4c963c8fd44907554424a8bdda25c49af48b44731e7f",
+    "les.salvation-history.evidence.02": "f6fe1d363cea6a43b80fd106bbecc384f4d9c22f06a19286a633809b1bb2219b",
+    "les.salvation-history.objections.01": "40b75d91d1dcb0d62383d154165dabaaa8eef9de25ef9e34c5589dd39b713d0a",
+    "les.salvation-history.objections.02": "2c10fd0412627c953f83e4a4800fa3aa56e2dc1395c7622f5e1a069bb8686e30",
+    "les.salvation-history.synthesis.01": "a8ba320c91c5f4f53d8327dfee2ca94f552e0bf645d88387142662daff63f071",
+    "les.salvation-history.synthesis.02": "ce8ea4c7ec0532113ec498f1916f301cedf52b91350fbce616d1a2417e21e4d8"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-2-kings.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.2-kings",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.2-kings.context.01",
+    "les.bible.2-kings.structure.01",
+    "les.bible.2-kings.theology.01",
+    "les.bible.2-kings.difficult-texts.01",
+    "les.bible.2-kings.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.2-kings.context.01": "93ab90ab9a7df99c5ca1eed90ab0f2ac8f06964fcd97ecfbe65b86f902450e9e",
+    "les.bible.2-kings.structure.01": "85f887c5d5ed2dbe1c5603fd07c72bee8d3bf078846d7be2eea0b21ccc07e606",
+    "les.bible.2-kings.theology.01": "6bd48e3e30d2639cf9e120c22177f8f6cfe07011d8c6cbf68318f7bb0090d53e",
+    "les.bible.2-kings.difficult-texts.01": "75ef42f246d26a0fbced7689f03c36ef89532241963d3de9d6d6ab07ee39a060",
+    "les.bible.2-kings.synthesis.01": "bb95b7a6ec2790d36ade994f8d89b0c215ad53b69fbdef9f383f4983ceb242bd"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

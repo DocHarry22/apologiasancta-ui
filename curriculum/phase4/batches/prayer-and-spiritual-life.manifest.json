@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.prayer-and-spiritual-life.01",
+  "programmeId": "prog.moral-spiritual",
+  "subjectId": "subj.prayer-spiritual-life",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.prayer-spiritual-life.foundations.01",
+    "les.prayer-spiritual-life.foundations.02",
+    "les.prayer-spiritual-life.distinctions.01",
+    "les.prayer-spiritual-life.distinctions.02",
+    "les.prayer-spiritual-life.evidence.01",
+    "les.prayer-spiritual-life.evidence.02",
+    "les.prayer-spiritual-life.objections.01",
+    "les.prayer-spiritual-life.objections.02",
+    "les.prayer-spiritual-life.synthesis.01",
+    "les.prayer-spiritual-life.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.prayer-spiritual-life.foundations.01": "ae964d5b2f51885af92876671bf5238a7ef7e3902a9fe45f731a4f4db989e798",
+    "les.prayer-spiritual-life.foundations.02": "6afafb28d523c3ff94d373330c01a9891ec87bc1aa924a5490d28c0454dbcc02",
+    "les.prayer-spiritual-life.distinctions.01": "31666ec42d87e6bf29bb1367f5f1c0194e12fbad83573d0ba77145bf4a76d1cc",
+    "les.prayer-spiritual-life.distinctions.02": "843efdee6b0c9fe613d1aa53d6cff25781b8a20b51697c961c996877344a6d0a",
+    "les.prayer-spiritual-life.evidence.01": "e2e0a88d0c7715541fedb4f150abc0b75b273fc9f29f73d7425081c203e3ba30",
+    "les.prayer-spiritual-life.evidence.02": "f1f86ac1d5b74c867649b3c9844b3b68ec9536e7bcb2ddd7a78bb4172e2f4602",
+    "les.prayer-spiritual-life.objections.01": "057a59f85472267d71c27a87b74e5e23e8d9fd7091ce495e7fecf6141ce1e904",
+    "les.prayer-spiritual-life.objections.02": "b4fd727bc2f2148c0f1d60981ef36a4bcd4b60d2be2b086e259336169a568cf2",
+    "les.prayer-spiritual-life.synthesis.01": "8064bc34eabdb8dcdeca94bc51a3a3bf9284740b9a18d5aa73279cd2d37d5fe5",
+    "les.prayer-spiritual-life.synthesis.02": "0459a017e3e6a0845bf83b339d104cb3ae3e887605df22afbda481139d7e6ae2"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

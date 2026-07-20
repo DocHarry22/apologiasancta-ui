@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-baruch.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.baruch",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.baruch.context.01",
+    "les.bible.baruch.structure.01",
+    "les.bible.baruch.theology.01",
+    "les.bible.baruch.difficult-texts.01",
+    "les.bible.baruch.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.baruch.context.01": "bb32147f0d49d55332a8abef9ae1a1ffa8b831952ba6e54aa5efe51eafd89793",
+    "les.bible.baruch.structure.01": "647c49407ac2863d7c61971f89cc8900e7755b3d476c59346ffecb1ce4d76677",
+    "les.bible.baruch.theology.01": "07bc056ebb507d3674d58cb59fa7b8bae3d01e9c50cc37bc04e666850e7f0316",
+    "les.bible.baruch.difficult-texts.01": "9df8ff130c32daa83c230104510ddc497f7c3a31ea87885b4cddf1a4f9b8fbf3",
+    "les.bible.baruch.synthesis.01": "4f931a1f94bacc9d9e967f77b6db26fc75e95f62541500cd52e89758a7ccd01b"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

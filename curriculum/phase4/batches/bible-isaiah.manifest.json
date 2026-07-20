@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-isaiah.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.isaiah",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.isaiah.context.01",
+    "les.bible.isaiah.structure.01",
+    "les.bible.isaiah.theology.01",
+    "les.bible.isaiah.difficult-texts.01",
+    "les.bible.isaiah.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.isaiah.context.01": "7bd4c7e93edfdbb4c0f4f6ce1ada25689a4ca627c3088f073c389a3ee1bc4942",
+    "les.bible.isaiah.structure.01": "715e4774a35ab1335de7dd3280e306bd8967e288d39085afac33bf31473a9883",
+    "les.bible.isaiah.theology.01": "9a6d7baf940036c6715af1521234bd4c4e95479a3168c743f1bbe9890a5b755d",
+    "les.bible.isaiah.difficult-texts.01": "e8ed0b0e178a8bc29269a7c2b9547c6909473fe4ce263b7b6d018de4e7f5e1a3",
+    "les.bible.isaiah.synthesis.01": "d518e5d76e21a8a9e54a20b0095ccff75b948142cb9fa91a8fce5753048d5359"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-proverbs.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.proverbs",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.proverbs.context.01",
+    "les.bible.proverbs.structure.01",
+    "les.bible.proverbs.theology.01",
+    "les.bible.proverbs.difficult-texts.01",
+    "les.bible.proverbs.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.proverbs.context.01": "f7a4689db945a74c011b6e5bc9ff7ac7aa28540c31bb3a73a71a17c33297ea3a",
+    "les.bible.proverbs.structure.01": "aa986339525654ac9fef86000bb5a8bd8762f84ecbfc8e82c21758d6ae5d1e13",
+    "les.bible.proverbs.theology.01": "1af9bbce21849f93f1c435238d29b597a0771e0a8367ec63d852b52a593910b9",
+    "les.bible.proverbs.difficult-texts.01": "b8fdf69aca4f37dd4dfb30050eb1bd9feed73063ac79f2004cb2e06c383eb2aa",
+    "les.bible.proverbs.synthesis.01": "8f6922194cb850532e61fcded2aa8415e86142e4db6b9ed631454cc45ccbf00a"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

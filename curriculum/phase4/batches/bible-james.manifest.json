@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-james.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.james",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.james.context.01",
+    "les.bible.james.structure.01",
+    "les.bible.james.theology.01",
+    "les.bible.james.difficult-texts.01",
+    "les.bible.james.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.james.context.01": "3fd279d40c14cecb682b3a57ec5b3b30d022c1328638b21cfa620ded9d8e6131",
+    "les.bible.james.structure.01": "bf081c9eee06d1bd70fbd7f07f7b0b7edbc767ab7ac6518c224ce427aa0f05ed",
+    "les.bible.james.theology.01": "19c2da632dc175a7695344a0008202abd1e6c08be5426c8e8ec90c0fc840f7a9",
+    "les.bible.james.difficult-texts.01": "52ddb4cdbcdbe9ba14419549ecd555b6ba49639296d4bf46548388c8d8b1a9eb",
+    "les.bible.james.synthesis.01": "9f25c9d3a742440060dcc2703eab293d323249816579561859b6085b0ae400f8"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

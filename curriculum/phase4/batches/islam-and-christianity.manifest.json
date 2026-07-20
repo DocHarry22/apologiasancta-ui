@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.islam-and-christianity.01",
+  "programmeId": "prog.comparative-apologetics",
+  "subjectId": "subj.islam-christianity",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.islam-christianity.foundations.01",
+    "les.islam-christianity.foundations.02",
+    "les.islam-christianity.distinctions.01",
+    "les.islam-christianity.distinctions.02",
+    "les.islam-christianity.evidence.01",
+    "les.islam-christianity.evidence.02",
+    "les.islam-christianity.objections.01",
+    "les.islam-christianity.objections.02",
+    "les.islam-christianity.synthesis.01",
+    "les.islam-christianity.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.islam-christianity.foundations.01": "ca244e965038ef11b80ce4d375194a8289a91f8205985091141ec681fd5ba908",
+    "les.islam-christianity.foundations.02": "e346de54a7167bbc1105a7855b95e48ab977e70e984c870f3a24bb948292075b",
+    "les.islam-christianity.distinctions.01": "61f5bddf87bfd6ce3ff52b064b4214f11e54ae525e56257428acf4c4c7e53f47",
+    "les.islam-christianity.distinctions.02": "7ecbd0c7b6c324a2c703fd20e1ea3ce16792e828806e6b053af61cc37758fa0a",
+    "les.islam-christianity.evidence.01": "675e0a4126275c767edfa48268810ed961cae16b7a854e48a20872be7b42361f",
+    "les.islam-christianity.evidence.02": "37fe9769268e5a61f587f0865f3ef8000124b0d3c0bf5c2e0a57b4773e39e9fb",
+    "les.islam-christianity.objections.01": "e515d04a21ea40843dfe20e41681bfd46f430f973071bfaf5e9946272f9078f6",
+    "les.islam-christianity.objections.02": "677f0a40a2a478eafbc060e83510d70b47f0cdba7a7beff8f967c62d120a9124",
+    "les.islam-christianity.synthesis.01": "689eabb927869c1bebd380d40e969a211f413489a02410f3168bf711291f659c",
+    "les.islam-christianity.synthesis.02": "bf6ff90c55943910a9fdeed2314fcb1c2b4e4283ead51dc7c0475bec4ebbbcb5"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

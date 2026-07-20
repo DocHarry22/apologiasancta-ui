@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-titus.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.titus",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.titus.context.01",
+    "les.bible.titus.structure.01",
+    "les.bible.titus.theology.01",
+    "les.bible.titus.difficult-texts.01",
+    "les.bible.titus.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.titus.context.01": "49efa476ccdb8e8531c7cfc23834f3f8ead6d08a1fe91f8cfa459fcdfb8f017c",
+    "les.bible.titus.structure.01": "3bc83676399d72579f24ba6f8c53f0793606487fb0e989df527e93db06441d19",
+    "les.bible.titus.theology.01": "25e62f79824c9927f20675c53ad7bd79db235a2a0d6f63718f06df3965035ec2",
+    "les.bible.titus.difficult-texts.01": "8438c16a626929f4a10c746565d132f2b595b2281e7db3b4f80ebd9afa019ddf",
+    "les.bible.titus.synthesis.01": "be11a2bbe5fae27fa7fc8e7b6c0b884243b946a11471271555a1d43797d5260d"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.marriage-sexuality-and-family.01",
+  "programmeId": "prog.moral-spiritual",
+  "subjectId": "subj.marriage-sexuality-family",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.marriage-sexuality-family.foundations.01",
+    "les.marriage-sexuality-family.foundations.02",
+    "les.marriage-sexuality-family.distinctions.01",
+    "les.marriage-sexuality-family.distinctions.02",
+    "les.marriage-sexuality-family.evidence.01",
+    "les.marriage-sexuality-family.evidence.02",
+    "les.marriage-sexuality-family.objections.01",
+    "les.marriage-sexuality-family.objections.02",
+    "les.marriage-sexuality-family.synthesis.01",
+    "les.marriage-sexuality-family.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.marriage-sexuality-family.foundations.01": "688841c22a3f3c5a51adfceb89d552fb0dcc9d1f29ac91c804d8446d8e22d8f9",
+    "les.marriage-sexuality-family.foundations.02": "148e6855294080e8ed92dd8634416a2646eb7773a25ac4d005af0b30a066cc88",
+    "les.marriage-sexuality-family.distinctions.01": "5fe228254ab5b307674e509b118518c5a717673f02c3168f923490124a073034",
+    "les.marriage-sexuality-family.distinctions.02": "676a960a0d4d1836a7e8f92ef4db4571c006da74ba382ef1d3817b55cdc95337",
+    "les.marriage-sexuality-family.evidence.01": "c54325fb452c8c0d3f26b1a47fd34b91dffb02bc0674ed4fe593e052219f02a6",
+    "les.marriage-sexuality-family.evidence.02": "2f1218ac6a6d35615b70fc464918d4d3aaf71fd2d56d73998b47f9a2b05bcb0e",
+    "les.marriage-sexuality-family.objections.01": "8bf647e894076daee6b505ecc714dee104fda7cbc3b87a0d1777d436f784bb2c",
+    "les.marriage-sexuality-family.objections.02": "9b2c27665f119f721fd122b32ffb615bb2928e1e9aec49fe07b343acac58bd2c",
+    "les.marriage-sexuality-family.synthesis.01": "642c8f4caad03532783c9482fc77173f4a45d68792a15a220c345c758b3e4749",
+    "les.marriage-sexuality-family.synthesis.02": "2dadf6be38cc3615a08159b7f6222a06d37289d570b2ff92db6621ae8a2314fc"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

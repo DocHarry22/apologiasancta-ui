@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.revelation-and-faith.01",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.revelation-faith",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.revelation-faith.foundations.01",
+    "les.revelation-faith.foundations.02",
+    "les.revelation-faith.distinctions.01",
+    "les.revelation-faith.distinctions.02",
+    "les.revelation-faith.evidence.01",
+    "les.revelation-faith.evidence.02",
+    "les.revelation-faith.objections.01",
+    "les.revelation-faith.objections.02",
+    "les.revelation-faith.synthesis.01",
+    "les.revelation-faith.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.revelation-faith.foundations.01": "2b928a5e0c0a3a26090fbe3891d9c05976b389a6cb0fb8695af4a8bce6beb24e",
+    "les.revelation-faith.foundations.02": "fb97ba620194450cea9d3cbb47a6dfbf1c7aa76b83aeb1cff57e73d4acc5b7a5",
+    "les.revelation-faith.distinctions.01": "f6268a085425eacb9d8ea1dfebcb85216f1246f696774f7687c14e9a410cb35a",
+    "les.revelation-faith.distinctions.02": "2b695fc5ef0fd31769f66e98532bdcd34ea97cdeaf3457113cd7724b2a42f18c",
+    "les.revelation-faith.evidence.01": "84228c18bce386a5a59250c0ef6b11ce8cc58c25bf7b83fc73eeb8ff54aa6d87",
+    "les.revelation-faith.evidence.02": "e7217236846dd05a916f506bda03d976803174fb66f64211f702b46c16a9cce0",
+    "les.revelation-faith.objections.01": "fdb8a8086686a3eeae9ceb3009870e5e61f3a81a7425405ecabdea8253de9549",
+    "les.revelation-faith.objections.02": "ecb1188a6c78426e5b630242833842ed40c3634e0a9889ed26130af347787238",
+    "les.revelation-faith.synthesis.01": "8bf805f6f9ff3a969ef907d4ca022c3c8a2e10414b8d0bdcf09b91e0c4f1336d",
+    "les.revelation-faith.synthesis.02": "36337c647c646c359dbffa5b4fd2ccec073b017fecfdaaaf2b7a7bef54fd096d"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

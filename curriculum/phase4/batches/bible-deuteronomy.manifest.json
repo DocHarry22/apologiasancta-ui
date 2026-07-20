@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-deuteronomy.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.deuteronomy",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.deuteronomy.context.01",
+    "les.bible.deuteronomy.structure.01",
+    "les.bible.deuteronomy.theology.01",
+    "les.bible.deuteronomy.difficult-texts.01",
+    "les.bible.deuteronomy.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.deuteronomy.context.01": "58ef483b7d9407833534c59b4151f3ece86d14b66d9f65617a5426f9367bcf8a",
+    "les.bible.deuteronomy.structure.01": "288447a13654294975886b7b28e4e72f82b4c8e41aaec9d63ee4b1d5050d61e2",
+    "les.bible.deuteronomy.theology.01": "b1cc59e04197cfe1693470359cec3af6211dea5adecc279501a740c91c9ffd36",
+    "les.bible.deuteronomy.difficult-texts.01": "3978e257aebac5f72c22931729a199a2254c6630f375b3573b11d8ecfbc221e3",
+    "les.bible.deuteronomy.synthesis.01": "820330acfb64460d065d168d7163e725467fe47fd0a2ce126c123960cf4eba0b"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

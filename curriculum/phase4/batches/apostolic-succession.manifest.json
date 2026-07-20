@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.apostolic-succession.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.apostolic-succession",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.apostolic-succession.foundations.01",
+    "les.apostolic-succession.foundations.02",
+    "les.apostolic-succession.distinctions.01",
+    "les.apostolic-succession.distinctions.02",
+    "les.apostolic-succession.evidence.01",
+    "les.apostolic-succession.evidence.02",
+    "les.apostolic-succession.objections.01",
+    "les.apostolic-succession.objections.02",
+    "les.apostolic-succession.synthesis.01",
+    "les.apostolic-succession.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.apostolic-succession.foundations.01": "72f5f96486781b89164e164f680a025613bbbd94b72fb5bb36d0b8d9e44dfede",
+    "les.apostolic-succession.foundations.02": "0b0eb17258f624cd312a886558ea58cfd030a02f56c4495ce2f8304927b5f68c",
+    "les.apostolic-succession.distinctions.01": "3ae2d66021cf30c17d3882c69b99d77db4cbc055d7c15e321c369dd3d5e5b961",
+    "les.apostolic-succession.distinctions.02": "ca5694c8b77603e58975fa6b6892d2f225d740513ea1827cb3a5c3da65655074",
+    "les.apostolic-succession.evidence.01": "a65e97cb46f4b1adf34b66567c988685a91922a9dd1a75b3c68a9dd65b253d21",
+    "les.apostolic-succession.evidence.02": "61ed694ef30d0b951a057fbb9a150375ce6a605fe7f49da432fed1059e158fe1",
+    "les.apostolic-succession.objections.01": "592f01ba4f56af49392980a93e2fc3d7160b547638ae2e802d8368b9c4d14b03",
+    "les.apostolic-succession.objections.02": "0ca6ecf24e4770874047f9aadabb3c480232fee09dc9a7ea6f74337d6a89f6b1",
+    "les.apostolic-succession.synthesis.01": "387d7ad07a111b77429e8b84079fa1175d0b5eac80befe40e4d4cbb1094e64b3",
+    "les.apostolic-succession.synthesis.02": "b184a0e8762f906c2b67200e7cbaea31121d80240baae14f1e627c6684cbc10e"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

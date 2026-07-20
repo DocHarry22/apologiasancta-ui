@@ -1,0 +1,547 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.liturgy.foundations.01",
+  "phase3LessonId": "les.liturgy.foundations.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.liturgy",
+  "groupId": "grp.liturgy.foundations",
+  "title": "Christ the High Priest of the Liturgy",
+  "slug": "liturgy-foundations-01",
+  "centralQuestion": "How should Catholic teaching understand Christ the High Priest of the Liturgy?",
+  "learningObjectives": [
+    "State a clear Catholic account of Christ the High Priest of the Liturgy in the context of Liturgy.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Christ the High Priest of the Liturgy.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic formation treats Christ the High Priest of the Liturgy as part of Liturgy. Studies Christ's priestly action, the liturgical year, rites, signs, active participation, East and West, inculturation, and the relation of worship to doctrine. The short answer must therefore preserve the hierarchy of truths, use sources within their competence, and avoid turning a probable interpretation or historical reconstruction into settled dogma.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Christ the High Priest of the Liturgy"
+    },
+    {
+      "type": "paragraph",
+      "text": "Liturgy provides the larger frame for Christ the High Priest of the Liturgy. Studies Christ's priestly action, the liturgical year, rites, signs, active participation, East and West, inculturation, and the relation of worship to doctrine. Catholic method here moves from the inspired text to doctrinal judgment while also examining reception and reasoned scholarship. The movement is cumulative: a historical source cannot define dogma, a theological conclusion cannot rewrite an event, and an academic proposal cannot function as an ecclesial act.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "For the biblical dimension of Christ the High Priest of the Liturgy, consult John 6:22-71, Luke 22:14-20, 1 Corinthians 10:16-17; 11:23-29. The stored summaries are deliberately not substitute Bible text. Their purpose is to direct close reading: establish the passage's immediate claim, test the connection to the lesson, and only then relate that claim to Catholic doctrine through the interpretive rules of Dei Verbum.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The terms Doctrine, Relation, Liturgy provide a small conceptual map for Christ the High Priest of the Liturgy. Use the map to ask what reality is named, what contrast gives the term meaning, and which source controls the definition. If an opposing tradition uses the same word differently, state that difference instead of manufacturing a verbal contradiction.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Foundations"
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the High Priest of the Liturgy takes its educational direction from Foundations: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. Within Liturgy, the learner must use Doctrine, Relation, Liturgy with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Latin Catholic, Eastern Catholic, Eastern Orthodox, Anglican, Protestant. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Christ the High Priest of the Liturgy, the focus on Christ the High Priest of the Liturgy fixes one part of the lesson's scope. Christ the High Priest of the Liturgy must be defined as it functions in Christ the High Priest of the Liturgy, then supported by a source competent for that definition. Within Liturgy, the learner should separate what the source states about Christ the High Priest of the Liturgy from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the High Priest of the Liturgy uses Doctrine as a checkpoint for understanding. The learner should locate Doctrine in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Doctrine is disputed within Liturgy, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Christ the High Priest of the Liturgy, the focus on Relation fixes one part of the lesson's scope. Relation must be defined as it functions in Christ the High Priest of the Liturgy, then supported by a source competent for that definition. Within Liturgy, the learner should separate what the source states about Relation from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Liturgy gives Christ the High Priest of the Liturgy a concrete analytical task. In treating Liturgy, Christ the High Priest of the Liturgy should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Liturgy within Liturgy remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Christ the High Priest of the Liturgy, recall Christ the High Priest of the Liturgy. Liturgy uses Christ the High Priest of the Liturgy in this lesson. Link Christ the High Priest of the Liturgy with Doctrine in Christ the High Priest of the Liturgy. Classify every Christ the High Priest of the Liturgy claim in Christ the High Priest of the Liturgy. Check Christ the High Priest of the Liturgy evidence for Liturgy. Revise Christ the High Priest of the Liturgy if Christ the High Priest of the Liturgy remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Christ the High Priest of the Liturgy, recall Doctrine. Liturgy uses Doctrine in this lesson. Link Doctrine with Relation in Christ the High Priest of the Liturgy. Classify every Doctrine claim in Christ the High Priest of the Liturgy. Check Doctrine evidence for Liturgy. Revise Christ the High Priest of the Liturgy if Doctrine remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Christ the High Priest of the Liturgy, recall Relation. Liturgy uses Relation in this lesson. Link Relation with Liturgy in Christ the High Priest of the Liturgy. Classify every Relation claim in Christ the High Priest of the Liturgy. Check Relation evidence for Liturgy. Revise Christ the High Priest of the Liturgy if Relation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Christ the High Priest of the Liturgy, recall Liturgy. Liturgy uses Liturgy in this lesson. Link Liturgy with Christ the High Priest of the Liturgy in Christ the High Priest of the Liturgy. Classify every Liturgy claim in Christ the High Priest of the Liturgy. Check Liturgy evidence for Liturgy. Revise Christ the High Priest of the Liturgy if Liturgy remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the High Priest of the Liturgy follows this approved curriculum purpose: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. This lesson focuses on christ the high priest of the liturgy. Within Christ the High Priest of the Liturgy, that purpose limits the draft to the evidence and conclusions needed for Foundations.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the High Priest of the Liturgy prepares the learner for this mastery work: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. Success in Christ the High Priest of the Liturgy therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the High Priest of the Liturgy carries a high lesson review risk inside the high risk profile for Liturgy. The recorded reason for Liturgy is primary-source and chronology verification; comparative fairness and tradition-specific sourcing, so Christ the High Priest of the Liturgy cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the High Priest of the Liturgy must keep these classifications visible: doctrine, discipline, theological_opinion, historical_claim. For Christ the High Priest of the Liturgy, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the High Priest of the Liturgy uses the biblical path John 6:22-71, Luke 22:14-20, 1 Corinthians 10:16-17; 11:23-29. Its Catholic synthesis is checked against CCC 1066-1209 and CCC 1210-1419 and sections 5-14 and 47-61, while Christ the High Priest of the Liturgy reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the High Priest of the Liturgy names Latin Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.anglican.cofe-canons-a, src.reformed.westminster-confession set the descriptive boundary for Latin Catholic in Christ the High Priest of the Liturgy; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the High Priest of the Liturgy names Eastern Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.anglican.cofe-canons-a, src.reformed.westminster-confession set the descriptive boundary for Eastern Catholic in Christ the High Priest of the Liturgy; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the High Priest of the Liturgy names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.anglican.cofe-canons-a, src.reformed.westminster-confession set the descriptive boundary for Eastern Orthodox in Christ the High Priest of the Liturgy; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the High Priest of the Liturgy names Anglican rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.anglican.cofe-canons-a, src.reformed.westminster-confession set the descriptive boundary for Anglican in Christ the High Priest of the Liturgy; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the High Priest of the Liturgy names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.anglican.cofe-canons-a, src.reformed.westminster-confession set the descriptive boundary for Protestant in Christ the High Priest of the Liturgy; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Documentation for Christ the High Priest of the Liturgy is distributed by task. CCC 1066-1209 and CCC 1210-1419 identify Catholic synthesis; sections 5-14 and 47-61 supplies governing context; chapters 61 and 65-67 tests reception; Trent, decrees on the sacraments and Eucharist as relevant tests specialist claims. The draft records these locations but does not convert a resolved reference into automatic theological approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.justin.first-apology",
+        "src.conciliar.tanner-decrees"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Christ the High Priest of the Liturgy",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A strong objection says that the Catholic treatment of Christ the High Priest of the Liturgy begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Latin Catholic, Eastern Catholic, Eastern Orthodox, Anglican, Protestant, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Christ the High Priest of the Liturgy concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "The Catholic response to Christ the High Priest of the Liturgy is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.justin.first-apology",
+        "src.conciliar.tanner-decrees",
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.liturgy.foundations.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "eucharist",
+        "eastern"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Doctrine",
+      "definition": "A teaching proposed by the Church; its authority and required assent depend on what is taught and how it is proposed.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "term": "Relation",
+      "definition": "An ordered reference to another; Trinitarian relations distinguish the Persons without dividing the divine nature.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "term": "Liturgy",
+      "definition": "The public worship of Christ and his Church in which the Paschal Mystery is proclaimed and sacramentally celebrated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "John 6:22-71",
+      "paraphrase": "Jesus presents himself as the life-giving bread from heaven and presses his hearers beyond merely material expectations.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Luke 22:14-20",
+      "paraphrase": "At the Passover meal Jesus identifies the bread and cup with his self-gift and commands the memorial action of the new covenant.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "1 Corinthians 10:16-17; 11:23-29",
+      "paraphrase": "Paul joins Eucharistic participation to communion in Christ, ecclesial unity, received tradition, and serious moral discernment.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1066-1209",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Christ the High Priest of the Liturgy; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1210-1419",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Christ the High Priest of the Liturgy and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 5-14 and 47-61",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Christ the High Priest of the Liturgy must be assessed.",
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Christ the High Priest of the Liturgy must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.justin.first-apology",
+        "locator": "chapters 61 and 65-67"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Christ the High Priest of the Liturgy",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A strong objection says that the Catholic treatment of Christ the High Priest of the Liturgy begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Latin Catholic, Eastern Catholic, Eastern Orthodox, Anglican, Protestant, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Christ the High Priest of the Liturgy concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "The Catholic response to Christ the High Priest of the Liturgy is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+  "commonMistakes": [
+    "Treating Christ the High Priest of the Liturgy as an isolated slogan instead of a question within Liturgy.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Latin Catholic, Eastern Catholic, Eastern Orthodox, Anglican, Protestant despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Christ the High Priest of the Liturgy: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Christ the High Priest of the Liturgy belongs within Liturgy and requires a disciplined Catholic synthesis. Scripture, Catechism, Magisterium, historical witness, scholarship, and comparative sources answer connected but different questions. The lesson states the claim, marks authority and uncertainty, represents alternatives in scope, and connects truth to Christian life.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Christ the High Priest of the Liturgy without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.liturgy.foundations.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Christ the High Priest of the Liturgy.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.liturgy.foundations.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Christ the High Priest of the Liturgy in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "John 6:22-71; Luke 22:14-20; 1 Corinthians 10:16-17; 11:23-29",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 1066-1209; CCC 1210-1419",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "locator": "sections 5-14 and 47-61",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.justin.first-apology",
+      "locator": "chapters 61 and 65-67",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "locator": "Trent, decrees on the sacraments and Eucharist as relevant",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.anglican.cofe-canons-a",
+      "locator": "Canons A1-A5",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.liturgy.foundations.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "eucharist",
+      "eastern"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine",
+      "discipline",
+      "theological_opinion",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [
+      "Latin Catholic",
+      "Eastern Catholic",
+      "Eastern Orthodox",
+      "Anglican",
+      "Protestant"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.liturgy.01",
+    "batchOrder": 1,
+    "contentHash": "d7a83384731037bd2bb68e439f8df1f6ef96f5a23856c49d11c138700c674673",
+    "approximateWordCount": 3519
+  }
+}

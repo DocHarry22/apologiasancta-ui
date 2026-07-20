@@ -1,0 +1,527 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.sacraments.evidence.01",
+  "phase3LessonId": "les.sacraments.evidence.01",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.sacraments",
+  "groupId": "grp.sacraments.evidence",
+  "title": "Sacramental Patterns in Scripture",
+  "slug": "sacraments-evidence-01",
+  "centralQuestion": "How should Catholic teaching understand Sacramental Patterns in Scripture?",
+  "learningObjectives": [
+    "State a clear Catholic account of Sacramental Patterns in Scripture in the context of Sacraments.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Sacramental Patterns in Scripture.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic formation treats Sacramental Patterns in Scripture as part of Sacraments. Studies sacramentality, institution by Christ, sign and grace, validity, fruitfulness, character, minister, recipient, and the seven sacraments as an ordered whole. The short answer must therefore preserve the hierarchy of truths, use sources within their competence, and avoid turning a probable interpretation or historical reconstruction into settled dogma.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Sacramental Patterns in Scripture"
+    },
+    {
+      "type": "paragraph",
+      "text": "Sacraments provides the larger frame for Sacramental Patterns in Scripture. Studies sacramentality, institution by Christ, sign and grace, validity, fruitfulness, character, minister, recipient, and the seven sacraments as an ordered whole. Catholic method here moves from the inspired text to doctrinal judgment while also examining reception and reasoned scholarship. The movement is cumulative: a historical source cannot define dogma, a theological conclusion cannot rewrite an event, and an academic proposal cannot function as an ecclesial act.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "For the biblical dimension of Sacramental Patterns in Scripture, consult John 6:22-71, Luke 22:14-20, 1 Corinthians 10:16-17; 11:23-29. The stored summaries are deliberately not substitute Bible text. Their purpose is to direct close reading: establish the passage's immediate claim, test the connection to the lesson, and only then relate that claim to Catholic doctrine through the interpretive rules of Dei Verbum.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The terms Sacred Scripture, Grace, Sacrament provide a small conceptual map for Sacramental Patterns in Scripture. Use the map to ask what reality is named, what contrast gives the term meaning, and which source controls the definition. If an opposing tradition uses the same word differently, state that difference instead of manufacturing a verbal contradiction.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Evidence"
+    },
+    {
+      "type": "paragraph",
+      "text": "Sacramental Patterns in Scripture takes its educational direction from Evidence: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. Within Sacraments, the learner must use Sacred Scripture, Grace, Sacrament with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Eastern Orthodox, Protestant. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Sacramental Patterns in Scripture, the focus on Sacramental Patterns in Scripture fixes one part of the lesson's scope. Sacramental Patterns in Scripture must be defined as it functions in Sacramental Patterns in Scripture, then supported by a source competent for that definition. Within Sacraments, the learner should separate what the source states about Sacramental Patterns in Scripture from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Sacramental Patterns in Scripture uses Sacred Scripture as a checkpoint for understanding. The learner should locate Sacred Scripture in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Sacred Scripture is disputed within Sacraments, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Sacramental Patterns in Scripture, the focus on Grace fixes one part of the lesson's scope. Grace must be defined as it functions in Sacramental Patterns in Scripture, then supported by a source competent for that definition. Within Sacraments, the learner should separate what the source states about Grace from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Sacrament gives Sacramental Patterns in Scripture a concrete analytical task. In treating Sacrament, Sacramental Patterns in Scripture should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Sacrament within Sacraments remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Sacramental Patterns in Scripture, recall grace. Sacraments uses grace in this lesson. Link grace with Church in Sacramental Patterns in Scripture. Classify every grace claim in Sacramental Patterns in Scripture. Check grace evidence for Sacraments. Revise Sacramental Patterns in Scripture if grace remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Sacramental Patterns in Scripture, recall Church. Sacraments uses Church in this lesson. Link Church with Paschal Mystery in Sacramental Patterns in Scripture. Classify every Church claim in Sacramental Patterns in Scripture. Check Church evidence for Sacraments. Revise Sacramental Patterns in Scripture if Church remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Sacramental Patterns in Scripture, recall Paschal Mystery. Sacraments uses Paschal Mystery in this lesson. Link Paschal Mystery with symbol and causality in Sacramental Patterns in Scripture. Classify every Paschal Mystery claim in Sacramental Patterns in Scripture. Check Paschal Mystery evidence for Sacraments. Revise Sacramental Patterns in Scripture if Paschal Mystery remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Sacramental Patterns in Scripture, recall symbol and causality. Sacraments uses symbol and causality in this lesson. Link symbol and causality with Distinctions in Sacramental Patterns in Scripture. Classify every symbol and causality claim in Sacramental Patterns in Scripture. Check symbol and causality evidence for Sacraments. Revise Sacramental Patterns in Scripture if symbol and causality remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Sacramental Patterns in Scripture, recall Distinctions. Sacraments uses Distinctions in this lesson. Link Distinctions with grace in Sacramental Patterns in Scripture. Classify every Distinctions claim in Sacramental Patterns in Scripture. Check Distinctions evidence for Sacraments. Revise Sacramental Patterns in Scripture if Distinctions remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Sacramental Patterns in Scripture follows this approved curriculum purpose: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. This lesson focuses on sacramental patterns in scripture. Within Sacramental Patterns in Scripture, that purpose limits the draft to the evidence and conclusions needed for Evidence.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Sacramental Patterns in Scripture prepares the learner for this mastery work: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. Success in Sacramental Patterns in Scripture therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Sacramental Patterns in Scripture carries a high lesson review risk inside the high risk profile for Sacraments. The recorded reason for Sacraments is dogmatic precision; comparative fairness and tradition-specific sourcing, so Sacramental Patterns in Scripture cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Sacramental Patterns in Scripture must keep these classifications visible: dogma, doctrine, discipline, theological_opinion. For Sacramental Patterns in Scripture, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Sacramental Patterns in Scripture uses the biblical path John 6:22-71, Luke 22:14-20, 1 Corinthians 10:16-17; 11:23-29. Its Catholic synthesis is checked against CCC 1066-1209 and CCC 1210-1419 and sections 5-14 and 47-61, while Sacramental Patterns in Scripture reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Sacramental Patterns in Scripture names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Catholic in Sacramental Patterns in Scripture; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Sacramental Patterns in Scripture names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Eastern Orthodox in Sacramental Patterns in Scripture; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Sacramental Patterns in Scripture names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Protestant in Sacramental Patterns in Scripture; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Documentation for Sacramental Patterns in Scripture is distributed by task. CCC 1066-1209 and CCC 1210-1419 identify Catholic synthesis; sections 5-14 and 47-61 supplies governing context; chapters 61 and 65-67 tests reception; Trent, decrees on the sacraments and Eucharist as relevant tests specialist claims. The draft records these locations but does not convert a resolved reference into automatic theological approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.justin.first-apology",
+        "src.conciliar.tanner-decrees"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Sacramental Patterns in Scripture",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A strong objection says that the Catholic treatment of Sacramental Patterns in Scripture begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Protestant, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Sacramental Patterns in Scripture concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "The Catholic response to Sacramental Patterns in Scripture is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.justin.first-apology",
+        "src.conciliar.tanner-decrees",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.sacraments.distinctions.02",
+        "les.sacraments.evidence.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "eucharist",
+        "protestant"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Sacred Scripture",
+      "definition": "The inspired canonical writings received by the Church as the word of God in human words.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "term": "Grace",
+      "definition": "God's free and undeserved gift of divine life and help, healing and elevating the human person.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "term": "Sacrament",
+      "definition": "An efficacious ecclesial sign of grace, instituted by Christ and entrusted to the Church.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "John 6:22-71",
+      "paraphrase": "Jesus presents himself as the life-giving bread from heaven and presses his hearers beyond merely material expectations.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Luke 22:14-20",
+      "paraphrase": "At the Passover meal Jesus identifies the bread and cup with his self-gift and commands the memorial action of the new covenant.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "1 Corinthians 10:16-17; 11:23-29",
+      "paraphrase": "Paul joins Eucharistic participation to communion in Christ, ecclesial unity, received tradition, and serious moral discernment.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1066-1209",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Sacramental Patterns in Scripture; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1210-1419",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Sacramental Patterns in Scripture and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 5-14 and 47-61",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Sacramental Patterns in Scripture must be assessed.",
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Sacramental Patterns in Scripture must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.justin.first-apology",
+        "locator": "chapters 61 and 65-67"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Sacramental Patterns in Scripture",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A strong objection says that the Catholic treatment of Sacramental Patterns in Scripture begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Protestant, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Sacramental Patterns in Scripture concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "The Catholic response to Sacramental Patterns in Scripture is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+  "commonMistakes": [
+    "Treating Sacramental Patterns in Scripture as an isolated slogan instead of a question within Sacraments.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Protestant despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Sacramental Patterns in Scripture: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Sacramental Patterns in Scripture belongs within Sacraments and requires a disciplined Catholic synthesis. Scripture, Catechism, Magisterium, historical witness, scholarship, and comparative sources answer connected but different questions. The lesson states the claim, marks authority and uncertainty, represents alternatives in scope, and connects truth to Christian life.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Sacramental Patterns in Scripture without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.sacraments.evidence.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Sacramental Patterns in Scripture.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.sacraments.evidence.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Sacramental Patterns in Scripture in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "John 6:22-71; Luke 22:14-20; 1 Corinthians 10:16-17; 11:23-29",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 1066-1209; CCC 1210-1419",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "locator": "sections 5-14 and 47-61",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.justin.first-apology",
+      "locator": "chapters 61 and 65-67",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "locator": "Trent, decrees on the sacraments and Eucharist as relevant",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.sacraments.distinctions.02",
+    "les.sacraments.evidence.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "eucharist",
+      "protestant"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "theological_opinion"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.sacraments.01",
+    "batchOrder": 5,
+    "contentHash": "8e375dcafba994c950b3809b2960fbdca5764398390110c7470b5d9d162c09a3",
+    "approximateWordCount": 3098
+  }
+}

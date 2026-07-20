@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.new-religious-movements.01",
+  "programmeId": "prog.comparative-apologetics",
+  "subjectId": "subj.new-religious-movements",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.new-religious-movements.foundations.01",
+    "les.new-religious-movements.foundations.02",
+    "les.new-religious-movements.distinctions.01",
+    "les.new-religious-movements.distinctions.02",
+    "les.new-religious-movements.evidence.01",
+    "les.new-religious-movements.evidence.02",
+    "les.new-religious-movements.objections.01",
+    "les.new-religious-movements.objections.02",
+    "les.new-religious-movements.synthesis.01",
+    "les.new-religious-movements.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.new-religious-movements.foundations.01": "f51ff7813f6aa558bcb0a2502195b7512d63dd118e8f4af5f171fc058e9f3fc8",
+    "les.new-religious-movements.foundations.02": "be0a2deda00140e382db11a3f3cdf81984d784653c9a5308dba3132c75266c22",
+    "les.new-religious-movements.distinctions.01": "ce4f9346b579a939ea8a90d6fd64a128b0f9d19ea1b7d267112ba7cc832000b1",
+    "les.new-religious-movements.distinctions.02": "9899f0e536bbb9d44e3eca2f35e18f4d6d60356809df86e4cd03a0400e7a34dc",
+    "les.new-religious-movements.evidence.01": "7ce6d02407457f0e9bd13d66e3502f19aff046e7e68ccf868bd967ba5cf3478b",
+    "les.new-religious-movements.evidence.02": "7224d975306631d0b406569e468d11667ec03d5efcb570886739268342b3a694",
+    "les.new-religious-movements.objections.01": "4ef0dfda332c5fd3208fd4935d067d16e37b7125bce867331a243a9edc87cf68",
+    "les.new-religious-movements.objections.02": "6ab2b790431c6c5fc1db6eb48dce1ae6db542abf280b615a05bb6e735e6083da",
+    "les.new-religious-movements.synthesis.01": "6ac12f5c33459f485a288dcfbd2687206a11fc3cbae7c3add8547288c2dea4b1",
+    "les.new-religious-movements.synthesis.02": "5aac073e3b97424fe72931e1756dcfa170f1938a34bfb37203a005c05c3e1927"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

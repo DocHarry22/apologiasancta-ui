@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-ecclesiastes.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.ecclesiastes",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.ecclesiastes.context.01",
+    "les.bible.ecclesiastes.structure.01",
+    "les.bible.ecclesiastes.theology.01",
+    "les.bible.ecclesiastes.difficult-texts.01",
+    "les.bible.ecclesiastes.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.ecclesiastes.context.01": "e2837d46dddb3317aa1e5fd1d4c169a3f6548fa3e760bb8cc33f9489653438d7",
+    "les.bible.ecclesiastes.structure.01": "ce049936fe238549b53285704e631f87e18c5b649cbf0ceb57aebd65c93ff919",
+    "les.bible.ecclesiastes.theology.01": "af25fa399c99542654a319c67cc2eea21236207531ae9a0eca595587ce80c71b",
+    "les.bible.ecclesiastes.difficult-texts.01": "a9799c5ad32b3a06dc3d859459680706a9fdd6436f3b0c1031987c7796391968",
+    "les.bible.ecclesiastes.synthesis.01": "b388a61f37934c98a0866c3b27d22db10380c12ab76569b294df752af6f4da6a"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

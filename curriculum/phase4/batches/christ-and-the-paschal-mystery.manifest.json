@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.christ-and-the-paschal-mystery.01",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.christ-paschal-mystery",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.christ-paschal-mystery.foundations.01",
+    "les.christ-paschal-mystery.foundations.02",
+    "les.christ-paschal-mystery.distinctions.01",
+    "les.christ-paschal-mystery.distinctions.02",
+    "les.christ-paschal-mystery.evidence.01",
+    "les.christ-paschal-mystery.evidence.02",
+    "les.christ-paschal-mystery.objections.01",
+    "les.christ-paschal-mystery.objections.02",
+    "les.christ-paschal-mystery.synthesis.01",
+    "les.christ-paschal-mystery.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.christ-paschal-mystery.foundations.01": "5ab6a380f008d701997e473374121782cb6402cb432d6c5ff3316afa0ce837d7",
+    "les.christ-paschal-mystery.foundations.02": "87fd44b8181cfe60fa64d9885288eb9c2836bf4f7520d4feee8347b97b5bcf68",
+    "les.christ-paschal-mystery.distinctions.01": "efc786d8b1c8b6afc959936ce382d3efb016282829b75df27baf1976d2556001",
+    "les.christ-paschal-mystery.distinctions.02": "30501d794f0793af105a3411f2f3c41924022d130fa9685f5bbaea1c32ce2669",
+    "les.christ-paschal-mystery.evidence.01": "fb696fb85656e54b407a0041dec63bfec88c19863543c8f1daa8ecd6f23779dc",
+    "les.christ-paschal-mystery.evidence.02": "987bfc45854b058e7f0271908faaad056eb6ee80d406a3f6f7e3adac4928286b",
+    "les.christ-paschal-mystery.objections.01": "16f82cdfa48c7a71fd6fd4a592c35d8eee0edfa0cbc71877d23d0db9d3e22b07",
+    "les.christ-paschal-mystery.objections.02": "6358df74f51f9f1baf59fd666fb90dc1ff10f69e8b27c9242dc9b87a09fc527f",
+    "les.christ-paschal-mystery.synthesis.01": "67c9c0912893cc832bce8f56e698cd277eba39d824d4c59fa359bd732a4c334e",
+    "les.christ-paschal-mystery.synthesis.02": "690b861418085f07960bd15c8a8211c8e24a0af74a3ac4c10230fe70b7f8ea15"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

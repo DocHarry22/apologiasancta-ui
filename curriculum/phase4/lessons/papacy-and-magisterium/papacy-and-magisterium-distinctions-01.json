@@ -1,0 +1,555 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.papacy-magisterium.distinctions.01",
+  "phase3LessonId": "les.papacy-magisterium.distinctions.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.papacy-magisterium",
+  "groupId": "grp.papacy-magisterium.distinctions",
+  "title": "Primacy, Supremacy, Infallibility, Inspiration, and Impeccability",
+  "slug": "papacy-and-magisterium-distinctions-01",
+  "centralQuestion": "How should Catholic teaching understand Primacy, Supremacy, Infallibility, Inspiration, and Impeccability?",
+  "learningObjectives": [
+    "State a clear Catholic account of Primacy, Supremacy, Infallibility, Inspiration, and Impeccability in the context of Papacy and Magisterium.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic teaching approaches Primacy, Supremacy, Infallibility, Inspiration, and Impeccability within Papacy and Magisterium: Distinguishes Petrine primacy, papal jurisdiction, infallibility, levels of teaching, assent, collegiality, synodality, and historical development. It reads Scripture in the Church, applies Catechism and Magisterial distinctions, and separates revealed doctrine from discipline, opinion, and revisable historical or scientific judgment.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Primacy, Supremacy, Infallibility, Inspiration, and Impeccability"
+    },
+    {
+      "type": "paragraph",
+      "text": "To study Primacy, Supremacy, Infallibility, Inspiration, and Impeccability, begin with the concrete claims made under Papacy and Magisterium. Distinguishes Petrine primacy, papal jurisdiction, infallibility, levels of teaching, assent, collegiality, synodality, and historical development. The task is neither a loose anthology of citations nor an appeal to authority without reasoning. It is an ordered account in which Scripture is interpreted, Magisterial teaching is classified, historical evidence is contextualised, and scholarship is used within its discipline.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "Scriptural study of Primacy, Supremacy, Infallibility, Inspiration, and Impeccability follows the route Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. Reference, paraphrase, and inference remain visibly separate. Since the platform has no approved translation licence, the learner must open a permitted edition, examine literary setting and canonical connections, and decide whether the lesson's conclusion is explicit, typological, or the result of theological synthesis.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The essential vocabulary for Primacy, Supremacy, Infallibility, Inspiration, and Impeccability is Magisterium, Inspiration, Petrine ministry, Infallibility. Before declaring agreement or conflict, check whether sources use those terms in the same sense, address the same problem, and carry the same authority. Doctrinal, devotional, historical, and comparative language may overlap, but the lesson may not treat them as interchangeable.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Distinctions"
+    },
+    {
+      "type": "paragraph",
+      "text": "The work of this lesson is controlled distinction. Primacy, Supremacy, Infallibility, Inspiration, and Impeccability becomes confused when neighbouring terms are treated as synonyms or when a conclusion is granted more authority than its premises allow. Compare each proposition with the subject's doctrinal classifications, then ask whether the claim is revealed teaching, authoritative doctrine, discipline, permitted opinion, or a historical, philosophical, or scientific judgment. The distinction changes the evidence and assent required.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Primacy matters specifically to Primacy, Supremacy, Infallibility, Inspiration, and Impeccability. Ask first what Primacy denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Primacy under Papacy and Magisterium should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Primacy, Supremacy, Infallibility, Inspiration, and Impeccability, the focus on Supremacy fixes one part of the lesson's scope. Supremacy must be defined as it functions in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability, then supported by a source competent for that definition. Within Papacy and Magisterium, the learner should separate what the source states about Supremacy from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Primacy, Supremacy, Infallibility, Inspiration, and Impeccability uses Infallibility as a checkpoint for understanding. The learner should locate Infallibility in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Infallibility is disputed within Papacy and Magisterium, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Primacy, Supremacy, Infallibility, Inspiration, and Impeccability uses Inspiration as a checkpoint for understanding. The learner should locate Inspiration in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Inspiration is disputed within Papacy and Magisterium, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Primacy, Supremacy, Infallibility, Inspiration, and Impeccability, recall apostolic succession. Papacy and Magisterium uses apostolic succession in this lesson. Link apostolic succession with primacy in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability. Classify every apostolic succession claim in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability. Check apostolic succession evidence for Papacy and Magisterium. Revise Primacy, Supremacy, Infallibility, Inspiration, and Impeccability if apostolic succession remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Primacy, Supremacy, Infallibility, Inspiration, and Impeccability, recall primacy. Papacy and Magisterium uses primacy in this lesson. Link primacy with episcopal college in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability. Classify every primacy claim in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability. Check primacy evidence for Papacy and Magisterium. Revise Primacy, Supremacy, Infallibility, Inspiration, and Impeccability if primacy remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Primacy, Supremacy, Infallibility, Inspiration, and Impeccability, recall episcopal college. Papacy and Magisterium uses episcopal college in this lesson. Link episcopal college with Foundations in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability. Classify every episcopal college claim in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability. Check episcopal college evidence for Papacy and Magisterium. Revise Primacy, Supremacy, Infallibility, Inspiration, and Impeccability if episcopal college remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Primacy, Supremacy, Infallibility, Inspiration, and Impeccability, recall Foundations. Papacy and Magisterium uses Foundations in this lesson. Link Foundations with Primacy in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability. Classify every Foundations claim in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability. Check Foundations evidence for Papacy and Magisterium. Revise Primacy, Supremacy, Infallibility, Inspiration, and Impeccability if Foundations remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Primacy, Supremacy, Infallibility, Inspiration, and Impeccability, recall Primacy. Papacy and Magisterium uses Primacy in this lesson. Link Primacy with apostolic succession in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability. Classify every Primacy claim in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability. Check Primacy evidence for Papacy and Magisterium. Revise Primacy, Supremacy, Infallibility, Inspiration, and Impeccability if Primacy remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Primacy, Supremacy, Infallibility, Inspiration, and Impeccability follows this approved curriculum purpose: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. This lesson focuses on primacy, supremacy, infallibility, inspiration, and impeccability. Within Primacy, Supremacy, Infallibility, Inspiration, and Impeccability, that purpose limits the draft to the evidence and conclusions needed for Distinctions.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Primacy, Supremacy, Infallibility, Inspiration, and Impeccability prepares the learner for this mastery work: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. Success in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Primacy, Supremacy, Infallibility, Inspiration, and Impeccability carries a critical lesson review risk inside the critical risk profile for Papacy and Magisterium. The recorded reason for Papacy and Magisterium is dogmatic precision; primary-source and chronology verification; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Primacy, Supremacy, Infallibility, Inspiration, and Impeccability cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Primacy, Supremacy, Infallibility, Inspiration, and Impeccability must keep these classifications visible: dogma, doctrine, discipline, historical_claim. For Primacy, Supremacy, Infallibility, Inspiration, and Impeccability, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Primacy, Supremacy, Infallibility, Inspiration, and Impeccability uses the biblical path Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. Its Catholic synthesis is checked against CCC 748-945 and CCC 946-975 and sections 1-29 and 37, while Primacy, Supremacy, Infallibility, Inspiration, and Impeccability reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Primacy, Supremacy, Infallibility, Inspiration, and Impeccability names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.anglican.cofe-canons-a, src.reformed.westminster-confession set the descriptive boundary for Catholic in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Primacy, Supremacy, Infallibility, Inspiration, and Impeccability names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.anglican.cofe-canons-a, src.reformed.westminster-confession set the descriptive boundary for Eastern Orthodox in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Primacy, Supremacy, Infallibility, Inspiration, and Impeccability names Anglican rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.anglican.cofe-canons-a, src.reformed.westminster-confession set the descriptive boundary for Anglican in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Primacy, Supremacy, Infallibility, Inspiration, and Impeccability names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.anglican.cofe-canons-a, src.reformed.westminster-confession set the descriptive boundary for Protestant in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Primacy, Supremacy, Infallibility, Inspiration, and Impeccability, the documentary route begins with CCC 748-945 and CCC 946-975; the Magisterial control is sections 1-29 and 37. Historical reception is checked at Book III; apostolic tradition and succession, and specialist analysis at chapters on apostolic ministry and early ecclesial order. These locators make the draft auditable, while exact semantic fit and edition remain gates for named human review.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.irenaeus.against-heresies",
+        "src.history.chadwick-early-church"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Primacy, Supremacy, Infallibility, Inspiration, and Impeccability",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "An informed opponent can grant much of the evidence for Primacy, Supremacy, Infallibility, Inspiration, and Impeccability while denying the Catholic inference. Why is the disputed conclusion more than one confessional construction among several?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Anglican, Protestant, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Primacy, Supremacy, Infallibility, Inspiration, and Impeccability concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "Catholic reasoning on Primacy, Supremacy, Infallibility, Inspiration, and Impeccability should expose every step: the scriptural premise, the rule of interpretation, the authoritative doctrinal judgment, the historical corroboration, and the conclusion. This permits a critic to dispute a premise without misrepresenting the whole case and prevents an unverified detail from masquerading as certainty.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.lumen-gentium",
+        "src.irenaeus.against-heresies",
+        "src.history.chadwick-early-church",
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.papacy-magisterium.foundations.02",
+        "les.papacy-magisterium.distinctions.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "papacy",
+        "protestant"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Magisterium",
+      "definition": "The Church's living teaching office, exercised by the pope and bishops in communion, serving the word of God rather than standing above it.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Inspiration",
+      "definition": "The Holy Spirit's action by which God is author of Scripture while human authors truly use their own powers and faculties.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Petrine ministry",
+      "definition": "The ministry of the bishop of Rome as successor of Peter, serving the Church's visible unity and confession of faith.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Infallibility",
+      "definition": "A charism preserving the Church from error under defined conditions when teaching definitively on faith or morals; it is not impeccability or omniscience.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 16:13-20",
+      "paraphrase": "Peter's confession, the promise concerning Christ's Church, and the imagery of keys and binding belong to one ecclesial scene.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Acts 15:1-29",
+      "paraphrase": "The Jerusalem gathering resolves a disputed missionary question through testimony, scriptural reasoning, apostolic deliberation, and a decision attributed to the Holy Spirit.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 4:1-16",
+      "paraphrase": "The Church receives one faith and diverse ministries so that the whole body may grow into mature unity in Christ.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 748-945",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Primacy, Supremacy, Infallibility, Inspiration, and Impeccability; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 946-975",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Primacy, Supremacy, Infallibility, Inspiration, and Impeccability and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 1-29 and 37",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Primacy, Supremacy, Infallibility, Inspiration, and Impeccability must be assessed.",
+      "sourceId": "src.vatican2.lumen-gentium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Primacy, Supremacy, Infallibility, Inspiration, and Impeccability must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.irenaeus.against-heresies",
+        "locator": "Book III; apostolic tradition and succession"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "An informed opponent can grant much of the evidence for Primacy, Supremacy, Infallibility, Inspiration, and Impeccability while denying the Catholic inference. Why is the disputed conclusion more than one confessional construction among several?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Anglican, Protestant, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Primacy, Supremacy, Infallibility, Inspiration, and Impeccability concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "Catholic reasoning on Primacy, Supremacy, Infallibility, Inspiration, and Impeccability should expose every step: the scriptural premise, the rule of interpretation, the authoritative doctrinal judgment, the historical corroboration, and the conclusion. This permits a critic to dispute a premise without misrepresenting the whole case and prevents an unverified detail from masquerading as certainty.",
+  "commonMistakes": [
+    "Treating Primacy, Supremacy, Infallibility, Inspiration, and Impeccability as an isolated slogan instead of a question within Papacy and Magisterium.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Anglican, Protestant despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Primacy, Supremacy, Infallibility, Inspiration, and Impeccability: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Primacy, Supremacy, Infallibility, Inspiration, and Impeccability teaches more than a conclusion. It teaches how Papacy and Magisterium distinguishes source from interpretation, doctrine from discipline or opinion, and another tradition's self-description from Catholic evaluation. Those habits prepare the learner for accurate explanation, prayerful reception, and accountable review.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Primacy, Supremacy, Infallibility, Inspiration, and Impeccability without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.papacy-magisterium.distinctions.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Primacy, Supremacy, Infallibility, Inspiration, and Impeccability.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.papacy-magisterium.distinctions.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Primacy, Supremacy, Infallibility, Inspiration, and Impeccability in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Matthew 16:13-20; Acts 15:1-29; Ephesians 4:1-16",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 748-945; CCC 946-975",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.lumen-gentium",
+      "locator": "sections 1-29 and 37",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.irenaeus.against-heresies",
+      "locator": "Book III; apostolic tradition and succession",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.history.chadwick-early-church",
+      "locator": "chapters on apostolic ministry and early ecclesial order",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.anglican.cofe-canons-a",
+      "locator": "Canons A1-A5",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.papacy-magisterium.foundations.02",
+    "les.papacy-magisterium.distinctions.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "papacy",
+      "protestant"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Anglican",
+      "Protestant"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.papacy-and-magisterium.01",
+    "batchOrder": 3,
+    "contentHash": "0f74cc6ad4ca3fff9104783d9f58e6117022c673ccf103a0cda0e53b367c63af",
+    "approximateWordCount": 3368
+  }
+}

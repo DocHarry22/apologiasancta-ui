@@ -1,0 +1,630 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.protestant-controversies.evidence.02",
+  "phase3LessonId": "les.protestant-controversies.evidence.02",
+  "programmeId": "prog.comparative-apologetics",
+  "subjectId": "subj.protestant-controversies",
+  "groupId": "grp.protestant-controversies.evidence",
+  "title": "Confessions, Reformers, Trent, and Ecumenical Dialogues",
+  "slug": "protestant-controversies-evidence-02",
+  "centralQuestion": "How should Catholic teaching understand Confessions, Reformers, Trent, and Ecumenical Dialogues?",
+  "learningObjectives": [
+    "State a clear Catholic account of Confessions, Reformers, Trent, and Ecumenical Dialogues in the context of Protestant Controversies.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Confessions, Reformers, Trent, and Ecumenical Dialogues.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "The Catholic answer to Confessions, Reformers, Trent, and Ecumenical Dialogues is not an isolated proof text. Within Protestant Controversies, it joins the relevant scriptural data to the Church's doctrinal judgment, tests historical reception, and states openly where a conclusion is discipline, theological explanation, or a revisable specialist claim.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Confessions, Reformers, Trent, and Ecumenical Dialogues"
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues is a focused lesson within Protestant Controversies. Maps Protestant diversity and treats authority, justification, sacraments, ecclesiology, Mary, saints, assurance, and worship using confessional sources. The Catholic account begins with sources competent for each claim: Scripture for canonical witness, Magisterium for Catholic judgment, primary evidence for events and reception, and scholarship for specialised analysis. This order neither makes the sources equal nor permits one source to answer a question beyond its competence.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues is anchored in Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. No protected translation wording is reproduced. Instead, each card states in fresh language what the passage contributes and leaves the reference visible for verification. The learner should read what precedes and follows, identify genre and speaker, and compare the proposed use with the wider canon.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Precision in Confessions, Reformers, Trent, and Ecumenical Dialogues depends on Magisterium, Church, Justification, Sacrament. These are working theological definitions rather than decorative vocabulary. Each one marks a boundary that prevents a category error, such as confusing a person with a nature, a discipline with a dogma, or a historical witness with an act of Magisterium.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Evidence"
+    },
+    {
+      "type": "paragraph",
+      "text": "The evidence stage builds a cumulative case for Confessions, Reformers, Trent, and Ecumenical Dialogues. Scripture supplies inspired testimony; the Catechism and Magisterium identify the Catholic synthesis and its authority; early or historical witnesses show reception; scholarship tests language, context, and rival readings. No single isolated line should be made to carry the entire conclusion. Convergence matters, and every inference must remain visibly distinct from the source being interpreted.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.anglican.cofe-canons-a",
+        "src.methodist.articles-religion",
+        "src.baptist.bfm-2000"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues uses Confessions as a checkpoint for understanding. The learner should locate Confessions in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Confessions is disputed within Protestant Controversies, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Reformers matters specifically to Confessions, Reformers, Trent, and Ecumenical Dialogues. Ask first what Reformers denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Reformers under Protestant Controversies should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Trent is one lens through which Confessions, Reformers, Trent, and Ecumenical Dialogues becomes teachable. Use Trent to connect the central question with an observable objective, a source, and a review prompt. Because Protestant Controversies may involve several authority levels, every claim about Trent should carry a classification proportionate to the evidence rather than to rhetorical confidence.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Confessions, Reformers, Trent, and Ecumenical Dialogues, Ecumenical Dialogues cannot remain an undefined slogan. State the proposition involving Ecumenical Dialogues, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Ecumenical Dialogues in Protestant Controversies must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Confessions, Reformers, Trent, and Ecumenical Dialogues, recall Distinctions. Protestant Controversies uses Distinctions in this lesson. Link Distinctions with Confessions in Confessions, Reformers, Trent, and Ecumenical Dialogues. Classify every Distinctions claim in Confessions, Reformers, Trent, and Ecumenical Dialogues. Check Distinctions evidence for Protestant Controversies. Revise Confessions, Reformers, Trent, and Ecumenical Dialogues if Distinctions remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Confessions, Reformers, Trent, and Ecumenical Dialogues, recall Confessions. Protestant Controversies uses Confessions in this lesson. Link Confessions with Reformers in Confessions, Reformers, Trent, and Ecumenical Dialogues. Classify every Confessions claim in Confessions, Reformers, Trent, and Ecumenical Dialogues. Check Confessions evidence for Protestant Controversies. Revise Confessions, Reformers, Trent, and Ecumenical Dialogues if Confessions remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Confessions, Reformers, Trent, and Ecumenical Dialogues, recall Reformers. Protestant Controversies uses Reformers in this lesson. Link Reformers with Trent in Confessions, Reformers, Trent, and Ecumenical Dialogues. Classify every Reformers claim in Confessions, Reformers, Trent, and Ecumenical Dialogues. Check Reformers evidence for Protestant Controversies. Revise Confessions, Reformers, Trent, and Ecumenical Dialogues if Reformers remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Confessions, Reformers, Trent, and Ecumenical Dialogues, recall Trent. Protestant Controversies uses Trent in this lesson. Link Trent with Ecumenical Dialogues in Confessions, Reformers, Trent, and Ecumenical Dialogues. Classify every Trent claim in Confessions, Reformers, Trent, and Ecumenical Dialogues. Check Trent evidence for Protestant Controversies. Revise Confessions, Reformers, Trent, and Ecumenical Dialogues if Trent remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Confessions, Reformers, Trent, and Ecumenical Dialogues, recall Ecumenical Dialogues. Protestant Controversies uses Ecumenical Dialogues in this lesson. Link Ecumenical Dialogues with Distinctions in Confessions, Reformers, Trent, and Ecumenical Dialogues. Classify every Ecumenical Dialogues claim in Confessions, Reformers, Trent, and Ecumenical Dialogues. Check Ecumenical Dialogues evidence for Protestant Controversies. Revise Confessions, Reformers, Trent, and Ecumenical Dialogues if Ecumenical Dialogues remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues follows this approved curriculum purpose: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. This lesson focuses on confessions, reformers, trent, and ecumenical dialogues. Within Confessions, Reformers, Trent, and Ecumenical Dialogues, that purpose limits the draft to the evidence and conclusions needed for Evidence.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues prepares the learner for this mastery work: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. Success in Confessions, Reformers, Trent, and Ecumenical Dialogues therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues carries a critical lesson review risk inside the critical risk profile for Protestant Controversies. The recorded reason for Protestant Controversies is dogmatic precision; primary-source and chronology verification; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Confessions, Reformers, Trent, and Ecumenical Dialogues cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues must keep these classifications visible: dogma, doctrine, discipline, historical_claim, theological_opinion. For Confessions, Reformers, Trent, and Ecumenical Dialogues, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues uses the biblical path Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. Its Catholic synthesis is checked against CCC 74-100 and CCC 811-870 and sections 1-24, while Confessions, Reformers, Trent, and Ecumenical Dialogues reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues names Lutheran rather than assigning a generic non-Catholic position. The relevant controls among src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.anglican.cofe-canons-a, src.methodist.articles-religion, src.baptist.bfm-2000 set the descriptive boundary for Lutheran in Confessions, Reformers, Trent, and Ecumenical Dialogues; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.anglican.cofe-canons-a",
+        "src.methodist.articles-religion",
+        "src.baptist.bfm-2000"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues names Reformed rather than assigning a generic non-Catholic position. The relevant controls among src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.anglican.cofe-canons-a, src.methodist.articles-religion, src.baptist.bfm-2000 set the descriptive boundary for Reformed in Confessions, Reformers, Trent, and Ecumenical Dialogues; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.anglican.cofe-canons-a",
+        "src.methodist.articles-religion",
+        "src.baptist.bfm-2000"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues names Anglican rather than assigning a generic non-Catholic position. The relevant controls among src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.anglican.cofe-canons-a, src.methodist.articles-religion, src.baptist.bfm-2000 set the descriptive boundary for Anglican in Confessions, Reformers, Trent, and Ecumenical Dialogues; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.anglican.cofe-canons-a",
+        "src.methodist.articles-religion",
+        "src.baptist.bfm-2000"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues names Methodist rather than assigning a generic non-Catholic position. The relevant controls among src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.anglican.cofe-canons-a, src.methodist.articles-religion, src.baptist.bfm-2000 set the descriptive boundary for Methodist in Confessions, Reformers, Trent, and Ecumenical Dialogues; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.anglican.cofe-canons-a",
+        "src.methodist.articles-religion",
+        "src.baptist.bfm-2000"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues names Baptist rather than assigning a generic non-Catholic position. The relevant controls among src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.anglican.cofe-canons-a, src.methodist.articles-religion, src.baptist.bfm-2000 set the descriptive boundary for Baptist in Confessions, Reformers, Trent, and Ecumenical Dialogues; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.anglican.cofe-canons-a",
+        "src.methodist.articles-religion",
+        "src.baptist.bfm-2000"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues names Pentecostal rather than assigning a generic non-Catholic position. The relevant controls among src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.anglican.cofe-canons-a, src.methodist.articles-religion, src.baptist.bfm-2000 set the descriptive boundary for Pentecostal in Confessions, Reformers, Trent, and Ecumenical Dialogues; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.anglican.cofe-canons-a",
+        "src.methodist.articles-religion",
+        "src.baptist.bfm-2000"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues names non-denominational Evangelical rather than assigning a generic non-Catholic position. The relevant controls among src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.anglican.cofe-canons-a, src.methodist.articles-religion, src.baptist.bfm-2000 set the descriptive boundary for non-denominational Evangelical in Confessions, Reformers, Trent, and Ecumenical Dialogues; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.anglican.cofe-canons-a",
+        "src.methodist.articles-religion",
+        "src.baptist.bfm-2000"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues names Adventist rather than assigning a generic non-Catholic position. The relevant controls among src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.anglican.cofe-canons-a, src.methodist.articles-religion, src.baptist.bfm-2000 set the descriptive boundary for Adventist in Confessions, Reformers, Trent, and Ecumenical Dialogues; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.anglican.cofe-canons-a",
+        "src.methodist.articles-religion",
+        "src.baptist.bfm-2000"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Confessions, Reformers, Trent, and Ecumenical Dialogues uses four documentary controls: Catechism CCC 74-100 and CCC 811-870, Magisterium sections 1-24, historical witness Book III; apostolic faith and succession, and scholarship the council or decree directly relevant to the controversy. The sequence clarifies authority and makes later checking possible. A locator that proves too broad or semantically mismatched must be corrected before approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio",
+        "src.irenaeus.against-heresies",
+        "src.conciliar.tanner-decrees"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Confessions, Reformers, Trent, and Ecumenical Dialogues",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A serious critic argues that Confessions, Reformers, Trent, and Ecumenical Dialogues may depend on later technical categories imposed on earlier sources. How can the Catholic account demonstrate continuity without anachronism?",
+      "fairRepresentation": "Lutheran, Reformed, Anglican, Methodist, Baptist, Pentecostal, non-denominational Evangelical, Adventist includes positions that can differ sharply from one another. A fair alternative reading of Confessions, Reformers, Trent, and Ecumenical Dialogues may prioritise a different canon, rule of faith, philosophical account, or historical reconstruction. It should be stated from a source its own advocates recognise, with internal variation named rather than suppressed.",
+      "response": "The Catholic answer concerning Confessions, Reformers, Trent, and Ecumenical Dialogues accepts the stated burden of proof. It reads the primary texts in context, explains why the Church's interpretive authority is relevant, and checks whether historical reception fits the proposed development. A failed locator or unsupported premise blocks approval instead of being covered by devotional confidence.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.unitatis-redintegratio",
+        "src.irenaeus.against-heresies",
+        "src.conciliar.tanner-decrees",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.anglican.cofe-canons-a",
+        "src.methodist.articles-religion",
+        "src.baptist.bfm-2000"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.protestant-controversies.evidence.01",
+        "les.protestant-controversies.objections.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "protestant",
+        "canon",
+        "papacy",
+        "eucharist"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Magisterium",
+      "definition": "The Church's living teaching office, exercised by the pope and bishops in communion, serving the word of God rather than standing above it.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "term": "Church",
+      "definition": "The people gathered by the Father through Christ in the Holy Spirit, at once spiritual communion and visible apostolic society.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "term": "Justification",
+      "definition": "God's gracious forgiveness and interior renewal by which a sinner is made righteous in Christ.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "term": "Sacrament",
+      "definition": "An efficacious ecclesial sign of grace, instituted by Christ and entrusted to the Church.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 16:13-20",
+      "paraphrase": "Peter's confession, the promise concerning Christ's Church, and the imagery of keys and binding belong to one ecclesial scene.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Acts 15:1-29",
+      "paraphrase": "The Jerusalem gathering resolves a disputed missionary question through testimony, scriptural reasoning, apostolic deliberation, and a decision attributed to the Holy Spirit.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 4:1-16",
+      "paraphrase": "The Church receives one faith and diverse ministries so that the whole body may grow into mature unity in Christ.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 74-100",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Confessions, Reformers, Trent, and Ecumenical Dialogues; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 811-870",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Confessions, Reformers, Trent, and Ecumenical Dialogues and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 1-24",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Confessions, Reformers, Trent, and Ecumenical Dialogues must be assessed.",
+      "sourceId": "src.vatican2.unitatis-redintegratio",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Confessions, Reformers, Trent, and Ecumenical Dialogues must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.irenaeus.against-heresies",
+        "locator": "Book III; apostolic faith and succession"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Confessions, Reformers, Trent, and Ecumenical Dialogues",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A serious critic argues that Confessions, Reformers, Trent, and Ecumenical Dialogues may depend on later technical categories imposed on earlier sources. How can the Catholic account demonstrate continuity without anachronism?",
+  "opposingPosition": "Lutheran, Reformed, Anglican, Methodist, Baptist, Pentecostal, non-denominational Evangelical, Adventist includes positions that can differ sharply from one another. A fair alternative reading of Confessions, Reformers, Trent, and Ecumenical Dialogues may prioritise a different canon, rule of faith, philosophical account, or historical reconstruction. It should be stated from a source its own advocates recognise, with internal variation named rather than suppressed.",
+  "catholicResponse": "The Catholic answer concerning Confessions, Reformers, Trent, and Ecumenical Dialogues accepts the stated burden of proof. It reads the primary texts in context, explains why the Church's interpretive authority is relevant, and checks whether historical reception fits the proposed development. A failed locator or unsupported premise blocks approval instead of being covered by devotional confidence.",
+  "commonMistakes": [
+    "Treating Confessions, Reformers, Trent, and Ecumenical Dialogues as an isolated slogan instead of a question within Protestant Controversies.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Lutheran, Reformed, Anglican, Methodist, Baptist, Pentecostal, non-denominational Evangelical, Adventist despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Confessions, Reformers, Trent, and Ecumenical Dialogues: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "The central lesson of Confessions, Reformers, Trent, and Ecumenical Dialogues is methodological and substantive: name the Catholic claim, ground it in competent sources, test its historical and conceptual continuity, answer the strongest scoped objection, and state no more than the evidence warrants. In Protestant Controversies, that discipline serves truth and charity together.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Confessions, Reformers, Trent, and Ecumenical Dialogues without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.protestant-controversies.evidence.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Confessions, Reformers, Trent, and Ecumenical Dialogues.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.protestant-controversies.evidence.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain Confessions, Reformers, Trent, and Ecumenical Dialogues in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Matthew 16:13-20; Acts 15:1-29; Ephesians 4:1-16",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 74-100; CCC 811-870",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.unitatis-redintegratio",
+      "locator": "sections 1-24",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.irenaeus.against-heresies",
+      "locator": "Book III; apostolic faith and succession",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "locator": "the council or decree directly relevant to the controversy",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.lutheran.augsburg-confession",
+      "locator": "Articles IV-V, VII-XIV, XX, and XXVIII as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.anglican.cofe-canons-a",
+      "locator": "Canons A1-A5",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.methodist.articles-religion",
+      "locator": "Articles I-XXV, with the lesson-relevant article identified during comparative review",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.baptist.bfm-2000",
+      "locator": "Articles I-VI, IV, VII, and XIV-XVIII as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.protestant-controversies.evidence.01",
+    "les.protestant-controversies.objections.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "protestant",
+      "canon",
+      "papacy",
+      "eucharist"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "historical_claim",
+      "theological_opinion"
+    ],
+    "comparativeTraditions": [
+      "Lutheran",
+      "Reformed",
+      "Anglican",
+      "Methodist",
+      "Baptist",
+      "Pentecostal",
+      "non-denominational Evangelical",
+      "Adventist"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.protestant-controversies.01",
+    "batchOrder": 6,
+    "contentHash": "95a430929bdd1fa3a30bdf413efd1d8843edce042f9d9d377c37a43d00573fec",
+    "approximateWordCount": 3817
+  }
+}

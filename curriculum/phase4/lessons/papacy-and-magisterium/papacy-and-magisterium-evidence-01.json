@@ -1,0 +1,547 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.papacy-magisterium.evidence.01",
+  "phase3LessonId": "les.papacy-magisterium.evidence.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.papacy-magisterium",
+  "groupId": "grp.papacy-magisterium.evidence",
+  "title": "Keys, Rock, Strengthening, and Shepherding",
+  "slug": "papacy-and-magisterium-evidence-01",
+  "centralQuestion": "How should Catholic teaching understand Keys, Rock, Strengthening, and Shepherding?",
+  "learningObjectives": [
+    "State a clear Catholic account of Keys, Rock, Strengthening, and Shepherding in the context of Papacy and Magisterium.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Keys, Rock, Strengthening, and Shepherding.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Keys, Rock, Strengthening, and Shepherding belongs to the Catholic account of Papacy and Magisterium. Distinguishes Petrine primacy, papal jurisdiction, infallibility, levels of teaching, assent, collegiality, synodality, and historical development. A sound answer coordinates biblical witness and authoritative teaching while marking historical, philosophical, scientific, disciplinary, and theological claims at their proper level.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Keys, Rock, Strengthening, and Shepherding"
+    },
+    {
+      "type": "paragraph",
+      "text": "Within Papacy and Magisterium, the question Keys, Rock, Strengthening, and Shepherding must be answered at the right level of authority. Distinguishes Petrine primacy, papal jurisdiction, infallibility, levels of teaching, assent, collegiality, synodality, and historical development. Scripture, ecclesial teaching, historical testimony, and specialist research contribute different kinds of evidence. The lesson therefore identifies which source establishes each premise and labels every interpretive step rather than presenting a synthesis as though it were a direct quotation.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Keys, Rock, Strengthening, and Shepherding are Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Magisterium, Petrine ministry, Infallibility control the reasoning in Keys, Rock, Strengthening, and Shepherding. A definition is useful only if it is applied consistently. The learner should identify the subject of each claim, distinguish analogous from univocal language where necessary, and resist moving from a word shared by two sources to an agreement those sources do not actually state.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Evidence"
+    },
+    {
+      "type": "paragraph",
+      "text": "Keys, Rock, Strengthening, and Shepherding takes its educational direction from Evidence: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. Within Papacy and Magisterium, the learner must use Magisterium, Petrine ministry, Infallibility with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Eastern Orthodox, Anglican, Protestant. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Keys, Rock, Strengthening, and Shepherding, Keys cannot remain an undefined slogan. State the proposition involving Keys, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Keys in Papacy and Magisterium must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Rock gives Keys, Rock, Strengthening, and Shepherding a concrete analytical task. In treating Rock, Keys, Rock, Strengthening, and Shepherding should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Rock within Papacy and Magisterium remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Keys, Rock, Strengthening, and Shepherding, Strengthening cannot remain an undefined slogan. State the proposition involving Strengthening, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Strengthening in Papacy and Magisterium must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Keys, Rock, Strengthening, and Shepherding, the focus on Shepherding fixes one part of the lesson's scope. Shepherding must be defined as it functions in Keys, Rock, Strengthening, and Shepherding, then supported by a source competent for that definition. Within Papacy and Magisterium, the learner should separate what the source states about Shepherding from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Keys, Rock, Strengthening, and Shepherding, recall apostolic succession. Papacy and Magisterium uses apostolic succession in this lesson. Link apostolic succession with primacy in Keys, Rock, Strengthening, and Shepherding. Classify every apostolic succession claim in Keys, Rock, Strengthening, and Shepherding. Check apostolic succession evidence for Papacy and Magisterium. Revise Keys, Rock, Strengthening, and Shepherding if apostolic succession remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Keys, Rock, Strengthening, and Shepherding, recall primacy. Papacy and Magisterium uses primacy in this lesson. Link primacy with episcopal college in Keys, Rock, Strengthening, and Shepherding. Classify every primacy claim in Keys, Rock, Strengthening, and Shepherding. Check primacy evidence for Papacy and Magisterium. Revise Keys, Rock, Strengthening, and Shepherding if primacy remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Keys, Rock, Strengthening, and Shepherding, recall episcopal college. Papacy and Magisterium uses episcopal college in this lesson. Link episcopal college with Distinctions in Keys, Rock, Strengthening, and Shepherding. Classify every episcopal college claim in Keys, Rock, Strengthening, and Shepherding. Check episcopal college evidence for Papacy and Magisterium. Revise Keys, Rock, Strengthening, and Shepherding if episcopal college remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Keys, Rock, Strengthening, and Shepherding, recall Distinctions. Papacy and Magisterium uses Distinctions in this lesson. Link Distinctions with Keys in Keys, Rock, Strengthening, and Shepherding. Classify every Distinctions claim in Keys, Rock, Strengthening, and Shepherding. Check Distinctions evidence for Papacy and Magisterium. Revise Keys, Rock, Strengthening, and Shepherding if Distinctions remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Keys, Rock, Strengthening, and Shepherding, recall Keys. Papacy and Magisterium uses Keys in this lesson. Link Keys with apostolic succession in Keys, Rock, Strengthening, and Shepherding. Classify every Keys claim in Keys, Rock, Strengthening, and Shepherding. Check Keys evidence for Papacy and Magisterium. Revise Keys, Rock, Strengthening, and Shepherding if Keys remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Keys, Rock, Strengthening, and Shepherding follows this approved curriculum purpose: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. This lesson focuses on keys, rock, strengthening, and shepherding. Within Keys, Rock, Strengthening, and Shepherding, that purpose limits the draft to the evidence and conclusions needed for Evidence.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Keys, Rock, Strengthening, and Shepherding prepares the learner for this mastery work: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. Success in Keys, Rock, Strengthening, and Shepherding therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Keys, Rock, Strengthening, and Shepherding carries a critical lesson review risk inside the critical risk profile for Papacy and Magisterium. The recorded reason for Papacy and Magisterium is dogmatic precision; primary-source and chronology verification; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Keys, Rock, Strengthening, and Shepherding cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Keys, Rock, Strengthening, and Shepherding must keep these classifications visible: dogma, doctrine, discipline, historical_claim. For Keys, Rock, Strengthening, and Shepherding, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Keys, Rock, Strengthening, and Shepherding uses the biblical path Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. Its Catholic synthesis is checked against CCC 748-945 and CCC 946-975 and sections 1-29 and 37, while Keys, Rock, Strengthening, and Shepherding reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Keys, Rock, Strengthening, and Shepherding names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.anglican.cofe-canons-a, src.reformed.westminster-confession set the descriptive boundary for Catholic in Keys, Rock, Strengthening, and Shepherding; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Keys, Rock, Strengthening, and Shepherding names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.anglican.cofe-canons-a, src.reformed.westminster-confession set the descriptive boundary for Eastern Orthodox in Keys, Rock, Strengthening, and Shepherding; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Keys, Rock, Strengthening, and Shepherding names Anglican rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.anglican.cofe-canons-a, src.reformed.westminster-confession set the descriptive boundary for Anglican in Keys, Rock, Strengthening, and Shepherding; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Keys, Rock, Strengthening, and Shepherding names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.anglican.cofe-canons-a, src.reformed.westminster-confession set the descriptive boundary for Protestant in Keys, Rock, Strengthening, and Shepherding; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The source path for Keys, Rock, Strengthening, and Shepherding is deliberately inspectable. Read CCC 748-945 and CCC 946-975 for the Catechism frame, then sections 1-29 and 37 for authoritative context. Compare Book III; apostolic tradition and succession and chapters on apostolic ministry and early ecclesial order without treating reception and modern analysis as the same evidence. Human source review must confirm every use.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.irenaeus.against-heresies",
+        "src.history.chadwick-early-church"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Keys, Rock, Strengthening, and Shepherding",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "The objection presses the burden of proof for Keys, Rock, Strengthening, and Shepherding: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+      "fairRepresentation": "A careful representative of Catholic, Eastern Orthodox, Anglican, Protestant may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+      "response": "In response, the lesson argues that Keys, Rock, Strengthening, and Shepherding is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.lumen-gentium",
+        "src.irenaeus.against-heresies",
+        "src.history.chadwick-early-church",
+        "src.orthodox.oca-faith",
+        "src.anglican.cofe-canons-a",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.papacy-magisterium.distinctions.02",
+        "les.papacy-magisterium.evidence.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "papacy",
+        "protestant"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Magisterium",
+      "definition": "The Church's living teaching office, exercised by the pope and bishops in communion, serving the word of God rather than standing above it.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Petrine ministry",
+      "definition": "The ministry of the bishop of Rome as successor of Peter, serving the Church's visible unity and confession of faith.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Infallibility",
+      "definition": "A charism preserving the Church from error under defined conditions when teaching definitively on faith or morals; it is not impeccability or omniscience.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 16:13-20",
+      "paraphrase": "Peter's confession, the promise concerning Christ's Church, and the imagery of keys and binding belong to one ecclesial scene.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Acts 15:1-29",
+      "paraphrase": "The Jerusalem gathering resolves a disputed missionary question through testimony, scriptural reasoning, apostolic deliberation, and a decision attributed to the Holy Spirit.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 4:1-16",
+      "paraphrase": "The Church receives one faith and diverse ministries so that the whole body may grow into mature unity in Christ.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 748-945",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Keys, Rock, Strengthening, and Shepherding; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 946-975",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Keys, Rock, Strengthening, and Shepherding and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 1-29 and 37",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Keys, Rock, Strengthening, and Shepherding must be assessed.",
+      "sourceId": "src.vatican2.lumen-gentium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Keys, Rock, Strengthening, and Shepherding must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.irenaeus.against-heresies",
+        "locator": "Book III; apostolic tradition and succession"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Keys, Rock, Strengthening, and Shepherding",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "The objection presses the burden of proof for Keys, Rock, Strengthening, and Shepherding: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+  "opposingPosition": "A careful representative of Catholic, Eastern Orthodox, Anglican, Protestant may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+  "catholicResponse": "In response, the lesson argues that Keys, Rock, Strengthening, and Shepherding is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Keys, Rock, Strengthening, and Shepherding as an isolated slogan instead of a question within Papacy and Magisterium.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Anglican, Protestant despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Keys, Rock, Strengthening, and Shepherding: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Keys, Rock, Strengthening, and Shepherding can be explained clearly without erasing complexity. The biblical evidence remains contextual, authoritative Catholic teaching remains properly classified, historical and scholarly claims remain reviewable, and comparative positions remain tradition-specific. This ordered account integrates Papacy and Magisterium with formation and mission.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Keys, Rock, Strengthening, and Shepherding without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.papacy-magisterium.evidence.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Keys, Rock, Strengthening, and Shepherding.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.papacy-magisterium.evidence.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Keys, Rock, Strengthening, and Shepherding in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Matthew 16:13-20; Acts 15:1-29; Ephesians 4:1-16",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 748-945; CCC 946-975",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.lumen-gentium",
+      "locator": "sections 1-29 and 37",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.irenaeus.against-heresies",
+      "locator": "Book III; apostolic tradition and succession",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.history.chadwick-early-church",
+      "locator": "chapters on apostolic ministry and early ecclesial order",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.anglican.cofe-canons-a",
+      "locator": "Canons A1-A5",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.papacy-magisterium.distinctions.02",
+    "les.papacy-magisterium.evidence.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "papacy",
+      "protestant"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Anglican",
+      "Protestant"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.papacy-and-magisterium.01",
+    "batchOrder": 5,
+    "contentHash": "9e8c43d28c858f8867dda4416389642d21642dcdf2de8a15eaa614d929233722",
+    "approximateWordCount": 3305
+  }
+}

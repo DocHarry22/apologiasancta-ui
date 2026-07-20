@@ -1,0 +1,549 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.councils-heresies.sources.02",
+  "phase3LessonId": "les.councils-heresies.sources.02",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.councils-heresies",
+  "groupId": "grp.councils-heresies.sources",
+  "title": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement",
+  "slug": "councils-and-heresies-sources-02",
+  "centralQuestion": "How should Catholic teaching understand Dogmatic Definition, Disciplinary Canon, and Historical Enforcement?",
+  "learningObjectives": [
+    "State a clear Catholic account of Dogmatic Definition, Disciplinary Canon, and Historical Enforcement in the context of Councils and Heresies.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement belongs to the Catholic account of Councils and Heresies. Maps major ecumenical councils, classical heresies, conciliar authority, canons, reception, and doctrinal development. A sound answer coordinates biblical witness and authoritative teaching while marking historical, philosophical, scientific, disciplinary, and theological claims at their proper level.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Dogmatic Definition, Disciplinary Canon, and Historical Enforcement"
+    },
+    {
+      "type": "paragraph",
+      "text": "To study Dogmatic Definition, Disciplinary Canon, and Historical Enforcement, begin with the concrete claims made under Councils and Heresies. Maps major ecumenical councils, classical heresies, conciliar authority, canons, reception, and doctrinal development. The task is neither a loose anthology of citations nor an appeal to authority without reasoning. It is an ordered account in which Scripture is interpreted, Magisterial teaching is classified, historical evidence is contextualised, and scholarship is used within its discipline.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "For the biblical dimension of Dogmatic Definition, Disciplinary Canon, and Historical Enforcement, consult Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. The stored summaries are deliberately not substitute Bible text. Their purpose is to direct close reading: establish the passage's immediate claim, test the connection to the lesson, and only then relate that claim to Catholic doctrine through the interpretive rules of Dei Verbum.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogma, Magisterium, Canon control the reasoning in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement. A definition is useful only if it is applied consistently. The learner should identify the subject of each claim, distinguish analogous from univocal language where necessary, and resist moving from a word shared by two sources to an agreement those sources do not actually state.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Primary Sources and Distinctions"
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement takes its educational direction from Primary Sources and Distinctions: Distinguish primary evidence, later interpretation, reception, and anachronistic claims. Within Councils and Heresies, the learner must use Dogma, Magisterium, Canon with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Eastern Orthodox, Oriental Orthodox, Assyrian Church of the East, Protestant. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Dogmatic Definition matters specifically to Dogmatic Definition, Disciplinary Canon, and Historical Enforcement. Ask first what Dogmatic Definition denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Dogmatic Definition under Councils and Heresies should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement uses Disciplinary Canon as a checkpoint for understanding. The learner should locate Disciplinary Canon in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Disciplinary Canon is disputed within Councils and Heresies, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Dogmatic Definition, Disciplinary Canon, and Historical Enforcement, Historical Enforcement cannot remain an undefined slogan. State the proposition involving Historical Enforcement, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Historical Enforcement in Councils and Heresies must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement uses Dogma as a checkpoint for understanding. The learner should locate Dogma in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Dogma is disputed within Councils and Heresies, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Dogmatic Definition, Disciplinary Canon, and Historical Enforcement, recall Magisterium. Councils and Heresies uses Magisterium in this lesson. Link Magisterium with Fathers in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement. Classify every Magisterium claim in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement. Check Magisterium evidence for Councils and Heresies. Revise Dogmatic Definition, Disciplinary Canon, and Historical Enforcement if Magisterium remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Dogmatic Definition, Disciplinary Canon, and Historical Enforcement, recall Fathers. Councils and Heresies uses Fathers in this lesson. Link Fathers with development of doctrine in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement. Classify every Fathers claim in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement. Check Fathers evidence for Councils and Heresies. Revise Dogmatic Definition, Disciplinary Canon, and Historical Enforcement if Fathers remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Dogmatic Definition, Disciplinary Canon, and Historical Enforcement, recall development of doctrine. Councils and Heresies uses development of doctrine in this lesson. Link development of doctrine with Historical Orientation in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement. Classify every development of doctrine claim in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement. Check development of doctrine evidence for Councils and Heresies. Revise Dogmatic Definition, Disciplinary Canon, and Historical Enforcement if development of doctrine remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Dogmatic Definition, Disciplinary Canon, and Historical Enforcement, recall Historical Orientation. Councils and Heresies uses Historical Orientation in this lesson. Link Historical Orientation with Dogmatic Definition in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement. Classify every Historical Orientation claim in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement. Check Historical Orientation evidence for Councils and Heresies. Revise Dogmatic Definition, Disciplinary Canon, and Historical Enforcement if Historical Orientation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Dogmatic Definition, Disciplinary Canon, and Historical Enforcement, recall Dogmatic Definition. Councils and Heresies uses Dogmatic Definition in this lesson. Link Dogmatic Definition with Magisterium in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement. Classify every Dogmatic Definition claim in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement. Check Dogmatic Definition evidence for Councils and Heresies. Revise Dogmatic Definition, Disciplinary Canon, and Historical Enforcement if Dogmatic Definition remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement follows this approved curriculum purpose: Distinguish primary evidence, later interpretation, reception, and anachronistic claims. This lesson focuses on dogmatic definition, disciplinary canon, and historical enforcement. Within Dogmatic Definition, Disciplinary Canon, and Historical Enforcement, that purpose limits the draft to the evidence and conclusions needed for Primary Sources and Distinctions.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement prepares the learner for this mastery work: Distinguish primary evidence, later interpretation, reception, and anachronistic claims. Success in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement carries a critical lesson review risk inside the critical risk profile for Councils and Heresies. The recorded reason for Councils and Heresies is dogmatic precision; primary-source and chronology verification; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Dogmatic Definition, Disciplinary Canon, and Historical Enforcement cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement must keep these classifications visible: dogma, doctrine, discipline, historical_claim. For Dogmatic Definition, Disciplinary Canon, and Historical Enforcement, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement uses the biblical path Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. Its Catholic synthesis is checked against CCC 74-100 and CCC 817-870 and sections 8, 18-27, and 39-51, while Dogmatic Definition, Disciplinary Canon, and Historical Enforcement reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Catholic in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Eastern Orthodox in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement names Oriental Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Oriental Orthodox in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement names Assyrian Church of the East rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Assyrian Church of the East in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Protestant in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Dogmatic Definition, Disciplinary Canon, and Historical Enforcement, the documentary route begins with CCC 74-100 and CCC 817-870; the Magisterial control is sections 8, 18-27, and 39-51. Historical reception is checked at book and chapter identified by the historical question, and specialist analysis at chapter identified by the historical question. These locators make the draft auditable, while exact semantic fit and edition remain gates for named human review.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.eusebius.church-history",
+        "src.history.chadwick-early-church"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Dogmatic Definition, Disciplinary Canon, and Historical Enforcement",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "The objection presses the burden of proof for Dogmatic Definition, Disciplinary Canon, and Historical Enforcement: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+      "fairRepresentation": "A careful representative of Catholic, Eastern Orthodox, Oriental Orthodox, Assyrian Church of the East, Protestant may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+      "response": "The Catholic response to Dogmatic Definition, Disciplinary Canon, and Historical Enforcement is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.lumen-gentium",
+        "src.eusebius.church-history",
+        "src.history.chadwick-early-church",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.councils-heresies.sources.01",
+        "les.councils-heresies.development.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "christology",
+        "trinity",
+        "papacy",
+        "historical"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Dogma",
+      "definition": "A truth contained in divine revelation, or necessarily connected with it, that the Church proposes definitively for belief.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Magisterium",
+      "definition": "The Church's living teaching office, exercised by the pope and bishops in communion, serving the word of God rather than standing above it.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Canon",
+      "definition": "The normative list of books received by the Church as Sacred Scripture; canon, textual form, translation, and lectionary are related but distinct.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 16:13-20",
+      "paraphrase": "Peter's confession, the promise concerning Christ's Church, and the imagery of keys and binding belong to one ecclesial scene.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Acts 15:1-29",
+      "paraphrase": "The Jerusalem gathering resolves a disputed missionary question through testimony, scriptural reasoning, apostolic deliberation, and a decision attributed to the Holy Spirit.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 4:1-16",
+      "paraphrase": "The Church receives one faith and diverse ministries so that the whole body may grow into mature unity in Christ.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 74-100",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Dogmatic Definition, Disciplinary Canon, and Historical Enforcement; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 817-870",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Dogmatic Definition, Disciplinary Canon, and Historical Enforcement and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 8, 18-27, and 39-51",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Dogmatic Definition, Disciplinary Canon, and Historical Enforcement must be assessed.",
+      "sourceId": "src.vatican2.lumen-gentium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Dogmatic Definition, Disciplinary Canon, and Historical Enforcement must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.eusebius.church-history",
+        "locator": "book and chapter identified by the historical question"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "The objection presses the burden of proof for Dogmatic Definition, Disciplinary Canon, and Historical Enforcement: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+  "opposingPosition": "A careful representative of Catholic, Eastern Orthodox, Oriental Orthodox, Assyrian Church of the East, Protestant may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+  "catholicResponse": "The Catholic response to Dogmatic Definition, Disciplinary Canon, and Historical Enforcement is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+  "commonMistakes": [
+    "Treating Dogmatic Definition, Disciplinary Canon, and Historical Enforcement as an isolated slogan instead of a question within Councils and Heresies.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Oriental Orthodox, Assyrian Church of the East, Protestant despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Dogmatic Definition, Disciplinary Canon, and Historical Enforcement: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Dogmatic Definition, Disciplinary Canon, and Historical Enforcement teaches more than a conclusion. It teaches how Councils and Heresies distinguishes source from interpretation, doctrine from discipline or opinion, and another tradition's self-description from Catholic evaluation. Those habits prepare the learner for accurate explanation, prayerful reception, and accountable review.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Dogmatic Definition, Disciplinary Canon, and Historical Enforcement without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.councils-heresies.sources.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Dogmatic Definition, Disciplinary Canon, and Historical Enforcement.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.councils-heresies.sources.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain Dogmatic Definition, Disciplinary Canon, and Historical Enforcement in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Matthew 16:13-20; Acts 15:1-29; Ephesians 4:1-16",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 74-100; CCC 817-870",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.lumen-gentium",
+      "locator": "sections 8, 18-27, and 39-51",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.eusebius.church-history",
+      "locator": "book and chapter identified by the historical question",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.history.chadwick-early-church",
+      "locator": "chapter identified by the historical question",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.councils-heresies.sources.01",
+    "les.councils-heresies.development.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "christology",
+      "trinity",
+      "papacy",
+      "historical"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Oriental Orthodox",
+      "Assyrian Church of the East",
+      "Protestant"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.councils-and-heresies.01",
+    "batchOrder": 4,
+    "contentHash": "ec44445c6235d3b4f9ddc7339ce993eabb6a7804b99923e6c8158103573d27be",
+    "approximateWordCount": 3521
+  }
+}

@@ -1,0 +1,523 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.life-bioethics.evidence.01",
+  "phase3LessonId": "les.life-bioethics.evidence.01",
+  "programmeId": "prog.moral-spiritual",
+  "subjectId": "subj.life-bioethics",
+  "groupId": "grp.life-bioethics.evidence",
+  "title": "Scripture, Incarnation, and the Least of These",
+  "slug": "human-life-and-bioethics-evidence-01",
+  "centralQuestion": "How should Catholic teaching understand Scripture, Incarnation, and the Least of These?",
+  "learningObjectives": [
+    "State a clear Catholic account of Scripture, Incarnation, and the Least of These in the context of Human Life and Bioethics.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Scripture, Incarnation, and the Least of These.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Scripture, Incarnation, and the Least of These belongs to the Catholic account of Human Life and Bioethics. Applies human dignity, natural law, ordinary and extraordinary care, double effect, and solidarity to life, medicine, technology, and death. A sound answer coordinates biblical witness and authoritative teaching while marking historical, philosophical, scientific, disciplinary, and theological claims at their proper level.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Scripture, Incarnation, and the Least of These"
+    },
+    {
+      "type": "paragraph",
+      "text": "Within Human Life and Bioethics, the question Scripture, Incarnation, and the Least of These must be answered at the right level of authority. Applies human dignity, natural law, ordinary and extraordinary care, double effect, and solidarity to life, medicine, technology, and death. Scripture, ecclesial teaching, historical testimony, and specialist research contribute different kinds of evidence. The lesson therefore identifies which source establishes each premise and labels every interpretive step rather than presenting a synthesis as though it were a direct quotation.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Scripture, Incarnation, and the Least of These are Genesis 1:26-31, Psalm 139:1-18, Matthew 25:31-46. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Sacred Scripture, Incarnation, Human dignity, Solidarity control the reasoning in Scripture, Incarnation, and the Least of These. A definition is useful only if it is applied consistently. The learner should identify the subject of each claim, distinguish analogous from univocal language where necessary, and resist moving from a word shared by two sources to an agreement those sources do not actually state.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Evidence"
+    },
+    {
+      "type": "paragraph",
+      "text": "Scripture, Incarnation, and the Least of These takes its educational direction from Evidence: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. Within Human Life and Bioethics, the learner must use Sacred Scripture, Incarnation, Human dignity, Solidarity with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, secular bioethics, other Christian bioethics. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Scripture, Incarnation, and the Least of These, Scripture cannot remain an undefined slogan. State the proposition involving Scripture, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Scripture in Human Life and Bioethics must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Incarnation gives Scripture, Incarnation, and the Least of These a concrete analytical task. In treating Incarnation, Scripture, Incarnation, and the Least of These should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Incarnation within Human Life and Bioethics remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Scripture, Incarnation, and the Least of These, the Least of These cannot remain an undefined slogan. State the proposition involving the Least of These, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of the Least of These in Human Life and Bioethics must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Scripture, Incarnation, and the Least of These, the focus on Sacred Scripture fixes one part of the lesson's scope. Sacred Scripture must be defined as it functions in Scripture, Incarnation, and the Least of These, then supported by a source competent for that definition. Within Human Life and Bioethics, the learner should separate what the source states about Sacred Scripture from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Scripture, Incarnation, and the Least of These, recall human dignity. Human Life and Bioethics uses human dignity in this lesson. Link human dignity with moral object in Scripture, Incarnation, and the Least of These. Classify every human dignity claim in Scripture, Incarnation, and the Least of These. Check human dignity evidence for Human Life and Bioethics. Revise Scripture, Incarnation, and the Least of These if human dignity remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Scripture, Incarnation, and the Least of These, recall moral object. Human Life and Bioethics uses moral object in this lesson. Link moral object with double effect in Scripture, Incarnation, and the Least of These. Classify every moral object claim in Scripture, Incarnation, and the Least of These. Check moral object evidence for Human Life and Bioethics. Revise Scripture, Incarnation, and the Least of These if moral object remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Scripture, Incarnation, and the Least of These, recall double effect. Human Life and Bioethics uses double effect in this lesson. Link double effect with cooperation in Scripture, Incarnation, and the Least of These. Classify every double effect claim in Scripture, Incarnation, and the Least of These. Check double effect evidence for Human Life and Bioethics. Revise Scripture, Incarnation, and the Least of These if double effect remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Scripture, Incarnation, and the Least of These, recall cooperation. Human Life and Bioethics uses cooperation in this lesson. Link cooperation with Distinctions in Scripture, Incarnation, and the Least of These. Classify every cooperation claim in Scripture, Incarnation, and the Least of These. Check cooperation evidence for Human Life and Bioethics. Revise Scripture, Incarnation, and the Least of These if cooperation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Scripture, Incarnation, and the Least of These, recall Distinctions. Human Life and Bioethics uses Distinctions in this lesson. Link Distinctions with human dignity in Scripture, Incarnation, and the Least of These. Classify every Distinctions claim in Scripture, Incarnation, and the Least of These. Check Distinctions evidence for Human Life and Bioethics. Revise Scripture, Incarnation, and the Least of These if Distinctions remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Scripture, Incarnation, and the Least of These follows this approved curriculum purpose: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. This lesson focuses on scripture, incarnation, and the least of these. Within Scripture, Incarnation, and the Least of These, that purpose limits the draft to the evidence and conclusions needed for Evidence.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Scripture, Incarnation, and the Least of These prepares the learner for this mastery work: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. Success in Scripture, Incarnation, and the Least of These therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Scripture, Incarnation, and the Least of These carries a critical lesson review risk inside the critical risk profile for Human Life and Bioethics. The recorded reason for Human Life and Bioethics is current scientific review; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Scripture, Incarnation, and the Least of These cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Scripture, Incarnation, and the Least of These must keep these classifications visible: doctrine, discipline, theological_opinion, scientific_claim. For Scripture, Incarnation, and the Least of These, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Scripture, Incarnation, and the Least of These uses the biblical path Genesis 1:26-31, Psalm 139:1-18, Matthew 25:31-46. Its Catholic synthesis is checked against CCC 2258-2330 and CCC 2270-2296 and sections 7-32 and 47-62, while Scripture, Incarnation, and the Least of These reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Scripture, Incarnation, and the Least of These names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for Catholic in Scripture, Incarnation, and the Least of These; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Scripture, Incarnation, and the Least of These names secular bioethics rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for secular bioethics in Scripture, Incarnation, and the Least of These; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Scripture, Incarnation, and the Least of These names other Christian bioethics rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for other Christian bioethics in Scripture, Incarnation, and the Least of These; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The source path for Scripture, Incarnation, and the Least of These is deliberately inspectable. Read CCC 2258-2330 and CCC 2270-2296 for the Catechism frame, then sections 7-32 and 47-62 for authoritative context. Compare chapters 1-2 and sections 12-27 and 51 without treating reception and modern analysis as the same evidence. Human source review must confirm every use.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita",
+        "src.didache",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Scripture, Incarnation, and the Least of These",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "The objection presses the burden of proof for Scripture, Incarnation, and the Least of These: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+      "fairRepresentation": "A careful representative of Catholic, secular bioethics, other Christian bioethics may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+      "response": "In response, the lesson argues that Scripture, Incarnation, and the Least of These is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.ddf.dignitas-infinita",
+        "src.didache",
+        "src.vatican2.gaudium-et-spes",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.life-bioethics.distinctions.02",
+        "les.life-bioethics.evidence.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "secular"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Sacred Scripture",
+      "definition": "The inspired canonical writings received by the Church as the word of God in human words.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "term": "Incarnation",
+      "definition": "The eternal Son's assumption of a complete human nature without ceasing to be divine.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "term": "Human dignity",
+      "definition": "The inherent worth of every human person, grounded in creation in God's image and fulfilled in the call to communion with God.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "term": "Solidarity",
+      "definition": "A stable commitment to the good of each and all because human persons are mutually responsible.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.ddf.dignitas-infinita"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Genesis 1:26-31",
+      "paraphrase": "Human beings, male and female, are created in God's image and receive creaturely responsibility within a creation declared good.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Psalm 139:1-18",
+      "paraphrase": "The psalmist prays from the conviction that God's knowledge and care embrace the whole embodied life, including hidden beginnings.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 25:31-46",
+      "paraphrase": "Christ identifies service or neglect of vulnerable persons with a response made to him, giving ordinary acts grave moral significance.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 2258-2330",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Scripture, Incarnation, and the Least of These; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 2270-2296",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Scripture, Incarnation, and the Least of These and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 7-32 and 47-62",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Scripture, Incarnation, and the Least of These must be assessed.",
+      "sourceId": "src.ddf.dignitas-infinita",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Scripture, Incarnation, and the Least of These must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.didache",
+        "locator": "chapters 1-2"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Scripture, Incarnation, and the Least of These",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "The objection presses the burden of proof for Scripture, Incarnation, and the Least of These: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+  "opposingPosition": "A careful representative of Catholic, secular bioethics, other Christian bioethics may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+  "catholicResponse": "In response, the lesson argues that Scripture, Incarnation, and the Least of These is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Scripture, Incarnation, and the Least of These as an isolated slogan instead of a question within Human Life and Bioethics.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, secular bioethics, other Christian bioethics despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Scripture, Incarnation, and the Least of These: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Scripture, Incarnation, and the Least of These can be explained clearly without erasing complexity. The biblical evidence remains contextual, authoritative Catholic teaching remains properly classified, historical and scholarly claims remain reviewable, and comparative positions remain tradition-specific. This ordered account integrates Human Life and Bioethics with formation and mission.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Scripture, Incarnation, and the Least of These without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.life-bioethics.evidence.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Scripture, Incarnation, and the Least of These.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.life-bioethics.evidence.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Scripture, Incarnation, and the Least of These in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Genesis 1:26-31; Psalm 139:1-18; Matthew 25:31-46",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 2258-2330; CCC 2270-2296",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.ddf.dignitas-infinita",
+      "locator": "sections 7-32 and 47-62",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.didache",
+      "locator": "chapters 1-2",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.gaudium-et-spes",
+      "locator": "sections 12-27 and 51",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.secular.representative-sources",
+      "locator": "named argument or declaration identified by the lesson topic",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.life-bioethics.distinctions.02",
+    "les.life-bioethics.evidence.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "secular"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine",
+      "discipline",
+      "theological_opinion",
+      "scientific_claim"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "secular bioethics",
+      "other Christian bioethics"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.human-life-and-bioethics.01",
+    "batchOrder": 5,
+    "contentHash": "baeb3efe8d2fbf3c291f1c9c91df8d1c014b8140bad3f087d30b37c7f2e2aae4",
+    "approximateWordCount": 3307
+  }
+}

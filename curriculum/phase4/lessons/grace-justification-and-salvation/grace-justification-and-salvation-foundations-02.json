@@ -1,0 +1,568 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.grace-justification-salvation.foundations.02",
+  "phase3LessonId": "les.grace-justification-salvation.foundations.02",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.grace-justification-salvation",
+  "groupId": "grp.grace-justification-salvation.foundations",
+  "title": "Justification and New Life in Christ",
+  "slug": "grace-justification-and-salvation-foundations-02",
+  "centralQuestion": "How should Catholic teaching understand Justification and New Life in Christ?",
+  "learningObjectives": [
+    "State a clear Catholic account of Justification and New Life in Christ in the context of Grace, Justification, and Salvation.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Justification and New Life in Christ.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Grace, Justification, and Salvation supplies the frame for Justification and New Life in Christ: Examines original sin, prevenient grace, justification, sanctification, merit, perseverance, predestination, assurance, and final salvation. Catholic teaching gives the doctrinal conclusion with its authority, the reasons supporting it, the limits of those reasons, and the practical response asked of the learner.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Justification and New Life in Christ"
+    },
+    {
+      "type": "paragraph",
+      "text": "The approved curriculum places Justification and New Life in Christ inside Grace, Justification, and Salvation, whose scope is this: Examines original sin, prevenient grace, justification, sanctification, merit, perseverance, predestination, assurance, and final salvation. A reliable Catholic explanation assigns biblical, doctrinal, historical, philosophical, and scientific statements to the proper source. It then discloses the inference joining those statements. That transparency is part of the lesson's substance, not only an editorial note.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Justification and New Life in Christ are Romans 3:21-31, Ephesians 2:1-10, James 2:14-26. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Justification and New Life in Christ cannot be explained responsibly until Grace, Justification, Merit, Sin are distinguished. The definitions organise the evidence and determine what would count as a valid objection. They also prevent a translation choice, popular usage, or polemical shorthand from silently replacing the Church's intended technical sense.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Foundations"
+    },
+    {
+      "type": "paragraph",
+      "text": "Justification and New Life in Christ takes its educational direction from Foundations: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. Within Grace, Justification, and Salvation, the learner must use Grace, Justification, Merit, Sin with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Lutheran, Reformed, Wesleyan, Eastern Orthodox. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.methodist.articles-religion",
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Justification gives Justification and New Life in Christ a concrete analytical task. In treating Justification, Justification and New Life in Christ should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Justification within Grace, Justification, and Salvation remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "New Life in Christ gives Justification and New Life in Christ a concrete analytical task. In treating New Life in Christ, Justification and New Life in Christ should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of New Life in Christ within Grace, Justification, and Salvation remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Grace matters specifically to Justification and New Life in Christ. Ask first what Grace denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Grace under Grace, Justification, and Salvation should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Merit matters specifically to Justification and New Life in Christ. Ask first what Merit denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Merit under Grace, Justification, and Salvation should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Justification and New Life in Christ, recall redemption. Grace, Justification, and Salvation uses redemption in this lesson. Link redemption with grace in Justification and New Life in Christ. Classify every redemption claim in Justification and New Life in Christ. Check redemption evidence for Grace, Justification, and Salvation. Revise Justification and New Life in Christ if redemption remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Justification and New Life in Christ, recall grace. Grace, Justification, and Salvation uses grace in this lesson. Link grace with faith and charity in Justification and New Life in Christ. Classify every grace claim in Justification and New Life in Christ. Check grace evidence for Grace, Justification, and Salvation. Revise Justification and New Life in Christ if grace remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Justification and New Life in Christ, recall faith and charity. Grace, Justification, and Salvation uses faith and charity in this lesson. Link faith and charity with Justification in Justification and New Life in Christ. Classify every faith and charity claim in Justification and New Life in Christ. Check faith and charity evidence for Grace, Justification, and Salvation. Revise Justification and New Life in Christ if faith and charity remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Justification and New Life in Christ, recall Justification. Grace, Justification, and Salvation uses Justification in this lesson. Link Justification with New Life in Christ in Justification and New Life in Christ. Classify every Justification claim in Justification and New Life in Christ. Check Justification evidence for Grace, Justification, and Salvation. Revise Justification and New Life in Christ if Justification remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Justification and New Life in Christ, recall New Life in Christ. Grace, Justification, and Salvation uses New Life in Christ in this lesson. Link New Life in Christ with redemption in Justification and New Life in Christ. Classify every New Life in Christ claim in Justification and New Life in Christ. Check New Life in Christ evidence for Grace, Justification, and Salvation. Revise Justification and New Life in Christ if New Life in Christ remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Justification and New Life in Christ follows this approved curriculum purpose: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. This lesson focuses on justification and new life in christ. Within Justification and New Life in Christ, that purpose limits the draft to the evidence and conclusions needed for Foundations.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Justification and New Life in Christ prepares the learner for this mastery work: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. Success in Justification and New Life in Christ therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Justification and New Life in Christ carries a critical lesson review risk inside the critical risk profile for Grace, Justification, and Salvation. The recorded reason for Grace, Justification, and Salvation is dogmatic precision; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Justification and New Life in Christ cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Justification and New Life in Christ must keep these classifications visible: dogma, doctrine, theological_opinion. For Justification and New Life in Christ, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Justification and New Life in Christ uses the biblical path Romans 3:21-31, Ephesians 2:1-10, James 2:14-26. Its Catholic synthesis is checked against CCC 1987-2029 and CCC 2030-2051 and section 5, while Justification and New Life in Christ reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Justification and New Life in Christ names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.methodist.articles-religion, src.orthodox.oca-faith set the descriptive boundary for Catholic in Justification and New Life in Christ; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.methodist.articles-religion",
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Justification and New Life in Christ names Lutheran rather than assigning a generic non-Catholic position. The relevant controls among src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.methodist.articles-religion, src.orthodox.oca-faith set the descriptive boundary for Lutheran in Justification and New Life in Christ; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.methodist.articles-religion",
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Justification and New Life in Christ names Reformed rather than assigning a generic non-Catholic position. The relevant controls among src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.methodist.articles-religion, src.orthodox.oca-faith set the descriptive boundary for Reformed in Justification and New Life in Christ; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.methodist.articles-religion",
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Justification and New Life in Christ names Wesleyan rather than assigning a generic non-Catholic position. The relevant controls among src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.methodist.articles-religion, src.orthodox.oca-faith set the descriptive boundary for Wesleyan in Justification and New Life in Christ; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.methodist.articles-religion",
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Justification and New Life in Christ names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.methodist.articles-religion, src.orthodox.oca-faith set the descriptive boundary for Eastern Orthodox in Justification and New Life in Christ; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.methodist.articles-religion",
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "To audit Justification and New Life in Christ, follow the locators rather than trusting the summary: CCC 1987-2029 and CCC 2030-2051; section 5; Book I; grace, love, and the Christian end; and Orange II and Trent, Decree on Justification. Each source should support the precise sentence for which it is cited. Edition, translation, context, and attribution remain explicit items for the review queue.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.augustine.christian-doctrine",
+        "src.conciliar.tanner-decrees"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Justification and New Life in Christ",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "The sharpest challenge to Justification and New Life in Christ is methodological: if Scripture, history, and Magisterium are disputed, does the lesson merely assume the ecclesiology needed to win the argument?",
+      "fairRepresentation": "Catholic, Lutheran, Reformed, Wesleyan, Eastern Orthodox includes positions that can differ sharply from one another. A fair alternative reading of Justification and New Life in Christ may prioritise a different canon, rule of faith, philosophical account, or historical reconstruction. It should be stated from a source its own advocates recognise, with internal variation named rather than suppressed.",
+      "response": "In response, the lesson argues that Justification and New Life in Christ is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.augustine.christian-doctrine",
+        "src.conciliar.tanner-decrees",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.methodist.articles-religion",
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.grace-justification-salvation.foundations.01",
+        "les.grace-justification-salvation.distinctions.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "protestant"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Grace",
+      "definition": "God's free and undeserved gift of divine life and help, healing and elevating the human person.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "term": "Justification",
+      "definition": "God's gracious forgiveness and interior renewal by which a sinner is made righteous in Christ.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "term": "Merit",
+      "definition": "The graced fittingness of reward for actions performed in Christ; it never makes God's first gift a human entitlement.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "term": "Sin",
+      "definition": "A culpable offence against reason, truth, and right conscience that wounds love of God and neighbour.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Romans 3:21-31",
+      "paraphrase": "Paul locates justification in God's grace and Christ's redeeming work, excluding boasting while refusing to make God's law meaningless.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 2:1-10",
+      "paraphrase": "Salvation is God's gracious gift rather than a human achievement, and the saved are recreated in Christ for the good works God intends.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "James 2:14-26",
+      "paraphrase": "James rejects a claim to faith that remains barren; living faith is shown in obedient action rather than replaced by it.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1987-2029",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Justification and New Life in Christ; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 2030-2051",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Justification and New Life in Christ and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "section 5",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Justification and New Life in Christ must be assessed.",
+      "sourceId": "src.vatican2.dei-verbum",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Justification and New Life in Christ must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.augustine.christian-doctrine",
+        "locator": "Book I; grace, love, and the Christian end"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Justification and New Life in Christ",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "The sharpest challenge to Justification and New Life in Christ is methodological: if Scripture, history, and Magisterium are disputed, does the lesson merely assume the ecclesiology needed to win the argument?",
+  "opposingPosition": "Catholic, Lutheran, Reformed, Wesleyan, Eastern Orthodox includes positions that can differ sharply from one another. A fair alternative reading of Justification and New Life in Christ may prioritise a different canon, rule of faith, philosophical account, or historical reconstruction. It should be stated from a source its own advocates recognise, with internal variation named rather than suppressed.",
+  "catholicResponse": "In response, the lesson argues that Justification and New Life in Christ is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Justification and New Life in Christ as an isolated slogan instead of a question within Grace, Justification, and Salvation.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Lutheran, Reformed, Wesleyan, Eastern Orthodox despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Justification and New Life in Christ: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "In summary, Justification and New Life in Christ is answered by ordering evidence rather than accumulating quotations. Grace, Justification, and Salvation supplies the doctrinal horizon; the assigned sources establish biblical, ecclesial, historical, and specialist premises. Fair scope and explicit inference keep the Catholic response both confident and corrigible where claims remain non-definitive.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Justification and New Life in Christ without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.grace-justification-salvation.foundations.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Justification and New Life in Christ.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.grace-justification-salvation.foundations.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain Justification and New Life in Christ in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Romans 3:21-31; Ephesians 2:1-10; James 2:14-26",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 1987-2029; CCC 2030-2051",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "section 5",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.augustine.christian-doctrine",
+      "locator": "Book I; grace, love, and the Christian end",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "locator": "Orange II and Trent, Decree on Justification",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.lutheran.augsburg-confession",
+      "locator": "Articles IV-V, VII-XIV, XX, and XXVIII as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.methodist.articles-religion",
+      "locator": "Articles I-XXV, with the lesson-relevant article identified during comparative review",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.grace-justification-salvation.foundations.01",
+    "les.grace-justification-salvation.distinctions.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "protestant"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "theological_opinion"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Lutheran",
+      "Reformed",
+      "Wesleyan",
+      "Eastern Orthodox"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.grace-justification-and-salvation.01",
+    "batchOrder": 2,
+    "contentHash": "9f56cd23bf7defebd5e9ac5ad3b010fb5cea0273efbce27b033346d3e0ea1b93",
+    "approximateWordCount": 3571
+  }
+}

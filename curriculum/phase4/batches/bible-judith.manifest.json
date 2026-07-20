@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-judith.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.judith",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.judith.context.01",
+    "les.bible.judith.structure.01",
+    "les.bible.judith.theology.01",
+    "les.bible.judith.difficult-texts.01",
+    "les.bible.judith.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.judith.context.01": "02fba2d612aeb2bee73e6ffa645cac64d8fc913324407142874cca1924b1ba2b",
+    "les.bible.judith.structure.01": "5f99e797c8a8a83798cc55df403755298366f6ca95a7253464a2e5b56d15802d",
+    "les.bible.judith.theology.01": "0e38da4f13a1256c35e2960c5778a9ae3670ea434b95e8ca5b31aaac393dab21",
+    "les.bible.judith.difficult-texts.01": "b9d6492ec0da7cb44962441143670a721f691ed23b526289cb2bbad587d0e22e",
+    "les.bible.judith.synthesis.01": "c0ff1576d95e90f0e3f89853eb06a449cee4e9f1ed39c2363c2cc5a9bb480cf1"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

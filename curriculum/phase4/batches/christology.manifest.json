@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.christology.01",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.christology",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.christology.foundations.01",
+    "les.christology.foundations.02",
+    "les.christology.distinctions.01",
+    "les.christology.distinctions.02",
+    "les.christology.evidence.01",
+    "les.christology.evidence.02",
+    "les.christology.objections.01",
+    "les.christology.objections.02",
+    "les.christology.synthesis.01",
+    "les.christology.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.christology.foundations.01": "fc4fdb33feaa8fa7157aad8d0ad77d22415277a30a3ade19e21ba1afb947b3b9",
+    "les.christology.foundations.02": "7eafe9bef71c05d19dfef53995e1646076b52d3eaae9d352db3e60fd372c9e81",
+    "les.christology.distinctions.01": "ca90b1980371c5375e4dbf62c5753347f20264ca184843991ef76305d4f0d5c7",
+    "les.christology.distinctions.02": "f9cac654e285367279aa6ec2f4ee803222e042d4e815a2be1881892204dfd577",
+    "les.christology.evidence.01": "5bc88fc23089eeed979293ccc9184265e36265abce47a2c7ed17dcd9dc7d3e1e",
+    "les.christology.evidence.02": "8c18766c2a29c57dedb60db14ab79d47993e75d0aa1f6fa00edacef8a2df87f6",
+    "les.christology.objections.01": "b2bbe170c4cb74c1e5064c643b71f11db5db20d98a91d84b1b610fb9982b6a2f",
+    "les.christology.objections.02": "c3cd86c4f19bda0c8862d7747a6491c9636dbccf7e71c2b609286349d39e7b4d",
+    "les.christology.synthesis.01": "63843c213aa6ea36c36d9c93535a12beedcdbe778ae13ff983f1228a394b0193",
+    "les.christology.synthesis.02": "296a6b6109444eb13b3f5f80e93bccd596c0dddafd6e7913dec978cfd0590da7"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

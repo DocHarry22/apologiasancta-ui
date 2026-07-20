@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-song-of-songs.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.song-of-songs",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.song-of-songs.context.01",
+    "les.bible.song-of-songs.structure.01",
+    "les.bible.song-of-songs.theology.01",
+    "les.bible.song-of-songs.difficult-texts.01",
+    "les.bible.song-of-songs.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.song-of-songs.context.01": "bdd385cd908b7a97c99bd7c1ede1e61f99a828c424b58babbe9ecfd77630f78f",
+    "les.bible.song-of-songs.structure.01": "3af0eaa1c8aaa40324c3eb0668013c02572865461a45e9d03a5ad3440d6fe585",
+    "les.bible.song-of-songs.theology.01": "da2b87abbf1afaa2327a011f35d54946217ec687941d53343776f19688547101",
+    "les.bible.song-of-songs.difficult-texts.01": "c367b65421a14da79ff25dc84bd378f699830594ffdb5d79d9d78e175cf20115",
+    "les.bible.song-of-songs.synthesis.01": "4b3ca283d54084fc50fdb521d776d61e297e321703c1261a4b073b46e449672a"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-philippians.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.philippians",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.philippians.context.01",
+    "les.bible.philippians.structure.01",
+    "les.bible.philippians.theology.01",
+    "les.bible.philippians.difficult-texts.01",
+    "les.bible.philippians.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.philippians.context.01": "0752babd17edabc1270e87e5df1219172f51353585dc2e7268de65af6aebb2b3",
+    "les.bible.philippians.structure.01": "d7ef9a4dbaffcf14b5648ff36cfaabc2af2b389fdcc42f62c1f2fa52d847371a",
+    "les.bible.philippians.theology.01": "959b110030cc3167a4340f6c05f9c2c9a1ed4216f5a37d14986839f556c6c197",
+    "les.bible.philippians.difficult-texts.01": "5f3dfce4d666ca478ebf5371e99571de6f634b4f73eb9ffdd417438b02097a84",
+    "les.bible.philippians.synthesis.01": "30c84c260ac0ea9e01a844f4da77f658e7a14911a91d79f4addf734c095d5972"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

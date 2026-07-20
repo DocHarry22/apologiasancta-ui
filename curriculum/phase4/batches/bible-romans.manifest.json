@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-romans.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.romans",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.romans.context.01",
+    "les.bible.romans.structure.01",
+    "les.bible.romans.theology.01",
+    "les.bible.romans.difficult-texts.01",
+    "les.bible.romans.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.romans.context.01": "a091c211ead5e5dd104cea246c6d0fcb378b139236f12691f6e31034912959df",
+    "les.bible.romans.structure.01": "be1583b9092116373bade2523ac7773d500261ca129e20a0bd707d6b8c496e7d",
+    "les.bible.romans.theology.01": "06aaf95b747a0df153137195bfabd7b0e49581605b779d9c6a0e7793d247cd16",
+    "les.bible.romans.difficult-texts.01": "cdb0fb921b653b7d05bcd770eb72916b28718cf15fd3e7ed4d2b4768d601af3c",
+    "les.bible.romans.synthesis.01": "0076c4ca6927023ec65ab1d40e507cf2b4690e2c3724efcc9f7249191bf457f5"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

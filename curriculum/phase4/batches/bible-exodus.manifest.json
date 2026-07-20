@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-exodus.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.exodus",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.exodus.context.01",
+    "les.bible.exodus.structure.01",
+    "les.bible.exodus.theology.01",
+    "les.bible.exodus.difficult-texts.01",
+    "les.bible.exodus.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.exodus.context.01": "72cb68b098f84fd53fd8d23e1276286cc3c1cf82faf7249b4affb2ec579acc24",
+    "les.bible.exodus.structure.01": "88cf168f38f1d9d97bd4403719e984e72b61f1a3756b9123a9f86e183642c59c",
+    "les.bible.exodus.theology.01": "7953dde09b50178054f8f555cd2768be77221a31c1fa163115ba8acccbe60e87",
+    "les.bible.exodus.difficult-texts.01": "c2e3cc28db026fbb5209239513ada63e303fa745f09c500ad7e796b70d31543b",
+    "les.bible.exodus.synthesis.01": "93158ca630fc994c922ecc0463a45ee69c469bca951772a2ce8cfc9afa94bbc3"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

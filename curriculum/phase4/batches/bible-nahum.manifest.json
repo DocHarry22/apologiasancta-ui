@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-nahum.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.nahum",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.nahum.context.01",
+    "les.bible.nahum.structure.01",
+    "les.bible.nahum.theology.01",
+    "les.bible.nahum.difficult-texts.01",
+    "les.bible.nahum.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.nahum.context.01": "be8a5557676f48b4c4487b0f0d9756e6f4136bf3589f559ce878033e28710317",
+    "les.bible.nahum.structure.01": "124ff8bb8410ed1812271ccf3a64f592d2401028183de9b3642cfbd2a7ca3bbb",
+    "les.bible.nahum.theology.01": "fed25c7fef345e13f11a656848ced065996d2f187b0b83fbff4c7cafe51a61a8",
+    "les.bible.nahum.difficult-texts.01": "ec76224cc14d8c8ec2a53b49fddcac553a2bce3711c106a829570e904c317ddc",
+    "les.bible.nahum.synthesis.01": "c97570fda63c9cd547055093be227ed3183dffec24bfb56748d6d7b05f305e76"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,541 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.eschatology.distinctions.02",
+  "phase3LessonId": "les.eschatology.distinctions.02",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.eschatology",
+  "groupId": "grp.eschatology.distinctions",
+  "title": "Dogma, Apocalyptic Symbol, and Speculative Timelines",
+  "slug": "last-things-and-christian-hope-distinctions-02",
+  "centralQuestion": "How should Catholic teaching understand Dogma, Apocalyptic Symbol, and Speculative Timelines?",
+  "learningObjectives": [
+    "State a clear Catholic account of Dogma, Apocalyptic Symbol, and Speculative Timelines in the context of Last Things and Christian Hope.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Dogma, Apocalyptic Symbol, and Speculative Timelines.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic teaching approaches Dogma, Apocalyptic Symbol, and Speculative Timelines within Last Things and Christian Hope: Covers death, particular judgment, heaven, hell, purgatory, resurrection, final judgment, new creation, and disciplined interpretation of apocalyptic claims. It reads Scripture in the Church, applies Catechism and Magisterial distinctions, and separates revealed doctrine from discipline, opinion, and revisable historical or scientific judgment.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Dogma, Apocalyptic Symbol, and Speculative Timelines"
+    },
+    {
+      "type": "paragraph",
+      "text": "To study Dogma, Apocalyptic Symbol, and Speculative Timelines, begin with the concrete claims made under Last Things and Christian Hope. Covers death, particular judgment, heaven, hell, purgatory, resurrection, final judgment, new creation, and disciplined interpretation of apocalyptic claims. The task is neither a loose anthology of citations nor an appeal to authority without reasoning. It is an ordered account in which Scripture is interpreted, Magisterial teaching is classified, historical evidence is contextualised, and scholarship is used within its discipline.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogma, Apocalyptic Symbol, and Speculative Timelines is anchored in Matthew 25:31-46, 1 Corinthians 15:35-58, Revelation 21:1-5, 22-27. No protected translation wording is reproduced. Instead, each card states in fresh language what the passage contributes and leaves the reference visible for verification. The learner should read what precedes and follows, identify genre and speaker, and compare the proposed use with the wider canon.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The essential vocabulary for Dogma, Apocalyptic Symbol, and Speculative Timelines is Dogma, Discipline, Creation, Resurrection. Before declaring agreement or conflict, check whether sources use those terms in the same sense, address the same problem, and carry the same authority. Doctrinal, devotional, historical, and comparative language may overlap, but the lesson may not treat them as interchangeable.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Distinctions"
+    },
+    {
+      "type": "paragraph",
+      "text": "The work of this lesson is controlled distinction. Dogma, Apocalyptic Symbol, and Speculative Timelines becomes confused when neighbouring terms are treated as synonyms or when a conclusion is granted more authority than its premises allow. Compare each proposition with the subject's doctrinal classifications, then ask whether the claim is revealed teaching, authoritative doctrine, discipline, permitted opinion, or a historical, philosophical, or scientific judgment. The distinction changes the evidence and assent required.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Dogma matters specifically to Dogma, Apocalyptic Symbol, and Speculative Timelines. Ask first what Dogma denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Dogma under Last Things and Christian Hope should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Apocalyptic Symbol matters specifically to Dogma, Apocalyptic Symbol, and Speculative Timelines. Ask first what Apocalyptic Symbol denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Apocalyptic Symbol under Last Things and Christian Hope should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogma, Apocalyptic Symbol, and Speculative Timelines uses Speculative Timelines as a checkpoint for understanding. The learner should locate Speculative Timelines in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Speculative Timelines is disputed within Last Things and Christian Hope, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogma, Apocalyptic Symbol, and Speculative Timelines uses Discipline as a checkpoint for understanding. The learner should locate Discipline in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Discipline is disputed within Last Things and Christian Hope, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Dogma, Apocalyptic Symbol, and Speculative Timelines, recall Resurrection. Last Things and Christian Hope uses Resurrection in this lesson. Link Resurrection with grace in Dogma, Apocalyptic Symbol, and Speculative Timelines. Classify every Resurrection claim in Dogma, Apocalyptic Symbol, and Speculative Timelines. Check Resurrection evidence for Last Things and Christian Hope. Revise Dogma, Apocalyptic Symbol, and Speculative Timelines if Resurrection remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Dogma, Apocalyptic Symbol, and Speculative Timelines, recall grace. Last Things and Christian Hope uses grace in this lesson. Link grace with communion of saints in Dogma, Apocalyptic Symbol, and Speculative Timelines. Classify every grace claim in Dogma, Apocalyptic Symbol, and Speculative Timelines. Check grace evidence for Last Things and Christian Hope. Revise Dogma, Apocalyptic Symbol, and Speculative Timelines if grace remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Dogma, Apocalyptic Symbol, and Speculative Timelines, recall communion of saints. Last Things and Christian Hope uses communion of saints in this lesson. Link communion of saints with Foundations in Dogma, Apocalyptic Symbol, and Speculative Timelines. Classify every communion of saints claim in Dogma, Apocalyptic Symbol, and Speculative Timelines. Check communion of saints evidence for Last Things and Christian Hope. Revise Dogma, Apocalyptic Symbol, and Speculative Timelines if communion of saints remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Dogma, Apocalyptic Symbol, and Speculative Timelines, recall Foundations. Last Things and Christian Hope uses Foundations in this lesson. Link Foundations with Dogma in Dogma, Apocalyptic Symbol, and Speculative Timelines. Classify every Foundations claim in Dogma, Apocalyptic Symbol, and Speculative Timelines. Check Foundations evidence for Last Things and Christian Hope. Revise Dogma, Apocalyptic Symbol, and Speculative Timelines if Foundations remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Dogma, Apocalyptic Symbol, and Speculative Timelines, recall Dogma. Last Things and Christian Hope uses Dogma in this lesson. Link Dogma with Resurrection in Dogma, Apocalyptic Symbol, and Speculative Timelines. Classify every Dogma claim in Dogma, Apocalyptic Symbol, and Speculative Timelines. Check Dogma evidence for Last Things and Christian Hope. Revise Dogma, Apocalyptic Symbol, and Speculative Timelines if Dogma remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogma, Apocalyptic Symbol, and Speculative Timelines follows this approved curriculum purpose: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. This lesson focuses on dogma, apocalyptic symbol, and speculative timelines. Within Dogma, Apocalyptic Symbol, and Speculative Timelines, that purpose limits the draft to the evidence and conclusions needed for Distinctions.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogma, Apocalyptic Symbol, and Speculative Timelines prepares the learner for this mastery work: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. Success in Dogma, Apocalyptic Symbol, and Speculative Timelines therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogma, Apocalyptic Symbol, and Speculative Timelines carries a high lesson review risk inside the high risk profile for Last Things and Christian Hope. The recorded reason for Last Things and Christian Hope is dogmatic precision; comparative fairness and tradition-specific sourcing, so Dogma, Apocalyptic Symbol, and Speculative Timelines cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogma, Apocalyptic Symbol, and Speculative Timelines must keep these classifications visible: dogma, doctrine, theological_opinion. For Dogma, Apocalyptic Symbol, and Speculative Timelines, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogma, Apocalyptic Symbol, and Speculative Timelines uses the biblical path Matthew 25:31-46, 1 Corinthians 15:35-58, Revelation 21:1-5, 22-27. Its Catholic synthesis is checked against CCC 988-1065 and CCC 1680-1690 and sections 48-51, while Dogma, Apocalyptic Symbol, and Speculative Timelines reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogma, Apocalyptic Symbol, and Speculative Timelines names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Catholic in Dogma, Apocalyptic Symbol, and Speculative Timelines; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogma, Apocalyptic Symbol, and Speculative Timelines names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Eastern Orthodox in Dogma, Apocalyptic Symbol, and Speculative Timelines; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogma, Apocalyptic Symbol, and Speculative Timelines names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Protestant in Dogma, Apocalyptic Symbol, and Speculative Timelines; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Dogma, Apocalyptic Symbol, and Speculative Timelines names Adventist movements rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Adventist movements in Dogma, Apocalyptic Symbol, and Speculative Timelines; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Dogma, Apocalyptic Symbol, and Speculative Timelines, the documentary route begins with CCC 988-1065 and CCC 1680-1690; the Magisterial control is sections 48-51. Historical reception is checked at Catechetical Lecture 18, and specialist analysis at Florence and Trent on final things as relevant. These locators make the draft auditable, while exact semantic fit and edition remain gates for named human review.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.cyril.catechetical-lectures",
+        "src.conciliar.tanner-decrees"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Dogma, Apocalyptic Symbol, and Speculative Timelines",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "An informed opponent can grant much of the evidence for Dogma, Apocalyptic Symbol, and Speculative Timelines while denying the Catholic inference. Why is the disputed conclusion more than one confessional construction among several?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Protestant, Adventist movements, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Dogma, Apocalyptic Symbol, and Speculative Timelines concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "The Catholic answer concerning Dogma, Apocalyptic Symbol, and Speculative Timelines accepts the stated burden of proof. It reads the primary texts in context, explains why the Church's interpretive authority is relevant, and checks whether historical reception fits the proposed development. A failed locator or unsupported premise blocks approval instead of being covered by devotional confidence.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.lumen-gentium",
+        "src.cyril.catechetical-lectures",
+        "src.conciliar.tanner-decrees",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.eschatology.distinctions.01",
+        "les.eschatology.evidence.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "protestant"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Dogma",
+      "definition": "A truth contained in divine revelation, or necessarily connected with it, that the Church proposes definitively for belief.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Discipline",
+      "definition": "An authoritative rule or practice governing ecclesial life; unlike dogma, a discipline may admit legitimate diversity or change.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Creation",
+      "definition": "God's free act of giving existence to all that is not God and sustaining creatures in being.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Resurrection",
+      "definition": "God's raising of Jesus bodily into transformed, immortal life and the promised raising of the dead in him.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 25:31-46",
+      "paraphrase": "Jesus presents final judgment as his own royal act and exposes the eternal weight of concrete love or neglect of the vulnerable.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "1 Corinthians 15:35-58",
+      "paraphrase": "Paul defends bodily resurrection as transformation by God's power, not the mere continuation of present biological conditions.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Revelation 21:1-5, 22-27",
+      "paraphrase": "The biblical hope culminates in renewed creation, God's dwelling with humanity, judgment, healing, and the holy city.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 988-1065",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Dogma, Apocalyptic Symbol, and Speculative Timelines; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1680-1690",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Dogma, Apocalyptic Symbol, and Speculative Timelines and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 48-51",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Dogma, Apocalyptic Symbol, and Speculative Timelines must be assessed.",
+      "sourceId": "src.vatican2.lumen-gentium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Dogma, Apocalyptic Symbol, and Speculative Timelines must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.cyril.catechetical-lectures",
+        "locator": "Catechetical Lecture 18"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Dogma, Apocalyptic Symbol, and Speculative Timelines",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "An informed opponent can grant much of the evidence for Dogma, Apocalyptic Symbol, and Speculative Timelines while denying the Catholic inference. Why is the disputed conclusion more than one confessional construction among several?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Protestant, Adventist movements, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Dogma, Apocalyptic Symbol, and Speculative Timelines concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "The Catholic answer concerning Dogma, Apocalyptic Symbol, and Speculative Timelines accepts the stated burden of proof. It reads the primary texts in context, explains why the Church's interpretive authority is relevant, and checks whether historical reception fits the proposed development. A failed locator or unsupported premise blocks approval instead of being covered by devotional confidence.",
+  "commonMistakes": [
+    "Treating Dogma, Apocalyptic Symbol, and Speculative Timelines as an isolated slogan instead of a question within Last Things and Christian Hope.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Protestant, Adventist movements despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Dogma, Apocalyptic Symbol, and Speculative Timelines: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Dogma, Apocalyptic Symbol, and Speculative Timelines teaches more than a conclusion. It teaches how Last Things and Christian Hope distinguishes source from interpretation, doctrine from discipline or opinion, and another tradition's self-description from Catholic evaluation. Those habits prepare the learner for accurate explanation, prayerful reception, and accountable review.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Dogma, Apocalyptic Symbol, and Speculative Timelines without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.eschatology.distinctions.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Dogma, Apocalyptic Symbol, and Speculative Timelines.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.eschatology.distinctions.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain Dogma, Apocalyptic Symbol, and Speculative Timelines in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Matthew 25:31-46; 1 Corinthians 15:35-58; Revelation 21:1-5, 22-27",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 988-1065; CCC 1680-1690",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.lumen-gentium",
+      "locator": "sections 48-51",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.cyril.catechetical-lectures",
+      "locator": "Catechetical Lecture 18",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "locator": "Florence and Trent on final things as relevant",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.eschatology.distinctions.01",
+    "les.eschatology.evidence.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "protestant"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "theological_opinion"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant",
+      "Adventist movements"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.last-things-and-christian-hope.01",
+    "batchOrder": 4,
+    "contentHash": "2074bdfa3f27b1583a6103f30dddff8489a51e6b952726c8a1211f867f86f5e6",
+    "approximateWordCount": 3325
+  }
+}

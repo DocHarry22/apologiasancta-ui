@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-joshua.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.joshua",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.joshua.context.01",
+    "les.bible.joshua.structure.01",
+    "les.bible.joshua.theology.01",
+    "les.bible.joshua.difficult-texts.01",
+    "les.bible.joshua.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.joshua.context.01": "cc8be4f8d8bdf49df4ce48ada23c7870b6001219ffa171af3650d6873352b470",
+    "les.bible.joshua.structure.01": "ba6109d023c717976f7da6ad73a4d06cb0d40bfb59f4ee74e6aa5ec115d8f834",
+    "les.bible.joshua.theology.01": "0f26df0177f8fa47841626f63b702a07afe493d357500c82a9b98ad7c67b528e",
+    "les.bible.joshua.difficult-texts.01": "578223e5a7b7dc565e2602d58da486978fdc0e65c0a188cd2cdd3537edd2e7c9",
+    "les.bible.joshua.synthesis.01": "2745c38eab0513fb7276b297a3237c2ff3d19ce283e8e760f593f6fb3412cb5c"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

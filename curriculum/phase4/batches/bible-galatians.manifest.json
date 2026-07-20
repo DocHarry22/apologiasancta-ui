@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-galatians.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.galatians",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.galatians.context.01",
+    "les.bible.galatians.structure.01",
+    "les.bible.galatians.theology.01",
+    "les.bible.galatians.difficult-texts.01",
+    "les.bible.galatians.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.galatians.context.01": "8fb0e0c544ca7638abdeb2f1ff7ee9be5e281b3bfb18d8683bf159275d02d838",
+    "les.bible.galatians.structure.01": "4880449ed7175d2dcf2220b837368c6beb07a4e138f02982f6c1c8e24b996db9",
+    "les.bible.galatians.theology.01": "2b542bfff5c4e56ccc5742c44f9de9c401387852e73276842fe7fe48e940916a",
+    "les.bible.galatians.difficult-texts.01": "358c14b3384c350515eee45595632afb9eb921217a297a587455b6e150e61123",
+    "les.bible.galatians.synthesis.01": "e0316876adaf1108ff43e8bacb927351ffa8b260361ce43aa30085de231d3e32"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

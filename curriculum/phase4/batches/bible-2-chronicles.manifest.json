@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-2-chronicles.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.2-chronicles",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.2-chronicles.context.01",
+    "les.bible.2-chronicles.structure.01",
+    "les.bible.2-chronicles.theology.01",
+    "les.bible.2-chronicles.difficult-texts.01",
+    "les.bible.2-chronicles.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.2-chronicles.context.01": "17f5a8ffce1808a415f91d1a21ea76f50dcd714bbe4304c36a87ee3009f8d229",
+    "les.bible.2-chronicles.structure.01": "fa0f70f2a2ff75066e2553a8e8148fd780fe56ba5bb704dfd652c29d766f43e4",
+    "les.bible.2-chronicles.theology.01": "f89f98193ba510096860ca2f0a845b30ec3516521e567e1b8255bd4c8f51434c",
+    "les.bible.2-chronicles.difficult-texts.01": "840218ab04efde188bbe44e5f3792f8e619cc1bb5d26f04c56cacb237f5358fe",
+    "les.bible.2-chronicles.synthesis.01": "d83e6624ec8fa205092f9afb9d4af0c06fb76773fc4958611b025db9bbc41ab7"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

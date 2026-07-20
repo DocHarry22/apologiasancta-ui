@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.scripture-and-canon.01",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.scripture-canon",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.scripture-canon.foundations.01",
+    "les.scripture-canon.foundations.02",
+    "les.scripture-canon.distinctions.01",
+    "les.scripture-canon.distinctions.02",
+    "les.scripture-canon.evidence.01",
+    "les.scripture-canon.evidence.02",
+    "les.scripture-canon.objections.01",
+    "les.scripture-canon.objections.02",
+    "les.scripture-canon.synthesis.01",
+    "les.scripture-canon.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.scripture-canon.foundations.01": "bd8e3ca4072add76c3b65e56f9b1ea84885cd0d7c27b2eb71b025e596dd45d9e",
+    "les.scripture-canon.foundations.02": "5abb9f1870322cef0d3657b43eb2022e89064429eeb46969aa4c6f54c04a4713",
+    "les.scripture-canon.distinctions.01": "6fdfb2b04614fb7c3b238cb2c42678c73396c4f7646792d95dd4c66a5e0864cd",
+    "les.scripture-canon.distinctions.02": "8106f4c48449a1dc1cde59f279b5e68344756fa7afa9040fc21c6c20a809effa",
+    "les.scripture-canon.evidence.01": "33e7d9d9ea7f724bbe21d08742d16afed0fc70f88c8f4f8b9be0314d84f1e36d",
+    "les.scripture-canon.evidence.02": "53362d473c794238eea353581bcdfc88afc4faaa9f20e673239f5244c980191a",
+    "les.scripture-canon.objections.01": "802120948a7313af2f3721d7705737109dd60f93615c88dadea695f22882ce4f",
+    "les.scripture-canon.objections.02": "57c37079423fb4e54ec0abab941d52fb3aac3d82d063c213c97dd2d42065c624",
+    "les.scripture-canon.synthesis.01": "42cf920e7df7636c4a31ce77b703698e610b24835fc2c30352377d90949bceab",
+    "les.scripture-canon.synthesis.02": "07e4da7b92cdc8ef3dd5633d6f96bfa613a4b718954e59046769df0cbd9c1b2d"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

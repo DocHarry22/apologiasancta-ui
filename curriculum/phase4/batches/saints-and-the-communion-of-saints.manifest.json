@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.saints-and-the-communion-of-saints.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.saints-communion",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.saints-communion.foundations.01",
+    "les.saints-communion.foundations.02",
+    "les.saints-communion.distinctions.01",
+    "les.saints-communion.distinctions.02",
+    "les.saints-communion.evidence.01",
+    "les.saints-communion.evidence.02",
+    "les.saints-communion.objections.01",
+    "les.saints-communion.objections.02",
+    "les.saints-communion.synthesis.01",
+    "les.saints-communion.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.saints-communion.foundations.01": "9ad3d2e5e3f3a327d3b6af56405c3d8d10bc0508873079f0ed2cab49e2cdc5ee",
+    "les.saints-communion.foundations.02": "47f8a58d22808c92c2eb0b79af36ecb4d7134a7ec5b7d4860e6b7c2b0836192d",
+    "les.saints-communion.distinctions.01": "8855448817a44138cd89e9048626d387636893b1dd9211c8369c89a1230ece04",
+    "les.saints-communion.distinctions.02": "2e5b71c3bdd95f4ec5c8e6d7d54a41a110093828ff86d65979d7d067524de824",
+    "les.saints-communion.evidence.01": "fe39d065afa29e90afa67eda07fd0ae742b8ca7a5844dfaeace1c752c6ba3cc1",
+    "les.saints-communion.evidence.02": "7cc2b2764ff4ffd16c47142f524470604af42b5d0b274fba9e6a552220598a32",
+    "les.saints-communion.objections.01": "dcb841facc5b5167d8de04894d9a4e5f8f9bb17a7ff1fe107f2d7dea94badac3",
+    "les.saints-communion.objections.02": "029b8d232a956330d321fdfd714c73eecd22449959f0511529c2dc17fcb979a5",
+    "les.saints-communion.synthesis.01": "6b14a476a1af4a4924df1c104c4a995c2b8630582e92879c028736b4abdc1146",
+    "les.saints-communion.synthesis.02": "291b533a1f9e537a837363121c7d4f6f8a07890432e0185e2e6e3182d5d1bb4d"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

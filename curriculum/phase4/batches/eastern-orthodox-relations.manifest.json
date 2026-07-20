@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.eastern-orthodox-relations.01",
+  "programmeId": "prog.comparative-apologetics",
+  "subjectId": "subj.eastern-orthodox-relations",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.eastern-orthodox-relations.foundations.01",
+    "les.eastern-orthodox-relations.foundations.02",
+    "les.eastern-orthodox-relations.distinctions.01",
+    "les.eastern-orthodox-relations.distinctions.02",
+    "les.eastern-orthodox-relations.evidence.01",
+    "les.eastern-orthodox-relations.evidence.02",
+    "les.eastern-orthodox-relations.objections.01",
+    "les.eastern-orthodox-relations.objections.02",
+    "les.eastern-orthodox-relations.synthesis.01",
+    "les.eastern-orthodox-relations.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.eastern-orthodox-relations.foundations.01": "7e072ea8d0726eaf73fe941acb136042c7540423ab7cad34b723767af6e6556b",
+    "les.eastern-orthodox-relations.foundations.02": "c5e2a970a9c758a150a445389a390683d13327aa3df12ef1b5fee0c8809864cc",
+    "les.eastern-orthodox-relations.distinctions.01": "ab11f2458c69c521e310cd29abbaa120756e138f351888f43294d9fc6c26a46b",
+    "les.eastern-orthodox-relations.distinctions.02": "d096b9e8d1a8604f71ad33143085b4a58524768f5f5b113f50a584b79bceb809",
+    "les.eastern-orthodox-relations.evidence.01": "bcdcd3013b08c0495fd9e979035a3e1382d06207f7cf334973fb58f978269701",
+    "les.eastern-orthodox-relations.evidence.02": "78a7518995e717ed1f3f1492fb32d4d6fad94ed1b71347c810ed64f91f1e2cf2",
+    "les.eastern-orthodox-relations.objections.01": "78bbdd7f5dc3fe9eb566e48d5e6fda733e7f8404d50b06773b3680656286769d",
+    "les.eastern-orthodox-relations.objections.02": "3126966ef85877044ab17167e1a55446257847d547c5c00a11d76812523a285c",
+    "les.eastern-orthodox-relations.synthesis.01": "bf9c6624c2aecff860a4fd65783043f8ffffb0deb329a450bfea18eb6901f3b5",
+    "les.eastern-orthodox-relations.synthesis.02": "85cf97aad9dd530f72c998107d2ff0db96e3f998795118fd08a04db4d2717d8d"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

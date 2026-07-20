@@ -1,0 +1,515 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.prayer-spiritual-life.distinctions.02",
+  "phase3LessonId": "les.prayer-spiritual-life.distinctions.02",
+  "programmeId": "prog.moral-spiritual",
+  "subjectId": "subj.prayer-spiritual-life",
+  "groupId": "grp.prayer-spiritual-life.distinctions",
+  "title": "Consolation, Desolation, Dryness, Distraction, and Discernment",
+  "slug": "prayer-and-spiritual-life-distinctions-02",
+  "centralQuestion": "How should Catholic teaching understand Consolation, Desolation, Dryness, Distraction, and Discernment?",
+  "learningObjectives": [
+    "State a clear Catholic account of Consolation, Desolation, Dryness, Distraction, and Discernment in the context of Prayer and Spiritual Life.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Consolation, Desolation, Dryness, Distraction, and Discernment.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic formation treats Consolation, Desolation, Dryness, Distraction, and Discernment as part of Prayer and Spiritual Life. Deepens vocal, meditative, contemplative, liturgical, biblical, and devotional prayer within discernment, asceticism, sacramental life, and charity. The short answer must therefore preserve the hierarchy of truths, use sources within their competence, and avoid turning a probable interpretation or historical reconstruction into settled dogma.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Consolation, Desolation, Dryness, Distraction, and Discernment"
+    },
+    {
+      "type": "paragraph",
+      "text": "Prayer and Spiritual Life provides the larger frame for Consolation, Desolation, Dryness, Distraction, and Discernment. Deepens vocal, meditative, contemplative, liturgical, biblical, and devotional prayer within discernment, asceticism, sacramental life, and charity. Catholic method here moves from the inspired text to doctrinal judgment while also examining reception and reasoned scholarship. The movement is cumulative: a historical source cannot define dogma, a theological conclusion cannot rewrite an event, and an academic proposal cannot function as an ecclesial act.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "For the biblical dimension of Consolation, Desolation, Dryness, Distraction, and Discernment, consult Matthew 6:5-15, Luke 11:1-13, Romans 8:14-27. The stored summaries are deliberately not substitute Bible text. Their purpose is to direct close reading: establish the passage's immediate claim, test the connection to the lesson, and only then relate that claim to Catholic doctrine through the interpretive rules of Dei Verbum.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The terms Sacrament, Prayer, Primary source provide a small conceptual map for Consolation, Desolation, Dryness, Distraction, and Discernment. Use the map to ask what reality is named, what contrast gives the term meaning, and which source controls the definition. If an opposing tradition uses the same word differently, state that difference instead of manufacturing a verbal contradiction.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Distinctions"
+    },
+    {
+      "type": "paragraph",
+      "text": "Consolation, Desolation, Dryness, Distraction, and Discernment takes its educational direction from Distinctions: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. Within Prayer and Spiritual Life, the learner must use Sacrament, Prayer, Primary source with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Latin Catholic spiritual schools, Eastern Catholic spiritual schools, Eastern Orthodox spirituality. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae",
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Consolation, Desolation, Dryness, Distraction, and Discernment, the focus on Consolation fixes one part of the lesson's scope. Consolation must be defined as it functions in Consolation, Desolation, Dryness, Distraction, and Discernment, then supported by a source competent for that definition. Within Prayer and Spiritual Life, the learner should separate what the source states about Consolation from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Consolation, Desolation, Dryness, Distraction, and Discernment uses Desolation as a checkpoint for understanding. The learner should locate Desolation in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Desolation is disputed within Prayer and Spiritual Life, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Consolation, Desolation, Dryness, Distraction, and Discernment, the focus on Dryness fixes one part of the lesson's scope. Dryness must be defined as it functions in Consolation, Desolation, Dryness, Distraction, and Discernment, then supported by a source competent for that definition. Within Prayer and Spiritual Life, the learner should separate what the source states about Dryness from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Distraction gives Consolation, Desolation, Dryness, Distraction, and Discernment a concrete analytical task. In treating Distraction, Consolation, Desolation, Dryness, Distraction, and Discernment should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Distraction within Prayer and Spiritual Life remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Consolation, Desolation, Dryness, Distraction, and Discernment, recall Foundations. Prayer and Spiritual Life uses Foundations in this lesson. Link Foundations with Consolation in Consolation, Desolation, Dryness, Distraction, and Discernment. Classify every Foundations claim in Consolation, Desolation, Dryness, Distraction, and Discernment. Check Foundations evidence for Prayer and Spiritual Life. Revise Consolation, Desolation, Dryness, Distraction, and Discernment if Foundations remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Consolation, Desolation, Dryness, Distraction, and Discernment, recall Consolation. Prayer and Spiritual Life uses Consolation in this lesson. Link Consolation with Desolation in Consolation, Desolation, Dryness, Distraction, and Discernment. Classify every Consolation claim in Consolation, Desolation, Dryness, Distraction, and Discernment. Check Consolation evidence for Prayer and Spiritual Life. Revise Consolation, Desolation, Dryness, Distraction, and Discernment if Consolation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Consolation, Desolation, Dryness, Distraction, and Discernment, recall Desolation. Prayer and Spiritual Life uses Desolation in this lesson. Link Desolation with Dryness in Consolation, Desolation, Dryness, Distraction, and Discernment. Classify every Desolation claim in Consolation, Desolation, Dryness, Distraction, and Discernment. Check Desolation evidence for Prayer and Spiritual Life. Revise Consolation, Desolation, Dryness, Distraction, and Discernment if Desolation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Consolation, Desolation, Dryness, Distraction, and Discernment, recall Dryness. Prayer and Spiritual Life uses Dryness in this lesson. Link Dryness with Distraction in Consolation, Desolation, Dryness, Distraction, and Discernment. Classify every Dryness claim in Consolation, Desolation, Dryness, Distraction, and Discernment. Check Dryness evidence for Prayer and Spiritual Life. Revise Consolation, Desolation, Dryness, Distraction, and Discernment if Dryness remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Consolation, Desolation, Dryness, Distraction, and Discernment, recall Distraction. Prayer and Spiritual Life uses Distraction in this lesson. Link Distraction with Foundations in Consolation, Desolation, Dryness, Distraction, and Discernment. Classify every Distraction claim in Consolation, Desolation, Dryness, Distraction, and Discernment. Check Distraction evidence for Prayer and Spiritual Life. Revise Consolation, Desolation, Dryness, Distraction, and Discernment if Distraction remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Consolation, Desolation, Dryness, Distraction, and Discernment follows this approved curriculum purpose: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. This lesson focuses on consolation, desolation, dryness, distraction, and discernment. Within Consolation, Desolation, Dryness, Distraction, and Discernment, that purpose limits the draft to the evidence and conclusions needed for Distinctions.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Consolation, Desolation, Dryness, Distraction, and Discernment prepares the learner for this mastery work: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. Success in Consolation, Desolation, Dryness, Distraction, and Discernment therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Consolation, Desolation, Dryness, Distraction, and Discernment carries a medium lesson review risk inside the medium risk profile for Prayer and Spiritual Life. The recorded reason for Prayer and Spiritual Life is primary-source and chronology verification; comparative fairness and tradition-specific sourcing, so Consolation, Desolation, Dryness, Distraction, and Discernment cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Consolation, Desolation, Dryness, Distraction, and Discernment must keep these classifications visible: doctrine, discipline, theological_opinion, historical_claim. For Consolation, Desolation, Dryness, Distraction, and Discernment, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Consolation, Desolation, Dryness, Distraction, and Discernment uses the biblical path Matthew 6:5-15, Luke 11:1-13, Romans 8:14-27. Its Catholic synthesis is checked against CCC 2558-2758 and CCC 2759-2865 and sections 54-55 and 72, while Consolation, Desolation, Dryness, Distraction, and Discernment reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Consolation, Desolation, Dryness, Distraction, and Discernment names Latin Catholic spiritual schools rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith set the descriptive boundary for Latin Catholic spiritual schools in Consolation, Desolation, Dryness, Distraction, and Discernment; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Consolation, Desolation, Dryness, Distraction, and Discernment names Eastern Catholic spiritual schools rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith set the descriptive boundary for Eastern Catholic spiritual schools in Consolation, Desolation, Dryness, Distraction, and Discernment; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Consolation, Desolation, Dryness, Distraction, and Discernment names Eastern Orthodox spirituality rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith set the descriptive boundary for Eastern Orthodox spirituality in Consolation, Desolation, Dryness, Distraction, and Discernment; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Documentation for Consolation, Desolation, Dryness, Distraction, and Discernment is distributed by task. CCC 2558-2758 and CCC 2759-2865 identify Catholic synthesis; sections 54-55 and 72 supplies governing context; Procatechesis and Catechetical Lecture 5 tests reception; Book I; enjoyment of God and ordered love tests specialist claims. The draft records these locations but does not convert a resolved reference into automatic theological approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae",
+        "src.cyril.catechetical-lectures",
+        "src.augustine.christian-doctrine"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Consolation, Desolation, Dryness, Distraction, and Discernment",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A strong objection says that the Catholic treatment of Consolation, Desolation, Dryness, Distraction, and Discernment begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Latin Catholic spiritual schools, Eastern Catholic spiritual schools, Eastern Orthodox spirituality, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Consolation, Desolation, Dryness, Distraction, and Discernment concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "The Catholic response to Consolation, Desolation, Dryness, Distraction, and Discernment is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.jp2.catechesi-tradendae",
+        "src.cyril.catechetical-lectures",
+        "src.augustine.christian-doctrine",
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.prayer-spiritual-life.distinctions.01",
+        "les.prayer-spiritual-life.evidence.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "eastern"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Sacrament",
+      "definition": "An efficacious ecclesial sign of grace, instituted by Christ and entrusted to the Church.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "term": "Prayer",
+      "definition": "The living covenantal relationship of God's children with the Father, through the Son, in the Holy Spirit.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    },
+    {
+      "term": "Primary source",
+      "definition": "A text, artefact, or record arising from the authority, community, person, or period being studied.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.catechesi-tradendae"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 6:5-15",
+      "paraphrase": "Jesus rejects prayer as performance, directs disciples to the Father, and teaches a pattern ordered to God's name, kingdom, daily need, forgiveness, and deliverance.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Luke 11:1-13",
+      "paraphrase": "Jesus joins the pattern of prayer to persevering petition and confidence in the Father's gift of the Holy Spirit.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Romans 8:14-27",
+      "paraphrase": "Christian prayer is filial life in the Spirit, who assists weakness and intercedes when words fail.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 2558-2758",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Consolation, Desolation, Dryness, Distraction, and Discernment; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 2759-2865",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Consolation, Desolation, Dryness, Distraction, and Discernment and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 54-55 and 72",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Consolation, Desolation, Dryness, Distraction, and Discernment must be assessed.",
+      "sourceId": "src.jp2.catechesi-tradendae",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Consolation, Desolation, Dryness, Distraction, and Discernment must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.cyril.catechetical-lectures",
+        "locator": "Procatechesis and Catechetical Lecture 5"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Consolation, Desolation, Dryness, Distraction, and Discernment",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A strong objection says that the Catholic treatment of Consolation, Desolation, Dryness, Distraction, and Discernment begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Latin Catholic spiritual schools, Eastern Catholic spiritual schools, Eastern Orthodox spirituality, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Consolation, Desolation, Dryness, Distraction, and Discernment concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "The Catholic response to Consolation, Desolation, Dryness, Distraction, and Discernment is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+  "commonMistakes": [
+    "Treating Consolation, Desolation, Dryness, Distraction, and Discernment as an isolated slogan instead of a question within Prayer and Spiritual Life.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Latin Catholic spiritual schools, Eastern Catholic spiritual schools, Eastern Orthodox spirituality despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Consolation, Desolation, Dryness, Distraction, and Discernment: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Consolation, Desolation, Dryness, Distraction, and Discernment belongs within Prayer and Spiritual Life and requires a disciplined Catholic synthesis. Scripture, Catechism, Magisterium, historical witness, scholarship, and comparative sources answer connected but different questions. The lesson states the claim, marks authority and uncertainty, represents alternatives in scope, and connects truth to Christian life.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Consolation, Desolation, Dryness, Distraction, and Discernment without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.prayer-spiritual-life.distinctions.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Consolation, Desolation, Dryness, Distraction, and Discernment.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.prayer-spiritual-life.distinctions.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain Consolation, Desolation, Dryness, Distraction, and Discernment in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Matthew 6:5-15; Luke 11:1-13; Romans 8:14-27",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 2558-2758; CCC 2759-2865",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.jp2.catechesi-tradendae",
+      "locator": "sections 54-55 and 72",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.cyril.catechetical-lectures",
+      "locator": "Procatechesis and Catechetical Lecture 5",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.augustine.christian-doctrine",
+      "locator": "Book I; enjoyment of God and ordered love",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.prayer-spiritual-life.distinctions.01",
+    "les.prayer-spiritual-life.evidence.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "eastern"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine",
+      "discipline",
+      "theological_opinion",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [
+      "Latin Catholic spiritual schools",
+      "Eastern Catholic spiritual schools",
+      "Eastern Orthodox spirituality"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.prayer-and-spiritual-life.01",
+    "batchOrder": 4,
+    "contentHash": "843efdee6b0c9fe613d1aa53d6cff25781b8a20b51697c961c996877344a6d0a",
+    "approximateWordCount": 3254
+  }
+}

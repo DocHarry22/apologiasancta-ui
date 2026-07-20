@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.church-grace-and-sacramental-life.01",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.church-grace-sacraments",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.church-grace-sacraments.foundations.01",
+    "les.church-grace-sacraments.foundations.02",
+    "les.church-grace-sacraments.distinctions.01",
+    "les.church-grace-sacraments.distinctions.02",
+    "les.church-grace-sacraments.evidence.01",
+    "les.church-grace-sacraments.evidence.02",
+    "les.church-grace-sacraments.objections.01",
+    "les.church-grace-sacraments.objections.02",
+    "les.church-grace-sacraments.synthesis.01",
+    "les.church-grace-sacraments.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.church-grace-sacraments.foundations.01": "484030309d3bd30c3c546868b637e3249b947aa60cb9ff8c612a923bea568c69",
+    "les.church-grace-sacraments.foundations.02": "75f41cfe8b349aa80697ccecf0eb578436c1830fd400febfc739eb20b44ffb5c",
+    "les.church-grace-sacraments.distinctions.01": "a923ba26d0e4ce55d3fab8906337452980ce3ff9779aa8d25e9d0524d9a48372",
+    "les.church-grace-sacraments.distinctions.02": "4531b9c142c0167b462e215cee8e9e5778a9c3d39cc1ead2da964d4f4f395462",
+    "les.church-grace-sacraments.evidence.01": "f2142096fce0ed68b987fb27cf0d363671d9be102b0d5cb43179d8bb608a1a62",
+    "les.church-grace-sacraments.evidence.02": "dad5e91d9f8856139ee2002ecae994443526a875728c4e8d0524d949d9af299e",
+    "les.church-grace-sacraments.objections.01": "59d56ad33c7bd54fb05d2a184cdc535c59ef2fcfe929bbe5bbe60207eb92bf98",
+    "les.church-grace-sacraments.objections.02": "b55ab4e7dcc717b33803c82d49107600fe2dccc9bfdc020ba37979dbe8b84b46",
+    "les.church-grace-sacraments.synthesis.01": "44575b680a10e7ee6b60f373727cac08412b7e19ca8201dbdf14e0a361a4d709",
+    "les.church-grace-sacraments.synthesis.02": "c3b10ed34175fb677e74137331d0045a9dab95a0b98e2b888d71901983b9d865"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

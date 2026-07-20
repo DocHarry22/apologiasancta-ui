@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.moral-theology.01",
+  "programmeId": "prog.moral-spiritual",
+  "subjectId": "subj.moral-theology",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.moral-theology.foundations.01",
+    "les.moral-theology.foundations.02",
+    "les.moral-theology.distinctions.01",
+    "les.moral-theology.distinctions.02",
+    "les.moral-theology.evidence.01",
+    "les.moral-theology.evidence.02",
+    "les.moral-theology.objections.01",
+    "les.moral-theology.objections.02",
+    "les.moral-theology.synthesis.01",
+    "les.moral-theology.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.moral-theology.foundations.01": "9a9d2097074e3665f241e612c8dacc3baa4a10c3e007e536e1bc567080f73438",
+    "les.moral-theology.foundations.02": "eacae25c4c36131e6b99967dc08f815c05d1f3c4b5a0363a5188e9983848dfcc",
+    "les.moral-theology.distinctions.01": "d701db19bd90c0824594cdd060d5487ae8c78f67ca1088ec3d3e1d87c6da661c",
+    "les.moral-theology.distinctions.02": "95d06f7a59676da8d59e3ac930201a11fcdbfad0b1a10df57bb29b951781acc7",
+    "les.moral-theology.evidence.01": "38eb579a83f990b18c4ca73072e7d7907edfc883a1f10f6c0cf6f706e9cc0bc4",
+    "les.moral-theology.evidence.02": "7ffbfffc97277d1ee4d5f6be7964469bee079863997229956ade428f8f78a59e",
+    "les.moral-theology.objections.01": "4888fb88cdb1f1c8eba701ac332ff94299e651708786a428c69053ec16fa130b",
+    "les.moral-theology.objections.02": "34b962f46bfb341da21696109d1553a8674bc09392fc0b1e252a28b5be53ece4",
+    "les.moral-theology.synthesis.01": "5f8406bf3fc7ebc80d38f77fa50442584161bf979e2a3dbaa3f4b921a48bf460",
+    "les.moral-theology.synthesis.02": "9f70f75bd8e21c513fc2e9b50e0405fd93f81c75cb256c1a2f90095962a51aea"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-amos.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.amos",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.amos.context.01",
+    "les.bible.amos.structure.01",
+    "les.bible.amos.theology.01",
+    "les.bible.amos.difficult-texts.01",
+    "les.bible.amos.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.amos.context.01": "46c7f4218686060881ea969cb1aad3a6a80eb79c4501735dd4e9432e7c25e90e",
+    "les.bible.amos.structure.01": "4a4f645e8aa96892bc6e79dc4c4c089f5c0ad55ea678b7043d3393f2a9b9863d",
+    "les.bible.amos.theology.01": "8b0872b4a9d8c9eb9170b76e1c5ff127382ffeb611daa1d3f854ab4c8d7d8cd1",
+    "les.bible.amos.difficult-texts.01": "0ab74652ecacbbc5fed19eb49155bbcadd3036774b44715518fd4f7ee7ab21ee",
+    "les.bible.amos.synthesis.01": "248689922c240d44a5e965521619e180b650fc9bcb2ec2db23c187d534ee3c29"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

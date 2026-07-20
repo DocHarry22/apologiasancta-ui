@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-psalms.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.psalms",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.psalms.context.01",
+    "les.bible.psalms.structure.01",
+    "les.bible.psalms.theology.01",
+    "les.bible.psalms.difficult-texts.01",
+    "les.bible.psalms.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.psalms.context.01": "4582394de5a0fa0bd012af3f883b16b3a64cf594f7c4ec6fcb765587e5f69d06",
+    "les.bible.psalms.structure.01": "cbcfbd100ce6a044b5d51e99becc567c5c54cbb2713064a3060b93c63c443471",
+    "les.bible.psalms.theology.01": "3c3a1fa9a19cffa61f992134210409f988e66ae2bc36a106f91f8228fedabb27",
+    "les.bible.psalms.difficult-texts.01": "0d763ecb096cc9210135016e8243d986570dbed67dad9654d849446d892ed7a9",
+    "les.bible.psalms.synthesis.01": "cb31bcfbbde6c555f5c0b09d77817d9166569f8a76982153ec628c5929816760"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

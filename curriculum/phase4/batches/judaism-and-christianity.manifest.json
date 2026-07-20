@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.judaism-and-christianity.01",
+  "programmeId": "prog.comparative-apologetics",
+  "subjectId": "subj.judaism-christianity",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.judaism-christianity.foundations.01",
+    "les.judaism-christianity.foundations.02",
+    "les.judaism-christianity.distinctions.01",
+    "les.judaism-christianity.distinctions.02",
+    "les.judaism-christianity.evidence.01",
+    "les.judaism-christianity.evidence.02",
+    "les.judaism-christianity.objections.01",
+    "les.judaism-christianity.objections.02",
+    "les.judaism-christianity.synthesis.01",
+    "les.judaism-christianity.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.judaism-christianity.foundations.01": "31ca960fffcf31fca627c869d234deec6d76b0321c5dff7beb3024565cb573f0",
+    "les.judaism-christianity.foundations.02": "c621889ee94b3198c2697fe0cf871123932bfc55cfceb738369027776ffcff19",
+    "les.judaism-christianity.distinctions.01": "7a68a1834035905cea78de442c8ec28e0a4788ab062ab2e2e3e404d7702d8b06",
+    "les.judaism-christianity.distinctions.02": "c9101fd6935c4d12dbf1a2560a3ca00f6f9119ca9ce2a4e9777233606ee29a6b",
+    "les.judaism-christianity.evidence.01": "cc1a82c38646ff36b0d348f9026563db18f28c44d98ce5e76150d86638a01dd1",
+    "les.judaism-christianity.evidence.02": "340179ae5e50ea7db679db2894e842194b9c10c74167674ad4c05a071448ab7b",
+    "les.judaism-christianity.objections.01": "a3c65eb69c980520de3513d5fe3421f4604aa2b5ea0bc5bf0146a9bbabe413d3",
+    "les.judaism-christianity.objections.02": "8e034d00b86176a5ec97b1517292ecc09b657baa5703c38e3cc74b01c2a3f941",
+    "les.judaism-christianity.synthesis.01": "fc1ee509a3a542eac3eddc07c04ce993ed590bcc66a04b709fb8b97027cb7df1",
+    "les.judaism-christianity.synthesis.02": "57d1c4999f1fb252c2a7c06f85d1d173cab256ccb9227512ee6ee9ba457d9c17"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

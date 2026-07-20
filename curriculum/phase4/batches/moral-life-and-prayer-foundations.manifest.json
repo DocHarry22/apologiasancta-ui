@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.moral-life-and-prayer-foundations.01",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.moral-prayer-foundations",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.moral-prayer-foundations.foundations.01",
+    "les.moral-prayer-foundations.foundations.02",
+    "les.moral-prayer-foundations.distinctions.01",
+    "les.moral-prayer-foundations.distinctions.02",
+    "les.moral-prayer-foundations.evidence.01",
+    "les.moral-prayer-foundations.evidence.02",
+    "les.moral-prayer-foundations.objections.01",
+    "les.moral-prayer-foundations.objections.02",
+    "les.moral-prayer-foundations.synthesis.01",
+    "les.moral-prayer-foundations.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.moral-prayer-foundations.foundations.01": "ff2f5306431644cc6652bd621fbe6d6c1ec52b42ef7eef116c39901466afeb41",
+    "les.moral-prayer-foundations.foundations.02": "4cd2ba49da28724bb43a33fdb9d93686abdc7cd043d80936e96f58aa02c66fc3",
+    "les.moral-prayer-foundations.distinctions.01": "0be5d93b31cf008f12cd1f98981a1f0ce1de74687bb8ae22531fef11b0c1844f",
+    "les.moral-prayer-foundations.distinctions.02": "4ac66c113d600beca7102b85069a3b45a31f4a8771ced7ef96819d15f9997562",
+    "les.moral-prayer-foundations.evidence.01": "01f8293d3e91ddd2f0b194f0ff695eb83cda32834536ce01108a3cb335baf454",
+    "les.moral-prayer-foundations.evidence.02": "a9514c0a8913a2c9a9e23bf4e0f08e860ca12d24e3cfb477aa901adf96a65019",
+    "les.moral-prayer-foundations.objections.01": "82efb1f6f5890b95510290b8d20945eb977d2336b87d47a17ef5aaae1e330884",
+    "les.moral-prayer-foundations.objections.02": "96a7d1e833be1161897e178f1928ed3f18c97d9e0e941b381986a639bba71087",
+    "les.moral-prayer-foundations.synthesis.01": "252c8b1fc0262fb4896b25df06f0a7aef079445307f7445d27fbfb617bde865f",
+    "les.moral-prayer-foundations.synthesis.02": "ac4299e88488e7ab81c40a05a6e595aae03ff78eef4065402d2f88ff1c81a46e"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

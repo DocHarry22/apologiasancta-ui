@@ -1,0 +1,524 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.scripture-canon.distinctions.01",
+  "phase3LessonId": "les.scripture-canon.distinctions.01",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.scripture-canon",
+  "groupId": "grp.scripture-canon.distinctions",
+  "title": "Inerrancy, Truth, Genre, and Authorial Intention",
+  "slug": "scripture-and-canon-distinctions-01",
+  "centralQuestion": "How should Catholic teaching understand Inerrancy, Truth, Genre, and Authorial Intention?",
+  "learningObjectives": [
+    "State a clear Catholic account of Inerrancy, Truth, Genre, and Authorial Intention in the context of Scripture and Canon.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Inerrancy, Truth, Genre, and Authorial Intention.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "To understand Inerrancy, Truth, Genre, and Authorial Intention as a Catholic, begin from the inspired witness and the Church's received teaching, then distinguish what is defined from what is explanatory or contingent. This method serves the wider purpose of Scripture and Canon: Forms learners in inspiration, truth, interpretation, canon formation, and the ecclesial reading of the Catholic Bible.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Inerrancy, Truth, Genre, and Authorial Intention"
+    },
+    {
+      "type": "paragraph",
+      "text": "Scripture and Canon provides the larger frame for Inerrancy, Truth, Genre, and Authorial Intention. Forms learners in inspiration, truth, interpretation, canon formation, and the ecclesial reading of the Catholic Bible. Catholic method here moves from the inspired text to doctrinal judgment while also examining reception and reasoned scholarship. The movement is cumulative: a historical source cannot define dogma, a theological conclusion cannot rewrite an event, and an academic proposal cannot function as an ecclesial act.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "Scriptural study of Inerrancy, Truth, Genre, and Authorial Intention follows the route Hebrews 1:1-2, 2 Timothy 3:14-17, 1 Timothy 3:14-15. Reference, paraphrase, and inference remain visibly separate. Since the platform has no approved translation licence, the learner must open a permitted edition, examine literary setting and canonical connections, and decide whether the lesson's conclusion is explicit, typological, or the result of theological synthesis.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In Inerrancy, Truth, Genre, and Authorial Intention, vocabulary carries doctrinal weight. Sacred Scripture, Canon, Inspiration, Biblical truth must each retain its proper object and range. The learner should be able to define every term without circularity, give a nearby term that must not be confused with it, and identify the source that warrants the distinction.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Distinctions"
+    },
+    {
+      "type": "paragraph",
+      "text": "The work of this lesson is controlled distinction. Inerrancy, Truth, Genre, and Authorial Intention becomes confused when neighbouring terms are treated as synonyms or when a conclusion is granted more authority than its premises allow. Compare each proposition with the subject's doctrinal classifications, then ask whether the claim is revealed teaching, authoritative doctrine, discipline, permitted opinion, or a historical, philosophical, or scientific judgment. The distinction changes the evidence and assent required.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Inerrancy, Truth, Genre, and Authorial Intention, the focus on Inerrancy fixes one part of the lesson's scope. Inerrancy must be defined as it functions in Inerrancy, Truth, Genre, and Authorial Intention, then supported by a source competent for that definition. Within Scripture and Canon, the learner should separate what the source states about Inerrancy from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Inerrancy, Truth, Genre, and Authorial Intention, the focus on Truth fixes one part of the lesson's scope. Truth must be defined as it functions in Inerrancy, Truth, Genre, and Authorial Intention, then supported by a source competent for that definition. Within Scripture and Canon, the learner should separate what the source states about Truth from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Genre gives Inerrancy, Truth, Genre, and Authorial Intention a concrete analytical task. In treating Genre, Inerrancy, Truth, Genre, and Authorial Intention should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Genre within Scripture and Canon remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Authorial Intention gives Inerrancy, Truth, Genre, and Authorial Intention a concrete analytical task. In treating Authorial Intention, Inerrancy, Truth, Genre, and Authorial Intention should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Authorial Intention within Scripture and Canon remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Inerrancy, Truth, Genre, and Authorial Intention, recall revelation. Scripture and Canon uses revelation in this lesson. Link revelation with Tradition in Inerrancy, Truth, Genre, and Authorial Intention. Classify every revelation claim in Inerrancy, Truth, Genre, and Authorial Intention. Check revelation evidence for Scripture and Canon. Revise Inerrancy, Truth, Genre, and Authorial Intention if revelation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Inerrancy, Truth, Genre, and Authorial Intention, recall Tradition. Scripture and Canon uses Tradition in this lesson. Link Tradition with Magisterium in Inerrancy, Truth, Genre, and Authorial Intention. Classify every Tradition claim in Inerrancy, Truth, Genre, and Authorial Intention. Check Tradition evidence for Scripture and Canon. Revise Inerrancy, Truth, Genre, and Authorial Intention if Tradition remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Inerrancy, Truth, Genre, and Authorial Intention, recall Magisterium. Scripture and Canon uses Magisterium in this lesson. Link Magisterium with Foundations in Inerrancy, Truth, Genre, and Authorial Intention. Classify every Magisterium claim in Inerrancy, Truth, Genre, and Authorial Intention. Check Magisterium evidence for Scripture and Canon. Revise Inerrancy, Truth, Genre, and Authorial Intention if Magisterium remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Inerrancy, Truth, Genre, and Authorial Intention, recall Foundations. Scripture and Canon uses Foundations in this lesson. Link Foundations with Inerrancy in Inerrancy, Truth, Genre, and Authorial Intention. Classify every Foundations claim in Inerrancy, Truth, Genre, and Authorial Intention. Check Foundations evidence for Scripture and Canon. Revise Inerrancy, Truth, Genre, and Authorial Intention if Foundations remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Inerrancy, Truth, Genre, and Authorial Intention, recall Inerrancy. Scripture and Canon uses Inerrancy in this lesson. Link Inerrancy with revelation in Inerrancy, Truth, Genre, and Authorial Intention. Classify every Inerrancy claim in Inerrancy, Truth, Genre, and Authorial Intention. Check Inerrancy evidence for Scripture and Canon. Revise Inerrancy, Truth, Genre, and Authorial Intention if Inerrancy remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Inerrancy, Truth, Genre, and Authorial Intention follows this approved curriculum purpose: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. This lesson focuses on inerrancy, truth, genre, and authorial intention. Within Inerrancy, Truth, Genre, and Authorial Intention, that purpose limits the draft to the evidence and conclusions needed for Distinctions.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Inerrancy, Truth, Genre, and Authorial Intention prepares the learner for this mastery work: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. Success in Inerrancy, Truth, Genre, and Authorial Intention therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Inerrancy, Truth, Genre, and Authorial Intention carries a high lesson review risk inside the high risk profile for Scripture and Canon. The recorded reason for Scripture and Canon is comparative fairness and tradition-specific sourcing, so Inerrancy, Truth, Genre, and Authorial Intention cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Inerrancy, Truth, Genre, and Authorial Intention must keep these classifications visible: doctrine. For Inerrancy, Truth, Genre, and Authorial Intention, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Inerrancy, Truth, Genre, and Authorial Intention uses the biblical path Hebrews 1:1-2, 2 Timothy 3:14-17, 1 Timothy 3:14-15. Its Catholic synthesis is checked against CCC 50-73 and CCC 74-141 and sections 2-13 and 21-26, while Inerrancy, Truth, Genre, and Authorial Intention reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Inerrancy, Truth, Genre, and Authorial Intention names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Catholic in Inerrancy, Truth, Genre, and Authorial Intention; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Inerrancy, Truth, Genre, and Authorial Intention names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Eastern Orthodox in Inerrancy, Truth, Genre, and Authorial Intention; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Inerrancy, Truth, Genre, and Authorial Intention names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Protestant in Inerrancy, Truth, Genre, and Authorial Intention; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Documentation for Inerrancy, Truth, Genre, and Authorial Intention is distributed by task. CCC 50-73 and CCC 74-141 identify Catholic synthesis; sections 2-13 and 21-26 supplies governing context; Books I and III tests reception; articles on inspiration, interpretation, and canon tests specialist claims. The draft records these locations but does not convert a resolved reference into automatic theological approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.augustine.christian-doctrine",
+        "src.scholarship.new-jerome-biblical-commentary"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Inerrancy, Truth, Genre, and Authorial Intention",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A critical reader may ask whether Inerrancy, Truth, Genre, and Authorial Intention is supported by the cited evidence or insulated by Catholic authority claims. What independent reason connects the premises to the conclusion?",
+      "fairRepresentation": "A careful representative of Catholic, Eastern Orthodox, Protestant may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+      "response": "Catholic reasoning on Inerrancy, Truth, Genre, and Authorial Intention should expose every step: the scriptural premise, the rule of interpretation, the authoritative doctrinal judgment, the historical corroboration, and the conclusion. This permits a critic to dispute a premise without misrepresenting the whole case and prevents an unverified detail from masquerading as certainty.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.augustine.christian-doctrine",
+        "src.scholarship.new-jerome-biblical-commentary",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.scripture-canon.foundations.02",
+        "les.scripture-canon.distinctions.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "canon"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Sacred Scripture",
+      "definition": "The inspired canonical writings received by the Church as the word of God in human words.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "term": "Canon",
+      "definition": "The normative list of books received by the Church as Sacred Scripture; canon, textual form, translation, and lectionary are related but distinct.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "term": "Inspiration",
+      "definition": "The Holy Spirit's action by which God is author of Scripture while human authors truly use their own powers and faculties.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "term": "Biblical truth",
+      "definition": "What God wished to be written for the sake of salvation, interpreted according to authorial intention, genre, and the unity of Scripture.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.dei-verbum"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Hebrews 1:1-2",
+      "paraphrase": "God's many earlier communications reach their decisive fullness in the Son; revelation is first God's action and gift, not a human discovery.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "2 Timothy 3:14-17",
+      "paraphrase": "The sacred writings lead toward salvation in Christ and equip God's servant; inspiration and the formative purpose of Scripture belong together.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "1 Timothy 3:14-15",
+      "paraphrase": "The apostolic letter describes the household of God as the Church and assigns it a public responsibility for the truth.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 50-73",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Inerrancy, Truth, Genre, and Authorial Intention; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 74-141",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Inerrancy, Truth, Genre, and Authorial Intention and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 2-13 and 21-26",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Inerrancy, Truth, Genre, and Authorial Intention must be assessed.",
+      "sourceId": "src.vatican2.dei-verbum",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Inerrancy, Truth, Genre, and Authorial Intention must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.augustine.christian-doctrine",
+        "locator": "Books I and III"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Inerrancy, Truth, Genre, and Authorial Intention",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A critical reader may ask whether Inerrancy, Truth, Genre, and Authorial Intention is supported by the cited evidence or insulated by Catholic authority claims. What independent reason connects the premises to the conclusion?",
+  "opposingPosition": "A careful representative of Catholic, Eastern Orthodox, Protestant may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+  "catholicResponse": "Catholic reasoning on Inerrancy, Truth, Genre, and Authorial Intention should expose every step: the scriptural premise, the rule of interpretation, the authoritative doctrinal judgment, the historical corroboration, and the conclusion. This permits a critic to dispute a premise without misrepresenting the whole case and prevents an unverified detail from masquerading as certainty.",
+  "commonMistakes": [
+    "Treating Inerrancy, Truth, Genre, and Authorial Intention as an isolated slogan instead of a question within Scripture and Canon.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Protestant despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Inerrancy, Truth, Genre, and Authorial Intention: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Inerrancy, Truth, Genre, and Authorial Intention belongs within Scripture and Canon and requires a disciplined Catholic synthesis. Scripture, Catechism, Magisterium, historical witness, scholarship, and comparative sources answer connected but different questions. The lesson states the claim, marks authority and uncertainty, represents alternatives in scope, and connects truth to Christian life.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Inerrancy, Truth, Genre, and Authorial Intention without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.scripture-canon.distinctions.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Inerrancy, Truth, Genre, and Authorial Intention.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.scripture-canon.distinctions.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Inerrancy, Truth, Genre, and Authorial Intention in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Hebrews 1:1-2; 2 Timothy 3:14-17; 1 Timothy 3:14-15",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 50-73; CCC 74-141",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 2-13 and 21-26",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.augustine.christian-doctrine",
+      "locator": "Books I and III",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.scholarship.new-jerome-biblical-commentary",
+      "locator": "articles on inspiration, interpretation, and canon",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.scripture-canon.foundations.02",
+    "les.scripture-canon.distinctions.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "canon"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.scripture-and-canon.01",
+    "batchOrder": 3,
+    "contentHash": "6fdfb2b04614fb7c3b238cb2c42678c73396c4f7646792d95dd4c66a5e0864cd",
+    "approximateWordCount": 3202
+  }
+}

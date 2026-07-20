@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.trinity.01",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.trinity",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.trinity.foundations.01",
+    "les.trinity.foundations.02",
+    "les.trinity.distinctions.01",
+    "les.trinity.distinctions.02",
+    "les.trinity.evidence.01",
+    "les.trinity.evidence.02",
+    "les.trinity.objections.01",
+    "les.trinity.objections.02",
+    "les.trinity.synthesis.01",
+    "les.trinity.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.trinity.foundations.01": "8362c31a08a8392736be4011faa036f601637b2e76947b949ef3a192c8fdec8d",
+    "les.trinity.foundations.02": "1040de336689175aac7136c24985192b645e607cca49818cd08be40e93d4239c",
+    "les.trinity.distinctions.01": "f49a0816087353c6f2c3078555cb6fee9ee7c124070414481d1b9e4e6ef6bf9e",
+    "les.trinity.distinctions.02": "de9eb95450909ebcadbe59559e3506c7e62d39e2371aa0341d9820a0201ad887",
+    "les.trinity.evidence.01": "bc4a121a81a1773f21c0211bcc8be70e7baed601dda1a4b6b37fbc4f1a01cffa",
+    "les.trinity.evidence.02": "07f54889e41572b67cc0d1e48d8d50781876305e18be6937168f7201b31543e5",
+    "les.trinity.objections.01": "abdaf829c826a8d887da71ad990f329ed1952bb48196b73933d7e4be691b966f",
+    "les.trinity.objections.02": "8c012e9062920af654aa952213252d90e3c0906307068cdccc94d6233fa5f8c8",
+    "les.trinity.synthesis.01": "d3938ab5defff974ec0589da2a8b70e8d5a2047b0210d33a6c6d2623fa04f8db",
+    "les.trinity.synthesis.02": "cd9dbd5e9e1ac69888b014d45f2c9bfa29d0f1d3864ea93a61ab05fea396aee5"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

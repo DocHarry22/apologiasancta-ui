@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-colossians.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.colossians",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.colossians.context.01",
+    "les.bible.colossians.structure.01",
+    "les.bible.colossians.theology.01",
+    "les.bible.colossians.difficult-texts.01",
+    "les.bible.colossians.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.colossians.context.01": "15a9b65854667b04e61b3d4c70dd4b9447e7049d32fbf9ec5b3d0b86c0a06395",
+    "les.bible.colossians.structure.01": "fb5fb817d06f5d397c01c083c258e0ce9b02d062257898f3b05a4beb42674723",
+    "les.bible.colossians.theology.01": "1a729390a8fb6b054c023648d7b4e5b17b37d7738576ab57f9f088b33d4e1fd6",
+    "les.bible.colossians.difficult-texts.01": "1a199c9d52122edb3b6bbd56f6b6d465f12dc6a6b55f4cad7a793440e373b5dd",
+    "les.bible.colossians.synthesis.01": "f7f5b50342b0c5d55566741b478f434fd325aab9ff87791a97ff30c23c9a5c38"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

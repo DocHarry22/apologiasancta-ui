@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-leviticus.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.leviticus",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.leviticus.context.01",
+    "les.bible.leviticus.structure.01",
+    "les.bible.leviticus.theology.01",
+    "les.bible.leviticus.difficult-texts.01",
+    "les.bible.leviticus.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.leviticus.context.01": "f0f887af8253145110f87db25118665655a4054295f782017a12ed6d9723f9ad",
+    "les.bible.leviticus.structure.01": "77e69a40dbc3cd6e6928e1b4faa1ed124df85769eabf93fcf46017d4492f597b",
+    "les.bible.leviticus.theology.01": "e1791bed7ca050737e4b15b010101aabfce8e09eff867ce34a065fdee50e54e4",
+    "les.bible.leviticus.difficult-texts.01": "d39ccc6252fef2a2d7c9c521b3a96ce751f3423a9a2a99cda59aa738e70eb1d7",
+    "les.bible.leviticus.synthesis.01": "5be869c545c58bd838ba1b95a1d04e7da7a434a6f35f7813cf5f237ec8a3c6ad"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

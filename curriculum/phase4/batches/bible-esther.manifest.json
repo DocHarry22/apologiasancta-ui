@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-esther.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.esther",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.esther.context.01",
+    "les.bible.esther.structure.01",
+    "les.bible.esther.theology.01",
+    "les.bible.esther.difficult-texts.01",
+    "les.bible.esther.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.esther.context.01": "604fbce4d8a8459c4b783c7a6b31ca351daeb87c0182190d5d2a3654b82719e5",
+    "les.bible.esther.structure.01": "143b7c575be704cc87036a38c4ed133821981361daf4f63bddc23243725d9e18",
+    "les.bible.esther.theology.01": "300e730751a7b0395f67eaa3871350a60d6bf80b688e96e9c8b4528f60f526d7",
+    "les.bible.esther.difficult-texts.01": "a365fc1ac58a2231a312379ab5385ceda2f3562216307c8d7dc70ca60552cda0",
+    "les.bible.esther.synthesis.01": "af4920632a5c687dfafc8f830aeb12d5861cd658e7aff1dc101b58e9a982ff46"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

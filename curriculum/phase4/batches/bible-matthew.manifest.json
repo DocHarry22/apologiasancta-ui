@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-matthew.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.matthew",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.matthew.context.01",
+    "les.bible.matthew.structure.01",
+    "les.bible.matthew.theology.01",
+    "les.bible.matthew.difficult-texts.01",
+    "les.bible.matthew.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.matthew.context.01": "04295c847fe1c17cf2601a68f19b6f9728cc0e411a083900a150c85e7566ca28",
+    "les.bible.matthew.structure.01": "c2bed8df11fb89da0a473456bd687844262fd03b6c6d278264a5abacab2c367a",
+    "les.bible.matthew.theology.01": "6566b0fa962337d358bed6b9f8d4a7d20a6bdbda4f9a9aec94312c69c11e4f83",
+    "les.bible.matthew.difficult-texts.01": "4bb0475ef9cfff15f7cd61fbaf2a48613310e4eee91f3437d0d9b675cfe742dc",
+    "les.bible.matthew.synthesis.01": "b488b3b70ae61be498c6edccb02a602d3d0aa102d32c6875b9790cf652143912"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

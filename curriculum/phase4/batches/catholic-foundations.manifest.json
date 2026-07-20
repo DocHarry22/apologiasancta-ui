@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.catholic-foundations.01",
+  "programmeId": "prog.core-foundation",
+  "subjectId": "subj.catholic-foundations",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.catholic-foundations.foundations.01",
+    "les.catholic-foundations.foundations.02",
+    "les.catholic-foundations.distinctions.01",
+    "les.catholic-foundations.distinctions.02",
+    "les.catholic-foundations.evidence.01",
+    "les.catholic-foundations.evidence.02",
+    "les.catholic-foundations.objections.01",
+    "les.catholic-foundations.objections.02",
+    "les.catholic-foundations.synthesis.01",
+    "les.catholic-foundations.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.catholic-foundations.foundations.01": "608f4a74c79abc6b10fb9298a14de8cc027c256f0654efc53783689789c49d6d",
+    "les.catholic-foundations.foundations.02": "9f53cac954ed8a7d6bbe6ccd768c9d54fe08f463aad81a82860976647e5ff794",
+    "les.catholic-foundations.distinctions.01": "35c548512734bcf94ce406366678e9adf2ceb2d863ce7f0c2abb659d3b2c1675",
+    "les.catholic-foundations.distinctions.02": "aea91981064e69f806acad40e4dff59da22c9ee6d922b87ca3850904d17dc247",
+    "les.catholic-foundations.evidence.01": "da298c30e4cbeabaed4a321538f90cb330e23d70aa8ccc1248958a38f560fbc7",
+    "les.catholic-foundations.evidence.02": "de1f4fba402713aa7e5cf13f0305fd4a8316114f70909cb717ff75a0a01e0700",
+    "les.catholic-foundations.objections.01": "ab69cfed4d4c6bdd29711e9f8bbbb7c791bd230db07f4e657668c1e75734ba93",
+    "les.catholic-foundations.objections.02": "473496a25df014408d0dd3ece5967b1dd4824bccba5b3bd46ee6f11b7b6545db",
+    "les.catholic-foundations.synthesis.01": "fc08b019587971cd909bc8b27d2050714be48ecedfc08f4cec6f9ecba1eeb4aa",
+    "les.catholic-foundations.synthesis.02": "2539ac75f57aec75bef2ef54d5e513a1eda9458cd365b4c2b9b95529b152262e"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

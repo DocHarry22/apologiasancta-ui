@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.liturgy.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.liturgy",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.liturgy.foundations.01",
+    "les.liturgy.foundations.02",
+    "les.liturgy.distinctions.01",
+    "les.liturgy.distinctions.02",
+    "les.liturgy.evidence.01",
+    "les.liturgy.evidence.02",
+    "les.liturgy.objections.01",
+    "les.liturgy.objections.02",
+    "les.liturgy.synthesis.01",
+    "les.liturgy.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.liturgy.foundations.01": "d7a83384731037bd2bb68e439f8df1f6ef96f5a23856c49d11c138700c674673",
+    "les.liturgy.foundations.02": "0a93fa29c6510a55c89be68c4c365e8f667c9841e06f23e0e26082849fdeceb0",
+    "les.liturgy.distinctions.01": "ee1f37b300585b0c4a0a956cc2750434b2a673740a87cda167cab8773d45fb7c",
+    "les.liturgy.distinctions.02": "7ac9ea90c7b3b2199152b7934c08dee80b0ce3e6eda096f17a1713f0862c95f9",
+    "les.liturgy.evidence.01": "1d688314904ab9505d37f929373b63baa0fe3c4043c196a76ab12c92f61280d0",
+    "les.liturgy.evidence.02": "9779562f12314d6fde9726bcc37b72223a0cecb55c3d7fcb5e4d7d18fffd2330",
+    "les.liturgy.objections.01": "983f4f80a9b7efc887415f901bb4d4888c4f7802142d88f0ae7ab32eb68a282f",
+    "les.liturgy.objections.02": "20aca858a224a57793fadea6ba25524b63ca641448d7c4c4ca167ef37a32b0e4",
+    "les.liturgy.synthesis.01": "2c0f1775ebcba08b914edf191418b1d33f536c7bfc59133a5ccb97540662322c",
+    "les.liturgy.synthesis.02": "a6ddc6e3ddbebddf7f6e97a3e707325d2b453b5e0ad69b74b8ae79c883dc49ca"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

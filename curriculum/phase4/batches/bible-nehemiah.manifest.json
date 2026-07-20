@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-nehemiah.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.nehemiah",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.nehemiah.context.01",
+    "les.bible.nehemiah.structure.01",
+    "les.bible.nehemiah.theology.01",
+    "les.bible.nehemiah.difficult-texts.01",
+    "les.bible.nehemiah.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.nehemiah.context.01": "2db44608c66677cd06dffb7bb9bed8997a8c9c79e7a3d1a3d9288d40c996c889",
+    "les.bible.nehemiah.structure.01": "ac08407d9f473293a6e96185d336f10ba8da1bd0919a41f47cd11550ef0a0f2c",
+    "les.bible.nehemiah.theology.01": "a2f5cfc1b36536d7be265e0023ea04143004c8cad73c31a430694d902e39802f",
+    "les.bible.nehemiah.difficult-texts.01": "e27d1efdc8fd6700a6bbf838639acd73190b748486c5e06aa60c54b42894f32e",
+    "les.bible.nehemiah.synthesis.01": "2e0eb1c30f321dbf5333345dc93178e4244496e1c806678674d8fe4479cb41d2"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

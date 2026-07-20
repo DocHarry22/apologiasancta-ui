@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-ephesians.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.ephesians",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.ephesians.context.01",
+    "les.bible.ephesians.structure.01",
+    "les.bible.ephesians.theology.01",
+    "les.bible.ephesians.difficult-texts.01",
+    "les.bible.ephesians.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.ephesians.context.01": "1f688a0de9677460715d15f9b1351c84c69f7745d43b9b15632625c8f219b774",
+    "les.bible.ephesians.structure.01": "3507b13079336d5fe451b9b42cdb6a893fd0edf36701325e36b9cc7625b051f4",
+    "les.bible.ephesians.theology.01": "7019c6bfa537ff2d96bd60874723c0b7477109942c5b8e3563379ba7c5e664a3",
+    "les.bible.ephesians.difficult-texts.01": "76d825d6e933920bf1130236a1bd8ed3d6ed2fdd348f3c176d3f3ec0a8dca9f8",
+    "les.bible.ephesians.synthesis.01": "4eb9ea39dd5d8c4a137e8c712b21a85aba6964e9224f5318a1ac2ae48c0ce152"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

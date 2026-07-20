@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.conscience-virtue-and-sin.01",
+  "programmeId": "prog.moral-spiritual",
+  "subjectId": "subj.conscience-virtue-sin",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.conscience-virtue-sin.foundations.01",
+    "les.conscience-virtue-sin.foundations.02",
+    "les.conscience-virtue-sin.distinctions.01",
+    "les.conscience-virtue-sin.distinctions.02",
+    "les.conscience-virtue-sin.evidence.01",
+    "les.conscience-virtue-sin.evidence.02",
+    "les.conscience-virtue-sin.objections.01",
+    "les.conscience-virtue-sin.objections.02",
+    "les.conscience-virtue-sin.synthesis.01",
+    "les.conscience-virtue-sin.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.conscience-virtue-sin.foundations.01": "fe7cd44c03f79e73ca6025013523ce333817f5024ed5b17f59b45a99fed3a137",
+    "les.conscience-virtue-sin.foundations.02": "e5f7720d17792422baffce537181507280b8b93e79732673b8d7a5e6e09cf713",
+    "les.conscience-virtue-sin.distinctions.01": "54f1368d52667940f33f0ba0c51087ad7601e64cf0039e4cdf7b881821529f62",
+    "les.conscience-virtue-sin.distinctions.02": "38225658f1b3c80f9c9f3b3c907724e3c549a7fd9001b6ea0bf8e542c811c7d2",
+    "les.conscience-virtue-sin.evidence.01": "7819ae09d41280288e7ee34c92dacc4ba5d46b99a5be7330e69b15e26777c68d",
+    "les.conscience-virtue-sin.evidence.02": "00351de6645d72833055004db98dff0e35e696750c3d8df8562d7d32d7547f1c",
+    "les.conscience-virtue-sin.objections.01": "d41604f495374c7e689dcba2a0e103e5690f966d8dc80a9957f98a737c06055c",
+    "les.conscience-virtue-sin.objections.02": "fbe6d857538133f32bfd9411d051e1b34e4729efc81155c5049ffc306dafa020",
+    "les.conscience-virtue-sin.synthesis.01": "a6373a2372ff9c4f202ac99b41d7ca24a83b99b004ecba42a3b189fd7e934873",
+    "les.conscience-virtue-sin.synthesis.02": "635ee794eb14a98e5eeb4a0e0d40211ca986d81bd4a08abfff34727e71c08fb5"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

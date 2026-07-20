@@ -3,7 +3,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { LessonBookmarkControl } from "./LearningPlatform";
+import { LessonBookmarkControl, StructuredLessonBlocks, type LessonBlock } from "./LearningPlatform";
 
 const LESSON_ID = "11111111-1111-4111-8111-111111111111";
 const BOOKMARK_ID = "22222222-2222-4222-8222-222222222222";
@@ -61,5 +61,36 @@ describe("LessonBookmarkControl", () => {
       `/api/v1/learning/bookmarks?id=${BOOKMARK_ID}`,
       expect.objectContaining({ method: "DELETE" }),
     );
+  });
+});
+
+describe("StructuredLessonBlocks", () => {
+  it("renders every approved Phase 4 block without arbitrary HTML", () => {
+    const blocks: LessonBlock[] = [
+      { type: "heading", level: 2, text: "Lesson heading" },
+      { type: "paragraph", text: "A safe explanatory paragraph." },
+      { type: "scripture_card", reference: "John 1:1-18", paraphrase: "An original study paraphrase." },
+      { type: "catechism_card", locator: "CCC 101-114", summary: "A doctrinal summary." },
+      { type: "quotation", text: "A short authorised quotation.", locator: "section 1" },
+      { type: "distinction_table", caption: "Key distinction", columns: ["Claim", "Class"], rows: [["A proposition", "Doctrine"]] },
+      { type: "objection_response", objection: "The strongest objection.", fairRepresentation: "The alternative in its own terms.", response: "The Catholic response." },
+      { type: "timeline", caption: "Reception", events: [{ label: "First", description: "An event." }, { label: "Second", description: "Another event." }] },
+      { type: "image", assetId: "asset.lesson-map", alt: "A lesson map", caption: "An approved image slot." },
+      { type: "footnotes", items: [{ marker: "1", text: "A source note.", locator: "chapter 2" }] },
+      { type: "related_content", lessonIds: ["les.example.related.01"] },
+      { type: "graph_references", categoryIds: ["canon"], recordIds: [] },
+    ];
+
+    render(<StructuredLessonBlocks blocks={blocks} />);
+
+    expect(screen.getByRole("heading", { level: 2, name: "Lesson heading" })).toBeInTheDocument();
+    expect(screen.getByText("John 1:1-18")).toBeInTheDocument();
+    expect(screen.getByText("CCC 101-114")).toBeInTheDocument();
+    expect(screen.getByRole("table", { name: "Key distinction" })).toBeInTheDocument();
+    expect(screen.getByText("The alternative in its own terms.")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "A lesson map" })).toBeInTheDocument();
+    expect(screen.getByText("les.example.related.01")).toBeInTheDocument();
+    expect(screen.getByText("canon")).toBeInTheDocument();
+    expect(document.querySelector("script, iframe, object, embed")).toBeNull();
   });
 });

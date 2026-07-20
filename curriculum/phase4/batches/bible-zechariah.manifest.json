@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-zechariah.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.zechariah",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.zechariah.context.01",
+    "les.bible.zechariah.structure.01",
+    "les.bible.zechariah.theology.01",
+    "les.bible.zechariah.difficult-texts.01",
+    "les.bible.zechariah.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.zechariah.context.01": "fb0ab2124f10b7df7d513356c641e66e8bbce5f1d4a8bccb391d7532da731747",
+    "les.bible.zechariah.structure.01": "7b4f1a96906cf4fa409a04c070b41ad67cf686c24e4ac3645b35692dfa12f656",
+    "les.bible.zechariah.theology.01": "06a3f353a02c6fa9fc043803ebbaf8c1cdfd7413902030fd9ca8e17e1aee0d80",
+    "les.bible.zechariah.difficult-texts.01": "ced451399a2f39e50877cdd42d36e2cb02bbba909934b73c549492870d3c49d3",
+    "les.bible.zechariah.synthesis.01": "40a19cb84d803ce67541730503d41f47a1f56b4f8a8f7ec081315637f5847237"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

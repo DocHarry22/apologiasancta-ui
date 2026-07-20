@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.church-fathers-and-doctors.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.church-fathers",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.church-fathers.orientation.01",
+    "les.church-fathers.orientation.02",
+    "les.church-fathers.sources.01",
+    "les.church-fathers.sources.02",
+    "les.church-fathers.development.01",
+    "les.church-fathers.development.02",
+    "les.church-fathers.contested.01",
+    "les.church-fathers.contested.02",
+    "les.church-fathers.synthesis.01",
+    "les.church-fathers.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.church-fathers.orientation.01": "9f15b92c570f31e5c4f60fb6b8b447bf1588c18963c37e36c4914268f8221130",
+    "les.church-fathers.orientation.02": "9ec108f2c63bc061f686c047122724c59415526a44765be40b83660dd3861d28",
+    "les.church-fathers.sources.01": "69a68898c898b72e820d498020c860dab2de29bbc7fea946011703de97f256c0",
+    "les.church-fathers.sources.02": "0c3bd9be42042ad16bb36cea524ba3611412634c4893d4d9fa1d40f4c7243725",
+    "les.church-fathers.development.01": "af35329073980ad9b6535b01318f258f81fd3e66aec20d297a0cee99ff8e3239",
+    "les.church-fathers.development.02": "de227dff7463e01941a050f4d93bde99f882b0f1508cb13aef9536aab1a84b2c",
+    "les.church-fathers.contested.01": "dd212977198ee84153cdfe327ea46241cf8f796eaf3c17b0462847f625ab25fb",
+    "les.church-fathers.contested.02": "dbfdecd62bedb179113cc00c104994a9f62d2b051b8d3fc8c38a763dbc729a57",
+    "les.church-fathers.synthesis.01": "ff2a4169d4b46e96104fc595d15ae8ef57016d856be1bf76b407288c71ad40cf",
+    "les.church-fathers.synthesis.02": "4ff001642a375b1a93ebf36dba96afa7c3f83731199e94fdff3667a94469a1eb"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

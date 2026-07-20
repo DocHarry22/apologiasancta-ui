@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-jeremiah.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.jeremiah",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.jeremiah.context.01",
+    "les.bible.jeremiah.structure.01",
+    "les.bible.jeremiah.theology.01",
+    "les.bible.jeremiah.difficult-texts.01",
+    "les.bible.jeremiah.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.jeremiah.context.01": "d1fc838f834b1e50b019c6b8411f46da913c38dfc868a09317b72f1cbe0fb218",
+    "les.bible.jeremiah.structure.01": "8b90fb7a0e7b07700a25d9fd2979cee425418a10d0ba31b6be3daace1bfbaab8",
+    "les.bible.jeremiah.theology.01": "420d67efbddb59b07f61fb535c2162cdcc68b95b2ab7ac5d7131b47c306c75f7",
+    "les.bible.jeremiah.difficult-texts.01": "5fccbaa434279294c2df1ea8d91d8083210a9a4a457c7a81874a4e4bab94774c",
+    "les.bible.jeremiah.synthesis.01": "e244245eaa373589a6cb16b0e1a44406524687a82ffb588e30f58178f2c9c243"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

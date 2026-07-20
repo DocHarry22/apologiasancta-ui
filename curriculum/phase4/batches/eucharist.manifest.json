@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.eucharist.01",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.eucharist",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.eucharist.foundations.01",
+    "les.eucharist.foundations.02",
+    "les.eucharist.distinctions.01",
+    "les.eucharist.distinctions.02",
+    "les.eucharist.evidence.01",
+    "les.eucharist.evidence.02",
+    "les.eucharist.objections.01",
+    "les.eucharist.objections.02",
+    "les.eucharist.synthesis.01",
+    "les.eucharist.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.eucharist.foundations.01": "504b8555b3417a1651dd0cde29629d0f98ab971750d348016641327aec00d94f",
+    "les.eucharist.foundations.02": "4475b40730cf36ccfd49a0cebda6550879f7d5f687b8505e32f9f02d8a637053",
+    "les.eucharist.distinctions.01": "eca2b2669a1db3cd0826c63f701d17acccb081e748b152b6fbdc511313d97338",
+    "les.eucharist.distinctions.02": "7716f2b59d43b4efda0c7fc0d9c2cbc8a31d1e9c995ba994d369842403c8745a",
+    "les.eucharist.evidence.01": "7d0094b3d74e26b34d3e703b8f29ba71d71eb8ce12a3f8be233d00577ddb662f",
+    "les.eucharist.evidence.02": "e0d32f9088d6eae5e87cbd1faa4787ac0e575cdbdaa3cc1e8f3cc40993c8c876",
+    "les.eucharist.objections.01": "cc4888dde7ae80b39d37711a7ae1814b74a597a5418b8d06cca52686c15b3b9b",
+    "les.eucharist.objections.02": "bb167ddecad00996a537431e3bf6ca6ffb6253a117ed88c540c59bd7870fa388",
+    "les.eucharist.synthesis.01": "ad8ecc08fd12f820ff37963a44a403f87944242e4246b95e3b2ea8c02c85764e",
+    "les.eucharist.synthesis.02": "29a33df393914121538bdfa809a1f0f25f5a1dd2fe727b1eab5334569cce0bbf"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

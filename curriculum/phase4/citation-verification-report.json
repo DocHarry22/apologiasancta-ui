@@ -1,19 +1,19 @@
 {
   "schemaVersion": "1.0.0",
-  "stableId": "as.phase4.citation-verification.2026-07-19",
-  "verifiedOn": "2026-07-19",
-  "sourceCatalogSha256": "4916ec4d64a95d38b799e9ec18607a262343d03c6953778e95aba27ee0bf2b13",
+  "stableId": "as.phase4.citation-verification.2026-07-20",
+  "verifiedOn": "2026-07-20",
+  "sourceCatalogSha256": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
   "status": "passed_with_publisher_access_limitations",
   "scope": {
-    "sources": 24,
-    "liveOfficialUrls": 18,
-    "bibliographicRecords": 6,
+    "sources": 47,
+    "liveOfficialUrls": 31,
+    "bibliographicRecords": 16,
     "lessonLocators": "Validated structurally; exact semantic use remains part of named human source review before approval."
   },
   "summary": {
-    "passed": 24,
+    "passed": 47,
     "failed": 0,
-    "publisherAccessLimitations": 9
+    "publisherAccessLimitations": 11
   },
   "results": [
     {
@@ -52,17 +52,19 @@
     },
     {
       "sourceId": "src.scripture.acts-2",
-      "verificationMode": "prior_browser_identity_check_plus_automated_fetch",
-      "status": "passed_with_publisher_access_limitation",
-      "httpStatus": 403,
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
       "resolvedUrl": "https://bible.usccb.org/bible/acts/2",
       "publisherHost": "bible.usccb.org",
       "expectedIdentityMarkers": [
         "acts"
       ],
-      "matchedIdentityMarkers": [],
-      "responseBytesInspected": 15748,
-      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "matchedIdentityMarkers": [
+        "acts"
+      ],
+      "responseBytesInspected": 73207,
+      "accessLimitation": null,
       "error": null
     },
     {
@@ -77,7 +79,7 @@
       ],
       "matchedIdentityMarkers": [],
       "responseBytesInspected": 15748,
-      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-20.",
       "error": null
     },
     {
@@ -92,7 +94,7 @@
       ],
       "matchedIdentityMarkers": [],
       "responseBytesInspected": 15748,
-      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-20.",
       "error": null
     },
     {
@@ -107,7 +109,7 @@
       ],
       "matchedIdentityMarkers": [],
       "responseBytesInspected": 15748,
-      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-20.",
       "error": null
     },
     {
@@ -122,7 +124,7 @@
       ],
       "matchedIdentityMarkers": [],
       "responseBytesInspected": 15748,
-      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-20.",
       "error": null
     },
     {
@@ -137,7 +139,7 @@
       ],
       "matchedIdentityMarkers": [],
       "responseBytesInspected": 15748,
-      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-20.",
       "error": null
     },
     {
@@ -152,7 +154,7 @@
       ],
       "matchedIdentityMarkers": [],
       "responseBytesInspected": 15748,
-      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-20.",
       "error": null
     },
     {
@@ -167,7 +169,7 @@
       ],
       "matchedIdentityMarkers": [],
       "responseBytesInspected": 15748,
-      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-20.",
       "error": null
     },
     {
@@ -182,7 +184,7 @@
       ],
       "matchedIdentityMarkers": [],
       "responseBytesInspected": 15748,
-      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19.",
+      "accessLimitation": "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-20.",
       "error": null
     },
     {
@@ -279,6 +281,101 @@
       "error": null
     },
     {
+      "sourceId": "src.vatican2.lumen-gentium",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.vatican.va/content/dam/wss/archive/hist_councils/ii_vatican_council/documents/vat-ii_const_19641121_lumen-gentium_en.html",
+      "publisherHost": "www.vatican.va",
+      "expectedIdentityMarkers": [
+        "lumen",
+        "gentium"
+      ],
+      "matchedIdentityMarkers": [
+        "lumen",
+        "gentium"
+      ],
+      "responseBytesInspected": 204163,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.vatican2.gaudium-et-spes",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://press.vatican.va/archive/hist_councils/ii_vatican_council/documents/vat-ii_const_19651207_gaudium-et-spes_en.html",
+      "publisherHost": "press.vatican.va",
+      "expectedIdentityMarkers": [
+        "gaudium",
+        "spes"
+      ],
+      "matchedIdentityMarkers": [
+        "gaudium",
+        "spes"
+      ],
+      "responseBytesInspected": 238757,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.vatican2.nostra-aetate",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://press.vatican.va/archive/hist_councils/ii_vatican_council/documents/vat-ii_decl_19651028_nostra-aetate_en.html",
+      "publisherHost": "press.vatican.va",
+      "expectedIdentityMarkers": [
+        "nostra",
+        "aetate"
+      ],
+      "matchedIdentityMarkers": [
+        "nostra",
+        "aetate"
+      ],
+      "responseBytesInspected": 17231,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.jp2.fides-et-ratio",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_14091998_fides-et-ratio.html",
+      "publisherHost": "www.vatican.va",
+      "expectedIdentityMarkers": [
+        "fides",
+        "ratio"
+      ],
+      "matchedIdentityMarkers": [
+        "fides",
+        "ratio"
+      ],
+      "responseBytesInspected": 276782,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.ddf.dignitas-infinita",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_ddf_doc_20240402_dignitas-infinita_en.html",
+      "publisherHost": "www.vatican.va",
+      "expectedIdentityMarkers": [
+        "dignitas",
+        "infinita"
+      ],
+      "matchedIdentityMarkers": [
+        "dignitas",
+        "infinita"
+      ],
+      "responseBytesInspected": 143577,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
       "sourceId": "src.jp2.catechesi-tradendae",
       "verificationMode": "live_official_url",
       "status": "passed",
@@ -314,6 +411,178 @@
       ],
       "responseBytesInspected": 462252,
       "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.science.nas-evolution",
+      "verificationMode": "prior_browser_identity_check_plus_automated_fetch",
+      "status": "passed_with_publisher_access_limitation",
+      "httpStatus": 403,
+      "resolvedUrl": "https://www.nationalacademies.org/publications/11876",
+      "publisherHost": "www.nationalacademies.org",
+      "expectedIdentityMarkers": [
+        "science",
+        "evolution",
+        "creationism"
+      ],
+      "matchedIdentityMarkers": [],
+      "responseBytesInspected": 0,
+      "accessLimitation": "The official publisher page was resolved in the browser research path; the automated Node client receives HTTP 403.",
+      "error": null
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "verificationMode": "browser_identity_check_after_automated_fetch_failure",
+      "status": "passed_with_publisher_access_limitation",
+      "httpStatus": null,
+      "resolvedUrl": "https://www.oca.org/orthodoxy/the-orthodox-faith/doctrine-scripture",
+      "publisherHost": "www.oca.org",
+      "expectedIdentityMarkers": [
+        "orthodox",
+        "faith",
+        "volume",
+        "doctrine"
+      ],
+      "matchedIdentityMarkers": [
+        "The Orthodox Faith",
+        "Volume I",
+        "Doctrine and Scripture"
+      ],
+      "responseBytesInspected": 0,
+      "accessLimitation": "The official OCA page was resolved in the browser research path after the automated Node client failed to fetch it.",
+      "error": null
+    },
+    {
+      "sourceId": "src.lutheran.augsburg-confession",
+      "verificationMode": "browser_identity_check_after_automated_fetch_failure",
+      "status": "passed_with_publisher_access_limitation",
+      "httpStatus": null,
+      "resolvedUrl": "https://bookofconcord.org/augsburg-confession/",
+      "publisherHost": "bookofconcord.org",
+      "expectedIdentityMarkers": [
+        "augsburg",
+        "confession"
+      ],
+      "matchedIdentityMarkers": [
+        "The Augsburg Confession",
+        "Book of Concord"
+      ],
+      "responseBytesInspected": 0,
+      "accessLimitation": "The confessional publisher page was resolved in the browser research path after the automated Node client failed to fetch it.",
+      "error": null
+    },
+    {
+      "sourceId": "src.anglican.cofe-canons-a",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.churchofengland.org/about/leadership-and-governance/legal-services/canons-church-england/section",
+      "publisherHost": "www.churchofengland.org",
+      "expectedIdentityMarkers": [
+        "canons",
+        "england",
+        "section"
+      ],
+      "matchedIdentityMarkers": [
+        "canons",
+        "england",
+        "section"
+      ],
+      "responseBytesInspected": 104941,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.methodist.articles-religion",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.umc.org/content/articles-of-religion",
+      "publisherHost": "www.umc.org",
+      "expectedIdentityMarkers": [
+        "articles",
+        "religion",
+        "methodist"
+      ],
+      "matchedIdentityMarkers": [
+        "articles",
+        "religion",
+        "methodist"
+      ],
+      "responseBytesInspected": 66853,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.baptist.bfm-2000",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://bfm.sbc.net/bfm2000/",
+      "publisherHost": "bfm.sbc.net",
+      "expectedIdentityMarkers": [
+        "baptist",
+        "faith",
+        "message",
+        "2000"
+      ],
+      "matchedIdentityMarkers": [
+        "baptist",
+        "faith",
+        "message",
+        "2000"
+      ],
+      "responseBytesInspected": 70043,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.lds.articles-faith",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.churchofjesuschrist.org/study/manual/gospel-topics/articles-of-faith?lang=eng",
+      "publisherHost": "www.churchofjesuschrist.org",
+      "expectedIdentityMarkers": [
+        "articles",
+        "faith"
+      ],
+      "matchedIdentityMarkers": [
+        "articles",
+        "faith"
+      ],
+      "responseBytesInspected": 282670,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.jw.official-beliefs",
+      "verificationMode": "live_official_url",
+      "status": "passed",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.jw.org/en/jehovahs-witnesses/faq/jehovah-witness-beliefs/",
+      "publisherHost": "www.jw.org",
+      "expectedIdentityMarkers": [
+        "what",
+        "jehovah",
+        "witnesses",
+        "believe"
+      ],
+      "matchedIdentityMarkers": [
+        "what",
+        "jehovah",
+        "witnesses",
+        "believe"
+      ],
+      "responseBytesInspected": 367480,
+      "accessLimitation": null,
+      "error": null
+    },
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Complete Catholic canon; 2011 revised edition",
       "error": null
     },
     {
@@ -356,6 +625,69 @@
       "verificationMode": "bibliographic_catalogue",
       "status": "passed",
       "bibliographicLocator": "Chapter 1, sections 6 and 10",
+      "error": null
+    },
+    {
+      "sourceId": "src.aquinas.summa-theologiae",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Parts, questions, and articles as cited in lessons",
+      "error": null
+    },
+    {
+      "sourceId": "src.eusebius.church-history",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Books I-X",
+      "error": null
+    },
+    {
+      "sourceId": "src.scholarship.new-jerome-biblical-commentary",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Book-specific articles and topical articles identified by title",
+      "error": null
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Two volumes; council and decree titles as cited",
+      "error": null
+    },
+    {
+      "sourceId": "src.history.chadwick-early-church",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Revised Penguin History of the Church edition; chapters identified by subject",
+      "error": null
+    },
+    {
+      "sourceId": "src.islam.quran",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Surah and ayah numbering as cited",
+      "error": null
+    },
+    {
+      "sourceId": "src.judaism.primary-corpus",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Biblical book, Mishnah tractate, or Talmud tractate and folio as cited",
+      "error": null
+    },
+    {
+      "sourceId": "src.religions.primary-texts",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "Bhagavad Gita chapter and verse; Pali Canon collection and discourse; Guru Granth Sahib ang; or named tradition-specific text as cited",
+      "error": null
+    },
+    {
+      "sourceId": "src.secular.representative-sources",
+      "verificationMode": "bibliographic_catalogue",
+      "status": "passed",
+      "bibliographicLocator": "J. L. Mackie, The Miracle of Theism; Graham Oppy, Arguing about Gods; Humanists International, Amsterdam Declaration 2022",
       "error": null
     }
   ]

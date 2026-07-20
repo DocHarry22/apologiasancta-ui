@@ -1,0 +1,528 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.eastern-orthodox-relations.evidence.02",
+  "phase3LessonId": "les.eastern-orthodox-relations.evidence.02",
+  "programmeId": "prog.comparative-apologetics",
+  "subjectId": "subj.eastern-orthodox-relations",
+  "groupId": "grp.eastern-orthodox-relations.evidence",
+  "title": "Schism, Councils, Union Attempts, and Modern Dialogue",
+  "slug": "eastern-orthodox-relations-evidence-02",
+  "centralQuestion": "How should Catholic teaching understand Schism, Councils, Union Attempts, and Modern Dialogue?",
+  "learningObjectives": [
+    "State a clear Catholic account of Schism, Councils, Union Attempts, and Modern Dialogue in the context of Eastern Orthodox Relations.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Schism, Councils, Union Attempts, and Modern Dialogue.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic formation treats Schism, Councils, Union Attempts, and Modern Dialogue as part of Eastern Orthodox Relations. Treats shared apostolic faith, primacy, synodality, Filioque, councils, divorce, purgatory, development, Eastern Catholicism, and reunion. The short answer must therefore preserve the hierarchy of truths, use sources within their competence, and avoid turning a probable interpretation or historical reconstruction into settled dogma.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Schism, Councils, Union Attempts, and Modern Dialogue"
+    },
+    {
+      "type": "paragraph",
+      "text": "Schism, Councils, Union Attempts, and Modern Dialogue is a focused lesson within Eastern Orthodox Relations. Treats shared apostolic faith, primacy, synodality, Filioque, councils, divorce, purgatory, development, Eastern Catholicism, and reunion. The Catholic account begins with sources competent for each claim: Scripture for canonical witness, Magisterium for Catholic judgment, primary evidence for events and reception, and scholarship for specialised analysis. This order neither makes the sources equal nor permits one source to answer a question beyond its competence.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Schism, Councils, Union Attempts, and Modern Dialogue are Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The terms Faith, Relation, Comparative scope provide a small conceptual map for Schism, Councils, Union Attempts, and Modern Dialogue. Use the map to ask what reality is named, what contrast gives the term meaning, and which source controls the definition. If an opposing tradition uses the same word differently, state that difference instead of manufacturing a verbal contradiction.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Evidence"
+    },
+    {
+      "type": "paragraph",
+      "text": "Schism, Councils, Union Attempts, and Modern Dialogue takes its educational direction from Evidence: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. Within Eastern Orthodox Relations, the learner must use Faith, Relation, Comparative scope with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Eastern Orthodox, Eastern Catholic, Oriental Orthodox where distinguished. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio",
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Schism, Councils, Union Attempts, and Modern Dialogue uses Schism as a checkpoint for understanding. The learner should locate Schism in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Schism is disputed within Eastern Orthodox Relations, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Councils gives Schism, Councils, Union Attempts, and Modern Dialogue a concrete analytical task. In treating Councils, Schism, Councils, Union Attempts, and Modern Dialogue should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Councils within Eastern Orthodox Relations remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Schism, Councils, Union Attempts, and Modern Dialogue, the focus on Union Attempts fixes one part of the lesson's scope. Union Attempts must be defined as it functions in Schism, Councils, Union Attempts, and Modern Dialogue, then supported by a source competent for that definition. Within Eastern Orthodox Relations, the learner should separate what the source states about Union Attempts from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Schism, Councils, Union Attempts, and Modern Dialogue, Modern Dialogue cannot remain an undefined slogan. State the proposition involving Modern Dialogue, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Modern Dialogue in Eastern Orthodox Relations must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Schism, Councils, Union Attempts, and Modern Dialogue, recall ecumenical councils. Eastern Orthodox Relations uses ecumenical councils in this lesson. Link ecumenical councils with papal primacy in Schism, Councils, Union Attempts, and Modern Dialogue. Classify every ecumenical councils claim in Schism, Councils, Union Attempts, and Modern Dialogue. Check ecumenical councils evidence for Eastern Orthodox Relations. Revise Schism, Councils, Union Attempts, and Modern Dialogue if ecumenical councils remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Schism, Councils, Union Attempts, and Modern Dialogue, recall papal primacy. Eastern Orthodox Relations uses papal primacy in this lesson. Link papal primacy with Trinity in Schism, Councils, Union Attempts, and Modern Dialogue. Classify every papal primacy claim in Schism, Councils, Union Attempts, and Modern Dialogue. Check papal primacy evidence for Eastern Orthodox Relations. Revise Schism, Councils, Union Attempts, and Modern Dialogue if papal primacy remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Schism, Councils, Union Attempts, and Modern Dialogue, recall Trinity. Eastern Orthodox Relations uses Trinity in this lesson. Link Trinity with liturgy in Schism, Councils, Union Attempts, and Modern Dialogue. Classify every Trinity claim in Schism, Councils, Union Attempts, and Modern Dialogue. Check Trinity evidence for Eastern Orthodox Relations. Revise Schism, Councils, Union Attempts, and Modern Dialogue if Trinity remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Schism, Councils, Union Attempts, and Modern Dialogue, recall liturgy. Eastern Orthodox Relations uses liturgy in this lesson. Link liturgy with Distinctions in Schism, Councils, Union Attempts, and Modern Dialogue. Classify every liturgy claim in Schism, Councils, Union Attempts, and Modern Dialogue. Check liturgy evidence for Eastern Orthodox Relations. Revise Schism, Councils, Union Attempts, and Modern Dialogue if liturgy remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Schism, Councils, Union Attempts, and Modern Dialogue, recall Distinctions. Eastern Orthodox Relations uses Distinctions in this lesson. Link Distinctions with ecumenical councils in Schism, Councils, Union Attempts, and Modern Dialogue. Classify every Distinctions claim in Schism, Councils, Union Attempts, and Modern Dialogue. Check Distinctions evidence for Eastern Orthodox Relations. Revise Schism, Councils, Union Attempts, and Modern Dialogue if Distinctions remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Schism, Councils, Union Attempts, and Modern Dialogue follows this approved curriculum purpose: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. This lesson focuses on schism, councils, union attempts, and modern dialogue. Within Schism, Councils, Union Attempts, and Modern Dialogue, that purpose limits the draft to the evidence and conclusions needed for Evidence.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Schism, Councils, Union Attempts, and Modern Dialogue prepares the learner for this mastery work: Integrate Scripture, Tradition, Magisterium, history, and reason in a cumulative case. Success in Schism, Councils, Union Attempts, and Modern Dialogue therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Schism, Councils, Union Attempts, and Modern Dialogue carries a critical lesson review risk inside the critical risk profile for Eastern Orthodox Relations. The recorded reason for Eastern Orthodox Relations is dogmatic precision; primary-source and chronology verification; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Schism, Councils, Union Attempts, and Modern Dialogue cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Schism, Councils, Union Attempts, and Modern Dialogue must keep these classifications visible: dogma, doctrine, discipline, historical_claim, theological_opinion. For Schism, Councils, Union Attempts, and Modern Dialogue, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Schism, Councils, Union Attempts, and Modern Dialogue uses the biblical path Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. Its Catholic synthesis is checked against CCC 74-100 and CCC 811-870 and sections 1-24, while Schism, Councils, Union Attempts, and Modern Dialogue reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Schism, Councils, Union Attempts, and Modern Dialogue names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith set the descriptive boundary for Catholic in Schism, Councils, Union Attempts, and Modern Dialogue; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Schism, Councils, Union Attempts, and Modern Dialogue names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith set the descriptive boundary for Eastern Orthodox in Schism, Councils, Union Attempts, and Modern Dialogue; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Schism, Councils, Union Attempts, and Modern Dialogue names Eastern Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith set the descriptive boundary for Eastern Catholic in Schism, Councils, Union Attempts, and Modern Dialogue; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Schism, Councils, Union Attempts, and Modern Dialogue names Oriental Orthodox where distinguished rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith set the descriptive boundary for Oriental Orthodox where distinguished in Schism, Councils, Union Attempts, and Modern Dialogue; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Schism, Councils, Union Attempts, and Modern Dialogue uses four documentary controls: Catechism CCC 74-100 and CCC 811-870, Magisterium sections 1-24, historical witness Book III; apostolic faith and succession, and scholarship the council or decree directly relevant to the controversy. The sequence clarifies authority and makes later checking possible. A locator that proves too broad or semantically mismatched must be corrected before approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio",
+        "src.irenaeus.against-heresies",
+        "src.conciliar.tanner-decrees"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Schism, Councils, Union Attempts, and Modern Dialogue",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A strong objection says that the Catholic treatment of Schism, Councils, Union Attempts, and Modern Dialogue begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Eastern Catholic, Oriental Orthodox where distinguished, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Schism, Councils, Union Attempts, and Modern Dialogue concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "In response, the lesson argues that Schism, Councils, Union Attempts, and Modern Dialogue is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.unitatis-redintegratio",
+        "src.irenaeus.against-heresies",
+        "src.conciliar.tanner-decrees",
+        "src.orthodox.oca-faith"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.eastern-orthodox-relations.evidence.01",
+        "les.eastern-orthodox-relations.objections.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "eastern",
+        "papacy",
+        "trinity"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Faith",
+      "definition": "The grace-enabled human response by which a person entrusts self and intellect to God who reveals.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "term": "Relation",
+      "definition": "An ordered reference to another; Trinitarian relations distinguish the Persons without dividing the divine nature.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    },
+    {
+      "term": "Comparative scope",
+      "definition": "The exact community, school, source, period, and degree of authority to which a description applies.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.unitatis-redintegratio"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 16:13-20",
+      "paraphrase": "Peter's confession, the promise concerning Christ's Church, and the imagery of keys and binding belong to one ecclesial scene.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Acts 15:1-29",
+      "paraphrase": "The Jerusalem gathering resolves a disputed missionary question through testimony, scriptural reasoning, apostolic deliberation, and a decision attributed to the Holy Spirit.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 4:1-16",
+      "paraphrase": "The Church receives one faith and diverse ministries so that the whole body may grow into mature unity in Christ.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 74-100",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Schism, Councils, Union Attempts, and Modern Dialogue; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 811-870",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Schism, Councils, Union Attempts, and Modern Dialogue and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 1-24",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Schism, Councils, Union Attempts, and Modern Dialogue must be assessed.",
+      "sourceId": "src.vatican2.unitatis-redintegratio",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Schism, Councils, Union Attempts, and Modern Dialogue must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.irenaeus.against-heresies",
+        "locator": "Book III; apostolic faith and succession"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Schism, Councils, Union Attempts, and Modern Dialogue",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A strong objection says that the Catholic treatment of Schism, Councils, Union Attempts, and Modern Dialogue begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Eastern Catholic, Oriental Orthodox where distinguished, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Schism, Councils, Union Attempts, and Modern Dialogue concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "In response, the lesson argues that Schism, Councils, Union Attempts, and Modern Dialogue is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Schism, Councils, Union Attempts, and Modern Dialogue as an isolated slogan instead of a question within Eastern Orthodox Relations.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Eastern Catholic, Oriental Orthodox where distinguished despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Schism, Councils, Union Attempts, and Modern Dialogue: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "The central lesson of Schism, Councils, Union Attempts, and Modern Dialogue is methodological and substantive: name the Catholic claim, ground it in competent sources, test its historical and conceptual continuity, answer the strongest scoped objection, and state no more than the evidence warrants. In Eastern Orthodox Relations, that discipline serves truth and charity together.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Schism, Councils, Union Attempts, and Modern Dialogue without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.eastern-orthodox-relations.evidence.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Schism, Councils, Union Attempts, and Modern Dialogue.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.eastern-orthodox-relations.evidence.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain Schism, Councils, Union Attempts, and Modern Dialogue in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Matthew 16:13-20; Acts 15:1-29; Ephesians 4:1-16",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 74-100; CCC 811-870",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.unitatis-redintegratio",
+      "locator": "sections 1-24",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.irenaeus.against-heresies",
+      "locator": "Book III; apostolic faith and succession",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "locator": "the council or decree directly relevant to the controversy",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.eastern-orthodox-relations.evidence.01",
+    "les.eastern-orthodox-relations.objections.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "eastern",
+      "papacy",
+      "trinity"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "historical_claim",
+      "theological_opinion"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Eastern Catholic",
+      "Oriental Orthodox where distinguished"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.eastern-orthodox-relations.01",
+    "batchOrder": 6,
+    "contentHash": "78a7518995e717ed1f3f1492fb32d4d6fad94ed1b71347c810ed64f91f1e2cf2",
+    "approximateWordCount": 3376
+  }
+}

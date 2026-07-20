@@ -1,0 +1,552 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.moral-theology.distinctions.02",
+  "phase3LessonId": "les.moral-theology.distinctions.02",
+  "programmeId": "prog.moral-spiritual",
+  "subjectId": "subj.moral-theology",
+  "groupId": "grp.moral-theology.distinctions",
+  "title": "Intrinsic Evil, Cooperation, Double Effect, and Prudence",
+  "slug": "moral-theology-distinctions-02",
+  "centralQuestion": "How should Catholic teaching understand Intrinsic Evil, Cooperation, Double Effect, and Prudence?",
+  "learningObjectives": [
+    "State a clear Catholic account of Intrinsic Evil, Cooperation, Double Effect, and Prudence in the context of Moral Theology.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Intrinsic Evil, Cooperation, Double Effect, and Prudence.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic teaching approaches Intrinsic Evil, Cooperation, Double Effect, and Prudence within Moral Theology: Develops a Christ-centred account of beatitude, freedom, law, virtue, conscience, moral acts, sin, grace, and prudential judgment. It reads Scripture in the Church, applies Catechism and Magisterial distinctions, and separates revealed doctrine from discipline, opinion, and revisable historical or scientific judgment.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Intrinsic Evil, Cooperation, Double Effect, and Prudence"
+    },
+    {
+      "type": "paragraph",
+      "text": "Within Moral Theology, the question Intrinsic Evil, Cooperation, Double Effect, and Prudence must be answered at the right level of authority. Develops a Christ-centred account of beatitude, freedom, law, virtue, conscience, moral acts, sin, grace, and prudential judgment. Scripture, ecclesial teaching, historical testimony, and specialist research contribute different kinds of evidence. The lesson therefore identifies which source establishes each premise and labels every interpretive step rather than presenting a synthesis as though it were a direct quotation.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "Scriptural study of Intrinsic Evil, Cooperation, Double Effect, and Prudence follows the route Matthew 5:1-48, Romans 12:1-21, Galatians 5:13-26. Reference, paraphrase, and inference remain visibly separate. Since the platform has no approved translation licence, the learner must open a permitted edition, examine literary setting and canonical connections, and decide whether the lesson's conclusion is explicit, typological, or the result of theological synthesis.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The essential vocabulary for Intrinsic Evil, Cooperation, Double Effect, and Prudence is Grace, Virtue, Conscience, Sin. Before declaring agreement or conflict, check whether sources use those terms in the same sense, address the same problem, and carry the same authority. Doctrinal, devotional, historical, and comparative language may overlap, but the lesson may not treat them as interchangeable.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Distinctions"
+    },
+    {
+      "type": "paragraph",
+      "text": "The work of this lesson is controlled distinction. Intrinsic Evil, Cooperation, Double Effect, and Prudence becomes confused when neighbouring terms are treated as synonyms or when a conclusion is granted more authority than its premises allow. Compare each proposition with the subject's doctrinal classifications, then ask whether the claim is revealed teaching, authoritative doctrine, discipline, permitted opinion, or a historical, philosophical, or scientific judgment. The distinction changes the evidence and assent required.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Intrinsic Evil, Cooperation, Double Effect, and Prudence, Intrinsic Evil cannot remain an undefined slogan. State the proposition involving Intrinsic Evil, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Intrinsic Evil in Moral Theology must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Intrinsic Evil, Cooperation, Double Effect, and Prudence, the focus on Cooperation fixes one part of the lesson's scope. Cooperation must be defined as it functions in Intrinsic Evil, Cooperation, Double Effect, and Prudence, then supported by a source competent for that definition. Within Moral Theology, the learner should separate what the source states about Cooperation from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Intrinsic Evil, Cooperation, Double Effect, and Prudence uses Double Effect as a checkpoint for understanding. The learner should locate Double Effect in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Double Effect is disputed within Moral Theology, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Intrinsic Evil, Cooperation, Double Effect, and Prudence, the focus on Prudence fixes one part of the lesson's scope. Prudence must be defined as it functions in Intrinsic Evil, Cooperation, Double Effect, and Prudence, then supported by a source competent for that definition. Within Moral Theology, the learner should separate what the source states about Prudence from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Intrinsic Evil, Cooperation, Double Effect, and Prudence, recall Foundations. Moral Theology uses Foundations in this lesson. Link Foundations with Intrinsic Evil in Intrinsic Evil, Cooperation, Double Effect, and Prudence. Classify every Foundations claim in Intrinsic Evil, Cooperation, Double Effect, and Prudence. Check Foundations evidence for Moral Theology. Revise Intrinsic Evil, Cooperation, Double Effect, and Prudence if Foundations remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Intrinsic Evil, Cooperation, Double Effect, and Prudence, recall Intrinsic Evil. Moral Theology uses Intrinsic Evil in this lesson. Link Intrinsic Evil with Cooperation in Intrinsic Evil, Cooperation, Double Effect, and Prudence. Classify every Intrinsic Evil claim in Intrinsic Evil, Cooperation, Double Effect, and Prudence. Check Intrinsic Evil evidence for Moral Theology. Revise Intrinsic Evil, Cooperation, Double Effect, and Prudence if Intrinsic Evil remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Intrinsic Evil, Cooperation, Double Effect, and Prudence, recall Cooperation. Moral Theology uses Cooperation in this lesson. Link Cooperation with Double Effect in Intrinsic Evil, Cooperation, Double Effect, and Prudence. Classify every Cooperation claim in Intrinsic Evil, Cooperation, Double Effect, and Prudence. Check Cooperation evidence for Moral Theology. Revise Intrinsic Evil, Cooperation, Double Effect, and Prudence if Cooperation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Intrinsic Evil, Cooperation, Double Effect, and Prudence, recall Double Effect. Moral Theology uses Double Effect in this lesson. Link Double Effect with Prudence in Intrinsic Evil, Cooperation, Double Effect, and Prudence. Classify every Double Effect claim in Intrinsic Evil, Cooperation, Double Effect, and Prudence. Check Double Effect evidence for Moral Theology. Revise Intrinsic Evil, Cooperation, Double Effect, and Prudence if Double Effect remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Intrinsic Evil, Cooperation, Double Effect, and Prudence, recall Prudence. Moral Theology uses Prudence in this lesson. Link Prudence with Foundations in Intrinsic Evil, Cooperation, Double Effect, and Prudence. Classify every Prudence claim in Intrinsic Evil, Cooperation, Double Effect, and Prudence. Check Prudence evidence for Moral Theology. Revise Intrinsic Evil, Cooperation, Double Effect, and Prudence if Prudence remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Intrinsic Evil, Cooperation, Double Effect, and Prudence follows this approved curriculum purpose: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. This lesson focuses on intrinsic evil, cooperation, double effect, and prudence. Within Intrinsic Evil, Cooperation, Double Effect, and Prudence, that purpose limits the draft to the evidence and conclusions needed for Distinctions.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Intrinsic Evil, Cooperation, Double Effect, and Prudence prepares the learner for this mastery work: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. Success in Intrinsic Evil, Cooperation, Double Effect, and Prudence therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Intrinsic Evil, Cooperation, Double Effect, and Prudence carries a critical lesson review risk inside the critical risk profile for Moral Theology. The recorded reason for Moral Theology is comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Intrinsic Evil, Cooperation, Double Effect, and Prudence cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Intrinsic Evil, Cooperation, Double Effect, and Prudence must keep these classifications visible: doctrine, discipline, theological_opinion. For Intrinsic Evil, Cooperation, Double Effect, and Prudence, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Intrinsic Evil, Cooperation, Double Effect, and Prudence uses the biblical path Matthew 5:1-48, Romans 12:1-21, Galatians 5:13-26. Its Catholic synthesis is checked against CCC 1691-1876 and CCC 1949-2051 and sections 16-17 and 22-32, while Intrinsic Evil, Cooperation, Double Effect, and Prudence reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Intrinsic Evil, Cooperation, Double Effect, and Prudence names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.secular.representative-sources set the descriptive boundary for Catholic in Intrinsic Evil, Cooperation, Double Effect, and Prudence; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Intrinsic Evil, Cooperation, Double Effect, and Prudence names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.secular.representative-sources set the descriptive boundary for Eastern Orthodox in Intrinsic Evil, Cooperation, Double Effect, and Prudence; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Intrinsic Evil, Cooperation, Double Effect, and Prudence names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.secular.representative-sources set the descriptive boundary for Protestant in Intrinsic Evil, Cooperation, Double Effect, and Prudence; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Intrinsic Evil, Cooperation, Double Effect, and Prudence names secular ethical theories rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.secular.representative-sources set the descriptive boundary for secular ethical theories in Intrinsic Evil, Cooperation, Double Effect, and Prudence; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The source path for Intrinsic Evil, Cooperation, Double Effect, and Prudence is deliberately inspectable. Read CCC 1691-1876 and CCC 1949-2051 for the Catechism frame, then sections 16-17 and 22-32 for authoritative context. Compare Book I; ordered love and use of created goods and Parts I-II and II-II, questions relevant to acts and virtues without treating reception and modern analysis as the same evidence. Human source review must confirm every use.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes",
+        "src.augustine.christian-doctrine",
+        "src.aquinas.summa-theologiae"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Intrinsic Evil, Cooperation, Double Effect, and Prudence",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "An informed opponent can grant much of the evidence for Intrinsic Evil, Cooperation, Double Effect, and Prudence while denying the Catholic inference. Why is the disputed conclusion more than one confessional construction among several?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Protestant, secular ethical theories, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Intrinsic Evil, Cooperation, Double Effect, and Prudence concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "Catholic reasoning on Intrinsic Evil, Cooperation, Double Effect, and Prudence should expose every step: the scriptural premise, the rule of interpretation, the authoritative doctrinal judgment, the historical corroboration, and the conclusion. This permits a critic to dispute a premise without misrepresenting the whole case and prevents an unverified detail from masquerading as certainty.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.gaudium-et-spes",
+        "src.augustine.christian-doctrine",
+        "src.aquinas.summa-theologiae",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.moral-theology.distinctions.01",
+        "les.moral-theology.evidence.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "secular"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Grace",
+      "definition": "God's free and undeserved gift of divine life and help, healing and elevating the human person.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "term": "Virtue",
+      "definition": "A stable disposition perfecting human powers for good action; theological virtues are infused gifts ordering the person directly to God.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "term": "Conscience",
+      "definition": "A judgment of practical reason about the moral quality of a concrete act, which must be formed and followed sincerely.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "term": "Sin",
+      "definition": "A culpable offence against reason, truth, and right conscience that wounds love of God and neighbour.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 5:1-48",
+      "paraphrase": "Jesus announces beatitude and interprets obedience at the level of reconciled hearts, truthful speech, chastity, enemy-love, and likeness to the Father.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Romans 12:1-21",
+      "paraphrase": "Christian morality is worship embodied through transformed judgment, humble gifts, sincere love, patience, peace, and overcoming evil with good.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Galatians 5:13-26",
+      "paraphrase": "Freedom is ordered to loving service; Paul contrasts destructive works with the Spirit's fruit in a life belonging to Christ.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1691-1876",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Intrinsic Evil, Cooperation, Double Effect, and Prudence; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1949-2051",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Intrinsic Evil, Cooperation, Double Effect, and Prudence and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 16-17 and 22-32",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Intrinsic Evil, Cooperation, Double Effect, and Prudence must be assessed.",
+      "sourceId": "src.vatican2.gaudium-et-spes",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Intrinsic Evil, Cooperation, Double Effect, and Prudence must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.augustine.christian-doctrine",
+        "locator": "Book I; ordered love and use of created goods"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Intrinsic Evil, Cooperation, Double Effect, and Prudence",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "An informed opponent can grant much of the evidence for Intrinsic Evil, Cooperation, Double Effect, and Prudence while denying the Catholic inference. Why is the disputed conclusion more than one confessional construction among several?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Protestant, secular ethical theories, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Intrinsic Evil, Cooperation, Double Effect, and Prudence concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "Catholic reasoning on Intrinsic Evil, Cooperation, Double Effect, and Prudence should expose every step: the scriptural premise, the rule of interpretation, the authoritative doctrinal judgment, the historical corroboration, and the conclusion. This permits a critic to dispute a premise without misrepresenting the whole case and prevents an unverified detail from masquerading as certainty.",
+  "commonMistakes": [
+    "Treating Intrinsic Evil, Cooperation, Double Effect, and Prudence as an isolated slogan instead of a question within Moral Theology.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Protestant, secular ethical theories despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Intrinsic Evil, Cooperation, Double Effect, and Prudence: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Intrinsic Evil, Cooperation, Double Effect, and Prudence can be explained clearly without erasing complexity. The biblical evidence remains contextual, authoritative Catholic teaching remains properly classified, historical and scholarly claims remain reviewable, and comparative positions remain tradition-specific. This ordered account integrates Moral Theology with formation and mission.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Intrinsic Evil, Cooperation, Double Effect, and Prudence without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.moral-theology.distinctions.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Intrinsic Evil, Cooperation, Double Effect, and Prudence.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.moral-theology.distinctions.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain Intrinsic Evil, Cooperation, Double Effect, and Prudence in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Matthew 5:1-48; Romans 12:1-21; Galatians 5:13-26",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 1691-1876; CCC 1949-2051",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.gaudium-et-spes",
+      "locator": "sections 16-17 and 22-32",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.augustine.christian-doctrine",
+      "locator": "Book I; ordered love and use of created goods",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.aquinas.summa-theologiae",
+      "locator": "Parts I-II and II-II, questions relevant to acts and virtues",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.secular.representative-sources",
+      "locator": "named argument or declaration identified by the lesson topic",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.moral-theology.distinctions.01",
+    "les.moral-theology.evidence.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "secular"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine",
+      "discipline",
+      "theological_opinion"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant",
+      "secular ethical theories"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.moral-theology.01",
+    "batchOrder": 4,
+    "contentHash": "95d06f7a59676da8d59e3ac930201a11fcdbfad0b1a10df57bb29b951781acc7",
+    "approximateWordCount": 3442
+  }
+}

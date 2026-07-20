@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-2-maccabees.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.2-maccabees",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.2-maccabees.context.01",
+    "les.bible.2-maccabees.structure.01",
+    "les.bible.2-maccabees.theology.01",
+    "les.bible.2-maccabees.difficult-texts.01",
+    "les.bible.2-maccabees.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.2-maccabees.context.01": "19722cfd7e0327d7a27f0ffa29a415eccaeb36f01be7d0c54245570ae180e1ea",
+    "les.bible.2-maccabees.structure.01": "7284502ae5eda4bcbc1b7bd4c2d2e27884867919114afbf1262d1d8f30b61e05",
+    "les.bible.2-maccabees.theology.01": "8a0fbd4e05c84c63aeec71035373931ef91b803bf8c2611266c72a5e56f2d10d",
+    "les.bible.2-maccabees.difficult-texts.01": "58054bfc975069f4f74bf42b6d06e4773eac41e7f37499cf56726e2cf942087c",
+    "les.bible.2-maccabees.synthesis.01": "ac3b2547829410425926558f489040ebad6b6861edde39d79743d672560fb892"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

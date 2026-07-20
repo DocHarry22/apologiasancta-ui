@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-daniel.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.daniel",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.daniel.context.01",
+    "les.bible.daniel.structure.01",
+    "les.bible.daniel.theology.01",
+    "les.bible.daniel.difficult-texts.01",
+    "les.bible.daniel.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.daniel.context.01": "7764ae9d457057b11d3fd1fa63e0e250e350afb09ac128c4940a4ac7f50ef811",
+    "les.bible.daniel.structure.01": "47c3cf9c761648764e4b0c051747a9f7a5a2a9cf898f4780e6332844f436c849",
+    "les.bible.daniel.theology.01": "059383cd00e00ca87184acf832ee4c70e3282fc6ae60b0e96433e30a7cdd8219",
+    "les.bible.daniel.difficult-texts.01": "83d69485eab5fa51210e39aa81d2fef11f861d1e55eec5975158abc382a0edd3",
+    "les.bible.daniel.synthesis.01": "32093c2f833547b6200e49e587329e51dc1b8116d47299d8c95448696d71e101"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-2-thessalonians.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.2-thessalonians",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.2-thessalonians.context.01",
+    "les.bible.2-thessalonians.structure.01",
+    "les.bible.2-thessalonians.theology.01",
+    "les.bible.2-thessalonians.difficult-texts.01",
+    "les.bible.2-thessalonians.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.2-thessalonians.context.01": "f33030868129f146707f7a7daeacca857911db6378976a87bb5c4c0fdbd0b216",
+    "les.bible.2-thessalonians.structure.01": "64ddf4eb263cfd2dce1f424dba5db8469d2fa240c7c579d68e990a81bab054e9",
+    "les.bible.2-thessalonians.theology.01": "23860aeaf999ea5a3e7b49a590051f14fad40eef17f24ab9e4f9eea935615ef6",
+    "les.bible.2-thessalonians.difficult-texts.01": "9bd5f831001093ae764c14b68c7569fe1e21a8a948a3a6058a8dc7dfc30bb3dc",
+    "les.bible.2-thessalonians.synthesis.01": "f8b7fb045a0364434a61480445068cf80eb617d789180a1fe03221b81b4b50c4"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

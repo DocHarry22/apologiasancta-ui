@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.grace-justification-and-salvation.01",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.grace-justification-salvation",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.grace-justification-salvation.foundations.01",
+    "les.grace-justification-salvation.foundations.02",
+    "les.grace-justification-salvation.distinctions.01",
+    "les.grace-justification-salvation.distinctions.02",
+    "les.grace-justification-salvation.evidence.01",
+    "les.grace-justification-salvation.evidence.02",
+    "les.grace-justification-salvation.objections.01",
+    "les.grace-justification-salvation.objections.02",
+    "les.grace-justification-salvation.synthesis.01",
+    "les.grace-justification-salvation.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.grace-justification-salvation.foundations.01": "2cc5fa99b62910a9a7601c5e57b5d8671c36153d8ffc9c1032d8ddb56bd84a15",
+    "les.grace-justification-salvation.foundations.02": "9f56cd23bf7defebd5e9ac5ad3b010fb5cea0273efbce27b033346d3e0ea1b93",
+    "les.grace-justification-salvation.distinctions.01": "e245fb37ddc8de30a7b9ccfc73103bf75d2bd4f21fa67999f063b4a5935616fe",
+    "les.grace-justification-salvation.distinctions.02": "baba3fd1f45e60a79addb30b2aae4e44327933fd570ab30f82d329cda8a1c564",
+    "les.grace-justification-salvation.evidence.01": "24b810b5b8d3905a775e6b9c126c06b2de6c683c257b6d2ace428bb3d206eec1",
+    "les.grace-justification-salvation.evidence.02": "d2df06cc2b6af3dde3d388e31a03ed9f439b414db8545deef94f059915b928da",
+    "les.grace-justification-salvation.objections.01": "098d799bd64baaea0d76f7cc9c9fc4c445886c21d039455ca36dc27d4c0987e1",
+    "les.grace-justification-salvation.objections.02": "66337fe7a9ef6e5517423465e36c15d155be44b0e3531065ca4719a0a247cd93",
+    "les.grace-justification-salvation.synthesis.01": "35e3ea09c051b1487bee716ae912da7217440cdf765787576bbfe04a45fb78d5",
+    "les.grace-justification-salvation.synthesis.02": "72ed7da56b20603d713d6974d5017dc74c21f5a311335501e429693b093e0670"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

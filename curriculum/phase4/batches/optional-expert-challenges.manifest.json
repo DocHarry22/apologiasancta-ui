@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.optional-expert-challenges.01",
+  "programmeId": "prog.apologist-lab",
+  "subjectId": "subj.expert-challenges",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.expert-challenges.brief.01",
+    "les.expert-challenges.brief.02",
+    "les.expert-challenges.dossier.01",
+    "les.expert-challenges.dossier.02",
+    "les.expert-challenges.construction.01",
+    "les.expert-challenges.construction.02",
+    "les.expert-challenges.simulation.01",
+    "les.expert-challenges.simulation.02",
+    "les.expert-challenges.debrief.01",
+    "les.expert-challenges.debrief.02"
+  ],
+  "contentHashes": {
+    "les.expert-challenges.brief.01": "014d1ec36b79f714e208cbf5417740cd4360cc5777a88106e11f49cd354ea979",
+    "les.expert-challenges.brief.02": "7bba383e1b10c4d56336c22c5b552021e7dc19e81217d9e9b5ee5889485e601c",
+    "les.expert-challenges.dossier.01": "3170da5899ca34db6e289a587981f3526fcce9f2b967d9455c0eaea3d7f54be5",
+    "les.expert-challenges.dossier.02": "b6991db7af7aa8c013ff81d89a6621e52a3005e8689b35cac271e99a64e894bf",
+    "les.expert-challenges.construction.01": "733cc57029dfc8186051ef97da1d0e097c56f1c289bb4d3d28ae17af4ced89d2",
+    "les.expert-challenges.construction.02": "74d788a68027d824586c3f2e92b2f84d67d4a99e1af16eafe1a5113c10b61c7d",
+    "les.expert-challenges.simulation.01": "5f4514fc351cf88ff29c3d0f6ca5e0215aa6a1267f4a758caaf9dd4ebfa09df6",
+    "les.expert-challenges.simulation.02": "4791f32298acc15abaecb234d9697890a639f0f8483022c22b4e357cb90a2725",
+    "les.expert-challenges.debrief.01": "762f796e416570fda5f5ec54aadf59a6cc46ec2d47d756f0122a00f98ffda9eb",
+    "les.expert-challenges.debrief.02": "83c12fa0f782dfdbb5be29754e4ca92d070ca1e6cb3c054e4aaa386d145c6fea"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

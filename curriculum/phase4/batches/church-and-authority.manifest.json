@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.church-and-authority.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.church-authority",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.church-authority.foundations.01",
+    "les.church-authority.foundations.02",
+    "les.church-authority.distinctions.01",
+    "les.church-authority.distinctions.02",
+    "les.church-authority.evidence.01",
+    "les.church-authority.evidence.02",
+    "les.church-authority.objections.01",
+    "les.church-authority.objections.02",
+    "les.church-authority.synthesis.01",
+    "les.church-authority.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.church-authority.foundations.01": "791c3c61fd4ed8afffdd55c2b264253df94af3009cdc4a9caba1ed2db3564781",
+    "les.church-authority.foundations.02": "f225ba85d40e8aae71905411e4efb60be5ea2d986b817595f8474c193fc41fba",
+    "les.church-authority.distinctions.01": "be9ebf28dcd54822fa4de63c54f755ebbe9a3692c03806d416637d270fec0544",
+    "les.church-authority.distinctions.02": "64c9fa2786d614be86c16cb5c0c8821be9c811a03711f109ca0cbf15c76d1fe9",
+    "les.church-authority.evidence.01": "551f7d7b7876cc5804814afe1ce098f1c7c9733d540d111b81a466f55899af0a",
+    "les.church-authority.evidence.02": "979de2fd6387801d415dd36531f143cf53cce6185c81ed9c97ec1bec7d7f84c5",
+    "les.church-authority.objections.01": "cf76b742f411653a0ce476ea88e3508d9a475f7b2e01101a10666139b47ee7e6",
+    "les.church-authority.objections.02": "a29af6ebe021075f0f290143e9b13ba4716791537aec83bb681ea2f910a050cf",
+    "les.church-authority.synthesis.01": "fe000042a44bfbff3c33c7933a8e225275db62d1fa9ab983426533a0b56ea185",
+    "les.church-authority.synthesis.02": "9f2c03d6946b934525fbd3563a722359938f75579f26b14995c93e8276ae72ac"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

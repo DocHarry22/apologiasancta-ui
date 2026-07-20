@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.apologist-lab.01",
+  "programmeId": "prog.apologist-lab",
+  "subjectId": "subj.apologist-lab",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.apologist-lab.brief.01",
+    "les.apologist-lab.brief.02",
+    "les.apologist-lab.dossier.01",
+    "les.apologist-lab.dossier.02",
+    "les.apologist-lab.construction.01",
+    "les.apologist-lab.construction.02",
+    "les.apologist-lab.simulation.01",
+    "les.apologist-lab.simulation.02",
+    "les.apologist-lab.debrief.01",
+    "les.apologist-lab.debrief.02"
+  ],
+  "contentHashes": {
+    "les.apologist-lab.brief.01": "8ef4e20969c2e44378b3b444ec3fcfb1b6f3e0119eabf24a30212477bc52373e",
+    "les.apologist-lab.brief.02": "2eedbc4ef5f0d4f48b8cbaf85964e552cdc78594ae4d54d4a4549d8fea071727",
+    "les.apologist-lab.dossier.01": "32544816f81515a113558299a518e0654a83ba5fd068be0e3c39dbf85f5b42bb",
+    "les.apologist-lab.dossier.02": "622a6d537efd2f2dc09d06c289a727e09841570051753c33886c32dafb838a08",
+    "les.apologist-lab.construction.01": "0aad411a63793a9066415e2e93d50c7cfc1a4c16752afd0bdfbf4451f61db4ee",
+    "les.apologist-lab.construction.02": "537102a58b42f26fab4859c9d557a423cf3f91cee1a0fd4fdd4899f6c2bba97c",
+    "les.apologist-lab.simulation.01": "a6e33290442b557a3a17ee6cd58e990ed049a4edc2d3fa6175c98e08657f1c07",
+    "les.apologist-lab.simulation.02": "c317c1c15ba959875f484190f689109aeff274ff76d0479af2c8c9070dd24be9",
+    "les.apologist-lab.debrief.01": "83ab813d6c5e009df98baa709258021bd7a201e2e4191e365b16659e4cd2f6c5",
+    "les.apologist-lab.debrief.02": "5d35e649f2e28b3c6ff06783eb689cab9e2342bdd21904e8d8230fe7b5a6fd85"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

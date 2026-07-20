@@ -1,35 +1,840 @@
 {
   "schemaVersion": "1.0.0",
-  "stableId": "batch.phase4.catholic-foundations.01",
-  "subjectId": "subj.catholic-foundations",
+  "stableId": "as.phase4.batch-index.2026-07",
   "status": "drafted_awaiting_review",
   "publicationStatus": "unpublished",
-  "generatedOn": "2026-07-19",
-  "lessonIds": [
-    "les.catholic-foundations.foundations.01",
-    "les.catholic-foundations.foundations.02",
-    "les.catholic-foundations.distinctions.01",
-    "les.catholic-foundations.distinctions.02",
-    "les.catholic-foundations.evidence.01",
-    "les.catholic-foundations.evidence.02",
-    "les.catholic-foundations.objections.01",
-    "les.catholic-foundations.objections.02",
-    "les.catholic-foundations.synthesis.01",
-    "les.catholic-foundations.synthesis.02"
+  "generatedOn": "2026-07-20",
+  "totalBatches": 118,
+  "totalLessons": 815,
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "batches": [
+    {
+      "stableId": "batch.phase4.catholic-foundations.01",
+      "subjectId": "subj.catholic-foundations",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/catholic-foundations.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.revelation-and-faith.01",
+      "subjectId": "subj.revelation-faith",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/revelation-and-faith.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.scripture-and-canon.01",
+      "subjectId": "subj.scripture-canon",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/scripture-and-canon.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.salvation-history.01",
+      "subjectId": "subj.salvation-history",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/salvation-history.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.god-trinity-and-creation.01",
+      "subjectId": "subj.god-trinity-creation",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/god-trinity-and-creation.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.christ-and-the-paschal-mystery.01",
+      "subjectId": "subj.christ-paschal-mystery",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/christ-and-the-paschal-mystery.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.church-grace-and-sacramental-life.01",
+      "subjectId": "subj.church-grace-sacraments",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/church-grace-and-sacramental-life.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.moral-life-and-prayer-foundations.01",
+      "subjectId": "subj.moral-prayer-foundations",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/moral-life-and-prayer-foundations.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.god-and-divine-attributes.01",
+      "subjectId": "subj.divine-attributes",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/god-and-divine-attributes.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.trinity.01",
+      "subjectId": "subj.trinity",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/trinity.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.christology.01",
+      "subjectId": "subj.christology",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/christology.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.redemption-and-resurrection.01",
+      "subjectId": "subj.redemption-resurrection",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/redemption-and-resurrection.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.grace-justification-and-salvation.01",
+      "subjectId": "subj.grace-justification-salvation",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/grace-justification-and-salvation.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.sacraments.01",
+      "subjectId": "subj.sacraments",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/sacraments.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.eucharist.01",
+      "subjectId": "subj.eucharist",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/eucharist.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.last-things-and-christian-hope.01",
+      "subjectId": "subj.eschatology",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/last-things-and-christian-hope.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.church-and-authority.01",
+      "subjectId": "subj.church-authority",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/church-and-authority.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.apostolic-succession.01",
+      "subjectId": "subj.apostolic-succession",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/apostolic-succession.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.papacy-and-magisterium.01",
+      "subjectId": "subj.papacy-magisterium",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/papacy-and-magisterium.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.liturgy.01",
+      "subjectId": "subj.liturgy",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/liturgy.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.mary.01",
+      "subjectId": "subj.mary",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/mary.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.saints-and-the-communion-of-saints.01",
+      "subjectId": "subj.saints-communion",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/saints-and-the-communion-of-saints.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.church-history.01",
+      "subjectId": "subj.church-history",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/church-history.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.church-fathers-and-doctors.01",
+      "subjectId": "subj.church-fathers",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/church-fathers-and-doctors.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.councils-and-heresies.01",
+      "subjectId": "subj.councils-heresies",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/councils-and-heresies.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.moral-theology.01",
+      "subjectId": "subj.moral-theology",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/moral-theology.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.conscience-virtue-and-sin.01",
+      "subjectId": "subj.conscience-virtue-sin",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/conscience-virtue-and-sin.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.human-life-and-bioethics.01",
+      "subjectId": "subj.life-bioethics",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/human-life-and-bioethics.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.marriage-sexuality-and-family.01",
+      "subjectId": "subj.marriage-sexuality-family",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/marriage-sexuality-and-family.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.prayer-and-spiritual-life.01",
+      "subjectId": "subj.prayer-spiritual-life",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/prayer-and-spiritual-life.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.catholic-social-teaching.01",
+      "subjectId": "subj.catholic-social-teaching",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/catholic-social-teaching.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.philosophy-and-logic.01",
+      "subjectId": "subj.philosophy-logic",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/philosophy-and-logic.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.natural-theology.01",
+      "subjectId": "subj.natural-theology",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/natural-theology.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.problem-of-evil-and-suffering.01",
+      "subjectId": "subj.problem-evil",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/problem-of-evil-and-suffering.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.faith-and-science.01",
+      "subjectId": "subj.faith-science",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/faith-and-science.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.atheism-and-secularism.01",
+      "subjectId": "subj.atheism-secularism",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/atheism-and-secularism.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.debate-reasoning-and-source-evaluation.01",
+      "subjectId": "subj.debate-source-evaluation",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/debate-reasoning-and-source-evaluation.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.protestant-controversies.01",
+      "subjectId": "subj.protestant-controversies",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/protestant-controversies.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.eastern-orthodox-relations.01",
+      "subjectId": "subj.eastern-orthodox-relations",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/eastern-orthodox-relations.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.islam-and-christianity.01",
+      "subjectId": "subj.islam-christianity",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/islam-and-christianity.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.judaism-and-christianity.01",
+      "subjectId": "subj.judaism-christianity",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/judaism-and-christianity.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.other-religions.01",
+      "subjectId": "subj.world-religions",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/other-religions.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.new-religious-movements.01",
+      "subjectId": "subj.new-religious-movements",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/new-religious-movements.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.apologist-lab.01",
+      "subjectId": "subj.apologist-lab",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/apologist-lab.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.optional-expert-challenges.01",
+      "subjectId": "subj.expert-challenges",
+      "lessonCount": 10,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/optional-expert-challenges.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-genesis.01",
+      "subjectId": "subj.bible.genesis",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-genesis.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-exodus.01",
+      "subjectId": "subj.bible.exodus",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-exodus.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-leviticus.01",
+      "subjectId": "subj.bible.leviticus",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-leviticus.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-numbers.01",
+      "subjectId": "subj.bible.numbers",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-numbers.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-deuteronomy.01",
+      "subjectId": "subj.bible.deuteronomy",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-deuteronomy.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-joshua.01",
+      "subjectId": "subj.bible.joshua",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-joshua.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-judges.01",
+      "subjectId": "subj.bible.judges",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-judges.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-ruth.01",
+      "subjectId": "subj.bible.ruth",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-ruth.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-1-samuel.01",
+      "subjectId": "subj.bible.1-samuel",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-1-samuel.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-2-samuel.01",
+      "subjectId": "subj.bible.2-samuel",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-2-samuel.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-1-kings.01",
+      "subjectId": "subj.bible.1-kings",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-1-kings.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-2-kings.01",
+      "subjectId": "subj.bible.2-kings",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-2-kings.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-1-chronicles.01",
+      "subjectId": "subj.bible.1-chronicles",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-1-chronicles.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-2-chronicles.01",
+      "subjectId": "subj.bible.2-chronicles",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-2-chronicles.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-ezra.01",
+      "subjectId": "subj.bible.ezra",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-ezra.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-nehemiah.01",
+      "subjectId": "subj.bible.nehemiah",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-nehemiah.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-tobit.01",
+      "subjectId": "subj.bible.tobit",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-tobit.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-judith.01",
+      "subjectId": "subj.bible.judith",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-judith.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-esther.01",
+      "subjectId": "subj.bible.esther",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-esther.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-1-maccabees.01",
+      "subjectId": "subj.bible.1-maccabees",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-1-maccabees.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-2-maccabees.01",
+      "subjectId": "subj.bible.2-maccabees",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-2-maccabees.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-job.01",
+      "subjectId": "subj.bible.job",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-job.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-psalms.01",
+      "subjectId": "subj.bible.psalms",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-psalms.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-proverbs.01",
+      "subjectId": "subj.bible.proverbs",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-proverbs.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-ecclesiastes.01",
+      "subjectId": "subj.bible.ecclesiastes",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-ecclesiastes.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-song-of-songs.01",
+      "subjectId": "subj.bible.song-of-songs",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-song-of-songs.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-wisdom.01",
+      "subjectId": "subj.bible.wisdom",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-wisdom.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-sirach.01",
+      "subjectId": "subj.bible.sirach",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-sirach.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-isaiah.01",
+      "subjectId": "subj.bible.isaiah",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-isaiah.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-jeremiah.01",
+      "subjectId": "subj.bible.jeremiah",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-jeremiah.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-lamentations.01",
+      "subjectId": "subj.bible.lamentations",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-lamentations.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-baruch.01",
+      "subjectId": "subj.bible.baruch",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-baruch.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-ezekiel.01",
+      "subjectId": "subj.bible.ezekiel",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-ezekiel.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-daniel.01",
+      "subjectId": "subj.bible.daniel",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-daniel.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-hosea.01",
+      "subjectId": "subj.bible.hosea",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-hosea.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-joel.01",
+      "subjectId": "subj.bible.joel",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-joel.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-amos.01",
+      "subjectId": "subj.bible.amos",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-amos.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-obadiah.01",
+      "subjectId": "subj.bible.obadiah",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-obadiah.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-jonah.01",
+      "subjectId": "subj.bible.jonah",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-jonah.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-micah.01",
+      "subjectId": "subj.bible.micah",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-micah.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-nahum.01",
+      "subjectId": "subj.bible.nahum",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-nahum.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-habakkuk.01",
+      "subjectId": "subj.bible.habakkuk",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-habakkuk.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-zephaniah.01",
+      "subjectId": "subj.bible.zephaniah",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-zephaniah.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-haggai.01",
+      "subjectId": "subj.bible.haggai",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-haggai.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-zechariah.01",
+      "subjectId": "subj.bible.zechariah",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-zechariah.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-malachi.01",
+      "subjectId": "subj.bible.malachi",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-malachi.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-matthew.01",
+      "subjectId": "subj.bible.matthew",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-matthew.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-mark.01",
+      "subjectId": "subj.bible.mark",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-mark.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-luke.01",
+      "subjectId": "subj.bible.luke",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-luke.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-john.01",
+      "subjectId": "subj.bible.john",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-john.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-acts.01",
+      "subjectId": "subj.bible.acts",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-acts.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-romans.01",
+      "subjectId": "subj.bible.romans",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-romans.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-1-corinthians.01",
+      "subjectId": "subj.bible.1-corinthians",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-1-corinthians.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-2-corinthians.01",
+      "subjectId": "subj.bible.2-corinthians",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-2-corinthians.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-galatians.01",
+      "subjectId": "subj.bible.galatians",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-galatians.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-ephesians.01",
+      "subjectId": "subj.bible.ephesians",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-ephesians.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-philippians.01",
+      "subjectId": "subj.bible.philippians",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-philippians.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-colossians.01",
+      "subjectId": "subj.bible.colossians",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-colossians.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-1-thessalonians.01",
+      "subjectId": "subj.bible.1-thessalonians",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-1-thessalonians.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-2-thessalonians.01",
+      "subjectId": "subj.bible.2-thessalonians",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-2-thessalonians.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-1-timothy.01",
+      "subjectId": "subj.bible.1-timothy",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-1-timothy.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-2-timothy.01",
+      "subjectId": "subj.bible.2-timothy",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-2-timothy.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-titus.01",
+      "subjectId": "subj.bible.titus",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-titus.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-philemon.01",
+      "subjectId": "subj.bible.philemon",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-philemon.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-hebrews.01",
+      "subjectId": "subj.bible.hebrews",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-hebrews.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-james.01",
+      "subjectId": "subj.bible.james",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-james.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-1-peter.01",
+      "subjectId": "subj.bible.1-peter",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-1-peter.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-2-peter.01",
+      "subjectId": "subj.bible.2-peter",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-2-peter.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-1-john.01",
+      "subjectId": "subj.bible.1-john",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-1-john.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-2-john.01",
+      "subjectId": "subj.bible.2-john",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-2-john.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-3-john.01",
+      "subjectId": "subj.bible.3-john",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-3-john.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-jude.01",
+      "subjectId": "subj.bible.jude",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-jude.manifest.json"
+    },
+    {
+      "stableId": "batch.phase4.bible-revelation.01",
+      "subjectId": "subj.bible.revelation",
+      "lessonCount": 5,
+      "status": "drafted_awaiting_review",
+      "manifestPath": "batches/bible-revelation.manifest.json"
+    }
   ],
-  "contentHashes": {
-    "les.catholic-foundations.foundations.01": "cef9d232c2b802fc5931a60425116ea4272f42b0d350b3eb16bf90733517bad4",
-    "les.catholic-foundations.foundations.02": "68d3c1aa25f0e9d871634902bde9bf87679955c5a457f096dfa781e416da5430",
-    "les.catholic-foundations.distinctions.01": "5bb4cab10b58a165bfa307514cf190ef72d5bc4f6a9a5d14b5a4103c521b4fd4",
-    "les.catholic-foundations.distinctions.02": "fe4cb9352c5f8e5c9f0049753e23ad837ab7d1901f8493fb2fcbcde9cb2ad2c8",
-    "les.catholic-foundations.evidence.01": "ed5511bcca85166590b4711e1952d4441fa1043317dadcfb05ae117e3b3ed604",
-    "les.catholic-foundations.evidence.02": "41ae02a0524fa58037e0d2840e50d312c9817a0af7b2d96dfaceb2c00124f892",
-    "les.catholic-foundations.objections.01": "1e76b851288914b89fcf249751fbb0150c0f15ddc7f2dfc9056036558e5ce544",
-    "les.catholic-foundations.objections.02": "13446a0933941298958b99e3b5828c6b68d3f542548ec2c46df6494ea5aab3d6",
-    "les.catholic-foundations.synthesis.01": "34c0a2d554fb896cc00cce87428c89413fc6e8e42de39bde0db249b878cc47d2",
-    "les.catholic-foundations.synthesis.02": "abfc795785c3af8fa5dd193954cefbdc1c3aa43d88ecf95876f624d6541f4f55"
-  },
-  "sourceCatalogHash": "4916ec4d64a95d38b799e9ec18607a262343d03c6953778e95aba27ee0bf2b13",
   "qualityPolicy": {
     "fullLessonTemplateRequired": true,
     "noArbitraryHtml": true,

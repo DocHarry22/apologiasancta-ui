@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.protestant-controversies.01",
+  "programmeId": "prog.comparative-apologetics",
+  "subjectId": "subj.protestant-controversies",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.protestant-controversies.foundations.01",
+    "les.protestant-controversies.foundations.02",
+    "les.protestant-controversies.distinctions.01",
+    "les.protestant-controversies.distinctions.02",
+    "les.protestant-controversies.evidence.01",
+    "les.protestant-controversies.evidence.02",
+    "les.protestant-controversies.objections.01",
+    "les.protestant-controversies.objections.02",
+    "les.protestant-controversies.synthesis.01",
+    "les.protestant-controversies.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.protestant-controversies.foundations.01": "562cbecb21aa6e831969a3a0b415990b50e0a2066e0a0b16ef334412f53e6797",
+    "les.protestant-controversies.foundations.02": "68c46915c82d85f00d4f952bf5dffe5aea6e6e92acc32dd6ffa5a0245b5f0cfb",
+    "les.protestant-controversies.distinctions.01": "f12254a9d4d31e5fa84f61af20fc7e5d5d8d005c5f844eb7e4713b66777ea51a",
+    "les.protestant-controversies.distinctions.02": "a59d9d15144dbf188fb2f7c6035fe47867b5907fb78b24fa40957e51472b2332",
+    "les.protestant-controversies.evidence.01": "7cf4cfcd272d8aed13afba67824155c60775804ed7668e1abb9e1158300a5b0b",
+    "les.protestant-controversies.evidence.02": "95a430929bdd1fa3a30bdf413efd1d8843edce042f9d9d377c37a43d00573fec",
+    "les.protestant-controversies.objections.01": "8895ba08e5aca3968598b1f12e37614ea817d063a7862670e347e7553d720778",
+    "les.protestant-controversies.objections.02": "4facdd951bb971ac2c42403654ff2f284088e14f589fe3f9f52a0ba6e7b05acc",
+    "les.protestant-controversies.synthesis.01": "493a72ddb43d372d04d3fa3b00fc5270f7f26c3a2ba5b8b4b6a49a80f3449c56",
+    "les.protestant-controversies.synthesis.02": "9d3b0789e8fbbcb13036a22860e8e95b403504c2f1b191078f4dcdb2d6736990"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

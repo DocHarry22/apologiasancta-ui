@@ -1,0 +1,590 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.eucharist.foundations.01",
+  "phase3LessonId": "les.eucharist.foundations.01",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.eucharist",
+  "groupId": "grp.eucharist.foundations",
+  "title": "The Eucharist as Source and Summit",
+  "slug": "eucharist-foundations-01",
+  "centralQuestion": "How should Catholic teaching understand The Eucharist as Source and Summit?",
+  "learningObjectives": [
+    "State a clear Catholic account of The Eucharist as Source and Summit in the context of Eucharist.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in The Eucharist as Source and Summit.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic teaching approaches The Eucharist as Source and Summit within Eucharist: Develops the biblical, liturgical, patristic, conciliar, and philosophical account of sacrifice, memorial, Real Presence, transubstantiation, communion, and adoration. It reads Scripture in the Church, applies Catechism and Magisterial distinctions, and separates revealed doctrine from discipline, opinion, and revisable historical or scientific judgment.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding The Eucharist as Source and Summit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Within Eucharist, the question The Eucharist as Source and Summit must be answered at the right level of authority. Develops the biblical, liturgical, patristic, conciliar, and philosophical account of sacrifice, memorial, Real Presence, transubstantiation, communion, and adoration. Scripture, ecclesial teaching, historical testimony, and specialist research contribute different kinds of evidence. The lesson therefore identifies which source establishes each premise and labels every interpretive step rather than presenting a synthesis as though it were a direct quotation.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "Scriptural study of The Eucharist as Source and Summit follows the route John 6:22-71, Luke 22:14-20, 1 Corinthians 10:16-17; 11:23-29. Reference, paraphrase, and inference remain visibly separate. Since the platform has no approved translation licence, the learner must open a permitted edition, examine literary setting and canonical connections, and decide whether the lesson's conclusion is explicit, typological, or the result of theological synthesis.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The essential vocabulary for The Eucharist as Source and Summit is Eucharist, Transubstantiation, Communion of saints. Before declaring agreement or conflict, check whether sources use those terms in the same sense, address the same problem, and carry the same authority. Doctrinal, devotional, historical, and comparative language may overlap, but the lesson may not treat them as interchangeable.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Foundations"
+    },
+    {
+      "type": "paragraph",
+      "text": "At the foundation stage, The Eucharist as Source and Summit should give the learner a stable first model rather than an inventory of every later dispute. The governing terms are Eucharist, Transubstantiation, Communion of saints. Each must retain its defined scope so that a biblical image, a doctrinal proposition, a disciplinary rule, and a theological explanation do not collapse into one category. The learner should be able to state the core account plainly before attempting technical qualifications.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for The Eucharist as Source and Summit, The Eucharist cannot remain an undefined slogan. State the proposition involving The Eucharist, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of The Eucharist in Eucharist must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For The Eucharist as Source and Summit, the focus on Source fixes one part of the lesson's scope. Source must be defined as it functions in The Eucharist as Source and Summit, then supported by a source competent for that definition. Within Eucharist, the learner should separate what the source states about Source from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The Eucharist as Source and Summit uses Summit as a checkpoint for understanding. The learner should locate Summit in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Summit is disputed within Eucharist, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For The Eucharist as Source and Summit, the focus on Eucharist fixes one part of the lesson's scope. Eucharist must be defined as it functions in The Eucharist as Source and Summit, then supported by a source competent for that definition. Within Eucharist, the learner should separate what the source states about Eucharist from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For The Eucharist as Source and Summit, recall sacrament. Eucharist uses sacrament in this lesson. Link sacrament with sacrifice in The Eucharist as Source and Summit. Classify every sacrament claim in The Eucharist as Source and Summit. Check sacrament evidence for Eucharist. Revise The Eucharist as Source and Summit if sacrament remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For The Eucharist as Source and Summit, recall sacrifice. Eucharist uses sacrifice in this lesson. Link sacrifice with substance and accidents in The Eucharist as Source and Summit. Classify every sacrifice claim in The Eucharist as Source and Summit. Check sacrifice evidence for Eucharist. Revise The Eucharist as Source and Summit if sacrifice remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For The Eucharist as Source and Summit, recall substance and accidents. Eucharist uses substance and accidents in this lesson. Link substance and accidents with Paschal Mystery in The Eucharist as Source and Summit. Classify every substance and accidents claim in The Eucharist as Source and Summit. Check substance and accidents evidence for Eucharist. Revise The Eucharist as Source and Summit if substance and accidents remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For The Eucharist as Source and Summit, recall Paschal Mystery. Eucharist uses Paschal Mystery in this lesson. Link Paschal Mystery with The Eucharist in The Eucharist as Source and Summit. Classify every Paschal Mystery claim in The Eucharist as Source and Summit. Check Paschal Mystery evidence for Eucharist. Revise The Eucharist as Source and Summit if Paschal Mystery remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For The Eucharist as Source and Summit, recall The Eucharist. Eucharist uses The Eucharist in this lesson. Link The Eucharist with sacrament in The Eucharist as Source and Summit. Classify every The Eucharist claim in The Eucharist as Source and Summit. Check The Eucharist evidence for Eucharist. Revise The Eucharist as Source and Summit if The Eucharist remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "The Eucharist as Source and Summit follows this approved curriculum purpose: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. This lesson focuses on the eucharist as source and summit. Within The Eucharist as Source and Summit, that purpose limits the draft to the evidence and conclusions needed for Foundations.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The Eucharist as Source and Summit prepares the learner for this mastery work: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. Success in The Eucharist as Source and Summit therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The Eucharist as Source and Summit carries a critical lesson review risk inside the critical risk profile for Eucharist. The recorded reason for Eucharist is dogmatic precision; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so The Eucharist as Source and Summit cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The Eucharist as Source and Summit must keep these classifications visible: dogma, doctrine, discipline. For The Eucharist as Source and Summit, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The Eucharist as Source and Summit uses the biblical path John 6:22-71, Luke 22:14-20, 1 Corinthians 10:16-17; 11:23-29. Its Catholic synthesis is checked against CCC 1066-1209 and CCC 1210-1419 and sections 5-14 and 47-61, while The Eucharist as Source and Summit reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "The Eucharist as Source and Summit names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.baptist.bfm-2000, src.anglican.cofe-canons-a set the descriptive boundary for Catholic in The Eucharist as Source and Summit; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The Eucharist as Source and Summit names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.baptist.bfm-2000, src.anglican.cofe-canons-a set the descriptive boundary for Eastern Orthodox in The Eucharist as Source and Summit; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The Eucharist as Source and Summit names Lutheran rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.baptist.bfm-2000, src.anglican.cofe-canons-a set the descriptive boundary for Lutheran in The Eucharist as Source and Summit; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The Eucharist as Source and Summit names Reformed rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.baptist.bfm-2000, src.anglican.cofe-canons-a set the descriptive boundary for Reformed in The Eucharist as Source and Summit; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The Eucharist as Source and Summit names Baptist rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.baptist.bfm-2000, src.anglican.cofe-canons-a set the descriptive boundary for Baptist in The Eucharist as Source and Summit; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The Eucharist as Source and Summit names Anglican rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.lutheran.augsburg-confession, src.reformed.westminster-confession, src.baptist.bfm-2000, src.anglican.cofe-canons-a set the descriptive boundary for Anglican in The Eucharist as Source and Summit; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The source path for The Eucharist as Source and Summit is deliberately inspectable. Read CCC 1066-1209 and CCC 1210-1419 for the Catechism frame, then sections 5-14 and 47-61 for authoritative context. Compare chapters 61 and 65-67 and Trent, decrees on the sacraments and Eucharist as relevant without treating reception and modern analysis as the same evidence. Human source review must confirm every use.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.justin.first-apology",
+        "src.conciliar.tanner-decrees"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for The Eucharist as Source and Summit",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "An informed opponent can grant much of the evidence for The Eucharist as Source and Summit while denying the Catholic inference. Why is the disputed conclusion more than one confessional construction among several?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Lutheran, Reformed, Baptist, Anglican, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about The Eucharist as Source and Summit concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "Catholic reasoning on The Eucharist as Source and Summit should expose every step: the scriptural premise, the rule of interpretation, the authoritative doctrinal judgment, the historical corroboration, and the conclusion. This permits a critic to dispute a premise without misrepresenting the whole case and prevents an unverified detail from masquerading as certainty.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.justin.first-apology",
+        "src.conciliar.tanner-decrees",
+        "src.orthodox.oca-faith",
+        "src.lutheran.augsburg-confession",
+        "src.reformed.westminster-confession",
+        "src.baptist.bfm-2000",
+        "src.anglican.cofe-canons-a"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.eucharist.foundations.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "eucharist",
+        "protestant"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Eucharist",
+      "definition": "The sacrament of Christ's Body and Blood, the memorial of his Passover, sacrificial banquet, and source of ecclesial communion.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "term": "Transubstantiation",
+      "definition": "The change of the whole substance of bread and wine into Christ's Body and Blood while sensible appearances remain.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "term": "Communion of saints",
+      "definition": "Communion in holy things and among holy persons in Christ across the pilgrim, purifying, and glorified Church.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "John 6:22-71",
+      "paraphrase": "Jesus presents himself as the life-giving bread from heaven and presses his hearers beyond merely material expectations.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Luke 22:14-20",
+      "paraphrase": "At the Passover meal Jesus identifies the bread and cup with his self-gift and commands the memorial action of the new covenant.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "1 Corinthians 10:16-17; 11:23-29",
+      "paraphrase": "Paul joins Eucharistic participation to communion in Christ, ecclesial unity, received tradition, and serious moral discernment.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1066-1209",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate The Eucharist as Source and Summit; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1210-1419",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for The Eucharist as Source and Summit and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 5-14 and 47-61",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of The Eucharist as Source and Summit must be assessed.",
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because The Eucharist as Source and Summit must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.justin.first-apology",
+        "locator": "chapters 61 and 65-67"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in The Eucharist as Source and Summit",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "An informed opponent can grant much of the evidence for The Eucharist as Source and Summit while denying the Catholic inference. Why is the disputed conclusion more than one confessional construction among several?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Lutheran, Reformed, Baptist, Anglican, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about The Eucharist as Source and Summit concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "Catholic reasoning on The Eucharist as Source and Summit should expose every step: the scriptural premise, the rule of interpretation, the authoritative doctrinal judgment, the historical corroboration, and the conclusion. This permits a critic to dispute a premise without misrepresenting the whole case and prevents an unverified detail from masquerading as certainty.",
+  "commonMistakes": [
+    "Treating The Eucharist as Source and Summit as an isolated slogan instead of a question within Eucharist.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Lutheran, Reformed, Baptist, Anglican despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of The Eucharist as Source and Summit: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "The Eucharist as Source and Summit can be explained clearly without erasing complexity. The biblical evidence remains contextual, authoritative Catholic teaching remains properly classified, historical and scholarly claims remain reviewable, and comparative positions remain tradition-specific. This ordered account integrates Eucharist with formation and mission.",
+  "reviewPrompts": [
+    "Give the short Catholic account of The Eucharist as Source and Summit without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.eucharist.foundations.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in The Eucharist as Source and Summit.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.eucharist.foundations.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain The Eucharist as Source and Summit in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "John 6:22-71; Luke 22:14-20; 1 Corinthians 10:16-17; 11:23-29",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 1066-1209; CCC 1210-1419",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "locator": "sections 5-14 and 47-61",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.justin.first-apology",
+      "locator": "chapters 61 and 65-67",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "locator": "Trent, decrees on the sacraments and Eucharist as relevant",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.lutheran.augsburg-confession",
+      "locator": "Articles IV-V, VII-XIV, XX, and XXVIII as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.baptist.bfm-2000",
+      "locator": "Articles I-VI, IV, VII, and XIV-XVIII as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.anglican.cofe-canons-a",
+      "locator": "Canons A1-A5",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.eucharist.foundations.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "eucharist",
+      "protestant"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Lutheran",
+      "Reformed",
+      "Baptist",
+      "Anglican"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.eucharist.01",
+    "batchOrder": 1,
+    "contentHash": "504b8555b3417a1651dd0cde29629d0f98ab971750d348016641327aec00d94f",
+    "approximateWordCount": 3623
+  }
+}

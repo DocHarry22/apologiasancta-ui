@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-1-john.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.1-john",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.1-john.context.01",
+    "les.bible.1-john.structure.01",
+    "les.bible.1-john.theology.01",
+    "les.bible.1-john.difficult-texts.01",
+    "les.bible.1-john.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.1-john.context.01": "bf28681a5efa15a9ba15d7d80920103f968d55594deca97d912239eda2f8006e",
+    "les.bible.1-john.structure.01": "174a2e80ec36c469429daed52839ba744247419d2e0ce5e6162db06af8dbb716",
+    "les.bible.1-john.theology.01": "f7326b6ef7df3df5faf47b7c3a0179a2b8124769999181421fc822834336ba6f",
+    "les.bible.1-john.difficult-texts.01": "bb800e979262d367f3647b89cd25aba914885acc50a1b861bb923992f1fe6239",
+    "les.bible.1-john.synthesis.01": "93308f57b897ab98e5fde6e576306c645eadc7ed1a34869af42eb78c759b2aa0"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

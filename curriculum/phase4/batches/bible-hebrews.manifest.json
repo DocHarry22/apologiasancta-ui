@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-hebrews.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.hebrews",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.hebrews.context.01",
+    "les.bible.hebrews.structure.01",
+    "les.bible.hebrews.theology.01",
+    "les.bible.hebrews.difficult-texts.01",
+    "les.bible.hebrews.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.hebrews.context.01": "fbe2cc952498cbb5a1d033e572c5cfea32a3f463032f6c69d0f349d5f44f91cf",
+    "les.bible.hebrews.structure.01": "56ac839b4e45d66417c09a8cc4f2b78c73219fe3ce37d10c91fc7220f91031c5",
+    "les.bible.hebrews.theology.01": "9d9108be5e9cbed19d507fb6c78b9cb172409f6fc741587856fa637e2e40064b",
+    "les.bible.hebrews.difficult-texts.01": "8da46908812ab7d7012da0ead79f6073f7e0c04b1c24a3e82362daea2741ca9f",
+    "les.bible.hebrews.synthesis.01": "c9864d21408cd3a577b3d66cc496766fe5fed6552dac9d5e9ef91cfbbb01d3ba"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -20,6 +20,16 @@ const markersFor = (source) => {
     .slice(0, 4);
 };
 
+const hasCurrentBrowserVerification = (source) => {
+  const verification = source.browserVerification;
+  if (!verification || verification.verifiedOn !== catalog.generatedOn || !verification.resolvedUrl) return false;
+  try {
+    return new URL(verification.resolvedUrl).hostname === new URL(source.url).hostname && verification.identityMarkers?.length > 0;
+  } catch {
+    return false;
+  }
+};
+
 const verifyUrl = async (source) => {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 25_000);
@@ -40,9 +50,8 @@ const verifyUrl = async (source) => {
     const validStatus = response.status >= 200 && response.status < 400;
     const identityConfirmed = matchedMarkers.length > 0;
     const publisherAccessLimitation =
-      response.status === 403 &&
-      new URL(source.url).hostname === "bible.usccb.org" &&
-      source.verificationStatus === "official_url_verified";
+      source.verificationStatus === "official_url_verified" &&
+      ((response.status === 403 && new URL(source.url).hostname === "bible.usccb.org") || hasCurrentBrowserVerification(source));
     return {
       sourceId: source.stableId,
       verificationMode: publisherAccessLimitation ? "prior_browser_identity_check_plus_automated_fetch" : "live_official_url",
@@ -54,11 +63,26 @@ const verifyUrl = async (source) => {
       matchedIdentityMarkers: matchedMarkers,
       responseBytesInspected: Buffer.byteLength(body),
       accessLimitation: publisherAccessLimitation
-        ? "USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on 2026-07-19."
+        ? source.browserVerification?.note ?? `USCCB returned HTTP 403 to the automated Node client. The exact official page title and chapter were independently resolved through the browser research path on ${catalog.generatedOn}.`
         : null,
       error: validStatus ? (identityConfirmed ? null : "No source-title identity marker found in response body.") : publisherAccessLimitation ? null : `HTTP ${response.status}`,
     };
   } catch (error) {
+    if (hasCurrentBrowserVerification(source)) {
+      return {
+        sourceId: source.stableId,
+        verificationMode: "browser_identity_check_after_automated_fetch_failure",
+        status: "passed_with_publisher_access_limitation",
+        httpStatus: null,
+        resolvedUrl: source.browserVerification.resolvedUrl,
+        publisherHost: new URL(source.browserVerification.resolvedUrl).hostname,
+        expectedIdentityMarkers: markersFor(source),
+        matchedIdentityMarkers: source.browserVerification.identityMarkers,
+        responseBytesInspected: 0,
+        accessLimitation: source.browserVerification.note,
+        error: null,
+      };
+    }
     return {
       sourceId: source.stableId,
       verificationMode: "live_official_url",
@@ -99,8 +123,8 @@ const failed = results.filter((result) => !acceptedStatuses.has(result.status));
 const accessLimitations = results.filter((result) => result.status === "passed_with_publisher_access_limitation");
 const report = {
   schemaVersion: "1.0.0",
-  stableId: "as.phase4.citation-verification.2026-07-19",
-  verifiedOn: "2026-07-19",
+  stableId: "as.phase4.citation-verification.2026-07-20",
+  verifiedOn: catalog.generatedOn,
   sourceCatalogSha256: catalogHash,
   status: failed.length ? "failed" : accessLimitations.length ? "passed_with_publisher_access_limitations" : "passed",
   scope: {

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.sacraments.01",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.sacraments",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.sacraments.foundations.01",
+    "les.sacraments.foundations.02",
+    "les.sacraments.distinctions.01",
+    "les.sacraments.distinctions.02",
+    "les.sacraments.evidence.01",
+    "les.sacraments.evidence.02",
+    "les.sacraments.objections.01",
+    "les.sacraments.objections.02",
+    "les.sacraments.synthesis.01",
+    "les.sacraments.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.sacraments.foundations.01": "a8e681457627297f90a7242f81a22796a2fc9e8d426716dbaa0a3a9ae2090a1a",
+    "les.sacraments.foundations.02": "eb314bf2d5f7f7b25842177723154805b03ae8687ad9b3f8dd216aa643456788",
+    "les.sacraments.distinctions.01": "d87a8af30bc61ac167b587979769044bb6addb980be27a542fbb2405edae1f79",
+    "les.sacraments.distinctions.02": "58aa799cfc460b8b2e3173bd6739a857efcc997ea322bef3de7a7a9b57e6fd18",
+    "les.sacraments.evidence.01": "8e375dcafba994c950b3809b2960fbdca5764398390110c7470b5d9d162c09a3",
+    "les.sacraments.evidence.02": "16272dc05200ac6a63af27fdd1dba1577187bb4bd16e4019729f09aa50920f03",
+    "les.sacraments.objections.01": "fbb29b15b6d27e4a16a9d625cfc57c73bb262caf1127722d824f5a52d2443b41",
+    "les.sacraments.objections.02": "57cda2628e404e2bd99a762de74828358548f8ea62a2f5d9eb5536f62c0db6c3",
+    "les.sacraments.synthesis.01": "73ea08a8262b2eaa0f30682b61dc7ab415cd55167e3f49e0cb052b2a49814d64",
+    "les.sacraments.synthesis.02": "bf5433a86d5658110b699f43421c45db28913793029c28ffd8f79104bfc4f242"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

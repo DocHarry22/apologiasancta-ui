@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-2-peter.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.2-peter",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.2-peter.context.01",
+    "les.bible.2-peter.structure.01",
+    "les.bible.2-peter.theology.01",
+    "les.bible.2-peter.difficult-texts.01",
+    "les.bible.2-peter.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.2-peter.context.01": "fed88e74bdd16e68bd9b9ab9beb9cc981a96375cc25994d42f015628ab51a4b6",
+    "les.bible.2-peter.structure.01": "b266bf195953d81b56ec48263a8ca6c919fbbae59374c93d5e1cae62400666ee",
+    "les.bible.2-peter.theology.01": "a758cddefbe8cf80f85c3c0b283871298e4b4282a5c07915467f0d731a830993",
+    "les.bible.2-peter.difficult-texts.01": "f9661af02df8a15c07b283b5d939df4f23bafce442bd7504c505e0e078f930a1",
+    "les.bible.2-peter.synthesis.01": "bb15e00ce6abcf4f93ea7e46878f8f928b76a75eb58dfd668c23b18f6df49bfa"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

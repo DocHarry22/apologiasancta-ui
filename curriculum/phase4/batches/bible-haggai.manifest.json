@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-haggai.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.haggai",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.haggai.context.01",
+    "les.bible.haggai.structure.01",
+    "les.bible.haggai.theology.01",
+    "les.bible.haggai.difficult-texts.01",
+    "les.bible.haggai.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.haggai.context.01": "e5e8fe61c8cf99d5b373d669d97318675ac8d6a48b353471d5138f698c7e8948",
+    "les.bible.haggai.structure.01": "b472c7c539ff6bf91a9ca3e569766df7fc682828f38e4613aff87c1e013fc6a7",
+    "les.bible.haggai.theology.01": "7e598f1098824ea83573020fc2408503bd556590d25f3b0d31e0e41b22c93076",
+    "les.bible.haggai.difficult-texts.01": "4d065a98dda54d7b5d3b46220365f051dcdc6c7c5592c6f3ad3871de5b02d051",
+    "les.bible.haggai.synthesis.01": "6539bffc286c0c5a18e72312fcc5764a4bb2e406f82e54d6964cdb2c4a5878dc"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

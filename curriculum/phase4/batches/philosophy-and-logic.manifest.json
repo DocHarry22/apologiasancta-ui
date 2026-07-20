@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.philosophy-and-logic.01",
+  "programmeId": "prog.reason-culture",
+  "subjectId": "subj.philosophy-logic",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.philosophy-logic.foundations.01",
+    "les.philosophy-logic.foundations.02",
+    "les.philosophy-logic.distinctions.01",
+    "les.philosophy-logic.distinctions.02",
+    "les.philosophy-logic.evidence.01",
+    "les.philosophy-logic.evidence.02",
+    "les.philosophy-logic.objections.01",
+    "les.philosophy-logic.objections.02",
+    "les.philosophy-logic.synthesis.01",
+    "les.philosophy-logic.synthesis.02"
+  ],
+  "contentHashes": {
+    "les.philosophy-logic.foundations.01": "c848ec325a8d7e68076d93af9b968b79868de39b615d9ed0eb23b3f226bf7913",
+    "les.philosophy-logic.foundations.02": "d7f72366a138a3d5e6c947b22dd688cd267a696fb9819e13d8ef8d70787c455b",
+    "les.philosophy-logic.distinctions.01": "43421e73b35a95387f62ddbc33868c54a3ce233b46ac3b8016e5f0fbabfbe4f2",
+    "les.philosophy-logic.distinctions.02": "18fe77689d79b6a625e89d4c6115b272711a21c4116c0707f11e42f4890e77dd",
+    "les.philosophy-logic.evidence.01": "00b6472dbd2d88fc7b872ee86fc074ec73d7c5db89000fac39b13c7097d70803",
+    "les.philosophy-logic.evidence.02": "7a64752bbc10c526a2acbecddb10a017f1b795b4633b090209c24f0a0914caca",
+    "les.philosophy-logic.objections.01": "7656f1bbf9a9036141ad6033192bca28a65760656763ebd8e71b275b87c18a22",
+    "les.philosophy-logic.objections.02": "62f798baccbb6430531edf3afc5f692d4caca99e4b2ec8559846b06236da381b",
+    "les.philosophy-logic.synthesis.01": "9931ac0bf9ad73aa751d6c38dae74124c47b54f27de7b1007c47c4fb2c24cb3f",
+    "les.philosophy-logic.synthesis.02": "5dbd35b5115785752709615d3604c85552b92ad9e13930388c36b6ccabd864bb"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

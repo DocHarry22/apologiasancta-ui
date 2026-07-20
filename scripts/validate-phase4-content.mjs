@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const phase4Root = path.join(root, "curriculum", "phase4");
-const lessonRoot = path.join(phase4Root, "lessons", "catholic-foundations");
+const lessonRoot = path.join(phase4Root, "lessons");
 const load = async (...segments) => JSON.parse(await readFile(path.join(...segments), "utf8"));
 const hash = (value) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
 const errors = [];
@@ -19,10 +19,21 @@ const schema = await load(phase4Root, "lesson.schema.json");
 const sourceCatalog = await load(phase4Root, "source-catalog.json");
 const production = await load(phase4Root, "production.manifest.json");
 const reviewQueue = await load(phase4Root, "review-queue.json");
-const batch = await load(phase4Root, "batch.manifest.json");
+const batchIndex = await load(phase4Root, "batch.manifest.json");
 const citationReport = await load(phase4Root, "citation-verification-report.json");
-const lessonFiles = (await readdir(lessonRoot)).filter((file) => file.endsWith(".json")).sort();
-const lessons = await Promise.all(lessonFiles.map((file) => load(lessonRoot, file)));
+const findJsonFiles = async (directory) => {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const nested = await Promise.all(entries.map((entry) => {
+    const target = path.join(directory, entry.name);
+    if (entry.isDirectory()) return findJsonFiles(target);
+    return entry.isFile() && entry.name.endsWith(".json") ? [target] : [];
+  }));
+  return nested.flat();
+};
+const lessonFiles = (await findJsonFiles(lessonRoot)).sort();
+const lessons = await Promise.all(lessonFiles.map((file) => load(file)));
+const batchManifests = await Promise.all(production.batches.map((item) => load(phase4Root, item.manifestPath)));
+const batchById = new Map(batchManifests.map((batch) => [batch.stableId, batch]));
 
 const sourceById = new Map(sourceCatalog.sources.map((source) => [source.stableId, source]));
 const outlineById = new Map(phase3.lessons.map((lesson) => [lesson.stableId, lesson]));
@@ -97,7 +108,7 @@ const sentenceStats = (paragraphs) => {
 fail(schema.$schema === "https://json-schema.org/draft/2020-12/schema", "Lesson schema must declare JSON Schema draft 2020-12.");
 fail(schema.additionalProperties === false, "Lesson schema must reject undeclared top-level fields.");
 fail(schema.description.includes("Arbitrary HTML"), "Lesson schema must document the arbitrary-HTML prohibition.");
-fail(lessonFiles.length === 10, `Expected 10 Catholic Foundations lessons, found ${lessonFiles.length}.`);
+fail(lessonFiles.length === phase3.lessons.length, `Expected ${phase3.lessons.length} complete lesson drafts, found ${lessonFiles.length}.`);
 fail(new Set(lessons.map((lesson) => lesson.stableId)).size === lessons.length, "Duplicate Phase 4 content stable identifier.");
 fail(new Set(lessons.map((lesson) => lesson.slug)).size === lessons.length, "Duplicate Phase 4 lesson slug.");
 fail(new Set(sourceCatalog.sources.map((source) => source.stableId)).size === sourceCatalog.sources.length, "Duplicate source-catalog stable identifier.");
@@ -222,7 +233,9 @@ for (const lesson of lessons) {
 
   const { _generation, ...hashable } = lesson;
   fail(hash(hashable) === _generation.contentHash, `${prefix} content hash does not match the lesson body.`);
-  fail(batch.contentHashes[prefix] === _generation.contentHash, `${prefix} content hash differs from the batch manifest.`);
+  const subjectBatch = batchById.get(_generation.batchId);
+  fail(Boolean(subjectBatch), `${prefix} has no subject batch manifest ${_generation.batchId}.`);
+  fail(subjectBatch?.contentHashes[prefix] === _generation.contentHash, `${prefix} content hash differs from its subject batch manifest.`);
 
   for (const prerequisite of outline.prerequisites) {
     if (prerequisite.type === "lesson") {
@@ -254,14 +267,15 @@ for (let leftIndex = 0; leftIndex < narrativeFingerprints.length; leftIndex += 1
 similarityPairs.sort((left, right) => right.fiveGramJaccard - left.fiveGramJaccard);
 fail((similarityPairs[0]?.fiveGramJaccard ?? 0) < 0.35, `Cross-lesson five-gram similarity is too high (${similarityPairs[0]?.fiveGramJaccard}).`);
 
-fail(production.status === "in_progress", "Phase 4 production manifest must remain in progress.");
+fail(production.status === "in_progress_awaiting_human_review", "Phase 4 production manifest must remain in progress and awaiting human review.");
 fail(production.publicationStatus === "unpublished", "Phase 4 production manifest must remain unpublished.");
-fail(production.policy.phaseMayBeMarkedComplete === false, "Phase 4 must not be marked complete while planned lessons remain.");
+fail(production.policy.phaseMayBeMarkedComplete === false, "Phase 4 must not be marked complete before governed human approval.");
 fail(production.lessons.length === phase3.lessons.length, "Production manifest silently omits planned Phase 3 lessons.");
 fail(production.subjects.length === phase3.subjects.length, "Production manifest silently omits Phase 3 subjects.");
 fail(production.counts.totalPlanned === phase3.lessons.length, "Production total differs from Phase 3.");
 fail(production.counts.drafted === lessons.length, "Draft count differs from generated lesson count.");
 fail(production.counts.planned + production.counts.drafted === phase3.lessons.length, "Planned and drafted counts do not reconcile.");
+fail(production.counts.planned === 0, "The complete production run still has missing planned lesson drafts.");
 fail(production.counts.reviewed === 0 && production.counts.approved === 0, "Automated generation must not mark lessons reviewed or approved.");
 fail(production.lessons.every((entry) => entry.publicationStatus === "unpublished"), "A production entry is unexpectedly published.");
 for (const subject of production.subjects) {
@@ -273,8 +287,12 @@ for (const subject of production.subjects) {
 fail(reviewQueue.items.length === lessons.length, "Review queue does not contain every drafted lesson.");
 fail(reviewQueue.items.every((item) => item.status === "awaiting_assignment" && item.assignedReviewers.length === 0), "Review queue must await named assignments.");
 fail(reviewQueue.publicationEffect === "none", "Review queue must have no publication effect.");
-fail(batch.lessonIds.length === lessons.length, "Batch manifest count differs from generated lessons.");
-fail(batch.status === "drafted_awaiting_review", "Batch must remain drafted and awaiting review.");
+fail(batchIndex.totalBatches === phase3.subjects.length, "Batch index does not contain one batch per subject.");
+fail(batchIndex.totalLessons === lessons.length, "Batch index lesson count differs from generated lessons.");
+fail(batchIndex.status === "drafted_awaiting_review", "Batch index must remain drafted and awaiting review.");
+fail(batchManifests.length === phase3.subjects.length, "Subject batch manifest count differs from the curriculum subject count.");
+fail(batchManifests.reduce((sum, item) => sum + item.lessonIds.length, 0) === lessons.length, "Subject batch lesson counts do not reconcile.");
+fail(batchManifests.every((item) => item.status === "drafted_awaiting_review" && item.publicationStatus === "unpublished"), "A subject batch escaped the draft-only review boundary.");
 fail(["passed", "passed_with_publisher_access_limitations"].includes(citationReport.status), "Citation verification report has not passed.");
 fail(citationReport.summary.failed === 0, "Citation verification report contains unresolved source failures.");
 fail(citationReport.results.length === sourceCatalog.sources.length, "Citation verification report does not cover the full source catalog.");
@@ -289,7 +307,7 @@ fail(importBatch.records.every((record) => record.importMetadata.publishAllowed 
 
 const report = {
   schemaVersion: "1.0.0",
-  generatedOn: "2026-07-19",
+  generatedOn: production.generatedOn,
   status: errors.length ? "failed" : "passed",
   scope: {
     phase3PlannedLessons: phase3.lessons.length,
@@ -317,7 +335,7 @@ const report = {
     practicePlaceholders,
     averageDraftWords: Math.round(readability.reduce((sum, item) => sum + item.approximateRecordWordCount, 0) / readability.length),
     internalTextReuseAudit: {
-      scope: "Exact substantive-paragraph duplication plus pairwise five-word-sequence similarity across this batch; this is not an external commercial-corpus plagiarism search.",
+      scope: "Exact substantive-paragraph duplication plus pairwise five-word-sequence similarity across the complete library; this is not an external commercial-corpus plagiarism search.",
       highestSimilarityPairs: similarityPairs.slice(0, 5),
     },
     readability,

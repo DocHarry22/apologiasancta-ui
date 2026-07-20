@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-judges.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.judges",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.judges.context.01",
+    "les.bible.judges.structure.01",
+    "les.bible.judges.theology.01",
+    "les.bible.judges.difficult-texts.01",
+    "les.bible.judges.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.judges.context.01": "5b81b1da2d52f87895508f5f7de5a5687d7da33dc655604ca800fce96071a50d",
+    "les.bible.judges.structure.01": "a2f45bab09a261ceaf2baecf61454a266a16c7d022bb05290d3478b1734ef33d",
+    "les.bible.judges.theology.01": "da8b8329758ca81d21348185586a32b3f08c6a37ae23d8338944ce19c5fc8cf8",
+    "les.bible.judges.difficult-texts.01": "bdd0fe31afdb5b4666b6ba7253831524a66897949d9bc3cc1cd20d439c541160",
+    "les.bible.judges.synthesis.01": "12f848eecd0e164f03dec6706ceefd233c527b6a584d249579f7658dce1edd6b"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}

@@ -1,0 +1,537 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.church-fathers.sources.01",
+  "phase3LessonId": "les.church-fathers.sources.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.church-fathers",
+  "groupId": "grp.church-fathers.sources",
+  "title": "Genre, Text, Translation, Authenticity, and Context",
+  "slug": "church-fathers-and-doctors-sources-01",
+  "centralQuestion": "How should Catholic teaching understand Genre, Text, Translation, Authenticity, and Context?",
+  "learningObjectives": [
+    "State a clear Catholic account of Genre, Text, Translation, Authenticity, and Context in the context of Church Fathers and Doctors.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Genre, Text, Translation, Authenticity, and Context.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Genre, Text, Translation, Authenticity, and Context belongs to the Catholic account of Church Fathers and Doctors. Introduces patristic periods, genres, doctrinal controversies, spiritual exegesis, major Fathers and Doctors, and responsible citation. A sound answer coordinates biblical witness and authoritative teaching while marking historical, philosophical, scientific, disciplinary, and theological claims at their proper level.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Genre, Text, Translation, Authenticity, and Context"
+    },
+    {
+      "type": "paragraph",
+      "text": "Within Church Fathers and Doctors, the question Genre, Text, Translation, Authenticity, and Context must be answered at the right level of authority. Introduces patristic periods, genres, doctrinal controversies, spiritual exegesis, major Fathers and Doctors, and responsible citation. Scripture, ecclesial teaching, historical testimony, and specialist research contribute different kinds of evidence. The lesson therefore identifies which source establishes each premise and labels every interpretive step rather than presenting a synthesis as though it were a direct quotation.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Genre, Text, Translation, Authenticity, and Context are Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Church, Primary source, Doctrinal classification control the reasoning in Genre, Text, Translation, Authenticity, and Context. A definition is useful only if it is applied consistently. The learner should identify the subject of each claim, distinguish analogous from univocal language where necessary, and resist moving from a word shared by two sources to an agreement those sources do not actually state.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Primary Sources and Distinctions"
+    },
+    {
+      "type": "paragraph",
+      "text": "Genre, Text, Translation, Authenticity, and Context takes its educational direction from Primary Sources and Distinctions: Distinguish primary evidence, later interpretation, reception, and anachronistic claims. Within Church Fathers and Doctors, the learner must use Church, Primary source, Doctrinal classification with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Eastern Orthodox, Oriental Orthodox, Protestant patristic retrieval. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Genre, Text, Translation, Authenticity, and Context, Genre cannot remain an undefined slogan. State the proposition involving Genre, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Genre in Church Fathers and Doctors must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Text gives Genre, Text, Translation, Authenticity, and Context a concrete analytical task. In treating Text, Genre, Text, Translation, Authenticity, and Context should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Text within Church Fathers and Doctors remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Genre, Text, Translation, Authenticity, and Context, Translation cannot remain an undefined slogan. State the proposition involving Translation, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Translation in Church Fathers and Doctors must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Genre, Text, Translation, Authenticity, and Context, the focus on Authenticity fixes one part of the lesson's scope. Authenticity must be defined as it functions in Genre, Text, Translation, Authenticity, and Context, then supported by a source competent for that definition. Within Church Fathers and Doctors, the learner should separate what the source states about Authenticity from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Genre, Text, Translation, Authenticity, and Context, recall apostolic age. Church Fathers and Doctors uses apostolic age in this lesson. Link apostolic age with doctrinal development in Genre, Text, Translation, Authenticity, and Context. Classify every apostolic age claim in Genre, Text, Translation, Authenticity, and Context. Check apostolic age evidence for Church Fathers and Doctors. Revise Genre, Text, Translation, Authenticity, and Context if apostolic age remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Genre, Text, Translation, Authenticity, and Context, recall doctrinal development. Church Fathers and Doctors uses doctrinal development in this lesson. Link doctrinal development with primary sources in Genre, Text, Translation, Authenticity, and Context. Classify every doctrinal development claim in Genre, Text, Translation, Authenticity, and Context. Check doctrinal development evidence for Church Fathers and Doctors. Revise Genre, Text, Translation, Authenticity, and Context if doctrinal development remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Genre, Text, Translation, Authenticity, and Context, recall primary sources. Church Fathers and Doctors uses primary sources in this lesson. Link primary sources with Historical Orientation in Genre, Text, Translation, Authenticity, and Context. Classify every primary sources claim in Genre, Text, Translation, Authenticity, and Context. Check primary sources evidence for Church Fathers and Doctors. Revise Genre, Text, Translation, Authenticity, and Context if primary sources remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Genre, Text, Translation, Authenticity, and Context, recall Historical Orientation. Church Fathers and Doctors uses Historical Orientation in this lesson. Link Historical Orientation with Genre in Genre, Text, Translation, Authenticity, and Context. Classify every Historical Orientation claim in Genre, Text, Translation, Authenticity, and Context. Check Historical Orientation evidence for Church Fathers and Doctors. Revise Genre, Text, Translation, Authenticity, and Context if Historical Orientation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Genre, Text, Translation, Authenticity, and Context, recall Genre. Church Fathers and Doctors uses Genre in this lesson. Link Genre with apostolic age in Genre, Text, Translation, Authenticity, and Context. Classify every Genre claim in Genre, Text, Translation, Authenticity, and Context. Check Genre evidence for Church Fathers and Doctors. Revise Genre, Text, Translation, Authenticity, and Context if Genre remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Genre, Text, Translation, Authenticity, and Context follows this approved curriculum purpose: Distinguish primary evidence, later interpretation, reception, and anachronistic claims. This lesson focuses on genre, text, translation, authenticity, and context. Within Genre, Text, Translation, Authenticity, and Context, that purpose limits the draft to the evidence and conclusions needed for Primary Sources and Distinctions.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Genre, Text, Translation, Authenticity, and Context prepares the learner for this mastery work: Distinguish primary evidence, later interpretation, reception, and anachronistic claims. Success in Genre, Text, Translation, Authenticity, and Context therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Genre, Text, Translation, Authenticity, and Context carries a high lesson review risk inside the high risk profile for Church Fathers and Doctors. The recorded reason for Church Fathers and Doctors is primary-source and chronology verification; comparative fairness and tradition-specific sourcing, so Genre, Text, Translation, Authenticity, and Context cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Genre, Text, Translation, Authenticity, and Context must keep these classifications visible: historical_claim, doctrine, theological_opinion. For Genre, Text, Translation, Authenticity, and Context, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Genre, Text, Translation, Authenticity, and Context uses the biblical path Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. Its Catholic synthesis is checked against CCC 74-100 and CCC 817-870 and sections 8, 18-27, and 39-51, while Genre, Text, Translation, Authenticity, and Context reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Genre, Text, Translation, Authenticity, and Context names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Catholic in Genre, Text, Translation, Authenticity, and Context; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Genre, Text, Translation, Authenticity, and Context names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Eastern Orthodox in Genre, Text, Translation, Authenticity, and Context; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Genre, Text, Translation, Authenticity, and Context names Oriental Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Oriental Orthodox in Genre, Text, Translation, Authenticity, and Context; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Genre, Text, Translation, Authenticity, and Context names Protestant patristic retrieval rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Protestant patristic retrieval in Genre, Text, Translation, Authenticity, and Context; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The source path for Genre, Text, Translation, Authenticity, and Context is deliberately inspectable. Read CCC 74-100 and CCC 817-870 for the Catechism frame, then sections 8, 18-27, and 39-51 for authoritative context. Compare book and chapter identified by the historical question and chapter identified by the historical question without treating reception and modern analysis as the same evidence. Human source review must confirm every use.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.eusebius.church-history",
+        "src.history.chadwick-early-church"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Genre, Text, Translation, Authenticity, and Context",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "The objection presses the burden of proof for Genre, Text, Translation, Authenticity, and Context: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+      "fairRepresentation": "A careful representative of Catholic, Eastern Orthodox, Oriental Orthodox, Protestant patristic retrieval may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+      "response": "In response, the lesson argues that Genre, Text, Translation, Authenticity, and Context is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.lumen-gentium",
+        "src.eusebius.church-history",
+        "src.history.chadwick-early-church",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.church-fathers.orientation.02",
+        "les.church-fathers.sources.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "historical",
+        "christology",
+        "trinity"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Church",
+      "definition": "The people gathered by the Father through Christ in the Holy Spirit, at once spiritual communion and visible apostolic society.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Primary source",
+      "definition": "A text, artefact, or record arising from the authority, community, person, or period being studied.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Doctrinal classification",
+      "definition": "A label distinguishing Catholic dogma or doctrine from discipline, theological opinion, and historical, philosophical, or scientific claims.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 16:13-20",
+      "paraphrase": "Peter's confession, the promise concerning Christ's Church, and the imagery of keys and binding belong to one ecclesial scene.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Acts 15:1-29",
+      "paraphrase": "The Jerusalem gathering resolves a disputed missionary question through testimony, scriptural reasoning, apostolic deliberation, and a decision attributed to the Holy Spirit.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 4:1-16",
+      "paraphrase": "The Church receives one faith and diverse ministries so that the whole body may grow into mature unity in Christ.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 74-100",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Genre, Text, Translation, Authenticity, and Context; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 817-870",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Genre, Text, Translation, Authenticity, and Context and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 8, 18-27, and 39-51",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Genre, Text, Translation, Authenticity, and Context must be assessed.",
+      "sourceId": "src.vatican2.lumen-gentium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Genre, Text, Translation, Authenticity, and Context must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.eusebius.church-history",
+        "locator": "book and chapter identified by the historical question"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Genre, Text, Translation, Authenticity, and Context",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "The objection presses the burden of proof for Genre, Text, Translation, Authenticity, and Context: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+  "opposingPosition": "A careful representative of Catholic, Eastern Orthodox, Oriental Orthodox, Protestant patristic retrieval may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+  "catholicResponse": "In response, the lesson argues that Genre, Text, Translation, Authenticity, and Context is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Genre, Text, Translation, Authenticity, and Context as an isolated slogan instead of a question within Church Fathers and Doctors.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Oriental Orthodox, Protestant patristic retrieval despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Genre, Text, Translation, Authenticity, and Context: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "Genre, Text, Translation, Authenticity, and Context can be explained clearly without erasing complexity. The biblical evidence remains contextual, authoritative Catholic teaching remains properly classified, historical and scholarly claims remain reviewable, and comparative positions remain tradition-specific. This ordered account integrates Church Fathers and Doctors with formation and mission.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Genre, Text, Translation, Authenticity, and Context without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.church-fathers.sources.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Genre, Text, Translation, Authenticity, and Context.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.church-fathers.sources.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Genre, Text, Translation, Authenticity, and Context in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Matthew 16:13-20; Acts 15:1-29; Ephesians 4:1-16",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 74-100; CCC 817-870",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.lumen-gentium",
+      "locator": "sections 8, 18-27, and 39-51",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.eusebius.church-history",
+      "locator": "book and chapter identified by the historical question",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.history.chadwick-early-church",
+      "locator": "chapter identified by the historical question",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.church-fathers.orientation.02",
+    "les.church-fathers.sources.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "historical",
+      "christology",
+      "trinity"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "historical_claim",
+      "doctrine",
+      "theological_opinion"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Oriental Orthodox",
+      "Protestant patristic retrieval"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.church-fathers-and-doctors.01",
+    "batchOrder": 3,
+    "contentHash": "69a68898c898b72e820d498020c860dab2de29bbc7fea946011703de97f256c0",
+    "approximateWordCount": 3371
+  }
+}

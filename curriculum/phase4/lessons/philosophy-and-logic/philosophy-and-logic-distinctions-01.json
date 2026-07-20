@@ -1,0 +1,523 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.philosophy-logic.distinctions.01",
+  "phase3LessonId": "les.philosophy-logic.distinctions.01",
+  "programmeId": "prog.reason-culture",
+  "subjectId": "subj.philosophy-logic",
+  "groupId": "grp.philosophy-logic.distinctions",
+  "title": "Term, Proposition, Inference, Validity, Soundness, and Probability",
+  "slug": "philosophy-and-logic-distinctions-01",
+  "centralQuestion": "How should Catholic teaching understand Term, Proposition, Inference, Validity, Soundness, and Probability?",
+  "learningObjectives": [
+    "State a clear Catholic account of Term, Proposition, Inference, Validity, Soundness, and Probability in the context of Philosophy and Logic.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Term, Proposition, Inference, Validity, Soundness, and Probability.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Philosophy and Logic supplies the frame for Term, Proposition, Inference, Validity, Soundness, and Probability: Builds conceptual analysis, metaphysics, epistemology, logic, argument mapping, fallacy recognition, and the Catholic relation to philosophical schools. Catholic teaching gives the doctrinal conclusion with its authority, the reasons supporting it, the limits of those reasons, and the practical response asked of the learner.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Term, Proposition, Inference, Validity, Soundness, and Probability"
+    },
+    {
+      "type": "paragraph",
+      "text": "The approved curriculum places Term, Proposition, Inference, Validity, Soundness, and Probability inside Philosophy and Logic, whose scope is this: Builds conceptual analysis, metaphysics, epistemology, logic, argument mapping, fallacy recognition, and the Catholic relation to philosophical schools. A reliable Catholic explanation assigns biblical, doctrinal, historical, philosophical, and scientific statements to the proper source. It then discloses the inference joining those statements. That transparency is part of the lesson's substance, not only an editorial note.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Term, Proposition, Inference, Validity, Soundness, and Probability are Wisdom 13:1-9, Romans 1:18-25, Acts 17:16-34. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Term, Proposition, Inference, Validity, Soundness, and Probability cannot be explained responsibly until Relation, Argument, Primary source are distinguished. The definitions organise the evidence and determine what would count as a valid objection. They also prevent a translation choice, popular usage, or polemical shorthand from silently replacing the Church's intended technical sense.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Distinctions"
+    },
+    {
+      "type": "paragraph",
+      "text": "Term, Proposition, Inference, Validity, Soundness, and Probability takes its educational direction from Distinctions: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. Within Philosophy and Logic, the learner must use Relation, Argument, Primary source with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Aristotelian-Thomist, Augustinian, analytic, continental, secular philosophical traditions. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Term gives Term, Proposition, Inference, Validity, Soundness, and Probability a concrete analytical task. In treating Term, Term, Proposition, Inference, Validity, Soundness, and Probability should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Term within Philosophy and Logic remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Proposition gives Term, Proposition, Inference, Validity, Soundness, and Probability a concrete analytical task. In treating Proposition, Term, Proposition, Inference, Validity, Soundness, and Probability should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Proposition within Philosophy and Logic remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Inference matters specifically to Term, Proposition, Inference, Validity, Soundness, and Probability. Ask first what Inference denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Inference under Philosophy and Logic should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Validity matters specifically to Term, Proposition, Inference, Validity, Soundness, and Probability. Ask first what Validity denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Validity under Philosophy and Logic should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Term, Proposition, Inference, Validity, Soundness, and Probability, recall Foundations. Philosophy and Logic uses Foundations in this lesson. Link Foundations with Term in Term, Proposition, Inference, Validity, Soundness, and Probability. Classify every Foundations claim in Term, Proposition, Inference, Validity, Soundness, and Probability. Check Foundations evidence for Philosophy and Logic. Revise Term, Proposition, Inference, Validity, Soundness, and Probability if Foundations remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Term, Proposition, Inference, Validity, Soundness, and Probability, recall Term. Philosophy and Logic uses Term in this lesson. Link Term with Proposition in Term, Proposition, Inference, Validity, Soundness, and Probability. Classify every Term claim in Term, Proposition, Inference, Validity, Soundness, and Probability. Check Term evidence for Philosophy and Logic. Revise Term, Proposition, Inference, Validity, Soundness, and Probability if Term remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Term, Proposition, Inference, Validity, Soundness, and Probability, recall Proposition. Philosophy and Logic uses Proposition in this lesson. Link Proposition with Inference in Term, Proposition, Inference, Validity, Soundness, and Probability. Classify every Proposition claim in Term, Proposition, Inference, Validity, Soundness, and Probability. Check Proposition evidence for Philosophy and Logic. Revise Term, Proposition, Inference, Validity, Soundness, and Probability if Proposition remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Term, Proposition, Inference, Validity, Soundness, and Probability, recall Inference. Philosophy and Logic uses Inference in this lesson. Link Inference with Validity in Term, Proposition, Inference, Validity, Soundness, and Probability. Classify every Inference claim in Term, Proposition, Inference, Validity, Soundness, and Probability. Check Inference evidence for Philosophy and Logic. Revise Term, Proposition, Inference, Validity, Soundness, and Probability if Inference remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Term, Proposition, Inference, Validity, Soundness, and Probability, recall Validity. Philosophy and Logic uses Validity in this lesson. Link Validity with Foundations in Term, Proposition, Inference, Validity, Soundness, and Probability. Classify every Validity claim in Term, Proposition, Inference, Validity, Soundness, and Probability. Check Validity evidence for Philosophy and Logic. Revise Term, Proposition, Inference, Validity, Soundness, and Probability if Validity remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Term, Proposition, Inference, Validity, Soundness, and Probability follows this approved curriculum purpose: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. This lesson focuses on term, proposition, inference, validity, soundness, and probability. Within Term, Proposition, Inference, Validity, Soundness, and Probability, that purpose limits the draft to the evidence and conclusions needed for Distinctions.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Term, Proposition, Inference, Validity, Soundness, and Probability prepares the learner for this mastery work: Prevent category errors by separating dogma, doctrine, discipline, opinion, and neighboring concepts. Success in Term, Proposition, Inference, Validity, Soundness, and Probability therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Term, Proposition, Inference, Validity, Soundness, and Probability carries a medium lesson review risk inside the medium risk profile for Philosophy and Logic. The recorded reason for Philosophy and Logic is comparative fairness and tradition-specific sourcing, so Term, Proposition, Inference, Validity, Soundness, and Probability cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Term, Proposition, Inference, Validity, Soundness, and Probability must keep these classifications visible: philosophical_claim, theological_opinion. For Term, Proposition, Inference, Validity, Soundness, and Probability, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Term, Proposition, Inference, Validity, Soundness, and Probability uses the biblical path Wisdom 13:1-9, Romans 1:18-25, Acts 17:16-34. Its Catholic synthesis is checked against CCC 27-49 and CCC 156-184 and sections 1-35 and 80-99, while Term, Proposition, Inference, Validity, Soundness, and Probability reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Term, Proposition, Inference, Validity, Soundness, and Probability names Aristotelian-Thomist rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for Aristotelian-Thomist in Term, Proposition, Inference, Validity, Soundness, and Probability; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Term, Proposition, Inference, Validity, Soundness, and Probability names Augustinian rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for Augustinian in Term, Proposition, Inference, Validity, Soundness, and Probability; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Term, Proposition, Inference, Validity, Soundness, and Probability names analytic rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for analytic in Term, Proposition, Inference, Validity, Soundness, and Probability; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Term, Proposition, Inference, Validity, Soundness, and Probability names continental rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for continental in Term, Proposition, Inference, Validity, Soundness, and Probability; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Term, Proposition, Inference, Validity, Soundness, and Probability names secular philosophical traditions rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for secular philosophical traditions in Term, Proposition, Inference, Validity, Soundness, and Probability; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "To audit Term, Proposition, Inference, Validity, Soundness, and Probability, follow the locators rather than trusting the summary: CCC 27-49 and CCC 156-184; sections 1-35 and 80-99; Part I, questions 1-13; and named argument or declaration identified in the lesson. Each source should support the precise sentence for which it is cited. Edition, translation, context, and attribution remain explicit items for the review queue.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio",
+        "src.aquinas.summa-theologiae",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Term, Proposition, Inference, Validity, Soundness, and Probability",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "The sharpest challenge to Term, Proposition, Inference, Validity, Soundness, and Probability is methodological: if Scripture, history, and Magisterium are disputed, does the lesson merely assume the ecclesiology needed to win the argument?",
+      "fairRepresentation": "Aristotelian-Thomist, Augustinian, analytic, continental, secular philosophical traditions includes positions that can differ sharply from one another. A fair alternative reading of Term, Proposition, Inference, Validity, Soundness, and Probability may prioritise a different canon, rule of faith, philosophical account, or historical reconstruction. It should be stated from a source its own advocates recognise, with internal variation named rather than suppressed.",
+      "response": "In response, the lesson argues that Term, Proposition, Inference, Validity, Soundness, and Probability is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.jp2.fides-et-ratio",
+        "src.aquinas.summa-theologiae",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.philosophy-logic.foundations.02",
+        "les.philosophy-logic.distinctions.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "secular"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Relation",
+      "definition": "An ordered reference to another; Trinitarian relations distinguish the Persons without dividing the divine nature.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "term": "Argument",
+      "definition": "A set of premises offered in support of a conclusion; validity and truth of premises must be assessed separately.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "term": "Primary source",
+      "definition": "A text, artefact, or record arising from the authority, community, person, or period being studied.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Wisdom 13:1-9",
+      "paraphrase": "The text criticises failure to reason from the beauty and power of created realities toward their Maker while recognising the difficulty of the search.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Romans 1:18-25",
+      "paraphrase": "Paul treats creation as genuinely disclosive of divine power while diagnosing the moral distortion that can redirect worship toward creatures.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Acts 17:16-34",
+      "paraphrase": "Paul engages Athenian religion and philosophy through shared points, correction, creation, providence, repentance, and the resurrection.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 27-49",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Term, Proposition, Inference, Validity, Soundness, and Probability; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 156-184",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Term, Proposition, Inference, Validity, Soundness, and Probability and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 1-35 and 80-99",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Term, Proposition, Inference, Validity, Soundness, and Probability must be assessed.",
+      "sourceId": "src.jp2.fides-et-ratio",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Term, Proposition, Inference, Validity, Soundness, and Probability must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.aquinas.summa-theologiae",
+        "locator": "Part I, questions 1-13"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Term, Proposition, Inference, Validity, Soundness, and Probability",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "The sharpest challenge to Term, Proposition, Inference, Validity, Soundness, and Probability is methodological: if Scripture, history, and Magisterium are disputed, does the lesson merely assume the ecclesiology needed to win the argument?",
+  "opposingPosition": "Aristotelian-Thomist, Augustinian, analytic, continental, secular philosophical traditions includes positions that can differ sharply from one another. A fair alternative reading of Term, Proposition, Inference, Validity, Soundness, and Probability may prioritise a different canon, rule of faith, philosophical account, or historical reconstruction. It should be stated from a source its own advocates recognise, with internal variation named rather than suppressed.",
+  "catholicResponse": "In response, the lesson argues that Term, Proposition, Inference, Validity, Soundness, and Probability is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Term, Proposition, Inference, Validity, Soundness, and Probability as an isolated slogan instead of a question within Philosophy and Logic.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Aristotelian-Thomist, Augustinian, analytic, continental, secular philosophical traditions despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Term, Proposition, Inference, Validity, Soundness, and Probability: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "In summary, Term, Proposition, Inference, Validity, Soundness, and Probability is answered by ordering evidence rather than accumulating quotations. Philosophy and Logic supplies the doctrinal horizon; the assigned sources establish biblical, ecclesial, historical, and specialist premises. Fair scope and explicit inference keep the Catholic response both confident and corrigible where claims remain non-definitive.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Term, Proposition, Inference, Validity, Soundness, and Probability without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.philosophy-logic.distinctions.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Term, Proposition, Inference, Validity, Soundness, and Probability.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.philosophy-logic.distinctions.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Term, Proposition, Inference, Validity, Soundness, and Probability in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Wisdom 13:1-9; Romans 1:18-25; Acts 17:16-34",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 27-49; CCC 156-184",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.jp2.fides-et-ratio",
+      "locator": "sections 1-35 and 80-99",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.aquinas.summa-theologiae",
+      "locator": "Part I, questions 1-13",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.secular.representative-sources",
+      "locator": "named argument or declaration identified by the lesson topic",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.philosophy-logic.foundations.02",
+    "les.philosophy-logic.distinctions.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "secular"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "philosophical_claim",
+      "theological_opinion"
+    ],
+    "comparativeTraditions": [
+      "Aristotelian-Thomist",
+      "Augustinian",
+      "analytic",
+      "continental",
+      "secular philosophical traditions"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.philosophy-and-logic.01",
+    "batchOrder": 3,
+    "contentHash": "43421e73b35a95387f62ddbc33868c54a3ce233b46ac3b8016e5f0fbabfbe4f2",
+    "approximateWordCount": 3330
+  }
+}

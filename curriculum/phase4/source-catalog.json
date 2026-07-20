@@ -3,7 +3,7 @@
   "stableId": "as.phase4.source-catalog.2026-07",
   "status": "draft",
   "publicationStatus": "unpublished",
-  "generatedOn": "2026-07-19",
+  "generatedOn": "2026-07-20",
   "policy": {
     "primarySourcePreference": true,
     "scriptureTextStored": false,
@@ -13,14 +13,24 @@
   },
   "sources": [
     {
+      "stableId": "src.scripture.catholic-bible",
+      "sourceType": "Sacred Scripture",
+      "title": "New American Bible, Revised Edition",
+      "corporateAuthor": "United States Conference of Catholic Bishops",
+      "bibliographicLocator": "Complete Catholic canon; 2011 revised edition",
+      "verificationStatus": "bibliographically_verified",
+      "verificationMethod": "Edition identity, Catholic canon, and book/chapter divisions were checked against the official USCCB Bible portal on 2026-07-20; lesson records store references and original paraphrases only.",
+      "quotationPolicy": "References and original paraphrases only; no translation text is reproduced."
+    },
+    {
       "stableId": "src.scripture.matthew-28",
       "sourceType": "Sacred Scripture",
       "title": "Matthew 28",
       "corporateAuthor": "United States Conference of Catholic Bishops",
       "url": "https://bible.usccb.org/bible/matthew/28",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Reference and original paraphrase only until the platform Scripture-licensing policy is approved; no biblical translation text is stored."
     },
     {
@@ -29,9 +39,9 @@
       "title": "Luke 24",
       "corporateAuthor": "United States Conference of Catholic Bishops",
       "url": "https://bible.usccb.org/bible/luke/24",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Reference and original paraphrase only until the platform Scripture-licensing policy is approved; no biblical translation text is stored."
     },
     {
@@ -40,9 +50,9 @@
       "title": "Acts 2",
       "corporateAuthor": "United States Conference of Catholic Bishops",
       "url": "https://bible.usccb.org/bible/acts/2",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Reference and original paraphrase only until the platform Scripture-licensing policy is approved; no biblical translation text is stored."
     },
     {
@@ -51,9 +61,9 @@
       "title": "Romans 12",
       "corporateAuthor": "United States Conference of Catholic Bishops",
       "url": "https://bible.usccb.org/bible/romans/12",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Reference and original paraphrase only until the platform Scripture-licensing policy is approved; no biblical translation text is stored."
     },
     {
@@ -62,9 +72,9 @@
       "title": "1 Corinthians 15",
       "corporateAuthor": "United States Conference of Catholic Bishops",
       "url": "https://bible.usccb.org/bible/1corinthians/15",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Reference and original paraphrase only until the platform Scripture-licensing policy is approved; no biblical translation text is stored."
     },
     {
@@ -73,9 +83,9 @@
       "title": "Ephesians 4",
       "corporateAuthor": "United States Conference of Catholic Bishops",
       "url": "https://bible.usccb.org/bible/ephesians/4",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Reference and original paraphrase only until the platform Scripture-licensing policy is approved; no biblical translation text is stored."
     },
     {
@@ -84,9 +94,9 @@
       "title": "Colossians 3",
       "corporateAuthor": "United States Conference of Catholic Bishops",
       "url": "https://bible.usccb.org/bible/colossians/3",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Reference and original paraphrase only until the platform Scripture-licensing policy is approved; no biblical translation text is stored."
     },
     {
@@ -95,9 +105,9 @@
       "title": "1 Timothy 3",
       "corporateAuthor": "United States Conference of Catholic Bishops",
       "url": "https://bible.usccb.org/bible/1timothy/3",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Reference and original paraphrase only until the platform Scripture-licensing policy is approved; no biblical translation text is stored."
     },
     {
@@ -106,9 +116,9 @@
       "title": "2 Timothy 2",
       "corporateAuthor": "United States Conference of Catholic Bishops",
       "url": "https://bible.usccb.org/bible/2timothy/2",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Reference and original paraphrase only until the platform Scripture-licensing policy is approved; no biblical translation text is stored."
     },
     {
@@ -117,9 +127,9 @@
       "title": "James 1",
       "corporateAuthor": "United States Conference of Catholic Bishops",
       "url": "https://bible.usccb.org/bible/james/1",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Reference and original paraphrase only until the platform Scripture-licensing policy is approved; no biblical translation text is stored."
     },
     {
@@ -128,9 +138,9 @@
       "title": "1 Peter 3",
       "corporateAuthor": "United States Conference of Catholic Bishops",
       "url": "https://bible.usccb.org/bible/1peter/3",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Reference and original paraphrase only until the platform Scripture-licensing policy is approved; no biblical translation text is stored."
     },
     {
@@ -139,9 +149,9 @@
       "title": "Catechism of the Catholic Church",
       "corporateAuthor": "Holy See",
       "url": "https://www.vatican.va/content/catechism/en.html",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Summaries and paragraph locators only in this batch; any future quotation requires rights review."
     },
     {
@@ -150,9 +160,9 @@
       "title": "The Interpretation of the Heritage of Faith",
       "corporateAuthor": "Holy See",
       "url": "https://www.vatican.va/content/catechism/en/part_one/section_one/chapter_two/artcile_2/iii_the_interpretation_of_the_heritage_of_faith.html",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Summaries and paragraph locators only in this batch."
     },
     {
@@ -161,9 +171,9 @@
       "title": "Dei Verbum",
       "corporateAuthor": "Second Vatican Council",
       "url": "https://www.vatican.va/archive/hist_councils/ii_vatican_council/documents/vat-ii_const_19651118_dei-verbum_en.html",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Original summaries with section locators; no extended quotation."
     },
     {
@@ -172,9 +182,9 @@
       "title": "Unitatis Redintegratio",
       "corporateAuthor": "Second Vatican Council",
       "url": "https://www.vatican.va/archive/hist_councils/ii_vatican_council/documents/vat-ii_decree_19641121_unitatis-redintegratio_en.html",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Original summaries with section locators; no extended quotation."
     },
     {
@@ -183,9 +193,64 @@
       "title": "Sacrosanctum Concilium",
       "corporateAuthor": "Second Vatican Council",
       "url": "https://www.vatican.va/archive/hist_councils/ii_vatican_council/documents/vat-ii_const_19631204_sacrosanctum-concilium_en.html",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
+      "quotationPolicy": "Original summaries with section locators; no extended quotation."
+    },
+    {
+      "stableId": "src.vatican2.lumen-gentium",
+      "sourceType": "Ecumenical council",
+      "title": "Lumen Gentium",
+      "corporateAuthor": "Second Vatican Council",
+      "url": "https://www.vatican.va/content/dam/wss/archive/hist_councils/ii_vatican_council/documents/vat-ii_const_19641121_lumen-gentium_en.html",
+      "accessDate": "2026-07-20",
+      "verificationStatus": "official_url_verified",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
+      "quotationPolicy": "Original summaries with section locators; no extended quotation."
+    },
+    {
+      "stableId": "src.vatican2.gaudium-et-spes",
+      "sourceType": "Ecumenical council",
+      "title": "Gaudium et Spes",
+      "corporateAuthor": "Second Vatican Council",
+      "url": "https://press.vatican.va/archive/hist_councils/ii_vatican_council/documents/vat-ii_const_19651207_gaudium-et-spes_en.html",
+      "accessDate": "2026-07-20",
+      "verificationStatus": "official_url_verified",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
+      "quotationPolicy": "Original summaries with section locators; no extended quotation."
+    },
+    {
+      "stableId": "src.vatican2.nostra-aetate",
+      "sourceType": "Ecumenical council",
+      "title": "Nostra Aetate",
+      "corporateAuthor": "Second Vatican Council",
+      "url": "https://press.vatican.va/archive/hist_councils/ii_vatican_council/documents/vat-ii_decl_19651028_nostra-aetate_en.html",
+      "accessDate": "2026-07-20",
+      "verificationStatus": "official_url_verified",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
+      "quotationPolicy": "Original summaries with section locators; no extended quotation."
+    },
+    {
+      "stableId": "src.jp2.fides-et-ratio",
+      "sourceType": "Authoritative papal document",
+      "title": "Fides et Ratio",
+      "corporateAuthor": "Pope John Paul II",
+      "url": "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_14091998_fides-et-ratio.html",
+      "accessDate": "2026-07-20",
+      "verificationStatus": "official_url_verified",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
+      "quotationPolicy": "Original summaries with section locators; no extended quotation."
+    },
+    {
+      "stableId": "src.ddf.dignitas-infinita",
+      "sourceType": "Authoritative dicastery document",
+      "title": "Dignitas Infinita",
+      "corporateAuthor": "Dicastery for the Doctrine of the Faith",
+      "url": "https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_ddf_doc_20240402_dignitas-infinita_en.html",
+      "accessDate": "2026-07-20",
+      "verificationStatus": "official_url_verified",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Original summaries with section locators; no extended quotation."
     },
     {
@@ -194,9 +259,9 @@
       "title": "Catechesi Tradendae",
       "corporateAuthor": "Pope John Paul II",
       "url": "https://www.vatican.va/content/john-paul-ii/en/apost_exhortations/documents/hf_jp-ii_exh_16101979_catechesi-tradendae.html",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Original summaries with section locators; no extended quotation."
     },
     {
@@ -205,9 +270,9 @@
       "title": "Evangelii Gaudium",
       "corporateAuthor": "Pope Francis",
       "url": "https://www.vatican.va/content/francesco/en/apost_exhortations/documents/papa-francesco_esortazione-ap_20131124_evangelii-gaudium.html",
-      "accessDate": "2026-07-19",
+      "accessDate": "2026-07-20",
       "verificationStatus": "official_url_verified",
-      "verificationMethod": "Resolved against the official publisher on 2026-07-19; locators are checked during lesson validation.",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
       "quotationPolicy": "Original summaries with section locators; no extended quotation."
     },
     {
@@ -270,6 +335,224 @@
       "verificationStatus": "bibliographically_verified",
       "verificationMethod": "Document title, chapter, and section numbering verified against standard confessional editions; no edition-specific URL or wording is asserted.",
       "quotationPolicy": "Paraphrase only; no edition text reproduced."
+    },
+    {
+      "stableId": "src.aquinas.summa-theologiae",
+      "sourceType": "Doctors of the Church",
+      "title": "Summa Theologiae",
+      "author": "St Thomas Aquinas",
+      "bibliographicLocator": "Parts, questions, and articles as cited in lessons",
+      "verificationStatus": "bibliographically_verified",
+      "verificationMethod": "Title, creator, edition or stable internal divisions, and stated locator were checked against the publisher or standard scholarly cataloguing on 2026-07-20; no unverified page number is asserted.",
+      "quotationPolicy": "Paraphrase only; no translation text reproduced."
+    },
+    {
+      "stableId": "src.eusebius.church-history",
+      "sourceType": "Primary historical source",
+      "title": "Ecclesiastical History",
+      "author": "Eusebius of Caesarea",
+      "bibliographicLocator": "Books I-X",
+      "verificationStatus": "bibliographically_verified",
+      "verificationMethod": "Title, creator, edition or stable internal divisions, and stated locator were checked against the publisher or standard scholarly cataloguing on 2026-07-20; no unverified page number is asserted.",
+      "quotationPolicy": "Paraphrase only; no translation text reproduced."
+    },
+    {
+      "stableId": "src.scholarship.new-jerome-biblical-commentary",
+      "sourceType": "Recognised Catholic scholarship",
+      "title": "The New Jerome Biblical Commentary",
+      "author": "Raymond E. Brown, Joseph A. Fitzmyer, and Roland E. Murphy, editors",
+      "bibliographicLocator": "Book-specific articles and topical articles identified by title",
+      "verificationStatus": "bibliographically_verified",
+      "verificationMethod": "Title, creator, edition or stable internal divisions, and stated locator were checked against the publisher or standard scholarly cataloguing on 2026-07-20; no unverified page number is asserted.",
+      "quotationPolicy": "Bibliographic citation and original synthesis only; no commentary text reproduced."
+    },
+    {
+      "stableId": "src.conciliar.tanner-decrees",
+      "sourceType": "Reputable academic scholarship",
+      "title": "Decrees of the Ecumenical Councils",
+      "author": "Norman P. Tanner, editor",
+      "bibliographicLocator": "Two volumes; council and decree titles as cited",
+      "verificationStatus": "bibliographically_verified",
+      "verificationMethod": "Title, creator, edition or stable internal divisions, and stated locator were checked against the publisher or standard scholarly cataloguing on 2026-07-20; no unverified page number is asserted.",
+      "quotationPolicy": "Bibliographic citation and original summary only; no edition text reproduced."
+    },
+    {
+      "stableId": "src.history.chadwick-early-church",
+      "sourceType": "Reputable academic scholarship",
+      "title": "The Early Church",
+      "author": "Henry Chadwick",
+      "bibliographicLocator": "Revised Penguin History of the Church edition; chapters identified by subject",
+      "verificationStatus": "bibliographically_verified",
+      "verificationMethod": "Title, creator, edition or stable internal divisions, and stated locator were checked against the publisher or standard scholarly cataloguing on 2026-07-20; no unverified page number is asserted.",
+      "quotationPolicy": "Bibliographic citation and original summary only; no edition text reproduced."
+    },
+    {
+      "stableId": "src.science.nas-evolution",
+      "sourceType": "Reputable academic source",
+      "title": "Science, Evolution, and Creationism",
+      "corporateAuthor": "National Academy of Sciences and Institute of Medicine",
+      "url": "https://www.nationalacademies.org/publications/11876",
+      "accessDate": "2026-07-20",
+      "verificationStatus": "official_url_verified",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
+      "quotationPolicy": "Original summaries with chapter or page-range locators; no extended quotation.",
+      "browserVerification": {
+        "verifiedOn": "2026-07-20",
+        "resolvedUrl": "https://www.nationalacademies.org/publications/11876?page=382",
+        "identityMarkers": [
+          "Science, Evolution, and Creationism",
+          "2008",
+          "National Academy of Sciences"
+        ],
+        "note": "The official publisher page was resolved in the browser research path; the automated Node client receives HTTP 403."
+      }
+    },
+    {
+      "stableId": "src.orthodox.oca-faith",
+      "sourceType": "Official comparative-tradition source",
+      "title": "The Orthodox Faith, Volume I: Doctrine and Scripture",
+      "corporateAuthor": "Orthodox Church in America",
+      "url": "https://www.oca.org/orthodoxy/the-orthodox-faith/doctrine-scripture",
+      "accessDate": "2026-07-20",
+      "verificationStatus": "official_url_verified",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
+      "quotationPolicy": "Original summaries with section-title locators; no direct quotation.",
+      "comparativeScope": "An official catechetical publication of the Orthodox Church in America; it is evidence for that Orthodox presentation and not a claim that every Orthodox jurisdiction uses identical wording.",
+      "browserVerification": {
+        "verifiedOn": "2026-07-20",
+        "resolvedUrl": "https://www.oca.org/orthodoxy/the-orthodox-faith/doctrine-scripture",
+        "identityMarkers": [
+          "The Orthodox Faith",
+          "Volume I",
+          "Doctrine and Scripture"
+        ],
+        "note": "The official OCA page was resolved in the browser research path after the automated Node client failed to fetch it."
+      }
+    },
+    {
+      "stableId": "src.lutheran.augsburg-confession",
+      "sourceType": "Official comparative-tradition source",
+      "title": "Augsburg Confession",
+      "corporateAuthor": "Lutheran confessional tradition",
+      "url": "https://bookofconcord.org/augsburg-confession/",
+      "accessDate": "2026-07-20",
+      "verificationStatus": "official_url_verified",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
+      "quotationPolicy": "Original summaries with article locators; no direct quotation.",
+      "comparativeScope": "A normative Lutheran confession in churches that receive the Book of Concord; Lutheran bodies differ in subscription and interpretation.",
+      "browserVerification": {
+        "verifiedOn": "2026-07-20",
+        "resolvedUrl": "https://bookofconcord.org/augsburg-confession/",
+        "identityMarkers": [
+          "The Augsburg Confession",
+          "Book of Concord"
+        ],
+        "note": "The confessional publisher page was resolved in the browser research path after the automated Node client failed to fetch it."
+      }
+    },
+    {
+      "stableId": "src.anglican.cofe-canons-a",
+      "sourceType": "Official comparative-tradition source",
+      "title": "Canons of the Church of England, Section A",
+      "corporateAuthor": "Church of England",
+      "url": "https://www.churchofengland.org/about/leadership-and-governance/legal-services/canons-church-england/section",
+      "accessDate": "2026-07-20",
+      "verificationStatus": "official_url_verified",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
+      "quotationPolicy": "Original summaries with canon locators; no direct quotation.",
+      "comparativeScope": "An official Church of England source; Anglican provinces and churchmanships show significant internal variation."
+    },
+    {
+      "stableId": "src.methodist.articles-religion",
+      "sourceType": "Official comparative-tradition source",
+      "title": "Articles of Religion of the Methodist Church",
+      "corporateAuthor": "The United Methodist Church",
+      "url": "https://www.umc.org/content/articles-of-religion",
+      "accessDate": "2026-07-20",
+      "verificationStatus": "official_url_verified",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
+      "quotationPolicy": "Original summaries with article locators; no direct quotation.",
+      "comparativeScope": "A doctrinal standard of the United Methodist Church; it does not exhaust worldwide Wesleyan or Methodist variation."
+    },
+    {
+      "stableId": "src.baptist.bfm-2000",
+      "sourceType": "Official comparative-tradition source",
+      "title": "Baptist Faith and Message 2000",
+      "corporateAuthor": "Southern Baptist Convention",
+      "url": "https://bfm.sbc.net/bfm2000/",
+      "accessDate": "2026-07-20",
+      "verificationStatus": "official_url_verified",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
+      "quotationPolicy": "Original summaries with article locators; no direct quotation.",
+      "comparativeScope": "The confessional statement of the Southern Baptist Convention; Baptist churches are congregationally governed and not all Baptist bodies adopt this text."
+    },
+    {
+      "stableId": "src.lds.articles-faith",
+      "sourceType": "Official comparative-tradition source",
+      "title": "Articles of Faith",
+      "corporateAuthor": "The Church of Jesus Christ of Latter-day Saints",
+      "url": "https://www.churchofjesuschrist.org/study/manual/gospel-topics/articles-of-faith?lang=eng",
+      "accessDate": "2026-07-20",
+      "verificationStatus": "official_url_verified",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
+      "quotationPolicy": "Original summaries with article locators; no direct quotation.",
+      "comparativeScope": "An official summary of Latter-day Saint belief; lesson claims must still identify the relevant Article of Faith or other official standard work."
+    },
+    {
+      "stableId": "src.jw.official-beliefs",
+      "sourceType": "Official comparative-tradition source",
+      "title": "What Do Jehovah's Witnesses Believe?",
+      "corporateAuthor": "Jehovah's Witnesses",
+      "url": "https://www.jw.org/en/jehovahs-witnesses/faq/jehovah-witness-beliefs/",
+      "accessDate": "2026-07-20",
+      "verificationStatus": "official_url_verified",
+      "verificationMethod": "Resolved against the official publisher on 2026-07-20; locators are checked during lesson validation.",
+      "quotationPolicy": "Original summaries with section locators; no direct quotation.",
+      "comparativeScope": "An official Jehovah's Witnesses summary; it is used to describe that community's stated beliefs in its own terms."
+    },
+    {
+      "stableId": "src.islam.quran",
+      "sourceType": "Official comparative-tradition source",
+      "title": "The Qur'an",
+      "corporateAuthor": "Primary Islamic scripture",
+      "bibliographicLocator": "Surah and ayah numbering as cited",
+      "verificationStatus": "bibliographically_verified",
+      "verificationMethod": "Title, creator, edition or stable internal divisions, and stated locator were checked against the publisher or standard scholarly cataloguing on 2026-07-20; no unverified page number is asserted.",
+      "quotationPolicy": "Reference and original paraphrase only; no translation text reproduced.",
+      "comparativeScope": "The Qur'an is received by Sunni and Shia Muslims, while interpretation and additional authorities vary among schools and communities."
+    },
+    {
+      "stableId": "src.judaism.primary-corpus",
+      "sourceType": "Official comparative-tradition source",
+      "title": "Tanakh and classical rabbinic sources",
+      "corporateAuthor": "Jewish primary-source corpus",
+      "bibliographicLocator": "Biblical book, Mishnah tractate, or Talmud tractate and folio as cited",
+      "verificationStatus": "bibliographically_verified",
+      "verificationMethod": "Title, creator, edition or stable internal divisions, and stated locator were checked against the publisher or standard scholarly cataloguing on 2026-07-20; no unverified page number is asserted.",
+      "quotationPolicy": "Reference and original paraphrase only; no translation text reproduced.",
+      "comparativeScope": "Primary texts shared or received differently across Jewish traditions; Orthodox, Conservative, Reform, and other communities differ in authority and interpretation."
+    },
+    {
+      "stableId": "src.religions.primary-texts",
+      "sourceType": "Official comparative-tradition source",
+      "title": "Selected primary texts of world religions",
+      "corporateAuthor": "Tradition-specific primary sources",
+      "bibliographicLocator": "Bhagavad Gita chapter and verse; Pali Canon collection and discourse; Guru Granth Sahib ang; or named tradition-specific text as cited",
+      "verificationStatus": "bibliographically_verified",
+      "verificationMethod": "Title, creator, edition or stable internal divisions, and stated locator were checked against the publisher or standard scholarly cataloguing on 2026-07-20; no unverified page number is asserted.",
+      "quotationPolicy": "Reference and original paraphrase only; no translation text reproduced.",
+      "comparativeScope": "A routing record only: each claim must name the religion, school where relevant, exact primary text, and locator; no single text represents every internally diverse tradition."
+    },
+    {
+      "stableId": "src.secular.representative-sources",
+      "sourceType": "Official comparative-tradition source",
+      "title": "Representative atheist, agnostic, and humanist sources",
+      "corporateAuthor": "Named authors and humanist organisations",
+      "bibliographicLocator": "J. L. Mackie, The Miracle of Theism; Graham Oppy, Arguing about Gods; Humanists International, Amsterdam Declaration 2022",
+      "verificationStatus": "bibliographically_verified",
+      "verificationMethod": "Title, creator, edition or stable internal divisions, and stated locator were checked against the publisher or standard scholarly cataloguing on 2026-07-20; no unverified page number is asserted.",
+      "quotationPolicy": "Bibliographic citation and original summary only; no source text reproduced.",
+      "comparativeScope": "Atheism, agnosticism, naturalism, and humanism are not interchangeable; each lesson must name the argument or organisation actually represented."
     }
   ]
 }

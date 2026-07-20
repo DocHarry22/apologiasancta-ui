@@ -1,0 +1,549 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.councils-heresies.development.01",
+  "phase3LessonId": "les.councils-heresies.development.01",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.councils-heresies",
+  "groupId": "grp.councils-heresies.development",
+  "title": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies",
+  "slug": "councils-and-heresies-development-01",
+  "centralQuestion": "How should Catholic teaching understand Arian, Pneumatomachian, Nestorian, and Monophysite Controversies?",
+  "learningObjectives": [
+    "State a clear Catholic account of Arian, Pneumatomachian, Nestorian, and Monophysite Controversies in the context of Councils and Heresies.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies belongs to the Catholic account of Councils and Heresies. Maps major ecumenical councils, classical heresies, conciliar authority, canons, reception, and doctrinal development. A sound answer coordinates biblical witness and authoritative teaching while marking historical, philosophical, scientific, disciplinary, and theological claims at their proper level.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Arian, Pneumatomachian, Nestorian, and Monophysite Controversies"
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies is a focused lesson within Councils and Heresies. Maps major ecumenical councils, classical heresies, conciliar authority, canons, reception, and doctrinal development. The Catholic account begins with sources competent for each claim: Scripture for canonical witness, Magisterium for Catholic judgment, primary evidence for events and reception, and scholarship for specialised analysis. This order neither makes the sources equal nor permits one source to answer a question beyond its competence.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "For the biblical dimension of Arian, Pneumatomachian, Nestorian, and Monophysite Controversies, consult Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. The stored summaries are deliberately not substitute Bible text. Their purpose is to direct close reading: establish the passage's immediate claim, test the connection to the lesson, and only then relate that claim to Catholic doctrine through the interpretive rules of Dei Verbum.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Magisterium, Canon, Primary source control the reasoning in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies. A definition is useful only if it is applied consistently. The learner should identify the subject of each claim, distinguish analogous from univocal language where necessary, and resist moving from a word shared by two sources to an agreement those sources do not actually state.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Doctrinal Development"
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies takes its educational direction from Doctrinal Development: Trace continuity, legitimate development, controversy, and authoritative settlement. Within Councils and Heresies, the learner must use Magisterium, Canon, Primary source with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Eastern Orthodox, Oriental Orthodox, Assyrian Church of the East, Protestant. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies uses Arian as a checkpoint for understanding. The learner should locate Arian in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Arian is disputed within Councils and Heresies, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies uses Pneumatomachian as a checkpoint for understanding. The learner should locate Pneumatomachian in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Pneumatomachian is disputed within Councils and Heresies, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Arian, Pneumatomachian, Nestorian, and Monophysite Controversies, Nestorian cannot remain an undefined slogan. State the proposition involving Nestorian, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Nestorian in Councils and Heresies must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Arian, Pneumatomachian, Nestorian, and Monophysite Controversies, Monophysite Controversies cannot remain an undefined slogan. State the proposition involving Monophysite Controversies, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Monophysite Controversies in Councils and Heresies must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Arian, Pneumatomachian, Nestorian, and Monophysite Controversies, recall Magisterium. Councils and Heresies uses Magisterium in this lesson. Link Magisterium with Fathers in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies. Classify every Magisterium claim in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies. Check Magisterium evidence for Councils and Heresies. Revise Arian, Pneumatomachian, Nestorian, and Monophysite Controversies if Magisterium remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Arian, Pneumatomachian, Nestorian, and Monophysite Controversies, recall Fathers. Councils and Heresies uses Fathers in this lesson. Link Fathers with development of doctrine in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies. Classify every Fathers claim in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies. Check Fathers evidence for Councils and Heresies. Revise Arian, Pneumatomachian, Nestorian, and Monophysite Controversies if Fathers remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Arian, Pneumatomachian, Nestorian, and Monophysite Controversies, recall development of doctrine. Councils and Heresies uses development of doctrine in this lesson. Link development of doctrine with Primary Sources and Distinctions in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies. Classify every development of doctrine claim in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies. Check development of doctrine evidence for Councils and Heresies. Revise Arian, Pneumatomachian, Nestorian, and Monophysite Controversies if development of doctrine remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Arian, Pneumatomachian, Nestorian, and Monophysite Controversies, recall Primary Sources and Distinctions. Councils and Heresies uses Primary Sources and Distinctions in this lesson. Link Primary Sources and Distinctions with Arian in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies. Classify every Primary Sources and Distinctions claim in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies. Check Primary Sources and Distinctions evidence for Councils and Heresies. Revise Arian, Pneumatomachian, Nestorian, and Monophysite Controversies if Primary Sources and Distinctions remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Arian, Pneumatomachian, Nestorian, and Monophysite Controversies, recall Arian. Councils and Heresies uses Arian in this lesson. Link Arian with Magisterium in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies. Classify every Arian claim in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies. Check Arian evidence for Councils and Heresies. Revise Arian, Pneumatomachian, Nestorian, and Monophysite Controversies if Arian remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies follows this approved curriculum purpose: Trace continuity, legitimate development, controversy, and authoritative settlement. This lesson focuses on arian, pneumatomachian, nestorian, and monophysite controversies. Within Arian, Pneumatomachian, Nestorian, and Monophysite Controversies, that purpose limits the draft to the evidence and conclusions needed for Doctrinal Development.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies prepares the learner for this mastery work: Trace continuity, legitimate development, controversy, and authoritative settlement. Success in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies carries a critical lesson review risk inside the critical risk profile for Councils and Heresies. The recorded reason for Councils and Heresies is dogmatic precision; primary-source and chronology verification; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Arian, Pneumatomachian, Nestorian, and Monophysite Controversies cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies must keep these classifications visible: dogma, doctrine, discipline, historical_claim. For Arian, Pneumatomachian, Nestorian, and Monophysite Controversies, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies uses the biblical path Matthew 16:13-20, Acts 15:1-29, Ephesians 4:1-16. Its Catholic synthesis is checked against CCC 74-100 and CCC 817-870 and sections 8, 18-27, and 39-51, while Arian, Pneumatomachian, Nestorian, and Monophysite Controversies reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Catholic in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Eastern Orthodox in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies names Oriental Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Oriental Orthodox in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies names Assyrian Church of the East rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Assyrian Church of the East in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Protestant in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Arian, Pneumatomachian, Nestorian, and Monophysite Controversies uses four documentary controls: Catechism CCC 74-100 and CCC 817-870, Magisterium sections 8, 18-27, and 39-51, historical witness book and chapter identified by the historical question, and scholarship chapter identified by the historical question. The sequence clarifies authority and makes later checking possible. A locator that proves too broad or semantically mismatched must be corrected before approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.eusebius.church-history",
+        "src.history.chadwick-early-church"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Arian, Pneumatomachian, Nestorian, and Monophysite Controversies",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "The objection presses the burden of proof for Arian, Pneumatomachian, Nestorian, and Monophysite Controversies: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+      "fairRepresentation": "A careful representative of Catholic, Eastern Orthodox, Oriental Orthodox, Assyrian Church of the East, Protestant may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+      "response": "The Catholic response to Arian, Pneumatomachian, Nestorian, and Monophysite Controversies is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.lumen-gentium",
+        "src.eusebius.church-history",
+        "src.history.chadwick-early-church",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.councils-heresies.sources.02",
+        "les.councils-heresies.development.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "christology",
+        "trinity",
+        "papacy",
+        "historical"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Magisterium",
+      "definition": "The Church's living teaching office, exercised by the pope and bishops in communion, serving the word of God rather than standing above it.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Canon",
+      "definition": "The normative list of books received by the Church as Sacred Scripture; canon, textual form, translation, and lectionary are related but distinct.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Primary source",
+      "definition": "A text, artefact, or record arising from the authority, community, person, or period being studied.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 16:13-20",
+      "paraphrase": "Peter's confession, the promise concerning Christ's Church, and the imagery of keys and binding belong to one ecclesial scene.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Acts 15:1-29",
+      "paraphrase": "The Jerusalem gathering resolves a disputed missionary question through testimony, scriptural reasoning, apostolic deliberation, and a decision attributed to the Holy Spirit.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 4:1-16",
+      "paraphrase": "The Church receives one faith and diverse ministries so that the whole body may grow into mature unity in Christ.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 74-100",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Arian, Pneumatomachian, Nestorian, and Monophysite Controversies; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 817-870",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Arian, Pneumatomachian, Nestorian, and Monophysite Controversies and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 8, 18-27, and 39-51",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Arian, Pneumatomachian, Nestorian, and Monophysite Controversies must be assessed.",
+      "sourceId": "src.vatican2.lumen-gentium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Arian, Pneumatomachian, Nestorian, and Monophysite Controversies must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.eusebius.church-history",
+        "locator": "book and chapter identified by the historical question"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "The objection presses the burden of proof for Arian, Pneumatomachian, Nestorian, and Monophysite Controversies: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+  "opposingPosition": "A careful representative of Catholic, Eastern Orthodox, Oriental Orthodox, Assyrian Church of the East, Protestant may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+  "catholicResponse": "The Catholic response to Arian, Pneumatomachian, Nestorian, and Monophysite Controversies is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+  "commonMistakes": [
+    "Treating Arian, Pneumatomachian, Nestorian, and Monophysite Controversies as an isolated slogan instead of a question within Councils and Heresies.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Oriental Orthodox, Assyrian Church of the East, Protestant despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Arian, Pneumatomachian, Nestorian, and Monophysite Controversies: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "The central lesson of Arian, Pneumatomachian, Nestorian, and Monophysite Controversies is methodological and substantive: name the Catholic claim, ground it in competent sources, test its historical and conceptual continuity, answer the strongest scoped objection, and state no more than the evidence warrants. In Councils and Heresies, that discipline serves truth and charity together.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Arian, Pneumatomachian, Nestorian, and Monophysite Controversies without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.councils-heresies.development.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Arian, Pneumatomachian, Nestorian, and Monophysite Controversies.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.councils-heresies.development.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Arian, Pneumatomachian, Nestorian, and Monophysite Controversies in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Matthew 16:13-20; Acts 15:1-29; Ephesians 4:1-16",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 74-100; CCC 817-870",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.lumen-gentium",
+      "locator": "sections 8, 18-27, and 39-51",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.eusebius.church-history",
+      "locator": "book and chapter identified by the historical question",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.history.chadwick-early-church",
+      "locator": "chapter identified by the historical question",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.councils-heresies.sources.02",
+    "les.councils-heresies.development.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "christology",
+      "trinity",
+      "papacy",
+      "historical"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "historical_claim"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Oriental Orthodox",
+      "Assyrian Church of the East",
+      "Protestant"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.councils-and-heresies.01",
+    "batchOrder": 5,
+    "contentHash": "e46dd701021b01b3354961554b0c773e0e8e1a23547b7e2a3d3188802ec99fab",
+    "approximateWordCount": 3447
+  }
+}

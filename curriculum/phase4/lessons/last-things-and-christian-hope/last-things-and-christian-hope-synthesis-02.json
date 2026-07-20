@@ -1,0 +1,539 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.eschatology.synthesis.02",
+  "phase3LessonId": "les.eschatology.synthesis.02",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.eschatology",
+  "groupId": "grp.eschatology.synthesis",
+  "title": "Watchfulness, Hope, and Prayer for the Dead",
+  "slug": "last-things-and-christian-hope-synthesis-02",
+  "centralQuestion": "How should Catholic teaching understand Watchfulness, Hope, and Prayer for the Dead?",
+  "learningObjectives": [
+    "State a clear Catholic account of Watchfulness, Hope, and Prayer for the Dead in the context of Last Things and Christian Hope.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Watchfulness, Hope, and Prayer for the Dead.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic formation treats Watchfulness, Hope, and Prayer for the Dead as part of Last Things and Christian Hope. Covers death, particular judgment, heaven, hell, purgatory, resurrection, final judgment, new creation, and disciplined interpretation of apocalyptic claims. The short answer must therefore preserve the hierarchy of truths, use sources within their competence, and avoid turning a probable interpretation or historical reconstruction into settled dogma.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Watchfulness, Hope, and Prayer for the Dead"
+    },
+    {
+      "type": "paragraph",
+      "text": "Watchfulness, Hope, and Prayer for the Dead is a focused lesson within Last Things and Christian Hope. Covers death, particular judgment, heaven, hell, purgatory, resurrection, final judgment, new creation, and disciplined interpretation of apocalyptic claims. The Catholic account begins with sources competent for each claim: Scripture for canonical witness, Magisterium for Catholic judgment, primary evidence for events and reception, and scholarship for specialised analysis. This order neither makes the sources equal nor permits one source to answer a question beyond its competence.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Watchfulness, Hope, and Prayer for the Dead are Matthew 25:31-46, 1 Corinthians 15:35-58, Revelation 21:1-5, 22-27. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The terms Discipline, Creation, Resurrection, Prayer provide a small conceptual map for Watchfulness, Hope, and Prayer for the Dead. Use the map to ask what reality is named, what contrast gives the term meaning, and which source controls the definition. If an opposing tradition uses the same word differently, state that difference instead of manufacturing a verbal contradiction.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Synthesis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Watchfulness, Hope, and Prayer for the Dead takes its educational direction from Synthesis: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. Within Last Things and Christian Hope, the learner must use Discipline, Creation, Resurrection, Prayer with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Eastern Orthodox, Protestant, Adventist movements. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Watchfulness, Hope, and Prayer for the Dead uses Watchfulness as a checkpoint for understanding. The learner should locate Watchfulness in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Watchfulness is disputed within Last Things and Christian Hope, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Hope gives Watchfulness, Hope, and Prayer for the Dead a concrete analytical task. In treating Hope, Watchfulness, Hope, and Prayer for the Dead should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Hope within Last Things and Christian Hope remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Watchfulness, Hope, and Prayer for the Dead, the focus on Prayer for the Dead fixes one part of the lesson's scope. Prayer for the Dead must be defined as it functions in Watchfulness, Hope, and Prayer for the Dead, then supported by a source competent for that definition. Within Last Things and Christian Hope, the learner should separate what the source states about Prayer for the Dead from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Watchfulness, Hope, and Prayer for the Dead, Discipline cannot remain an undefined slogan. State the proposition involving Discipline, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Discipline in Last Things and Christian Hope must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Watchfulness, Hope, and Prayer for the Dead, recall Resurrection. Last Things and Christian Hope uses Resurrection in this lesson. Link Resurrection with grace in Watchfulness, Hope, and Prayer for the Dead. Classify every Resurrection claim in Watchfulness, Hope, and Prayer for the Dead. Check Resurrection evidence for Last Things and Christian Hope. Revise Watchfulness, Hope, and Prayer for the Dead if Resurrection remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Watchfulness, Hope, and Prayer for the Dead, recall grace. Last Things and Christian Hope uses grace in this lesson. Link grace with communion of saints in Watchfulness, Hope, and Prayer for the Dead. Classify every grace claim in Watchfulness, Hope, and Prayer for the Dead. Check grace evidence for Last Things and Christian Hope. Revise Watchfulness, Hope, and Prayer for the Dead if grace remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Watchfulness, Hope, and Prayer for the Dead, recall communion of saints. Last Things and Christian Hope uses communion of saints in this lesson. Link communion of saints with Objections in Watchfulness, Hope, and Prayer for the Dead. Classify every communion of saints claim in Watchfulness, Hope, and Prayer for the Dead. Check communion of saints evidence for Last Things and Christian Hope. Revise Watchfulness, Hope, and Prayer for the Dead if communion of saints remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Watchfulness, Hope, and Prayer for the Dead, recall Objections. Last Things and Christian Hope uses Objections in this lesson. Link Objections with Watchfulness in Watchfulness, Hope, and Prayer for the Dead. Classify every Objections claim in Watchfulness, Hope, and Prayer for the Dead. Check Objections evidence for Last Things and Christian Hope. Revise Watchfulness, Hope, and Prayer for the Dead if Objections remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Watchfulness, Hope, and Prayer for the Dead, recall Watchfulness. Last Things and Christian Hope uses Watchfulness in this lesson. Link Watchfulness with Resurrection in Watchfulness, Hope, and Prayer for the Dead. Classify every Watchfulness claim in Watchfulness, Hope, and Prayer for the Dead. Check Watchfulness evidence for Last Things and Christian Hope. Revise Watchfulness, Hope, and Prayer for the Dead if Watchfulness remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Watchfulness, Hope, and Prayer for the Dead follows this approved curriculum purpose: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. This lesson focuses on watchfulness, hope, and prayer for the dead. Within Watchfulness, Hope, and Prayer for the Dead, that purpose limits the draft to the evidence and conclusions needed for Synthesis.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Watchfulness, Hope, and Prayer for the Dead prepares the learner for this mastery work: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. Success in Watchfulness, Hope, and Prayer for the Dead therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Watchfulness, Hope, and Prayer for the Dead carries a high lesson review risk inside the high risk profile for Last Things and Christian Hope. The recorded reason for Last Things and Christian Hope is dogmatic precision; comparative fairness and tradition-specific sourcing, so Watchfulness, Hope, and Prayer for the Dead cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Watchfulness, Hope, and Prayer for the Dead must keep these classifications visible: dogma, doctrine, theological_opinion. For Watchfulness, Hope, and Prayer for the Dead, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Watchfulness, Hope, and Prayer for the Dead uses the biblical path Matthew 25:31-46, 1 Corinthians 15:35-58, Revelation 21:1-5, 22-27. Its Catholic synthesis is checked against CCC 988-1065 and CCC 1680-1690 and sections 48-51, while Watchfulness, Hope, and Prayer for the Dead reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Watchfulness, Hope, and Prayer for the Dead names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Catholic in Watchfulness, Hope, and Prayer for the Dead; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Watchfulness, Hope, and Prayer for the Dead names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Eastern Orthodox in Watchfulness, Hope, and Prayer for the Dead; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Watchfulness, Hope, and Prayer for the Dead names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Protestant in Watchfulness, Hope, and Prayer for the Dead; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Watchfulness, Hope, and Prayer for the Dead names Adventist movements rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Adventist movements in Watchfulness, Hope, and Prayer for the Dead; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Watchfulness, Hope, and Prayer for the Dead uses four documentary controls: Catechism CCC 988-1065 and CCC 1680-1690, Magisterium sections 48-51, historical witness Catechetical Lecture 18, and scholarship Florence and Trent on final things as relevant. The sequence clarifies authority and makes later checking possible. A locator that proves too broad or semantically mismatched must be corrected before approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.cyril.catechetical-lectures",
+        "src.conciliar.tanner-decrees"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Watchfulness, Hope, and Prayer for the Dead",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A strong objection says that the Catholic treatment of Watchfulness, Hope, and Prayer for the Dead begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Protestant, Adventist movements, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Watchfulness, Hope, and Prayer for the Dead concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "In response, the lesson argues that Watchfulness, Hope, and Prayer for the Dead is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.lumen-gentium",
+        "src.cyril.catechetical-lectures",
+        "src.conciliar.tanner-decrees",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.eschatology.synthesis.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "protestant"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Discipline",
+      "definition": "An authoritative rule or practice governing ecclesial life; unlike dogma, a discipline may admit legitimate diversity or change.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Creation",
+      "definition": "God's free act of giving existence to all that is not God and sustaining creatures in being.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Resurrection",
+      "definition": "God's raising of Jesus bodily into transformed, immortal life and the promised raising of the dead in him.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Prayer",
+      "definition": "The living covenantal relationship of God's children with the Father, through the Son, in the Holy Spirit.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 25:31-46",
+      "paraphrase": "Jesus presents final judgment as his own royal act and exposes the eternal weight of concrete love or neglect of the vulnerable.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "1 Corinthians 15:35-58",
+      "paraphrase": "Paul defends bodily resurrection as transformation by God's power, not the mere continuation of present biological conditions.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Revelation 21:1-5, 22-27",
+      "paraphrase": "The biblical hope culminates in renewed creation, God's dwelling with humanity, judgment, healing, and the holy city.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 988-1065",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Watchfulness, Hope, and Prayer for the Dead; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1680-1690",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Watchfulness, Hope, and Prayer for the Dead and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 48-51",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Watchfulness, Hope, and Prayer for the Dead must be assessed.",
+      "sourceId": "src.vatican2.lumen-gentium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Watchfulness, Hope, and Prayer for the Dead must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.cyril.catechetical-lectures",
+        "locator": "Catechetical Lecture 18"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Watchfulness, Hope, and Prayer for the Dead",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A strong objection says that the Catholic treatment of Watchfulness, Hope, and Prayer for the Dead begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Protestant, Adventist movements, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Watchfulness, Hope, and Prayer for the Dead concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "In response, the lesson argues that Watchfulness, Hope, and Prayer for the Dead is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Watchfulness, Hope, and Prayer for the Dead as an isolated slogan instead of a question within Last Things and Christian Hope.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Protestant, Adventist movements despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Watchfulness, Hope, and Prayer for the Dead: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "The central lesson of Watchfulness, Hope, and Prayer for the Dead is methodological and substantive: name the Catholic claim, ground it in competent sources, test its historical and conceptual continuity, answer the strongest scoped objection, and state no more than the evidence warrants. In Last Things and Christian Hope, that discipline serves truth and charity together.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Watchfulness, Hope, and Prayer for the Dead without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.eschatology.synthesis.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Watchfulness, Hope, and Prayer for the Dead.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.eschatology.synthesis.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain Watchfulness, Hope, and Prayer for the Dead in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Matthew 25:31-46; 1 Corinthians 15:35-58; Revelation 21:1-5, 22-27",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 988-1065; CCC 1680-1690",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.lumen-gentium",
+      "locator": "sections 48-51",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.cyril.catechetical-lectures",
+      "locator": "Catechetical Lecture 18",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "locator": "Florence and Trent on final things as relevant",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.eschatology.synthesis.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "protestant"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "theological_opinion"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant",
+      "Adventist movements"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.last-things-and-christian-hope.01",
+    "batchOrder": 10,
+    "contentHash": "a94c8ff69f20bcf952531529341825768996a4c63b81e3756794dc45fa3e32b1",
+    "approximateWordCount": 3477
+  }
+}

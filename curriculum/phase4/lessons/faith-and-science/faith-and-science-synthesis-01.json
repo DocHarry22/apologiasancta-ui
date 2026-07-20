@@ -1,0 +1,534 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.faith-science.synthesis.01",
+  "phase3LessonId": "les.faith-science.synthesis.01",
+  "programmeId": "prog.reason-culture",
+  "subjectId": "subj.faith-science",
+  "groupId": "grp.faith-science.synthesis",
+  "title": "Integrating Theology, Philosophy, and Science",
+  "slug": "faith-and-science-synthesis-01",
+  "centralQuestion": "How should Catholic teaching understand Integrating Theology, Philosophy, and Science?",
+  "learningObjectives": [
+    "State a clear Catholic account of Integrating Theology, Philosophy, and Science in the context of Faith and Science.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Integrating Theology, Philosophy, and Science.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic formation treats Integrating Theology, Philosophy, and Science as part of Faith and Science. Distinguishes methods and limits of theology, philosophy, and empirical science while treating cosmology, evolution, human origins, miracles, and technology. The short answer must therefore preserve the hierarchy of truths, use sources within their competence, and avoid turning a probable interpretation or historical reconstruction into settled dogma.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Integrating Theology, Philosophy, and Science"
+    },
+    {
+      "type": "paragraph",
+      "text": "The approved curriculum places Integrating Theology, Philosophy, and Science inside Faith and Science, whose scope is this: Distinguishes methods and limits of theology, philosophy, and empirical science while treating cosmology, evolution, human origins, miracles, and technology. A reliable Catholic explanation assigns biblical, doctrinal, historical, philosophical, and scientific statements to the proper source. It then discloses the inference joining those statements. That transparency is part of the lesson's substance, not only an editorial note.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Integrating Theology, Philosophy, and Science are Genesis 1:1-2:4, Wisdom 11:20-26, Psalm 19:1-7. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The terms Faith, Empirical science, Primary source provide a small conceptual map for Integrating Theology, Philosophy, and Science. Use the map to ask what reality is named, what contrast gives the term meaning, and which source controls the definition. If an opposing tradition uses the same word differently, state that difference instead of manufacturing a verbal contradiction.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Synthesis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Integrating Theology, Philosophy, and Science takes its educational direction from Synthesis: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. Within Faith and Science, the learner must use Faith, Empirical science, Primary source with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, scientific naturalism, young-earth creationism, intelligent design, evolutionary creation. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Integrating Theology gives Integrating Theology, Philosophy, and Science a concrete analytical task. In treating Integrating Theology, Integrating Theology, Philosophy, and Science should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Integrating Theology within Faith and Science remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Philosophy gives Integrating Theology, Philosophy, and Science a concrete analytical task. In treating Philosophy, Integrating Theology, Philosophy, and Science should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Philosophy within Faith and Science remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Integrating Theology, Philosophy, and Science, the focus on Science fixes one part of the lesson's scope. Science must be defined as it functions in Integrating Theology, Philosophy, and Science, then supported by a source competent for that definition. Within Faith and Science, the learner should separate what the source states about Science from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Faith matters specifically to Integrating Theology, Philosophy, and Science. Ask first what Faith denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Faith under Faith and Science should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Integrating Theology, Philosophy, and Science, recall levels of explanation. Faith and Science uses levels of explanation in this lesson. Link levels of explanation with causality in Integrating Theology, Philosophy, and Science. Classify every levels of explanation claim in Integrating Theology, Philosophy, and Science. Check levels of explanation evidence for Faith and Science. Revise Integrating Theology, Philosophy, and Science if levels of explanation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Integrating Theology, Philosophy, and Science, recall causality. Faith and Science uses causality in this lesson. Link causality with genre in Integrating Theology, Philosophy, and Science. Classify every causality claim in Integrating Theology, Philosophy, and Science. Check causality evidence for Faith and Science. Revise Integrating Theology, Philosophy, and Science if causality remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Integrating Theology, Philosophy, and Science, recall genre. Faith and Science uses genre in this lesson. Link genre with scientific method in Integrating Theology, Philosophy, and Science. Classify every genre claim in Integrating Theology, Philosophy, and Science. Check genre evidence for Faith and Science. Revise Integrating Theology, Philosophy, and Science if genre remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Integrating Theology, Philosophy, and Science, recall scientific method. Faith and Science uses scientific method in this lesson. Link scientific method with Objections in Integrating Theology, Philosophy, and Science. Classify every scientific method claim in Integrating Theology, Philosophy, and Science. Check scientific method evidence for Faith and Science. Revise Integrating Theology, Philosophy, and Science if scientific method remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Integrating Theology, Philosophy, and Science, recall Objections. Faith and Science uses Objections in this lesson. Link Objections with levels of explanation in Integrating Theology, Philosophy, and Science. Classify every Objections claim in Integrating Theology, Philosophy, and Science. Check Objections evidence for Faith and Science. Revise Integrating Theology, Philosophy, and Science if Objections remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Integrating Theology, Philosophy, and Science follows this approved curriculum purpose: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. This lesson focuses on integrating theology, philosophy, and science. Within Integrating Theology, Philosophy, and Science, that purpose limits the draft to the evidence and conclusions needed for Synthesis.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Integrating Theology, Philosophy, and Science prepares the learner for this mastery work: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. Success in Integrating Theology, Philosophy, and Science therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Integrating Theology, Philosophy, and Science carries a critical lesson review risk inside the critical risk profile for Faith and Science. The recorded reason for Faith and Science is primary-source and chronology verification; current scientific review; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Integrating Theology, Philosophy, and Science cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Integrating Theology, Philosophy, and Science must keep these classifications visible: doctrine, theological_opinion, historical_claim, philosophical_claim, scientific_claim. For Integrating Theology, Philosophy, and Science, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Integrating Theology, Philosophy, and Science uses the biblical path Genesis 1:1-2:4, Wisdom 11:20-26, Psalm 19:1-7. Its Catholic synthesis is checked against CCC 31-35 and CCC 279-324 and sections 25-35 and 64-79, while Integrating Theology, Philosophy, and Science reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Integrating Theology, Philosophy, and Science names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for Catholic in Integrating Theology, Philosophy, and Science; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Integrating Theology, Philosophy, and Science names scientific naturalism rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for scientific naturalism in Integrating Theology, Philosophy, and Science; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Integrating Theology, Philosophy, and Science names young-earth creationism rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for young-earth creationism in Integrating Theology, Philosophy, and Science; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Integrating Theology, Philosophy, and Science names intelligent design rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for intelligent design in Integrating Theology, Philosophy, and Science; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Integrating Theology, Philosophy, and Science names evolutionary creation rather than assigning a generic non-Catholic position. The relevant controls among src.secular.representative-sources set the descriptive boundary for evolutionary creation in Integrating Theology, Philosophy, and Science; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "To audit Integrating Theology, Philosophy, and Science, follow the locators rather than trusting the summary: CCC 31-35 and CCC 279-324; sections 25-35 and 64-79; Book III; figurative language and interpretation; and chapters on the nature of science and evidence for evolution. Each source should support the precise sentence for which it is cited. Edition, translation, context, and attribution remain explicit items for the review queue.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio",
+        "src.augustine.christian-doctrine",
+        "src.science.nas-evolution"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Integrating Theology, Philosophy, and Science",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A strong objection says that the Catholic treatment of Integrating Theology, Philosophy, and Science begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Catholic, scientific naturalism, young-earth creationism, intelligent design, evolutionary creation, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Integrating Theology, Philosophy, and Science concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "In response, the lesson argues that Integrating Theology, Philosophy, and Science is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.jp2.fides-et-ratio",
+        "src.augustine.christian-doctrine",
+        "src.science.nas-evolution",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.faith-science.objections.02",
+        "les.faith-science.synthesis.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "secular",
+        "historical"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Faith",
+      "definition": "The grace-enabled human response by which a person entrusts self and intellect to God who reveals.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "term": "Empirical science",
+      "definition": "Systematic inquiry into observable natural realities through testable methods; its competence is real but not identical with philosophy or theology.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    },
+    {
+      "term": "Primary source",
+      "definition": "A text, artefact, or record arising from the authority, community, person, or period being studied.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.jp2.fides-et-ratio"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Genesis 1:1-2:4",
+      "paraphrase": "The ordered creation account confesses God as Creator and the goodness and vocation of creation; its theological claims must not be confused with a modern laboratory report.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Wisdom 11:20-26",
+      "paraphrase": "Divine wisdom is praised through the order and measure of creation and through God's sustaining mercy toward all that exists.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Psalm 19:1-7",
+      "paraphrase": "Creation is poetically portrayed as bearing witness to divine glory without turning that witness into a scientific mechanism.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 31-35",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Integrating Theology, Philosophy, and Science; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 279-324",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Integrating Theology, Philosophy, and Science and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 25-35 and 64-79",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Integrating Theology, Philosophy, and Science must be assessed.",
+      "sourceId": "src.jp2.fides-et-ratio",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Integrating Theology, Philosophy, and Science must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.augustine.christian-doctrine",
+        "locator": "Book III; figurative language and interpretation"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Integrating Theology, Philosophy, and Science",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A strong objection says that the Catholic treatment of Integrating Theology, Philosophy, and Science begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Catholic, scientific naturalism, young-earth creationism, intelligent design, evolutionary creation, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Integrating Theology, Philosophy, and Science concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "In response, the lesson argues that Integrating Theology, Philosophy, and Science is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Integrating Theology, Philosophy, and Science as an isolated slogan instead of a question within Faith and Science.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, scientific naturalism, young-earth creationism, intelligent design, evolutionary creation despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Integrating Theology, Philosophy, and Science: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "In summary, Integrating Theology, Philosophy, and Science is answered by ordering evidence rather than accumulating quotations. Faith and Science supplies the doctrinal horizon; the assigned sources establish biblical, ecclesial, historical, and specialist premises. Fair scope and explicit inference keep the Catholic response both confident and corrigible where claims remain non-definitive.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Integrating Theology, Philosophy, and Science without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.faith-science.synthesis.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Integrating Theology, Philosophy, and Science.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.faith-science.synthesis.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Integrating Theology, Philosophy, and Science in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Genesis 1:1-2:4; Wisdom 11:20-26; Psalm 19:1-7",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 31-35; CCC 279-324",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.jp2.fides-et-ratio",
+      "locator": "sections 25-35 and 64-79",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.augustine.christian-doctrine",
+      "locator": "Book III; figurative language and interpretation",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.science.nas-evolution",
+      "locator": "chapters on the nature of science and evidence for evolution",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.secular.representative-sources",
+      "locator": "named argument or declaration identified by the lesson topic",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.faith-science.objections.02",
+    "les.faith-science.synthesis.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "secular",
+      "historical"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "doctrine",
+      "theological_opinion",
+      "historical_claim",
+      "philosophical_claim",
+      "scientific_claim"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "scientific naturalism",
+      "young-earth creationism",
+      "intelligent design",
+      "evolutionary creation"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.faith-and-science.01",
+    "batchOrder": 9,
+    "contentHash": "dab501e7a000e259862bcc789e4e55d9858f8bbf7b726341f9cefbc69bb52b15",
+    "approximateWordCount": 3330
+  }
+}

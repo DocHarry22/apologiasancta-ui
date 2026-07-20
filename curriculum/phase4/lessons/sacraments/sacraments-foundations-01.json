@@ -1,0 +1,525 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.sacraments.foundations.01",
+  "phase3LessonId": "les.sacraments.foundations.01",
+  "programmeId": "prog.dogma-sacraments",
+  "subjectId": "subj.sacraments",
+  "groupId": "grp.sacraments.foundations",
+  "title": "Christ the Primordial Sacrament and the Church",
+  "slug": "sacraments-foundations-01",
+  "centralQuestion": "How should Catholic teaching understand Christ the Primordial Sacrament and the Church?",
+  "learningObjectives": [
+    "State a clear Catholic account of Christ the Primordial Sacrament and the Church in the context of Sacraments.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Christ the Primordial Sacrament and the Church.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Christ the Primordial Sacrament and the Church belongs to the Catholic account of Sacraments. Studies sacramentality, institution by Christ, sign and grace, validity, fruitfulness, character, minister, recipient, and the seven sacraments as an ordered whole. A sound answer coordinates biblical witness and authoritative teaching while marking historical, philosophical, scientific, disciplinary, and theological claims at their proper level.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Christ the Primordial Sacrament and the Church"
+    },
+    {
+      "type": "paragraph",
+      "text": "The approved curriculum places Christ the Primordial Sacrament and the Church inside Sacraments, whose scope is this: Studies sacramentality, institution by Christ, sign and grace, validity, fruitfulness, character, minister, recipient, and the seven sacraments as an ordered whole. A reliable Catholic explanation assigns biblical, doctrinal, historical, philosophical, and scientific statements to the proper source. It then discloses the inference joining those statements. That transparency is part of the lesson's substance, not only an editorial note.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "The principal biblical passages for Christ the Primordial Sacrament and the Church are John 6:22-71, Luke 22:14-20, 1 Corinthians 10:16-17; 11:23-29. Because translation rights remain unresolved, the record stores original paraphrases and asks the learner to consult an approved Bible. Literary context and canonical unity govern the reading; a citation is evidence requiring interpretation rather than a slogan carrying every later distinction.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Church, Grace, Sacrament control the reasoning in Christ the Primordial Sacrament and the Church. A definition is useful only if it is applied consistently. The learner should identify the subject of each claim, distinguish analogous from univocal language where necessary, and resist moving from a word shared by two sources to an agreement those sources do not actually state.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Foundations"
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the Primordial Sacrament and the Church takes its educational direction from Foundations: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. Within Sacraments, the learner must use Church, Grace, Sacrament with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Eastern Orthodox, Protestant. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the Primordial Sacrament gives Christ the Primordial Sacrament and the Church a concrete analytical task. In treating Christ the Primordial Sacrament, Christ the Primordial Sacrament and the Church should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of Christ the Primordial Sacrament within Sacraments remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "the Church gives Christ the Primordial Sacrament and the Church a concrete analytical task. In treating the Church, Christ the Primordial Sacrament and the Church should name the relevant claim type, cite the controlling evidence, and expose the inference. The account of the Church within Sacraments remains incomplete if a historical reconstruction or theological explanation is silently presented as the source's own wording.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Christ the Primordial Sacrament and the Church, Church cannot remain an undefined slogan. State the proposition involving Church, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Church in Sacraments must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase Grace matters specifically to Christ the Primordial Sacrament and the Church. Ask first what Grace denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of Grace under Sacraments should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Christ the Primordial Sacrament and the Church, recall grace. Sacraments uses grace in this lesson. Link grace with Church in Christ the Primordial Sacrament and the Church. Classify every grace claim in Christ the Primordial Sacrament and the Church. Check grace evidence for Sacraments. Revise Christ the Primordial Sacrament and the Church if grace remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Christ the Primordial Sacrament and the Church, recall Church. Sacraments uses Church in this lesson. Link Church with Paschal Mystery in Christ the Primordial Sacrament and the Church. Classify every Church claim in Christ the Primordial Sacrament and the Church. Check Church evidence for Sacraments. Revise Christ the Primordial Sacrament and the Church if Church remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Christ the Primordial Sacrament and the Church, recall Paschal Mystery. Sacraments uses Paschal Mystery in this lesson. Link Paschal Mystery with symbol and causality in Christ the Primordial Sacrament and the Church. Classify every Paschal Mystery claim in Christ the Primordial Sacrament and the Church. Check Paschal Mystery evidence for Sacraments. Revise Christ the Primordial Sacrament and the Church if Paschal Mystery remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Christ the Primordial Sacrament and the Church, recall symbol and causality. Sacraments uses symbol and causality in this lesson. Link symbol and causality with Christ the Primordial Sacrament in Christ the Primordial Sacrament and the Church. Classify every symbol and causality claim in Christ the Primordial Sacrament and the Church. Check symbol and causality evidence for Sacraments. Revise Christ the Primordial Sacrament and the Church if symbol and causality remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Christ the Primordial Sacrament and the Church, recall Christ the Primordial Sacrament. Sacraments uses Christ the Primordial Sacrament in this lesson. Link Christ the Primordial Sacrament with grace in Christ the Primordial Sacrament and the Church. Classify every Christ the Primordial Sacrament claim in Christ the Primordial Sacrament and the Church. Check Christ the Primordial Sacrament evidence for Sacraments. Revise Christ the Primordial Sacrament and the Church if Christ the Primordial Sacrament remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the Primordial Sacrament and the Church follows this approved curriculum purpose: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. This lesson focuses on christ the primordial sacrament and the church. Within Christ the Primordial Sacrament and the Church, that purpose limits the draft to the evidence and conclusions needed for Foundations.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the Primordial Sacrament and the Church prepares the learner for this mastery work: Establish the Catholic claim, vocabulary, place in the hierarchy of truths, and beginner mental model. Success in Christ the Primordial Sacrament and the Church therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the Primordial Sacrament and the Church carries a high lesson review risk inside the high risk profile for Sacraments. The recorded reason for Sacraments is dogmatic precision; comparative fairness and tradition-specific sourcing, so Christ the Primordial Sacrament and the Church cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the Primordial Sacrament and the Church must keep these classifications visible: dogma, doctrine, discipline, theological_opinion. For Christ the Primordial Sacrament and the Church, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the Primordial Sacrament and the Church uses the biblical path John 6:22-71, Luke 22:14-20, 1 Corinthians 10:16-17; 11:23-29. Its Catholic synthesis is checked against CCC 1066-1209 and CCC 1210-1419 and sections 5-14 and 47-61, while Christ the Primordial Sacrament and the Church reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the Primordial Sacrament and the Church names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Catholic in Christ the Primordial Sacrament and the Church; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the Primordial Sacrament and the Church names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Eastern Orthodox in Christ the Primordial Sacrament and the Church; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Christ the Primordial Sacrament and the Church names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession set the descriptive boundary for Protestant in Christ the Primordial Sacrament and the Church; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "To audit Christ the Primordial Sacrament and the Church, follow the locators rather than trusting the summary: CCC 1066-1209 and CCC 1210-1419; sections 5-14 and 47-61; chapters 61 and 65-67; and Trent, decrees on the sacraments and Eucharist as relevant. Each source should support the precise sentence for which it is cited. Edition, translation, context, and attribution remain explicit items for the review queue.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.justin.first-apology",
+        "src.conciliar.tanner-decrees"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Christ the Primordial Sacrament and the Church",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "The objection presses the burden of proof for Christ the Primordial Sacrament and the Church: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+      "fairRepresentation": "A careful representative of Catholic, Eastern Orthodox, Protestant may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+      "response": "In response, the lesson argues that Christ the Primordial Sacrament and the Church is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.sacrosanctum-concilium",
+        "src.justin.first-apology",
+        "src.conciliar.tanner-decrees",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.sacraments.foundations.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "eucharist",
+        "protestant"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Church",
+      "definition": "The people gathered by the Father through Christ in the Holy Spirit, at once spiritual communion and visible apostolic society.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "term": "Grace",
+      "definition": "God's free and undeserved gift of divine life and help, healing and elevating the human person.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    },
+    {
+      "term": "Sacrament",
+      "definition": "An efficacious ecclesial sign of grace, instituted by Christ and entrusted to the Church.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.sacrosanctum-concilium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "John 6:22-71",
+      "paraphrase": "Jesus presents himself as the life-giving bread from heaven and presses his hearers beyond merely material expectations.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Luke 22:14-20",
+      "paraphrase": "At the Passover meal Jesus identifies the bread and cup with his self-gift and commands the memorial action of the new covenant.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "1 Corinthians 10:16-17; 11:23-29",
+      "paraphrase": "Paul joins Eucharistic participation to communion in Christ, ecclesial unity, received tradition, and serious moral discernment.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1066-1209",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Christ the Primordial Sacrament and the Church; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1210-1419",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Christ the Primordial Sacrament and the Church and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 5-14 and 47-61",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Christ the Primordial Sacrament and the Church must be assessed.",
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Christ the Primordial Sacrament and the Church must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.justin.first-apology",
+        "locator": "chapters 61 and 65-67"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Christ the Primordial Sacrament and the Church",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "The objection presses the burden of proof for Christ the Primordial Sacrament and the Church: have contrary texts, historical discontinuities, or plausible alternative explanations received their full weight?",
+  "opposingPosition": "A careful representative of Catholic, Eastern Orthodox, Protestant may accept some of the same texts while differing about canon, authority, terminology, development, or inference. These traditions and schools do not all hold one position; internal variation must be checked in recognised sources. The alternative asks whether the Catholic conclusion imports a disputed ecclesial premise.",
+  "catholicResponse": "In response, the lesson argues that Christ the Primordial Sacrament and the Church is not established by verbal similarity or bare institutional assertion. Its case depends on converging canonical, ecclesial, and historical evidence. Where that convergence yields doctrine the lesson says so; where it yields only probability or theological opinion, the conclusion is correspondingly modest.",
+  "commonMistakes": [
+    "Treating Christ the Primordial Sacrament and the Church as an isolated slogan instead of a question within Sacraments.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Protestant despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Christ the Primordial Sacrament and the Church: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "In summary, Christ the Primordial Sacrament and the Church is answered by ordering evidence rather than accumulating quotations. Sacraments supplies the doctrinal horizon; the assigned sources establish biblical, ecclesial, historical, and specialist premises. Fair scope and explicit inference keep the Catholic response both confident and corrigible where claims remain non-definitive.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Christ the Primordial Sacrament and the Church without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.sacraments.foundations.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Christ the Primordial Sacrament and the Church.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.sacraments.foundations.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Christ the Primordial Sacrament and the Church in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "John 6:22-71; Luke 22:14-20; 1 Corinthians 10:16-17; 11:23-29",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 1066-1209; CCC 1210-1419",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.sacrosanctum-concilium",
+      "locator": "sections 5-14 and 47-61",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.justin.first-apology",
+      "locator": "chapters 61 and 65-67",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "locator": "Trent, decrees on the sacraments and Eucharist as relevant",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.sacraments.foundations.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "eucharist",
+      "protestant"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "theological_opinion"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.sacraments.01",
+    "batchOrder": 1,
+    "contentHash": "a8e681457627297f90a7242f81a22796a2fc9e8d426716dbaa0a3a9ae2090a1a",
+    "approximateWordCount": 3300
+  }
+}

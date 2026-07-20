@@ -1,0 +1,548 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.marriage-sexuality-family.synthesis.01",
+  "phase3LessonId": "les.marriage-sexuality-family.synthesis.01",
+  "programmeId": "prog.moral-spiritual",
+  "subjectId": "subj.marriage-sexuality-family",
+  "groupId": "grp.marriage-sexuality-family.synthesis",
+  "title": "Explaining Catholic Sexual Ethics as a Whole",
+  "slug": "marriage-sexuality-and-family-synthesis-01",
+  "centralQuestion": "How should Catholic teaching understand Explaining Catholic Sexual Ethics as a Whole?",
+  "learningObjectives": [
+    "State a clear Catholic account of Explaining Catholic Sexual Ethics as a Whole in the context of Marriage, Sexuality, and Family.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in Explaining Catholic Sexual Ethics as a Whole.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic teaching approaches Explaining Catholic Sexual Ethics as a Whole within Marriage, Sexuality, and Family: Studies creation, embodiment, chastity, marriage, celibacy, fertility, family, sexual ethics, pastoral accompaniment, and contested anthropologies. It reads Scripture in the Church, applies Catechism and Magisterial distinctions, and separates revealed doctrine from discipline, opinion, and revisable historical or scientific judgment.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding Explaining Catholic Sexual Ethics as a Whole"
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole is a focused lesson within Marriage, Sexuality, and Family. Studies creation, embodiment, chastity, marriage, celibacy, fertility, family, sexual ethics, pastoral accompaniment, and contested anthropologies. The Catholic account begins with sources competent for each claim: Scripture for canonical witness, Magisterium for Catholic judgment, primary evidence for events and reception, and scholarship for specialised analysis. This order neither makes the sources equal nor permits one source to answer a question beyond its competence.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole is anchored in Genesis 2:18-25, Matthew 19:3-12, Ephesians 5:21-33. No protected translation wording is reproduced. Instead, each card states in fresh language what the passage contributes and leaves the reference visible for verification. The learner should read what precedes and follows, identify genre and speaker, and compare the proposed use with the wider canon.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The essential vocabulary for Explaining Catholic Sexual Ethics as a Whole is Creation, Marriage, Primary source. Before declaring agreement or conflict, check whether sources use those terms in the same sense, address the same problem, and carry the same authority. Doctrinal, devotional, historical, and comparative language may overlap, but the lesson may not treat them as interchangeable.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Synthesis"
+    },
+    {
+      "type": "paragraph",
+      "text": "The synthesis stage turns Explaining Catholic Sexual Ethics as a Whole into a concise account ordered to faith and life. A strong synthesis preserves the literal sense of Scripture, the hierarchy of truths, the authority level of Church teaching, and the legitimate findings of reason and history. It can be shortened for conversation without erasing qualifications. Its goal is not merely to win a dispute but to make Christ, the Church's faith, and the learner's response intelligible together.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole uses Explaining Catholic Sexual Ethics as a checkpoint for understanding. The learner should locate Explaining Catholic Sexual Ethics in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Explaining Catholic Sexual Ethics is disputed within Marriage, Sexuality, and Family, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The phrase a Whole matters specifically to Explaining Catholic Sexual Ethics as a Whole. Ask first what a Whole denotes here, next which contrast makes the term precise, and finally which evidence bears on it. A Catholic treatment of a Whole under Marriage, Sexuality, and Family should also state whether the resulting claim is doctrine, discipline, opinion, or specialist judgment.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole uses Creation as a checkpoint for understanding. The learner should locate Creation in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Creation is disputed within Marriage, Sexuality, and Family, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for Explaining Catholic Sexual Ethics as a Whole, Marriage cannot remain an undefined slogan. State the proposition involving Marriage, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of Marriage in Marriage, Sexuality, and Family must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For Explaining Catholic Sexual Ethics as a Whole, recall human dignity. Marriage, Sexuality, and Family uses human dignity in this lesson. Link human dignity with sacrament in Explaining Catholic Sexual Ethics as a Whole. Classify every human dignity claim in Explaining Catholic Sexual Ethics as a Whole. Check human dignity evidence for Marriage, Sexuality, and Family. Revise Explaining Catholic Sexual Ethics as a Whole if human dignity remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Explaining Catholic Sexual Ethics as a Whole, recall sacrament. Marriage, Sexuality, and Family uses sacrament in this lesson. Link sacrament with virtue in Explaining Catholic Sexual Ethics as a Whole. Classify every sacrament claim in Explaining Catholic Sexual Ethics as a Whole. Check sacrament evidence for Marriage, Sexuality, and Family. Revise Explaining Catholic Sexual Ethics as a Whole if sacrament remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Explaining Catholic Sexual Ethics as a Whole, recall virtue. Marriage, Sexuality, and Family uses virtue in this lesson. Link virtue with moral act in Explaining Catholic Sexual Ethics as a Whole. Classify every virtue claim in Explaining Catholic Sexual Ethics as a Whole. Check virtue evidence for Marriage, Sexuality, and Family. Revise Explaining Catholic Sexual Ethics as a Whole if virtue remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Explaining Catholic Sexual Ethics as a Whole, recall moral act. Marriage, Sexuality, and Family uses moral act in this lesson. Link moral act with Objections in Explaining Catholic Sexual Ethics as a Whole. Classify every moral act claim in Explaining Catholic Sexual Ethics as a Whole. Check moral act evidence for Marriage, Sexuality, and Family. Revise Explaining Catholic Sexual Ethics as a Whole if moral act remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For Explaining Catholic Sexual Ethics as a Whole, recall Objections. Marriage, Sexuality, and Family uses Objections in this lesson. Link Objections with human dignity in Explaining Catholic Sexual Ethics as a Whole. Classify every Objections claim in Explaining Catholic Sexual Ethics as a Whole. Check Objections evidence for Marriage, Sexuality, and Family. Revise Explaining Catholic Sexual Ethics as a Whole if Objections remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole follows this approved curriculum purpose: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. This lesson focuses on explaining catholic sexual ethics as a whole. Within Explaining Catholic Sexual Ethics as a Whole, that purpose limits the draft to the evidence and conclusions needed for Synthesis.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole prepares the learner for this mastery work: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. Success in Explaining Catholic Sexual Ethics as a Whole therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole carries a critical lesson review risk inside the critical risk profile for Marriage, Sexuality, and Family. The recorded reason for Marriage, Sexuality, and Family is dogmatic precision; current scientific review; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so Explaining Catholic Sexual Ethics as a Whole cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole must keep these classifications visible: dogma, doctrine, discipline, theological_opinion, scientific_claim. For Explaining Catholic Sexual Ethics as a Whole, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole uses the biblical path Genesis 2:18-25, Matthew 19:3-12, Ephesians 5:21-33. Its Catholic synthesis is checked against CCC 1601-1666 and CCC 2331-2400 and sections 47-52, while Explaining Catholic Sexual Ethics as a Whole reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.secular.representative-sources set the descriptive boundary for Catholic in Explaining Catholic Sexual Ethics as a Whole; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.secular.representative-sources set the descriptive boundary for Eastern Orthodox in Explaining Catholic Sexual Ethics as a Whole; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.secular.representative-sources set the descriptive boundary for Protestant in Explaining Catholic Sexual Ethics as a Whole; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole names secular gender and sexual theories rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.secular.representative-sources set the descriptive boundary for secular gender and sexual theories in Explaining Catholic Sexual Ethics as a Whole; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Explaining Catholic Sexual Ethics as a Whole uses four documentary controls: Catechism CCC 1601-1666 and CCC 2331-2400, Magisterium sections 47-52, historical witness chapters 1-4, and scholarship sections on human dignity and embodied life. The sequence clarifies authority and makes later checking possible. A locator that proves too broad or semantically mismatched must be corrected before approval.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes",
+        "src.didache",
+        "src.ddf.dignitas-infinita"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for Explaining Catholic Sexual Ethics as a Whole",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "An informed opponent can grant much of the evidence for Explaining Catholic Sexual Ethics as a Whole while denying the Catholic inference. Why is the disputed conclusion more than one confessional construction among several?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Protestant, secular gender and sexual theories, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Explaining Catholic Sexual Ethics as a Whole concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "The Catholic answer concerning Explaining Catholic Sexual Ethics as a Whole accepts the stated burden of proof. It reads the primary texts in context, explains why the Church's interpretive authority is relevant, and checks whether historical reception fits the proposed development. A failed locator or unsupported premise blocks approval instead of being covered by devotional confidence.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.gaudium-et-spes",
+        "src.didache",
+        "src.ddf.dignitas-infinita",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.secular.representative-sources"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.marriage-sexuality-family.objections.02",
+        "les.marriage-sexuality-family.synthesis.02"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "secular",
+        "protestant"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Creation",
+      "definition": "God's free act of giving existence to all that is not God and sustaining creatures in being.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "term": "Marriage",
+      "definition": "The covenant by which a man and a woman establish a partnership of the whole of life, ordered to their good and the generation and education of children.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    },
+    {
+      "term": "Primary source",
+      "definition": "A text, artefact, or record arising from the authority, community, person, or period being studied.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.gaudium-et-spes"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Genesis 2:18-25",
+      "paraphrase": "The creation narrative presents bodily kinship, mutual belonging, and the one-flesh union as gifts answering human solitude.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Matthew 19:3-12",
+      "paraphrase": "Jesus answers a divorce controversy by returning to the Creator's purpose and the covenantal unity of marriage, while also acknowledging celibacy for the kingdom.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "Ephesians 5:21-33",
+      "paraphrase": "Christian marriage is placed under mutual life in Christ and interpreted through Christ's self-giving love for the Church.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 1601-1666",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate Explaining Catholic Sexual Ethics as a Whole; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 2331-2400",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for Explaining Catholic Sexual Ethics as a Whole and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 47-52",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of Explaining Catholic Sexual Ethics as a Whole must be assessed.",
+      "sourceId": "src.vatican2.gaudium-et-spes",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because Explaining Catholic Sexual Ethics as a Whole must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.didache",
+        "locator": "chapters 1-4"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in Explaining Catholic Sexual Ethics as a Whole",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "An informed opponent can grant much of the evidence for Explaining Catholic Sexual Ethics as a Whole while denying the Catholic inference. Why is the disputed conclusion more than one confessional construction among several?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Protestant, secular gender and sexual theories, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about Explaining Catholic Sexual Ethics as a Whole concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "The Catholic answer concerning Explaining Catholic Sexual Ethics as a Whole accepts the stated burden of proof. It reads the primary texts in context, explains why the Church's interpretive authority is relevant, and checks whether historical reception fits the proposed development. A failed locator or unsupported premise blocks approval instead of being covered by devotional confidence.",
+  "commonMistakes": [
+    "Treating Explaining Catholic Sexual Ethics as a Whole as an isolated slogan instead of a question within Marriage, Sexuality, and Family.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Protestant, secular gender and sexual theories despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of Explaining Catholic Sexual Ethics as a Whole: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "The central lesson of Explaining Catholic Sexual Ethics as a Whole is methodological and substantive: name the Catholic claim, ground it in competent sources, test its historical and conceptual continuity, answer the strongest scoped objection, and state no more than the evidence warrants. In Marriage, Sexuality, and Family, that discipline serves truth and charity together.",
+  "reviewPrompts": [
+    "Give the short Catholic account of Explaining Catholic Sexual Ethics as a Whole without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.marriage-sexuality-family.synthesis.01.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in Explaining Catholic Sexual Ethics as a Whole.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.marriage-sexuality-family.synthesis.01.02",
+      "format": "short_response",
+      "promptIntent": "Explain Explaining Catholic Sexual Ethics as a Whole in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Genesis 2:18-25; Matthew 19:3-12; Ephesians 5:21-33",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 1601-1666; CCC 2331-2400",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.gaudium-et-spes",
+      "locator": "sections 47-52",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.didache",
+      "locator": "chapters 1-4",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.ddf.dignitas-infinita",
+      "locator": "sections on human dignity and embodied life",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.secular.representative-sources",
+      "locator": "named argument or declaration identified by the lesson topic",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.marriage-sexuality-family.objections.02",
+    "les.marriage-sexuality-family.synthesis.02"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "secular",
+      "protestant"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "theological_opinion",
+      "scientific_claim"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant",
+      "secular gender and sexual theories"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.marriage-sexuality-and-family.01",
+    "batchOrder": 9,
+    "contentHash": "642c8f4caad03532783c9482fc77173f4a45d68792a15a220c345c758b3e4749",
+    "approximateWordCount": 3453
+  }
+}

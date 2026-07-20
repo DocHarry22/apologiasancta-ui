@@ -1,0 +1,555 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "content.les.mary.synthesis.02",
+  "phase3LessonId": "les.mary.synthesis.02",
+  "programmeId": "prog.church-tradition",
+  "subjectId": "subj.mary",
+  "groupId": "grp.mary.synthesis",
+  "title": "With Mary, Hearing and Doing the Word",
+  "slug": "mary-synthesis-02",
+  "centralQuestion": "How should Catholic teaching understand With Mary, Hearing and Doing the Word?",
+  "learningObjectives": [
+    "State a clear Catholic account of With Mary, Hearing and Doing the Word in the context of Mary.",
+    "Distinguish the doctrinal, historical, philosophical, scientific, or disciplinary claims involved in With Mary, Hearing and Doing the Word.",
+    "Use the assigned Scripture, Catechism, Magisterial, historical, scholarly, and comparative sources within their proper competence.",
+    "Present the strongest relevant objection fairly and give a proportionate Catholic response."
+  ],
+  "shortDirectAnswer": "Catholic formation treats With Mary, Hearing and Doing the Word as part of Mary. Places Marian doctrine within Christology and ecclesiology: divine motherhood, perpetual virginity, Immaculate Conception, Assumption, typology, devotion, and mediation. The short answer must therefore preserve the hierarchy of truths, use sources within their competence, and avoid turning a probable interpretation or historical reconstruction into settled dogma.",
+  "fullExplanation": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Understanding With Mary, Hearing and Doing the Word"
+    },
+    {
+      "type": "paragraph",
+      "text": "Within Mary, the question With Mary, Hearing and Doing the Word must be answered at the right level of authority. Places Marian doctrine within Christology and ecclesiology: divine motherhood, perpetual virginity, Immaculate Conception, Assumption, typology, devotion, and mediation. Scripture, ecclesial teaching, historical testimony, and specialist research contribute different kinds of evidence. The lesson therefore identifies which source establishes each premise and labels every interpretive step rather than presenting a synthesis as though it were a direct quotation.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Biblical and canonical frame"
+    },
+    {
+      "type": "paragraph",
+      "text": "For the biblical dimension of With Mary, Hearing and Doing the Word, consult Luke 1:26-56, John 2:1-12, John 19:25-27; Revelation 12:1-17. The stored summaries are deliberately not substitute Bible text. Their purpose is to direct close reading: establish the passage's immediate claim, test the connection to the lesson, and only then relate that claim to Catholic doctrine through the interpretive rules of Dei Verbum.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.vatican2.dei-verbum"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The terms Doctrine, Typology, Church, Theotokos provide a small conceptual map for With Mary, Hearing and Doing the Word. Use the map to ask what reality is named, what contrast gives the term meaning, and which source controls the definition. If an opposing tradition uses the same word differently, state that difference instead of manufacturing a verbal contradiction.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Synthesis"
+    },
+    {
+      "type": "paragraph",
+      "text": "With Mary, Hearing and Doing the Word takes its educational direction from Synthesis: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. Within Mary, the learner must use Doctrine, Typology, Church, Theotokos with enough precision to separate the central proposition from its evidence, implications, and disputed interpretations. The task is complete only when the learner can identify the authority of each claim, show the reasoning that connects sources to conclusions, and state what still requires specialist review. The comparative scope is deliberately explicit: Catholic, Eastern Orthodox, Protestant, Islam. Those labels contain real internal variation, so no position should be assigned to every member without checking the tradition's own recognised source.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Lesson-specific focus"
+    },
+    {
+      "type": "paragraph",
+      "text": "In the argument for With Mary, Hearing and Doing the Word, With Mary cannot remain an undefined slogan. State the proposition involving With Mary, identify its subject and predicate, and test whether the cited locator actually supports both. The treatment of With Mary in Mary must then distinguish direct evidence, interpretation, and a conclusion inferred from several sources.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "With Mary, Hearing and Doing the Word uses Hearing as a checkpoint for understanding. The learner should locate Hearing in the assigned Scripture, compare its doctrinal treatment, and note historical development without forcing identical vocabulary. When Hearing is disputed within Mary, the strongest alternative meaning should be recorded before the Catholic response is evaluated.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For With Mary, Hearing and Doing the Word, the focus on Doing the Word fixes one part of the lesson's scope. Doing the Word must be defined as it functions in With Mary, Hearing and Doing the Word, then supported by a source competent for that definition. Within Mary, the learner should separate what the source states about Doing the Word from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For With Mary, Hearing and Doing the Word, the focus on Doctrine fixes one part of the lesson's scope. Doctrine must be defined as it functions in With Mary, Hearing and Doing the Word, then supported by a source competent for that definition. Within Mary, the learner should separate what the source states about Doctrine from the further conclusion the lesson draws.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Prerequisite integration"
+    },
+    {
+      "type": "paragraph",
+      "text": "For With Mary, Hearing and Doing the Word, recall Incarnation. Mary uses Incarnation in this lesson. Link Incarnation with grace in With Mary, Hearing and Doing the Word. Classify every Incarnation claim in With Mary, Hearing and Doing the Word. Check Incarnation evidence for Mary. Revise With Mary, Hearing and Doing the Word if Incarnation remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For With Mary, Hearing and Doing the Word, recall grace. Mary uses grace in this lesson. Link grace with typology in With Mary, Hearing and Doing the Word. Classify every grace claim in With Mary, Hearing and Doing the Word. Check grace evidence for Mary. Revise With Mary, Hearing and Doing the Word if grace remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For With Mary, Hearing and Doing the Word, recall typology. Mary uses typology in this lesson. Link typology with communion of saints in With Mary, Hearing and Doing the Word. Classify every typology claim in With Mary, Hearing and Doing the Word. Check typology evidence for Mary. Revise With Mary, Hearing and Doing the Word if typology remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For With Mary, Hearing and Doing the Word, recall communion of saints. Mary uses communion of saints in this lesson. Link communion of saints with Objections in With Mary, Hearing and Doing the Word. Classify every communion of saints claim in With Mary, Hearing and Doing the Word. Check communion of saints evidence for Mary. Revise With Mary, Hearing and Doing the Word if communion of saints remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For With Mary, Hearing and Doing the Word, recall Objections. Mary uses Objections in this lesson. Link Objections with Incarnation in With Mary, Hearing and Doing the Word. Classify every Objections claim in With Mary, Hearing and Doing the Word. Check Objections evidence for Mary. Revise With Mary, Hearing and Doing the Word if Objections remains unclear.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Curriculum and review audit"
+    },
+    {
+      "type": "paragraph",
+      "text": "With Mary, Hearing and Doing the Word follows this approved curriculum purpose: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. This lesson focuses on with mary, hearing and doing the word. Within With Mary, Hearing and Doing the Word, that purpose limits the draft to the evidence and conclusions needed for Synthesis.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "With Mary, Hearing and Doing the Word prepares the learner for this mastery work: Build a concise, charitable apologetic explanation and connect doctrine to worship and life. Success in With Mary, Hearing and Doing the Word therefore requires an answer that can be checked against the central question and every stated objective.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "With Mary, Hearing and Doing the Word carries a critical lesson review risk inside the critical risk profile for Mary. The recorded reason for Mary is dogmatic precision; comparative fairness and tradition-specific sourcing; independent specialist review before lesson production, so With Mary, Hearing and Doing the Word cannot pass merely because its references resolve.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "With Mary, Hearing and Doing the Word must keep these classifications visible: dogma, doctrine, discipline, theological_opinion. For With Mary, Hearing and Doing the Word, each conclusion should name the applicable classification before a reviewer evaluates its authority.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "With Mary, Hearing and Doing the Word uses the biblical path Luke 1:26-56, John 2:1-12, John 19:25-27; Revelation 12:1-17. Its Catholic synthesis is checked against CCC 484-511 and CCC 963-975 and sections 52-69, while With Mary, Hearing and Doing the Word reserves unresolved semantic questions for human review.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Comparative-source boundary"
+    },
+    {
+      "type": "paragraph",
+      "text": "With Mary, Hearing and Doing the Word names Catholic rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran set the descriptive boundary for Catholic in With Mary, Hearing and Doing the Word; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "With Mary, Hearing and Doing the Word names Eastern Orthodox rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran set the descriptive boundary for Eastern Orthodox in With Mary, Hearing and Doing the Word; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "With Mary, Hearing and Doing the Word names Protestant rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran set the descriptive boundary for Protestant in With Mary, Hearing and Doing the Word; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "With Mary, Hearing and Doing the Word names Islam rather than assigning a generic non-Catholic position. The relevant controls among src.orthodox.oca-faith, src.reformed.westminster-confession, src.islam.quran set the descriptive boundary for Islam in With Mary, Hearing and Doing the Word; a competent reviewer must still identify the exact tradition-specific source, internal variations, and any limit on the represented community or claim.",
+      "sourceIds": [
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The source path for With Mary, Hearing and Doing the Word is deliberately inspectable. Read CCC 484-511 and CCC 963-975 for the Catechism frame, then sections 52-69 for authoritative context. Compare Book III; Eve-Mary typology and Ephesus and later Marian definitions as relevant without treating reception and modern analysis as the same evidence. Human source review must confirm every use.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium",
+        "src.irenaeus.against-heresies",
+        "src.conciliar.tanner-decrees"
+      ]
+    },
+    {
+      "type": "distinction_table",
+      "caption": "Controlling distinctions for With Mary, Hearing and Doing the Word",
+      "columns": [
+        "Question",
+        "Required distinction",
+        "Editorial consequence"
+      ],
+      "rows": [
+        [
+          "What does the Church teach?",
+          "Dogma or doctrine versus discipline or theological opinion",
+          "Match the asserted authority to the actual Magisterial act."
+        ],
+        [
+          "What happened?",
+          "Primary historical evidence versus later interpretation",
+          "Cite a historical source and state the degree of certainty."
+        ],
+        [
+          "What does another community hold?",
+          "Named official source versus generic label",
+          "Record internal variation and avoid universal claims beyond the source."
+        ],
+        [
+          "What follows from the evidence?",
+          "Source statement versus interpretation or inference",
+          "Write the reasoning explicitly and do not place it in the source's voice."
+        ]
+      ]
+    },
+    {
+      "type": "objection_response",
+      "objection": "A strong objection says that the Catholic treatment of With Mary, Hearing and Doing the Word begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+      "fairRepresentation": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Protestant, Islam, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about With Mary, Hearing and Doing the Word concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+      "response": "The Catholic response to With Mary, Hearing and Doing the Word is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+      "sourceIds": [
+        "src.scripture.catholic-bible",
+        "src.ccc.main",
+        "src.vatican2.dei-verbum",
+        "src.vatican2.lumen-gentium",
+        "src.irenaeus.against-heresies",
+        "src.conciliar.tanner-decrees",
+        "src.orthodox.oca-faith",
+        "src.reformed.westminster-confession",
+        "src.islam.quran"
+      ]
+    },
+    {
+      "type": "related_content",
+      "lessonIds": [
+        "les.mary.synthesis.01"
+      ]
+    },
+    {
+      "type": "graph_references",
+      "categoryIds": [
+        "christology",
+        "protestant",
+        "islam"
+      ],
+      "recordIds": []
+    }
+  ],
+  "essentialTerminology": [
+    {
+      "term": "Doctrine",
+      "definition": "A teaching proposed by the Church; its authority and required assent depend on what is taught and how it is proposed.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Typology",
+      "definition": "A canonical relationship in which earlier persons, events, or institutions prefigure later fulfilment without losing their literal historical meaning.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Church",
+      "definition": "The people gathered by the Father through Christ in the Holy Spirit, at once spiritual communion and visible apostolic society.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    },
+    {
+      "term": "Theotokos",
+      "definition": "The title 'God-bearer' or 'Mother of God,' safeguarding that the one born of Mary is the divine Person of the Son.",
+      "sourceIds": [
+        "src.ccc.main",
+        "src.vatican2.lumen-gentium"
+      ]
+    }
+  ],
+  "scriptureEvidence": [
+    {
+      "type": "scripture_card",
+      "reference": "Luke 1:26-56",
+      "paraphrase": "Mary receives God's initiative in faith, consents to the incarnation, and praises the covenant mercy fulfilled through her Son.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "John 2:1-12",
+      "paraphrase": "At Cana Mary directs attention to Jesus, while his sign manifests glory and moves the disciples toward faith.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    },
+    {
+      "type": "scripture_card",
+      "reference": "John 19:25-27; Revelation 12:1-17",
+      "paraphrase": "John places the mother of Jesus beside the cross and later portrays a symbolic mother within the conflict involving Messiah and his people; the texts require careful literary distinction.",
+      "sourceId": "src.scripture.catholic-bible",
+      "quotationIncluded": false
+    }
+  ],
+  "catechismMagisterialEvidence": [
+    {
+      "type": "catechism_card",
+      "locator": "CCC 484-511",
+      "summary": "These paragraphs establish the first Catechism framework needed to evaluate With Mary, Hearing and Doing the Word; the lesson uses an original summary and preserves the locator for review.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "CCC 963-975",
+      "summary": "These paragraphs supply further doctrinal or moral distinctions for With Mary, Hearing and Doing the Word and prevent an isolated treatment of the topic.",
+      "sourceId": "src.ccc.main",
+      "quotationIncluded": false
+    },
+    {
+      "type": "catechism_card",
+      "locator": "sections 52-69",
+      "summary": "The assigned Magisterial source gives the authoritative context in which the Catholic synthesis of With Mary, Hearing and Doing the Word must be assessed.",
+      "sourceId": "src.vatican2.lumen-gentium",
+      "quotationIncluded": false
+    }
+  ],
+  "patristicHistoricalEvidence": {
+    "relevance": "Historical reception is relevant because With Mary, Hearing and Doing the Word must not be presented as though its vocabulary and controversies appeared without development or context.",
+    "items": [
+      {
+        "summary": "This witness supplies an early or historical control for the lesson while remaining distinct from a Magisterial definition and from modern scholarship.",
+        "sourceId": "src.irenaeus.against-heresies",
+        "locator": "Book III; Eve-Mary typology"
+      }
+    ]
+  },
+  "importantDistinctions": [
+    {
+      "type": "distinction_table",
+      "caption": "Authority and claim types in With Mary, Hearing and Doing the Word",
+      "columns": [
+        "Category",
+        "What it answers",
+        "What it cannot establish alone"
+      ],
+      "rows": [
+        [
+          "Scripture",
+          "The inspired canonical witness in its literary forms",
+          "A later technical conclusion without interpretation and argument"
+        ],
+        [
+          "Magisterium",
+          "The Church's authoritative doctrinal or disciplinary judgment",
+          "Every historical detail or private theological explanation"
+        ],
+        [
+          "Patristic or historical source",
+          "Reception, practice, argument, or events in context",
+          "By itself, a universal or irreformable doctrine"
+        ],
+        [
+          "Academic source",
+          "Specialist historical, textual, philosophical, or scientific analysis",
+          "An act of Catholic doctrinal definition"
+        ]
+      ]
+    }
+  ],
+  "strongObjection": "A strong objection says that the Catholic treatment of With Mary, Hearing and Doing the Word begins with its conclusion, coordinates unlike sources, and labels the result a synthesis. Why accept that method rather than a rival reading of the evidence?",
+  "opposingPosition": "The opposing case is not a generic non-Catholic view. Within Catholic, Eastern Orthodox, Protestant, Islam, different communities or authors may share evidence yet assign it unlike authority. Their strongest question about With Mary, Hearing and Doing the Word concerns whether Catholic synthesis demonstrates its conclusion or presupposes the teaching office whose authority is in dispute.",
+  "catholicResponse": "The Catholic response to With Mary, Hearing and Doing the Word is cumulative and limited. It identifies biblical data, makes ecclesial premises visible, tests continuity historically, and distinguishes teaching from discipline, opinion, and revisable judgment. The claim is not that one citation settles everything, but that competent sources cohere when their authority and genre remain intact.",
+  "commonMistakes": [
+    "Treating With Mary, Hearing and Doing the Word as an isolated slogan instead of a question within Mary.",
+    "Citing a true sentence while ignoring its genre, context, authority level, or the inference needed to reach the conclusion.",
+    "Calling a discipline, theological opinion, historical reconstruction, or scientific model a dogma.",
+    "Attributing one formula to every member of Catholic, Eastern Orthodox, Protestant, Islam despite documented internal variation."
+  ],
+  "practicalSpiritualApplication": "Pray through one assigned Scripture reference, then write a three-sentence explanation of With Mary, Hearing and Doing the Word: the Catholic claim, the most important distinction, and the reason it matters for discipleship. Before using the explanation with another person, verify one locator and revise any sentence that sounds more certain or more universal than the evidence permits.",
+  "summary": "With Mary, Hearing and Doing the Word can be explained clearly without erasing complexity. The biblical evidence remains contextual, authoritative Catholic teaching remains properly classified, historical and scholarly claims remain reviewable, and comparative positions remain tradition-specific. This ordered account integrates Mary with formation and mission.",
+  "reviewPrompts": [
+    "Give the short Catholic account of With Mary, Hearing and Doing the Word without using an unsupported proof text.",
+    "Which claim in the lesson carries the highest doctrinal authority, and which claims remain historical, philosophical, scientific, disciplinary, or theological judgments?",
+    "Restate the strongest objection in terms its advocate could recognise before giving the Catholic response.",
+    "Identify one source locator that must receive special attention in human review and explain why."
+  ],
+  "practiceQuestionPlaceholders": [
+    {
+      "stableId": "placeholder.les.mary.synthesis.02.01",
+      "format": "multiple_choice",
+      "promptIntent": "Distinguish the controlling claim types and authority levels in With Mary, Hearing and Doing the Word.",
+      "status": "placeholder"
+    },
+    {
+      "stableId": "placeholder.les.mary.synthesis.02.02",
+      "format": "short_response",
+      "promptIntent": "Explain With Mary, Hearing and Doing the Word in a concise Catholic account that also acknowledges a strong objection.",
+      "status": "placeholder"
+    }
+  ],
+  "references": [
+    {
+      "sourceId": "src.scripture.catholic-bible",
+      "locator": "Luke 1:26-56; John 2:1-12; John 19:25-27; Revelation 12:1-17",
+      "use": "Primary inspired evidence, cited by reference and expressed only through original paraphrase."
+    },
+    {
+      "sourceId": "src.ccc.main",
+      "locator": "CCC 484-511; CCC 963-975",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.dei-verbum",
+      "locator": "sections 11-13 and 21-26",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.vatican2.lumen-gentium",
+      "locator": "sections 52-69",
+      "use": "Catholic doctrinal or pastoral framework, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.irenaeus.against-heresies",
+      "locator": "Book III; Eve-Mary typology",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.conciliar.tanner-decrees",
+      "locator": "Ephesus and later Marian definitions as relevant",
+      "use": "Patristic, historical, philosophical, scientific, or scholarly control, summarised without direct quotation."
+    },
+    {
+      "sourceId": "src.orthodox.oca-faith",
+      "locator": "Volume I, section whose title corresponds to the lesson claim",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.reformed.westminster-confession",
+      "locator": "chapters 1, 8, 11, 25, 27-29, and 32-33 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    },
+    {
+      "sourceId": "src.islam.quran",
+      "locator": "surahs 1, 3-5, 19, and 112 as the lesson topic requires",
+      "use": "Tradition-specific control used to prevent generic or unfair representation; exact semantic use remains subject to comparative review."
+    }
+  ],
+  "relatedLessonIds": [
+    "les.mary.synthesis.01"
+  ],
+  "relatedGraphReferences": {
+    "categoryIds": [
+      "christology",
+      "protestant",
+      "islam"
+    ],
+    "recordIds": []
+  },
+  "editorial": {
+    "productionStatus": "drafted",
+    "reviewStatus": "awaiting_assignment",
+    "publicationStatus": "unpublished",
+    "doctrinalClassifications": [
+      "dogma",
+      "doctrine",
+      "discipline",
+      "theological_opinion"
+    ],
+    "comparativeTraditions": [
+      "Catholic",
+      "Eastern Orthodox",
+      "Protestant",
+      "Islam"
+    ],
+    "scripturePolicy": "references_and_original_paraphrases_only",
+    "licenceReviewRequired": true,
+    "humanApprovalRequired": true,
+    "generatedOn": "2026-07-20"
+  },
+  "_generation": {
+    "batchId": "batch.phase4.mary.01",
+    "batchOrder": 10,
+    "contentHash": "16b490ab6dea4e56a097e050e76ef868432a113774cb82e566b35fb024fb6cbb",
+    "approximateWordCount": 3484
+  }
+}

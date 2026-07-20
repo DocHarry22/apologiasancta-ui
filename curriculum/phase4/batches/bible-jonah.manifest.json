@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "stableId": "batch.phase4.bible-jonah.01",
+  "programmeId": "prog.bible-books",
+  "subjectId": "subj.bible.jonah",
+  "status": "drafted_awaiting_review",
+  "publicationStatus": "unpublished",
+  "generatedOn": "2026-07-20",
+  "lessonIds": [
+    "les.bible.jonah.context.01",
+    "les.bible.jonah.structure.01",
+    "les.bible.jonah.theology.01",
+    "les.bible.jonah.difficult-texts.01",
+    "les.bible.jonah.synthesis.01"
+  ],
+  "contentHashes": {
+    "les.bible.jonah.context.01": "32b6053abaacd7d29f8e74fde23924e5babc385e9272e7045fd79e0c0942d8e7",
+    "les.bible.jonah.structure.01": "e73fc2771b72a4247100dad82352d7ff39aaea7190e4a8d0f83ff507ac0f5f83",
+    "les.bible.jonah.theology.01": "2fd6b3cca60f300eb8acb09352a890a9ecc1ad76ecd32cd5a958a3fe8dd8facf",
+    "les.bible.jonah.difficult-texts.01": "ae90b6f6f12d84e03993d82dcbc23446bd18b6f9fa0e1ba6371cb3567cb80d11",
+    "les.bible.jonah.synthesis.01": "f2e18695fac40f42839a097fbb9135e9066a6b352788aa949e4a09f5f1925938"
+  },
+  "sourceCatalogHash": "4e06e48048fcee6747139f1c0f97cff78175160e1e511631621ac346aab743f4",
+  "qualityPolicy": {
+    "fullLessonTemplateRequired": true,
+    "noArbitraryHtml": true,
+    "noDirectScriptureQuotations": true,
+    "completeQuestionBankDeferred": true,
+    "automatedApprovalForbidden": true
+  }
+}
