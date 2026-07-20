@@ -60,3 +60,13 @@ test("live answer client sends its room join token", async () => {
   assert.match(mobilePage, /Authorization: `Bearer \$\{joinToken\}`/);
   assert.match(registrationHook, /playerJoinToken|saveStoredJoinToken/);
 });
+
+test("account database drivers remain visible to the production bundle tracer", async () => {
+  const userStore = await readFile(
+    path.join(process.cwd(), "src", "lib", "server", "adminUserStore.ts"),
+    "utf8"
+  );
+  assert.match(userStore, /await import\("mysql2\/promise"\)/);
+  assert.match(userStore, /await import\("pg"\)/);
+  assert.doesNotMatch(userStore, /new Function\("specifier"/);
+});

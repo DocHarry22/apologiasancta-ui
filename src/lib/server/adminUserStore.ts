@@ -117,12 +117,9 @@ async function getDatabasePool(): Promise<DatabasePool> {
     }
 
     if (dialect === "postgres") {
-      const importer = new Function("specifier", "return import(specifier)") as (specifier: string) => Promise<{
-        Pool: new (config: Record<string, unknown>) => {
-          query: (sql: string, values?: unknown[]) => Promise<{ rows: unknown[] }>;
-        };
-      }>;
-      const postgres = await importer("pg");
+      // Keep driver imports statically traceable so Next.js includes them in
+      // the standalone production bundle used by Hostinger.
+      const postgres = await import("pg");
       const postgresPool = new postgres.Pool({
         connectionString: process.env.DATABASE_URL,
         connectionTimeoutMillis: Number(process.env.DB_CONNECT_TIMEOUT_MS || 10_000),
@@ -135,11 +132,10 @@ async function getDatabasePool(): Promise<DatabasePool> {
       };
     }
 
-    const importer = new Function("specifier", "return import(specifier)") as (specifier: string) => Promise<{
-      createPool: (config: string | Record<string, unknown>) => DatabasePool;
-    }>;
-    const mysql = await importer("mysql2/promise");
-    if (process.env.DATABASE_URL) return mysql.createPool(process.env.DATABASE_URL);
+    const mysql = await import("mysql2/promise");
+    if (process.env.DATABASE_URL) {
+      return mysql.createPool(process.env.DATABASE_URL) as unknown as DatabasePool;
+    }
 
     return mysql.createPool({
       host: process.env.MYSQL_HOST,
@@ -151,7 +147,7 @@ async function getDatabasePool(): Promise<DatabasePool> {
       connectionLimit: Number(process.env.MYSQL_CONNECTION_LIMIT || 5),
       connectTimeout: Number(process.env.DB_CONNECT_TIMEOUT_MS || 10_000),
       enableKeepAlive: true,
-    });
+    }) as unknown as DatabasePool;
   })();
   poolPromise = pendingPool;
 
