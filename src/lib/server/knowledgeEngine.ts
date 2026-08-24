@@ -45,6 +45,43 @@ export function getKnowledgeEngineClientStatus() {
   };
 }
 
+function tooLarge(response: Response): KnowledgeEngineError {
+  return new KnowledgeEngineError("Knowledge Engine response is too large.", 502, response.status);
+}
+
+async function readBoundedBody(response: Response, maxBytes: number): Promise<string> {
+  const declared = Number.parseInt(response.headers.get("content-length") || "", 10);
+  if (Number.isFinite(declared) && declared > maxBytes) throw tooLarge(response);
+  if (!response.body) return "";
+
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (!value?.byteLength) continue;
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        await reader.cancel("knowledge-engine-response-size-limit").catch(() => undefined);
+        throw tooLarge(response);
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+
+  const merged = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    merged.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return new TextDecoder().decode(merged);
+}
+
 export async function fetchKnowledgeEngine(
   path: string,
   search?: URLSearchParams,
@@ -79,18 +116,11 @@ export async function fetchKnowledgeEngine(
     throw new KnowledgeEngineError("Knowledge Engine is unreachable.", 502);
   }
 
-  const declared = Number.parseInt(response.headers.get("content-length") || "", 10);
-  if (Number.isFinite(declared) && declared > maxBytes) {
-    throw new KnowledgeEngineError("Knowledge Engine response is too large.", 502, response.status);
-  }
   const contentType = response.headers.get("content-type")?.toLowerCase() || "";
   if (!contentType.includes("application/json")) {
     throw new KnowledgeEngineError("Knowledge Engine returned an unexpected response.", 502, response.status);
   }
-  const text = await response.text();
-  if (Buffer.byteLength(text, "utf8") > maxBytes) {
-    throw new KnowledgeEngineError("Knowledge Engine response is too large.", 502, response.status);
-  }
+  const text = await readBoundedBody(response, maxBytes);
 
   let payload: unknown;
   try {
