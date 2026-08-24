@@ -17,7 +17,7 @@ This worksheet is the source-of-truth handoff for the Play Console forms. It is 
 
 ## App access
 
-The app has public content and optional authenticated learner features. In Play Console, declare that some functionality can require account access and provide a dedicated review learner account if the reviewer needs to exercise sign-in, learner progress, security controls, or account deletion.
+The app has public content and optional authenticated learner features. In Play Console, declare that some functionality can require account access and provide a dedicated review learner account if the reviewer needs to exercise sign-in, learner progress, saved research journeys, security controls, or account deletion.
 
 Do not commit reviewer passwords to Git. Store reviewer credentials only in Play Console's App access instructions.
 
@@ -26,9 +26,10 @@ Recommended reviewer path:
 1. Launch app.
 2. Verify public Home, Learn, Library, Research and Quiz surfaces.
 3. Sign in with the dedicated review learner account.
-4. Open Account.
-5. Exercise privacy/security controls.
-6. Open **Delete account** and verify the deletion flow is directly reachable.
+4. Open Learn and Research; save a research journey if this feature is enabled in the deployed build.
+5. Open Account.
+6. Exercise privacy/security controls.
+7. Open **Delete account** and verify the deletion flow is directly reachable.
 
 ## Ads
 
@@ -42,7 +43,7 @@ Before submission, recheck the production-hosted web application and any server-
 
 **Does the app collect or share required user data types?** Yes.
 
-The app transmits account and learner information to its servers for authentication, learning progress, assessment and quiz functionality.
+The app transmits account and learner information to its servers for authentication, learning progress, assessment, saved research journeys and quiz functionality.
 
 **Is data encrypted in transit?** Yes for the production Android shell: the release configuration requires an HTTPS application URL and cleartext traffic is disabled in the release manifest.
 
@@ -50,7 +51,7 @@ The app transmits account and learner information to its servers for authenticat
 
 - In-app: Account → Delete account.
 - External web resource: `/account/delete`.
-- The authenticated deletion API permanently removes the public account and account-linked learner data. Historical live-quiz participant rows are anonymised before the learner profile is removed.
+- The authenticated deletion API permanently removes the public account and account-linked learner data, including saved research journeys. Historical live-quiz participant rows are anonymised before the learner profile is removed.
 
 ## Data safety — data types
 
@@ -84,10 +85,10 @@ The following are the conservative declaration candidates for the current implem
 
 ### App activity — App interactions
 
-Covers account-linked lesson progress, bookmarks, mastery/assessment participation, unlock/progress state, and comparable interaction records.
+Covers account-linked lesson progress, bookmarks, mastery/assessment participation, unlock/progress state, deliberately saved research journeys, and comparable interaction records.
 
 - Collected: **Yes**
-- Shared: **No**, subject to production infrastructure verification.
+- Shared: **No**, subject to production infrastructure verification. An unlisted research journey becomes visible to a person only when the learner intentionally gives that person its opaque share link; verify the final Play form treatment of user-initiated sharing against the deployed flow.
 - Purposes: **App functionality**, **Personalization** where progress/recommendations are derived from prior learning activity.
 
 ### App activity — Other actions
@@ -100,11 +101,11 @@ Covers live-quiz/gameplay actions such as joining rooms, answer submissions, sco
 
 ### Other user-generated content
 
-If learner-authored bookmark notes or comparable open-ended notes are enabled in the production UI, declare this data type.
+The production-capable schema/UI can store learner-authored bookmark notes and saved-research-journey titles/navigation metadata. A learner can also intentionally expose an unlisted saved journey to another person by sharing its opaque URL.
 
-- Collected: **Potentially yes** based on the learning schema's bookmark `note` field.
+- Collected: **Yes** when these authenticated save/note features are enabled in the deployed release.
+- Shared: **No** as a developer-to-third-party transfer; user-initiated unlisted link sharing must be answered according to the current Play definition at submission time.
 - Purposes: **App functionality**.
-- Final Console answer must follow the deployed UI: if users cannot create/upload such content in the released app, this item may be omitted.
 
 ### Location / IP-derived information
 
@@ -122,6 +123,8 @@ The native manifest does not request advertising ID or hardware identifier permi
 
 No advertising or analytics SDK was found in the current repository search. Do not mark user data as shared merely because it is transmitted to the developer's own service provider for processing on the developer's behalf when the Play definition treats that transfer as a service-provider exception; verify each production processor against the current Play definition before submission.
 
+User-initiated sharing features require separate care: an unlisted saved research journey is disclosed only to recipients who receive its opaque URL from the learner. Confirm how the current Play Data safety form classifies that user-directed disclosure before final submission.
+
 If any production provider uses the data for its own purposes, or any third-party analytics/AI/advertising SDK is added, reassess every affected data type and the privacy policy.
 
 ## Data deletion behaviour
@@ -133,6 +136,7 @@ The current deletion design:
 - uses a transaction-scoped `account_deletion` database context for governed unlock deletion;
 - removes Phase 2 question-exposure/corrective/retention rows before deleting restrictive mastery-attempt references;
 - removes learner node mastery/evidence, answers, unlocks, group progress, review schedule, bookmarks, lesson progress, attempt questions and attempts;
+- removes learner-owned saved research journeys through the `learner_profiles` `ON DELETE CASCADE` relationship;
 - removes the learner profile;
 - anonymises retained live-quiz participant history by removing account linkage, replacing the display name and external participant key, and clearing participant metadata;
 - deletes the public authentication account after learning-data deletion succeeds.
