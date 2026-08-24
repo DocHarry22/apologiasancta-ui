@@ -13,8 +13,16 @@ const SAFE_SIMPLE = /^[a-z0-9_-]+$/;
 
 function isAllowed(segments: string[]): boolean {
   const path = segments.join("/");
-  if (path === "status" || path === "topics" || path === "neighborhood" || path === "compare" || path === "timeline") return true;
-  if (segments.length === 2 && ["topics", "paths", "arguments", "nodes"].includes(segments[0] || "")) {
+  if (
+    path === "status"
+    || path === "topics"
+    || path === "neighborhood"
+    || path === "compare"
+    || path === "compare/advanced"
+    || path === "timeline"
+  ) return true;
+
+  if (segments.length === 2 && ["topics", "paths", "arguments", "nodes", "debate"].includes(segments[0] || "")) {
     return SAFE_CANONICAL.test(segments[1] || "");
   }
   if (segments.length === 3 && segments[0] === "arguments" && segments[2] === "coverage") return SAFE_CANONICAL.test(segments[1] || "");
@@ -34,7 +42,7 @@ function sanitizedSearch(request: NextRequest, path: string): URLSearchParams {
     if (SAFE_SIMPLE.test(lens) && lens.length <= 80) result.set("lens", lens);
     const limit = Math.max(1, Math.min(120, Number.parseInt(source.get("limit") || "80", 10) || 80));
     result.set("limit", String(limit));
-  } else if (path === "compare") {
+  } else if (path === "compare" || path === "compare/advanced") {
     for (const key of ["left", "right"] as const) {
       const value = source.get(key) || "";
       if (SAFE_CANONICAL.test(value)) result.set(key, value);
@@ -46,6 +54,8 @@ function sanitizedSearch(request: NextRequest, path: string): URLSearchParams {
       const value = source.get(key) || "";
       if (SAFE_CANONICAL.test(value)) result.set(key, value);
     }
+    const domain = source.get("domain");
+    if (domain && SAFE_SIMPLE.test(domain) && domain.length <= 80) result.set("domain", domain);
     for (const key of ["from", "to"] as const) {
       const raw = source.get(key);
       if (raw && /^-?\d{1,6}$/.test(raw)) result.set(key, raw);
@@ -67,15 +77,25 @@ export async function GET(
   context: { params: Promise<{ path?: string[] }> },
 ) {
   const { path: rawPath = [] } = await context.params;
-  const segments = rawPath.map((segment) => decodeURIComponent(segment));
+  let segments: string[];
+  try {
+    segments = rawPath.map((segment) => decodeURIComponent(segment));
+  } catch {
+    return NextResponse.json({ error: "Knowledge route is invalid." }, { status: 400 });
+  }
+
   if (segments.length === 0) {
     return NextResponse.json({ ...getKnowledgeEngineClientStatus(), service: "ui-knowledge-proxy" });
   }
   if (!isAllowed(segments)) return NextResponse.json({ error: "Knowledge route not found." }, { status: 404 });
+
   const path = segments.join("/");
   const search = sanitizedSearch(request, path);
   if (path === "neighborhood" && !search.has("nodeId")) return NextResponse.json({ error: "A valid nodeId is required." }, { status: 400 });
-  if (path === "compare" && (!search.has("left") || !search.has("right"))) return NextResponse.json({ error: "Valid left and right node IDs are required." }, { status: 400 });
+  if ((path === "compare" || path === "compare/advanced") && (!search.has("left") || !search.has("right"))) {
+    return NextResponse.json({ error: "Valid left and right node IDs are required." }, { status: 400 });
+  }
+
   try {
     const payload = await fetchKnowledgeEngine(`/knowledge/${segments.map(encodeURIComponent).join("/")}`, search);
     return NextResponse.json(payload, {
