@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { StatusBadge } from "@/components/ui/Primitives";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 
@@ -45,7 +45,7 @@ export default function SavedKnowledgeJourneys() {
   const [message, setMessage] = useState("");
   const graphUrl = useMemo(() => getResearchGraphUrl(), []);
 
-  async function load() {
+  const load = useCallback(async () => {
     setState("loading");
     setMessage("");
     try {
@@ -63,9 +63,9 @@ export default function SavedKnowledgeJourneys() {
       setState("error");
       setMessage(error instanceof Error ? error.message : "Saved journeys are unavailable.");
     }
-  }
+  }, []);
 
-  useEffect(() => { void load(); }, []);
+  useEffect(() => { void load(); }, [load]);
 
   async function remove(journey: Journey) {
     if (!window.confirm(`Delete “${journey.title}”?`)) return;
