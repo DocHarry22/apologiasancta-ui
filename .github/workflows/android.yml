@@ -1,5 +1,9 @@
 name: Android CI
 
+# GitHub distribution release automation is intentionally triggered by the
+# [android-release] commit marker or workflow_dispatch. Play Store signing
+# remains separate and must use the eventual Play upload key.
+
 on:
   push:
     branches: [main]
@@ -31,19 +35,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
-
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
-
       - name: Install Android SDK 36
         uses: android-actions/setup-android@v4
         with:
@@ -52,35 +53,26 @@ jobs:
             platforms;android-36
             build-tools;35.0.0
           log-accepted-android-sdk-licenses: false
-
       - name: Configure Gradle cache and wrapper validation
         uses: gradle/actions/setup-gradle@v6
         with:
           cache-read-only: ${{ github.event_name == 'pull_request' }}
-
       - name: Install JavaScript dependencies
         run: npm ci
-
       - name: Sync Capacitor Android project
         run: npm run cap:sync
-
       - name: Make Gradle wrapper executable
         run: chmod +x android/gradlew
-
       - name: Run Android unit tests, lint, and debug build
         working-directory: android
         run: ./gradlew --no-daemon --stacktrace testDebugUnitTest lintDebug assembleDebug
-
       - name: Verify debug APK
         id: verify-apk
         shell: bash
         run: |
           set -euo pipefail
           apk_path="$(find android/app/build/outputs/apk/debug -type f -name '*-debug.apk' -print -quit)"
-          if [[ -z "$apk_path" ]]; then
-            echo "Expected a debug APK, but no APK was produced." >&2
-            exit 1
-          fi
+          test -n "$apk_path"
           sdk_root="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
           "$sdk_root/build-tools/35.0.0/apksigner" verify --verbose "$apk_path"
           badging="$("$sdk_root/build-tools/35.0.0/aapt2" dump badging "$apk_path")"
@@ -90,7 +82,6 @@ jobs:
           sha256sum "$apk_path"
           echo "apk_path=$apk_path" >> "$GITHUB_OUTPUT"
           echo "### Android debug validation" >> "$GITHUB_STEP_SUMMARY"
-
       - name: Upload debug APK
         uses: actions/upload-artifact@v7
         with:
@@ -108,19 +99,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
-
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
-
       - name: Install Android SDK 36
         uses: android-actions/setup-android@v4
         with:
@@ -129,19 +117,14 @@ jobs:
             platforms;android-36
             build-tools;35.0.0
           log-accepted-android-sdk-licenses: false
-
       - name: Configure Gradle
         uses: gradle/actions/setup-gradle@v6
-
       - name: Install JavaScript dependencies
         run: npm ci
-
       - name: Sync Capacitor Android project
         run: npm run cap:sync
-
       - name: Make Gradle wrapper executable
         run: chmod +x android/gradlew
-
       - name: Create ephemeral GitHub distribution signing key
         shell: bash
         run: |
@@ -165,11 +148,9 @@ jobs:
             echo "APP_VERSION_CODE=3"
             echo "APP_VERSION_NAME=1.0.3"
           } >> "$GITHUB_ENV"
-
       - name: Build signed release APK and AAB
         working-directory: android
         run: ./gradlew --no-daemon --stacktrace testReleaseUnitTest lintRelease assembleRelease bundleRelease
-
       - name: Validate release APK
         id: release-artifacts
         shell: bash
@@ -191,7 +172,6 @@ jobs:
           echo "API 36 release APK/AAB built, signed, target-SDK verified and 16 KB aligned." >> "$GITHUB_STEP_SUMMARY"
           echo "apk_path=$apk_path" >> "$GITHUB_OUTPUT"
           echo "aab_path=$aab_path" >> "$GITHUB_OUTPUT"
-
       - name: Publish GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -201,12 +181,14 @@ jobs:
           tag="android-v1.0.3"
           apk="${{ steps.release-artifacts.outputs.apk_path }}"
           aab="${{ steps.release-artifacts.outputs.aab_path }}"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release delete "$tag" --repo "$GITHUB_REPOSITORY" --yes
+          fi
           gh release create "$tag" "$apk#apologia-sancta.apk" "$aab#apologia-sancta.aab" \
             --repo "$GITHUB_REPOSITORY" \
             --title "Apologia Sancta Android 1.0.3" \
             --notes "Production Android build for GitHub distribution. Target SDK 36 / Android 16. Includes the latest Play Store readiness, account deletion, privacy and security changes. The APK is signed with an ephemeral GitHub-distribution key and is not the future Google Play upload key." \
             --latest
-
       - name: Upload release artifacts to Actions
         uses: actions/upload-artifact@v7
         with:
