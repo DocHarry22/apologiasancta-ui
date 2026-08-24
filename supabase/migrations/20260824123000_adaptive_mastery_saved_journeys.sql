@@ -3,12 +3,31 @@ begin;
 -- Durable user-owned canonical argument journeys. The Knowledge Engine remains
 -- authoritative for propositions and relationships; this table stores only
 -- canonical identifiers and user navigation metadata.
+--
+-- A domain enforces the canonical ID grammar for both the root and every array
+-- element, including direct Data API writes that bypass application validators.
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_type t
+    join pg_namespace n on n.oid = t.typnamespace
+    where n.nspname = 'content' and t.typname = 'canonical_knowledge_id'
+  ) then
+    execute $domain$
+      create domain content.canonical_knowledge_id as text
+      check (value ~ '^[a-z][a-z0-9_-]*:[a-z0-9][a-z0-9._:-]*$')
+    $domain$;
+  end if;
+end;
+$$;
+
 create table if not exists public.saved_knowledge_journeys (
   id uuid primary key default gen_random_uuid(),
   learner_id uuid not null references public.learner_profiles(id) on delete cascade,
   title text not null check (char_length(title) between 1 and 160),
-  root_node_id text not null check (root_node_id ~ '^[a-z][a-z0-9_-]*:[a-z0-9][a-z0-9._:-]*$'),
-  node_ids text[] not null check (cardinality(node_ids) between 1 and 120),
+  root_node_id content.canonical_knowledge_id not null,
+  node_ids content.canonical_knowledge_id[] not null check (cardinality(node_ids) between 1 and 120),
   lens text not null default 'catholic' check (lens ~ '^[a-z0-9_-]{1,80}$'),
   visibility text not null default 'private' check (visibility in ('private','unlisted','public')),
   share_token uuid not null default gen_random_uuid() unique,
@@ -98,6 +117,8 @@ create policy saved_knowledge_journeys_delete_own
     )
   );
 
+comment on domain content.canonical_knowledge_id is
+  'Canonical Knowledge Engine identifier grammar used by integration-only reference columns.';
 comment on table public.saved_knowledge_journeys is
   'User-owned canonical Knowledge Engine traversal paths. Stores IDs/navigation metadata only; canonical theological content remains in the Knowledge Engine.';
 comment on column public.saved_knowledge_journeys.share_token is
