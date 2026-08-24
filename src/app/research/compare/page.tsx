@@ -1,5 +1,6 @@
 import { AppShell } from "@/components/shell/AppShell";
 import { ResearchModeNav } from "@/components/research/ResearchModeNav";
+import SaveKnowledgeJourneyButton from "@/components/research/SaveKnowledgeJourneyButton";
 import { StatusBadge } from "@/components/ui/Primitives";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 import { fetchKnowledgeEngine } from "@/lib/server/knowledgeEngine";
@@ -81,6 +82,9 @@ export default async function ResearchComparePage({
   const shared = payload?.sharedNeighbors || [];
   const semantic = payload?.semanticRelationships || [];
   const assessments = payload?.assessments || [];
+  const comparisonJourneyIds = payload
+    ? [...new Set([payload.left.id, ...(payload.connectingPath || []), payload.right.id].filter((id) => CANONICAL_ID.test(id)))]
+    : [];
 
   return (
     <AppShell>
@@ -109,7 +113,11 @@ export default async function ResearchComparePage({
           <div className="surface-card mt-6 p-6"><StatusBadge tone="danger">Comparison unavailable</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">{error}</p></div>
         ) : payload ? (
           <>
-            <div className="mt-7 grid gap-5 lg:grid-cols-2"><NodeCard node={payload.left} label="Left" /><NodeCard node={payload.right} label="Right" /></div>
+            <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div><StatusBadge tone="success">Published comparison</StatusBadge><p className="mt-2 text-sm text-(--text-muted)">Save the actual bounded canonical path; unrelated graph neighbors are not silently added.</p></div>
+              <SaveKnowledgeJourneyButton title={`Compare: ${payload.left.title} ↔ ${payload.right.title}`} rootNodeId={payload.left.id} nodeIds={comparisonJourneyIds} lens={validLens ? lens : "catholic"} metadata={{ mode: "compare", left: payload.left.id, right: payload.right.id }} />
+            </div>
+            <div className="mt-5 grid gap-5 lg:grid-cols-2"><NodeCard node={payload.left} label="Left" /><NodeCard node={payload.right} label="Right" /></div>
 
             <section className="mt-7 grid gap-5 xl:grid-cols-2" aria-label="Stored comparison relationships">
               <article className="surface-card p-5"><div className="flex items-center justify-between gap-3"><h2 className="editorial-heading text-2xl font-semibold">Direct relationships</h2><StatusBadge>{direct.length}</StatusBadge></div>{direct.length ? <ul className="mt-4 space-y-3">{direct.map((edge) => <li key={edge.id} className="rounded-lg border border-(--border) bg-(--surface-elevated) p-3 text-sm"><strong>{edge.relationshipType}</strong><div className="mt-1 break-all font-mono text-xs text-(--text-muted)">{edge.fromNodeId} → {edge.toNodeId}</div></li>)}</ul> : <p className="mt-3 text-sm text-(--text-muted)">No direct published edge connects these nodes.</p>}</article>
