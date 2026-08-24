@@ -48,9 +48,8 @@ export function AndroidUpdateManager() {
       if (!force && dismissed === latest.versionCode) return;
 
       // Current binaries authenticate the actual release APK before the UI
-      // advertises a same-package update. Play-installed copies are validated
-      // by the plugin as Play-routed; sideloaded copies compare the downloaded
-      // package, version, SHA-256 and signing certificate with this installation.
+      // advertises a direct same-package update. Play-installed copies are
+      // recognized by the native plugin and remain Play-routed instead.
       if (current.nativeUpdaterAvailable) {
         const valid = await validateAndroidUpdate(latest, current);
         if (!valid) {
@@ -86,6 +85,7 @@ export function AndroidUpdateManager() {
   if (!update || !installed) return null;
 
   const legacy = !installed.nativeUpdaterAvailable;
+  const playInstalled = installed.installerPackage === "com.android.vending";
 
   const dismiss = async () => {
     await prefSet(DISMISSED_VERSION_KEY, String(update.versionCode));
@@ -116,7 +116,9 @@ export function AndroidUpdateManager() {
             <p className="mt-1 text-sm text-(--text-muted)">
               {legacy
                 ? "This older app can detect the new release but cannot identify its original installer. Choose the same source you originally used so Android keeps the correct update/signing path."
-                : `Installed: ${installed.versionName || "older version"}. The candidate has been checked against this installed app before this update prompt was shown.`}
+                : playInstalled
+                  ? `Installed: ${installed.versionName || "older version"}. This copy came from Google Play, so the update remains on the Play-managed signing and install path.`
+                  : `Installed: ${installed.versionName || "older version"}. The actual release APK has been checked against this installed app before this prompt was shown.`}
             </p>
           </div>
         </div>
@@ -126,7 +128,9 @@ export function AndroidUpdateManager() {
           <p className="mt-1">
             {legacy
               ? "Google Play users should choose Google Play. Direct-APK users should choose the official release page for the one-time updater bootstrap."
-              : "For direct installs, package name, versionCode, APK digest and signing certificate are verified before update. Play installs remain routed through Google Play."}
+              : playInstalled
+                ? "Google Play remains responsible for validating and delivering the compatible signed update."
+                : "Package name, versionCode, APK digest and signing certificate were verified before this direct-update prompt was displayed."}
           </p>
         </div>
 
@@ -146,7 +150,7 @@ export function AndroidUpdateManager() {
           <div className="mt-5 grid grid-cols-2 gap-3">
             <button type="button" onClick={() => void dismiss()} className="min-h-12 rounded-xl border border-(--border) px-4 font-semibold text-(--text)">Later</button>
             <button type="button" onClick={() => void install()} disabled={opening} className="min-h-12 rounded-xl bg-(--gold) px-4 font-bold text-[#17120a] disabled:opacity-60">
-              {opening ? "Opening update…" : "Update now"}
+              {opening ? "Opening update…" : playInstalled ? "Open Google Play" : "Update now"}
             </button>
           </div>
         )}
