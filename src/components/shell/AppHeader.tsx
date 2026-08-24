@@ -11,6 +11,7 @@ const navigation = [
   { label: "Live Quiz", href: "/mobile" },
   { label: "Research", href: "/research" },
   { label: "Leaderboard", href: "/leaderboard" },
+  { label: "Download App", href: "/download" },
 ];
 
 function Icon({ name }: { name: "search" | "bell" | "user" }) {
@@ -47,6 +48,9 @@ export function AppHeader() {
           })}
         </nav>
         <div className="flex items-center gap-1.5">
+          <Link href="/download" className="hidden rounded-full border border-(--gold) px-3 py-2 text-xs font-bold text-(--gold-hover) transition hover:bg-(--surface-elevated) sm:inline-flex" aria-label="Download the Apologia Sancta app">
+            Download App
+          </Link>
           <Link href="/library#library-search" className="hidden h-10 w-10 items-center justify-center rounded-full text-(--text-muted) hover:bg-(--surface-elevated) hover:text-(--text) sm:flex" aria-label="Search the library">
             <span className="h-5 w-5 fill-none stroke-current stroke-2"><Icon name="search" /></span>
           </Link>
