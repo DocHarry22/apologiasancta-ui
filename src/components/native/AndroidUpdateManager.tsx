@@ -6,6 +6,8 @@ import {
   getInstalledAndroidVersion,
   isAndroidNative,
   openAndroidUpdate,
+  openLegacyAndroidUpdate,
+  validateAndroidUpdate,
   type AndroidInstalledVersion,
   type AndroidUpdateManifest,
 } from "@/lib/androidUpdater";
@@ -19,6 +21,7 @@ export function AndroidUpdateManager() {
   const [update, setUpdate] = useState<AndroidUpdateManifest | null>(null);
   const [installed, setInstalled] = useState<AndroidInstalledVersion | null>(null);
   const [opening, setOpening] = useState(false);
+  const [installError, setInstallError] = useState("");
   const running = useRef(false);
 
   const checkForUpdate = useCallback(async (force = false) => {
@@ -36,15 +39,30 @@ export function AndroidUpdateManager() {
         fetchLatestAndroidUpdate(),
       ]);
       setInstalled(current);
+      setInstallError("");
       if (!current || !latest || latest.packageName !== current.packageName || latest.versionCode <= current.versionCode) {
         setUpdate(null);
         return;
       }
       const dismissed = Number(await prefGet(DISMISSED_VERSION_KEY) || 0);
       if (!force && dismissed === latest.versionCode) return;
+
+      // Current binaries authenticate the actual release APK before the UI
+      // advertises a same-package update. Play-installed copies are validated
+      // by the plugin as Play-routed; sideloaded copies compare the downloaded
+      // package, version, SHA-256 and signing certificate with this installation.
+      if (current.nativeUpdaterAvailable) {
+        const valid = await validateAndroidUpdate(latest, current);
+        if (!valid) {
+          setUpdate(null);
+          return;
+        }
+      }
       setUpdate(latest);
     } catch {
-      // Update checks must never prevent app startup or navigation.
+      // Update checks must never prevent app startup or navigation. Validation
+      // failures fail closed by withholding the update prompt.
+      setUpdate(null);
     } finally {
       running.current = false;
     }
@@ -65,7 +83,9 @@ export function AndroidUpdateManager() {
     };
   }, [checkForUpdate]);
 
-  if (!update) return null;
+  if (!update || !installed) return null;
+
+  const legacy = !installed.nativeUpdaterAvailable;
 
   const dismiss = async () => {
     await prefSet(DISMISSED_VERSION_KEY, String(update.versionCode));
@@ -73,10 +93,13 @@ export function AndroidUpdateManager() {
   };
 
   const install = async () => {
-    if (opening) return;
+    if (opening || legacy) return;
     setOpening(true);
+    setInstallError("");
     try {
-      await openAndroidUpdate(update);
+      await openAndroidUpdate(update, installed);
+    } catch {
+      setInstallError("Android could not open the verified update destination. Try again, or use the official store/release page.");
     } finally {
       setOpening(false);
     }
@@ -86,27 +109,47 @@ export function AndroidUpdateManager() {
     <div className="fixed inset-0 z-[120] flex items-end justify-center bg-black/60 p-3 sm:items-center" role="dialog" aria-modal="true" aria-labelledby="android-update-title">
       <section className="w-full max-w-md rounded-[1.75rem] border border-(--border) bg-(--surface) p-5 shadow-2xl">
         <div className="mb-4 flex items-start gap-3">
-          <div className="grid size-12 shrink-0 place-items-center rounded-2xl bg-(--gold)/15 text-2xl" aria-hidden="true">↻</div>
+          <div className="grid size-12 shrink-0 place-items-center rounded-2xl bg-(--surface-muted) text-2xl" aria-hidden="true">↻</div>
           <div className="min-w-0">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-(--gold-hover)">Android update available</p>
             <h2 id="android-update-title" className="mt-1 text-xl font-bold text-(--text)">Apologia Sancta {update.versionName}</h2>
             <p className="mt-1 text-sm text-(--text-muted)">
-              Installed: {installed?.versionName || "older version"}. This update uses the same app identity, so Android upgrades this installation instead of creating a second Apologia Sancta app.
+              {legacy
+                ? "This older app can detect the new release but cannot identify its original installer. Choose the same source you originally used so Android keeps the correct update/signing path."
+                : `Installed: ${installed.versionName || "older version"}. The candidate has been checked against this installed app before this update prompt was shown.`}
             </p>
           </div>
         </div>
 
         <div className="rounded-2xl border border-(--border) bg-(--surface-muted) p-3 text-sm text-(--text-muted)">
           <p><strong className="text-(--text)">Version code:</strong> {update.versionCode}</p>
-          <p className="mt-1">Android will verify the existing package/signing identity before replacing the installed version.</p>
+          <p className="mt-1">
+            {legacy
+              ? "Google Play users should choose Google Play. Direct-APK users should choose the official release page for the one-time updater bootstrap."
+              : "For direct installs, package name, versionCode, APK digest and signing certificate are verified before update. Play installs remain routed through Google Play."}
+          </p>
         </div>
 
-        <div className="mt-5 grid grid-cols-2 gap-3">
-          <button type="button" onClick={() => void dismiss()} className="min-h-12 rounded-xl border border-(--border) px-4 font-semibold text-(--text)">Later</button>
-          <button type="button" onClick={() => void install()} disabled={opening} className="min-h-12 rounded-xl bg-(--gold) px-4 font-bold text-[#17120a] disabled:opacity-60">
-            {opening ? "Opening update…" : "Update now"}
-          </button>
-        </div>
+        {installError ? <p className="mt-3 text-sm font-semibold text-(--danger)" role="alert">{installError}</p> : null}
+
+        {legacy ? (
+          <div className="mt-5 grid gap-3">
+            <button type="button" onClick={() => openLegacyAndroidUpdate(update, "play")} className="min-h-12 rounded-xl bg-(--gold) px-4 font-bold text-[#17120a]">
+              Update from Google Play
+            </button>
+            <button type="button" onClick={() => openLegacyAndroidUpdate(update, "release")} className="min-h-12 rounded-xl border border-(--border) px-4 font-semibold text-(--text)">
+              Open official APK release page
+            </button>
+            <button type="button" onClick={() => void dismiss()} className="min-h-12 rounded-xl px-4 font-semibold text-(--text-muted)">Later</button>
+          </div>
+        ) : (
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            <button type="button" onClick={() => void dismiss()} className="min-h-12 rounded-xl border border-(--border) px-4 font-semibold text-(--text)">Later</button>
+            <button type="button" onClick={() => void install()} disabled={opening} className="min-h-12 rounded-xl bg-(--gold) px-4 font-bold text-[#17120a] disabled:opacity-60">
+              {opening ? "Opening update…" : "Update now"}
+            </button>
+          </div>
+        )}
       </section>
     </div>
   );
