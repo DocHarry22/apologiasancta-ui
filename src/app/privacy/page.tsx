@@ -13,7 +13,8 @@ export default function PrivacyPolicyPage() {
       <main className="page-container py-10 sm:py-14" id="main-content">
         <article className="surface-card-elevated mx-auto max-w-3xl p-6 sm:p-9">
           <p className="text-xs font-black uppercase tracking-[0.15em] text-(--gold-hover)">Privacy</p>
-          <h1 className="mt-2 editorial-heading text-4xl">Apologia Sancta Privacy Policy</h1>
+          <h1 className="mt-2 editorial-heading text-4xl">Privacy overview</h1>
+          <p className="mt-2 text-sm font-semibold text-(--text)">Apologia Sancta Privacy Policy</p>
           <p className="mt-2 text-sm text-(--text-muted)">Effective 24 August 2026</p>
 
           <div className="mt-8 space-y-7 text-sm leading-7 text-(--text-muted)">
