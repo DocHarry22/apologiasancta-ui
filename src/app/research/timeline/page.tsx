@@ -1,5 +1,6 @@
 import { AppShell } from "@/components/shell/AppShell";
 import { ResearchModeNav } from "@/components/research/ResearchModeNav";
+import SaveKnowledgeJourneyButton from "@/components/research/SaveKnowledgeJourneyButton";
 import { StatusBadge } from "@/components/ui/Primitives";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 import { fetchKnowledgeEngine } from "@/lib/server/knowledgeEngine";
@@ -77,6 +78,11 @@ export default async function ResearchTimelinePage({
     }
   }
   const entries = Array.isArray(payload?.entries) ? payload.entries : [];
+  const journeyNodeIds = [...new Set(entries.map((entry) => entry.node.id).filter((id) => CANONICAL_ID.test(id)))];
+  const journeyRoot = CANONICAL_ID.test(nodeId) ? nodeId : journeyNodeIds[0] || "";
+  const journeyTitle = domain
+    ? `${domain[0]?.toUpperCase() || ""}${domain.slice(1)} timeline`
+    : entries.length ? `Timeline: ${entries[0]?.node.title || "published events"}` : "Published timeline";
 
   return (
     <AppShell>
@@ -109,7 +115,10 @@ export default async function ResearchTimelinePage({
           <div className="surface-card mt-6 p-6"><StatusBadge>No dated published events</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">No explicitly dated published event nodes matched this scope. The timeline does not manufacture dates for undated material.</p></div>
         ) : (
           <section className="mt-7" aria-label="Published timeline entries">
-            <div className="mb-4 flex flex-wrap gap-2"><StatusBadge tone="success">{entries.length} published events</StatusBadge><StatusBadge>Undated records excluded</StatusBadge></div>
+            <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex flex-wrap gap-2"><StatusBadge tone="success">{entries.length} published events</StatusBadge><StatusBadge>Undated records excluded</StatusBadge></div>
+              {journeyRoot ? <SaveKnowledgeJourneyButton title={journeyTitle} rootNodeId={journeyRoot} nodeIds={journeyNodeIds} metadata={{ mode: "timeline", topicId: CANONICAL_ID.test(topicId) ? topicId : undefined, domain: domain || undefined, from: from || undefined, to: to || undefined }} /> : null}
+            </div>
             <ol className="relative ml-3 border-l border-(--border) pl-7">
               {entries.map((entry) => {
                 const graphHref = graphUrlFor(entry.node.id);
