@@ -4,7 +4,7 @@ test("saved research journeys remain account-owned", async ({ page }) => {
   await page.goto("/research/journeys");
   await expect(page.getByRole("heading", { name: "Saved canonical journeys" })).toBeVisible();
   await expect(page.getByText("Account required")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Sign in" })).toHaveAttribute("href", /\/login\?next=\/research\/journeys/);
+  await expect(page.getByRole("link", { name: "Sign in" })).toHaveAttribute("href", /\/login\/?\?next=\/research\/journeys/);
 });
 
 test("learn catalogue does not invent weak concepts for signed-out users", async ({ page }) => {
