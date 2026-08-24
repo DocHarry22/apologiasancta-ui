@@ -6,12 +6,49 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: write
+
 jobs:
+  refresh-lockfile:
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Regenerate lockfile
+        run: npm install --package-lock-only --ignore-scripts
+
+      - name: Commit refreshed lockfile
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- package-lock.json; then
+            echo "Lockfile already matches package.json."
+          else
+            git add package-lock.json
+            git commit -m "chore(deps): refresh lockfile after security updates"
+            git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
+          fi
+
   verify:
+    needs: refresh-lockfile
+    if: always() && (needs.refresh-lockfile.result == 'success' || needs.refresh-lockfile.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -21,6 +58,12 @@ jobs:
 
       - name: Install
         run: npm ci
+
+      - name: Production dependency audit
+        run: npm run audit:production
+
+      - name: High-severity dependency audit
+        run: npm run audit:high
 
       - name: Lint
         run: npm run lint
@@ -44,6 +87,8 @@ jobs:
         run: npm run test:e2e
 
   editorial-database-acceptance:
+    needs: refresh-lockfile
+    if: always() && (needs.refresh-lockfile.result == 'success' || needs.refresh-lockfile.result == 'skipped')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     services:
@@ -78,6 +123,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
