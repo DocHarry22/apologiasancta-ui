@@ -23,10 +23,13 @@ test("adaptive recommendations require real server-scored concept evidence", () 
 });
 
 test("saved journeys store canonical identifiers with owner RLS and no anonymous table access", () => {
+  assert.match(migration, /create domain content\.canonical_knowledge_id as text/i);
+  assert.match(migration, /check \(value ~ '\^\[a-z\]/i);
   assert.match(migration, /create table if not exists public\.saved_knowledge_journeys/i);
   assert.match(migration, /references public\.learner_profiles\(id\) on delete cascade/i);
-  assert.match(migration, /root_node_id text not null check \(root_node_id ~ /i);
-  assert.match(migration, /node_ids text\[\] not null check \(cardinality\(node_ids\) between 1 and 120\)/i);
+  assert.match(migration, /root_node_id content\.canonical_knowledge_id not null/i);
+  assert.match(migration, /node_ids content\.canonical_knowledge_id\[\] not null check \(cardinality\(node_ids\) between 1 and 120\)/i);
+  assert.match(repo, /\$4::content\.canonical_knowledge_id\[\]/);
   assert.match(migration, /alter table public\.saved_knowledge_journeys enable row level security/i);
   assert.match(migration, /revoke all on table public\.saved_knowledge_journeys from anon/i);
   assert.match(migration, /to authenticated[\s\S]*auth\.uid\(\)/i);
