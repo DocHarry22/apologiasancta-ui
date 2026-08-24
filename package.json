@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "types": "tsc --noEmit",
     "lint": "eslint",
-    "test": "node --test --experimental-strip-types tests/phase3.test.ts tests/phase3-security.test.ts tests/phase4a.test.ts tests/answer-submission.test.ts tests/auth-integrity.test.ts tests/operational-platform.test.ts tests/unified-redesign.test.ts tests/android-workflows.test.ts tests/knowledge-engine-platform.test.ts tests/advanced-knowledge-experiences.test.ts tests/phase3-curriculum-blueprint.test.mjs tests/phase4-content-production.test.mjs src/lib/batchImportUtils.test.ts",
+    "test": "node --test --experimental-strip-types tests/phase3.test.ts tests/phase3-security.test.ts tests/phase4a.test.ts tests/answer-submission.test.ts tests/auth-integrity.test.ts tests/operational-platform.test.ts tests/unified-redesign.test.ts tests/android-workflows.test.ts tests/knowledge-engine-platform.test.ts tests/advanced-knowledge-experiences.test.ts tests/adaptive-mastery-journeys.test.ts tests/phase3-curriculum-blueprint.test.mjs tests/phase4-content-production.test.mjs src/lib/batchImportUtils.test.ts",
     "curriculum:generate": "node scripts/generate-phase3-curriculum.mjs",
     "curriculum:validate": "node scripts/validate-phase3-curriculum.mjs",
     "curriculum:check": "npm run curriculum:generate && npm run curriculum:validate",

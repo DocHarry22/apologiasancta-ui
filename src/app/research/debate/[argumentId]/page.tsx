@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/shell/AppShell";
 import { ResearchModeNav } from "@/components/research/ResearchModeNav";
+import SaveKnowledgeJourneyButton from "@/components/research/SaveKnowledgeJourneyButton";
 import { StatusBadge } from "@/components/ui/Primitives";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 import { fetchKnowledgeEngine, KnowledgeEngineError } from "@/lib/server/knowledgeEngine";
@@ -58,6 +59,15 @@ export default async function DebateArgumentPage({ params }: { params: Promise<{
   }
 
   const steps = Array.isArray(payload.steps) ? payload.steps : [];
+  const journeyNodeIds = [...new Set([
+    payload.argument.conclusionNodeId,
+    ...(payload.canonicalNodeIds || []),
+    ...steps.flatMap((step) => [step.objection.id, ...step.candidateResponses.map((candidate) => candidate.node.id)]),
+  ].filter((id) => CANONICAL_ID.test(id)))].slice(0, 120);
+  const journeyRoot = CANONICAL_ID.test(payload.argument.conclusionNodeId)
+    ? payload.argument.conclusionNodeId
+    : journeyNodeIds[0] || "";
+
   return (
     <AppShell>
       <div className="page-container py-8 sm:py-11">
@@ -71,7 +81,10 @@ export default async function DebateArgumentPage({ params }: { params: Promise<{
           <ResearchModeNav current="debate" />
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-2"><Link href="/research/debate" className="btn-quiet px-3 py-2">Choose another argument</Link><code className="rounded bg-(--surface-elevated) px-3 py-2 text-xs">{payload.argument.id}</code></div>
+        <div className="mt-6 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-wrap gap-2"><Link href="/research/debate" className="btn-quiet px-3 py-2">Choose another argument</Link><code className="rounded bg-(--surface-elevated) px-3 py-2 text-xs">{payload.argument.id}</code></div>
+          {journeyRoot ? <SaveKnowledgeJourneyButton title={`Debate: ${payload.argument.title}`} rootNodeId={journeyRoot} nodeIds={journeyNodeIds} metadata={{ mode: "debate", argumentId: payload.argument.id, argumentType: payload.argument.argumentType }} /> : null}
+        </div>
 
         {steps.length === 0 ? (
           <div className="surface-card mt-7 p-6"><StatusBadge>No published objection branch</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">This published argument currently has no authored objection-role members with published response routes.</p></div>

@@ -1,4 +1,5 @@
 import { AppShell } from "@/components/shell/AppShell";
+import KnowledgeGapRecommendations from "@/components/learn/KnowledgeGapRecommendations";
 import { LearningCatalogue } from "@/components/learn/LearningPlatform";
 
 export const dynamic = "force-dynamic";
@@ -8,5 +9,5 @@ export const metadata = {
 };
 
 export default function LearnPage() {
-  return <AppShell><LearningCatalogue /></AppShell>;
+  return <AppShell><KnowledgeGapRecommendations /><LearningCatalogue /></AppShell>;
 }

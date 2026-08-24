@@ -115,3 +115,6 @@ jobs:
 
       - name: Run Phase 2 governance SQL regression
         run: psql postgresql://postgres:postgres@127.0.0.1:54322/postgres --set=ON_ERROR_STOP=1 --file=supabase/tests/phase2_governance_test.sql
+
+      - name: Run saved journey policy regression
+        run: psql postgresql://postgres:postgres@127.0.0.1:54322/postgres --set=ON_ERROR_STOP=1 --file=supabase/tests/knowledge_journeys_test.sql
