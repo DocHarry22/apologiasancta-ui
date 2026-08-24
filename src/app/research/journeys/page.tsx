@@ -18,7 +18,7 @@ export default function SavedJourneysPage() {
             <h1 className="editorial-heading mt-2 text-4xl font-semibold sm:text-5xl">Saved canonical journeys</h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-(--text-muted)">Keep reusable research trails attached to your learner account. Saved journeys store canonical IDs and navigation context; the underlying theological content remains governed by the Knowledge Engine.</p>
           </div>
-          <ResearchModeNav current="research" />
+          <ResearchModeNav current="saved" />
         </div>
         <section className="mt-7" aria-label="Saved research journeys"><SavedKnowledgeJourneys /></section>
       </div>
