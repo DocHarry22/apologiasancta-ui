@@ -26,10 +26,11 @@ jobs:
       - name: Regenerate lockfile
         run: npm install --package-lock-only --ignore-scripts
 
-      - name: Verify dependency audits
+      - name: Verify complete dependency audit baseline
         run: |
-          npm audit --omit=dev --audit-level=moderate
-          npm audit --audit-level=high
+          npm run audit:production
+          npm run audit:high
+          npm run audit:all
 
       - name: Commit lockfile
         run: |
