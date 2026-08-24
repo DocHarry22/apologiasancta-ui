@@ -27,7 +27,8 @@
     "apk:release": "node scripts/build-release-apk.cjs",
     "content:lint": "vitest run src/lib/learning/governance.test.ts",
     "audit:production": "npm audit --omit=dev --audit-level=moderate",
-    "audit:high": "npm audit --audit-level=high"
+    "audit:high": "npm audit --audit-level=high",
+    "audit:all": "npm audit --audit-level=moderate"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.3",
@@ -62,6 +63,7 @@
     "vitest": "^4.1.10"
   },
   "overrides": {
-    "sharp": "0.35.3"
+    "sharp": "0.35.3",
+    "nanoid": "3.3.18"
   }
 }
