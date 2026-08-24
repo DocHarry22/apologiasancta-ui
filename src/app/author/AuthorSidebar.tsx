@@ -95,7 +95,9 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
               void runWithStoredAccountSessionBoundary(() => fetch("/api/auth/logout", {
                 method: "POST",
                 credentials: "same-origin",
-              })).finally(() => { window.location.href = `${basePath}/login`; });
+              }))
+                .catch(() => undefined)
+                .finally(() => { window.location.href = `${basePath}/login`; });
             }}
           >
             <button
