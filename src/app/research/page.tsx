@@ -85,7 +85,7 @@ export default async function ResearchPage() {
         <section className="grid gap-8 border-b border-(--border) pb-9 lg:grid-cols-[0.9fr_1.1fr] lg:items-center" aria-labelledby="research-heading">
           <div>
             <p className="eyebrow">Apologia Knowledge Engine</p>
-            <h1 id="research-heading" className="editorial-heading mt-2 max-w-3xl text-4xl font-semibold leading-[1.03] sm:text-5xl">Every question has an<br />argument universe.</h1>
+            <h1 id="research-heading" className="editorial-heading mt-2 max-w-3xl text-4xl font-semibold leading-[1.03] sm:text-5xl">See how the truths of the Faith connect.<br />Every question has an argument universe.</h1>
             <p className="mt-4 max-w-xl text-base leading-7 text-(--text-muted)">Research, evidence, learning and debate now share one canonical model. Follow a published proposition into its sources, objections, responses and recorded perspectives, then open the same context in the 3D Galaxy.</p>
             <div className="mt-6 flex flex-wrap items-center gap-3">
               {graphUrl ? <ExternalGraphLink href={graphFocusUrl(graphUrl)}>Open Apologia Graph</ExternalGraphLink> : <span className="btn-primary cursor-not-allowed opacity-60">Graph URL unavailable</span>}
