@@ -2,6 +2,7 @@ import "server-only";
 
 const DEFAULT_TIMEOUT_MS = 5_000;
 const DEFAULT_MAX_BYTES = 2 * 1024 * 1024;
+const DEFAULT_SUPABASE_KNOWLEDGE_ENGINE_URL = "https://akpxlqktnavtptudyxlp.supabase.co/functions/v1";
 
 export class KnowledgeEngineError extends Error {
   constructor(
@@ -20,7 +21,9 @@ function positiveInt(raw: string | undefined, fallback: number, max: number): nu
 }
 
 export function getKnowledgeEngineBaseUrl(env: NodeJS.ProcessEnv = process.env): string | null {
-  const raw = env.KNOWLEDGE_ENGINE_URL?.trim() || env.ENGINE_INTERNAL_URL?.trim() || null;
+  const raw = env.KNOWLEDGE_ENGINE_URL?.trim()
+    || env.ENGINE_INTERNAL_URL?.trim()
+    || (env.NODE_ENV === "production" ? DEFAULT_SUPABASE_KNOWLEDGE_ENGINE_URL : null);
   if (!raw) return null;
   let parsed: URL;
   try {
@@ -31,10 +34,10 @@ export function getKnowledgeEngineBaseUrl(env: NodeJS.ProcessEnv = process.env):
   if (parsed.username || parsed.password) return null;
   if (env.NODE_ENV === "production" && parsed.protocol !== "https:") return null;
   if (!["https:", "http:"].includes(parsed.protocol)) return null;
-  parsed.pathname = "/";
+  parsed.pathname = parsed.pathname.replace(/\/+$/, "");
   parsed.search = "";
   parsed.hash = "";
-  return parsed.toString().replace(/\/$/, "");
+  return parsed.toString();
 }
 
 export function getKnowledgeEngineClientStatus() {
@@ -82,10 +85,7 @@ async function readBoundedBody(response: Response, maxBytes: number): Promise<st
   return new TextDecoder().decode(merged);
 }
 
-export async function fetchKnowledgeEngine(
-  path: string,
-  search?: URLSearchParams,
-): Promise<unknown> {
+export async function fetchKnowledgeEngine(path: string, search?: URLSearchParams): Promise<unknown> {
   if (!path.startsWith("/knowledge/") && path !== "/knowledge") {
     throw new KnowledgeEngineError("Knowledge Engine path is not allowed.", 400);
   }
