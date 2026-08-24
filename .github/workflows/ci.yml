@@ -25,8 +25,8 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Regenerate lockfile
-        run: npm install --package-lock-only --ignore-scripts
+      - name: Apply non-breaking npm audit fixes to lockfile
+        run: npm audit fix --package-lock-only --ignore-scripts
 
       - name: Commit refreshed lockfile
         run: |
@@ -36,7 +36,7 @@ jobs:
             echo "Lockfile already matches package.json."
           else
             git add package-lock.json
-            git commit -m "chore(deps): refresh lockfile after security updates"
+            git commit -m "chore(deps): apply npm audit fixes to lockfile"
             git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
           fi
 
