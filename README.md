@@ -20,7 +20,7 @@ The repositories are deliberately separated so the canonical knowledge model is 
 
 ## Implementation status
 
-The original implementation plan has now been completed at the feature-architecture level.
+The implementation plan is complete at the feature-architecture level. The current work is production deployment verification rather than another feature-architecture rewrite.
 
 ### Phase A — Canonical Knowledge Foundation — COMPLETE
 
@@ -90,21 +90,40 @@ The original implementation plan has now been completed at the feature-architect
 - No automatic publication
 - Human editorial governance remains authoritative
 
-### Current production-hardening phase — IN PROGRESS
+### Dependency security hardening — COMPLETE
 
-The remaining work is no longer a feature-architecture rewrite. It is release hardening and deployment verification.
+The reported **8 npm vulnerabilities (7 high, 1 moderate)** have been resolved and verified by CI.
 
-Current security work includes:
+The security work included:
 
-- Next.js upgrade from `16.2.10` to `16.3.2`
+- Next.js upgraded from `16.2.10` to `16.3.2`
 - `eslint-config-next` aligned to `16.3.2`
-- removal of the stale PostCSS override that forced `postcss 8.5.18`
-- patched `sharp` override to `0.35.3` while the upstream Next dependency range is still on the `0.34.x` line
-- explicit production and high-severity npm audit commands
-- lockfile regeneration using npm rather than hand-editing `package-lock.json`
-- CI gates that distinguish production dependency exposure from development-only findings
+- stale PostCSS override forcing `postcss 8.5.18` removed
+- `sharp` pinned to patched `0.35.3`
+- `nanoid` pinned to patched `3.3.18`
+- lockfile regenerated with npm rather than hand-edited
+- non-breaking `npm audit fix --package-lock-only` applied to remaining transitive development dependencies
 
-The dependency security PR must remain unmerged until the regenerated lockfile and complete CI audit prove that no unresolved production high/moderate findings remain. Any remaining development-only finding will be documented separately rather than misrepresented as a production vulnerability.
+The audit process explicitly separated production exposure from development-only findings.
+
+After the runtime dependency fixes:
+
+```text
+npm audit --omit=dev --audit-level=moderate
+found 0 vulnerabilities
+```
+
+The remaining high-severity findings were development-only transitive dependencies (`brace-expansion`, `js-yaml`, `tar`, and `undici`) and were then resolved through the lockfile audit-fix pass.
+
+The final CI baseline passes all three security gates:
+
+```bash
+npm run audit:production
+npm run audit:high
+npm run audit:all
+```
+
+All three currently report zero moderate/high vulnerabilities.
 
 ## Production boundary
 
@@ -215,6 +234,7 @@ Run dependency security checks:
 ```bash
 npm run audit:production
 npm run audit:high
+npm run audit:all
 ```
 
 Run editorial database acceptance:
@@ -237,6 +257,7 @@ The UI CI pipeline is expected to keep all of these green:
 - dependency installation from the committed lockfile
 - production dependency audit
 - high-severity dependency audit
+- complete moderate/high dependency audit
 - ESLint
 - TypeScript
 - Node regression suite
@@ -247,6 +268,8 @@ The UI CI pipeline is expected to keep all of these green:
 - MySQL editorial acceptance
 - Supabase migration/RLS policy tests
 - Android build/test/lint/APK verification
+
+The CI pipeline only **verifies** the committed dependency tree. It does not mutate the pull request during normal verification. Dependency updates must be reviewed as ordinary source changes.
 
 A green build without a reproducible lockfile is not considered a green production build.
 
