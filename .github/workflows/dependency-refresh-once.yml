@@ -1,0 +1,44 @@
+name: Dependency Refresh (one-shot)
+
+on:
+  push:
+    branches:
+      - security/dependency-hardening-2026-08
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: security/dependency-hardening-2026-08
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Regenerate lockfile
+        run: npm install --package-lock-only --ignore-scripts
+
+      - name: Verify dependency audits
+        run: |
+          npm audit --omit=dev --audit-level=moderate
+          npm audit --audit-level=high
+
+      - name: Commit lockfile
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- package-lock.json; then
+            echo "No lockfile changes required."
+          else
+            git add package-lock.json
+            git commit -m "chore(deps): refresh lockfile after security updates"
+            git push origin HEAD:security/dependency-hardening-2026-08
+          fi
