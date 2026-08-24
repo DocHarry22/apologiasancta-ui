@@ -32,6 +32,12 @@ async function deleteLearningProfile(authUserId: string): Promise<boolean> {
     const learnerId = profileResult.rows[0]?.id;
     if (!learnerId) return false;
 
+    // This transaction is initiated only after the authenticated public learner
+    // has passed CSRF and typed-confirmation checks in DELETE /api/auth/me.
+    // SET LOCAL keeps the exceptional unlock-deletion permission scoped to
+    // this transaction and resets it automatically on COMMIT/ROLLBACK.
+    await client.query(`SELECT set_config('app.maintenance_context', 'account_deletion', true)`);
+
     // Preserve aggregate/live-quiz integrity without retaining the learner's
     // account link, display name, external participant key, or metadata.
     await client.query(
@@ -45,13 +51,24 @@ async function deleteLearningProfile(authUserId: string): Promise<boolean> {
       [learnerId],
     );
 
+    // Phase 2 learner tables can retain restrictive references to mastery
+    // attempts, so clear those references before deleting attempts.
+    await client.query(`DELETE FROM public.question_exposures WHERE learner_id = $1`, [learnerId]);
+    await client.query(`DELETE FROM public.corrective_recommendations WHERE learner_id = $1`, [learnerId]);
+    await client.query(`DELETE FROM public.retention_reviews WHERE learner_id = $1`, [learnerId]);
+
     // Delete learner-linked evidence before mastery attempts because several
     // assessment tables intentionally use restrictive foreign keys.
     await client.query(`DELETE FROM public.learner_node_mastery_evidence WHERE learner_id = $1`, [learnerId]);
     await client.query(`DELETE FROM public.learner_node_mastery WHERE learner_id = $1`, [learnerId]);
     await client.query(`DELETE FROM public.mastery_answers WHERE learner_id = $1`, [learnerId]);
+
+    // These rows may reference mastery attempts through RESTRICT foreign keys.
+    // Unlock deletion is permitted only by the scoped account_deletion context
+    // installed above; ordinary application flows remain append-only.
     await client.query(`DELETE FROM public.unlocks WHERE learner_id = $1`, [learnerId]);
     await client.query(`DELETE FROM public.group_progress WHERE learner_id = $1`, [learnerId]);
+
     await client.query(`DELETE FROM public.review_schedule WHERE learner_id = $1`, [learnerId]);
     await client.query(`DELETE FROM public.bookmarks WHERE learner_id = $1`, [learnerId]);
     await client.query(`DELETE FROM public.lesson_progress WHERE learner_id = $1`, [learnerId]);
