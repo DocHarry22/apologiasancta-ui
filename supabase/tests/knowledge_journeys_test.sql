@@ -5,9 +5,53 @@ do $$
 declare
   v_policy_count integer;
   v_constraint_text text;
+  v_domain_constraint text;
+  v_root_type text;
+  v_nodes_type text;
 begin
   if to_regclass('public.saved_knowledge_journeys') is null then
     raise exception 'saved_knowledge_journeys table is missing';
+  end if;
+
+  if not exists (
+    select 1 from pg_type t
+    join pg_namespace n on n.oid = t.typnamespace
+    where n.nspname = 'content' and t.typname = 'canonical_knowledge_id'
+  ) then
+    raise exception 'canonical_knowledge_id domain is missing';
+  end if;
+
+  select pg_get_constraintdef(c.oid)
+    into v_domain_constraint
+  from pg_constraint c
+  join pg_type t on t.oid = c.contypid
+  join pg_namespace n on n.oid = t.typnamespace
+  where n.nspname = 'content'
+    and t.typname = 'canonical_knowledge_id'
+    and c.contype = 'c'
+  limit 1;
+
+  if coalesce(v_domain_constraint, '') not like '%^[a-z][a-z0-9_-]*:%' then
+    raise exception 'canonical ID domain constraint is incomplete: %', v_domain_constraint;
+  end if;
+
+  select format_type(a.atttypid, a.atttypmod)
+    into v_root_type
+  from pg_attribute a
+  where a.attrelid = 'public.saved_knowledge_journeys'::regclass
+    and a.attname = 'root_node_id'
+    and not a.attisdropped;
+
+  select format_type(a.atttypid, a.atttypmod)
+    into v_nodes_type
+  from pg_attribute a
+  where a.attrelid = 'public.saved_knowledge_journeys'::regclass
+    and a.attname = 'node_ids'
+    and not a.attisdropped;
+
+  if v_root_type <> 'content.canonical_knowledge_id'
+     or v_nodes_type <> 'content.canonical_knowledge_id[]' then
+    raise exception 'saved journey canonical ID column types are incorrect: %, %', v_root_type, v_nodes_type;
   end if;
 
   if not exists (
@@ -54,7 +98,6 @@ begin
   where conrelid = 'public.saved_knowledge_journeys'::regclass;
 
   if v_constraint_text not like '%cardinality(node_ids)%120%'
-     or v_constraint_text not like '%root_node_id%~%'
      or v_constraint_text not like '%private%unlisted%public%' then
     raise exception 'saved journey structural constraints are incomplete';
   end if;
