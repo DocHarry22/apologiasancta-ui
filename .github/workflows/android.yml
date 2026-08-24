@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: android-ci-${{ github.workflow }}-${{ github.ref }}
@@ -21,6 +21,10 @@ env:
   NEXT_PUBLIC_ENGINE_URL: ${{ vars.ANDROID_ENGINE_URL || 'https://apologiasancta-engine.onrender.com' }}
   NEXT_PUBLIC_RESEARCH_GRAPH_URL: ${{ vars.ANDROID_GRAPH_URL || 'https://mediumvioletred-kingfisher-797460.hostingersite.com' }}
   NEXT_PUBLIC_ANDROID_APK_URL: https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
+
+env_release:
+  APP_VERSION_CODE: '3'
+  APP_VERSION_NAME: '1.0.3'
 
 jobs:
   debug-apk:
@@ -81,24 +85,15 @@ jobs:
             echo "Expected a debug APK, but no APK was produced." >&2
             exit 1
           fi
-
           sdk_root="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
           "$sdk_root/build-tools/35.0.0/apksigner" verify --verbose "$apk_path"
           badging="$("$sdk_root/build-tools/35.0.0/aapt2" dump badging "$apk_path")"
-          printf '%s\n' "$badging" \
-            | grep -E "^(package:|sdkVersion:|targetSdkVersion:|application-label:)"
-          grep -Fq "targetSdkVersion:'36'" <<< "$badging" || {
-            echo "Android artifact does not target API 36." >&2
-            exit 1
-          }
+          printf '%s\n' "$badging" | grep -E "^(package:|sdkVersion:|targetSdkVersion:|application-label:)"
+          grep -Fq "targetSdkVersion:'36'" <<< "$badging"
           "$sdk_root/build-tools/35.0.0/zipalign" -c -P 16 -v 4 "$apk_path"
           sha256sum "$apk_path"
-
           echo "apk_path=$apk_path" >> "$GITHUB_OUTPUT"
-          {
-            echo "### Android debug validation"
-            echo "SDK 36 unit tests, Android lint, APK assembly, signature verification, target-SDK verification, and 16 KB ZIP alignment checks passed."
-          } >> "$GITHUB_STEP_SUMMARY"
+          echo "### Android debug validation" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v7
@@ -107,3 +102,121 @@ jobs:
           path: ${{ steps.verify-apk.outputs.apk_path }}
           if-no-files-found: error
           retention-days: 14
+
+  github-release:
+    name: GitHub release APK 1.0.3
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[android-release]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install Android SDK 36
+        uses: android-actions/setup-android@v4
+        with:
+          packages: >-
+            platform-tools
+            platforms;android-36
+            build-tools;35.0.0
+          log-accepted-android-sdk-licenses: false
+
+      - name: Configure Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Install JavaScript dependencies
+        run: npm ci
+
+      - name: Sync Capacitor Android project
+        run: npm run cap:sync
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x android/gradlew
+
+      - name: Create ephemeral GitHub distribution signing key
+        shell: bash
+        run: |
+          set -euo pipefail
+          keystore="$RUNNER_TEMP/apologia-sancta-github-distribution.jks"
+          password="$(openssl rand -hex 32)"
+          keytool -genkeypair -v \
+            -keystore "$keystore" \
+            -storepass "$password" \
+            -keypass "$password" \
+            -alias apologia-sancta-github \
+            -keyalg RSA \
+            -keysize 4096 \
+            -validity 8250 \
+            -dname "CN=Apologia Sancta, OU=GitHub Distribution, O=Apologia Sancta, L=South Africa, C=ZA"
+          {
+            echo "APKSIGN_KEYSTORE=$keystore"
+            echo "APKSIGN_KEYSTORE_PASSWORD=$password"
+            echo "APKSIGN_KEY_ALIAS=apologia-sancta-github"
+            echo "APKSIGN_KEY_PASSWORD=$password"
+            echo "APP_VERSION_CODE=${{ env_release.APP_VERSION_CODE }}"
+            echo "APP_VERSION_NAME=${{ env_release.APP_VERSION_NAME }}"
+          } >> "$GITHUB_ENV"
+
+      - name: Build signed release APK and AAB
+        working-directory: android
+        run: ./gradlew --no-daemon --stacktrace testReleaseUnitTest lintRelease assembleRelease bundleRelease
+
+      - name: Validate release APK
+        id: release-artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          apk_path="android/app/build/outputs/apk/release/app-release.apk"
+          aab_path="android/app/build/outputs/bundle/release/app-release.aab"
+          test -f "$apk_path"
+          test -f "$aab_path"
+          sdk_root="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
+          "$sdk_root/build-tools/35.0.0/apksigner" verify --verbose "$apk_path"
+          badging="$("$sdk_root/build-tools/35.0.0/aapt2" dump badging "$apk_path")"
+          grep -Fq "targetSdkVersion:'36'" <<< "$badging"
+          grep -Fq "versionCode='3'" <<< "$badging"
+          grep -Fq "versionName='1.0.3'" <<< "$badging"
+          "$sdk_root/build-tools/35.0.0/zipalign" -c -P 16 -v 4 "$apk_path"
+          sha256sum "$apk_path" "$aab_path"
+          echo "### GitHub release validation" >> "$GITHUB_STEP_SUMMARY"
+          echo "API 36 release APK/AAB built, signed, target-SDK verified and 16 KB aligned." >> "$GITHUB_STEP_SUMMARY"
+          echo "apk_path=$apk_path" >> "$GITHUB_OUTPUT"
+          echo "aab_path=$aab_path" >> "$GITHUB_OUTPUT"
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="android-v${{ env_release.APP_VERSION_NAME }}"
+          apk="${{ steps.release-artifacts.outputs.apk_path }}"
+          aab="${{ steps.release-artifacts.outputs.aab_path }}"
+          gh release create "$tag" "$apk#apologia-sancta.apk" "$aab#apologia-sancta.aab" \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Apologia Sancta Android ${{ env_release.APP_VERSION_NAME }}" \
+            --notes "Production Android build for GitHub distribution. Target SDK 36 / Android 16. Includes the latest Play Store readiness, account deletion, privacy and security changes. The APK is signed with an ephemeral GitHub-distribution key and is not the future Google Play upload key." \
+            --latest
+
+      - name: Upload release artifacts to Actions
+        uses: actions/upload-artifact@v7
+        with:
+          name: apologiasancta-android-${{ env_release.APP_VERSION_NAME }}
+          path: |
+            android/app/build/outputs/apk/release/app-release.apk
+            android/app/build/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
+          retention-days: 30
