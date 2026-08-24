@@ -99,7 +99,8 @@ export async function createSavedKnowledgeJourney(learnerId: string, input: Save
   const result = await learningQuery<Record<string, unknown>>(
     `INSERT INTO public.saved_knowledge_journeys
        (learner_id, title, root_node_id, node_ids, lens, visibility, metadata)
-     VALUES ($1, $2, $3, $4::text[], $5, $6, $7::jsonb)
+     VALUES ($1, $2, $3::content.canonical_knowledge_id,
+             $4::content.canonical_knowledge_id[], $5, $6, $7::jsonb)
      RETURNING id, title, root_node_id, node_ids, lens, visibility, share_token,
                metadata, created_at, updated_at`,
     [
@@ -123,8 +124,8 @@ export async function updateSavedKnowledgeJourney(
   const result = await learningQuery<Record<string, unknown>>(
     `UPDATE public.saved_knowledge_journeys
         SET title = $3,
-            root_node_id = $4,
-            node_ids = $5::text[],
+            root_node_id = $4::content.canonical_knowledge_id,
+            node_ids = $5::content.canonical_knowledge_id[],
             lens = $6,
             visibility = $7,
             metadata = $8::jsonb,
