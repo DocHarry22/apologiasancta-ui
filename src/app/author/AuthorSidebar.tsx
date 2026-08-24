@@ -16,6 +16,7 @@ const NAV_ITEMS = [
   { id: "review", label: "Review", path: "/review", icon: "V" },
   { id: "topics", label: "Topics", path: "/topics", icon: "=" },
   { id: "learning", label: "Learning CMS", path: "/learning", icon: "L" },
+  { id: "knowledge", label: "Knowledge Foundry", path: "/knowledge", icon: "K" },
   { id: "audit", label: "Audit", path: "/audit", icon: "!" },
   { id: "notifications", label: "Notifications", path: "/notifications", icon: "•" },
   { id: "settings", label: "Settings", path: "/settings", icon: "*" },
