@@ -22,6 +22,15 @@ jobs:
       - name: Install
         run: npm ci
 
+      - name: Production dependency audit
+        run: npm run audit:production
+
+      - name: High-severity dependency audit
+        run: npm run audit:high
+
+      - name: Complete dependency audit
+        run: npm run audit:all
+
       - name: Lint
         run: npm run lint
 

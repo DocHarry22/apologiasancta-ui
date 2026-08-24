@@ -1,674 +1,302 @@
 # Apologia Sancta
 
-**Apologia Sancta** is a Catholic formation, apologetics, research, learning, and live-quiz platform for web, PWA, and Android.
+**Apologia Sancta** is a Catholic formation, apologetics, research, learning, live-quiz, and knowledge-visualization platform for web, PWA, and Android.
 
-The project is being rebuilt around one governing principle:
+The application is built around one governing principle:
 
 > **One governed body of apologetics knowledge, reused across Learn, Quiz, Research, Library, Articles, Debate, Admin, and the 3D Galaxy.**
 
-The long-term product is not merely a quiz site with a separate graph. It is an **Apologia Knowledge Engine** with multiple user experiences over the same canonical propositions, sources, arguments, objections, responses, evidence, and reviewed perspectives.
+The product is therefore an **Apologia Knowledge Engine** with multiple experiences over the same canonical propositions, sources, arguments, objections, responses, evidence, and reviewed perspectives.
 
-This repository contains the main Next.js application and Android/PWA shell.
-
-- **Frontend / product:** Next.js 16, React 19, TypeScript, Tailwind CSS 4
-- **Mobile:** Capacitor 7, Android SDK 35, Java 21
-- **Learning data:** PostgreSQL / Supabase-compatible schema
-- **Live quiz:** `apologiasancta-engine`
-- **Canonical apologetics knowledge:** Knowledge Engine APIs in `apologiasancta-engine`
-- **3D research visualization:** `apologia-graph`
-- **Current web deployment target:** Hostinger Node/Next
-- **Android package:** `com.apologiasancta.live`
-
----
-
-## Architecture
-
-```text
-                         ┌──────────────────────────────┐
-                         │   APOLOGIA KNOWLEDGE ENGINE │
-                         │                              │
-                         │ Canonical nodes              │
-                         │ Typed edges                  │
-                         │ Sources + citations          │
-                         │ Edge assertions/provenance   │
-                         │ Assessments / lenses         │
-                         │ Topics + paths               │
-                         │ Structured arguments         │
-                         │ Immutable revisions/reviews  │
-                         └──────────────┬───────────────┘
-                                        │ canonical IDs
-              ┌─────────────────────────┼──────────────────────────┐
-              │                         │                          │
-      ┌───────▼────────┐       ┌────────▼────────┐        ┌────────▼────────┐
-      │ Apologia UI     │       │ Live Quiz Engine│        │ Apologia Galaxy │
-      │                 │       │                 │        │                 │
-      │ Learn           │       │ Rooms / SSE     │        │ 3D graph        │
-      │ Quiz / Practice │       │ Scoring         │        │ Evidence view   │
-      │ Library         │       │ Leaderboards    │        │ Lenses / paths  │
-      │ Research        │       │ Question bank   │        │ Recentring      │
-      │ Account         │       │ Runtime state   │        │ Exploration     │
-      │ Admin / CMS     │       │                 │        │                 │
-      └─────────────────┘       └─────────────────┘        └─────────────────┘
-```
-
-### Data ownership
-
-The architecture deliberately separates **knowledge**, **pedagogy**, and **runtime gameplay**.
-
-| Concern | Authority |
-|---|---|
-| Reusable apologetics propositions, evidence, relationships, sources, assessments, paths and arguments | Knowledge Engine |
-| Curriculum order, lesson presentation, learning groups, question delivery and formal mastery attempts | `content.*` learning schema |
-| Learner progress and canonical concept mastery | learner/public schema, updated by server-authoritative evidence |
-| Live rooms, answer windows, scores, streaks and live leaderboards | Quiz Engine |
-| 3D visualization and traversal | Apologia Graph, consuming canonical Knowledge Engine neighborhoods |
-
-**The same theological proposition must not be copied independently into every feature.** Lessons and questions reference canonical Knowledge Engine IDs instead.
-
----
-
-## Canonical Knowledge Model
-
-The Knowledge Engine treats apologetics as a governed graph rather than a collection of isolated topic pages.
-
-Core object families include:
-
-- questions
-- claims / propositions
-- doctrines
-- definitions
-- Scripture references
-- sources and exact citations
-- people, councils, traditions and historical events
-- objections
-- responses and counter-responses
-- evidence
-- conclusions
-- arguments
-- curated topics and paths
-
-Relationships are explicit and typed, for example:
-
-- `supports`
-- `contradicts`
-- `responds_to`
-- `depends_on`
-- `qualifies`
-- `quotes`
-- `historically_precedes`
-- `disputes_interpretation_of`
-
-A relationship is not treated as self-justifying. Provenance is stored separately so the system can answer:
-
-- Who asserts this relationship?
-- Which source or citation supports it?
-- Under which lens or tradition?
-- Which revision was reviewed?
-- Is it approved, disputed, inferred, or still under review?
-
----
-
-## Catholic Perspective and Comparative Material
-
-Apologia Sancta is a **Catholic formation and apologetics platform**.
-
-Catholic teaching is therefore the default formation lens, while comparative positions are stored as attributed assessments rather than silently rewriting the underlying proposition or evidence.
-
-The system is designed to distinguish:
-
-```text
-Proposition
-  ├── Catholic assessment
-  ├── Orthodox assessment
-  ├── Protestant assessment(s)
-  ├── Islamic assessment(s)
-  └── historical-critical / academic assessment(s)
-```
-
-Different traditions may affirm, reject, qualify, or dispute the same proposition. Their assessment does not create a duplicate proposition unless the semantic claim is genuinely different.
-
-Catholic authority metadata is structured rather than reduced to a simplistic numeric "truth score". Source type, magisterial status, binding scope, promulgating authority, tradition, document type, and citation provenance remain distinct.
-
----
-
-## Human Review and Publication Governance
-
-AI, automated importers, semantic search, and migration tools may **propose** content or relationships. They do not publish theology.
-
-The publication boundary is human-governed and revision-specific.
-
-Typical lifecycle:
-
-```text
-draft
-  → submitted / in_review
-  → source review
-  → doctrinal review
-  → assessment/editorial review
-  → approved exact revision
-  → published
-```
-
-Important invariants:
-
-- revisions are immutable
-- approvals are bound to a content hash and exact revision
-- edits after approval create a new draft revision
-- public reads expose published records only
-- authors cannot silently approve their own theological revision
-- source identity, citation, interpretation and editorial inference remain separate
-- AI cannot auto-merge canonical nodes
-- AI cannot auto-approve or auto-publish
-- unsupported or disputed material remains visibly under review
-
----
-
-## Learning Integration
-
-The governed learning platform remains responsible for teaching sequence and assessment. The Knowledge Engine adds reusable canonical context.
-
-### Lessons
-
-Lessons map to canonical nodes through normalized mappings such as:
-
-- `primary`
-- `supporting`
-- `objection`
-- `response`
-- `evidence`
-- `prerequisite`
-
-When a published mapping exists, a lesson can expose contextual actions such as:
-
-- **Explore this claim**
-- **Inspect evidence**
-- **Open in Galaxy**
-- **Follow related argument path**
-
-A lesson must still remain readable when the Knowledge Engine is temporarily unavailable.
-
-### Questions and mastery
-
-Questions map to canonical knowledge using roles such as:
-
-- `tested`
-- `distractor_concept`
-- `explanation`
-- `evidence`
-
-Canonical IDs are stored with the question. They are never inferred from prompt text at runtime.
-
-Formal mastery is derived from stored, server-scored attempt evidence. The browser cannot award itself mastery by sending `correct: true`.
-
-The implementation tracks both:
-
-1. curriculum/group completion and unlock rules; and
-2. concept-level mastery against canonical Knowledge Engine nodes.
-
-The curriculum can therefore remain ordered from foundation to advanced material while the recommendation layer identifies specific concepts that still need work.
-
----
-
-## Research and the 3D Galaxy
-
-`/research` is the gateway into the canonical research system.
-
-Research consumes published Knowledge Engine topics rather than maintaining a separate hard-coded theological database.
-
-The external `apologia-graph` application is the immersive visualization surface. It progressively loads bounded canonical neighborhoods instead of attempting to render the entire database at once.
-
-Expected semantic zoom hierarchy:
-
-```text
-Universe
-  → Doctrine / constellation
-  → Debate / topic
-  → Argument system
-  → Claim
-  → Evidence / citation
-```
-
-Galaxy capabilities include or are being implemented around:
-
-- bounded neighborhood loading
-- canonical-node recentering
-- guided paths and free exploration
-- lens switching
-- Evidence Inspector
-- provenance-aware relationships
-- saved traversal paths
-- fullscreen graph mode
-- retractable navigation remote
-- desktop orbit/pan/zoom
-- mobile touch, pinch and pan
-- keyboard-accessible visible-node navigation
-- legacy graph fallback during migration
-
-Visualization metrics are **navigation aids, not truth scores**.
-
----
-
-## Platform Experiences
-
-The intended production platform exposes the same governed knowledge through different workflows.
-
-### Learn
-
-Structured Catholic formation with programmes, subjects, progressively unlocked groups, lessons, official mastery attempts, bookmarks, search, recommendations and account-linked progress.
-
-### Quiz / Practice
-
-Explanation-led practice plus server-authoritative live competition. Questions can test the same canonical concepts taught in Learn.
-
-### Library
-
-Searchable source/topic discovery. Where canonical mappings exist, Library records link directly into claims, evidence and related Galaxy paths.
-
-### Research
-
-Evidence-first exploration of published topics, propositions, objections, responses and source relationships.
-
-### Debate
-
-Planned argument-battle and debate-simulator experiences will use the same structured arguments:
-
-```text
-claim
-  → objection
-  → response
-  → counter-response
-  → evidence
-```
-
-### Admin / Knowledge Foundry
-
-The existing CMS is extended rather than replaced by a second disconnected admin.
-
-Editors need to be able to:
-
-- search canonical claims and sources
-- reconcile possible duplicates
-- create narrower/broader/opposing/qualifying claims
-- attach exact evidence
-- map lessons and questions to canonical nodes
-- inspect publication/review state
-- edit structured arguments and curated paths
-- identify unsupported claims and unanswered objections
-- review AI-assisted proposals before any publication
-
----
-
-## Repository Layout
-
-Apologia Sancta currently spans three cooperating codebases.
+## Repository architecture
 
 | Repository | Responsibility |
 |---|---|
-| `DocHarry22/apologiasancta-ui` | Main web/PWA/Android product, Learn, Library, Research gateway, accounts and admin/CMS |
-| `DocHarry22/apologiasancta-engine` | Live quiz runtime plus canonical Knowledge Engine APIs and PostgreSQL knowledge model |
-| `DocHarry22/apologia-graph` | 3D Galaxy and canonical research visualization |
+| `apologiasancta-ui` | Main Next.js product, Learn, Quiz, Research, Library, Admin, PWA and Android shell |
+| `apologiasancta-engine` | Canonical Knowledge Engine, provenance, revisions, publication governance, arguments, Timeline/Compare/Debate, coverage QA and governed authoring proposals |
+| `apologia-graph` | Canonical 3D Galaxy, graph navigation, Evidence Inspector and advanced research visualization |
 
-This README lives in the main product repository.
+The repositories are deliberately separated so the canonical knowledge model is not duplicated inside individual product features.
 
----
+## Implementation status
 
-## Implementation Plan
+The implementation plan is complete at the feature-architecture level. The current work is production deployment verification rather than another feature-architecture rewrite.
 
-Development follows dependency order. Spectacular UI is deliberately not allowed to outrun data integrity.
+### Phase A — Canonical Knowledge Foundation — COMPLETE
 
-### Phase A — Canonical Knowledge Foundation
+- Canonical nodes and stable identities
+- Typed edges
+- Aliases and claim families
+- Immutable node and edge revisions
+- Published-vs-current revision isolation
+- Sources and exact citations
+- Revision-bound provenance assertions
+- Catholic and comparative lens assessments
+- Review records tied to immutable revision hashes
+- Governed publication gates
+- Bounded graph traversal
+- Evidence lookup and comparison APIs
+- Reconciliation and duplicate suggestions
+- Database-level publication integrity constraints
 
-**Status: implemented and merged in the Engine.**
+### Phase B — Knowledge Journeys and Canonical Galaxy — COMPLETE
 
-- canonical node identity
-- aliases and claim families
-- typed edges
-- immutable node/edge/source revisions
-- separate current vs published revisions
-- sources and exact citations
-- edge assertions and provenance
-- assessments / lenses
-- revision-bound review records
-- governed publication events
-- bounded neighborhood traversal
-- Evidence APIs
-- reconciliation support
-- PostgreSQL migration and production startup gate
+- Topics
+- Curated paths
+- Structured arguments
+- Premises, objections, responses and evidence
+- Canonical Graph/Galaxy neighborhoods
+- Evidence Inspector
+- Provenance-aware graph rendering
+- Canonical node recentering
+- Bounded traversal
+- Timeline, Compare and Debate research workspace
 
-### Phase B — Journeys, Arguments and Galaxy
+### Phase C — Platform Integration — COMPLETE
 
-**Engine topics/paths/arguments: implemented and merged.**
-
-**Galaxy canonical adapter: active integration work; CI-gated before merge.**
-
-- topics become curated entry points rather than owners of duplicated graph nodes
-- paths become reusable ordered journeys
-- arguments become first-class compositional structures
-- Galaxy consumes Knowledge Engine neighborhoods
-- Evidence Inspector exposes provenance and source evidence
-- lens and depth changes trigger bounded refetches
-- canonical nodes can become the new center of exploration
-- local legacy graph data remains an explicit migration fallback only
-
-### Phase C — Connect the Product
-
-**Active implementation in this repository.**
-
-- lesson → canonical node mappings
-- question → canonical node mappings
-- learner node mastery
-- server-only bounded Knowledge Engine client
-- same-origin public Knowledge Engine proxy
+- Learn mapped to canonical knowledge nodes
+- Quiz questions mapped to tested knowledge nodes
+- Server-derived concept mastery
 - Research backed by published Knowledge Engine topics
-- Learn contextual claim/evidence/Galaxy actions
-- canonical IDs preserved through question feeds
-- Library canonical source/claim links
-- CMS reconciliation/mapping surfaces
-- migration, RLS, route, component, E2E and Android tests
+- Library/source integration boundaries
+- Same-origin server-side Knowledge Engine access
+- No browser exposure of Knowledge Engine administrative credentials
+- Graceful behavior when the Engine is unavailable
 
-### Phase D — Advanced Apologetics
+### Phase D — Advanced Apologetics and Adaptive Learning — COMPLETE
 
-Next major product layer:
+- Timeline research
+- Compare research
+- Debate / Argument Battle foundation
+- Knowledge Coverage QA
+- Unsupported-claim/provenance-gap detection
+- Review and citation backlogs
+- Evidence-backed mastery-gap recommendations
+- Unseen concepts remain **unknown**, not incorrectly labelled weak
+- Durable learner-owned research journeys
+- Private and unlisted journey sharing
+- Opaque share tokens
+- Galaxy reopening from canonical journey nodes
+- RLS and ownership enforcement for saved journeys
 
-- Timeline / chronology mode
-- richer Compare mode
-- Debate simulator
-- Argument Battle
-- structural argument coverage analysis
-- saved/shareable argument journeys
-- Knowledge Coverage dashboard
-- unanswered-objection and missing-evidence QA
-- adaptive recommendation from concept mastery gaps
+### Phase E — Governed Authoring Assistance — COMPLETE
 
-### Phase E — Governed AI Assistance
+- Proposal-only authoring assistance
+- Persisted proposal records
+- Proposal expiry/rejection
+- Editor review workflow
+- Acceptance requires governed draft revision identifiers
+- No automatic theological approval
+- No automatic publication
+- Human editorial governance remains authoritative
 
-AI may assist authors and reviewers with:
+### Dependency security hardening — COMPLETE
 
-- semantic duplicate suggestions
-- claim extraction
-- argument decomposition
-- citation extraction
-- relationship suggestions
-- counterargument discovery
-- missing-evidence detection
-- quiz drafting
-- lesson drafting
-- semantic search
+The reported **8 npm vulnerabilities (7 high, 1 moderate)** have been resolved and verified by CI.
 
-All such output remains a **proposal** until a human editor/reviewer acts on it.
+The security work included:
 
----
+- Next.js upgraded from `16.2.10` to `16.3.2`
+- `eslint-config-next` aligned to `16.3.2`
+- stale PostCSS override forcing `postcss 8.5.18` removed
+- `sharp` pinned to patched `0.35.3`
+- `nanoid` pinned to patched `3.3.18`
+- lockfile regenerated with npm rather than hand-edited
+- non-breaking `npm audit fix --package-lock-only` applied to remaining transitive development dependencies
 
-## Current Release Boundary
+The audit process explicitly separated production exposure from development-only findings.
 
-A green pull request is not the same thing as a production deployment.
+After the runtime dependency fixes:
 
-Before describing the new Knowledge Engine integration as production-live, all of the following must be true:
+```text
+npm audit --omit=dev --audit-level=moderate
+found 0 vulnerabilities
+```
 
-1. required PRs are merged to their correct main branches
-2. database migrations are applied to the dedicated Apologia database, not an unrelated project
-3. Engine environment variables and PostgreSQL migration succeed
-4. Hostinger builds the reviewed UI commit as a Node/Next application
-5. the Graph deployment uses the reviewed canonical adapter build
-6. production smoke tests pass for public reads, login, Learn, mastery, live rooms, Research and Galaxy
-7. Android CI is green and a signed release is verified before public APK/store distribution
-8. theological/editorial publication remains independently reviewed
+The remaining high-severity findings were development-only transitive dependencies (`brace-expansion`, `js-yaml`, `tar`, and `undici`) and were then resolved through the lockfile audit-fix pass.
 
-Provider configuration and database access are treated as deployment gates, not as things to fake around in source code.
-
----
-
-## Main Routes
-
-| Route | Purpose |
-|---|---|
-| `/` | Main product home |
-| `/login` / `/signup` | Account authentication |
-| `/account` | Profile, learning, quiz, saved items, appearance, security and privacy |
-| `/learn` | Formation catalogue |
-| `/learn/programmes/[programmeSlug]` | Programme hierarchy |
-| `/learn/subjects/[subjectSlug]` | Subject hierarchy |
-| `/learn/groups/[groupSlug]` | Learning group and lock state |
-| `/learn/groups/[groupSlug]/mastery` | Official server-scored mastery attempt |
-| `/learn/[lessonId]` | Database-backed lesson |
-| `/learn/search` | Published learning search |
-| `/practice` | Published practice questions |
-| `/library` | Public library |
-| `/library/[topicId]` | Library/topic detail |
-| `/research` | Knowledge Engine / Galaxy research gateway |
-| `/leaderboard` | Public quiz rankings |
-| `/mobile` | Live mobile quiz player |
-| `/native` | Native-oriented home experience |
-| `/admin` | Protected administrative workspace |
-| `/admin/learning` | Learning CMS |
-| `/author` | Compatibility/staff workspace |
-| `/privacy` | Current privacy overview |
-
----
-
-## Security Boundaries
-
-### Browser vs server
-
-The browser must never receive:
-
-- `ENGINE_ADMIN_TOKEN`
-- database credentials
-- Knowledge Engine internal URLs
-- account identity signing secrets
-- service-role credentials
-- unpublished theological records
-- answer keys before reveal
-
-Admin Engine actions pass through a same-origin server proxy with session, CSRF, method/path allowlisting and rate-limit checks.
-
-The Knowledge Engine public bridge is read-only and bounded. Production requires HTTPS, refuses redirects, limits response size, validates JSON, enforces request timeouts and exposes only allowlisted Knowledge routes.
-
-### Learning database
-
-Learner ownership is enforced by RLS where applicable.
-
-Canonical node mastery is server-maintained. Direct learner mutation of mastery state is prohibited.
-
-### Content publication
-
-Publication is review-bound and fail-closed. A content object is not public merely because it exists in the database.
-
----
-
-## Environment
-
-Start from the committed template:
+The final CI baseline passes all three security gates:
 
 ```bash
-cp .env.example .env.local
+npm run audit:production
+npm run audit:high
+npm run audit:all
 ```
 
-Important variable families include:
+All three currently report zero moderate/high vulnerabilities.
 
-```env
-# Browser-safe public services
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-NEXT_PUBLIC_ENGINE_URL=http://localhost:4000
-NEXT_PUBLIC_RESEARCH_GRAPH_URL=
+## Production boundary
 
-# Server-to-server services
-ENGINE_INTERNAL_URL=http://localhost:4000
-ENGINE_ADMIN_TOKEN=
+Feature completion and production deployment are separate gates.
 
-# Canonical Knowledge Engine reads
-KNOWLEDGE_ENGINE_URL=http://localhost:4000
-KNOWLEDGE_ENGINE_TIMEOUT_MS=5000
-KNOWLEDGE_ENGINE_MAX_BYTES=2097152
+The application is **not considered fully production-live** until all of the following are verified against the actual deployment infrastructure:
 
-# Staff/account storage
-AUTHOR_SESSION_SECRET=
-DATABASE_URL=
+1. Production Supabase migrations apply successfully.
+2. Knowledge Engine production deployment is healthy.
+3. Main UI production deployment is healthy.
+4. Galaxy production deployment is healthy.
+5. Public Knowledge Engine API calls return only published material.
+6. Authentication, authorization and RLS are verified against production.
+7. Saved journeys work for owner, anonymous shared-link and revoked-link cases.
+8. Learn mastery is derived from server-scored evidence.
+9. Quiz publication and question provenance remain governed.
+10. Evidence Inspector exposes the correct source/revision/provenance chain.
+11. Android release build installs and starts successfully.
+12. Final accessibility, performance and production smoke tests pass.
 
-# Governed learning database
-LEARNING_DATABASE_URL=
-LEARNING_DB_SSL_MODE=require
+Provider-side deployment credentials/configuration are intentionally not substituted with unrelated connected infrastructure.
 
-# Engine canonical learning feed
-CONTENT_API_TOKEN=
+## Security model
 
-# Account-linked live-player identity (optional rollout)
-ACCOUNT_IDENTITY_ENABLED=false
-ACCOUNT_IDENTITY_SECRET=
-ACCOUNT_IDENTITY_ISSUER=apologia-ui
+The platform follows these rules:
 
-# Android shell
-CAPACITOR_SERVER_URL=http://localhost:3000
-```
+- Browser clients never receive Knowledge Engine admin credentials.
+- Public APIs expose published revisions only.
+- Draft and current revisions remain isolated from public reads.
+- Publication requires the appropriate review and provenance state.
+- Edge assertions are revision-bound.
+- Evidence citations are revision-bound.
+- Learner mastery is server-derived.
+- Learners cannot directly write mastery rows.
+- Saved journeys are account-owned through RLS.
+- Shared journeys use opaque tokens and do not expose account ownership.
+- AI/heuristic authoring creates proposals, not truth.
+- Proposal acceptance does not equal publication.
+- Production audit failures block release rather than being hidden behind a warning.
 
-Never prefix secrets with `NEXT_PUBLIC_`.
+## Research model
 
----
+The same canonical knowledge can be explored through:
 
-## Local Development
+- **Galaxy** — spatial exploration of connected canonical knowledge
+- **Timeline** — chronological historical research where dates are explicitly sourced
+- **Compare** — structured comparison using stored canonical relationships
+- **Debate** — objection/response/argument traversal over published material
+- **Evidence Inspector** — source, citation, provenance and review inspection
+- **Saved Journeys** — persistent, shareable research paths
 
-### Requirements
+The UI does not invent theological relationships merely to make a graph look connected.
 
-- Node.js 22
-- npm
-- PostgreSQL when exercising database-backed workflows
-- Java 21 + Android SDK 35 for local Android builds
-- a compatible `apologiasancta-engine` instance for live-quiz and Knowledge Engine integration
+## Learning model
 
-### Install
+Concept mastery is attached to canonical knowledge nodes rather than duplicated lesson-specific concepts.
+
+A concept becomes a mastery gap only when the platform has stored, server-scored assessment evidence. An unseen concept remains unknown. Recommendations therefore distinguish:
+
+- **Weak** — supported by assessment evidence
+- **Unknown** — insufficient evidence
+- **Mastered** — sufficient evidence according to the mastery model
+
+This prevents the adaptive layer from turning absence of activity into a false theological or educational judgement.
+
+## Technology
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Capacitor 7
+- Android SDK 35/36 CI compatibility
+- Java 21
+- PostgreSQL / Supabase-compatible schema
+- MySQL editorial acceptance testing
+- Vitest
+- Playwright
+- Node.js 22 CI
+
+## Development
+
+Install dependencies using the committed lockfile:
 
 ```bash
 npm ci
 ```
 
-### Run
+Run the web application:
 
 ```bash
 npm run dev
 ```
 
-### Production build
-
-```bash
-npm run build
-npm start
-```
-
----
-
-## Verification
-
-The repository treats CI as a release gate rather than a ceremonial green badge.
-
-Run the relevant checks before merge:
+Run the principal checks:
 
 ```bash
 npm run lint
 npm run typecheck
-npm test
+npm run test
 npm run test:vitest
 npm run build
 npm run test:e2e
 ```
 
-Additional governed-content checks:
+Run dependency security checks:
 
 ```bash
-npm run curriculum:validate
-npm run content:validate
-npm run content:lint
+npm run audit:production
+npm run audit:high
+npm run audit:all
+```
+
+Run editorial database acceptance:
+
+```bash
 npm run test:editorial-database
 ```
 
-Android:
+Run curriculum/content validation:
 
 ```bash
-npm run cap:sync
+npm run curriculum:check
+npm run content:check
 ```
 
-GitHub Android CI additionally installs Java 21 and Android SDK 35, runs Android tests/lint/build, verifies the APK and uploads the debug artifact.
+## CI release gates
 
-The full UI CI gate covers:
+The UI CI pipeline is expected to keep all of these green:
 
-- dependency installation
-- lint
+- dependency installation from the committed lockfile
+- production dependency audit
+- high-severity dependency audit
+- complete moderate/high dependency audit
+- ESLint
 - TypeScript
-- Node/unit tests
-- Vitest component/route tests
-- production Next.js build
-- Chromium Playwright E2E
-- disposable database migration/policy tests
+- Node regression suite
+- component/route tests
+- production build
+- Playwright E2E
 - PostgreSQL editorial acceptance
 - MySQL editorial acceptance
+- Supabase migration/RLS policy tests
+- Android build/test/lint/APK verification
 
-A failed historical GitHub Actions email does not describe the current branch once a later commit has replaced it; use the latest PR head run as the merge gate.
+The CI pipeline only **verifies** the committed dependency tree. It does not mutate the pull request during normal verification. Dependency updates must be reviewed as ordinary source changes.
 
----
+A green build without a reproducible lockfile is not considered a green production build.
 
-## Android / PWA
+## Android
 
-### PWA
+Package identifier:
 
-The web product includes:
+`com.apologiasancta.live`
 
-- installable manifest
-- app icons
-- service worker
-- safe published-content caching
-- offline-aware lesson behavior
-- no offline authority to grant official mastery/unlocks
+The Android application is a Capacitor shell over the production web experience. Android CI validates SDK/toolchain compatibility and the generated release APK.
 
-### Android
+## Knowledge governance
 
-```bash
-npm run cap:sync
-npm run cap:open:android
-```
+Apologia Sancta follows the Catholic Church as the default doctrinal lens for its Catholic apologetics content. Comparative material may be presented through attributed lenses, but the platform must distinguish:
 
-For signed distribution, use the repository's Android release workflow. Signing credentials belong in GitHub/provider secrets, never in source control.
+1. what a source claims,
+2. what historical evidence supports,
+3. what a particular Christian or non-Christian tradition teaches,
+4. what the Catholic Church teaches, and
+5. what remains unresolved or disputed.
 
-The public APK path must point to a verified production-signed artifact; debug-signed builds are not valid public releases.
+The Knowledge Engine therefore stores provenance and perspective explicitly instead of collapsing all statements into an undifferentiated graph of "facts."
 
----
+## Editorial principle
 
-## Development Rules
+The most important production rule is simple:
 
-1. **Canonical first.** Search/reuse existing Knowledge Engine nodes before creating duplicates.
-2. **No silent theology duplication.** Learn, Quiz, Research and Articles reference canonical IDs.
-3. **No AI publication.** Automation proposes; humans review and publish.
-4. **No truth scores.** Visualization/coverage metrics describe structure and provenance, not theological truth.
-5. **No draft leakage.** Public reads must remain published-only.
-6. **No secret leakage.** Internal URLs/tokens stay server-side.
-7. **No unbounded graph rendering.** Query bounded neighborhoods progressively.
-8. **No client-authoritative mastery.** Formal mastery comes from stored, server-scored evidence.
-9. **No generated audit shortcuts.** Immutable revisions, hashes, reviews and publication events are part of the product, not paperwork to bypass.
-10. **No deployment fiction.** Code merged, database migrated, provider deployed and smoke-tested are separate states.
+> **No unexplained line, duplicated proposition, hidden draft, invented citation, client-authoritative mastery score, or AI-generated theological claim should become canonical merely because the software can display it.**
 
----
-
-## Key Documentation
-
-- [Knowledge Engine platform integration](./docs/KNOWLEDGE_ENGINE_PLATFORM_INTEGRATION.md)
-- [Operational audit](./docs/OPERATIONAL_AUDIT.md)
-- [Unified product redesign](./docs/UNIFIED_REDESIGN.md)
-- [Product roadmap](./docs/PRODUCT_ROADMAP.md)
-- [Production runbook](./docs/PRODUCTION_RUNBOOK.md)
-- [Testing](./TESTING.md)
-- [Security setup](./SECURITY_SETUP.md)
-- [Production checklist](./PRODUCTION_CHECKLIST.md)
-
-The Engine and Galaxy repositories contain their own Knowledge Engine and graph-specific implementation documents.
-
----
-
-## Product Goal
-
-The target experience is simple to state even though the underlying system is not:
-
-> **Every question has an explorable argument universe.**
-
-From a single theological or historical proposition, a user should eventually be able to:
-
-**understand → inspect evidence → identify sources → compare assessments → follow objections → study a lesson → answer questions → measure mastery → practise a defense → debate → explore the Galaxy → save/share the path**
-
-All of those experiences should remain connected to the same reviewed canonical knowledge instead of slowly contradicting one another in separate content silos.
+Software governs the workflow. Human-reviewed evidence governs publication.
