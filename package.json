@@ -25,7 +25,9 @@
     "cap:open:android": "cap open android",
     "apk:sync": "node scripts/sync-latest-apk.cjs",
     "apk:release": "node scripts/build-release-apk.cjs",
-    "content:lint": "vitest run src/lib/learning/governance.test.ts"
+    "content:lint": "vitest run src/lib/learning/governance.test.ts",
+    "audit:production": "npm audit --omit=dev --audit-level=moderate",
+    "audit:high": "npm audit --audit-level=high"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.3",
@@ -35,7 +37,7 @@
     "@capacitor/splash-screen": "^7.0.2",
     "framer-motion": "^12.40.0",
     "mysql2": "^3.15.3",
-    "next": "16.2.10",
+    "next": "16.3.2",
     "pg": "^8.22.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
@@ -51,17 +53,12 @@
     "@types/pg": "^8.20.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@vitejs/plugin-react": "^6.0.3",
+    "@vitejs/plugin-react": "^6.2.1",
     "eslint": "^9",
-    "eslint-config-next": "16.2.10",
+    "eslint-config-next": "16.3.2",
     "jsdom": "^29.1.1",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.10"
-  },
-  "overrides": {
-    "next": {
-      "postcss": "8.5.18"
-    }
   }
 }
