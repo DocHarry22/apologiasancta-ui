@@ -22,10 +22,6 @@ env:
   NEXT_PUBLIC_RESEARCH_GRAPH_URL: ${{ vars.ANDROID_GRAPH_URL || 'https://mediumvioletred-kingfisher-797460.hostingersite.com' }}
   NEXT_PUBLIC_ANDROID_APK_URL: https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
 
-env_release:
-  APP_VERSION_CODE: '3'
-  APP_VERSION_NAME: '1.0.3'
-
 jobs:
   debug-apk:
     name: Debug APK / SDK 36
@@ -166,8 +162,8 @@ jobs:
             echo "APKSIGN_KEYSTORE_PASSWORD=$password"
             echo "APKSIGN_KEY_ALIAS=apologia-sancta-github"
             echo "APKSIGN_KEY_PASSWORD=$password"
-            echo "APP_VERSION_CODE=${{ env_release.APP_VERSION_CODE }}"
-            echo "APP_VERSION_NAME=${{ env_release.APP_VERSION_NAME }}"
+            echo "APP_VERSION_CODE=3"
+            echo "APP_VERSION_NAME=1.0.3"
           } >> "$GITHUB_ENV"
 
       - name: Build signed release APK and AAB
@@ -202,19 +198,19 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          tag="android-v${{ env_release.APP_VERSION_NAME }}"
+          tag="android-v1.0.3"
           apk="${{ steps.release-artifacts.outputs.apk_path }}"
           aab="${{ steps.release-artifacts.outputs.aab_path }}"
           gh release create "$tag" "$apk#apologia-sancta.apk" "$aab#apologia-sancta.aab" \
             --repo "$GITHUB_REPOSITORY" \
-            --title "Apologia Sancta Android ${{ env_release.APP_VERSION_NAME }}" \
+            --title "Apologia Sancta Android 1.0.3" \
             --notes "Production Android build for GitHub distribution. Target SDK 36 / Android 16. Includes the latest Play Store readiness, account deletion, privacy and security changes. The APK is signed with an ephemeral GitHub-distribution key and is not the future Google Play upload key." \
             --latest
 
       - name: Upload release artifacts to Actions
         uses: actions/upload-artifact@v7
         with:
-          name: apologiasancta-android-${{ env_release.APP_VERSION_NAME }}
+          name: apologiasancta-android-1.0.3
           path: |
             android/app/build/outputs/apk/release/app-release.apk
             android/app/build/outputs/bundle/release/app-release.aab
