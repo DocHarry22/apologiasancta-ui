@@ -115,7 +115,7 @@ async function handle(request: NextRequest, rawPath: string[] = []) {
         : "";
       await appendAuditEvent({
         actor: context.user,
-        eventType: path.endsWith("/decision") ? "knowledge.proposal_decision" : "knowledge.proposal_created",
+        eventType: "admin.engine_mutation",
         action: path.endsWith("/decision") ? "Knowledge authoring proposal decided" : "Knowledge authoring proposal created",
         resourceType: "knowledge_authoring_proposal",
         resourceId: resourceId || undefined,
@@ -123,6 +123,9 @@ async function handle(request: NextRequest, rawPath: string[] = []) {
         path: `/api/admin/knowledge-advanced/${path}`,
         status: "success",
         ip: getClientIp(request),
+        metadata: {
+          knowledgeOperation: path.endsWith("/decision") ? "proposal_decision" : "proposal_create",
+        },
         severity: "info",
       }).catch(() => undefined);
     }
