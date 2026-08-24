@@ -77,7 +77,7 @@ jobs:
           fi
 
   signed-release:
-    name: Signed APK and AAB
+    name: Signed APK and Play AAB
     needs: signing-preflight
     if: needs.signing-preflight.outputs.ready == 'true'
     runs-on: ubuntu-latest
@@ -111,12 +111,12 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Install Android SDK 35
+      - name: Install Android SDK 36
         uses: android-actions/setup-android@v4
         with:
           packages: >-
             platform-tools
-            platforms;android-35
+            platforms;android-36
             build-tools;35.0.0
           log-accepted-android-sdk-licenses: false
 
@@ -160,14 +160,14 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x android/gradlew
 
-      - name: Build signed APK and AAB
+      - name: Lint and build signed APK and AAB
         working-directory: android
         env:
           APKSIGN_KEYSTORE: ${{ runner.temp }}/apologiasancta-release.jks
           APKSIGN_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           APKSIGN_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           APKSIGN_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: ./gradlew --no-daemon --stacktrace assembleRelease bundleRelease
+        run: ./gradlew --no-daemon --stacktrace lintRelease assembleRelease bundleRelease
 
       - name: Verify and package signed artifacts
         id: package
@@ -180,6 +180,15 @@ jobs:
           test -s "$aab_path"
 
           sdk_root="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
+          badging="$("$sdk_root/build-tools/35.0.0/aapt2" dump badging "$apk_path")"
+          printf '%s\n' "$badging" \
+            | grep -E "^(package:|sdkVersion:|targetSdkVersion:|application-label:)"
+          grep -Fq "targetSdkVersion:'36'" <<< "$badging" || {
+            echo "Release artifact does not target API 36." >&2
+            exit 1
+          }
+          "$sdk_root/build-tools/35.0.0/zipalign" -c -P 16 -v 4 "$apk_path"
+
           apk_verification="$(
             "$sdk_root/build-tools/35.0.0/apksigner" \
               verify --verbose --print-certs "$apk_path"
@@ -238,8 +247,8 @@ jobs:
           echo "artifact_dir=$artifact_dir" >> "$GITHUB_OUTPUT"
           echo "safe_version=$safe_version" >> "$GITHUB_OUTPUT"
           {
-            echo "### Signed Android artifacts"
-            echo "The APK and AAB signatures were verified. SHA-256 checksums and android-update.json are included with the workflow artifact."
+            echo "### Signed Android 16 artifacts"
+            echo "The API 36 target, 16 KB ZIP alignment, APK/AAB signatures, release lint, and updater metadata were verified. SHA-256 checksums are included with the workflow artifact."
             echo "Updater package: com.apologiasancta.live"
             echo "Updater versionCode: $APP_VERSION_CODE"
           } >> "$GITHUB_STEP_SUMMARY"
