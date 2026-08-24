@@ -34,17 +34,45 @@ const apkSyncScript = readFileSync(
   join(repositoryRoot, "scripts", "sync-latest-apk.cjs"),
   "utf8",
 );
+const androidVariables = readFileSync(
+  join(repositoryRoot, "android", "variables.gradle"),
+  "utf8",
+);
+const rootGradle = readFileSync(
+  join(repositoryRoot, "android", "build.gradle"),
+  "utf8",
+);
+const appGradle = readFileSync(
+  join(repositoryRoot, "android", "app", "build.gradle"),
+  "utf8",
+);
+const androidManifest = readFileSync(
+  join(repositoryRoot, "android", "app", "src", "main", "AndroidManifest.xml"),
+  "utf8",
+);
+const releaseBuildScript = readFileSync(
+  join(repositoryRoot, "scripts", "build-release-apk.cjs"),
+  "utf8",
+);
 
-test("Android debug CI installs the pinned SDK and validates the APK without secrets", () => {
+test("Android debug CI validates an API 36 APK without secrets", () => {
   assert.match(debugWorkflow, /pull_request:\s*\n\s+branches: \[main\]/);
   assert.match(debugWorkflow, /android-actions\/setup-android@v4/);
   assert.match(debugWorkflow, /java-version: 21/);
-  assert.match(debugWorkflow, /platforms;android-35/);
+  assert.match(debugWorkflow, /platforms;android-36/);
   assert.match(debugWorkflow, /build-tools;35\.0\.0/);
   assert.match(debugWorkflow, /gradle\/actions\/setup-gradle@v6/);
   assert.match(debugWorkflow, /testDebugUnitTest lintDebug assembleDebug/);
+  assert.match(debugWorkflow, /targetSdkVersion:'36'/);
+  assert.match(debugWorkflow, /zipalign" -c -P 16 -v 4/);
   assert.match(debugWorkflow, /apksigner" verify --verbose/);
   assert.doesNotMatch(debugWorkflow, /secrets\./);
+});
+
+test("Android native project targets Android 16 with a compatible build toolchain", () => {
+  assert.match(androidVariables, /compileSdkVersion = 36/);
+  assert.match(androidVariables, /targetSdkVersion = 36/);
+  assert.match(rootGradle, /com\.android\.tools\.build:gradle:8\.13\.2/);
 });
 
 test("signed release builds are gated by every required secret", () => {
@@ -62,10 +90,14 @@ test("signed release builds are gated by every required secret", () => {
     /if: needs\.signing-preflight\.outputs\.ready == 'true'/,
   );
   assert.match(releaseWorkflow, /umask 077/);
-  assert.match(releaseWorkflow, /assembleRelease bundleRelease/);
+  assert.match(releaseWorkflow, /lintRelease assembleRelease bundleRelease/);
+  assert.match(releaseWorkflow, /platforms;android-36/);
+  assert.match(releaseWorkflow, /targetSdkVersion:'36'/);
+  assert.match(releaseWorkflow, /zipalign" -c -P 16 -v 4/);
   assert.match(releaseWorkflow, /gradle\/actions\/setup-gradle@v6/);
   assert.match(releaseWorkflow, /java-version: 21/);
   assert.doesNotMatch(releaseWorkflow, /jarsigner -verify -strict/);
+  assert.match(releaseWorkflow, /apologia-sancta\.aab/);
   assert.match(releaseWorkflow, /apologia-sancta\.apk/);
   assert.match(releaseWorkflow, /if: always\(\)/);
   assert.doesNotMatch(releaseWorkflow, /set\s+-x/);
@@ -94,16 +126,20 @@ test("signed release requires jarsigner to positively verify the AAB", () => {
   );
 });
 
-test("Capacitor Java 21 compatibility is not downgraded in Gradle", () => {
-  const rootGradle = readFileSync(
-    join(repositoryRoot, "android", "build.gradle"),
-    "utf8",
-  );
-  const appGradle = readFileSync(
-    join(repositoryRoot, "android", "app", "build.gradle"),
-    "utf8",
-  );
+test("release app enforces HTTPS transport and excludes Android backup", () => {
+  assert.match(appGradle, /manifestPlaceholders\["usesCleartextTraffic"\] = "false"/);
+  assert.match(appGradle, /proguard-android-optimize\.txt/);
+  assert.match(androidManifest, /android:allowBackup="false"/);
+  assert.match(androidManifest, /android:usesCleartextTraffic="\$\{usesCleartextTraffic\}"/);
+});
 
+test("local release task produces both signed APK and Play Store AAB", () => {
+  assert.match(releaseBuildScript, /lintRelease", "assembleRelease", "bundleRelease/);
+  assert.match(releaseBuildScript, /outputs", "bundle", "release", "app-release\.aab"/);
+  assert.match(releaseBuildScript, /Expected Play Store AAB not found/);
+});
+
+test("Capacitor Java 21 compatibility is not downgraded in Gradle", () => {
   assert.doesNotMatch(rootGradle, /JavaVersion\.VERSION_17/);
   assert.doesNotMatch(appGradle, /JavaVersion\.VERSION_17/);
 });

@@ -24,7 +24,7 @@ env:
 
 jobs:
   debug-apk:
-    name: Debug APK / SDK 35
+    name: Debug APK / SDK 36
     runs-on: ubuntu-latest
     timeout-minutes: 35
 
@@ -44,12 +44,12 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Install Android SDK 35
+      - name: Install Android SDK 36
         uses: android-actions/setup-android@v4
         with:
           packages: >-
             platform-tools
-            platforms;android-35
+            platforms;android-36
             build-tools;35.0.0
           log-accepted-android-sdk-licenses: false
 
@@ -84,14 +84,20 @@ jobs:
 
           sdk_root="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
           "$sdk_root/build-tools/35.0.0/apksigner" verify --verbose "$apk_path"
-          "$sdk_root/build-tools/35.0.0/aapt2" dump badging "$apk_path" \
+          badging="$("$sdk_root/build-tools/35.0.0/aapt2" dump badging "$apk_path")"
+          printf '%s\n' "$badging" \
             | grep -E "^(package:|sdkVersion:|targetSdkVersion:|application-label:)"
+          grep -Fq "targetSdkVersion:'36'" <<< "$badging" || {
+            echo "Android artifact does not target API 36." >&2
+            exit 1
+          }
+          "$sdk_root/build-tools/35.0.0/zipalign" -c -P 16 -v 4 "$apk_path"
           sha256sum "$apk_path"
 
           echo "apk_path=$apk_path" >> "$GITHUB_OUTPUT"
           {
             echo "### Android debug validation"
-            echo "SDK 35 unit tests, Android lint, APK assembly, and signature verification passed."
+            echo "SDK 36 unit tests, Android lint, APK assembly, signature verification, target-SDK verification, and 16 KB ZIP alignment checks passed."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload debug APK

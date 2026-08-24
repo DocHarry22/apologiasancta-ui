@@ -26,7 +26,7 @@ if (!process.env.CAPACITOR_BUILD_MODE) {
 }
 
 if (!process.env.CAPACITOR_SERVER_URL && !process.env.NEXT_PUBLIC_APP_URL) {
-  throw new Error("Set CAPACITOR_SERVER_URL or NEXT_PUBLIC_APP_URL to the production HTTPS app URL before building the APK.");
+  throw new Error("Set CAPACITOR_SERVER_URL or NEXT_PUBLIC_APP_URL to the production HTTPS app URL before building the Android release.");
 }
 
 if (!process.env.APKSIGN_KEY_PASSWORD && process.env.APKSIGN_KEYSTORE_PASSWORD) {
@@ -43,12 +43,19 @@ const gradleCommand = process.platform === "win32" ? "gradlew.bat" : "./gradlew"
 if (process.platform !== "win32") {
   chmodSync(join(process.cwd(), "android", "gradlew"), 0o755);
 }
-run(gradleCommand, ["assembleRelease"], { cwd: join(process.cwd(), "android") });
+run(gradleCommand, ["lintRelease", "assembleRelease", "bundleRelease"], { cwd: join(process.cwd(), "android") });
 
 const apkPath = join(process.cwd(), "android", "app", "build", "outputs", "apk", "release", "app-release.apk");
 if (!existsSync(apkPath)) {
   throw new Error(`Expected release APK not found at ${apkPath}`);
 }
 
+const aabPath = join(process.cwd(), "android", "app", "build", "outputs", "bundle", "release", "app-release.aab");
+if (!existsSync(aabPath)) {
+  throw new Error(`Expected Play Store AAB not found at ${aabPath}`);
+}
+
 const version = process.env.APP_VERSION_NAME || pkg.version;
 syncLatestApk({ sourceApkPath: apkPath, version });
+
+console.log(`Signed Android release built successfully. Play Store bundle: ${aabPath}`);
