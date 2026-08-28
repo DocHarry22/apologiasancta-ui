@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { NativeBottomTabs } from "./NativeBottomTabs";
+import { AndroidUpdateManager } from "./AndroidUpdateManager";
 import { StartupBootOverlay } from "@/components/startup/StartupBootOverlay";
 import { isNativePlatform } from "@/lib/native";
 
@@ -77,6 +78,7 @@ export function CapacitorShell() {
   return (
     <>
       <StartupBootOverlay show={showBootOverlay} />
+      <AndroidUpdateManager />
       {showAccountDeletionShortcut ? (
         <Link
           href="/account/delete"

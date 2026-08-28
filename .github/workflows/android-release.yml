@@ -134,6 +134,10 @@ jobs:
             echo "version_code must be a positive integer." >&2
             exit 1
           }
+          [[ "$APP_VERSION_NAME" =~ ^[0-9A-Za-z._-]+$ ]] || {
+            echo "version_name may contain only letters, numbers, dots, underscores, or hyphens." >&2
+            exit 1
+          }
           [[ "$RELEASE_TAG" =~ ^android-v[0-9A-Za-z._-]+$ ]] || {
             echo "tag_name must start with android-v and contain only letters, numbers, dots, underscores, or hyphens." >&2
             exit 1
@@ -219,16 +223,34 @@ jobs:
           install -m 0644 "$apk_path" "$artifact_dir/apologia-sancta-$safe_version.apk"
           install -m 0644 "$aab_path" "$artifact_dir/apologia-sancta.aab"
           install -m 0644 "$aab_path" "$artifact_dir/apologia-sancta-$safe_version.aab"
+
+          apk_sha256="$(sha256sum "$apk_path" | awk '{print $1}')"
+          published_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          cat > "$artifact_dir/android-update.json" <<EOF
+          {
+            "schemaVersion": 1,
+            "packageName": "com.apologiasancta.live",
+            "versionCode": $APP_VERSION_CODE,
+            "versionName": "$APP_VERSION_NAME",
+            "apkUrl": "https://github.com/DocHarry22/apologiasancta-ui/releases/download/$RELEASE_TAG/apologia-sancta.apk",
+            "releaseUrl": "https://github.com/DocHarry22/apologiasancta-ui/releases/tag/$RELEASE_TAG",
+            "sha256": "$apk_sha256",
+            "publishedAt": "$published_at"
+          }
+          EOF
+
           (
             cd "$artifact_dir"
-            sha256sum ./*.apk ./*.aab > SHA256SUMS
+            sha256sum ./*.apk ./*.aab android-update.json > SHA256SUMS
           )
 
           echo "artifact_dir=$artifact_dir" >> "$GITHUB_OUTPUT"
           echo "safe_version=$safe_version" >> "$GITHUB_OUTPUT"
           {
             echo "### Signed Android 16 artifacts"
-            echo "The API 36 target, 16 KB ZIP alignment, APK/AAB signatures, and release lint were verified. SHA-256 checksums are included with the workflow artifact."
+            echo "The API 36 target, 16 KB ZIP alignment, APK/AAB signatures, release lint, and updater metadata were verified. SHA-256 checksums are included with the workflow artifact."
+            echo "Updater package: com.apologiasancta.live"
+            echo "Updater versionCode: $APP_VERSION_CODE"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload signed workflow artifact
