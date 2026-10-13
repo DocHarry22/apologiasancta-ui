@@ -33,7 +33,7 @@ Recommended reviewer path:
 
 ## Ads
 
-Repository review found no AdMob/Google Mobile Ads integration, advertising-ID dependency, or obvious web ad tag in the application source. The Android manifest requests only `android.permission.INTERNET`.
+Repository review found no AdMob/Google Mobile Ads integration, advertising-ID dependency, or obvious web ad tag in the application source. The application source manifest requests network access; the final merged manifest must also be checked for dependency permissions.
 
 **Play Console draft answer:** `Contains ads: No`
 
@@ -155,11 +155,15 @@ Do not select an age range merely to maximize distribution. Choose the audience 
 
 ## Permissions declaration
 
-Current Android manifest permission:
+Permissions verified in the published Android 1.0.3 AAB merged manifest on 13 October 2026:
 
 - `android.permission.INTERNET`
+- `android.permission.VIBRATE` (native haptics)
+- `com.apologiasancta.live.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` (signature-level internal receiver permission)
 
-No contacts, SMS, call log, microphone, camera, location, storage/media, notification, accessibility, VPN, package-install or broad device-management permission is declared in the app manifest at this release boundary.
+No contacts, SMS, call log, microphone, camera, location, storage/media, notification, accessibility, VPN, package-install or broad device-management permission was found in that merged manifest. Recheck the final Play-signed candidate after dependency updates; a source manifest alone does not establish the installed permissions.
+
+The published 1.0.3 AAB was signed with an ephemeral GitHub distribution key. Its signature and bundle structure can be verified, but it is not evidence of a retained Play upload key or Play App Signing enrolment. Prepare a separately signed Play candidate and confirm the Console upload certificate before submission.
 
 ## Account deletion URL
 

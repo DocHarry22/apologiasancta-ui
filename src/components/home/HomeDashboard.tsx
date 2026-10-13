@@ -10,6 +10,7 @@ import { useStreak } from "@/hooks/useStreak";
 import { EMPTY_LEARNING_PROGRESS, LEARNING_PROGRESS_KEY, parseLearningProgress, type LearningProgress } from "@/lib/learningProgress";
 import { getEngineUrl, getResearchGraphUrl } from "@/lib/publicEnv";
 import { getDailyVerse } from "@/lib/verses";
+import { applyAccountUnlocks } from "@/lib/learning/homeProgress";
 import type { Leaderboard, QuizPhase, RoomSummary } from "@/types/quiz";
 
 type TopicSummary = { id: string; title: string; description: string; questionCount: number; tags: string[] };
@@ -32,6 +33,7 @@ type LearningPreview = {
 };
 type OfficialProgress = {
   lessons?: Array<{ lessonId?: string; state?: string; status?: string; readingProgressPercent?: number; progressPercent?: number }>;
+  unlocks?: Array<{ groupId?: string }>;
 };
 
 function useLiveRoom() {
@@ -136,7 +138,7 @@ function TopicGlyph({ index }: { index: number }) {
 
 export function HomeDashboard({ userName, topics }: { userName: string | null; topics: TopicSummary[] }) {
   const [progress, setProgress] = useState<LearningProgress>(EMPTY_LEARNING_PROGRESS);
-  const [learningItems, setLearningItems] = useState<LearningPreview[]>([]);
+  const [learningPreview, setLearningItems] = useState<LearningPreview[]>([]);
   const [officialProgress, setOfficialProgress] = useState<OfficialProgress | null>(null);
   const [hydrated, setHydrated] = useState(false);
   const { streak } = useStreak();
@@ -173,6 +175,7 @@ export function HomeDashboard({ userName, topics }: { userName: string | null; t
     return () => controller.abort();
   }, [userName]);
 
+  const learningItems = useMemo(() => applyAccountUnlocks(learningPreview, officialProgress?.unlocks), [learningPreview, officialProgress]);
   const officialLessons = useMemo(() => officialProgress?.lessons ?? [], [officialProgress]);
   const completedLessonIds = useMemo(() => officialLessons
     .filter((lesson) => lesson.state === "completed" || lesson.status === "completed" || Number(lesson.readingProgressPercent ?? lesson.progressPercent) >= 100)

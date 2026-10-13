@@ -209,7 +209,7 @@ export async function updateLessonProgress(
          learner_id, lesson_id, state, reading_progress_percent, resume_locator,
          started_at, completed_at, completed_lesson_version, last_activity_at, updated_at
        ) VALUES (
-         $1, $2, $3, $4, $5::jsonb,
+         $1, $2, $3::public.lesson_progress_state, $4, $5::jsonb,
          CASE WHEN $3::text = 'not_started' THEN NULL ELSE now() END,
          CASE WHEN $3::text = 'completed' THEN now() ELSE NULL END,
          CASE WHEN $3::text = 'completed' THEN $6 ELSE NULL END,
