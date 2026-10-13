@@ -11,8 +11,10 @@ Closed without merge at head `e1ec68e65782f1485ed3a6dc9349a45d9bf9c78c`. Android
 Target: https://sandybrown-bear-488955.hostingersite.com. Public diagnostics reported revision `ac95f3a5b948495325f4a220751c426af31cf8b6`, older than current main.
 
 - Created a new public learner named Release Audit Learner with a unique example.test email. Signup reached the signed-in Account page.
+- Logout reached Sign in; fresh login returned Home with the learner's welcome message. The test account remains present; its password was not committed or included in the audit.
 - Opened Phase 1 Verification Programme → Workflow Verification → First Verification Step → Verification Lesson. Rendering passed; completion submission returned “The learning service is temporarily unavailable.”
 - Started a real mastery attempt, answered the neutral A question, submitted and received 100% / Mastery achieved. Account Learning subsequently showed one mastered group after navigation/reload. Second Verification Step was accessible, but had no published lessons.
+- After fresh login, Home still labelled Second Verification Step Locked. Home was rendering only public preview state. This change reconciles those cards with server-recorded account unlocks while preserving hidden/coming-soon publication restrictions. Production unlock presentation remains pending deployment verification.
 - Practice loaded its neutral question; answer checking returned the same service-unavailable message.
 - Joined Global Room as ReleaseAudit, answered the seven-sacraments question, received 16 points and rank 1. Reload retained the participant and 16-point score. This is session continuity, not restart/database durability evidence.
 - Research reported Knowledge Engine unavailable. The UI topics proxy and Render /knowledge/topics both returned 404. Timeline rendered its input form, but no valid canonical records were available to verify results or provenance. Linked Graph initially showed its loading state; subsequent browser observation timed out.
@@ -29,6 +31,17 @@ Current main UI CI run 38457865097 failed the production dependency audit before
 Render logs repeatedly reported PostgreSQL DNS ENOTFOUND for the engine persistence target. The confirmed Render workspace listed no PostgreSQL instances. Health returned ok=true although restoration had not succeeded; configured/readiness booleans do not establish actual durability. Restoring the intended database and reconnecting the engine is an infrastructure blocker. No replacement paid database was provisioned.
 
 The connected active Supabase project did not contain the learning tables; the default Knowledge Engine project reference in source was not among accessible projects. No deployed learning schema was changed.
+
+## Validation of the proposed changes
+
+- Clean install, typecheck, 65 unit tests, 207 component/route tests, production build and lint passed locally (lint has four existing warnings).
+- Full local browser E2E: 16 passed after installing the missing official Playwright browser. These tests use a local server and mocked/disposable dependencies; they are not production E2E evidence.
+- Home unlock regression: three focused tests passed; typecheck/build and two focused public-route/responsive browser tests passed after that change.
+- First fix commit `7b1e0f5`: GitHub Android CI run 38461738866 passed debug unit/lint/build/signature validation; release job skipped. UI CI run 38461739205 passed production audit, PostgreSQL/MySQL editorial acceptance and database-policy tests, including the new application SQL preparation. It failed the high-severity development dependency audit before remaining UI checks ran.
+- Remaining complete audit: ten high and three moderate development advisories. Both automatic fix and targeted update attempts failed with npm's “Cannot read properties of null (reading 'edgesOut')”. Several advisory fixes propose downgrading eslint-config-next to 14.2.35, which is not a safe blind change for Next 16.3.8. No audit suppression was added.
+- The final Home follow-up commit requires its own GitHub CI result; do not treat the earlier commit's results as final-head approval.
+- Production learner `/admin` redirected to Home. Successful staff publishing still requires valid separate staff identities.
+- AAB embedded URL is the production HTTPS site; mixed content is false. No native `.so` files were present in that AAB. Neither observation substitutes for device/pre-launch testing.
 
 ## Android and Play
 
