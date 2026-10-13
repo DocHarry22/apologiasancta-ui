@@ -127,3 +127,17 @@ jobs:
 
       - name: Run saved journey policy regression
         run: psql postgresql://postgres:postgres@127.0.0.1:54322/postgres --set=ON_ERROR_STOP=1 --file=supabase/tests/knowledge_journeys_test.sql
+
+      - name: Setup Node for learning query contracts
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install learning query test dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Prepare application learning SQL against PostgreSQL
+        run: node scripts/verify-learning-query-contracts.mjs
+        env:
+          LEARNING_QUERY_TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
