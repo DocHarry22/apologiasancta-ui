@@ -34,7 +34,7 @@ type OfficialProgress = {
   lessons?: Array<{ lessonId?: string; state?: string; status?: string; readingProgressPercent?: number; progressPercent?: number }>;
 };
 
-function useLiveRoom() {
+export function useLiveRoom() {
   const [room, setRoom] = useState<RoomSummary | null>(null);
   const [state, setState] = useState<LiveState | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "unavailable">("loading");
