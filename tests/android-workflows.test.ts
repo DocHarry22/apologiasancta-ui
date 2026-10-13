@@ -75,6 +75,28 @@ test("Android native project targets Android 16 with a compatible build toolchai
   assert.match(rootGradle, /com\.android\.tools\.build:gradle:8\.13\.2/);
 });
 
+test("GitHub distribution publishes actual canonical filenames, not display labels", () => {
+  const publicEnv = readFileSync(join(repositoryRoot, "src/lib/publicEnv.ts"), "utf8");
+  assert.match(publicEnv, /releases\/latest\/download\/apologia-sancta\.apk/);
+  for (const extension of ["apk", "aab"]) {
+    assert.ok(debugWorkflow.includes(`install -m 0644 "$${extension}_path" "$artifact_dir/apologia-sancta.${extension}"`));
+    assert.ok(debugWorkflow.includes(`"$ARTIFACT_DIR/apologia-sancta.${extension}"`));
+  }
+  assert.doesNotMatch(debugWorkflow, /#apologia-sancta\.(apk|aab)/);
+  assert.match(debugWorkflow, /path: \$\{\{ steps\.release-artifacts\.outputs\.artifact_dir \}\}/);
+  assert.match(debugWorkflow, /sha256sum apologia-sancta\.apk apologia-sancta\.aab > SHA256SUMS/);
+});
+
+test("distribution reruns preserve existing releases and restrict publishing to main", () => {
+  assert.doesNotMatch(debugWorkflow, /gh release (delete|upload)/);
+  assert.match(debugWorkflow, /Refuse to replace an existing distribution release/);
+  assert.match(debugWorkflow, /github\.ref == 'refs\/heads\/main'/);
+  assert.match(debugWorkflow, /github\.event_name == 'push'/);
+  assert.match(debugWorkflow, /permissions:\s+contents: read/);
+  assert.match(debugWorkflow, /::add-mask::\$password/);
+  assert.match(debugWorkflow, /Remove ephemeral signing key\s+if: always\(\)/);
+});
+
 test("signed release builds are gated by every required secret", () => {
   for (const secretName of [
     "ANDROID_KEYSTORE_BASE64",
@@ -110,7 +132,7 @@ test("signed release builds are gated by every required secret", () => {
 });
 
 test("signed release requires jarsigner to positively verify the AAB", () => {
-  assert.match(releaseWorkflow, /apksigner" \\\n\s+verify --verbose --print-certs/);
+  assert.match(releaseWorkflow, /apksigner" \\\r?\n\s+verify --verbose --print-certs/);
   assert.match(releaseWorkflow, /grep -Fqi "CN=Android Debug"/);
   assert.match(releaseWorkflow, /Refusing to publish an APK signed with the Android debug certificate/);
   assert.match(releaseWorkflow, /-J-Duser\.language=en/);
