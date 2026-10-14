@@ -31,7 +31,8 @@ export async function fetchKnowledgeEngine(path: string, search?: URLSearchParam
   const parsedBase = new URL(base);
   const isSupabaseFunction = parsedBase.pathname.includes("/functions/v1/");
   const requestPath = isSupabaseFunction ? path.replace(/^\/knowledge(?=\/|$)/, "") || "/" : path;
-  const url = new URL(requestPath, `${base}/`); if (search) url.search = search.toString();
+  // Resolve relative to the configured mount, including Edge Function names.
+  const url = new URL(requestPath.replace(/^\/+/, ""), `${base.replace(/\/+$/, "")}/`); if (search) url.search = search.toString();
   const timeoutMs = positiveInt(process.env.KNOWLEDGE_ENGINE_TIMEOUT_MS, DEFAULT_TIMEOUT_MS, 30_000); const maxBytes = positiveInt(process.env.KNOWLEDGE_ENGINE_MAX_BYTES, DEFAULT_MAX_BYTES, 10 * 1024 * 1024);
   let response: Response;
   try { response = await fetch(url, { method: "GET", headers: { accept: "application/json" }, redirect: "error", signal: AbortSignal.timeout(timeoutMs), cache: "no-store" }); }
