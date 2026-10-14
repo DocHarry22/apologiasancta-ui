@@ -18,6 +18,10 @@ function generated(passed = true) {
 }
 describe("autonomous pipeline", () => {
   it("publishes only after evidence validation and a separate audit", async () => { generated(); expect(await runAgent()).toMatchObject({status:"completed",packId:"pack-id"}); expect(finish).toHaveBeenCalledTimes(1); expect(modelCall).toHaveBeenCalledTimes(3); });
+  it("can run a private subscription adapter without API or web scheduler credentials", async () => {
+    generated(); vi.stubEnv("OPENAI_API_KEY", ""); vi.stubEnv("CONTENT_AGENT_CRON_SECRET", "");
+    expect(await runAgent({privateCodexWorker:true,modelCall})).toMatchObject({status:"completed"});
+  });
   it("retries failed audits without publishing", async () => { generated(false); expect(await runAgent()).toMatchObject({status:"failed"}); expect(finish).not.toHaveBeenCalled(); expect(fail).toHaveBeenCalledWith(expect.anything(),expect.objectContaining({reviewIssues:["Unsupported claim"]}),expect.anything()); });
   it("does not generate content if primary sources cannot be retrieved", async () => { vi.mocked(modelCall).mockResolvedValue({value:null,urls:[sources[0].url],usage:{}}); vi.mocked(retrieve).mockResolvedValue(sources[0]); expect(await runAgent()).toMatchObject({status:"failed"}); expect(modelCall).toHaveBeenCalledTimes(1); expect(finish).not.toHaveBeenCalled(); });
   it("does no paid work when a budget reservation is unavailable", async () => { vi.mocked(claimJob).mockResolvedValue(null); expect(await runAgent()).toMatchObject({status:"idle"}); expect(modelCall).not.toHaveBeenCalled(); });

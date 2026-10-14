@@ -2,24 +2,29 @@ import { sourceMetadata, validatePack, sourceUrl, sourceKind, type Source, type 
 import { modelCall, retrieve } from "./provider";
 import { claimJob, stage, finish, fail } from "./repository";
 
-export function agentConfiguration() {
-  const missing = ["OPENAI_API_KEY", "LEARNING_DATABASE_URL", "CONTENT_AGENT_CRON_SECRET"].filter(key => !process.env[key]?.trim());
-  if ((process.env.CONTENT_AGENT_CRON_SECRET || "").length < 32 && !missing.includes("CONTENT_AGENT_CRON_SECRET")) missing.push("CONTENT_AGENT_CRON_SECRET (minimum 32 characters)");
+export type AgentProvider = "api" | "codex";
+export function agentConfiguration(provider: AgentProvider = process.env.CONTENT_AGENT_PROVIDER === "codex" ? "codex" : "api") {
+  const required = provider === "codex" ? ["LEARNING_DATABASE_URL"] : ["OPENAI_API_KEY", "LEARNING_DATABASE_URL", "CONTENT_AGENT_CRON_SECRET"];
+  const missing = required.filter(key => !process.env[key]?.trim());
+  if (provider === "api" && (process.env.CONTENT_AGENT_CRON_SECRET || "").length < 32 && !missing.includes("CONTENT_AGENT_CRON_SECRET")) missing.push("CONTENT_AGENT_CRON_SECRET (minimum 32 characters)");
   const requested = Number(process.env.CONTENT_AGENT_DAILY_LIMIT || 6);
   const dailyLimit = Number.isInteger(requested) && requested >= 1 ? Math.min(requested, 24) : 6;
-  return { enabled: process.env.CONTENT_AGENT_ENABLED !== "false", configured: missing.length === 0, missing, dailyLimit, model: process.env.CONTENT_AGENT_MODEL || "gpt-6-sol" };
+  const model = provider === "codex" ? process.env.CONTENT_AGENT_CODEX_MODEL || "Codex account default" : process.env.CONTENT_AGENT_MODEL || "gpt-6-sol";
+  return { enabled: process.env.CONTENT_AGENT_ENABLED !== "false", configured: missing.length === 0, missing, dailyLimit, model, provider };
 }
-export async function runAgent() {
-  const config = agentConfiguration();
+export async function runAgent(options: { privateCodexWorker?: boolean; modelCall?: typeof modelCall } = {}) {
+  const config = agentConfiguration(options.privateCodexWorker ? "codex" : "api");
   if (!config.enabled) return { status: "disabled" };
   if (!config.configured) throw new Error("Agent configuration is incomplete");
+  if (options.privateCodexWorker && !options.modelCall) throw new Error("Agent private model adapter is required");
+  const callModel = options.modelCall || modelCall;
   const job = await claimJob(config.dailyLimit);
   if (!job) return { status: "idle", reason: "Another worker is active, the daily limit was reached, or no topic is ready." };
   const usage: unknown[] = [];
-  const report: Record<string, unknown> = { topic: job.topic, pillar: job.pillar, actions: [], warnings: [] };
+  const report: Record<string, unknown> = { topic: job.topic, pillar: job.pillar, provider: config.provider, actions: [], warnings: [] };
   const actions = report.actions as string[]; const warnings = report.warnings as string[];
   try {
-    const discovery = await modelCall(`Search for primary Catholic evidence about ${JSON.stringify(job.topic)}.
+    const discovery = await callModel(`Search for primary Catholic evidence about ${JSON.stringify(job.topic)}.
       Use external academic and denominational sources only to document their own arguments; they do not establish Catholic doctrine.
       Locate specific Catechism paragraphs on vatican.va, Bible chapters on bible.usccb.org, relevant Vatican documents, and historical Church writings where appropriate.
       Search for objections/accusations about this topic and precise Catholic responses, using these trusted resources. Treat unattributed objections as hypothetical, not quotations from real people.
@@ -40,7 +45,7 @@ export async function runAgent() {
     if (!sources.some(s => s.kind === "catechism") || !sources.some(s => s.kind === "scripture")) throw new Error("Search did not yield retrievable Catechism and Scripture evidence");
     actions.push(`Retrieved and fingerprinted ${sources.length} sources`);
     await stage(job.runId, "writing", report, usage);
-    const generated = await modelCall(`Create a beginner-friendly Catholic lesson on ${JSON.stringify(job.topic)}, within pillar ${job.pillar}.
+    const generated = await callModel(`Create a beginner-friendly Catholic lesson on ${JSON.stringify(job.topic)}, within pillar ${job.pillar}.
       Use ONLY the supplied retrieved text as evidence. Do not fabricate history, paragraphs, quotations, dates, group attributions or biblical translations.
       Exact schema: {title:string,summary:string,claims:[{id:string,text:string,classification:"catholic_teaching"|"historical_claim"|"interpretation"|"reported_objection",evidence:[{sourceId:string,locator:string,quote:string}]}],steps:[{title:string,claimIds:string[]}],objections:[{objection:string,attributedTo:string,evidence:[{sourceId:string,locator:string,quote:string}],responseClaimIds:string[]}],quiz:[{question:string,options:[string,string,string,string],correctIndex:0|1|2|3,explanationClaimIds:string[]}],nextTopics:string[]}.
       Provide 3-12 individually evidenced claims, 3-8 progressive lesson steps, 1-5 objections with responses, 3-8 unambiguous multiple-choice questions with exactly one correct answer, and 0-3 specific follow-up topics.
@@ -52,7 +57,7 @@ export async function runAgent() {
     const pack = validatePack(generated.value, sources);
     actions.push(`Created ${pack.steps.length} lesson steps, ${pack.claims.length} claims, ${pack.objections.length} responses and ${pack.quiz.length} quiz questions`);
     await stage(job.runId, "checking", report, usage);
-    const checked = await modelCall(`Independently audit this proposed Catholic educational content against the supplied source texts.
+    const checked = await callModel(`Independently audit this proposed Catholic educational content against the supplied source texts.
       Return {passed:boolean,issues:string[]}. Pass ONLY if every claim is supported in context, each locator identifies its actual source passage, Catholic teaching matches the Catechism, historical claims are evidenced, interpretations are clearly labelled, summary and title are supported, objections are accurate and respectfully attributed, and each quiz has exactly one correct answer supported by its explanation claims.
       Fail on invented citations, false attributions, doctrinal contradictions, misleading historical certainty, ambiguous quiz options, or unsupported factual assertions. Automated checking is not human or ecclesiastical approval.
       Pack: ${JSON.stringify(pack)}\nSources: ${JSON.stringify(sources)}`);

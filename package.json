@@ -29,23 +29,24 @@
     "audit:production": "npm audit --omit=dev --audit-level=moderate",
     "audit:high": "npm audit --audit-level=high",
     "audit:all": "npm audit --audit-level=moderate",
-    "agent:migrate": "node scripts/content-agent-migrate.mjs"
+    "agent:migrate": "node scripts/content-agent-migrate.mjs",
+    "agent:worker": "node --import tsx scripts/content-agent-worker.ts"
   },
   "dependencies": {
-    "@capacitor/android": "^7.4.3",
-    "@capacitor/core": "^7.4.3",
+    "@capacitor/android": "7.6.9",
+    "@capacitor/core": "7.6.9",
     "@capacitor/haptics": "^7.0.2",
     "@capacitor/preferences": "^7.0.2",
     "@capacitor/splash-screen": "^7.0.2",
     "framer-motion": "^12.40.0",
     "mysql2": "^3.15.3",
-    "next": "16.3.2",
+    "next": "16.3.8",
     "pg": "^8.22.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
   "devDependencies": {
-    "@capacitor/cli": "^7.4.3",
+    "@capacitor/cli": "7.6.9",
     "@playwright/test": "1.61.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
@@ -57,14 +58,17 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.0.3",
     "eslint": "^9",
-    "eslint-config-next": "16.3.2",
+    "eslint-config-next": "16.3.8",
     "jsdom": "^29.1.1",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "fast-glob": "file:tooling/eslint-safe-glob",
+    "tsx": "4.23.15"
   },
   "overrides": {
-    "sharp": "0.35.3",
-    "nanoid": "3.3.18"
+    "sharp": "0.35.5",
+    "nanoid": "3.3.18",
+    "fast-glob": "$fast-glob"
   }
 }

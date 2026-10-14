@@ -10,6 +10,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   research:
+    if: github.event_name == 'workflow_dispatch' || vars.CONTENT_AGENT_SCHEDULE_ENABLED == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
