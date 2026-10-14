@@ -1,8 +1,9 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
 vi.mock("@/lib/server/agent/runner", () => ({ runAgent: vi.fn() }));
 import { runAgent } from "@/lib/server/agent/runner";
 import { POST, validAgentToken } from "./route";
+beforeEach(() => vi.stubEnv("CONTENT_AGENT_PROVIDER", "api"));
 afterEach(() => { vi.resetAllMocks(); vi.unstubAllEnvs(); });
 describe("scheduler authentication", () => {
   it("fails closed for unset, short, wrong and non-bearer secrets", () => {

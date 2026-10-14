@@ -3,7 +3,7 @@ import { modelCall, retrieve } from "./provider";
 import { claimJob, stage, finish, fail } from "./repository";
 
 export type AgentProvider = "api" | "codex";
-export function agentConfiguration(provider: AgentProvider = process.env.CONTENT_AGENT_PROVIDER === "codex" ? "codex" : "api") {
+export function agentConfiguration(provider: AgentProvider = process.env.CONTENT_AGENT_PROVIDER === "api" ? "api" : "codex") {
   const required = provider === "codex" ? ["LEARNING_DATABASE_URL"] : ["OPENAI_API_KEY", "LEARNING_DATABASE_URL", "CONTENT_AGENT_CRON_SECRET"];
   const missing = required.filter(key => !process.env[key]?.trim());
   if (provider === "api" && (process.env.CONTENT_AGENT_CRON_SECRET || "").length < 32 && !missing.includes("CONTENT_AGENT_CRON_SECRET")) missing.push("CONTENT_AGENT_CRON_SECRET (minimum 32 characters)");
@@ -13,6 +13,7 @@ export function agentConfiguration(provider: AgentProvider = process.env.CONTENT
   return { enabled: process.env.CONTENT_AGENT_ENABLED !== "false", configured: missing.length === 0, missing, dailyLimit, model, provider };
 }
 export async function runAgent(options: { privateCodexWorker?: boolean; modelCall?: typeof modelCall } = {}) {
+  if (!options.privateCodexWorker && process.env.CONTENT_AGENT_PROVIDER !== "api") return { status: "external_worker", reason: "Processing runs on the private signed-in Codex worker." };
   const config = agentConfiguration(options.privateCodexWorker ? "codex" : "api");
   if (!config.enabled) return { status: "disabled" };
   if (!config.configured) throw new Error("Agent configuration is incomplete");

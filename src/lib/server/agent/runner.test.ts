@@ -5,7 +5,7 @@ vi.mock("./repository", () => ({ claimJob: vi.fn(), stage: vi.fn(), finish: vi.f
 import { modelCall, retrieve } from "./provider";
 import { claimJob, finish, fail } from "./repository";
 import { agentConfiguration, runAgent } from "./runner";
-beforeEach(() => { vi.resetAllMocks(); vi.stubEnv("OPENAI_API_KEY", "fixture-key"); vi.stubEnv("LEARNING_DATABASE_URL", "postgres://fixture"); vi.stubEnv("CONTENT_AGENT_CRON_SECRET", "x".repeat(32));
+beforeEach(() => { vi.resetAllMocks(); vi.stubEnv("CONTENT_AGENT_PROVIDER", "api"); vi.stubEnv("OPENAI_API_KEY", "fixture-key"); vi.stubEnv("LEARNING_DATABASE_URL", "postgres://fixture"); vi.stubEnv("CONTENT_AGENT_CRON_SECRET", "x".repeat(32));
   vi.mocked(claimJob).mockResolvedValue({id:"job",topic:"Faith",pillar:"creed",runId:"run",leaseToken:"lease"});
 });
 afterEach(() => vi.unstubAllEnvs());
