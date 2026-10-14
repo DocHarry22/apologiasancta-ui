@@ -16,6 +16,7 @@ const NAV_ITEMS = [
   { id: "review", label: "Review", path: "/review", icon: "V" },
   { id: "topics", label: "Topics", path: "/topics", icon: "=" },
   { id: "learning", label: "Learning CMS", path: "/learning", icon: "L" },
+  { id: "agent", label: "Research Agent", path: "/agent", icon: "A" },
   { id: "knowledge", label: "Knowledge Foundry", path: "/knowledge", icon: "K" },
   { id: "audit", label: "Audit", path: "/audit", icon: "!" },
   { id: "notifications", label: "Notifications", path: "/notifications", icon: "•" },
@@ -44,7 +45,7 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
       </div>
 
       <nav className="flex-1 overflow-y-auto py-2" aria-label="Admin navigation">
-        {NAV_ITEMS.map((item) => {
+        {NAV_ITEMS.filter(item => item.id !== "agent" || basePath === "/admin").map((item) => {
           const href = `${basePath}${item.path}`;
           return (
             <Link

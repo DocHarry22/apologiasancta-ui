@@ -28,7 +28,8 @@
     "content:lint": "vitest run src/lib/learning/governance.test.ts",
     "audit:production": "npm audit --omit=dev --audit-level=moderate",
     "audit:high": "npm audit --audit-level=high",
-    "audit:all": "npm audit --audit-level=moderate"
+    "audit:all": "npm audit --audit-level=moderate",
+    "agent:migrate": "node scripts/content-agent-migrate.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.3",
