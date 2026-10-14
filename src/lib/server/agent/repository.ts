@@ -53,11 +53,11 @@ export async function finish(job: NonNullable<Awaited<ReturnType<typeof claimJob
     return result.rows[0].id;
   });
 }
-export async function fail(job: NonNullable<Awaited<ReturnType<typeof claimJob>>>, report: Record<string, unknown>, usage: unknown[]) {
+export async function fail(job: NonNullable<Awaited<ReturnType<typeof claimJob>>>, report: Record<string, unknown>, usage: unknown[], infrastructure = false) {
   await withLearningTransaction(async client => {
     const owner = await client.query("select id from apologia_agent.jobs where id=$1 and lease_token=$2 and status='running' for update", [job.id, job.leaseToken]);
     if (!owner.rowCount) return;
-    await client.query("update apologia_agent.jobs set status=case when attempts>=3 then 'blocked' else 'queued' end,available_at=now()+interval '2 hours',lease_until=null,lease_token=null where id=$1", [job.id]);
+    await client.query("update apologia_agent.jobs set status=case when $2 then 'queued' when attempts>=3 then 'blocked' else 'queued' end,attempts=case when $2 then greatest(attempts-1,0) else attempts end,available_at=now()+interval '2 hours',lease_until=null,lease_token=null where id=$1", [job.id, infrastructure]);
     await client.query("update apologia_agent.runs set status='failed',finished_at=now(),report=$2::jsonb,usage=$3::jsonb where id=$1", [job.runId, JSON.stringify(report), JSON.stringify(usage)]);
   });
 }

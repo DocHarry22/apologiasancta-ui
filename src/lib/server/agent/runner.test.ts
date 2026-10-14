@@ -22,8 +22,13 @@ describe("autonomous pipeline", () => {
     generated(); vi.stubEnv("OPENAI_API_KEY", ""); vi.stubEnv("CONTENT_AGENT_CRON_SECRET", "");
     expect(await runAgent({privateCodexWorker:true,modelCall})).toMatchObject({status:"completed"});
   });
-  it("retries failed audits without publishing", async () => { generated(false); expect(await runAgent()).toMatchObject({status:"failed"}); expect(finish).not.toHaveBeenCalled(); expect(fail).toHaveBeenCalledWith(expect.anything(),expect.objectContaining({reviewIssues:["Unsupported claim"]}),expect.anything()); });
+  it("retries failed audits without publishing", async () => { generated(false); expect(await runAgent()).toMatchObject({status:"failed"}); expect(finish).not.toHaveBeenCalled(); expect(fail).toHaveBeenCalledWith(expect.anything(),expect.objectContaining({reviewIssues:["Unsupported claim"]}),expect.anything(),false); });
   it("does not generate content if primary sources cannot be retrieved", async () => { vi.mocked(modelCall).mockResolvedValue({value:null,urls:[sources[0].url],usage:{}}); vi.mocked(retrieve).mockResolvedValue(sources[0]); expect(await runAgent()).toMatchObject({status:"failed"}); expect(modelCall).toHaveBeenCalledTimes(1); expect(finish).not.toHaveBeenCalled(); });
+  it("does not permanently block topics when subscription connectivity fails", async () => {
+    vi.mocked(modelCall).mockRejectedValue(new Error("Agent Codex request timed out"));
+    expect(await runAgent()).toMatchObject({status:"failed"});
+    expect(fail).toHaveBeenCalledWith(expect.anything(),expect.objectContaining({nextAction:expect.stringContaining("do not permanently block")}),expect.anything(),true);
+  });
   it("does no paid work when a budget reservation is unavailable", async () => { vi.mocked(claimJob).mockResolvedValue(null); expect(await runAgent()).toMatchObject({status:"idle"}); expect(modelCall).not.toHaveBeenCalled(); });
   it("respects a deployment pause", async () => { vi.stubEnv("CONTENT_AGENT_ENABLED", "false"); expect(await runAgent()).toEqual({status:"disabled"}); expect(claimJob).not.toHaveBeenCalled(); });
   it("bounds requested daily work", () => { vi.stubEnv("CONTENT_AGENT_DAILY_LIMIT", "10000"); expect(agentConfiguration().dailyLimit).toBe(24); });

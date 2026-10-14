@@ -77,7 +77,10 @@ export async function runAgent(options: { privateCodexWorker?: boolean; modelCal
     // Never store upstream response bodies, credentials, or database errors.
     const safe = error instanceof Error && /^(Agent model|Source|Search did|Quotation|Content did|Invalid|Unknown|Every claim|Catechism|Catholic teaching)/.test(error.message)
       ? error.message.slice(0, 250) : "Agent run failed; check deployment connectivity and configuration.";
-    await fail(job, { ...report, error: safe, nextAction: "Retry automatically in two hours; block this topic after three failed attempts and continue with other topics." }, usage);
+    const infrastructure = error instanceof Error && /^Agent (Codex|model)/i.test(error.message);
+    await fail(job, { ...report, error: safe, nextAction: infrastructure
+      ? "Retry automatically in two hours within the daily cap. Provider availability failures do not permanently block the topic."
+      : "Retry automatically in two hours; block this topic after three failed content checks and continue with other topics." }, usage, infrastructure);
     return { status: "failed", runId: job.runId };
   }
 }

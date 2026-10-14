@@ -35,6 +35,11 @@ suite("agent PostgreSQL acceptance", () => {
     expect((await learningQuery("select status from apologia_agent.jobs where id=$1", [first.id])).rows[0].status).toBe("blocked");
     expect((await claimJob(6))?.topic).toBe("Faith and reason");
   });
+  it("keeps provider-outage failures retryable without consuming content attempts", async () => {
+    const job = (await claimJob(6))!; await fail(job,{error:"provider outage"},[],true);
+    const row = (await learningQuery("select status,attempts from apologia_agent.jobs where id=$1",[job.id])).rows[0];
+    expect(row.status).toBe("queued"); expect(row.attempts).toBe(0);
+  });
   it("protects all private agent tables with RLS and revokes public schema access", async () => {
     expect((await learningQuery("select count(*)::int as count from pg_tables where schemaname='apologia_agent' and rowsecurity")).rows[0].count).toBe(3);
     expect((await learningQuery("select has_schema_privilege('public','apologia_agent','usage') as allowed")).rows[0].allowed).toBe(false);
