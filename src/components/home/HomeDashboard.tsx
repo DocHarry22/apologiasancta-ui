@@ -34,32 +34,61 @@ type OfficialProgress = {
   lessons?: Array<{ lessonId?: string; state?: string; status?: string; readingProgressPercent?: number; progressPercent?: number }>;
 };
 
-function useLiveRoom() {
+export function useLiveRoom() {
   const [room, setRoom] = useState<RoomSummary | null>(null);
   const [state, setState] = useState<LiveState | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "unavailable">("loading");
 
   useEffect(() => {
     const engine = getEngineUrl();
-    if (!engine) { setStatus("unavailable"); return; }
+    if (!engine) {
+      setStatus("unavailable");
+      return;
+    }
+
     const controller = new AbortController();
-    (async () => {
+    let refreshing = false;
+    // A dashboard that only fetches once can advertise yesterday's quiz phase
+    // indefinitely. Polling is bounded and skips overlapping requests.
+    const refresh = async () => {
+      if (refreshing || controller.signal.aborted) return;
+      refreshing = true;
       try {
         const roomsResponse = await fetch(`${engine}/rooms`, { cache: "no-store", signal: controller.signal });
         if (!roomsResponse.ok) throw new Error("rooms unavailable");
         const roomsPayload = await roomsResponse.json() as { rooms?: RoomSummary[] };
-        const openRoom = roomsPayload.rooms?.find((item) => item.isActive) ?? roomsPayload.rooms?.[0] ?? null;
-        setRoom(openRoom);
-        if (openRoom) {
-          const stateResponse = await fetch(`${engine}/state?roomId=${encodeURIComponent(openRoom.roomId)}`, { cache: "no-store", signal: controller.signal });
-          if (stateResponse.ok) setState(await stateResponse.json() as LiveState);
+        const activeRoom = roomsPayload.rooms?.find(item => item.isActive) ?? roomsPayload.rooms?.[0] ?? null;
+        let nextState: LiveState | null = null;
+        if (activeRoom) {
+          const response = await fetch(`${engine}/state?roomId=${encodeURIComponent(activeRoom.roomId)}`, {
+            cache: "no-store",
+            signal: controller.signal,
+          });
+          if (!response.ok) throw new Error("quiz state unavailable");
+          nextState = await response.json() as LiveState;
         }
-        setStatus("ready");
+        if (!controller.signal.aborted) {
+          setRoom(activeRoom);
+          setState(nextState);
+          setStatus("ready");
+        }
       } catch (error) {
-        if ((error as Error).name !== "AbortError") setStatus("unavailable");
+        if (!controller.signal.aborted && (error as Error).name !== "AbortError") {
+          setRoom(null);
+          setState(null);
+          setStatus("unavailable");
+        }
+      } finally {
+        refreshing = false;
       }
-    })();
-    return () => controller.abort();
+    };
+
+    void refresh();
+    const interval = window.setInterval(() => void refresh(), 15_000);
+    return () => {
+      window.clearInterval(interval);
+      controller.abort();
+    };
   }, []);
 
   return { room, state, status };
@@ -89,7 +118,11 @@ function LiveQuizStrip() {
     const timer = window.setInterval(updateClock, 1000);
     return () => window.clearInterval(timer);
   }, []);
-  const liveNow = Boolean(state && clockMs > 0 && state.endsAtMs > clockMs);
+  const liveNow = Boolean(state?.phase === "OPEN" && clockMs > 0 && state.endsAtMs > clockMs);
+  const roundStatus = state?.phase === "LOCKED" ? "Answers locked"
+    : state?.phase === "REVEAL" ? "Answer reveal"
+    : liveNow && state ? `Round ${state.questionIndex + 1} of ${state.totalQuestions}`
+    : room ? "Waiting for the next timed question." : "You can retry from the live quiz screen.";
   const leaders = state?.leaderboard?.topScorers?.slice(0, 3) ?? [];
 
   return (
@@ -97,7 +130,7 @@ function LiveQuizStrip() {
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
           <StatusBadge tone={liveNow ? "success" : status === "unavailable" ? "danger" : "info"}>
-            <span aria-hidden="true">●</span>{liveNow ? "Live now" : status === "loading" ? "Checking room" : status === "unavailable" ? "Engine unavailable" : "Room open"}
+            <span aria-hidden="true">●</span>{liveNow ? "Live now" : status === "loading" ? "Checking room" : status === "unavailable" ? "Engine unavailable" : state?.phase === "LOCKED" ? "Answers locked" : state?.phase === "REVEAL" ? "Revealing" : "Room open"}
           </StatusBadge>
           {room ? <span className="text-xs text-(--text-muted)">{room.playerCount} {room.playerCount === 1 ? "player" : "players"}</span> : null}
         </div>
@@ -105,7 +138,7 @@ function LiveQuizStrip() {
           {state?.themeTitle || room?.name || (status === "unavailable" ? "Live quiz is temporarily offline" : "Waiting for room details")}
         </h2>
         <p className="mt-1 text-sm text-(--text-muted)">
-          {liveNow && state ? `Round ${state.questionIndex + 1} of ${state.totalQuestions}` : room ? "The room is open; the host has not started a timed question." : "You can retry from the live quiz screen."}
+          {roundStatus}
         </p>
       </div>
       <div className="border-(--border) lg:border-l lg:pl-5">
