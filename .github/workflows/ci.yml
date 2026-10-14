@@ -102,6 +102,11 @@ jobs:
         env:
           EDITORIAL_ACCEPTANCE_DATABASE_URL: postgresql://apologia:acceptance-postgres-password@127.0.0.1:5432/apologia_editorial_acceptance
 
+      - name: PostgreSQL agent acceptance
+        run: npx vitest run src/lib/server/agent/repository.database.test.ts
+        env:
+          AGENT_ACCEPTANCE_DATABASE_URL: postgresql://apologia:acceptance-postgres-password@127.0.0.1:5432/apologia_editorial_acceptance
+
       - name: MySQL editorial acceptance
         run: npm run test:editorial-database
         env:

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 const modes = [
+  { href: "/research/agent", label: "AI studies", id: "agent" },
   { href: "/research", label: "Constellations", id: "constellations" },
   { href: "/research/timeline", label: "Timeline", id: "timeline" },
   { href: "/research/compare", label: "Compare", id: "compare" },
@@ -8,7 +9,7 @@ const modes = [
   { href: "/research/journeys", label: "Saved", id: "saved" },
 ] as const;
 
-export function ResearchModeNav({ current }: { current: "constellations" | "timeline" | "compare" | "debate" | "saved" }) {
+export function ResearchModeNav({ current }: { current: "constellations" | "timeline" | "compare" | "debate" | "saved" | "agent" }) {
   return (
     <nav aria-label="Research modes" className="flex flex-wrap gap-2">
       {modes.map((mode) => {
