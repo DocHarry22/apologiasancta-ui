@@ -1,0 +1,170 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> apologiasancta-ui@1.0.0 test
+> node --test --experimental-strip-types tests/phase3.test.ts tests/phase3-security.test.ts tests/phase4a.test.ts tests/answer-submission.test.ts tests/auth-integrity.test.ts tests/operational-platform.test.ts tests/unified-redesign.test.ts tests/android-workflows.test.ts tests/knowledge-engine-platform.test.ts tests/advanced-knowledge-experiences.test.ts tests/adaptive-mastery-journeys.test.ts tests/phase3-curriculum-blueprint.test.mjs tests/phase4-content-production.test.mjs src/lib/batchImportUtils.test.ts
+
+(node:49) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspace/scratch/15e2950956ce/apologiasancta-ui/src/lib/batchImportUtils.test.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /workspace/scratch/15e2950956ce/apologiasancta-ui/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+--- parseInput tests ---
+
+✓ parseInput: empty string returns error
+✓ parseInput: whitespace-only returns error
+✓ parseInput: invalid JSON returns parse error
+✓ parseInput: empty array returns ok with empty questions
+✓ parseInput: array of questions returns ok
+✓ parseInput: object with questions array returns ok
+✓ parseInput: object with topicId + questions extracts topicId
+✓ parseInput: single question object wraps in array
+✓ parseInput: object without questions or id returns error
+
+--- validateQuestion tests ---
+
+✓ validateQuestion: valid question passes
+✓ validateQuestion: missing id fails
+✓ validateQuestion: missing topicId fails (without fallback)
+✓ validateQuestion: missing topicId passes with fallback
+✓ validateQuestion: missing question text fails
+✓ validateQuestion: missing choice A fails
+✓ validateQuestion: invalid correctId fails
+✓ validateQuestion: missing teaching.title fails
+✓ validateQuestion: missing teaching.body fails
+✓ validateQuestion: difficulty as string 'easy'/'medium'/'hard' passes
+✓ validateQuestion: invalid difficulty fails
+✓ validateQuestion: tags as non-array fails
+
+--- validateBatch tests ---
+
+✓ validateBatch: all valid questions pass
+✓ validateBatch: mixed valid/invalid separates correctly
+✓ validateBatch: applies fallback topicId
+
+--- normalizeQuestions tests ---
+
+✓ normalizeQuestions: trims string fields
+✓ normalizeQuestions: converts comma-separated refs to array
+✓ normalizeQuestions: converts comma-separated tags to array
+
+--- Summary ---
+
+Passed: 27
+Failed: 0
+✔ src/lib/batchImportUtils.test.ts (170.20764ms)
+(node:50) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspace/scratch/15e2950956ce/apologiasancta-ui/tests/adaptive-mastery-journeys.test.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /workspace/scratch/15e2950956ce/apologiasancta-ui/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ adaptive recommendations require real server-scored concept evidence (0.930839ms)
+✔ saved journeys store canonical identifiers with owner RLS and no anonymous table access (0.564809ms)
+✔ shared journeys are token-gated and never expose private rows (0.17288ms)
+✔ research modes persist bounded canonical paths through same-origin learner APIs (0.504148ms)
+(node:56) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspace/scratch/15e2950956ce/apologiasancta-ui/tests/advanced-knowledge-experiences.test.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /workspace/scratch/15e2950956ce/apologiasancta-ui/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ advanced public Knowledge routes remain read-only, canonical, and bounded (1.175668ms)
+✔ Timeline explicitly excludes invented chronology (0.228444ms)
+✔ Compare and Debate disclose their stored published relationship boundary (0.192059ms)
+✔ Knowledge Foundry admin bridge keeps credentials server-side and enforces normal web controls (0.207932ms)
+✔ authoring assistance stays proposal-only and acceptance requires governed draft revisions (0.255754ms)
+(node:62) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspace/scratch/15e2950956ce/apologiasancta-ui/tests/android-workflows.test.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /workspace/scratch/15e2950956ce/apologiasancta-ui/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Android debug CI validates an API 36 APK without secrets (2.337364ms)
+✔ Android native project targets Android 16 with a compatible build toolchain (0.205889ms)
+✔ public distribution uses canonical assets and only persistent signing (0.365299ms)
+✔ signed release builds are gated by every required secret (0.517608ms)
+✔ signed release requires jarsigner to positively verify the AAB (0.36598ms)
+✔ release app enforces HTTPS transport and excludes Android backup (0.216395ms)
+✔ local release task produces both signed APK and Play Store AAB (0.401413ms)
+✔ Capacitor Java 21 compatibility is not downgraded in Gradle (4.103279ms)
+✔ display-cutout styling is limited to Android API 28 and newer (2.635222ms)
+✔ public APK sync rejects debug-signed build artifacts (0.210947ms)
+✔ Android release identity rejects absent, invalid, reused and decreasing versions (0.682977ms)
+(node:63) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspace/scratch/15e2950956ce/apologiasancta-ui/tests/answer-submission.test.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /workspace/scratch/15e2950956ce/apologiasancta-ui/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ local answer guard requires an open phase and an unexpired deadline (3.043165ms)
+✔ answer rejection reasons produce actionable player feedback (2.209752ms)
+(node:68) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspace/scratch/15e2950956ce/apologiasancta-ui/tests/auth-integrity.test.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /workspace/scratch/15e2950956ce/apologiasancta-ui/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ admin database configuration selects PostgreSQL and MySQL explicitly (1.278381ms)
+✔ database diagnostics report only source, dialect, and missing variable names (1.003098ms)
+✔ PostgreSQL query placeholders are numbered in parameter order (0.199991ms)
+✔ production auth readiness requires both a session secret and durable user storage (0.433642ms)
+✔ session secrets and signed claims are bounded (11.359796ms)
+✔ login and signup limits are independent and signup success cannot clear login attempts (3.443828ms)
+✔ proxy-aware client IP selection prefers the trusted real-IP header (1.354576ms)
+(node:70) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspace/scratch/15e2950956ce/apologiasancta-ui/tests/knowledge-engine-platform.test.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /workspace/scratch/15e2950956ce/apologiasancta-ui/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Knowledge Engine proxy remains same-origin, read-only, and bounded (1.55003ms)
+✔ platform bridge persists lesson/question mappings and learner mastery evidence (0.249435ms)
+✔ learner node mastery is derived server-side from stored submitted assessment evidence (0.351228ms)
+✔ Research page consumes canonical published topics and deep-links the Galaxy by focus node (0.23253ms)
+(node:105) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspace/scratch/15e2950956ce/apologiasancta-ui/tests/operational-platform.test.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /workspace/scratch/15e2950956ce/apologiasancta-ui/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ learning path is ordered, sourced, and connected to practice (2.738356ms)
+✔ device learning progress is resilient and monotonic (1.847247ms)
+✔ every published question explanation has at least one source reference (139.359596ms)
+✔ live answer client sends its room join token (1.212783ms)
+✔ account database drivers remain visible to the production bundle tracer (0.758721ms)
+✔ Phase 3 blueprint has complete hierarchy and passes schema and graph validation (136.206961ms)
+✔ every major curriculum entity remains draft and unpublished (34.776754ms)
+✔ Bible-book tracks are independent after the Scripture and Canon gateway (37.546032ms)
+✔ generated draft import package exactly matches the manifest (102.46315ms)
+(node:112) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspace/scratch/15e2950956ce/apologiasancta-ui/tests/phase3-security.test.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /workspace/scratch/15e2950956ce/apologiasancta-ui/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ browser admin clients do not send x-admin-token (5.96019ms)
+✔ staff invite codes use constant-time digest comparison (0.259911ms)
+(node:119) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspace/scratch/15e2950956ce/apologiasancta-ui/tests/phase3.test.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /workspace/scratch/15e2950956ce/apologiasancta-ui/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ role permission helpers enforce dashboard boundaries (1.564612ms)
+✔ question validation catches blocking content issues (0.78489ms)
+✔ workflow status transitions allow review flow and reject invalid jumps (0.863007ms)
+✔ authoring helpers allocate stable question IDs and detect unsaved content (0.484468ms)
+✔ topic and sequence utilities validate operational input (1.674277ms)
+✔ dangerous actions require typed confirmation when configured (0.285609ms)
+✔ Phase 4 mobile UX helpers classify onboarding, rooms, phases, and answer locks (0.469406ms)
+✔ saved quiz identities survive room switches and transient verification failures (0.226591ms)
+✔ Phase 4 records every Phase 3 lesson without pretending production is complete (0.669867ms)
+✔ Catholic Foundations has ten complete, safe, unpublished structured lesson drafts (0.340872ms)
+✔ every cited source resolves to the verified source catalog (1.283049ms)
+✔ review submission is local, unassigned, and cannot publish (1.160004ms)
+(node:138) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspace/scratch/15e2950956ce/apologiasancta-ui/tests/phase4a.test.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /workspace/scratch/15e2950956ce/apologiasancta-ui/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ workflow store implements durable create, list, transitions, and publish validation (1.631693ms)
+✔ audit store appends, filters, and redacts sensitive metadata (0.296736ms)
+✔ Phase 4A browser code does not reintroduce browser-side admin tokens or local workflow authority (3.813443ms)
+✔ workflow and audit routes enforce session, permissions, CSRF, and audit writes (0.473792ms)
+(node:156) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspace/scratch/15e2950956ce/apologiasancta-ui/tests/unified-redesign.test.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /workspace/scratch/15e2950956ce/apologiasancta-ui/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ theme bootstrap runs before the app and semantic tokens cover both themes (7.138361ms)
+✔ public routes use the shared shell and expose the required destinations (3.327662ms)
+✔ Graph links and UI-to-Engine secret naming follow the production contract (2.105055ms)
+✔ live registration remains compatible during the signed-token rollout (3.727663ms)
+ℹ tests 65
+ℹ suites 0
+ℹ pass 65
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 601.680604

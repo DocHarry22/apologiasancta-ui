@@ -1,6 +1,6 @@
 # Apologia Sancta — Google Play Release Runbook
 
-Last updated: 24 August 2026
+Last updated: 16 October 2026
 
 ## Release identity
 
@@ -25,7 +25,7 @@ The signed Android release workflow must pass all of these before an artifact is
 1. Java 21 and the pinned Gradle/Android Gradle Plugin toolchain.
 2. Android SDK platform 36 is installed.
 3. Capacitor production sync succeeds with an HTTPS production application URL.
-4. All four release-signing secrets are present.
+4. All four release-signing secrets are present, and `ANDROID_SIGNING_CERT_SHA256` pins the trusted signing certificate.
 5. `lintRelease` succeeds.
 6. Both `assembleRelease` and `bundleRelease` succeed.
 7. The APK reports `targetSdkVersion:'36'`.
@@ -45,6 +45,8 @@ Repository secrets required by **Android signed release**:
 
 Repository variables recommended:
 
+- `ANDROID_SIGNING_CERT_SHA256` — required 64-character hex SHA-256 signing certificate fingerprint, obtained from the existing trusted release APK with `apksigner verify --print-certs`.
+- `ANDROID_VERSION_CODE` — required for tag-triggered builds; use a value greater than the previously published APK.
 - `ANDROID_APP_URL` — canonical production HTTPS URL used by the Capacitor app.
 - `ANDROID_ENGINE_URL` — production quiz/engine URL.
 - `ANDROID_GRAPH_URL` — production Apologia Graph URL.
@@ -138,3 +140,11 @@ Before promoting an AAB from testing to production, verify on real or Play-manag
 ## Release decision
 
 A release is Play-ready only when repository CI is green **and** the Play Console has no blocking policy, app-content, signing, device-compatibility, or pre-launch findings. Source-code readiness alone is not a substitute for the store's own review gates.
+
+## Upgrade continuity gate
+
+Only `android-release.yml` publishes Android packages. The former one-time workflow that generated and deleted an ephemeral distribution key has been removed. Release builds require explicit version codes and names; the publish workflow checks that the previous public APK uses the same signing certificate and a lower version code. It refuses to replace assets on an existing tag.
+
+If an installed release was signed with a lost ephemeral key, the application cannot be replaced in place using a newly generated key. Recover the original distribution signing key or resolve a migration plan before another direct APK release. Do not change the application ID to evade that check: this would create a separate installed app. Play App Signing can use a different app signing certificate from the CI upload key; cross-store APK upgrades require deliberate certificate alignment.
+
+References: https://developer.android.com/studio/publish/app-signing and https://developer.android.com/studio/publish/versioning

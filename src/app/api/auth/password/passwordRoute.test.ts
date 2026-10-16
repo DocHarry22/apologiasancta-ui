@@ -28,6 +28,27 @@ describe("password route", () => {
     await resetAuthInviteSettingsForTests();
   });
 
+  it("rejects oversized password changes without locking the account out", async () => {
+    const loginResponse = await login(postLogin({ email: "admin@example.test", password: "test-author-password" }));
+    const { session, csrf } = cookieValues(loginResponse.headers.get("set-cookie") ?? "");
+    const oversizedPassword = "x".repeat(257);
+    const response = await passwordPatch(new NextRequest("https://ui.test/api/auth/password", {
+      method: "PATCH",
+      headers: {
+        cookie: `${SESSION_COOKIE_NAME}=${session}`,
+        "x-csrf-token": csrf,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        currentPassword: "test-author-password",
+        newPassword: oversizedPassword,
+        confirmPassword: oversizedPassword,
+      }),
+    }));
+    expect(response.status).toBe(400);
+    expect((await login(postLogin({ email: "admin@example.test", password: "test-author-password" }))).status).toBe(200);
+  });
+
   it("rejects wrong current password", async () => {
     const loginResponse = await login(postLogin({ email: "admin@example.test", password: "test-author-password" }));
     const { session, csrf } = cookieValues(loginResponse.headers.get("set-cookie") ?? "");

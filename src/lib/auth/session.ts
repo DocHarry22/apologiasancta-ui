@@ -89,7 +89,13 @@ export function hasStrongSessionSecret(secret: string | undefined = process.env.
 }
 
 export function hasSessionSecret(secret: string | undefined = process.env.AUTHOR_SESSION_SECRET): secret is string {
-  return typeof secret === "string" && secret.length > 0;
+  return isSessionSecretConfigured(secret, process.env.NODE_ENV);
+}
+
+export function isSessionSecretConfigured(secret: string | undefined, nodeEnv: string | undefined): secret is string {
+  return nodeEnv === "production"
+    ? typeof secret === "string" && hasStrongSessionSecret(secret.trim())
+    : typeof secret === "string" && secret.trim().length > 0;
 }
 
 export async function createSessionCookie(userId: string): Promise<string> {

@@ -4,6 +4,7 @@ import {
   type AdminDatabaseDialect,
   type AdminDatabaseSource,
 } from "./databaseConfig";
+import { isSessionSecretConfigured } from "./session";
 
 export const AUTH_UNAVAILABLE_CODE = "auth_unavailable";
 export const AUTH_RETRY_AFTER_SECONDS = 300;
@@ -29,7 +30,7 @@ export interface AdminAuthConfigurationReport extends AdminAuthReadiness {
 export function getAdminAuthReadiness(
   environment: AuthEnvironment = process.env
 ): AdminAuthReadiness {
-  const sessionConfigured = Boolean(environment.AUTHOR_SESSION_SECRET?.trim());
+  const sessionConfigured = isSessionSecretConfigured(environment.AUTHOR_SESSION_SECRET, environment.NODE_ENV);
   const userStoreConfigured = hasAdminUserStoreConfiguration(environment);
 
   return {

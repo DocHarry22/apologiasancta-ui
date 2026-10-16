@@ -75,26 +75,17 @@ test("Android native project targets Android 16 with a compatible build toolchai
   assert.match(rootGradle, /com\.android\.tools\.build:gradle:8\.13\.2/);
 });
 
-test("GitHub distribution publishes actual canonical filenames, not display labels", () => {
+test("public distribution uses canonical assets and only persistent signing", () => {
   const publicEnv = readFileSync(join(repositoryRoot, "src/lib/publicEnv.ts"), "utf8");
   assert.match(publicEnv, /releases\/latest\/download\/apologia-sancta\.apk/);
-  for (const extension of ["apk", "aab"]) {
-    assert.ok(debugWorkflow.includes(`install -m 0644 "$${extension}_path" "$artifact_dir/apologia-sancta.${extension}"`));
-    assert.ok(debugWorkflow.includes(`"$ARTIFACT_DIR/apologia-sancta.${extension}"`));
-  }
-  assert.doesNotMatch(debugWorkflow, /#apologia-sancta\.(apk|aab)/);
-  assert.match(debugWorkflow, /path: \$\{\{ steps\.release-artifacts\.outputs\.artifact_dir \}\}/);
-  assert.match(debugWorkflow, /sha256sum apologia-sancta\.apk apologia-sancta\.aab > SHA256SUMS/);
-});
-
-test("distribution reruns preserve existing releases and restrict publishing to main", () => {
-  assert.doesNotMatch(debugWorkflow, /gh release (delete|upload)/);
-  assert.match(debugWorkflow, /Refuse to replace an existing distribution release/);
-  assert.match(debugWorkflow, /github\.ref == 'refs\/heads\/main'/);
-  assert.match(debugWorkflow, /github\.event_name == 'push'/);
-  assert.match(debugWorkflow, /permissions:\s+contents: read/);
-  assert.match(debugWorkflow, /::add-mask::\$password/);
-  assert.match(debugWorkflow, /Remove ephemeral signing key\s+if: always\(\)/);
+  assert.match(releaseWorkflow, /apologia-sancta\.apk/);
+  assert.match(releaseWorkflow, /apologia-sancta\.aab/);
+  assert.doesNotMatch(debugWorkflow, /gh release|keytool -genkeypair|ephemeral/);
+  assert.doesNotMatch(releaseWorkflow, /--clobber|keytool -genkeypair|github\.run_number/);
+  assert.match(releaseWorkflow, /ANDROID_SIGNING_CERT_SHA256/);
+  assert.match(releaseWorkflow, /Signing certificate changed/);
+  assert.match(releaseWorkflow, /PREVIOUS_VERSION_CODE/);
+  assert.match(releaseWorkflow, /Preserve existing release assets/);
 });
 
 test("signed release builds are gated by every required secret", () => {
@@ -176,4 +167,21 @@ test("public APK sync rejects debug-signed build artifacts", () => {
   assert.match(apkSyncScript, /CN=Android Debug/);
   assert.match(apkSyncScript, /Refusing to publish an APK signed with the Android debug certificate/);
   assert.doesNotMatch(apkSyncScript, /outputs", "apk", "debug"/);
+});
+
+// Exercise release identity validation with real upgrade/downgrade values.
+const { createRequire } = await import("node:module");
+const { validateAndroidRelease } = createRequire(import.meta.url)("../scripts/validate-android-release.cjs");
+test("Android release identity rejects absent, invalid, reused and decreasing versions", () => {
+  for (const versionCode of [undefined, "", "0", "-1", "1.5", "2100000001", "9007199254740993"]) {
+    assert.throws(() => validateAndroidRelease({ versionCode, versionName: "1.0.4" }));
+  }
+  for (const versionName of [undefined, "", "android-v1.0.4", "1.0.4\nBAD"]) {
+    assert.throws(() => validateAndroidRelease({ versionCode: "4", versionName }));
+  }
+  for (const previousVersionCode of ["4", "5", "bad"]) {
+    assert.throws(() => validateAndroidRelease({ versionCode: "4", versionName: "1.0.4", previousVersionCode }));
+  }
+  assert.doesNotThrow(() => validateAndroidRelease({ versionCode: "4", versionName: "1.0.4", previousVersionCode: "3" }));
+  assert.doesNotThrow(() => validateAndroidRelease({ versionCode: "2100000000", versionName: "2.0.0-beta.1" }));
 });

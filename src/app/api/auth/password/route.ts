@@ -23,6 +23,10 @@ export async function PATCH(request: NextRequest) {
     return safeJson({ ok: false, error: "currentPassword, newPassword, and confirmPassword are required" }, 400);
   }
 
+  if (currentPassword.length > 256 || newPassword.length > 256 || confirmPassword.length > 256) {
+    return safeJson({ ok: false, error: "Passwords must not exceed 256 characters." }, 400);
+  }
+
   if (newPassword.length < 8) {
     return safeJson({ ok: false, error: "New password must be at least 8 characters." }, 400);
   }

@@ -1,0 +1,21 @@
+{
+  "package": "com.apologiasancta.live",
+  "versionCode": "3",
+  "versionName": "1.0.3",
+  "minSdk": "23",
+  "targetSdk": "36",
+  "permissions": [
+    "android.permission.VIBRATE",
+    "android.permission.INTERNET",
+    "com.apologiasancta.live.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+  ],
+  "signed_v1": true,
+  "signed_v2": true,
+  "signed_v3": false,
+  "certificates": [
+    {
+      "sha256": "E3 9C 17 C5 6D 53 64 A2 E7 4F 3C BE 67 CE 56 07 21 7A D7 10 9E 76 88 92 73 0F E3 F1 60 9A A2 2F",
+      "subject": "Common Name: Apologia Sancta, Organizational Unit: GitHub Distribution, Organization: Apologia Sancta, Locality: South Africa, Country: ZA"
+    }
+  ]
+}

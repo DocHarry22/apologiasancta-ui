@@ -12,6 +12,12 @@ gradle.taskGraph.whenReady { taskGraph ->
     def isReleaseBuild = taskGraph.allTasks.any { task ->
         task.name.toLowerCase().contains("release")
     }
+    if (isReleaseBuild && (!System.getenv("APP_VERSION_CODE") || !System.getenv("APP_VERSION_NAME"))) {
+        throw new RuntimeException("Release builds require explicit APP_VERSION_CODE and APP_VERSION_NAME to preserve update identity.")
+    }
+    if (isReleaseBuild && (releaseVersionCode < 1 || releaseVersionCode > 2100000000)) {
+        throw new RuntimeException("APP_VERSION_CODE must be between 1 and 2100000000.")
+    }
     if (isReleaseBuild && !hasReleaseSigning) {
         throw new RuntimeException("Release APK/AAB signing is required. Set APKSIGN_KEYSTORE, APKSIGN_KEYSTORE_PASSWORD, APKSIGN_KEY_ALIAS, and APKSIGN_KEY_PASSWORD.")
     }

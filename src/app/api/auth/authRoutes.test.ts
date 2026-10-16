@@ -46,6 +46,16 @@ describe("auth routes", () => {
     delete process.env.AUTH_DIAGNOSTICS_ENABLED;
   });
 
+  it("preserves password whitespace from signup through subsequent login", async () => {
+    const password = "  opaque passphrase  ";
+    const response = await signup(postSignup({
+      name: "Whitespace Learner", email: "spaces@example.test", password, confirmPassword: password,
+    }));
+    expect(response.status).toBe(200);
+    expect((await login(postLogin({ email: "spaces@example.test", password }))).status).toBe(200);
+    expect((await login(postLogin({ email: "spaces@example.test", password: password.trim() }))).status).toBe(401);
+  });
+
   it("login fails with missing credentials and wrong password", async () => {
     let response = await login(postLogin({}));
     expect(response.status).toBe(401);
