@@ -1,0 +1,10 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/15e2950956ce/apologiasancta-ui
+
+
+ Test Files  4 passed (4)
+      Tests  25 passed (25)
+   Start at  08:06:49
+   Duration  2.36s (transform 168ms, setup 206ms, import 251ms, tests 1.40s, environment 0ms)
+

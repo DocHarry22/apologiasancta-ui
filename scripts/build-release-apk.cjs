@@ -2,7 +2,7 @@
 const { chmodSync, existsSync } = require("node:fs");
 const { spawnSync } = require("node:child_process");
 const { join } = require("node:path");
-const pkg = require("../package.json");
+const { validateAndroidRelease } = require("./validate-android-release.cjs");
 const { syncLatestApk } = require("./sync-latest-apk.cjs");
 
 function run(command, args, options = {}) {
@@ -37,6 +37,8 @@ if (!process.env.APKSIGN_KEYSTORE || !process.env.APKSIGN_KEYSTORE_PASSWORD || !
   throw new Error("Release signing is required. Set APKSIGN_KEYSTORE, APKSIGN_KEYSTORE_PASSWORD, APKSIGN_KEY_ALIAS, and APKSIGN_KEY_PASSWORD.");
 }
 
+validateAndroidRelease({ versionCode: process.env.APP_VERSION_CODE, versionName: process.env.APP_VERSION_NAME });
+
 run("npx", ["cap", "sync", "android"]);
 
 const gradleCommand = process.platform === "win32" ? "gradlew.bat" : "./gradlew";
@@ -55,7 +57,7 @@ if (!existsSync(aabPath)) {
   throw new Error(`Expected Play Store AAB not found at ${aabPath}`);
 }
 
-const version = process.env.APP_VERSION_NAME || pkg.version;
+const version = process.env.APP_VERSION_NAME;
 syncLatestApk({ sourceApkPath: apkPath, version });
 
 console.log(`Signed Android release built successfully. Play Store bundle: ${aabPath}`);

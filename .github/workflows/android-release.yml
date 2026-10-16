@@ -8,8 +8,8 @@ on:
         required: true
         type: string
       version_code:
-        description: Positive Android versionCode; defaults to the workflow run number
-        required: false
+        description: Explicit, increasing Android versionCode (1 to 2100000000)
+        required: true
         type: string
       version_name:
         description: Android versionName, for example 1.0.1
@@ -32,7 +32,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: android-release-${{ github.ref }}
+  group: android-release
   cancel-in-progress: false
 
 jobs:
@@ -70,10 +70,8 @@ jobs:
               echo "Configure these GitHub Actions secrets before retrying:"
               printf -- '- `%s`\n' "${missing[@]}"
             } >> "$GITHUB_STEP_SUMMARY"
-            if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
-              echo "A tag-triggered Android release requires signing credentials." >&2
-              exit 1
-            fi
+            echo "Android release requires persistent signing credentials; no artifact was built." >&2
+            exit 1
           fi
 
   signed-release:
@@ -91,8 +89,9 @@ jobs:
       NEXT_PUBLIC_ENGINE_URL: ${{ vars.ANDROID_ENGINE_URL || 'https://apologiasancta-engine.onrender.com' }}
       NEXT_PUBLIC_RESEARCH_GRAPH_URL: ${{ vars.ANDROID_GRAPH_URL || 'https://mediumvioletred-kingfisher-797460.hostingersite.com' }}
       NEXT_PUBLIC_ANDROID_APK_URL: https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
-      APP_VERSION_CODE: ${{ inputs.version_code || github.run_number }}
+      APP_VERSION_CODE: ${{ inputs.version_code || vars.ANDROID_VERSION_CODE }}
       APP_VERSION_NAME: ${{ inputs.version_name || github.ref_name }}
+      ANDROID_SIGNING_CERT_SHA256: ${{ vars.ANDROID_SIGNING_CERT_SHA256 }}
       RELEASE_TAG: ${{ inputs.tag_name || github.ref_name }}
 
     steps:
@@ -130,14 +129,44 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          [[ "$APP_VERSION_CODE" =~ ^[1-9][0-9]*$ ]] || {
-            echo "version_code must be a positive integer." >&2
+          export APP_VERSION_NAME="${APP_VERSION_NAME#android-v}"
+          node scripts/validate-android-release.cjs
+          echo "APP_VERSION_NAME=$APP_VERSION_NAME" >> "$GITHUB_ENV"
+          [[ "$ANDROID_SIGNING_CERT_SHA256" =~ ^[0-9A-Fa-f]{64}$ ]] || {
+            echo "Set ANDROID_SIGNING_CERT_SHA256 to the trusted signing certificate SHA-256 (64 hex characters)." >&2
             exit 1
           }
-          [[ "$RELEASE_TAG" =~ ^android-v[0-9A-Za-z._-]+$ ]] || {
-            echo "tag_name must start with android-v and contain only letters, numbers, dots, underscores, or hyphens." >&2
+          [[ "$RELEASE_TAG" == "android-v$APP_VERSION_NAME" ]] || {
+            echo "Release tag must equal android-v followed by version_name." >&2
             exit 1
           }
+
+      - name: Preserve existing release assets
+        if: github.event_name == 'push' || inputs.publish_release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # A failed API call must not be mistaken for proof that a release is absent.
+          releases="$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases" --jq '.[].tag_name')"
+          if grep -Fxq "$RELEASE_TAG" <<< "$releases"; then
+            echo "Release already exists; use a new version rather than replacing signed assets." >&2
+            exit 1
+          fi
+
+      - name: Download previous public APK for upgrade continuity checks
+        if: github.event_name == 'push' || inputs.publish_release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          previous_tag="$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases" --jq '.[] | select(.draft == false and .prerelease == false) | select(any(.assets[]; .name == "apologia-sancta.apk")) | .tag_name' | sed -n '1p')"
+          if [[ -n "$previous_tag" ]]; then
+            mkdir -p "$RUNNER_TEMP/previous-android"
+            gh release download "$previous_tag" --pattern apologia-sancta.apk --dir "$RUNNER_TEMP/previous-android"
+          fi
 
       - name: Decode release keystore
         shell: bash
@@ -194,6 +223,26 @@ jobs:
             echo "Refusing to publish an APK signed with the Android debug certificate." >&2
             exit 1
           fi
+          actual_fingerprint="$(sed -n 's/^Signer #1 certificate SHA-256 digest: //p' <<< "$apk_verification")"
+          [[ "${actual_fingerprint,,}" == "${ANDROID_SIGNING_CERT_SHA256,,}" ]] || {
+            echo "APK certificate does not match the pinned persistent signing identity." >&2
+            exit 1
+          }
+          grep -Fq "name='com.apologiasancta.live'" <<< "$badging"
+          grep -Fq "versionCode='$APP_VERSION_CODE'" <<< "$badging"
+          grep -Fq "versionName='$APP_VERSION_NAME'" <<< "$badging"
+          previous_apk="$RUNNER_TEMP/previous-android/apologia-sancta.apk"
+          if [[ -f "$previous_apk" ]]; then
+            previous_verification="$("$sdk_root/build-tools/35.0.0/apksigner" verify --print-certs "$previous_apk")"
+            previous_fingerprint="$(sed -n 's/^Signer #1 certificate SHA-256 digest: //p' <<< "$previous_verification")"
+            [[ "${previous_fingerprint,,}" == "${actual_fingerprint,,}" ]] || {
+              echo "Signing certificate changed; existing users cannot upgrade in place. Recover the original key before publishing." >&2
+              exit 1
+            }
+            previous_badging="$("$sdk_root/build-tools/35.0.0/aapt2" dump badging "$previous_apk")"
+            export PREVIOUS_VERSION_CODE="$(sed -n "s/^package: .*versionCode='\\([^']*\\)'.*/\\1/p" <<< "$previous_badging")"
+            node scripts/validate-android-release.cjs
+          fi
           # Android upload keys are normally self-signed. `-strict` turns that
           # expected certificate-chain warning into exit code 4, so verify the
           # archive without strict trust checks and require jarsigner's positive
@@ -248,13 +297,9 @@ jobs:
         run: |
           set -euo pipefail
           mapfile -t files < <(find "$ARTIFACT_DIR" -maxdepth 1 -type f -print)
-          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            gh release upload "$RELEASE_TAG" "${files[@]}" --clobber
-          else
-            gh release create "$RELEASE_TAG" "${files[@]}" \
-              --title "Apologia Sancta Android $APP_VERSION_NAME" \
-              --target "$GITHUB_SHA"
-          fi
+          gh release create "$RELEASE_TAG" "${files[@]}" \
+            --title "Apologia Sancta Android $APP_VERSION_NAME" \
+            --target "$GITHUB_SHA"
 
       - name: Remove decoded keystore
         if: always()

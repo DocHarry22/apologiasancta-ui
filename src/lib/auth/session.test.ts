@@ -2,6 +2,18 @@ import { describe, expect, it, vi } from "vitest";
 import { createSessionCookie, verifySessionCookie } from "./session";
 
 describe("author session cookies", () => {
+  it("refuses to issue or accept production sessions signed with a weak secret", async () => {
+    vi.stubEnv("AUTHOR_SESSION_SECRET", "weak");
+    const developmentCookie = await createSessionCookie("admin-user-1");
+    vi.stubEnv("NODE_ENV", "production");
+    try {
+      await expect(createSessionCookie("admin-user-1")).rejects.toThrow("AUTHOR_SESSION_SECRET");
+      await expect(verifySessionCookie(developmentCookie)).resolves.toBe(false);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+
   it("creates a valid session cookie value", async () => {
     const cookie = await createSessionCookie("admin-user-1");
 
