@@ -130,6 +130,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          export APP_VERSION_NAME="${APP_VERSION_NAME#android-v}"
+          echo "APP_VERSION_NAME=$APP_VERSION_NAME" >> "$GITHUB_ENV"
           [[ "$APP_VERSION_CODE" =~ ^[1-9][0-9]*$ ]] || {
             echo "version_code must be a positive integer." >&2
             exit 1
@@ -219,9 +221,11 @@ jobs:
           install -m 0644 "$apk_path" "$artifact_dir/apologia-sancta-$safe_version.apk"
           install -m 0644 "$aab_path" "$artifact_dir/apologia-sancta.aab"
           install -m 0644 "$aab_path" "$artifact_dir/apologia-sancta-$safe_version.aab"
+          APK_BADGING="$badging" APK_VERIFICATION="$apk_verification" \
+            node scripts/write-android-update.cjs "$apk_path" "$artifact_dir/android-update.json" "$RELEASE_TAG"
           (
             cd "$artifact_dir"
-            sha256sum ./*.apk ./*.aab > SHA256SUMS
+            sha256sum ./*.apk ./*.aab android-update.json > SHA256SUMS
           )
 
           echo "artifact_dir=$artifact_dir" >> "$GITHUB_OUTPUT"
@@ -230,6 +234,26 @@ jobs:
             echo "### Signed Android 16 artifacts"
             echo "The API 36 target, 16 KB ZIP alignment, APK/AAB signatures, and release lint were verified. SHA-256 checksums are included with the workflow artifact."
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check update continuity with the previous public APK
+        if: github.event_name == 'push' || inputs.publish_release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_DIR: ${{ steps.package.outputs.artifact_dir }}
+        run: |
+          set -euo pipefail
+          previous_tag="$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases" --jq '.[] | select(.draft == false and .prerelease == false) | select(any(.assets[]; .name == "apologia-sancta.apk")) | .tag_name' | sed -n '1p')"
+          if [[ -n "$previous_tag" ]]; then
+            mkdir -p "$RUNNER_TEMP/previous-android"
+            gh release download "$previous_tag" --pattern apologia-sancta.apk --dir "$RUNNER_TEMP/previous-android"
+            previous_apk="$RUNNER_TEMP/previous-android/apologia-sancta.apk"
+            sdk_root="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
+            previous_badging="$("$sdk_root/build-tools/35.0.0/aapt2" dump badging "$previous_apk")"
+            previous_verification="$("$sdk_root/build-tools/35.0.0/apksigner" verify --print-certs "$previous_apk")"
+            PREVIOUS_APK_BADGING="$previous_badging" PREVIOUS_APK_VERIFICATION="$previous_verification" \
+              node scripts/write-android-update.cjs --check-upgrade "$ARTIFACT_DIR/android-update.json"
+          fi
 
       - name: Upload signed workflow artifact
         uses: actions/upload-artifact@v7
@@ -248,13 +272,9 @@ jobs:
         run: |
           set -euo pipefail
           mapfile -t files < <(find "$ARTIFACT_DIR" -maxdepth 1 -type f -print)
-          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            gh release upload "$RELEASE_TAG" "${files[@]}" --clobber
-          else
-            gh release create "$RELEASE_TAG" "${files[@]}" \
-              --title "Apologia Sancta Android $APP_VERSION_NAME" \
-              --target "$GITHUB_SHA"
-          fi
+          gh release create "$RELEASE_TAG" "${files[@]}" \
+            --title "Apologia Sancta Android $APP_VERSION_NAME" \
+            --target "$GITHUB_SHA"
 
       - name: Remove decoded keystore
         if: always()

@@ -145,6 +145,42 @@ the original spacing.
 
 Reference: [Android WebView inset handling](https://developer.android.com/develop/ui/views/layout/webapps/understand-window-insets).
 
+### Android version update notifications
+
+Android builds with the Capacitor App plugin read the actual installed package
+ID, version name, and version code. They check `/api/android/updates` after
+startup, on return to the foreground or network reconnection, and every 30
+minutes while visible. Simultaneous checks are deduplicated and requests time
+out. Offline/unavailable feeds do not interrupt normal use.
+
+A newer verified version opens **App update available**, showing installed and
+available versions, **Download update**, and **Later**. Later snoozes that
+version for 24 hours; another new version can notify immediately. The download
+uses its immutable official GitHub release URL. The user opens the downloaded
+APK and approves installation through Android. No background push or silent
+installation is performed. Product changelogs remain available manually and
+do not automatically compete with the Android update dialog.
+
+The public endpoint accepts only stable, published Android releases containing
+both the canonical APK and valid `android-update.json`. The signed release
+workflow derives metadata from the verified APK, publishes its hash and signing
+fingerprint, checks the previous public APK for certificate continuity and an
+increasing version code, and refuses to overwrite a release tag. A source
+commit, debug APK, draft, prerelease, or legacy release lacking metadata does
+not trigger an installation prompt. GitHub release lookups are cached for up
+to five minutes.
+
+An initial rebuilt/signed APK is required to install the App plugin; older APKs
+without it cannot report their installed version. Preserve
+`com.apologiasancta.live` and the original signing key when shipping this build.
+Test on a physical Android device with a newer test release, equal/older build,
+Later/relaunch, offline/reconnection, foreground return, download handoff, and
+in-place installation. Browser tests mock native version reporting and cannot
+replace this device check.
+
+References: [Capacitor App API](https://capacitorjs.com/docs/v7/apis/app),
+[Android app updates](https://developer.android.com/google/play/app-updates).
+
 ## Mobile Viewport Testing
 
 Use widths around:

@@ -516,7 +516,7 @@ function NotificationsPanel() {
   return (
     <Panel id="notifications">
       <SectionHeading eyebrow="Updates" title="Notifications" />
-      <p className="max-w-2xl text-sm leading-6 text-(--text-muted)">Apologia Sancta currently provides in-app product release notices. Email, push, and quiz reminder preferences are not yet supported.</p>
+      <p className="max-w-2xl text-sm leading-6 text-(--text-muted)">On Android, app updates are checked when you open or return to the app and while it is in use. A newer version offers Download update or Later. Product release summaries are available below. Email, push, and quiz reminder preferences are not yet supported.</p>
       <div className="surface-card mt-6 p-5 sm:p-6">
         <h3 className="editorial-heading text-xl font-semibold">What’s new</h3>
         <p className="mt-2 text-sm leading-6 text-(--text-muted)">Open the latest release summary published by the connected quiz service.</p>
