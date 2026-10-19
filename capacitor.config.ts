@@ -123,6 +123,9 @@ const config: CapacitorConfig = {
   },
   android: {
     allowMixedContent: usesCleartextServer,
+    // MainActivity applies system-bar/cutout padding to the native container
+    // and forwards keyboard insets. Do not apply a second set of margins.
+    adjustMarginsForEdgeToEdge: "disable",
   },
   plugins: {
     SplashScreen: {
