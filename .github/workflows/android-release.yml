@@ -32,7 +32,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: android-release-${{ github.ref }}
+  group: android-release
   cancel-in-progress: false
 
 jobs:
