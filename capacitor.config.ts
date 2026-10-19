@@ -128,6 +128,10 @@ const config: CapacitorConfig = {
     adjustMarginsForEdgeToEdge: "disable",
   },
   plugins: {
+    App: {
+      // Version reporting and lifecycle events must not take over navigation.
+      disableBackButtonHandler: true,
+    },
     SplashScreen: {
       launchAutoHide: false,
       launchFadeOutDuration: 250,

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Dialog } from "@/components/ui/Dialog";
 import { getEngineUrl } from "@/lib/publicEnv";
 import type { ReleaseNotification } from "@/types/releases";
+import { isNativePlatform } from "@/lib/native";
 
 const SEEN_KEY = "apologia-seen-release";
 export const SHOW_WHATS_NEW_EVENT = "apologia:show-whats-new";
@@ -21,7 +22,7 @@ export function WhatsNewPopup() {
       .then((payload: { release?: ReleaseNotification | null }) => {
         const latest = payload.release;
         latestReleaseRef.current = latest ?? null;
-        if (latest && (forceOpen || window.localStorage.getItem(SEEN_KEY) !== `${latest.repository}:${latest.commitSha}`)) {
+        if (latest && (forceOpen || (!isNativePlatform() && window.localStorage.getItem(SEEN_KEY) !== `${latest.repository}:${latest.commitSha}`))) {
           setRelease(latest);
         }
       })

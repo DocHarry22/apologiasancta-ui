@@ -7,6 +7,8 @@ import { SplashScreen } from "@capacitor/splash-screen";
 import { NativeBottomTabs } from "./NativeBottomTabs";
 import { StartupBootOverlay } from "@/components/startup/StartupBootOverlay";
 import { isNativePlatform } from "@/lib/native";
+import { Capacitor } from "@capacitor/core";
+import { AndroidUpdatePrompt } from "./AndroidUpdatePrompt";
 
 const STARTUP_OVERLAY_MIN_MS = 1700;
 const SPLASH_FAILSAFE_HIDE_MS = 4000;
@@ -87,6 +89,7 @@ export function CapacitorShell() {
         </Link>
       ) : null}
       {showNativeTabs && <NativeBottomTabs />}
+      {!showBootOverlay && Capacitor.getPlatform() === "android" && <AndroidUpdatePrompt />}
     </>
   );
 }
