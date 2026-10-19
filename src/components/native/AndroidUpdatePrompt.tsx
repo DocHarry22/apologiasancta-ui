@@ -84,7 +84,7 @@ export function AndroidUpdatePrompt() {
 
   if (!available) return null;
   return (
-    <Dialog titleId="android-update-title" descriptionId="android-update-description" onClose={dismiss} className="max-w-md rounded-2xl p-6 text-(--text)">
+    <Dialog titleId="android-update-title" descriptionId="android-update-description" onClose={dismiss} className="max-h-[85dvh] max-w-md overflow-y-auto rounded-2xl p-6 text-(--text)">
       <h2 id="android-update-title" className="text-xl font-bold">App update available</h2>
       <p id="android-update-description" className="mt-3 text-sm leading-6 text-(--text-muted)">
         Apologia Sancta {available.update.versionName} is ready. You have version {available.installed.version}.
