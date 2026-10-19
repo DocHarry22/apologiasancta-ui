@@ -91,7 +91,7 @@ export function AndroidUpdatePrompt() {
         Download the APK, then open it to install the update.
       </p>
       <div className="mt-6 flex flex-wrap gap-3">
-        <a className="btn-primary" href={available.update.apkUrl} target="_blank" rel="noopener noreferrer" onClick={dismiss}>Download update</a>
+        <a className="btn-primary" href={available.update.apkUrl} target="_blank" rel="noopener noreferrer" onClick={() => setAvailable(null)}>Download update</a>
         <button className="btn-secondary" type="button" onClick={dismiss}>Later</button>
       </div>
       <p className="mt-3 text-xs text-(--text-muted)">Choose Later to be reminded after 24 hours.</p>

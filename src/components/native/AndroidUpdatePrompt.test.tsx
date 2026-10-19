@@ -31,6 +31,16 @@ describe("Android installed-version update prompt", () => {
     expect(screen.getByRole("link", { name: "Download update" })).toHaveAttribute("href", update.apkUrl);
     expect(fetch).toHaveBeenCalledWith("/api/android/updates", expect.objectContaining({ cache: "no-store" }));
   });
+  it("does not snooze a download attempt and reminds again if the app is still outdated", async () => {
+    render(<AndroidUpdatePrompt />);
+    fireEvent.click(await screen.findByRole("link", { name: "Download update" }));
+    expect(localStorage.getItem(ANDROID_UPDATE_SNOOZE_KEY)).toBeNull();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await waitFor(() => expect(native.addListener).toHaveBeenCalled());
+    vi.spyOn(Date, "now").mockReturnValue(Date.now() + 31000);
+    await act(async () => { native.addListener.mock.calls[0][1]({ isActive: true }); });
+    expect(await screen.findByRole("dialog")).toBeVisible();
+  });
   it.each(["4", "5"])("does not notify for an installed build of %s or newer", async (build) => {
     native.getInfo.mockResolvedValue({ id: ANDROID_APPLICATION_ID, version: `1.0.${build}`, build });
     render(<AndroidUpdatePrompt />);
