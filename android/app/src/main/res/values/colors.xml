@@ -3,6 +3,7 @@
     <color name="colorPrimary">#D4AF37</color>
     <color name="colorPrimaryDark">#1A1816</color>
     <color name="colorAccent">#D4AF37</color>
+    <color name="systemBarBackground">#12304A</color>
 
     <color name="splashBackground">#1A1816</color>
 </resources>

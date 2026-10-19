@@ -122,6 +122,29 @@ The service worker caches app shell/static assets but excludes live and admin tr
 
 Safe area padding remains on the mobile shell so controls are not hidden behind notches or home indicators.
 
+### Android system bars
+
+`MainActivity` applies the device's system-bar and display-cutout insets to the
+native content container. The WebView therefore starts below the status bar on
+every route, including the Graph announcement, login, and admin screens. The
+insets update when the device rotates or changes window/navigation mode; no
+fixed status-bar height is assumed. System icons use a navy background with
+light foregrounds in both app themes.
+
+Handled insets are zeroed before reaching the WebView, while keyboard insets
+continue through it. Capacitor's separate margin adjustment stays disabled so
+it cannot add the same space twice. The web bottom navigation keeps its CSS
+safe-area handling for browser/PWA use.
+
+This native correction requires a rebuilt APK. Verify on Android 15/16 and an
+older supported version: portrait/landscape, camera cutout, gesture/three-button
+navigation, scrolling the sticky header, and opening/closing the keyboard on
+login. The Graph banner and header must stay below the status icons, bottom
+tabs must stay above system navigation, and keyboard dismissal must restore
+the original spacing.
+
+Reference: [Android WebView inset handling](https://developer.android.com/develop/ui/views/layout/webapps/understand-window-insets).
+
 ## Mobile Viewport Testing
 
 Use widths around:
