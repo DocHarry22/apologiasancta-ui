@@ -1,0 +1,80 @@
+name: Publish Android phone test
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: Successful signed Android release workflow run
+        required: true
+        type: string
+      version_name:
+        description: Version of the signed artifact
+        required: true
+        type: string
+      test_tag:
+        description: Unique phone-test release tag
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: android-phone-test
+  cancel-in-progress: false
+
+jobs:
+  publish-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+      VERSION_NAME: ${{ inputs.version_name }}
+      TEST_TAG: ${{ inputs.test_tag }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate signed source and test tag
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_RUN_ID" =~ ^[0-9]+$ ]]
+          [[ "$VERSION_NAME" =~ ^[0-9A-Za-z._-]+$ ]]
+          [[ "$TEST_TAG" =~ ^phone-test-[0-9A-Za-z._-]+$ ]]
+          run="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID")"
+          jq -e '.conclusion == "success" and .path == ".github/workflows/android-release.yml"' <<< "$run" >/dev/null
+          echo "sha=$(jq -r .head_sha <<< "$run")" >> "$GITHUB_OUTPUT"
+      - name: Download and verify the signed build
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact_dir="$RUNNER_TEMP/phone-test"
+          mkdir -p "$artifact_dir"
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --name "apologia-sancta-android-$VERSION_NAME" --dir "$artifact_dir"
+          cd "$artifact_dir"
+          sha256sum --check SHA256SUMS
+          test -s apologia-sancta.apk
+          sha256sum apologia-sancta.apk > phone-test-SHA256SUMS
+      - name: Publish a separate phone-test download
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > "$RUNNER_TEMP/phone-test-notes.md" <<'NOTES'
+          Signed Android phone test with the redesigned screens and embedded live 3D Graph website.
+
+          This is a separate test download. It does not change the official in-app update feed.
+          The signing certificate differs from the old public 1.0.3 APK. Android requires uninstalling that APK before installing this test build. Uninstalling clears data stored only on the phone; sync anything important first.
+
+          Both websites are deployed. Email signup/verification and password recovery still require production email-provider configuration. If the canonical Knowledge Engine is unavailable, choose "Open draft compatibility graph" to test the 3D renderer.
+          NOTES
+          gh release create "$TEST_TAG" \
+            "$RUNNER_TEMP/phone-test/apologia-sancta.apk" \
+            "$RUNNER_TEMP/phone-test/phone-test-SHA256SUMS" \
+            --repo "$GITHUB_REPOSITORY" --target "$SOURCE_SHA" \
+            --prerelease --latest=false --title "Android $VERSION_NAME phone test" \
+            --notes-file "$RUNNER_TEMP/phone-test-notes.md"
