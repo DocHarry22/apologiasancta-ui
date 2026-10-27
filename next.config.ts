@@ -44,6 +44,8 @@ function resolveBuildRevision(): string {
 }
 
 const nextConfig: NextConfig = {
+  // Shared hosting reports the host CPU count, which exceeds its process quota.
+  experimental: { cpus: 2 },
   trailingSlash: true,
   env: {
     APP_BUILD_REVISION: resolveBuildRevision(),
