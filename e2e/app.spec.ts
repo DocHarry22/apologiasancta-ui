@@ -340,12 +340,12 @@ test("switching rooms preserves and reuses the saved player identity", async ({ 
   page.on("dialog", (dialog) => dialog.accept());
 
   await page.goto("/mobile");
-  await expect(page.getByRole("heading", { name: "Alpha Room" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Alpha Room", exact: true })).toBeVisible();
   await page.getByRole("button", { name: /Change room/ }).click();
   await page.getByLabel("Search rooms").fill("Beta Room");
   await page.getByRole("button", { name: "Join room" }).click();
 
-  await expect(page.getByRole("heading", { name: "Beta Room" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Beta Room", exact: true })).toBeVisible();
   await expect.poll(() => joinRequests).toContainEqual({ roomId: "alpha", authorization: "Bearer room-token-alpha" });
   await expect.poll(() => joinRequests).toContainEqual({ roomId: "beta", authorization: "Bearer room-token-alpha" });
   await expect.poll(() => page.evaluate(() => ({
