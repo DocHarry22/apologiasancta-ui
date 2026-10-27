@@ -1,12 +1,14 @@
 import { NextRequest } from "next/server";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CSRF_COOKIE_NAME } from "@/lib/csrf";
 import { SESSION_COOKIE_NAME } from "@/lib/auth/session";
-import { resetAdminUserStoreForTests } from "@/lib/server/adminUserStore";
+import { consumeAccountEmailToken, issueAccountEmailToken, resetAdminUserStoreForTests } from "@/lib/server/adminUserStore";
 import { resetAuthInviteSettingsForTests } from "@/lib/server/authInviteSettings";
 import { clearLoginRateLimit, clearSignupRateLimit } from "@/lib/auth/rateLimit";
 
 const cookieGet = vi.fn();
+
+vi.mock("@/lib/server/accountEmailRoutes", () => ({ scheduleAccountEmail: vi.fn() }));
 
 vi.mock("next/headers", () => ({
   cookies: vi.fn(async () => ({ get: cookieGet })),
@@ -35,6 +37,7 @@ function postSignup(body: unknown) {
 }
 
 describe("auth routes", () => {
+  afterEach(() => vi.unstubAllEnvs());
   beforeEach(async () => {
     cookieGet.mockReset();
     resetAdminUserStoreForTests();
@@ -44,6 +47,9 @@ describe("auth routes", () => {
     delete process.env.AUTH_SIGNUP_STAFF_INVITE_CODE;
     delete process.env.AUTH_SIGNUP_STAFF_ROLE;
     delete process.env.AUTH_DIAGNOSTICS_ENABLED;
+    vi.stubEnv("AUTH_PUBLIC_URL", "https://ui.test");
+    vi.stubEnv("RESEND_API_KEY", "test-email-key");
+    vi.stubEnv("AUTH_EMAIL_FROM", "accounts@example.test");
   });
 
   it("login fails with missing credentials and wrong password", async () => {
@@ -117,7 +123,7 @@ describe("auth routes", () => {
     expect(setCookie).toContain("HttpOnly");
   });
 
-  it("signup creates a public user by default and redirects to home", async () => {
+  it("signup creates a public user requiring verification without issuing a session", async () => {
     const response = await signup(postSignup({
       name: "Public Viewer",
       email: "viewer@example.test",
@@ -128,7 +134,9 @@ describe("auth routes", () => {
     const payload = await response.json();
 
     expect(response.status).toBe(200);
-    expect(payload.redirectTo).toBe("/");
+    expect(payload.redirectTo).toBe("/verify-email");
+    expect(payload.verificationRequired).toBe(true);
+    expect(response.headers.get("set-cookie")).toBeNull();
     expect(payload.user.role).toBe("viewer");
     expect(payload.user.accountType).toBe("public");
     expect(payload.user.phone).toBe("+15551234567");
@@ -163,7 +171,7 @@ describe("auth routes", () => {
     expect(second.status).toBe(409);
   });
 
-  it("signup with valid invite creates a staff user and redirects to admin", async () => {
+  it("signup with valid invite still requires email verification for staff", async () => {
     process.env.AUTH_SIGNUP_STAFF_INVITE_CODE = "valid-invite";
     process.env.AUTH_SIGNUP_STAFF_ROLE = "host";
 
@@ -177,12 +185,13 @@ describe("auth routes", () => {
     const payload = await response.json();
 
     expect(response.status).toBe(200);
-    expect(payload.redirectTo).toBe("/admin");
+    expect(payload.redirectTo).toBe("/verify-email");
+    expect(response.headers.get("set-cookie")).toBeNull();
     expect(payload.user.role).toBe("host");
     expect(payload.user.accountType).toBe("staff");
   });
 
-  it("public user login redirects to home", async () => {
+  it("public user login requires verification then redirects to home", async () => {
     await signup(postSignup({
       name: "Public Login",
       email: "public-login@example.test",
@@ -190,6 +199,12 @@ describe("auth routes", () => {
       confirmPassword: "public-password",
     }));
 
+    const pending = await login(postLogin({ email: "public-login@example.test", password: "public-password" }));
+    expect(pending.status).toBe(403);
+    expect((await pending.json()).code).toBe("email_verification_required");
+    expect(pending.headers.get("set-cookie")).toBeNull();
+    const issued = await issueAccountEmailToken("public-login@example.test", "verify");
+    expect(await consumeAccountEmailToken(issued!.token, "verify")).toBe(true);
     const response = await login(postLogin({ email: "public-login@example.test", password: "public-password" }));
     const payload = await response.json();
 

@@ -1,12 +1,14 @@
 import { NextRequest } from "next/server";
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { POST as login } from "../login/route";
 import { POST as signup } from "../signup/route";
 import { GET as inviteGet, PATCH as invitePatch } from "./route";
 import { CSRF_COOKIE_NAME } from "@/lib/csrf";
 import { SESSION_COOKIE_NAME } from "@/lib/auth/session";
-import { resetAdminUserStoreForTests } from "@/lib/server/adminUserStore";
+import { resetAdminUserStoreForTests, issueAccountEmailToken, consumeAccountEmailToken } from "@/lib/server/adminUserStore";
 import { resetAuthInviteSettingsForTests } from "@/lib/server/authInviteSettings";
+
+vi.mock("@/lib/server/accountEmailRoutes", () => ({ scheduleAccountEmail: vi.fn() }));
 
 function postLogin(body: unknown) {
   return new NextRequest("https://ui.test/api/auth/login", {
@@ -31,7 +33,11 @@ function cookieValues(setCookie: string) {
 }
 
 describe("invite settings route", () => {
+  afterEach(() => vi.unstubAllEnvs());
   beforeEach(async () => {
+    vi.stubEnv("AUTH_PUBLIC_URL", "https://ui.test");
+    vi.stubEnv("RESEND_API_KEY", "test-email-key");
+    vi.stubEnv("AUTH_EMAIL_FROM", "accounts@example.test");
     resetAdminUserStoreForTests();
     await resetAuthInviteSettingsForTests();
     process.env.AUTH_SIGNUP_STAFF_INVITE_CODE = "env-invite";
@@ -45,7 +51,12 @@ describe("invite settings route", () => {
       password: "public-pass-123",
       confirmPassword: "public-pass-123",
     }));
-    const { session } = cookieValues(signupResponse.headers.get("set-cookie") ?? "");
+    expect(signupResponse.status).toBe(200);
+    expect(signupResponse.headers.get("set-cookie")).toBeNull();
+    const issued = await issueAccountEmailToken("public-invite-settings@example.test", "verify");
+    expect(await consumeAccountEmailToken(issued!.token, "verify")).toBe(true);
+    const loginResponse = await login(postLogin({ email: "public-invite-settings@example.test", password: "public-pass-123" }));
+    const { session } = cookieValues(loginResponse.headers.get("set-cookie") ?? "");
 
     const response = await inviteGet(new NextRequest("https://ui.test/api/auth/invite-settings", {
       method: "GET",
@@ -101,6 +112,8 @@ describe("invite settings route", () => {
     const signupPayload = await signupResponse.json();
     expect(signupResponse.status).toBe(200);
     expect(signupPayload.user.role).toBe("reviewer");
-    expect(signupPayload.redirectTo).toBe("/admin");
+    expect(signupPayload.verificationRequired).toBe(true);
+    expect(signupPayload.redirectTo).toBe("/verify-email");
+    expect(signupResponse.headers.get("set-cookie")).toBeNull();
   });
 });

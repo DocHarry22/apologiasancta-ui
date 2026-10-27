@@ -1,9 +1,12 @@
-import { AppShell } from "@/components/shell/AppShell";
-import { ResearchModeNav } from "@/components/research/ResearchModeNav";
+import { ReportIssue } from "@/components/content/ReportIssue";
+import { ResearchLayout } from "@/components/research/ResearchLayout";
 import SaveKnowledgeJourneyButton from "@/components/research/SaveKnowledgeJourneyButton";
 import { StatusBadge } from "@/components/ui/Primitives";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 import { fetchKnowledgeEngine } from "@/lib/server/knowledgeEngine";
+import type { ResearchNode as NodeView, CompareResponse as ComparePayload } from "@/lib/knowledge/researchContract";
+import CompareClaimsForm from "@/components/research/CompareClaimsForm";
+import ResearchDiscovery from "@/components/research/ResearchDiscovery";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -13,20 +16,6 @@ export const metadata = {
 
 const CANONICAL_ID = /^[a-z][a-z0-9_-]*:[a-z0-9][a-z0-9._:-]*$/;
 const SIMPLE = /^[a-z0-9_-]+$/;
-
-type NodeView = { id: string; kind: string; title: string; proposition?: string; summary?: string };
-type EdgeView = { id: string; fromNodeId: string; toNodeId: string; relationshipType: string };
-type Assessment = { id: string; nodeId: string; lens: string; position: string; rationaleIds?: unknown[]; sourceIds?: unknown[] };
-type ComparePayload = {
-  left: NodeView;
-  right: NodeView;
-  directEdges?: EdgeView[];
-  sharedNeighbors?: NodeView[];
-  semanticRelationships?: EdgeView[];
-  assessments?: Assessment[];
-  connectingPath?: string[] | null;
-  meta?: { storedRelationshipsOnly?: boolean; bounded?: boolean };
-};
 
 function first(value: string | string[] | undefined): string {
   return Array.isArray(value) ? value[0] || "" : value || "";
@@ -45,7 +34,7 @@ function NodeCard({ node, label }: { node: NodeView; label: string }) {
   return (
     <article className="surface-card p-5">
       <div className="flex flex-wrap gap-2"><StatusBadge tone="info">{label}</StatusBadge><StatusBadge>{node.kind}</StatusBadge></div>
-      <h2 className="editorial-heading mt-3 text-2xl font-semibold">{node.title}</h2>
+      <h2 className="editorial-heading mt-3 text-2xl font-semibold">{node.title}</h2><ReportIssue app="research" contentType="claim" contentId={node.id} title={node.title} snapshot={node} />
       {node.proposition ? <p className="mt-2 text-sm font-medium leading-6">{node.proposition}</p> : null}
       {node.summary ? <p className="mt-2 text-sm leading-6 text-(--text-muted)">{node.summary}</p> : null}
       <div className="mt-4 flex flex-wrap gap-2"><code className="rounded bg-(--surface-elevated) px-2 py-1 text-xs">{node.id}</code>{href ? <a className="btn-quiet px-3 py-1.5" href={href} target="_blank" rel="noopener noreferrer">Open in Galaxy ↗</a> : null}</div>
@@ -68,47 +57,36 @@ export default async function ResearchComparePage({
 
   let payload: ComparePayload | null = null;
   let error = "";
-  if (validLeft && validRight) {
+  if (validLeft && validRight && left !== right) {
     const params = new URLSearchParams({ left, right });
     if (validLens) params.set("lens", lens);
     try {
-      payload = await fetchKnowledgeEngine("/knowledge/compare/advanced", params) as ComparePayload;
+      payload = await fetchKnowledgeEngine("/knowledge/compare/advanced", params);
     } catch (caught) {
       error = caught instanceof Error ? caught.message : "Comparison is temporarily unavailable.";
     }
   }
 
-  const direct = payload?.directEdges || [];
-  const shared = payload?.sharedNeighbors || [];
-  const semantic = payload?.semanticRelationships || [];
-  const assessments = payload?.assessments || [];
+  const direct = payload?.directEdges ?? [];
+  const shared = payload?.sharedNeighbors ?? [];
+  const semantic = payload?.semanticRelationships ?? [];
+  const assessments = payload?.assessments ?? [];
   const comparisonJourneyIds = payload
     ? [...new Set([payload.left.id, ...(payload.connectingPath || []), payload.right.id].filter((id) => CANONICAL_ID.test(id)))]
     : [];
 
   return (
-    <AppShell>
-      <div className="page-container py-8 sm:py-11">
-        <div className="flex flex-col gap-5 border-b border-(--border) pb-7 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="eyebrow">Research · comparison</p>
-            <h1 className="editorial-heading mt-2 text-4xl font-semibold sm:text-5xl">Compare canonical claims</h1>
-            <p className="mt-3 max-w-3xl text-sm leading-6 text-(--text-muted)">Compare two published nodes without manufacturing agreement or contradiction. Only stored published relationships, approved assessments, shared neighbors, and a bounded connecting path are shown.</p>
-          </div>
-          <ResearchModeNav current="compare" />
-        </div>
+    <ResearchLayout current="compare" eyebrow="Research · compare" title="Two claims." accent="A clearer view." description="Look at two published claims side by side. Follow their connections, sources, and recorded perspectives.">
 
-        <form method="get" className="surface-card mt-7 grid gap-4 p-5 lg:grid-cols-[1fr_1fr_0.6fr_auto] lg:items-end" aria-label="Canonical comparison form">
-          <label className="text-sm font-semibold">Left canonical ID<input name="left" defaultValue={left} placeholder="node:..." className="mt-2 w-full rounded-lg border border-(--border) bg-(--surface-elevated) px-3 py-2 font-mono text-sm" /></label>
-          <label className="text-sm font-semibold">Right canonical ID<input name="right" defaultValue={right} placeholder="node:..." className="mt-2 w-full rounded-lg border border-(--border) bg-(--surface-elevated) px-3 py-2 font-mono text-sm" /></label>
-          <label className="text-sm font-semibold">Lens<input name="lens" defaultValue={lens} placeholder="catholic" className="mt-2 w-full rounded-lg border border-(--border) bg-(--surface-elevated) px-3 py-2 text-sm" /></label>
-          <button type="submit" className="btn-primary h-fit">Compare</button>
-        </form>
+        <p className="mt-4 text-sm text-(--text-muted)">Only stored published relationships and approved assessments appear here.</p>
+        <CompareClaimsForm key={`${left}:${right}:${lens}`} left={validLeft ? left : ""} right={validRight ? right : ""} leftTitle={payload?.left.title} rightTitle={payload?.right.title} lens={lens} />
 
         {(!left && !right) ? (
-          <div className="surface-card mt-6 p-6"><StatusBadge>Select two published nodes</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">Use canonical IDs from Research, Learn evidence links, or the Galaxy. The comparison endpoint refuses unpublished nodes.</p></div>
+          <div className="surface-card mt-6 p-6"><StatusBadge>Choose two claims</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">Search by title or phrase, or open a suggested comparison below.</p></div>
+        ) : left === right ? (
+          <div className="surface-card mt-6 p-6"><StatusBadge tone="warning">Choose different claims</StatusBadge><p className="mt-3 text-sm text-(--text-muted)">Select a second claim to compare.</p></div>
         ) : (!validLeft || !validRight) ? (
-          <div className="surface-card mt-6 p-6"><StatusBadge tone="warning">Canonical IDs required</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">Both values must be canonical IDs such as <code>node:christology-example</code>.</p></div>
+          <div className="surface-card mt-6 p-6"><StatusBadge>Complete your comparison</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">Choose a published claim in each search field above.</p></div>
         ) : error ? (
           <div className="surface-card mt-6 p-6"><StatusBadge tone="danger">Comparison unavailable</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">{error}</p></div>
         ) : payload ? (
@@ -121,7 +99,7 @@ export default async function ResearchComparePage({
 
             <section className="mt-7 grid gap-5 xl:grid-cols-2" aria-label="Stored comparison relationships">
               <article className="surface-card p-5"><div className="flex items-center justify-between gap-3"><h2 className="editorial-heading text-2xl font-semibold">Direct relationships</h2><StatusBadge>{direct.length}</StatusBadge></div>{direct.length ? <ul className="mt-4 space-y-3">{direct.map((edge) => <li key={edge.id} className="rounded-lg border border-(--border) bg-(--surface-elevated) p-3 text-sm"><strong>{edge.relationshipType}</strong><div className="mt-1 break-all font-mono text-xs text-(--text-muted)">{edge.fromNodeId} → {edge.toNodeId}</div></li>)}</ul> : <p className="mt-3 text-sm text-(--text-muted)">No direct published edge connects these nodes.</p>}</article>
-              <article className="surface-card p-5"><div className="flex items-center justify-between gap-3"><h2 className="editorial-heading text-2xl font-semibold">Shared context</h2><StatusBadge>{shared.length}</StatusBadge></div>{shared.length ? <ul className="mt-4 space-y-3">{shared.map((node) => <li key={node.id} className="rounded-lg border border-(--border) bg-(--surface-elevated) p-3"><strong>{node.title}</strong><div className="mt-1 break-all font-mono text-xs text-(--text-muted)">{node.id}</div></li>)}</ul> : <p className="mt-3 text-sm text-(--text-muted)">No bounded shared-neighbor set was found.</p>}</article>
+              <article className="surface-card p-5"><div className="flex items-center justify-between gap-3"><h2 className="editorial-heading text-2xl font-semibold">Shared context</h2><StatusBadge>{shared.length}</StatusBadge></div>{shared.length ? <ul className="mt-4 space-y-3">{shared.map((node) => <li key={node.id} className="rounded-lg border border-(--border) bg-(--surface-elevated) p-3"><strong>{node.title}</strong><ReportIssue app="research" contentType="claim" contentId={node.id} title={node.title} snapshot={node} /><div className="mt-1 break-all font-mono text-xs text-(--text-muted)">{node.id}</div></li>)}</ul> : <p className="mt-3 text-sm text-(--text-muted)">No bounded shared-neighbor set was found.</p>}</article>
             </section>
 
             <section className="mt-7 grid gap-5 xl:grid-cols-2" aria-label="Assessments and semantic relationships">
@@ -132,7 +110,7 @@ export default async function ResearchComparePage({
             <article className="surface-card mt-7 p-5"><div className="flex flex-wrap items-center gap-2"><h2 className="editorial-heading mr-auto text-2xl font-semibold">Bounded connecting path</h2><StatusBadge tone="success">Stored relationships only</StatusBadge><StatusBadge>Maximum four hops</StatusBadge></div>{payload.connectingPath?.length ? <ol className="mt-4 flex flex-wrap items-center gap-2">{payload.connectingPath.map((id, index) => <li key={`${id}:${index}`} className="flex items-center gap-2"><code className="rounded bg-(--surface-elevated) px-2 py-1 text-xs">{id}</code>{index < (payload.connectingPath?.length || 0) - 1 ? <span aria-hidden="true">→</span> : null}</li>)}</ol> : <p className="mt-3 text-sm text-(--text-muted)">No connecting path was found inside the bounded published traversal.</p>}</article>
           </>
         ) : null}
-      </div>
-    </AppShell>
+        <ResearchDiscovery anchor={validLeft ? left : ""} lens={validLens ? lens : "catholic"} />
+    </ResearchLayout>
   );
 }

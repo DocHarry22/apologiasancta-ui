@@ -1,5 +1,7 @@
 "use client";
 
+import { ReportIssue } from "@/components/content/ReportIssue";
+
 import { useMemo, useState } from "react";
 import type { Question } from "@/types/content";
 
@@ -108,6 +110,7 @@ export function QuestionLibraryClient({ questions, availableTags }: Props) {
               </h3>
               <span className="text-xs text-(--muted)">D{item.difficulty}</span>
             </div>
+            <ReportIssue app="quiz" contentType="question" contentId={item.id} title={item.question} snapshot={item} />
             <div className="mt-2 flex flex-wrap gap-1">
               {item.tags.map((tag) => (
                 <span

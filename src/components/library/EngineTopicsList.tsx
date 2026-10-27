@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { EmptyState, ProgressBar, SectionHeading, StatusBadge } from "@/components/ui/Primitives";
+import { AppIcon } from "@/components/native/AppIcon";
+import { StudyArtwork, StudySearch } from "@/components/native/StudyUI";
+import styles from "@/components/native/StudyUI.module.css";
 import { LIBRARY_BOOKMARKS_KEY, parseLibraryBookmarks } from "@/lib/libraryBookmarks";
 import { getEngineUrl } from "@/lib/publicEnv";
 
@@ -23,17 +25,16 @@ export type LibraryResource = {
 };
 
 type EngineTopic = { id: string; title: string; questionCount: number };
-const PAGE_SIZE = 9;
+const PAGE_SIZE = 10;
 
 function ResourceIcon({ resource }: { resource: LibraryResource }) {
-  const glyph = resource.format === "Lesson" ? "☩" : resource.category === "Scripture" ? "▥" : resource.category === "Church History" ? "⌂" : "✦";
-  return <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-(--border) bg-(--surface-elevated) font-[family-name:var(--font-editorial)] text-2xl text-(--gold-hover)" aria-hidden="true">{glyph}</span>;
+  return <StudyArtwork icon={resource.category === "Doctrine" ? "cross" : resource.category === "Church History" ? "library" : resource.category === "Apologetics" ? "research" : "book"} tone={resource.category === "Scripture" ? 1 : resource.category === "Church History" ? 2 : 0} />;
 }
 
 function BookmarkButton({ resource, saved, toggle }: { resource: LibraryResource; saved: boolean; toggle: () => void }) {
   return (
-    <button type="button" onClick={toggle} aria-pressed={saved} aria-label={`${saved ? "Remove" : "Save"} ${resource.title}`} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-(--border) text-lg text-(--text-muted) hover:border-(--gold) hover:text-(--gold-hover)">
-      <span aria-hidden="true">{saved ? "♥" : "♡"}</span>
+    <button type="button" onClick={toggle} aria-pressed={saved} aria-label={`${saved ? "Remove" : "Save"} ${resource.title}`} className={styles.bookmark}>
+      <AppIcon name="bookmark" width={17} height={17} />
     </button>
   );
 }
@@ -53,7 +54,7 @@ export function EngineTopicsList({ resources, questionTotal, sourceTotal }: { re
   const [engineState, setEngineState] = useState<"checking" | "live" | "fallback">("checking");
 
   useEffect(() => {
-    setSaved(parseLibraryBookmarks(localStorage.getItem(LIBRARY_BOOKMARKS_KEY)));
+    try { setSaved(parseLibraryBookmarks(localStorage.getItem(LIBRARY_BOOKMARKS_KEY))); } catch { /* Device storage is optional. */ }
     const initialQuery = new URL(window.location.href).searchParams.get("q");
     if (initialQuery) setQuery(initialQuery);
   }, []);
@@ -108,9 +109,12 @@ export function EngineTopicsList({ resources, questionTotal, sourceTotal }: { re
   useEffect(() => { setPage(1); }, [query, category, format, difficulty, era, savedOnly, sort]);
 
   const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-  const featured = items.filter((item) => item.featured).slice(0, 3);
-  const continueItem = items.find((item) => saved.includes(item.id)) ?? items[0];
+  const currentPage = Math.min(page, pages);
+  const pageItems = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const advancedCount = Number(format !== "All") + Number(difficulty !== "All") + Number(era !== "All") + Number(sort !== "recommended");
+  const hasFilters = Boolean(query || category !== "All" || advancedCount || savedOnly);
+  const reset = () => { setQuery(""); setCategory("All"); setFormat("All"); setDifficulty("All"); setEra("All"); setSort("recommended"); setSavedOnly(false); };
+  const changePage = (next: number) => { setPage(next); document.getElementById("browse-library")?.scrollIntoView({ behavior: "smooth", block: "start" }); };
 
   const toggleSaved = (id: string) => {
     setSaved((current) => {
@@ -120,67 +124,35 @@ export function EngineTopicsList({ resources, questionTotal, sourceTotal }: { re
     });
   };
 
-  return (
-    <>
-      <section className="relative grid gap-7 border-b border-(--border) pb-7 lg:grid-cols-[1fr_0.7fr] lg:items-center" aria-labelledby="library-heading">
-        <div>
-          <p className="eyebrow">Catholic knowledge library</p>
-          <h1 id="library-heading" className="editorial-heading mt-2 max-w-2xl text-4xl font-semibold leading-[1.02] sm:text-5xl">Explore the treasury<br />of the Faith.</h1>
-          <p className="mt-3 max-w-xl text-base leading-7 text-(--text-muted)">Search Scripture, doctrine, Church history, apologetics, councils, and sourced Catholic explanations.</p>
-          <label htmlFor="library-search" className="sr-only">Search the library</label>
-          <div className="mt-5 flex max-w-2xl gap-2">
-            <input id="library-search" type="search" className="form-control min-h-12" placeholder="Search topics, questions, Scripture, councils…" value={query} onChange={(event) => setQuery(event.target.value)} />
-            <button type="button" className="btn-primary min-h-12" onClick={() => document.getElementById("browse-library")?.scrollIntoView({ behavior: "smooth" })}>Search</button>
-          </div>
-          <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-(--text-muted)"><strong className="text-(--text)">{resources.filter((item) => item.format === "Question collection").length}</strong> topics <span aria-hidden="true">·</span><strong className="text-(--text)">{questionTotal.toLocaleString()}</strong> questions <span aria-hidden="true">·</span><strong className="text-(--text)">{sourceTotal.toLocaleString()}</strong> cited references <span className="text-xs">in the bundled catalogue</span></div>
-        </div>
-        <div className="hidden justify-center lg:flex" aria-hidden="true"><div className="relative grid h-52 w-80 place-items-center rounded-[50%] border border-(--border) bg-(--surface)"><span className="text-8xl text-(--gold)">▥</span><span className="absolute top-2 text-4xl text-(--gold)">☩</span></div></div>
-      </section>
-
-      <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_18rem]">
-        <div className="min-w-0">
-          <section className="surface-card p-3 sm:p-4" aria-label="Library filters">
-            <div className="flex gap-1 overflow-x-auto border-b border-(--border) pb-2" role="group" aria-label="Library category filter">
-              {categories.map((item) => <button key={item} type="button" aria-pressed={category === item} onClick={() => setCategory(item)} className={`min-h-11 shrink-0 rounded-md px-3 text-sm font-semibold ${category === item ? "bg-(--gold) text-(--button-primary-text)" : "text-(--text-muted) hover:bg-(--surface-elevated) hover:text-(--text)"}`}>{item}</button>)}
-            </div>
-            <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-              <label className="text-xs font-bold text-(--text-muted)">Content type<select className="form-control mt-1" value={format} onChange={(event) => setFormat(event.target.value)}><option>All</option><option>Question collection</option><option>Lesson</option></select></label>
-              <label className="text-xs font-bold text-(--text-muted)">Difficulty<select className="form-control mt-1" value={difficulty} onChange={(event) => setDifficulty(event.target.value)}><option>All</option>{[1,2,3,4,5].map((level) => <option key={level} value={level}>Level {level}</option>)}</select></label>
-              <label className="text-xs font-bold text-(--text-muted)">Era focus<select className="form-control mt-1" value={era} onChange={(event) => setEra(event.target.value)}>{eras.map((item) => <option key={item}>{item}</option>)}</select></label>
-              <label className="text-xs font-bold text-(--text-muted)">Sort<select className="form-control mt-1" value={sort} onChange={(event) => setSort(event.target.value)}><option value="recommended">Recommended</option><option value="title">Title</option><option value="questions">Most questions</option><option value="sources">Most references</option></select></label>
-            </div>
-            <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-              <label className="inline-flex min-h-11 cursor-pointer items-center gap-2 text-sm text-(--text-muted)"><input type="checkbox" checked={savedOnly} onChange={(event) => setSavedOnly(event.target.checked)} className="h-5 w-5 accent-(--gold)" /> Saved only</label>
-              <div className="flex gap-1" role="group" aria-label="Library view"><button type="button" aria-pressed={view === "grid"} className={`btn-quiet min-h-11 px-3 ${view === "grid" ? "border-(--gold) text-(--gold-hover)" : ""}`} onClick={() => setView("grid")}>Grid</button><button type="button" aria-pressed={view === "list"} className={`btn-quiet min-h-11 px-3 ${view === "list" ? "border-(--gold) text-(--gold-hover)" : ""}`} onClick={() => setView("list")}>List</button></div>
-            </div>
-          </section>
-
-          {featured.length ? <section className="mt-7" aria-labelledby="featured-collections-heading"><SectionHeading eyebrow="Featured collections" title="Begin with a trusted path" /><div className="grid gap-4 md:grid-cols-3">{featured.map((item) => <Link key={item.id} href={item.href} className="surface-card p-4 hover:border-(--gold)"><div className="flex items-start gap-3"><ResourceIcon resource={item} /><div><h3 className="editorial-heading text-lg font-semibold">{item.title}</h3><p className="mt-1 text-xs text-(--text-muted)">{item.questionCount ? `${item.questionCount} questions` : "1 lesson"} · {item.sourceCount === null ? "reference count unavailable" : `${item.sourceCount} references`}</p></div></div><p className="mt-3 line-clamp-3 text-sm leading-6 text-(--text-muted)">{item.description}</p><div className="mt-4"><ProgressBar value={0} label={`${item.title} completion not yet tracked`} /></div><p className="mt-3 text-sm font-bold text-(--gold-hover)">Open collection →</p></Link>)}</div></section> : null}
-
-          <section id="browse-library" className="mt-7 scroll-mt-28" aria-labelledby="browse-library-heading">
-            <SectionHeading eyebrow="Browse the library" title={`${filtered.length} matching resources`} action={<StatusBadge tone={engineState === "live" ? "success" : engineState === "fallback" ? "warning" : "neutral"}>{engineState === "live" ? "Engine topic counts" : engineState === "fallback" ? "Bundled catalogue" : "Checking Engine"}</StatusBadge>} />
-            {pageItems.length ? (
-              <div className={view === "grid" ? "grid gap-3 lg:grid-cols-2" : "space-y-3"}>
-                {pageItems.map((item) => (
-                  <article key={`${item.format}-${item.id}`} className={`surface-card flex gap-3 p-4 ${view === "list" ? "sm:items-center" : "items-start"}`}>
-                    <ResourceIcon resource={item} />
-                    <div className="min-w-0 flex-1"><p className="text-xs text-(--text-muted)">{item.category}</p><h3 className="editorial-heading mt-0.5 text-lg font-semibold"><Link href={item.href} className="hover:text-(--gold-hover)">{item.title}</Link></h3><p className="mt-1 line-clamp-2 text-sm leading-5 text-(--text-muted)">{item.description}</p><div className="mt-3 flex flex-wrap gap-2 text-[0.72rem] text-(--text-muted)"><span className="rounded-full border border-(--border) px-2 py-1">{item.format}</span>{item.difficulty ? <span className="rounded-full border border-(--border) px-2 py-1">Level {item.difficulty}</span> : null}<span className="px-1 py-1">{item.durationMinutes} min est.</span><span className="px-1 py-1">{item.sourceCount === null ? "refs not supplied" : `${item.sourceCount} refs`}</span></div></div>
-                    <BookmarkButton resource={item} saved={saved.includes(item.id)} toggle={() => toggleSaved(item.id)} />
-                  </article>
-                ))}
-              </div>
-            ) : <EmptyState title="No resources match" description="Try a broader search, reset a filter, or turn off Saved only." action={<button type="button" className="btn-secondary" onClick={() => { setQuery(""); setCategory("All"); setFormat("All"); setDifficulty("All"); setEra("All"); setSavedOnly(false); }}>Clear filters</button>} />}
-            {pages > 1 ? <nav className="mt-5 flex items-center justify-between gap-3" aria-label="Library pages"><button type="button" className="btn-quiet" disabled={page === 1} onClick={() => setPage((value) => Math.max(1, value - 1))}>Previous</button><span className="text-sm text-(--text-muted)">Page {page} of {pages}</span><button type="button" className="btn-quiet" disabled={page === pages} onClick={() => setPage((value) => Math.min(pages, value + 1))}>Next</button></nav> : null}
-          </section>
-        </div>
-
-        <aside className="space-y-4" aria-label="Library tools">
-          {continueItem ? <section className="surface-card p-5"><p className="eyebrow">Continue exploring</p><div className="mt-3 flex items-center gap-3"><ResourceIcon resource={continueItem} /><h2 className="editorial-heading text-lg font-semibold">{continueItem.title}</h2></div><p className="mt-3 text-sm text-(--text-muted)">{saved.includes(continueItem.id) ? "Saved on this device." : "A recommended starting point from the catalogue."}</p><Link href={continueItem.href} className="btn-primary mt-4 w-full">Open resource</Link></section> : null}
-          <section className="surface-card p-5"><p className="eyebrow">Your saved items</p><p className="editorial-heading mt-2 text-3xl font-semibold">{saved.length}</p><p className="mt-1 text-sm text-(--text-muted)">Saved on this device.</p><button type="button" className="mt-3 text-sm font-bold text-(--gold-hover) hover:underline" onClick={() => setSavedOnly(true)}>View saved items →</button></section>
-          <section className="surface-card p-5"><p className="eyebrow">Popular this week</p><p className="mt-2 text-sm leading-6 text-(--text-muted)">Popularity analytics are not available from the Engine yet. Resources are currently sorted by editorial priority and catalogue depth.</p></section>
-          <section className="surface-card p-5"><p className="eyebrow">Source standards</p><p className="mt-2 text-sm leading-6 text-(--text-muted)">Published questions require an explanation and cited references. Content still requires accountable human theological review.</p><Link href="/research#standards" className="mt-3 inline-block text-sm font-bold text-(--gold-hover) hover:underline">How sources are handled →</Link></section>
-        </aside>
+  return <div className={styles.screen}>
+    <header className={styles.intro}><p className={styles.eyebrow}>The knowledge library</p><h1 id="library-heading" className={styles.title}>Follow your <em>curiosity.</em></h1><p>Questions worth asking. Sources worth reading. Find a deeper understanding of your faith.</p><div className={styles.stats}><span><strong>{items.length}</strong> topics to explore</span><span><strong>{saved.length}</strong> saved on this device</span></div></header>
+    <div className={styles.browseTabs} role="group" aria-label="Library collection"><button type="button" aria-pressed={!savedOnly} onClick={() => setSavedOnly(false)}>Discover</button><button type="button" aria-pressed={savedOnly} onClick={() => setSavedOnly(true)}><AppIcon name="bookmark" width={15} height={15} /> Saved <small>{saved.length}</small></button></div>
+    <StudySearch id="library-search" label="Search the library" value={query} onChange={setQuery} placeholder="Scripture, sacraments, questions…" />
+    <div className={styles.chipRow} role="group" aria-label="Library category filter">{categories.map((item) => <button key={item} type="button" aria-pressed={category === item} className={styles.chip} onClick={() => setCategory(item)}>{item === "All" ? "All topics" : item}</button>)}</div>
+    <details className={styles.filters}><summary><AppIcon name="filter" width={16} height={16} /> Refine your search{advancedCount ? " · " + advancedCount + " active" : ""}</summary>
+      <div className={styles.filterGrid}>
+        <label>Content type<select value={format} onChange={(event) => setFormat(event.target.value)}><option>All</option><option>Question collection</option><option>Lesson</option></select></label>
+        <label>Difficulty<select value={difficulty} onChange={(event) => setDifficulty(event.target.value)}><option>All</option>{[1, 2, 3, 4, 5].map((level) => <option key={level} value={level}>Level {level}</option>)}</select></label>
+        <label>Era focus<select value={era} onChange={(event) => setEra(event.target.value)}>{eras.map((item) => <option key={item}>{item}</option>)}</select></label>
+        <label>Sort by<select value={sort} onChange={(event) => setSort(event.target.value)}><option value="recommended">Recommended</option><option value="title">Title A–Z</option><option value="questions">Most questions</option><option value="sources">Most references</option></select></label>
       </div>
-    </>
-  );
+    </details>
+    <section id="browse-library" className="scroll-mt-24" aria-labelledby="browse-library-heading">
+      <div className={styles.resultsToolbar}><div><h2 id="browse-library-heading">{savedOnly ? "Your saved collections" : query ? "What we found" : "Explore the collections"}</h2><p aria-live="polite">{filtered.length} matching {filtered.length === 1 ? "resource" : "resources"}{hasFilters ? <> · <button className="underline underline-offset-2" type="button" onClick={reset}>Clear filters</button></> : null}</p></div>
+        <div className={styles.viewToggle} role="group" aria-label="Library view"><button type="button" aria-label="Grid view" aria-pressed={view === "grid"} onClick={() => setView("grid")}><AppIcon name="grid" width={18} height={18} /></button><button type="button" aria-label="List view" aria-pressed={view === "list"} onClick={() => setView("list")}><AppIcon name="list" width={19} height={19} /></button></div>
+      </div>
+      {pageItems.length ? <div className={view === "grid" ? styles.resourceGrid : styles.libraryList}>
+        {pageItems.map((item) => <article key={item.format + "-" + item.id} className={styles.resource}>
+          <BookmarkButton resource={item} saved={saved.includes(item.id)} toggle={() => toggleSaved(item.id)} />
+          <Link href={item.href} className={styles.resourceMain}>
+            <ResourceIcon resource={item} />
+            <div className={styles.resourceCopy}><p className={styles.cardEyebrow}>{item.category}</p><h3 className={styles.cardTitle}>{item.title}</h3><p className={styles.description}>{item.description}</p><div className={styles.meta}><span>{item.format === "Lesson" ? "Lesson" : item.questionCount + (item.questionCount === 1 ? " question" : " questions")}</span><span>{item.sourceCount === null ? "References not supplied" : item.sourceCount + (item.sourceCount === 1 ? " cited reference" : " cited references")}</span></div></div>
+          </Link>
+        </article>)}
+      </div> : <div className={styles.empty}><AppIcon name={savedOnly ? "bookmark" : "search"} /><h3>{savedOnly && !saved.length ? "Keep a little inspiration close." : "No resources match."}</h3><p>{savedOnly && !saved.length ? "Tap the bookmark on a collection to save it here, on this device." : "Try another word or broaden your filters."}</p><button type="button" className="btn-secondary" onClick={reset}>{savedOnly && !saved.length ? "Discover collections" : "Clear filters"}</button></div>}
+      {pages > 1 ? <nav className={styles.pagination} aria-label="Library pages"><button type="button" className="btn-quiet" disabled={currentPage === 1} onClick={() => changePage(Math.max(1, currentPage - 1))}>Previous</button><span>Page {currentPage} of {pages}</span><button type="button" className="btn-quiet" disabled={currentPage === pages} onClick={() => changePage(Math.min(pages, currentPage + 1))}>Next</button></nav> : null}
+    </section>
+    <aside className={styles.notice}><AppIcon name="book" width={22} height={22} /><div><strong>Prefer a guided path?</strong>Build your understanding with structured lessons.<br /><Link className={styles.textLink} href="/learn">Explore Learn <AppIcon name="arrow" width={15} height={15} /></Link></div></aside>
+    <p className={styles.sourceNote}>The bundled catalogue contains {questionTotal.toLocaleString()} questions and {sourceTotal.toLocaleString()} cited references. {engineState === "live" ? "Topic counts updated from the live catalogue." : engineState === "checking" ? "Checking for updated topic counts…" : "Showing bundled topic counts while live updates are unavailable."}</p>
+  </div>;
 }

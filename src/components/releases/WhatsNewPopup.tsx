@@ -5,6 +5,7 @@ import { Dialog } from "@/components/ui/Dialog";
 import { getEngineUrl } from "@/lib/publicEnv";
 import type { ReleaseNotification } from "@/types/releases";
 import { isNativePlatform } from "@/lib/native";
+import study from "@/components/native/StudyUI.module.css";
 
 const SEEN_KEY = "apologia-seen-release";
 export const SHOW_WHATS_NEW_EVENT = "apologia:show-whats-new";
@@ -54,9 +55,9 @@ export function WhatsNewPopup() {
     <Dialog titleId="whats-new-title" onClose={dismiss} className="max-w-xl rounded-2xl p-5 text-(--text) sm:p-7">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-(--accent)">What’s new</p>
+            <p className={study.eyebrow}>What’s new</p>
             <h2 id="whats-new-title" className="mt-2 text-xl font-bold sm:text-2xl">{release.title}</h2>
-            <p className="mt-1 text-xs text-(--muted)">{release.repository} · {new Date(release.createdAt).toLocaleDateString()}</p>
+            <p className="mt-1 text-xs text-(--muted)">{new Date(release.createdAt).toLocaleDateString()}</p>
           </div>
           <button type="button" onClick={dismiss} aria-label="Dismiss update" className="btn-quiet min-h-10 px-3 py-1.5 text-sm">Close</button>
         </div>

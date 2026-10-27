@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { BrandMark } from "./BrandMark";
+import { NativeHeader } from "@/components/native/NativeHeader";
 
 const navigation = [
   { label: "Learn", href: "/learn" },
@@ -27,7 +28,9 @@ export function AppHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-(--border) bg-(--nav-bg) backdrop-blur-xl">
+    <>
+    <NativeHeader className="native-app-header" />
+    <header className="web-app-header sticky top-0 z-40 border-b border-(--border) bg-(--nav-bg) backdrop-blur-xl">
       <div className="page-container flex min-h-[4.5rem] items-center justify-between gap-4">
         <BrandMark />
         <nav className="hidden h-[4.5rem] items-stretch gap-1 lg:flex" aria-label="Primary navigation">
@@ -60,5 +63,6 @@ export function AppHeader() {
         </div>
       </div>
     </header>
+    </>
   );
 }

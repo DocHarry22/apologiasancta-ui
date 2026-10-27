@@ -25,6 +25,6 @@
         <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
 
         <!-- Pre-Android 12 fallback -->
-        <item name="android:background">@drawable/splash</item>
+        <item name="android:background">@drawable/launch_background</item>
     </style>
 </resources>

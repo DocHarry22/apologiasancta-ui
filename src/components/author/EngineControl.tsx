@@ -534,8 +534,8 @@ export default function EngineControl() {
           </button>
         </div>
 
-        <div className="overflow-hidden rounded-lg border border-(--border)">
-          <div className="grid grid-cols-[minmax(0,1.2fr)_110px_84px_84px_84px_110px] gap-2 border-b border-(--border) bg-(--card) px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-(--muted)">
+        <div className="overflow-x-auto rounded-lg border border-(--border)" role="region" aria-label="Room control details" tabIndex={0}>
+          <div className="grid min-w-[720px] grid-cols-[minmax(0,1.2fr)_110px_84px_84px_84px_110px] gap-2 border-b border-(--border) bg-(--card) px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-(--muted)">
             <span>Room</span>
             <span>Status</span>
             <span>Members</span>
@@ -547,7 +547,7 @@ export default function EngineControl() {
             {rooms.map((room) => (
               <div
                 key={room.roomId}
-                className="grid grid-cols-[minmax(0,1.2fr)_110px_84px_84px_84px_110px] gap-2 px-3 py-3 text-sm"
+                className="grid min-w-[720px] grid-cols-[minmax(0,1.2fr)_110px_84px_84px_84px_110px] gap-2 px-3 py-3 text-sm"
               >
                 <div className="min-w-0">
                   <div className="truncate font-medium">{room.name}</div>

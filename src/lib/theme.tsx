@@ -52,6 +52,7 @@ function resolveTheme(preference: ThemePreference): Theme {
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [preference, setPreferenceState] = useState<ThemePreference>("system");
   const [theme, setThemeState] = useState<Theme>("light");
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     const stored = safeStorageGet(STORAGE_KEY);
@@ -60,9 +61,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const resolvedPreference = isPreference(inlinePreference) ? inlinePreference : initialPreference;
     setPreferenceState(resolvedPreference);
     setThemeState(resolveTheme(resolvedPreference));
+    setInitialized(true);
   }, []);
 
   useEffect(() => {
+    if (!initialized) return;
     const media = window.matchMedia("(prefers-color-scheme: dark)");
     const apply = () => {
       const nextTheme = resolveTheme(preference);
@@ -77,7 +80,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     apply();
     if (preference === "system") media.addEventListener("change", apply);
     return () => media.removeEventListener("change", apply);
-  }, [preference]);
+  }, [preference, initialized]);
 
   const setPreference = (nextPreference: ThemePreference) => {
     setPreferenceState(nextPreference);

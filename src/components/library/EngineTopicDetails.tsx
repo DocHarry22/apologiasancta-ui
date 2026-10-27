@@ -1,9 +1,14 @@
 "use client";
 
+import { ReportIssue } from "@/components/content/ReportIssue";
+
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { EmptyState, Skeleton, StatusBadge } from "@/components/ui/Primitives";
+import { Skeleton } from "@/components/ui/Primitives";
 import { getEngineUrl } from "@/lib/publicEnv";
+import { AppIcon } from "@/components/native/AppIcon";
+import { StudySearch } from "@/components/native/StudyUI";
+import styles from "@/components/native/StudyUI.module.css";
 
 export interface EngineTopicResponse {
   id: string;
@@ -13,52 +18,66 @@ export interface EngineTopicResponse {
 }
 
 export function EngineTopicDetails({ topicId, fallbackTopic = null }: { topicId: string; fallbackTopic?: EngineTopicResponse | null }) {
-  const [topic, setTopic] = useState<EngineTopicResponse | null>(null);
-  const [source, setSource] = useState<"engine" | "bundled" | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [topic, setTopic] = useState<EngineTopicResponse | null>(fallbackTopic);
+  const [source, setSource] = useState<"engine" | "bundled" | null>(fallbackTopic ? "bundled" : null);
+  const [loading, setLoading] = useState(!fallbackTopic);
   const [error, setError] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
-  const [sortBy, setSortBy] = useState<"index" | "id-asc" | "id-desc">("index");
+  const [sortBy, setSortBy] = useState<"index" | "title" | "difficulty">("index");
+  const [difficultyFilter, setDifficultyFilter] = useState("all");
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
+    let active = true;
+    setTopic(fallbackTopic);
+    setSource(fallbackTopic ? "bundled" : null);
+    setLoading(!fallbackTopic);
+    setError(null);
     const engineUrl = getEngineUrl();
     const applyFallback = () => { if (fallbackTopic) { setTopic(fallbackTopic); setSource("bundled"); setError(null); } else { setError("This topic is unavailable from both the live Engine and bundled catalogue."); } setLoading(false); };
     if (!engineUrl) { applyFallback(); return; }
     const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 8000);
     fetch(`${engineUrl}/topics/${encodeURIComponent(topicId)}`, { cache: "no-store", signal: controller.signal })
       .then(async (response) => { if (!response.ok) throw new Error(`Topic unavailable (${response.status})`); return response.json() as Promise<EngineTopicResponse>; })
-      .then((data) => { setTopic(data); setSource("engine"); setError(null); setLoading(false); })
-      .catch((loadError) => { if ((loadError as Error).name !== "AbortError") applyFallback(); });
-    return () => controller.abort();
-  }, [fallbackTopic, topicId]);
+      .then((data) => { if (!Array.isArray(data.questions)) throw new Error("Invalid topic"); if (active) { setTopic(data); setSource("engine"); setError(null); setLoading(false); } })
+      .catch(() => { if (active) applyFallback(); })
+      .finally(() => window.clearTimeout(timeout));
+    return () => { active = false; controller.abort(); window.clearTimeout(timeout); };
+  }, [fallbackTopic, topicId, attempt]);
 
   const filtered = useMemo(() => {
     if (!topic) return [];
     const normalized = query.trim().toLowerCase();
-    const next = topic.questions.map((question, index) => ({ question, index })).filter(({ question }) => !normalized || question.text.toLowerCase().includes(normalized) || question.id.toLowerCase().includes(normalized));
-    if (sortBy === "id-asc") next.sort((a, b) => a.question.id.localeCompare(b.question.id, undefined, { numeric: true }));
-    if (sortBy === "id-desc") next.sort((a, b) => b.question.id.localeCompare(a.question.id, undefined, { numeric: true }));
+    const next = topic.questions.map((question, index) => ({ question, index })).filter(({ question }) => (!normalized || question.text.toLowerCase().includes(normalized) || question.id.toLowerCase().includes(normalized)) && (difficultyFilter === "all" || question.difficulty === Number(difficultyFilter)));
+    if (sortBy === "title") next.sort((a, b) => a.question.text.localeCompare(b.question.text));
+    if (sortBy === "difficulty") next.sort((a, b) => a.question.difficulty - b.question.difficulty);
     return next;
-  }, [query, sortBy, topic]);
+  }, [query, sortBy, difficultyFilter, topic]);
 
-  return (
-    <div className="page-container py-8 sm:py-11">
-      <div className="mx-auto max-w-4xl">
-        <Link href="/library" className="text-sm font-bold text-(--gold-hover) hover:underline">← Back to library</Link>
-        {loading ? <header className="mt-6 space-y-3"><Skeleton className="h-4 w-28" /><Skeleton className="h-12 w-72 max-w-full" /></header>
-        : error ? <div className="mt-6"><EmptyState title="Topic unavailable" description={error} action={<Link href="/library" className="btn-secondary">Browse the library</Link>} /></div>
-        : topic ? <>
-          <header className="mt-6 border-b border-(--border) pb-7"><div className="flex flex-wrap items-center gap-2"><p className="eyebrow">Question collection</p><StatusBadge tone={source === "engine" ? "success" : "warning"}>{source === "engine" ? "Live Engine" : "Bundled offline copy"}</StatusBadge></div><h1 className="editorial-heading mt-2 text-4xl font-semibold sm:text-5xl">{topic.title}</h1><p className="mt-3 text-(--text-muted)">{topic.questionCount} published questions. Answers are intentionally hidden in library browsing; use Practice to test yourself with explanations.</p></header>
-          <section className="surface-card mt-6 p-4" aria-label="Question filters"><div className="grid gap-3 sm:grid-cols-2"><label className="text-xs font-bold text-(--text-muted)">Search questions<input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Question text or ID" className="form-control mt-1" /></label><label className="text-xs font-bold text-(--text-muted)">Sort order<select value={sortBy} onChange={(event) => setSortBy(event.target.value as typeof sortBy)} className="form-control mt-1"><option value="index">Original order</option><option value="id-asc">ID (A→Z)</option><option value="id-desc">ID (Z→A)</option></select></label></div><p className="mt-3 text-xs text-(--text-muted)">Showing {filtered.length} of {topic.questions.length} questions</p></section>
-          <section className="mt-4 space-y-3" aria-label={`${topic.title} questions`}>{filtered.map(({ question, index }) => {
-            const expanded = expandedId === question.id;
-            const difficulty = question.difficulty <= 2 ? "Foundation" : question.difficulty === 3 ? "Intermediate" : "Advanced";
-            return <article key={question.id} className="surface-card overflow-hidden"><h2><button type="button" onClick={() => setExpandedId(expanded ? null : question.id)} aria-expanded={expanded} className="flex min-h-16 w-full items-center gap-3 px-4 py-3 text-left hover:bg-(--surface-elevated)"><span className="font-mono text-xs text-(--text-muted)">#{index + 1}</span><span className="min-w-0 flex-1 font-semibold">{question.text}</span><StatusBadge>{difficulty}</StatusBadge><span className={expanded ? "rotate-180" : ""} aria-hidden="true">⌄</span></button></h2>{expanded ? <div className="border-t border-(--border) p-4"><div className="grid gap-2 sm:grid-cols-2">{question.choices.map((choice) => <div key={choice.id} className="flex min-h-12 items-center gap-3 rounded-lg border border-(--border) bg-(--surface-elevated) px-3 py-2"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-(--gold) text-xs font-bold text-(--gold-hover)">{choice.label}</span><span className="text-sm">{choice.text}</span></div>)}</div><p className="mt-3 text-xs text-(--text-muted)">Topic: {question.themeTitle} · ID: {question.id}</p></div> : null}</article>;
-          })}</section>
-          {!filtered.length ? <EmptyState title="No matching questions" description="Try a different word or clear the search field." /> : null}
-        </> : null}
-      </div>
-    </div>
-  );
+  return <div className={styles.screen}>
+    <Link href="/library" className={styles.breadcrumb}><AppIcon name="chevron" width={15} height={15} /> Back to library</Link>
+    {loading ? <header className="space-y-3" aria-label="Loading collection"><Skeleton className="h-4 w-28" /><Skeleton className="h-12 w-72 max-w-full" /></header>
+      : error ? <div className={styles.empty} role="alert"><AppIcon name="library" /><h1>Topic unavailable</h1><p>{error}</p><button type="button" className="btn-secondary" onClick={() => setAttempt((value) => value + 1)}>Try again</button></div>
+      : topic ? <>
+        <header className={styles.intro}><p className={styles.eyebrow}>Question collection</p><h1 className={styles.title}>{topic.title}</h1><p>Explore the questions. Consider the possibilities. Take your understanding a little deeper.</p><div className={styles.stats}><span><strong>{topic.questionCount}</strong> published questions</span><span>{source === "engine" ? "Updated from the live catalogue" : "Bundled collection"}</span></div></header>
+        <StudySearch id="topic-search" label="Search questions" value={query} onChange={setQuery} placeholder="Find a question in this collection…" />
+        <details className={styles.filters}><summary><AppIcon name="filter" width={16} height={16} /> Refine this collection{difficultyFilter !== "all" ? " · difficulty filter active" : ""}</summary><div className={styles.filterGrid}>
+          <label>Difficulty<select value={difficultyFilter} onChange={(event) => setDifficultyFilter(event.target.value)}><option value="all">All levels</option>{[1, 2, 3, 4, 5].map((level) => <option key={level} value={level}>Level {level}</option>)}</select></label>
+          <label>Sort order<select value={sortBy} onChange={(event) => setSortBy(event.target.value as typeof sortBy)}><option value="index">Original order</option><option value="title">Question title A–Z</option><option value="difficulty">Difficulty</option></select></label>
+        </div></details>
+        <div className={styles.sectionHeading}><div><h2>A question to reflect on</h2><p aria-live="polite">Showing {filtered.length} of {topic.questions.length} questions</p></div></div>
+        <section className={styles.questionList} aria-label={topic.title + " questions"}>{filtered.map(({ question, index }) => {
+          const expanded = expandedId === question.id;
+          const difficulty = question.difficulty <= 2 ? "Foundation" : question.difficulty === 3 ? "Intermediate" : "Advanced";
+          return <article key={question.id} className={styles.question}>
+            <h2><button type="button" className={styles.questionButton} onClick={() => setExpandedId(expanded ? null : question.id)} aria-expanded={expanded} aria-controls={"question-choices-" + index}><span className={styles.questionNumber}>{String(index + 1).padStart(2, "0")}</span><span className={styles.questionText}><strong>{question.text}</strong><small>{difficulty} · Tap to {expanded ? "close" : "explore"}</small></span><AppIcon name="chevron" width={16} height={16} /></button></h2>
+            {expanded ? <div className={styles.questionContent} id={"question-choices-" + index}><div className={styles.choices}>{question.choices.map((choice) => <div key={choice.id} className={styles.choice}><span>{choice.label}</span><span>{choice.text}</span></div>)}</div><p className={styles.sourceNote}>Answers and explanations are available in Practice. Browsing a collection does not submit an answer.</p><ReportIssue app="quiz" contentType="question" contentId={question.id} title={question.text} snapshot={question} /></div> : null}
+          </article>;
+        })}</section>
+        {!filtered.length ? <div className={styles.empty}><AppIcon name="search" /><h2>No matching questions.</h2><p>Try a different word or broaden the difficulty filter.</p><button type="button" className="btn-secondary" onClick={() => { setQuery(""); setDifficultyFilter("all"); }}>Clear filters</button></div> : null}
+        <section className={styles.compactFeature}><div><h2>Ready to test what you know?</h2><p>Switch to Practice for questions with answer explanations.</p></div><Link href="/practice" aria-label="Open practice"><AppIcon name="arrow" width={21} height={21} /></Link></section>
+      </> : null}
+  </div>;
 }

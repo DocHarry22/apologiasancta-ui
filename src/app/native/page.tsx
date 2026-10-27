@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { AppShell } from "@/components/shell/AppShell";
-import { HomeDashboard } from "@/components/home/HomeDashboard";
+import { NativeHomeDashboard } from "@/components/native/NativeHomeDashboard";
 import { readSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
 import { listTopicsWithCounts } from "@/lib/content";
 import { getCurrentUser } from "@/lib/server/currentUser";
+import { getDailyVerse } from "@/lib/verses";
 
 export const metadata: Metadata = { title: "Apologia Sancta", description: "Defend the Faith. Learn the Truth." };
 
@@ -15,5 +15,5 @@ export default async function NativeHome() {
   if (session) { try { userName = (await getCurrentUser(session.userId)).displayName; } catch { /* public native hub remains available */ } }
   let topics: Awaited<ReturnType<typeof listTopicsWithCounts>> = [];
   try { topics = await listTopicsWithCounts(); } catch { /* bundled lesson actions remain available */ }
-  return <AppShell footer={false} mobileNavigation={false}><HomeDashboard userName={userName} topics={topics} /></AppShell>;
+  return <NativeHomeDashboard userName={userName} topics={topics} verse={getDailyVerse()} />;
 }

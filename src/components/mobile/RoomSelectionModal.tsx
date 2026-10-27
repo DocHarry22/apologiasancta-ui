@@ -3,6 +3,9 @@
 import { useMemo, useState, useCallback, useEffect } from "react";
 import type { RoomSummary } from "@/types/quiz";
 import { Dialog } from "@/components/ui/Dialog";
+import { AppIcon } from "@/components/native/AppIcon";
+import { StudySearch } from "@/components/native/StudyUI";
+import styles from "./QuizScreen.module.css";
 
 interface RoomSelectionModalProps {
   engineUrl: string;
@@ -108,26 +111,27 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
   };
 
   return (
-    <Dialog titleId="room-selection-title" descriptionId="room-selection-description" onClose={onClose} className="flex max-h-[90dvh] max-w-lg flex-col rounded-2xl">
-        <div className="shrink-0 px-8 pt-8 pb-4 text-center">
-          <h2 id="room-selection-title" className="editorial-heading text-2xl font-semibold">
+    <Dialog titleId="room-selection-title" descriptionId="room-selection-description" onClose={onClose} className={`flex max-h-[90dvh] max-w-lg flex-col ${styles.dialog}`}>
+        <div className={styles.modalHeader}>
+          <p className={styles.eyebrow}>Better together</p>
+          <h2 id="room-selection-title">
             Choose a room
           </h2>
-          <p id="room-selection-description" className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-            Pick an active room before you join the live quiz.
+          <p id="room-selection-description">
+            Find your room, join the quiz, and learn with others.
           </p>
           {onClose ? (
             <button
               type="button"
               onClick={onClose}
-              className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-(--muted) transition-colors hover:text-foreground"
+              className="mt-1"
             >
               Close
             </button>
           ) : null}
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto px-8 pb-8">
+        <div className={styles.modalBody}>
         {loading ? (
           <div className="rounded-xl p-4 text-sm" style={{ backgroundColor: "var(--option-bg)", color: "var(--muted)" }}>
             Loading available rooms...
@@ -140,22 +144,14 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
             <button
               type="button"
               onClick={() => void loadRooms()}
-              className="w-full rounded-xl py-3 text-sm font-semibold text-white"
-              style={{ backgroundColor: "var(--accent)" }}
+              className="btn-primary w-full"
             >
               Retry
             </button>
           </div>
         ) : (
           <div className="space-y-3">
-            <label className="sr-only" htmlFor="room-search">Search rooms</label>
-            <input
-              id="room-search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search rooms"
-              className="min-h-11 w-full rounded-xl border border-(--mobile-border) bg-(--mobile-elevated) px-4 py-3 text-sm text-(--mobile-text) outline-none focus:border-(--accent)"
-            />
+            <StudySearch id="room-search" label="Search rooms" value={query} onChange={setQuery} placeholder="Search by room name or code…" />
             {notice ? (
               <div className="rounded-xl border border-(--mobile-border) bg-(--mobile-elevated) px-3 py-2 text-xs text-(--mobile-muted)">
                 {notice}
@@ -175,9 +171,9 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <div className="text-base font-semibold" style={{ color: "var(--text)" }}>
+                      <h3 className={styles.roomTitle}>
                         {room.name}
-                      </div>
+                      </h3>
                       <div className="mt-1 text-xs uppercase tracking-wider" style={{ color: "var(--muted)" }}>
                         {room.roomId}
                       </div>
@@ -201,7 +197,7 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
                       type="button"
                       disabled={!playable}
                       onClick={() => selectRoom(room)}
-                      className="min-h-11 rounded-lg bg-(--accent) px-3 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+                      className="btn-primary min-h-11 px-3 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {room.roomId === currentRoomId ? "Stay here" : playable ? "Join room" : "Room is closed"}
                     </button>
@@ -210,7 +206,7 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
                       onClick={() => void copyRoomLink(room)}
                       className="min-h-11 rounded-lg border border-(--mobile-border) px-3 py-2 text-sm font-semibold text-(--mobile-muted)"
                     >
-                      Copy link
+                      Copy link <AppIcon className="inline-block" name="arrow" width={12} height={12} />
                     </button>
                   </div>
                 </div>

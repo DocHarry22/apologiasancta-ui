@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import type { TopicCountdownEvent } from "@/types/quiz";
+import styles from "./QuizOverlays.module.css";
 
 interface TopicCountdownProps {
   /** Topic countdown event data */
@@ -73,13 +74,13 @@ export function TopicCountdown({
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm ${animationClass}`}
+      className={`${styles.backdrop} ${animationClass}`}
       role="alertdialog"
       aria-modal="true"
       aria-label={`Topic starting in ${secondsRemaining} seconds`}
       aria-live="assertive"
     >
-      <div className="text-center p-8">
+      <div className={styles.countdownCard}>
         {/* Topic Title */}
         <p className="text-(--muted) text-sm uppercase tracking-wider mb-2">
           Up Next

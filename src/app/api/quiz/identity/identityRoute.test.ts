@@ -2,27 +2,17 @@ import { NextRequest } from "next/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { generateCsrfToken } from "@/lib/csrf";
 import { clearSignupRateLimit } from "@/lib/auth/rateLimit";
-import { SESSION_COOKIE_NAME } from "@/lib/auth/session";
-import { resetAdminUserStoreForTests } from "@/lib/server/adminUserStore";
-import { POST as signup } from "@/app/api/auth/signup/route";
+import { createSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
+import { createAdminUser, resetAdminUserStoreForTests } from "@/lib/server/adminUserStore";
 import { GET as getIdentitySession, POST as exchangeIdentity } from "./route";
 
 async function createSession(): Promise<string> {
-  const response = await signup(new NextRequest("https://ui.test/api/auth/signup", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      name: "Identity Test",
-      email: "identity-route@example.test",
-      password: "identity-route-password",
-      confirmPassword: "identity-route-password",
-    }),
-  }));
-  expect(response.status).toBe(200);
-  const session = (response.headers.get("set-cookie") ?? "")
-    .match(new RegExp(`${SESSION_COOKIE_NAME}=([^;]+)`))?.[1];
-  if (!session) throw new Error("Test session cookie was not created");
-  return session;
+  const user = await createAdminUser({
+    displayName: "Identity Test", email: "identity-route@example.test",
+    password: "identity-route-password", role: "viewer", accountType: "public",
+  });
+  if (!user) throw new Error("Test account was not created");
+  return createSessionCookie(user.id);
 }
 
 async function identityRequest(

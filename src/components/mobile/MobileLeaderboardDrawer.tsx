@@ -1,4 +1,5 @@
 "use client";
+import styles from "./QuizOverlays.module.css";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -188,7 +189,7 @@ export function MobileLeaderboardDrawer({
   return (
     <AnimatePresence>
       {open ? (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-0 z-60">
           <motion.button
             type="button"
             aria-label="Close leaderboard"
@@ -204,7 +205,7 @@ export function MobileLeaderboardDrawer({
             aria-modal="true"
             aria-labelledby="mobile-leaderboard-title"
             tabIndex={-1}
-            className="absolute inset-x-0 bottom-0 max-h-[78vh] overflow-hidden rounded-t-[2rem] border border-(--mobile-border) bg-(--mobile-panel-solid) shadow-[0_-24px_70px_var(--mobile-shadow)]"
+            className={`absolute inset-x-0 bottom-0 overflow-hidden shadow-[0_-24px_70px_var(--mobile-shadow)] ${styles.sheet}`}
             initial={prefersReducedMotion ? { opacity: 0 } : { y: "100%", opacity: 0.8 }}
             animate={prefersReducedMotion ? { opacity: 1 } : { y: 0, opacity: 1 }}
             exit={prefersReducedMotion ? { opacity: 0 } : { y: "100%", opacity: 0.8 }}
@@ -213,7 +214,7 @@ export function MobileLeaderboardDrawer({
             <div className="mx-auto mt-3 h-1.5 w-16 rounded-full bg-(--mobile-subtle)" />
             <div className="flex items-center justify-between px-5 pb-3 pt-4">
               <div className="min-w-0">
-                <h2 id="mobile-leaderboard-title" className="truncate text-xl font-semibold tracking-wide text-(--mobile-text)">
+                <h2 id="mobile-leaderboard-title" className={styles.sheetTitle}>
                   Trophy Leaderboard
                 </h2>
                 <p className="mt-1 truncate text-xs font-medium uppercase tracking-[0.16em] text-(--gold-hover)">
@@ -223,7 +224,7 @@ export function MobileLeaderboardDrawer({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-(--mobile-border) text-(--mobile-muted)"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-(--mobile-border) text-(--mobile-muted)"
                 aria-label="Close leaderboard"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -254,7 +255,7 @@ export function MobileLeaderboardDrawer({
               </div>
             </div>
 
-            <div className="mt-4 max-h-[52vh] overflow-y-auto px-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
+            <div className={`mt-4 overflow-y-auto px-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] ${styles.sheetBody}`}>
               {error ? (
                 <div className="mb-3 rounded-xl border border-(--danger) bg-(--wrong-bg) px-3 py-2 text-sm text-(--wrong)" role="alert">{error}</div>
               ) : null}
@@ -274,7 +275,7 @@ export function MobileLeaderboardDrawer({
                   <button
                     type="button"
                     onClick={onRefresh}
-                    className="rounded-full border border-(--mobile-border) px-3 py-1 text-(--mobile-muted)"
+                    className="min-h-11 rounded-full border border-(--mobile-border) px-3 py-1 text-(--mobile-muted)"
                   >
                     Refresh
                   </button>

@@ -1,5 +1,7 @@
 "use client";
 
+import { ReportIssue } from "@/components/content/ReportIssue";
+
 import { Suspense, useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import {
@@ -18,13 +20,14 @@ import {
   TopicSummaryPanel,
   TopicCountdown,
   CongratsOverlay,
-  FloatingLeaderboardButton,
   MobileLeaderboardDrawer,
   ScoreBurst,
   StreakToast,
 } from "@/components/mobile";
 import type { LeaderboardMode } from "@/components/mobile/LeaderboardColumn";
 import { MobileBottomNavigation } from "@/components/shell/MobileBottomNavigation";
+import { AppIcon } from "@/components/native/AppIcon";
+import styles from "@/components/mobile/QuizScreen.module.css";
 import { useLeaderboardDiff } from "@/hooks/useLeaderboardDiff";
 import { useQuizSSE } from "@/hooks/useQuizSSE";
 import { useLocalPlayer } from "@/hooks/useLocalPlayer";
@@ -819,7 +822,7 @@ function MobilePageContent() {
     <>
       <Layout
         leftContent={
-          <div className="mx-auto flex min-h-screen w-full max-w-screen flex-1 flex-col bg-(--mobile-bg) pb-[env(safe-area-inset-bottom)] text-(--mobile-text) lg:max-w-none lg:bg-transparent lg:text-inherit">
+          <div className={styles.playFrame}>
             {/* TopBar - always visible, not covered by overlays */}
             <TopBar
               roomName={quizState.roomName || roomName || undefined}
@@ -831,41 +834,48 @@ function MobilePageContent() {
               onSwitchRoom={isUsingSSE ? handleSwitchRoom : undefined}
             />
 
-            {isUsingSSE && connectionStatus !== "connected" && (
-              <div className="px-3 pt-2">
-                <div className="rounded-xl border border-(--border) bg-(--card)/85 px-3 py-2 text-[11px] text-(--text-secondary)">
-                  {connectionStatus === "disconnected"
-                    ? "Live engine unavailable. The app is retrying in the background."
-                    : connectionStatus === "reconnecting"
-                      ? "Reconnecting to the live room..."
-                      : connectionStatus === "polling"
-                        ? "Using polling fallback for live updates."
-                        : "Connecting to the live room..."}
-                </div>
-              </div>
-            )}
-
-            <div className="quiz-mobile-status-stack space-y-2 px-4 pt-3">
-              <PhaseStatusPanel
+            <div className={styles.statusStack}>
+              {(quizState.phase !== "OPEN" || connectionStatus !== "connected" || topicCountdownEvent || topicCompleteEvent || congratsEvent) ? <PhaseStatusPanel
                 title={phaseCopy.title}
                 detail={phaseCopy.detail}
                 phase={quizState.phase}
-                answerNotice={answerNotice}
-                submitted={hasSubmittedCurrentRound}
-              />
-              <OnboardingStatusPanel
+              /> : null}
+              {(!isRegistered || roomNotice) ? <OnboardingStatusPanel
                 state={onboardingState}
                 roomName={quizState.roomName || roomName}
                 roomId={roomId}
                 playerName={username || playerData.playerName}
                 notice={roomNotice}
                 onChooseRoom={isUsingSSE ? handleSwitchRoom : undefined}
-              />
+              /> : null}
             </div>
             
             {/* Main content area - can be overlayed by CongratsOverlay */}
-            <div className="relative mx-auto flex w-full max-w-screen flex-1 flex-col pb-28 lg:max-w-none lg:pb-0">
-          <div className="quiz-mobile-score-summary relative mx-4 mt-3 grid grid-cols-2 overflow-hidden rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) shadow-[0_10px_28px_var(--mobile-shadow)] lg:hidden">
+            <div className={styles.roundBody}>
+          {/* Countdown Timer */}
+          <CountdownRing
+            endsAtMs={quizState.endsAtMs}
+            durationSeconds={QUESTION_DURATION}
+            phase={quizState.phase}
+          />
+
+          {/* Question - with ref for score animation source */}
+          <div ref={sourceRef}>
+            <QuestionCard text={quizState.question.text} />
+          </div>
+
+          <AnswerList
+            options={quizState.question.choices}
+            selectedId={selectedId}
+            correctId={quizState.question.correctId}
+            phase={quizState.phase}
+            answerResult={answerResultEvent}
+            submissionState={answerSubmissionState}
+            onSelect={handleSelect}
+          />
+          {answerNotice ? <p className={styles.submissionNotice} role="status" aria-live="polite" data-submitted={hasSubmittedCurrentRound}>{answerNotice}</p> : null}
+
+          <div className={"quiz-mobile-score-summary " + styles.scoreSummary}>
             <div className="relative px-5 py-4">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-(--mobile-muted)">
                 <svg className="h-4 w-4 text-(--gold-hover)" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -886,7 +896,21 @@ function MobilePageContent() {
               <div className="quiz-mobile-score-value mt-1 text-3xl font-bold tabular-nums text-(--mobile-text)">{playerData.streak}</div>
               <StreakToast streak={playerData.streak} eventKey={streakToastKey} />
             </div>
+            <button className={styles.rankButton} type="button" onClick={() => setIsLeaderboardOpen(true)} aria-label="Open leaderboard" data-update={leaderboardPulseKey}><span><AppIcon name="trophy" width={13} height={13} /> Rank</span><strong>{playerData.rank ? "#" + playerData.rank : "—"}</strong></button>
           </div>
+          <div className={styles.reportLink}><ReportIssue app="quiz" contentType="question" contentId={quizState.question.contentId || `live:${roomId}:${quizState.questionIndex}`} title={quizState.question.text} revisionId={quizState.question.reportRevisionId} snapshot={{ ...quizState.question, ...(quizState.teaching ? { teaching: quizState.teaching } : {}) }} /></div>
+
+          {/* Teaching moment (always visible during REVEAL) */}
+          {quizState.teaching && quizState.phase === "REVEAL" && (
+            <TeachingMomentCard
+              title={quizState.teaching.title}
+              explanation={quizState.teaching.body}
+              references={teachingRefs}
+              defaultOpen={Boolean(quizState.teaching.isOpenByDefault)}
+            />
+          )}
+
+          <details className={styles.roundDetails}><summary>Your room and rankings</summary>
           <div className="quiz-mobile-player-details mx-4 mt-2 rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) px-4 py-3 text-(--mobile-text) shadow-[0_8px_20px_var(--mobile-shadow)] lg:hidden">
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div className="min-w-0">
@@ -931,39 +955,7 @@ function MobilePageContent() {
             </div>
           </div>
 
-          {/* Countdown Timer */}
-          <CountdownRing
-            endsAtMs={quizState.endsAtMs}
-            durationSeconds={QUESTION_DURATION}
-            phase={quizState.phase}
-          />
-
-          {/* Question - with ref for score animation source */}
-          <div ref={sourceRef}>
-            <QuestionCard text={quizState.question.text} />
-          </div>
-
-          {/* Answer choices */}
-          <AnswerList
-            options={quizState.question.choices}
-            selectedId={selectedId}
-            correctId={quizState.question.correctId}
-            phase={quizState.phase}
-            answerResult={answerResultEvent}
-            submissionState={answerSubmissionState}
-            onSelect={handleSelect}
-          />
-
-          {/* Teaching moment (always visible during REVEAL) */}
-          {quizState.teaching && quizState.phase === "REVEAL" && (
-            <TeachingMomentCard
-              title={quizState.teaching.title}
-              explanation={quizState.teaching.body}
-              references={teachingRefs}
-              defaultOpen={Boolean(quizState.teaching.isOpenByDefault)}
-            />
-          )}
-
+          </details>
           {/* Spacer */}
           <div className="flex-1" />
 
@@ -992,7 +984,7 @@ function MobilePageContent() {
             </div>
           )}
 
-          <div className="px-4 pb-3 lg:hidden">
+          <div className={styles.roundProgress}>
             <div className="flex items-center gap-3 text-sm font-semibold text-(--mobile-muted)">
               <span className="text-(--gold-hover)">Q{quizState.questionIndex + 1}</span>
               <span>/ {quizState.totalQuestions || 0}</span>
@@ -1061,12 +1053,6 @@ function MobilePageContent() {
         }
       />
 
-      <FloatingLeaderboardButton
-        rank={playerData.rank}
-        pulseKey={leaderboardPulseKey}
-        onClick={() => setIsLeaderboardOpen(true)}
-      />
-
       <MobileLeaderboardDrawer
         open={isLeaderboardOpen}
         onClose={() => setIsLeaderboardOpen(false)}
@@ -1107,8 +1093,8 @@ function MobilePageContent() {
         />
       )}
 
-      {!isCheckingRegistration && isUsingSSE && !!roomId && !isRegistered && (
-        <JoinGameModal roomId={roomId} roomName={roomName} onJoined={handleJoined} />
+      {!isCheckingRegistration && isUsingSSE && !!roomId && !isRegistered && !isRoomPickerOpen && (
+        <JoinGameModal roomId={roomId} roomName={roomName} onJoined={handleJoined} onCancel={handleSwitchRoom} />
       )}
       
       {/* Topic Countdown Overlay - shown before a new topic starts */}
@@ -1128,43 +1114,13 @@ function PhaseStatusPanel({
   title,
   detail,
   phase,
-  answerNotice,
-  submitted,
 }: {
   title: string;
   detail: string;
   phase: QuizPhase;
-  answerNotice: string | null;
-  submitted: boolean;
 }) {
-  const tone =
-    phase === "OPEN"
-      ? "border-green-500/30 bg-green-500/10 text-green-700 dark:text-green-300"
-      : phase === "REVEAL"
-        ? "border-(--accent)/40 bg-(--accent)/10 text-(--mobile-text)"
-        : "border-(--mobile-border) bg-(--mobile-elevated) text-(--mobile-text)";
-
   return (
-    <section className={`rounded-2xl border px-4 py-3 shadow-[0_8px_20px_var(--mobile-shadow)] ${tone}`} aria-live="polite">
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-(--mobile-muted)">
-            {phase}
-          </p>
-          <h2 className="mt-0.5 text-base font-bold">{title}</h2>
-          <p className="mt-1 text-xs text-(--mobile-muted)">{detail}</p>
-        </div>
-        {submitted ? (
-          <span className="shrink-0 rounded-full border border-(--accent) bg-(--accent)/15 px-2 py-1 text-[10px] font-bold uppercase text-(--accent)">
-            Submitted
-          </span>
-        ) : null}
-      </div>
-      {answerNotice ? (
-        <p className="mt-2 rounded-lg bg-(--mobile-panel) px-3 py-2 text-xs text-(--mobile-muted)">
-          {answerNotice}
-        </p>
-      ) : null}
+    <section className={styles.phaseStatus} data-phase={phase} aria-live="polite"><h2>{title}</h2><p>{detail}</p>
     </section>
   );
 }
@@ -1198,7 +1154,7 @@ function OnboardingStatusPanel({
   if (state === "ready" && !notice) return null;
 
   return (
-    <section className="rounded-2xl border border-(--mobile-border) bg-(--mobile-panel) px-4 py-3 text-(--mobile-text)">
+    <section className={styles.onboarding}>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h2 className="text-sm font-bold">{current.title}</h2>

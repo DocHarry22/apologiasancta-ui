@@ -10,6 +10,10 @@ The product is therefore an **Apologia Knowledge Engine** with multiple experien
 
 ## Repository architecture
 
+Research discovery uses title searches for claims and published structured arguments in Compare and Debate. Suggestions come from stored relationships around the selected claim or reviewed topic roots; curated starting journeys use published topics. Empty catalogues and unavailable services show explicit states, with retries. Existing canonical deep links remain supported.
+
+The same-origin, read-only Knowledge proxy exposes bounded `/search` and `/arguments` reads. Argument browsing requires the matching Engine update (`GET /knowledge/arguments?q=...&limit=12`); it returns only published argument summaries. No authoring credentials are sent to the browser.
+
 | Repository | Responsibility |
 |---|---|
 | `apologiasancta-ui` | Main Next.js product, Learn, Quiz, Research, Library, Admin, PWA and Android shell |
@@ -17,6 +21,16 @@ The product is therefore an **Apologia Knowledge Engine** with multiple experien
 | `apologia-graph` | Canonical 3D Galaxy, graph navigation, Evidence Inspector and advanced research visualization |
 
 The repositories are deliberately separated so the canonical knowledge model is not duplicated inside individual product features.
+
+### Android 3D Graph
+
+`/research/graph` loads the actual configured Apologia Graph website in the app shell, defaulting to its 3D view. Home, Research, topic links, Timeline references and saved journeys can open this workspace without leaving Android. Saved record, focus, lens, depth, compatibility mode, view and ordered trail are retained. The canvas and data remain owned by the Graph website.
+
+Set `NEXT_PUBLIC_RESEARCH_GRAPH_URL` to Graph's HTTPS origin. Production CSP permits frames only from that configured origin. The Graph site must permit embedding by the learner app. The current production site allows it. A website fallback, reload, offline state and expanded canvas remain available.
+
+Deploy the accompanying Graph changes for its compact embedded layout and popup-free account connection. Graph's `VITE_LEARNER_APP_URL` must match the app origin. Account access is requested explicitly using **Connect learner account**, then handled by the existing same-origin learner journey API; cookies and CSRF tokens stay in the app. Guest data is never uploaded automatically. Local example: app on `http://127.0.0.1:3000`, Graph on `http://127.0.0.1:4000`, and matching origins in both configurations. Native APK testing must use device-reachable HTTPS URLs.
+
+Rebuild/sync the Android project for `GraphWebViewClient` and its `GraphEmbed.origin` configuration. It permits the configured Graph origin in subframes while retaining normal external-link handling and Capacitor's app-only plugin origins. Run `node --test --experimental-strip-types tests/android-graph-navigation.test.ts` with a JDK to check the native origin policy without an Android SDK.
 
 ## Implementation status
 

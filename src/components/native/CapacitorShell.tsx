@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { SplashScreen } from "@capacitor/splash-screen";
@@ -24,9 +23,10 @@ export function CapacitorShell() {
     !pathname.startsWith("/author") &&
     !pathname.startsWith("/login") &&
     !pathname.startsWith("/signup") &&
+    !pathname.startsWith("/forgot-password") &&
+    !pathname.startsWith("/reset-password") &&
+    !pathname.startsWith("/verify-email") &&
     !pathname.startsWith("/api");
-  const showAccountDeletionShortcut =
-    isCapacitor && currentPath.startsWith("/account") && currentPath !== "/account/delete";
 
   useEffect(() => {
     const isNative = isNativePlatform();
@@ -34,6 +34,8 @@ export function CapacitorShell() {
     setShowBootOverlay(isNative);
 
     if (!isNative) return;
+
+    document.documentElement.dataset.nativeApp = "true";
 
     let cancelled = false;
 
@@ -79,15 +81,6 @@ export function CapacitorShell() {
   return (
     <>
       <StartupBootOverlay show={showBootOverlay} />
-      {showAccountDeletionShortcut ? (
-        <Link
-          href="/account/delete"
-          className="fixed right-4 z-50 rounded-full border border-(--danger) bg-(--surface-elevated) px-3 py-2 text-xs font-black text-(--danger) shadow-lg"
-          style={{ bottom: "calc(4.75rem + env(safe-area-inset-bottom, 0px))" }}
-        >
-          Delete account
-        </Link>
-      ) : null}
       {showNativeTabs && <NativeBottomTabs />}
       {!showBootOverlay && Capacitor.getPlatform() === "android" && <AndroidUpdatePrompt />}
     </>

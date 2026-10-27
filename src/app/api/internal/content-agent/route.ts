@@ -1,14 +1,9 @@
-import { timingSafeEqual } from "node:crypto";
+import { validAgentToken } from "@/lib/server/agent/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { runAgent } from "@/lib/server/agent/runner";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 600;
-export function validAgentToken(header: string | null, secret: string | undefined): boolean {
-  if (!secret || secret.length < 32 || !header?.startsWith("Bearer ")) return false;
-  const actual = Buffer.from(header.slice(7)); const expected = Buffer.from(secret);
-  return actual.length === expected.length && timingSafeEqual(actual, expected);
-}
 export async function POST(request: NextRequest) {
   const headers = { "Cache-Control": "no-store" };
   if (!validAgentToken(request.headers.get("authorization"), process.env.CONTENT_AGENT_CRON_SECRET)) return NextResponse.json({ error: "Unauthorized" }, { status: 401, headers });

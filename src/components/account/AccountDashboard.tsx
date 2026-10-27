@@ -21,6 +21,10 @@ import {
 import { LIBRARY_BOOKMARKS_KEY, parseLibraryBookmarks } from "@/lib/libraryBookmarks";
 import { clearStoredPlayerIdentity, runWithStoredAccountSessionBoundary } from "@/lib/playerIdentity";
 import { useTheme, type ThemePreference } from "@/lib/theme";
+import { EmailVerificationPanel } from "@/components/auth/AccountRecovery";
+import { AppIcon, type AppIconName } from "@/components/native/AppIcon";
+import study from "@/components/native/StudyUI.module.css";
+import styles from "./AccountDashboard.module.css";
 
 export type AccountSection =
   | "overview"
@@ -33,6 +37,7 @@ export type AccountSection =
   | "privacy";
 
 export interface AccountProfile {
+  emailVerifiedAt?: string | null;
   displayName: string;
   email: string | null;
   roleLabel: string;
@@ -66,6 +71,8 @@ const sections: Array<{ id: AccountSection; label: string; description: string }
   { id: "notifications", label: "Notifications", description: "Product update notices" },
   { id: "privacy", label: "Privacy", description: "Device data controls" },
 ];
+
+const sectionIcons: Record<AccountSection, AppIconName> = { overview: "account", learning: "book", quiz: "trophy", saved: "bookmark", appearance: "spark", security: "lock", notifications: "bell", privacy: "shield" };
 
 function formatDate(value: string | null, includeTime = false): string {
   if (!value) return "Not available";
@@ -191,30 +198,17 @@ export function AccountDashboard({
   };
 
   return (
-    <div className="page-container py-8 sm:py-12">
-      <section className="surface-card-elevated overflow-hidden">
-        <div className="border-b border-(--border) bg-[linear-gradient(135deg,color-mix(in_srgb,var(--navy)_94%,transparent),color-mix(in_srgb,var(--navy)_78%,var(--gold)))] px-5 py-7 text-white sm:px-8 sm:py-9">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-4">
-              <div className="grid h-16 w-16 shrink-0 place-items-center rounded-full border border-(--gold) bg-[color-mix(in_srgb,var(--gold)_18%,transparent)] font-[family-name:var(--font-editorial)] text-xl font-bold text-(--gold)">
-                {initials(profile.displayName)}
-              </div>
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-(--gold)">Your account</p>
-                <h1 className="mt-1 font-[family-name:var(--font-editorial)] text-3xl font-semibold text-white sm:text-4xl">{profile.displayName}</h1>
-                <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <StatusBadge tone="success">Signed in</StatusBadge>
-                  <StatusBadge tone="warning">{profile.accountType === "public" ? "Learner" : profile.roleLabel}</StatusBadge>
-                </div>
-              </div>
-            </div>
-            <Link href="/learn" className="btn-primary self-start sm:self-auto">Continue learning</Link>
-          </div>
+    <div className={study.screen}>
+      <header className={styles.intro}><p className={study.eyebrow}>Your account</p><h1 className={study.title}>Your faith.<br /><em>Your journey.</em></h1><p className={study.introDescription}>A place for your progress, preferences, and the things you want to return to.</p></header>
+      <section>
+        <div className={styles.profile}>
+          <div className={styles.identity}><div className={styles.avatar} aria-hidden="true">{initials(profile.displayName)}</div><div><h2 className={styles.name}>{profile.displayName}</h2><p className={styles.email}>{profile.email || "Your Apologia Sancta account"}</p></div></div>
+          <div className={styles.profileMeta}><span><AppIcon name="check" width={13} height={13} /> Signed in</span><span>{profile.accountType === "public" ? "Learner" : profile.roleLabel}</span><Link href="/learn">Continue learning <AppIcon name="arrow" width={15} height={15} /></Link></div>
         </div>
 
-        <div className="grid min-h-[36rem] lg:grid-cols-[17rem_minmax(0,1fr)]">
-          <nav className="border-b border-(--border) bg-(--surface) p-3 lg:border-b-0 lg:border-r lg:p-4" aria-label="Account settings">
-            <div className="flex gap-2 overflow-x-auto pb-1 lg:block lg:space-y-1" role="tablist" aria-label="Account sections">
+        <div>
+          <nav aria-label="Account settings">
+            <div className={styles.tabs} role="tablist" aria-label="Account sections">
               {sections.map((section, index) => (
                 <button
                   key={section.id}
@@ -227,22 +221,22 @@ export function AccountDashboard({
                   tabIndex={activeSection === section.id ? 0 : -1}
                   onClick={() => selectSection(section.id)}
                   onKeyDown={(event) => handleTabKeyDown(event, index)}
-                  className={`min-w-max rounded-lg border px-3 py-2.5 text-left lg:w-full ${activeSection === section.id ? "border-(--gold) bg-[color-mix(in_srgb,var(--gold)_9%,transparent)] text-(--text)" : "border-transparent text-(--text-muted) hover:bg-(--surface-elevated) hover:text-(--text)"}`}
+                  className={styles.tab}
                 >
-                  <span className="block text-sm font-extrabold">{section.label}</span>
-                  <span className="mt-0.5 hidden text-xs text-(--text-muted) lg:block">{section.description}</span>
+                  <AppIcon name={sectionIcons[section.id]} width={19} height={19} />
+                  <span>{section.label}</span>
                 </button>
               ))}
             </div>
           </nav>
 
-          <div className="min-w-0 bg-(--background) p-5 sm:p-7 lg:p-9">
-            {activeSection === "overview" ? <OverviewPanel profile={profile} completedLessons={completedLessons} lessonCount={trackedLessonCount} totalQuizzes={totalQuizzes} /> : null}
+          <div className="min-w-0">
+            {activeSection === "overview" ? <OverviewPanel profile={profile} completedLessons={completedLessons} totalQuizzes={totalQuizzes} savedCount={savedResourceIds.length} progressAvailable={Boolean(officialLearning) || learningLessonIds.length > 0} /> : null}
             {activeSection === "learning" ? <LearningPanel progress={learningProgress} completedLessons={completedLessons} lessonCount={trackedLessonCount} percent={learningPercent} pathTitle={learningPathTitle} practiceQuestionCount={practiceQuestionCount} official={Boolean(officialLearning)} masteryCount={officialLearning?.mastery?.masteredAttemptCount ?? 0} /> : null}
             {activeSection === "quiz" ? <QuizPanel history={history} totalQuizzes={totalQuizzes} bestScore={bestScore} /> : null}
             {activeSection === "saved" ? <SavedPanel savedIds={savedResourceIds} resources={savedResourceOptions} /> : null}
             {activeSection === "appearance" ? <AppearancePanel /> : null}
-            {activeSection === "security" ? <SecurityPanel lastLoginAt={profile.lastLoginAt} onSignedOut={() => router.replace("/login")} /> : null}
+            {activeSection === "security" ? <div className="space-y-5"><EmailVerificationPanel verifiedAt={profile.emailVerifiedAt} /><SecurityPanel lastLoginAt={profile.lastLoginAt} onSignedOut={() => router.replace("/login")} /></div> : null}
             {activeSection === "notifications" ? <NotificationsPanel /> : null}
             {activeSection === "privacy" ? (
               <PrivacyPanel
@@ -261,10 +255,10 @@ export function AccountDashboard({
 }
 
 function Panel({ id, labelledBy, children }: { id: AccountSection; labelledBy?: string; children: React.ReactNode }) {
-  return <section id={`account-panel-${id}`} role="tabpanel" aria-labelledby={labelledBy || `account-tab-${id}`} tabIndex={0}>{children}</section>;
+  return <section className={styles.panel} id={`account-panel-${id}`} role="tabpanel" aria-labelledby={labelledBy || `account-tab-${id}`} tabIndex={0}>{children}</section>;
 }
 
-function OverviewPanel({ profile, completedLessons, lessonCount, totalQuizzes }: { profile: AccountProfile; completedLessons: number; lessonCount: number; totalQuizzes: number }) {
+function OverviewPanel({ profile, completedLessons, totalQuizzes, savedCount, progressAvailable }: { profile: AccountProfile; completedLessons: number; totalQuizzes: number; savedCount: number; progressAvailable: boolean }) {
   const fields = [
     ["Display name", profile.displayName],
     ["Email", profile.email || "Not available for this session"],
@@ -275,21 +269,22 @@ function OverviewPanel({ profile, completedLessons, lessonCount, totalQuizzes }:
   ];
   return (
     <Panel id="overview">
-      <SectionHeading eyebrow="Profile" title="Account overview" />
-      <p className="max-w-2xl text-sm leading-6 text-(--text-muted)">Your authenticated profile and official learning record are account-linked. Live-quiz history remains a device summary.</p>
-      <dl className="mt-6 grid gap-3 sm:grid-cols-2">
+      <h2 className={styles.sectionTitle}>A little further, every day.</h2>
+      <p className={styles.description}>Your learning belongs to your account. Quiz history and library collections below are saved on this device.</p>
+      <div className={styles.metrics}>
+        <div className={styles.metric}><AppIcon name="book" width={18} height={18} /><strong>{progressAvailable ? completedLessons : "—"}</strong><small>Lessons completed</small></div>
+        <div className={styles.metric}><AppIcon name="trophy" width={18} height={18} /><strong>{totalQuizzes}</strong><small>Quiz sessions · this device</small></div>
+        <div className={styles.metric}><AppIcon name="bookmark" width={18} height={18} /><strong>{savedCount}</strong><small>Saved collections · this device</small></div>
+      </div>
+      <h3 className={styles.sectionTitle}>Your profile</h3>
+      <dl className={styles.fields}>
         {fields.map(([label, value]) => (
-          <div key={label} className="surface-card p-4">
-            <dt className="text-xs font-black uppercase tracking-[0.12em] text-(--text-muted)">{label}</dt>
-            <dd className="mt-2 break-words text-sm font-bold text-(--text)">{value}</dd>
+          <div key={label} className={styles.field}>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
           </div>
         ))}
       </dl>
-      <div className="mt-7 grid gap-3 sm:grid-cols-3">
-        <div className="surface-card p-4"><strong className="editorial-heading text-3xl">{completedLessons}</strong><p className="mt-1 text-xs text-(--text-muted)">of {lessonCount} lessons completed here</p></div>
-        <div className="surface-card p-4"><strong className="editorial-heading text-3xl">{totalQuizzes}</strong><p className="mt-1 text-xs text-(--text-muted)">quiz sessions recorded here</p></div>
-        <div className="surface-card p-4"><strong className="editorial-heading text-3xl">1</strong><p className="mt-1 text-xs text-(--text-muted)">structured formation path available</p></div>
-      </div>
     </Panel>
   );
 }
@@ -299,11 +294,11 @@ function LearningPanel({ progress, completedLessons, lessonCount, percent, pathT
     <Panel id="learning">
       <SectionHeading eyebrow="Formation" title="Learning progress" action={official ? <StatusBadge tone="success">Account synced</StatusBadge> : <DeviceOnlyBadge />} />
       <div className="surface-card flex flex-col gap-6 p-5 sm:flex-row sm:items-center sm:p-6">
-        <ProgressRing value={percent} label="complete" detail={`${completedLessons} of ${lessonCount} lessons`} size={126} />
+        <ProgressRing value={percent} label="tracked lessons" detail={`${completedLessons} of ${lessonCount} tracked lessons`} size={126} />
         <div className="min-w-0 flex-1">
           <h3 className="editorial-heading text-2xl font-semibold">{pathTitle}</h3>
           <p className="mt-2 text-sm leading-6 text-(--text-muted)">{official ? "Official lesson progress and mastery are loaded from your account." : "Official progress is unavailable; this view is showing device-only preview activity."}</p>
-          <div className="mt-4"><ProgressBar value={percent} label="Learning path completion" /></div>
+          <div className="mt-4"><ProgressBar value={percent} label="Tracked lesson completion" /></div>
           <Link href="/learn" className="btn-primary mt-5">Open learning path</Link>
         </div>
       </div>
@@ -390,22 +385,22 @@ function AppearancePanel() {
     <Panel id="appearance">
       <SectionHeading eyebrow="Display" title="Appearance" />
       <p className="max-w-2xl text-sm leading-6 text-(--text-muted)">Your theme preference is saved on this device. System mode follows your operating system as it changes.</p>
-      <div className="mt-6 grid gap-3 sm:grid-cols-3">
+      <div className={styles.themes}>
         {choices.map((choice) => (
           <button
             key={choice.id}
             type="button"
             aria-pressed={preference === choice.id}
             onClick={() => setPreference(choice.id)}
-            className={`surface-card min-h-32 p-5 text-left ${preference === choice.id ? "border-(--gold) ring-2 ring-[color-mix(in_srgb,var(--gold)_25%,transparent)]" : "hover:border-(--gold)"}`}
+            className={styles.themeChoice}
           >
-            <span className="block text-lg font-extrabold">{choice.label}</span>
-            <span className="mt-2 block text-sm text-(--text-muted)">{choice.detail}</span>
-            {preference === choice.id ? <span className="mt-4 block text-xs font-black uppercase tracking-[0.12em] text-(--gold-hover)">Selected</span> : null}
+            <span className={styles.themePreview} data-theme-preview={choice.id} aria-hidden="true" />
+            <strong>{choice.label}</strong>{" "}<small>{choice.detail}</small>
+            <span className={styles.selected}>{preference === choice.id ? <><AppIcon name="check" width={13} height={13} /> Selected</> : null}</span>
           </button>
         ))}
       </div>
-      <div className="mt-5"><Message tone="info">{`Current rendered theme: ${theme}. Preference: ${preference}.`}</Message></div>
+      <div className="mt-5"><Message tone="info">{preference === "system" ? `Following this device’s appearance. Currently using ${theme} mode.` : `${theme === "dark" ? "Dark" : "Light"} mode is selected on this device.`}</Message></div>
     </Panel>
   );
 }
@@ -493,6 +488,7 @@ function SecurityPanel({ lastLoginAt, onSignedOut }: { lastLoginAt: string | nul
       <form onSubmit={changePassword} className="surface-card mt-6 space-y-4 p-5 sm:p-6">
         <div><h3 className="editorial-heading text-xl font-semibold">Change password</h3><p className="mt-1 text-sm text-(--text-muted)">Changing your password invalidates older sessions.</p></div>
         <label className="block space-y-1.5"><span className="text-sm font-bold">Current password</span><input type="password" value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} autoComplete="current-password" maxLength={256} required className="form-control" /></label>
+        <Link href="/forgot-password" className="inline-block text-sm font-semibold text-(--gold-hover) hover:underline">Forgot your current password?</Link>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block space-y-1.5"><span className="text-sm font-bold">New password</span><input type="password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} autoComplete="new-password" minLength={8} maxLength={256} required className="form-control" /></label>
           <label className="block space-y-1.5"><span className="text-sm font-bold">Confirm new password</span><input type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} autoComplete="new-password" minLength={8} maxLength={256} required className="form-control" /></label>
@@ -537,7 +533,9 @@ function PrivacyPanel({ message, learningClearArmed, onClearLearning, onCancelCl
         <div className="surface-card p-5"><DeviceOnlyBadge /><h3 className="editorial-heading mt-4 text-xl font-semibold">Live-quiz identity</h3><p className="mt-2 text-sm leading-6 text-(--text-muted)">Clear the saved player name, player identifier, and active join credential from this device.</p><button type="button" onClick={onClearQuizIdentity} className="btn-secondary mt-4">Clear quiz identity</button></div>
         <div className="surface-card p-5"><DeviceOnlyBadge /><h3 className="editorial-heading mt-4 text-xl font-semibold">Learning progress</h3><p className="mt-2 text-sm leading-6 text-(--text-muted)">Permanently clear completed lessons and practice totals saved in this browser.</p><div className="mt-4 flex flex-wrap gap-2"><button type="button" onClick={onClearLearning} className={learningClearArmed ? "btn-primary" : "btn-secondary"}>{learningClearArmed ? "Confirm clear progress" : "Clear learning progress"}</button>{learningClearArmed ? <button type="button" onClick={onCancelClear} className="btn-quiet">Cancel</button> : null}</div></div>
       </div>
-      <p className="mt-5 text-xs leading-5 text-(--text-muted)">Recent quiz score history uses app preferences and is shown as read-only here. Account deletion and data export are not offered because no verified end-to-end workflow exists yet.</p>
+      <p className="mt-5 text-xs leading-5 text-(--text-muted)">Recent quiz score history is shown as read-only here. These device controls do not remove your account-linked learning record.</p>
+      <Link href="/privacy" className={study.textLink}>Read the privacy policy <AppIcon name="arrow" width={16} height={16} /></Link>
+      <section className={styles.dangerZone}><h3>Manage your account</h3><p>Review account deletion and the data it removes before choosing to continue.</p><Link href="/account/delete">Delete account <AppIcon name="arrow" width={16} height={16} /></Link></section>
     </Panel>
   );
 }

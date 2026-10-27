@@ -1,10 +1,9 @@
 import { isNativePlatform } from "@/lib/native";
+import { DEFAULT_RESEARCH_GRAPH_URL } from "./graphEmbed";
 
 const DEFAULT_ENGINE_URL = "https://apologiasancta-engine.onrender.com";
 const DEFAULT_ANDROID_APK_URL =
   "https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk";
-const DEFAULT_RESEARCH_GRAPH_URL =
-  "https://mediumvioletred-kingfisher-797460.hostingersite.com";
 
 const OFFICIAL_ANDROID_RELEASE_PATH =
   "/DocHarry22/apologiasancta-ui/releases/";

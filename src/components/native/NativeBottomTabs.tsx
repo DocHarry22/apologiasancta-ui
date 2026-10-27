@@ -4,14 +4,16 @@ import Link from "next/link";
 import { useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { useQuizEntryGate } from "@/hooks/useQuizEntryGate";
+import { AppIcon, type AppIconName } from "./AppIcon";
+import styles from "./NativeNavigation.module.css";
 
 const tabs = [
-  { label: "Home", href: "/native", icon: "⌂" },
-  { label: "Learn", href: "/learn", icon: "▤" },
-  { label: "Quiz", href: "/mobile", icon: "▶" },
-  { label: "Library", href: "/library", icon: "▥" },
-  { label: "Account", href: "/account", icon: "○" },
-];
+  { label: "Home", href: "/native", icon: "home" },
+  { label: "Learn", href: "/learn", icon: "book" },
+  { label: "Quiz", href: "/mobile", icon: "play" },
+  { label: "Library", href: "/library", icon: "library" },
+  { label: "Account", href: "/account", icon: "account" },
+] satisfies Array<{ label: string; href: string; icon: AppIconName }>;
 
 export function NativeBottomTabs() {
   const pathname = usePathname();
@@ -19,12 +21,11 @@ export function NativeBottomTabs() {
   const { requestQuizEntry, onboardingModals } = useQuizEntryGate();
   const handleQuizPress = useCallback(() => requestQuizEntry(), [requestQuizEntry]);
   return <>
-    <nav aria-label="Primary navigation" className="fixed inset-x-0 bottom-0 z-50 mx-auto grid max-w-5xl grid-cols-5 border-t border-(--border) bg-(--tab-bg) px-[env(safe-area-inset-left,0px)] pb-[env(safe-area-inset-bottom,0px)] pr-[env(safe-area-inset-right,0px)] backdrop-blur-xl">
+    <nav aria-label="Primary navigation" className={styles.navigation}>
       {tabs.map((tab) => {
-        const current = currentPath === tab.href || (tab.href !== "/native" && currentPath.startsWith(`${tab.href}/`));
-        const inner = <><span className="text-xl" aria-hidden="true">{tab.icon}</span><span className="truncate text-[0.68rem] font-semibold">{tab.label}</span>{current ? <span className="absolute inset-x-[28%] top-0 h-0.5 bg-(--gold)" aria-hidden="true" /> : null}</>;
-        const className = `relative flex min-h-16 min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 ${current ? "text-(--gold-hover)" : "text-(--text-muted)"}`;
-        return tab.href === "/mobile" ? <button key={tab.href} type="button" className={className} onClick={handleQuizPress} aria-label="Open quiz">{inner}</button> : <Link key={tab.href} href={tab.href} className={className} aria-current={current ? "page" : undefined}>{inner}</Link>;
+        const current = currentPath === tab.href || (tab.href === "/native" && currentPath === "/") || (tab.href !== "/native" && currentPath.startsWith(`${tab.href}/`));
+        const inner = <><span className={styles.icon}><AppIcon name={tab.icon} width={22} height={22} /></span><span>{tab.label}</span></>;
+        return tab.href === "/mobile" ? <button key={tab.href} type="button" className={styles.tab} onClick={handleQuizPress} aria-current={current ? "page" : undefined} aria-label="Open quiz">{inner}</button> : <Link key={tab.href} href={tab.href} className={styles.tab} aria-current={current ? "page" : undefined}>{inner}</Link>;
       })}
     </nav>
     {onboardingModals}

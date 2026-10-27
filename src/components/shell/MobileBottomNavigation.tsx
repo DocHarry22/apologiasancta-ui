@@ -13,7 +13,7 @@ const tabs = [
   { label: "Account", href: "/account", icon: "○" },
 ];
 
-export function MobileBottomNavigation({ suppressOnNative = false }: { suppressOnNative?: boolean }) {
+export function MobileBottomNavigation({ suppressOnNative = true }: { suppressOnNative?: boolean }) {
   const rawPathname = usePathname();
   const pathname = rawPathname.length > 1 ? rawPathname.replace(/\/$/, "") : rawPathname;
   const [nativeState, setNativeState] = useState<boolean | null>(suppressOnNative ? null : false);

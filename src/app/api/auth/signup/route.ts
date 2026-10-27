@@ -1,17 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkSignupRateLimit, getClientIp } from "@/lib/auth/rateLimit";
-import {
-  createSessionCookie,
-  SESSION_COOKIE_NAME,
-  SESSION_MAX_AGE_SECONDS,
-} from "@/lib/auth/session";
 import { getAdminAuthReadiness } from "@/lib/auth/availability";
-import { CSRF_COOKIE_NAME, generateCsrfToken } from "@/lib/csrf";
-import { getRoleHomePath, isStaffRole } from "@/lib/auth/access";
+import { isStaffRole } from "@/lib/auth/access";
 import { resolveSignupRole } from "@/lib/auth/invite";
 import { getAuthInviteSettings } from "@/lib/server/authInviteSettings";
 import { createAdminUser } from "@/lib/server/adminUserStore";
 import { authUnavailableResponse } from "@/lib/server/authUnavailableResponse";
+import { hasAccountEmailConfiguration } from "@/lib/server/accountEmail";
+import { scheduleAccountEmail } from "@/lib/server/accountEmailRoutes";
 
 interface SignupBody {
   name?: unknown;
@@ -54,6 +50,7 @@ export async function POST(req: NextRequest) {
   let body: SignupBody;
   try {
     body = (await req.json()) as SignupBody;
+    if (!body || typeof body !== "object" || Array.isArray(body)) throw new Error("Invalid body");
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
@@ -102,6 +99,10 @@ export async function POST(req: NextRequest) {
   const role = roleDecision.role;
   const accountType = isStaffRole(role) ? "staff" : "public";
 
+  if (!hasAccountEmailConfiguration()) {
+    return NextResponse.json({ error: "Account verification is temporarily unavailable. Please try again later." }, { status: 503, headers: { "Cache-Control": "no-store", "Retry-After": "300" } });
+  }
+
   let created;
   try {
     created = await createAdminUser({
@@ -111,6 +112,7 @@ export async function POST(req: NextRequest) {
       role,
       accountType,
       phone: phone || null,
+      requireEmailVerification: true,
     });
   } catch (error) {
     return authUnavailableResponse({ operation: "signup.create_user", error });
@@ -120,40 +122,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unable to create account. Email may already be in use." }, { status: 409 });
   }
 
-  const sessionValue = await createSessionCookie(created.id);
-  const csrfToken = await generateCsrfToken(sessionValue);
-  const response = NextResponse.json({
-    ok: true,
-    redirectTo: getRoleHomePath(created.role),
-    user: {
-      id: created.id,
-      email: created.email,
-      displayName: created.displayName,
-      role: created.role,
-      accountType: created.accountType,
-      phone: created.phone ?? null,
-    },
-  });
+  scheduleAccountEmail(created.email, "verify");
+  return NextResponse.json({ ok: true, verificationRequired: true, redirectTo: "/verify-email", user: {
+    id: created.id, email: created.email, displayName: created.displayName, role: created.role, accountType: created.accountType, phone: created.phone ?? null,
+  } }, { headers: { "Cache-Control": "no-store" } });
 
-  response.cookies.set({
-    name: SESSION_COOKIE_NAME,
-    value: sessionValue,
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    path: "/",
-    maxAge: SESSION_MAX_AGE_SECONDS,
-  });
-
-  response.cookies.set({
-    name: CSRF_COOKIE_NAME,
-    value: csrfToken,
-    httpOnly: false,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    path: "/",
-    maxAge: SESSION_MAX_AGE_SECONDS,
-  });
-
-  return response;
 }

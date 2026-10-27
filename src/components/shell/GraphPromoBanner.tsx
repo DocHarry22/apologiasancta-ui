@@ -31,7 +31,7 @@ export function GraphPromoBanner() {
   if (!visible || !graphUrl) return null;
 
   return (
-    <aside className="border-b border-(--border) bg-(--navy) text-white" aria-label="Apologia Graph announcement">
+    <aside className="web-promotion border-b border-(--border) bg-(--navy) text-white" aria-label="Apologia Graph announcement">
       <div className="page-container flex min-h-9 items-center gap-2 py-1.5 text-xs sm:text-[0.8rem]">
         <span className="shrink-0 text-(--gold)"><GraphIcon /></span>
         <p className="min-w-0 flex-1 leading-5">

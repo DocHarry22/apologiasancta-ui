@@ -22,7 +22,11 @@ test("public routes use the shared shell and expose the required destinations", 
   ]);
   for (const label of ["Learn", "Library", "Live Quiz", "Research", "Leaderboard"]) assert.match(header, new RegExp(label));
   for (const label of ["Home", "Learn", "Quiz", "Library", "Account"]) assert.match(mobile, new RegExp(label));
-  for (const route of [home, learn, library, research, leaderboard, privacy]) assert.match(route, /<AppShell/);
+  for (const route of [home, learn, library, leaderboard, privacy]) assert.match(route, /<AppShell/);
+  assert.match(research, /<ResearchLayout/);
+  const researchLayout = await read("src/components/research/ResearchLayout.tsx");
+  assert.match(researchLayout, /<ResearchFrame/);
+  assert.match(researchLayout, /<AppShell/);
 });
 
 test("Graph links and UI-to-Engine secret naming follow the production contract", async () => {

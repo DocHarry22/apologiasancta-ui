@@ -241,6 +241,16 @@ textarea,
   padding-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
 }
 
+[data-native-app="true"] .web-promotion,
+[data-native-app="true"] .web-app-header,
+[data-native-app="true"] .web-footer {
+  display: none;
+}
+
+header.native-app-header { display: none; }
+[data-native-app="true"] header.native-app-header { display: flex; }
+[data-native-app="true"] .site-shell { padding-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px)); }
+
 .page-container {
   width: min(100% - 2rem, 92rem);
   margin-inline: auto;

@@ -9,5 +9,5 @@ export const metadata = {
 };
 
 export default function LearnPage() {
-  return <AppShell><KnowledgeGapRecommendations /><LearningCatalogue /></AppShell>;
+  return <AppShell><LearningCatalogue /><KnowledgeGapRecommendations /></AppShell>;
 }

@@ -2,6 +2,7 @@ import { execFileSync } from "node:child_process";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { NextConfig } from "next";
+import { DEFAULT_RESEARCH_GRAPH_URL, graphOrigin } from "./src/lib/graphEmbed";
 
 const workspaceRoot = dirname(fileURLToPath(import.meta.url));
 
@@ -72,6 +73,7 @@ const nextConfig: NextConfig = {
       "default-src 'self'",
       "base-uri 'self'",
       "object-src 'none'",
+      `frame-src 'self' ${graphOrigin(process.env.NEXT_PUBLIC_RESEARCH_GRAPH_URL?.trim() || DEFAULT_RESEARCH_GRAPH_URL) || ""}`,
       `connect-src ${connectSrc}`,
       // unsafe-inline required for Next.js hydration scripts and Tailwind style tags.
       "script-src 'self' 'unsafe-inline'",

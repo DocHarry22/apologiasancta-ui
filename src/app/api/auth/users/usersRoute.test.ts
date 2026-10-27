@@ -1,12 +1,14 @@
 import { NextRequest } from "next/server";
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { POST as login } from "../login/route";
 import { POST as signup } from "../signup/route";
 import { GET as usersGet, PATCH as usersPatch } from "./route";
 import { CSRF_COOKIE_NAME } from "@/lib/csrf";
 import { SESSION_COOKIE_NAME, readSessionCookie } from "@/lib/auth/session";
-import { resetAdminUserStoreForTests, getAdminUserById } from "@/lib/server/adminUserStore";
+import { resetAdminUserStoreForTests, getAdminUserById, issueAccountEmailToken, consumeAccountEmailToken } from "@/lib/server/adminUserStore";
 import { resetAuthInviteSettingsForTests } from "@/lib/server/authInviteSettings";
+
+vi.mock("@/lib/server/accountEmailRoutes", () => ({ scheduleAccountEmail: vi.fn() }));
 
 function postLogin(body: unknown) {
   return new NextRequest("https://ui.test/api/auth/login", {
@@ -14,6 +16,16 @@ function postLogin(body: unknown) {
     headers: { "content-type": "application/json" },
     body: JSON.stringify(body),
   });
+}
+
+async function verifiedSignup(body: { email: string; password: string; [key: string]: unknown }) {
+  const response = await signup(postSignup(body));
+  expect(response.status).toBe(200);
+  expect((await response.json()).verificationRequired).toBe(true);
+  expect(response.headers.get("set-cookie")).toBeNull();
+  const issued = await issueAccountEmailToken(body.email, "verify");
+  expect(await consumeAccountEmailToken(issued!.token, "verify")).toBe(true);
+  return login(postLogin({ email: body.email, password: body.password }));
 }
 
 function postSignup(body: unknown) {
@@ -31,7 +43,11 @@ function cookieValues(setCookie: string) {
 }
 
 describe("auth users route", () => {
+  afterEach(() => vi.unstubAllEnvs());
   beforeEach(async () => {
+    vi.stubEnv("AUTH_PUBLIC_URL", "https://ui.test");
+    vi.stubEnv("RESEND_API_KEY", "test-email-key");
+    vi.stubEnv("AUTH_EMAIL_FROM", "accounts@example.test");
     resetAdminUserStoreForTests();
     await resetAuthInviteSettingsForTests();
     delete process.env.AUTH_SIGNUP_STAFF_INVITE_CODE;
@@ -39,12 +55,12 @@ describe("auth users route", () => {
   });
 
   it("blocks non-manager from listing users", async () => {
-    const signupResponse = await signup(postSignup({
+    const signupResponse = await verifiedSignup({
       name: "Public",
       email: "public@example.test",
       password: "public-pass-123",
       confirmPassword: "public-pass-123",
-    }));
+    });
 
     const { session } = cookieValues(signupResponse.headers.get("set-cookie") ?? "");
 
@@ -57,12 +73,12 @@ describe("auth users route", () => {
   });
 
   it("allows super admin to list users", async () => {
-    await signup(postSignup({
+    await verifiedSignup({
       name: "Public",
       email: "public2@example.test",
       password: "public-pass-123",
       confirmPassword: "public-pass-123",
-    }));
+    });
 
     const loginResponse = await login(postLogin({ email: "admin@example.test", password: "test-author-password" }));
     const { session } = cookieValues(loginResponse.headers.get("set-cookie") ?? "");
@@ -83,13 +99,13 @@ describe("auth users route", () => {
     process.env.AUTH_SIGNUP_STAFF_INVITE_CODE = "valid-invite";
     process.env.AUTH_SIGNUP_STAFF_ROLE = "host";
 
-    const signupResponse = await signup(postSignup({
+    const signupResponse = await verifiedSignup({
       name: "Staff",
       email: "staff-update@example.test",
       password: "staff-pass-123",
       confirmPassword: "staff-pass-123",
       inviteCode: "valid-invite",
-    }));
+    });
 
     const createdSession = cookieValues(signupResponse.headers.get("set-cookie") ?? "").session;
     const createdSessionPayload = await readSessionCookie(createdSession);

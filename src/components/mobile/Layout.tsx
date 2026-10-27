@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
+import styles from "./QuizScreen.module.css";
 
 interface LayoutProps {
   leftContent: ReactNode;
@@ -9,14 +10,14 @@ interface LayoutProps {
 
 export function Layout({ leftContent, rightContent }: LayoutProps) {
   return (
-    <main id="main-content" className="flex min-h-screen w-full overflow-x-hidden bg-background pb-[calc(4.75rem+env(safe-area-inset-bottom,0px))] lg:flex-row lg:pb-0">
-      <div className="flex min-w-0 flex-1 flex-col">
+    <div className={styles.layout}>
+      <main id="main-content" className={styles.playColumn}>
         {leftContent}
-      </div>
+      </main>
 
-      <aside className="hidden min-w-0 shrink-0 border-l border-(--border) bg-(--leaderboard-bg) lg:block lg:h-screen lg:w-[340px] lg:overflow-y-auto 2xl:w-[380px]">
+      <aside className={styles.sidebar}>
         {rightContent}
       </aside>
-    </main>
+    </div>
   );
 }

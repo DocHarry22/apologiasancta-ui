@@ -12,6 +12,7 @@
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import styles from "./QuizOverlays.module.css";
 import { useAdminPanel } from "@/hooks/useAdminPanel";
 import { roomProxy, quizProxy, topicProxy, type LoopMode } from "@/lib/adminProxyClient";
 import type { ConnectionStatus, RoomSummary } from "@/types/quiz";
@@ -320,7 +321,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-(--overlay) z-40 transition-opacity motion-reduce:transition-none ${
+        className={`fixed inset-0 bg-(--overlay) z-55 transition-opacity motion-reduce:transition-none ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={handleBackdropClick}
@@ -330,7 +331,7 @@ export function AdminDrawer({ isOpen, onClose, engineUrl, connectionStatus, room
       {/* Drawer */}
       <div
         ref={drawerRef}
-        className={`fixed bottom-0 left-0 right-0 max-h-[85vh] z-50 
+        className={`${styles.adminDrawer} fixed bottom-0 left-0 right-0 max-h-[85vh] z-60
           bg-(--card) border-t border-(--border) rounded-t-2xl shadow-2xl
           transform transition-transform motion-reduce:transition-none duration-300 ease-out
           ${isOpen ? "translate-y-0" : "translate-y-full"}

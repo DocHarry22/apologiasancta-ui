@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
-import { AppShell } from "@/components/shell/AppShell";
+import { ResearchLayout } from "@/components/research/ResearchLayout";
 import { StatusBadge } from "@/components/ui/Primitives";
+import { GraphLink } from "@/components/research/GraphLink";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
+import { graphJourneyHref, isGraphJourney } from "@/lib/graphJourneys";
 import { getSharedKnowledgeJourney } from "@/lib/server/learning/knowledgeLearnerRepository";
 
 export const dynamic = "force-dynamic";
@@ -43,29 +45,23 @@ export default async function SharedJourneyPage({ params }: { params: Promise<{ 
   const raw = await getSharedKnowledgeJourney(shareToken);
   if (!raw) notFound();
   const journey = raw as unknown as SharedJourney;
-  const galaxy = galaxyHref(journey.rootNodeId);
+  const galaxy = graphJourneyHref(getResearchGraphUrl(), journey);
 
   return (
-    <AppShell>
-      <div className="page-container py-8 sm:py-11">
-        <header className="max-w-4xl border-b border-(--border) pb-7">
-          <p className="eyebrow">Shared canonical research journey</p>
-          <h1 className="editorial-heading mt-2 text-4xl font-semibold sm:text-5xl">{journey.title}</h1>
-          <div className="mt-4 flex flex-wrap gap-2"><StatusBadge tone="success">Shared by opaque link</StatusBadge><StatusBadge tone="info">{journey.lens}</StatusBadge><StatusBadge>{journey.nodeIds.length} canonical nodes</StatusBadge></div>
-          <p className="mt-4 max-w-3xl text-sm leading-6 text-(--text-muted)">This share view stores navigation identifiers only. The underlying claims, evidence, assessments, and relationships remain governed by the live Knowledge Engine and are not copied into the share record.</p>
-          <div className="mt-5 flex flex-wrap gap-2">{galaxy ? <a className="btn-primary" href={galaxy} target="_blank" rel="noopener noreferrer">Open root in Galaxy ↗</a> : null}<a className="btn-secondary" href="/research">Research home</a></div>
-        </header>
+    <ResearchLayout current="saved" eyebrow="A shared research journey" title={journey.title} description="Follow this path through its claims and sources. The research links open the current published content.">
+          <p className="mt-4 text-sm text-(--text-muted)">Shared paths contain navigation identifiers only. Your private account data stays private.</p>
+          <div className="mt-4 flex flex-wrap gap-2"><StatusBadge tone="success">Shared journey</StatusBadge><StatusBadge tone="info">{journey.lens}</StatusBadge><StatusBadge>{journey.nodeIds.length} steps</StatusBadge></div>
+          <div className="mt-5 flex flex-wrap gap-2">{galaxy ? <GraphLink className="btn-primary" href={galaxy}>{isGraphJourney(journey) ? "Reopen in Graph" : "Open root in Galaxy"}</GraphLink> : null}<a className="btn-secondary" href="/research">Research home</a></div>
 
         <section className="mt-7" aria-labelledby="shared-path-heading">
           <h2 id="shared-path-heading" className="editorial-heading text-2xl font-semibold">Canonical path</h2>
           <ol className="mt-4 space-y-3">
             {journey.nodeIds.map((nodeId, index) => {
               const href = galaxyHref(nodeId);
-              return <li key={`${nodeId}:${index}`} className="surface-card flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between"><div className="min-w-0"><span className="text-xs font-bold text-(--text-muted)">Step {index + 1}</span><code className="mt-1 block break-all text-sm text-(--gold-hover)">{nodeId}</code></div>{href ? <a className="btn-quiet shrink-0 px-3 py-2 text-sm" href={href} target="_blank" rel="noopener noreferrer">Inspect in Galaxy ↗</a> : null}</li>;
+              return <li key={`${nodeId}:${index}`} className="surface-card flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between"><div className="min-w-0"><span className="text-xs font-bold text-(--text-muted)">Step {index + 1}</span><code className="mt-1 block break-all text-sm text-(--gold-hover)">{nodeId}</code></div>{href ? <GraphLink className="btn-quiet shrink-0 px-3 py-2 text-sm" href={href}>Inspect in Galaxy</GraphLink> : null}</li>;
             })}
           </ol>
         </section>
-      </div>
-    </AppShell>
+    </ResearchLayout>
   );
 }

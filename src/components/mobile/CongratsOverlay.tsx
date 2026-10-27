@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import type { CongratsEvent } from "@/types/quiz";
+import { AppIcon } from "@/components/native/AppIcon";
+import styles from "./QuizOverlays.module.css";
 
 interface CongratsOverlayProps {
   /** Congrats event data */
@@ -74,15 +76,15 @@ export function CongratsOverlay({
 
   return (
     <div
-      className={`absolute inset-0 z-20 flex flex-col bg-(--bg)/95 backdrop-blur-sm ${animationClass}`}
+      className={`absolute inset-0 z-20 flex flex-col ${styles.celebration} ${animationClass}`}
       role="dialog"
       aria-label="Topic Complete Celebration"
       aria-live="polite"
     >
-      <div className="flex-1 flex flex-col justify-center items-center p-4 overflow-y-auto">
+      <div className="min-h-0 flex-1 flex flex-col items-center overflow-y-auto p-4">
         {/* Celebration Header */}
-        <div className="text-center mb-6">
-          <div className="text-5xl mb-2 animate-bounce" aria-hidden="true">🎉</div>
+        <div className="mt-auto text-center mb-6">
+          <div className="mb-3 flex justify-center text-(--gold-hover)" aria-hidden="true"><AppIcon name="trophy" width={34} height={34} /></div>
           <h2 className="text-(--accent) font-bold text-xl uppercase tracking-wider">
             Congratulations!
           </h2>
@@ -97,7 +99,7 @@ export function CongratsOverlay({
           {topScorer && (
             <div className="bg-(--card) rounded-xl p-3 border border-(--accent)/30 shadow-lg">
               <div className="flex items-center gap-3">
-                <div className="text-2xl" aria-hidden="true">👑</div>
+                <AppIcon name="trophy" className="shrink-0 text-(--gold-hover)" />
                 <div className="flex-1 min-w-0">
                   <div className="text-(--accent) text-[10px] uppercase tracking-wider font-semibold">
                     Top Scorer
@@ -117,7 +119,7 @@ export function CongratsOverlay({
           {topStreaker && (
             <div className="bg-(--card) rounded-xl p-3 border border-(--streak-icon)/30 shadow-lg">
               <div className="flex items-center gap-3">
-                <div className="text-2xl" aria-hidden="true">🔥</div>
+                <AppIcon name="spark" className="shrink-0 text-(--gold-hover)" />
                 <div className="flex-1 min-w-0">
                   <div className="text-(--streak-icon) text-[10px] uppercase tracking-wider font-semibold">
                     Best Streak
@@ -165,10 +167,10 @@ export function CongratsOverlay({
         </div>
         
         {/* Next Topic / Series Complete Preview */}
-        <div className="text-center">
+        <div className="mb-auto text-center">
           {isSeriesComplete ? (
             <>
-              <div className="text-3xl mb-1" aria-hidden="true">🏆</div>
+              <div className="mb-2 flex justify-center text-(--gold-hover)" aria-hidden="true"><AppIcon name="trophy" width={29} height={29} /></div>
               <p className="text-(--accent) text-sm font-semibold">
                 Series Complete!
               </p>

@@ -57,6 +57,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
   }
 
+  if (user.emailVerificationRequired && !user.emailVerifiedAt) {
+    clearLoginRateLimit(ip);
+    return NextResponse.json({ error: "Verify your email before signing in.", code: "email_verification_required" }, { status: 403, headers: { "Cache-Control": "no-store" } });
+  }
+
   const sessionValue = await createSessionCookie(user.id);
   const csrfToken = await generateCsrfToken(sessionValue);
   const response = NextResponse.json({

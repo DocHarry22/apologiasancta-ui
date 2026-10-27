@@ -45,7 +45,7 @@ export function useQuizEntryGate() {
   }, []);
 
   const requestQuizEntry = useCallback(() => {
-    if (pathname === "/mobile") {
+    if (pathname.replace(/\/+$/, "") === "/mobile") {
       return;
     }
 

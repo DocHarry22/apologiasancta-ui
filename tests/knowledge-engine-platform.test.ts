@@ -49,7 +49,7 @@ test("learner node mastery is derived server-side from stored submitted assessme
 
 test("Research page consumes canonical published topics and deep-links the Galaxy by focus node", () => {
   assert.match(researchSource, /fetchKnowledgeEngine\("\/knowledge\/topics"/);
-  assert.match(researchSource, /Knowledge Engine connected/);
+  assert.match(researchSource, /if \(!Array\.isArray\(payload\?\.topics\)\)/);
   assert.match(researchSource, /url\.searchParams\.set\("focus", nodeId\)/);
-  assert.match(researchSource, /Draft imports remain intentionally hidden/);
+  assert.match(researchSource, /Reviewed topic journeys will appear here when published/);
 });

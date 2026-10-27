@@ -1,0 +1,9 @@
+.layer { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: var(--overlay); backdrop-filter: blur(8px); }
+.panel { width: 100%; min-width: 0; max-height: 90dvh; overflow-y: auto; border: 1px solid var(--border); border-radius: 20px; background: var(--surface); color: var(--text); box-shadow: 0 20px 75px color-mix(in srgb, var(--navy) 20%, transparent); }
+.panel h2 { overflow-wrap: anywhere; font-family: var(--font-editorial); font-size: 26px; font-weight: 500; line-height: 1.25; letter-spacing: -0.5px; }
+.panel h3 { font-family: var(--font-editorial); font-weight: 500; }
+.panel p { overflow-wrap: anywhere; font-size: 13px; line-height: 1.85; }
+.panel label { font-size: 12px; font-weight: 650; }
+.panel input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]), .panel select, .panel textarea { min-width: 0; min-height: 50px; border-radius: 12px; font-size: 16px; }
+.panel :global(.btn-primary), .panel :global(.btn-secondary), .panel :global(.btn-quiet) { min-height: 44px; border-radius: 11px; white-space: normal; font-size: 12px; }
+.panel :global(.btn-primary) { border: 1px solid #355061; background: #112c3d; color: #fff9ec; }

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { AppShell } from "@/components/shell/AppShell";
 import { EngineTopicsList, type LibraryResource } from "@/components/library/EngineTopicsList";
 import { listPublishedQuestionRecords, listTopicsWithCounts } from "@/lib/content";
@@ -48,5 +47,5 @@ export default async function LibraryPage() {
 
   const allReferences = new Set(questionRecords.flatMap((record) => record.question.teaching.refs));
 
-  return <AppShell><div className="page-container py-8 sm:py-11"><div className="surface-card mb-6 flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between"><div><p className="eyebrow">Formation catalogue</p><p className="mt-2 text-sm text-(--text-muted)">Reviewed lessons now live in the database-backed learning area.</p></div><Link className="btn-primary" href="/learn">Browse learning programmes</Link></div><EngineTopicsList resources={resources} questionTotal={questionRecords.length} sourceTotal={allReferences.size} /></div></AppShell>;
+  return <AppShell><EngineTopicsList resources={resources} questionTotal={questionRecords.length} sourceTotal={allReferences.size} /></AppShell>;
 }

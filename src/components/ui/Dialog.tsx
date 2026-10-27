@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
+import styles from "./Dialog.module.css";
 
 const focusableSelector = "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])";
 
@@ -16,7 +17,7 @@ export function Dialog({ titleId, descriptionId, onClose, className = "", childr
     return () => { document.body.style.overflow = previousOverflow; previousFocus?.focus(); };
   }, []);
 
-  return <div className="fixed inset-0 z-50 flex items-center justify-center bg-(--overlay) p-4 backdrop-blur-sm" role="presentation"><div ref={panelRef} role="dialog" aria-modal="true" aria-labelledby={titleId} aria-describedby={descriptionId} tabIndex={-1} className={`w-full border border-(--card-border) bg-(--surface-elevated) shadow-2xl ${className}`} onKeyDown={(event) => {
+  return <div className={styles.layer} role="presentation"><div ref={panelRef} role="dialog" aria-modal="true" aria-labelledby={titleId} aria-describedby={descriptionId} tabIndex={-1} className={`${styles.panel} ${className}`} onKeyDown={(event) => {
     if (event.key === "Escape" && onClose) { event.preventDefault(); onClose(); return; }
     if (event.key !== "Tab") return;
     const focusable = [...(panelRef.current?.querySelectorAll<HTMLElement>(focusableSelector) ?? [])];

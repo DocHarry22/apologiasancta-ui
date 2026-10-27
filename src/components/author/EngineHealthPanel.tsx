@@ -153,8 +153,8 @@ export default function EngineHealthPanel({ engineUrl }: Props) {
           )}
 
           {health.roomDetails && health.roomDetails.length > 0 && (
-            <div className="overflow-hidden rounded-lg border border-(--border)">
-              <div className="grid grid-cols-[minmax(0,1.2fr)_88px_80px_80px_88px] gap-2 border-b border-(--border) bg-(--card) px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-(--muted)">
+            <div className="overflow-x-auto rounded-lg border border-(--border)" role="region" aria-label="Room health details" tabIndex={0}>
+              <div className="grid min-w-[540px] grid-cols-[minmax(0,1.2fr)_88px_80px_80px_88px] gap-2 border-b border-(--border) bg-(--card) px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-(--muted)">
                 <span>Room</span>
                 <span>Status</span>
                 <span>Members</span>
@@ -165,7 +165,7 @@ export default function EngineHealthPanel({ engineUrl }: Props) {
                 {health.roomDetails.map((room) => (
                   <div
                     key={room.roomId}
-                    className="grid grid-cols-[minmax(0,1.2fr)_88px_80px_80px_88px] gap-2 px-3 py-3 text-sm"
+                    className="grid min-w-[540px] grid-cols-[minmax(0,1.2fr)_88px_80px_80px_88px] gap-2 px-3 py-3 text-sm"
                   >
                     <div className="min-w-0">
                       <div className="truncate font-medium">{room.name}</div>

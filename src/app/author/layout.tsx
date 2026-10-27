@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { readSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
 import { getCurrentUser } from "@/lib/server/currentUser";
 import AuthorSidebar from "./AuthorSidebar";
+import styles from "./StaffWorkspace.module.css";
 
 export default async function AuthorLayout({ children }: { children: React.ReactNode }) {
   let currentUser = null;
@@ -13,14 +14,14 @@ export default async function AuthorLayout({ children }: { children: React.React
     // Unauthenticated or unavailable user: render children without sidebar.
   }
 
-  if (!currentUser) {
+  if (!currentUser || currentUser.accountType !== "staff") {
     return <>{children}</>;
   }
 
   return (
-    <div className="flex min-h-screen bg-background text-foreground">
+    <div className={styles.workspace}>
       <AuthorSidebar user={currentUser} />
-      <div className="flex-1 overflow-auto min-w-0">{children}</div>
+      <div className={styles.content}>{children}</div>
     </div>
   );
 }

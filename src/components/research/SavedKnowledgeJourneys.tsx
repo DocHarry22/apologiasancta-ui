@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { StatusBadge } from "@/components/ui/Primitives";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
+import { GraphLink } from "./GraphLink";
+import { graphJourneyHref, isGraphJourney } from "@/lib/graphJourneys";
 
 type Journey = {
   id: string;
@@ -19,17 +21,6 @@ type Journey = {
 };
 
 type Envelope = { data?: Journey[]; error?: { message?: string } };
-
-function graphHref(base: string | null, nodeId: string) {
-  if (!base) return null;
-  try {
-    const url = new URL("/graph", base);
-    url.searchParams.set("focus", nodeId);
-    return url.toString();
-  } catch {
-    return null;
-  }
-}
 
 async function csrfToken(): Promise<string> {
   const response = await fetch("/api/auth/csrf", { credentials: "same-origin", cache: "no-store" });
@@ -98,22 +89,23 @@ export default function SavedKnowledgeJourneys() {
   }
 
   if (state === "loading") return <div className="surface-card p-6"><p className="text-sm text-(--text-muted)">Loading saved journeys…</p></div>;
-  if (state === "signed_out") return <div className="surface-card p-6"><StatusBadge>Account required</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">Sign in to store canonical research journeys across devices.</p><Link className="btn-primary mt-4 inline-flex" href="/login?next=/research/journeys">Sign in</Link></div>;
+  if (state === "signed_out") return <div className="surface-card p-6"><StatusBadge>Account required</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">Sign in to keep your research journeys and return to them across devices.</p><Link className="btn-primary mt-4 inline-flex" href="/login?next=/research/journeys">Sign in</Link></div>;
   if (state === "error") return <div className="surface-card p-6"><StatusBadge tone="danger">Saved journeys unavailable</StatusBadge><p className="mt-3 text-sm text-(--text-muted)">{message}</p><button className="btn-secondary mt-4" type="button" onClick={() => void load()}>Try again</button></div>;
 
   return (
     <div>
       {message ? <p className="mb-4 text-sm text-(--text-muted)" role="status">{message}</p> : null}
-      {!items.length ? <div className="surface-card p-6"><StatusBadge>No saved journeys yet</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">Save a Timeline, Compare, or Debate route and it will appear here. The stored record keeps canonical IDs and navigation metadata, not a copied theology database.</p></div> : (
+      {!items.length ? <div className="surface-card p-6"><StatusBadge>No saved journeys yet</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">Save a Graph path, catalog bookmark, Timeline, Compare, or Debate route to your account and it will appear here on desktop and Android. Guest Graph saves stay on their original device.</p></div> : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {items.map((journey) => {
-            const galaxy = graphHref(graphUrl, journey.rootNodeId);
+            const galaxy = graphJourneyHref(graphUrl, journey);
             return <article key={journey.id} className="surface-card p-5">
               <div className="flex flex-wrap items-center gap-2"><StatusBadge tone="info">{journey.lens}</StatusBadge><StatusBadge>{journey.visibility}</StatusBadge><StatusBadge tone="success">{journey.nodeIds.length} nodes</StatusBadge></div>
               <h2 className="editorial-heading mt-3 text-2xl font-semibold">{journey.title}</h2>
-              <p className="mt-2 break-all font-mono text-xs text-(--text-muted)">{journey.rootNodeId}</p>
+              {isGraphJourney(journey) ? <p className="mt-2 text-sm text-(--text-muted)">{journey.metadata?.kind === "catalog_bookmark" ? "Graph catalog bookmark" : "Graph path"}</p> : null}
+              <details className="mt-3 text-xs text-(--text-muted)"><summary className="flex min-h-11 cursor-pointer items-center">Journey reference</summary><code className="mt-2 block break-all">{journey.rootNodeId}</code></details>
               <div className="mt-4 flex flex-wrap gap-2">
-                {galaxy ? <a className="btn-primary px-3 py-2 text-sm" href={galaxy} target="_blank" rel="noopener noreferrer">Open root in Galaxy ↗</a> : null}
+                {galaxy ? <GraphLink className="btn-primary px-3 py-2 text-sm" href={galaxy}>{isGraphJourney(journey) ? "Reopen in Graph" : "Open root in Galaxy"}</GraphLink> : null}
                 {journey.visibility !== "private" ? <Link className="btn-secondary px-3 py-2 text-sm" href={`/research/journeys/${encodeURIComponent(journey.shareToken)}`}>Open share view</Link> : null}
                 <button className="btn-quiet px-3 py-2 text-sm" type="button" onClick={() => void copyShare(journey)}>Copy share link</button>
                 <button className="btn-quiet px-3 py-2 text-sm text-(--danger)" type="button" onClick={() => void remove(journey)}>Delete</button>

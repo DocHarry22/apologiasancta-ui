@@ -10,7 +10,7 @@ afterEach(() => { if (directory) rmSync(directory,{recursive:true,force:true}); 
 describe("Next lint root-directory glob adapter", () => {
   it("finds monorepo directories while excluding files", () => {
     directory = mkdtempSync(join(tmpdir(),"apologia-glob-")); mkdirSync(join(directory,"apps")); mkdirSync(join(directory,"apps","web")); writeFileSync(join(directory,"apps","file.txt"),"fixture");
-    expect(globSync("apps/*",{cwd:directory,onlyDirectories:true})).toEqual(["apps/web"]);
+    expect(globSync("apps/*",{cwd:directory,onlyDirectories:true})).toEqual([join("apps", "web")]);
     expect(globSync(join(directory,"apps","web"),{onlyDirectories:true})).toEqual([join(directory,"apps","web")]);
   });
   it("rejects nested brace expansion and unsupported APIs", () => {

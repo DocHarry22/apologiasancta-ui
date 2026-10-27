@@ -1,5 +1,7 @@
 "use client";
 
+import { ReportIssue } from "@/components/content/ReportIssue";
+
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ProgressBar } from "@/components/ui/Primitives";
@@ -41,7 +43,7 @@ export function PracticeQuiz() {
       <div className="mb-3 flex items-center justify-between text-sm text-(--text-muted)"><span>Question {index + 1} of {questions.length}</span><span>{score} correct so far</span></div>
       <ProgressBar value={((index + (answered ? 1 : 0)) / questions.length) * 100} label="Practice progress" />
       <div className="surface-card-elevated mt-6 p-5 sm:p-8">
-        <p className="eyebrow">Foundations review</p><h2 id="practice-question" className="editorial-heading mt-3 text-2xl font-semibold leading-tight sm:text-3xl">{question.prompt}</h2>
+        <p className="eyebrow">Foundations review</p><h2 id="practice-question" className="editorial-heading mt-3 text-2xl font-semibold leading-tight sm:text-3xl">{question.prompt}</h2><ReportIssue app="learn" contentType="question" contentId={`practice:${question.id}`} title={question.prompt} snapshot={question} />
         <div className="mt-6 grid gap-3">{question.choices.map((choice) => {
           const selected = choice.id === selectedId;
           const correct = answered && choice.id === question.correctId;

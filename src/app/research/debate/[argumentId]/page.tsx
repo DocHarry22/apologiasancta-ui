@@ -1,36 +1,16 @@
+import { ReportIssue } from "@/components/content/ReportIssue";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AppShell } from "@/components/shell/AppShell";
-import { ResearchModeNav } from "@/components/research/ResearchModeNav";
+import { ResearchLayout } from "@/components/research/ResearchLayout";
 import SaveKnowledgeJourneyButton from "@/components/research/SaveKnowledgeJourneyButton";
 import { StatusBadge } from "@/components/ui/Primitives";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 import { fetchKnowledgeEngine, KnowledgeEngineError } from "@/lib/server/knowledgeEngine";
+import type { DebateResponse as DebatePayload } from "@/lib/knowledge/researchContract";
 
 export const dynamic = "force-dynamic";
 
 const CANONICAL_ID = /^[a-z][a-z0-9_-]*:[a-z0-9][a-z0-9._:-]*$/;
-
-type NodeView = { id: string; kind: string; title: string; proposition?: string; summary?: string };
-type DebatePayload = {
-  argument: {
-    id: string;
-    title: string;
-    argumentType: string;
-    conclusionNodeId: string;
-    publishedRevisionId: string;
-  };
-  steps?: Array<{
-    objection: NodeView;
-    candidateResponses: Array<{
-      edge: { id: string; relationshipType: string; fromNodeId: string; toNodeId: string };
-      node: NodeView;
-    }>;
-  }>;
-  canonicalNodeIds?: string[];
-  scoringDisclosure?: string;
-  meta?: { bounded?: boolean; unpublishedBranchesExcluded?: boolean };
-};
 
 function graphHref(nodeId: string): string | null {
   const base = getResearchGraphUrl();
@@ -52,16 +32,23 @@ export default async function DebateArgumentPage({ params }: { params: Promise<{
 
   let payload: DebatePayload;
   try {
-    payload = await fetchKnowledgeEngine(`/knowledge/debate/${encodeURIComponent(argumentId)}`) as DebatePayload;
+    payload = await fetchKnowledgeEngine(`/knowledge/debate/${encodeURIComponent(argumentId)}`);
   } catch (error) {
     if (error instanceof KnowledgeEngineError && error.status === 404) notFound();
-    throw error;
+    return (
+      <ResearchLayout current="debate" title="A thoughtful exchange." accent="Try again shortly.">
+          <div className="surface-card mt-6 p-6" role="alert">
+            <StatusBadge tone="danger">Debate unavailable</StatusBadge>
+            <p className="mt-3 text-sm leading-6 text-(--text-muted)">{error instanceof Error ? error.message : "Debate is temporarily unavailable."}</p>
+          </div>
+      </ResearchLayout>
+    );
   }
 
-  const steps = Array.isArray(payload.steps) ? payload.steps : [];
+  const steps = payload.steps;
   const journeyNodeIds = [...new Set([
     payload.argument.conclusionNodeId,
-    ...(payload.canonicalNodeIds || []),
+    ...payload.canonicalNodeIds,
     ...steps.flatMap((step) => [step.objection.id, ...step.candidateResponses.map((candidate) => candidate.node.id)]),
   ].filter((id) => CANONICAL_ID.test(id)))].slice(0, 120);
   const journeyRoot = CANONICAL_ID.test(payload.argument.conclusionNodeId)
@@ -69,17 +56,9 @@ export default async function DebateArgumentPage({ params }: { params: Promise<{
     : journeyNodeIds[0] || "";
 
   return (
-    <AppShell>
-      <div className="page-container py-8 sm:py-11">
-        <div className="flex flex-col gap-5 border-b border-(--border) pb-7 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="eyebrow">Research · debate traversal</p>
-            <h1 className="editorial-heading mt-2 text-4xl font-semibold sm:text-5xl">{payload.argument.title}</h1>
-            <div className="mt-3 flex flex-wrap gap-2"><StatusBadge tone="success">Published argument</StatusBadge><StatusBadge tone="info">{payload.argument.argumentType}</StatusBadge><StatusBadge>{steps.length} objection steps</StatusBadge></div>
-            <p className="mt-3 max-w-3xl text-sm leading-6 text-(--text-muted)">{payload.scoringDisclosure || "This experience reports route completeness, not theological truth."}</p>
-          </div>
-          <ResearchModeNav current="debate" />
-        </div>
+    <ResearchLayout current="debate" eyebrow="Research · debate" title={payload.argument.title} description={payload.scoringDisclosure || "Explore this argument through its authored objections, responses, and evidence."}>
+            <div className="mt-3 flex flex-wrap gap-2"><StatusBadge tone="success">Published argument</StatusBadge><StatusBadge tone="info">{payload.argument.argumentType}</StatusBadge><StatusBadge>{steps.length} objection steps</StatusBadge><StatusBadge>No truth score</StatusBadge></div>
+        <p className="mt-4 text-sm text-(--text-muted)">Unpublished response branches are excluded server-side.</p>
 
         <div className="mt-6 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap gap-2"><Link href="/research/debate" className="btn-quiet px-3 py-2">Choose another argument</Link><code className="rounded bg-(--surface-elevated) px-3 py-2 text-xs">{payload.argument.id}</code></div>
@@ -96,7 +75,7 @@ export default async function DebateArgumentPage({ params }: { params: Promise<{
                 <li key={step.objection.id} className="surface-card overflow-hidden">
                   <div className="border-b border-(--border) bg-(--surface-elevated) p-5">
                     <div className="flex flex-wrap items-center gap-2"><StatusBadge tone="warning">Objection {index + 1}</StatusBadge><StatusBadge>{step.objection.kind}</StatusBadge></div>
-                    <h2 className="editorial-heading mt-3 text-2xl font-semibold">{step.objection.title}</h2>
+                    <h2 className="editorial-heading mt-3 text-2xl font-semibold">{step.objection.title}</h2><ReportIssue app="research" contentType="claim" contentId={step.objection.id} title={step.objection.title} snapshot={step.objection} />
                     {step.objection.proposition ? <p className="mt-2 text-sm font-medium leading-6">{step.objection.proposition}</p> : null}
                     {step.objection.summary ? <p className="mt-2 text-sm leading-6 text-(--text-muted)">{step.objection.summary}</p> : null}
                     <div className="mt-3 flex flex-wrap gap-2"><code className="rounded bg-(--surface) px-2 py-1 text-xs">{step.objection.id}</code>{objectionGraph ? <a className="btn-quiet px-3 py-1.5" href={objectionGraph} target="_blank" rel="noopener noreferrer">Inspect objection in Galaxy ↗</a> : null}</div>
@@ -111,7 +90,7 @@ export default async function DebateArgumentPage({ params }: { params: Promise<{
                           return (
                             <article key={`${edge.id}:${node.id}`} className="rounded-xl border border-(--border) bg-(--surface-elevated) p-4">
                               <div className="flex flex-wrap gap-2"><StatusBadge tone="success">{edge.relationshipType}</StatusBadge><StatusBadge>{node.kind}</StatusBadge></div>
-                              <h4 className="editorial-heading mt-3 text-xl font-semibold">{node.title}</h4>
+                              <h4 className="editorial-heading mt-3 text-xl font-semibold">{node.title}</h4><ReportIssue app="research" contentType="claim" contentId={node.id} title={node.title} snapshot={node} />
                               {node.proposition ? <p className="mt-2 text-sm font-medium leading-6">{node.proposition}</p> : null}
                               {node.summary ? <p className="mt-2 text-sm leading-6 text-(--text-muted)">{node.summary}</p> : null}
                               <div className="mt-3 flex flex-wrap gap-2"><code className="rounded bg-(--surface) px-2 py-1 text-xs">{node.id}</code>{responseGraph ? <a className="btn-quiet px-3 py-1.5" href={responseGraph} target="_blank" rel="noopener noreferrer">Inspect evidence path ↗</a> : null}</div>
@@ -128,7 +107,6 @@ export default async function DebateArgumentPage({ params }: { params: Promise<{
         )}
 
         <aside className="surface-card mt-7 p-5" aria-label="Debate safety disclosure"><div className="flex flex-wrap gap-2"><StatusBadge tone="success">Published branches only</StatusBadge><StatusBadge>Bounded traversal</StatusBadge><StatusBadge>No truth score</StatusBadge></div><p className="mt-3 text-sm leading-6 text-(--text-muted)">Unpublished response branches are excluded server-side. Missing responses remain visible as coverage gaps so reviewers can improve the knowledge base without leaking draft material.</p></aside>
-      </div>
-    </AppShell>
+    </ResearchLayout>
   );
 }

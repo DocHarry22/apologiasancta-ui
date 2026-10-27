@@ -1,0 +1,4 @@
+.overlay { position: fixed; inset: 0; z-index: 120; display: grid; place-items: center; padding: 24px; background: radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 27rem), var(--background); color: var(--text); }
+.badge { display: flex; width: 94px; height: 110px; align-items: center; justify-content: center; border: 1px solid #ddc58680; border-radius: 49px 49px 21px 21px; background: #112c3d; }
+.name { margin-top: 8px; font: 500 30px/1.2 var(--font-editorial); letter-spacing: -0.7px; }
+.motto { margin-top: 12px; color: var(--text-muted); font-size: 9px; font-weight: 600; line-height: 1.8; letter-spacing: 1.5px; text-transform: uppercase; }

@@ -12,6 +12,8 @@ export interface CurrentUser {
   createdAt?: string | null;
   lastLoginAt?: string | null;
   passwordChangedAt?: string | null;
+  emailVerifiedAt?: string | null;
+  sessionsRevokedBefore?: number | null;
   source: "database" | "transitional_env" | "json_user_store";
 }
 
@@ -53,6 +55,8 @@ export async function getCurrentUser(userId?: string): Promise<CurrentUser> {
       createdAt: user.createdAt,
       lastLoginAt: user.lastLoginAt ?? null,
       passwordChangedAt: user.passwordChangedAt ?? null,
+      emailVerifiedAt: user.emailVerifiedAt ?? null,
+      sessionsRevokedBefore: user.sessionsRevokedBefore ?? null,
       source: "database",
     };
   }

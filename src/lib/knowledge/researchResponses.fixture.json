@@ -1,0 +1,160 @@
+{
+  "timeline": {
+    "entries": [
+      {
+        "year": 325,
+        "date": "325-06-19",
+        "node": {
+          "id": "node:event",
+          "kind": "event",
+          "title": "Council of Nicaea",
+          "publishedRevisionId": "revision:event",
+          "metadata": {
+            "date": "325-06-19",
+            "domain": "history",
+            "provenanceIds": [
+              "source:council"
+            ]
+          }
+        },
+        "provenanceIds": [
+          "source:council"
+        ]
+      }
+    ],
+    "meta": {
+      "bounded": true,
+      "undatedRecordsExcluded": true,
+      "chronologyFilteredBeforeLimit": true
+    }
+  },
+  "compare": {
+    "left": {
+      "id": "node:left",
+      "kind": "claim",
+      "title": "The first claim",
+      "publishedRevisionId": "revision:left",
+      "metadata": {}
+    },
+    "right": {
+      "id": "node:right",
+      "kind": "claim",
+      "title": "The second claim",
+      "publishedRevisionId": "revision:right",
+      "metadata": {}
+    },
+    "directEdges": [
+      {
+        "id": "edge:direct",
+        "fromNodeId": "node:left",
+        "toNodeId": "node:right",
+        "relationshipType": "supports",
+        "publishedRevisionId": "revision:edge-direct",
+        "metadata": {}
+      }
+    ],
+    "sharedNeighbors": [
+      {
+        "id": "node:shared",
+        "kind": "definition",
+        "title": "Shared definition",
+        "publishedRevisionId": "revision:shared",
+        "metadata": {}
+      }
+    ],
+    "semanticRelationships": [
+      {
+        "id": "edge:left-shared",
+        "fromNodeId": "node:left",
+        "toNodeId": "node:shared",
+        "relationshipType": "defines",
+        "publishedRevisionId": "revision:edge-left-shared",
+        "metadata": {}
+      },
+      {
+        "id": "edge:right-shared",
+        "fromNodeId": "node:right",
+        "toNodeId": "node:shared",
+        "relationshipType": "interprets",
+        "publishedRevisionId": "revision:edge-right-shared",
+        "metadata": {}
+      }
+    ],
+    "assessments": [
+      {
+        "id": "assessment:current",
+        "nodeId": "node:left",
+        "lens": "catholic",
+        "position": "affirmed",
+        "rationaleIds": [
+          "node:shared"
+        ],
+        "sourceIds": [
+          "source:council"
+        ]
+      }
+    ],
+    "connectingPath": [
+      "node:left",
+      "node:right"
+    ],
+    "meta": {
+      "bounded": true,
+      "storedRelationshipsOnly": true,
+      "pathExpandedRows": 3,
+      "pathExpandedRowLimit": 480,
+      "pathFrontierLimit": 80
+    }
+  },
+  "debate": {
+    "argument": {
+      "id": "argument:case",
+      "title": "A structured case",
+      "argumentType": "deductive",
+      "conclusionNodeId": "node:left",
+      "publishedRevisionId": "revision:case"
+    },
+    "steps": [
+      {
+        "objection": {
+          "id": "node:objection",
+          "kind": "claim",
+          "title": "An authored objection",
+          "publishedRevisionId": "revision:objection",
+          "metadata": {}
+        },
+        "candidateResponses": [
+          {
+            "edge": {
+              "id": "edge:responds",
+              "fromNodeId": "node:response",
+              "toNodeId": "node:objection",
+              "relationshipType": "responds_to",
+              "publishedRevisionId": "revision:edge-responds",
+              "metadata": {}
+            },
+            "node": {
+              "id": "node:response",
+              "kind": "response",
+              "title": "A published response",
+              "publishedRevisionId": "revision:response",
+              "metadata": {}
+            }
+          }
+        ]
+      }
+    ],
+    "canonicalNodeIds": [
+      "node:left",
+      "node:objection",
+      "node:premise",
+      "node:response"
+    ],
+    "scoringDisclosure": "Route completeness and evidence use may be scored; theological truth is never assigned a numeric score.",
+    "meta": {
+      "bounded": true,
+      "unpublishedBranchesExcluded": true,
+      "authoredObjectionRoles": true
+    }
+  }
+}

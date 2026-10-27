@@ -1,4 +1,5 @@
 import "server-only";
+import { assertResearchResponse, type TimelineResponse, type CompareResponse, type DebateResponse } from "@/lib/knowledge/researchContract";
 
 const DEFAULT_TIMEOUT_MS = 5_000;
 const DEFAULT_MAX_BYTES = 2 * 1024 * 1024;
@@ -24,6 +25,10 @@ async function readBoundedBody(response: Response, maxBytes: number): Promise<st
   try { while (true) { const { done, value } = await reader.read(); if (done) break; if (!value?.byteLength) continue; totalBytes += value.byteLength; if (totalBytes > maxBytes) { await reader.cancel("knowledge-engine-response-size-limit").catch(() => undefined); throw tooLarge(response); } chunks.push(value); } } finally { reader.releaseLock(); }
   const merged = new Uint8Array(totalBytes); let offset = 0; for (const chunk of chunks) { merged.set(chunk, offset); offset += chunk.byteLength; } return new TextDecoder().decode(merged);
 }
+export function fetchKnowledgeEngine(path: "/knowledge/timeline", search?: URLSearchParams): Promise<TimelineResponse>;
+export function fetchKnowledgeEngine(path: "/knowledge/compare/advanced", search?: URLSearchParams): Promise<CompareResponse>;
+export function fetchKnowledgeEngine(path: `/knowledge/debate/${string}`, search?: URLSearchParams): Promise<DebateResponse>;
+export function fetchKnowledgeEngine(path: string, search?: URLSearchParams): Promise<unknown>;
 export async function fetchKnowledgeEngine(path: string, search?: URLSearchParams): Promise<unknown> {
   if (!path.startsWith("/knowledge/") && path !== "/knowledge") throw new KnowledgeEngineError("Knowledge Engine path is not allowed.", 400);
   if (path.includes("..") || /[?#]/.test(path)) throw new KnowledgeEngineError("Knowledge Engine path is invalid.", 400);
@@ -40,5 +45,7 @@ export async function fetchKnowledgeEngine(path: string, search?: URLSearchParam
   const contentType = response.headers.get("content-type")?.toLowerCase() || ""; if (!contentType.includes("application/json")) throw new KnowledgeEngineError("Knowledge Engine returned an unexpected response.", 502, response.status);
   const text = await readBoundedBody(response, maxBytes); let payload: unknown; try { payload = text ? JSON.parse(text) : null; } catch { throw new KnowledgeEngineError("Knowledge Engine returned invalid JSON.", 502, response.status); }
   if (!response.ok) { const upstreamMessage = payload && typeof payload === "object" && "error" in payload ? String((payload as { error?: unknown }).error || "") : ""; const safeStatus = response.status === 404 ? 404 : response.status === 400 ? 400 : response.status === 503 ? 503 : 502; throw new KnowledgeEngineError(upstreamMessage || "Knowledge Engine request failed.", safeStatus, response.status); }
+  try { assertResearchResponse(path, payload); }
+  catch { throw new KnowledgeEngineError("Knowledge Engine returned an incompatible research response.", 502, response.status); }
   return payload;
 }

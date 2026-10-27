@@ -6,111 +6,66 @@ import { useTheme } from "@/lib/theme";
 import { roleLabels } from "@/lib/auth/roles";
 import type { CurrentUser } from "@/lib/server/currentUser";
 import { runWithStoredAccountSessionBoundary } from "@/lib/playerIdentity";
+import { AppIcon, type AppIconName } from "@/components/native/AppIcon";
+import { NativeHeader } from "@/components/native/NativeHeader";
+import { Crest } from "@/components/shell/BrandMark";
+import styles from "./StaffWorkspace.module.css";
 
-const NAV_ITEMS = [
-  { id: "overview", label: "Overview", path: "", icon: "+" },
-  { id: "live", label: "Live Control", path: "/live", icon: ">" },
-  { id: "rooms", label: "Rooms", path: "/rooms", icon: "[]" },
-  { id: "bank", label: "Question Bank", path: "/bank", icon: "#" },
-  { id: "authoring", label: "Authoring", path: "/authoring", icon: "E" },
-  { id: "review", label: "Review", path: "/review", icon: "V" },
-  { id: "topics", label: "Topics", path: "/topics", icon: "=" },
-  { id: "learning", label: "Learning CMS", path: "/learning", icon: "L" },
-  { id: "agent", label: "Research Agent", path: "/agent", icon: "A" },
-  { id: "knowledge", label: "Knowledge Foundry", path: "/knowledge", icon: "K" },
-  { id: "audit", label: "Audit", path: "/audit", icon: "!" },
-  { id: "notifications", label: "Notifications", path: "/notifications", icon: "•" },
-  { id: "settings", label: "Settings", path: "/settings", icon: "*" },
+const NAV_ITEMS: { id: string; label: string; path: string; icon: AppIconName }[] = [
+  { id: "overview", label: "Overview", path: "", icon: "home" },
+  { id: "live", label: "Live Control", path: "/live", icon: "signal" },
+  { id: "rooms", label: "Rooms", path: "/rooms", icon: "chat" },
+  { id: "bank", label: "Question Bank", path: "/bank", icon: "library" },
+  { id: "authoring", label: "Authoring", path: "/authoring", icon: "book" },
+  { id: "review", label: "Review", path: "/review", icon: "check" },
+  { id: "topics", label: "Topics", path: "/topics", icon: "list" },
+  { id: "learning", label: "Learning CMS", path: "/learning", icon: "book" },
+  { id: "agent", label: "Research Agent", path: "/agent", icon: "research" },
+  { id: "knowledge", label: "Knowledge Foundry", path: "/knowledge", icon: "research" },
+  { id: "audit", label: "Audit", path: "/audit", icon: "shield" },
+  { id: "notifications", label: "Notifications", path: "/notifications", icon: "bell" },
+  { id: "settings", label: "Settings", path: "/settings", icon: "account" },
 ];
 
 export default function AuthorSidebar({ user }: { user: CurrentUser }) {
-  const pathname = usePathname();
+  const pathname = usePathname().replace(/\/$/, "");
   const { theme, toggleTheme } = useTheme();
   const basePath = pathname.startsWith("/admin") ? "/admin" : "/author";
+  const items = NAV_ITEMS.filter((item) => item.id !== "agent" || basePath === "/admin");
+  const isActive = (href: string) => href === basePath ? pathname === basePath : pathname === href || pathname.startsWith(`${href}/`);
 
-  const isActive = (href: string) => {
-    if (href === basePath) return pathname === basePath;
-    return pathname.startsWith(href);
-  };
+  if (pathname === `${basePath}/login`) return null;
 
-  return (
-    <aside className="flex w-56 shrink-0 flex-col border-r border-(--border) bg-(--card) sticky top-0 h-screen">
-      <div className="border-b border-(--border) px-4 py-4">
-        <Link href={basePath} className="block group">
-          <p className="text-[10px] uppercase tracking-[0.18em] text-(--muted)">Admin Dashboard</p>
-          <p className="mt-1 text-sm font-semibold text-(--accent) group-hover:opacity-80 transition-opacity">
-            + Apologia Sancta
-          </p>
-        </Link>
-      </div>
+  const navigation = <>{items.map((item) => {
+    const href = `${basePath}${item.path}`;
+    return <Link key={item.id} href={href} className={styles.link} aria-current={isActive(href) ? "page" : undefined} onClick={(event) => event.currentTarget.closest("details")?.removeAttribute("open")}><AppIcon name={item.icon} /><span>{item.label}</span></Link>;
+  })}<Link href="/mobile" className={styles.link}><AppIcon name="play" /><span>Back to Quiz</span></Link></>;
 
-      <nav className="flex-1 overflow-y-auto py-2" aria-label="Admin navigation">
-        {NAV_ITEMS.filter(item => item.id !== "agent" || basePath === "/admin").map((item) => {
-          const href = `${basePath}${item.path}`;
-          return (
-            <Link
-              key={item.id}
-              href={href}
-              className={`flex min-h-10 items-center gap-2.5 px-4 py-2 text-sm transition-colors ${
-                isActive(href)
-                  ? "border-r-2 border-(--accent) bg-(--accent)/10 font-medium text-(--accent)"
-                  : "text-(--text-secondary) hover:bg-(--ticker-bg) hover:text-foreground"
-              }`}
-            >
-              <span className="w-4 shrink-0 text-center text-xs opacity-70">{item.icon}</span>
-              {item.label}
-            </Link>
-          );
-        })}
+  const account = <div className={styles.footer}>
+    <p>{user.displayName}<small>{roleLabels[user.role]}</small></p>
+    <div><button type="button" onClick={toggleTheme} aria-label="Toggle theme">{theme === "dark" ? "Light" : "Dark"}</button>
+      <form method="post" action={`/api/auth/logout?next=${encodeURIComponent(`${basePath}/login`)}`} onSubmit={(event) => {
+        event.preventDefault();
+        void runWithStoredAccountSessionBoundary(() => fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" }))
+          .catch(() => undefined)
+          .finally(() => { window.location.href = `${basePath}/login`; });
+      }}><button type="submit">Log out</button></form>
+    </div>
+  </div>;
 
-        <div className="mx-4 my-2 border-t border-(--border)" />
-
-        <Link
-          href="/mobile"
-          className="flex min-h-10 items-center gap-2.5 px-4 py-2 text-sm text-(--muted) hover:text-foreground transition-colors"
-        >
-          <span className="w-4 shrink-0 text-center text-xs opacity-70">{"<"}</span>
-          Back to Quiz
-        </Link>
-      </nav>
-
-      <div className="shrink-0 border-t border-(--border) p-3 space-y-2">
-        <div className="rounded-lg border border-(--border) px-3 py-2 min-w-0">
-          <p className="truncate text-xs font-medium">{user.displayName}</p>
-          <p className="text-[11px] text-(--muted) truncate">{roleLabels[user.role]}</p>
-        </div>
-        <div className="flex gap-1.5">
-          <button
-            type="button"
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            className="flex-1 rounded-lg border border-(--border) py-1.5 text-xs text-(--muted) hover:border-(--accent) hover:text-(--accent) transition-colors"
-          >
-            {theme === "dark" ? "Light" : "Dark"}
-          </button>
-          <form
-            method="post"
-            action={`/api/auth/logout?next=${encodeURIComponent(`${basePath}/login`)}`}
-            className="flex-1"
-            onSubmit={(event) => {
-              event.preventDefault();
-              void runWithStoredAccountSessionBoundary(() => fetch("/api/auth/logout", {
-                method: "POST",
-                credentials: "same-origin",
-              }))
-                .catch(() => undefined)
-                .finally(() => { window.location.href = `${basePath}/login`; });
-            }}
-          >
-            <button
-              type="submit"
-              className="w-full rounded-lg border border-(--border) py-1.5 text-xs text-(--muted) hover:border-red-500 hover:text-red-500 transition-colors"
-            >
-              Log out
-            </button>
-          </form>
-        </div>
-      </div>
+  return <>
+    <div className={styles.mobile}>
+      <NativeHeader />
+      <details key={pathname}>
+        <summary><span>Staff workspace</span><strong>{items.find((item) => isActive(`${basePath}${item.path}`))?.label ?? "Workspace"}</strong></summary>
+        <nav className={styles.navigation} aria-label="Mobile staff navigation">{navigation}</nav>
+        {account}
+      </details>
+    </div>
+    <aside className={styles.sidebar}>
+      <Link href={basePath} className={styles.brand}><Crest /><span>Apologia Sancta<small>Staff workspace</small></span></Link>
+      <nav className={styles.navigation} aria-label="Staff navigation">{navigation}</nav>
+      {account}
     </aside>
-  );
+  </>;
 }

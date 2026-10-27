@@ -1,12 +1,14 @@
 "use client";
 import { useEffect, useRef } from "react";
 import type { Claim, PublishedPack } from "@/lib/agent/contracts";
+import surface from "@/components/native/ScreenSurface.module.css";
 export default function EvidenceDrawer({ claim, sources, onClose }: { claim: Claim; sources: PublishedPack["sources"]; onClose: () => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => { const node = dialog.current; node?.showModal(); return () => node?.close(); }, []);
-  return <dialog ref={dialog} onCancel={onClose} onClose={onClose} aria-labelledby="evidence-title"
-    className="fixed inset-0 m-auto max-h-[90dvh] w-[min(42rem,95vw)] overflow-y-auto rounded-2xl border border-(--border) bg-(--card) p-6 text-foreground shadow-xl backdrop:bg-black/60">
-    <div className="flex items-start justify-between gap-4"><h2 id="evidence-title" className="text-xl font-bold">Evidence drawer</h2><button type="button" onClick={onClose} className="btn-quiet px-3 py-2" aria-label="Close evidence drawer">Close</button></div>
+  // Closing during effect cleanup must not dismiss a newly opened drawer in Strict Mode.
+  return <dialog ref={dialog} onCancel={onClose} aria-labelledby="evidence-title"
+    className={`${surface.content} fixed inset-0 m-auto max-h-[90dvh] w-[min(42rem,95vw)] overflow-y-auto rounded-2xl border border-(--border) bg-(--card) p-6 text-foreground shadow-xl backdrop:bg-black/60`}>
+    <div className="flex items-start justify-between gap-4"><h2 id="evidence-title" className="text-2xl font-medium">Evidence drawer</h2><button type="button" onClick={onClose} className="btn-quiet px-3 py-2" aria-label="Close evidence drawer">Close</button></div>
     <p className="mt-4 leading-7">{claim.text}</p>
     <p className="mt-2 text-sm text-(--text-secondary)">{claim.classification.replaceAll("_", " ")} · AI-generated paraphrase</p>
     {claim.evidence.map((e, i) => { const source = sources.find(s => s.id === e.sourceId); if (!source) return null;

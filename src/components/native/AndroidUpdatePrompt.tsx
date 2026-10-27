@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { AppInfo } from "@capacitor/app";
 import type { PluginListenerHandle } from "@capacitor/core";
 import { Dialog } from "@/components/ui/Dialog";
+import study from "./StudyUI.module.css";
 import {
   ANDROID_UPDATE_INTERVAL_MS, ANDROID_UPDATE_SNOOZE_KEY, ANDROID_UPDATE_SNOOZE_MS,
   isAndroidUpdateSnoozed, isNewerAndroidUpdate, parseAndroidUpdate, type AndroidUpdate,
@@ -85,6 +86,7 @@ export function AndroidUpdatePrompt() {
   if (!available) return null;
   return (
     <Dialog titleId="android-update-title" descriptionId="android-update-description" onClose={dismiss} className="max-h-[85dvh] max-w-md overflow-y-auto rounded-2xl p-6 text-(--text)">
+      <p className={`${study.eyebrow} mb-2`}>A fresh chapter</p>
       <h2 id="android-update-title" className="text-xl font-bold">App update available</h2>
       <p id="android-update-description" className="mt-3 text-sm leading-6 text-(--text-muted)">
         Apologia Sancta {available.update.versionName} is ready. You have version {available.installed.version}.

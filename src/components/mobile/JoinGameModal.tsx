@@ -1,4 +1,5 @@
 "use client";
+import styles from "./QuizScreen.module.css";
 
 import { useCallback, useEffect, useState } from "react";
 import { PLAYER_NAME_KEY } from "./YourScoreCard";
@@ -130,15 +131,15 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
   const isValidUsername = username.trim().length >= 3 && username.trim().length <= 20 && /^[a-zA-Z0-9_]+$/.test(username.trim());
 
   return (
-    <Dialog titleId="join-room-title" descriptionId="join-room-description" onClose={onCancel} className="max-w-md rounded-2xl p-6">
-        <div className="mb-6 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-(--muted)">Live quiz</p>
-          <h2 id="join-room-title" className="editorial-heading mt-2 text-3xl font-semibold">Join {roomName || roomId}</h2>
-          <p id="join-room-description" className="mt-2 text-sm text-(--text-muted)">Choose a safe public display name for this room.</p>
+    <Dialog titleId="join-room-title" descriptionId="join-room-description" onClose={onCancel} className={`max-h-[90dvh] max-w-md overflow-y-auto ${styles.dialog}`}>
+        <div className={styles.modalHeader}>
+          <p className={styles.eyebrow}>You’re in good company</p>
+          <h2 id="join-room-title">Join {roomName || roomId}</h2>
+          <p id="join-room-description">Choose a safe public display name for this room.</p>
           {roomName && roomName !== roomId ? <p className="mt-1 text-xs uppercase tracking-[0.18em] text-(--muted)">{roomId}</p> : null}
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className={`${styles.joinForm} space-y-5`}>
           <div>
             <label htmlFor="username" className="mb-2 block text-sm font-medium text-foreground">Safe display name</label>
             <input

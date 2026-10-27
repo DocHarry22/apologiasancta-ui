@@ -1,4 +1,5 @@
 "use client";
+import staffStyles from "@/app/author/StaffWorkspace.module.css";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
@@ -22,6 +23,7 @@ import type { AuditEvent } from "@/lib/server/storage/types";
 import AuthorForm from "./AuthorForm";
 import JsonPreview from "./JsonPreview";
 import EngineHealthPanel from "./EngineHealthPanel";
+import ContentCorrectionQueue from "./ContentCorrectionQueue";
 
 interface Props {
   topics: TopicWithCount[];
@@ -61,7 +63,7 @@ const sections: Array<{ id: TabId; label: string; title: string; permissions: Pe
   { id: "rooms", label: "Rooms", title: "Room Operations", permissions: ["rooms:manage"] },
   { id: "bank", label: "Question Bank", title: "Question Bank", permissions: ["content:view"] },
   { id: "authoring", label: "Authoring", title: "Author Workflow", permissions: ["content:draft:create", "content:import"] },
-  { id: "review", label: "Review", title: "Review Queue", permissions: ["content:review", "content:publish"] },
+  { id: "review", label: "Review", title: "Review Queue", permissions: ["content:review", "content:publish", "learning:review"] },
   { id: "topics", label: "Topics", title: "Topics and Sequence", permissions: ["topics:manage", "topic_sequence:manage"] },
   { id: "audit", label: "Audit", title: "Audit Visibility", permissions: ["audit:view"] },
   { id: "settings", label: "Settings", title: "Dashboard Settings", permissions: ["settings:view"] },
@@ -1122,14 +1124,14 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
               <input value={newRoomId} onChange={(event) => setNewRoomId(event.target.value.replace(/[^a-z0-9-]/g, "").toLowerCase())} placeholder="Optional room-id" className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm" />
               <button type="button" onClick={() => void createRoom()} disabled={loading || !newRoomName.trim()} className="min-h-11 rounded-lg bg-(--accent) px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Create Room</button>
             </div>
-            <ResponsiveTable headers={["Room", "Status", "Players", "Live", "Play", "Actions"]}>
+            <ResponsiveTable kind="rooms" headers={["Room", "Status", "Players", "Live", "Play", "Actions"]}>
               {rooms.map((room) => (
-                <div key={room.roomId} className="grid gap-2 border-b border-(--border) px-3 py-3 text-sm last:border-0 md:grid-cols-[minmax(0,1.2fr)_100px_80px_80px_80px_220px]">
+                <div key={room.roomId} className={`${staffStyles.roomRow} grid gap-2 border-b border-(--border) px-3 py-3 text-sm last:border-0`}>
                   <div className="min-w-0"><p className="truncate font-medium">{room.name}</p><p className="truncate text-xs text-(--muted)">{room.roomId}</p></div>
-                  <StatusBadge label={room.isActive ? "Active" : "Closed"} tone={statusClass(room.isActive ? "active" : "closed")} />
-                  <span className="font-mono">{room.playerCount}</span>
-                  <span className="font-mono">{room.connectedClients}</span>
-                  <span className="font-mono">{room.gameplayPlayerCount}</span>
+                  <div data-label="Status"><StatusBadge label={room.isActive ? "Active" : "Closed"} tone={statusClass(room.isActive ? "active" : "closed")} /></div>
+                  <span data-label="Players" className="font-mono">{room.playerCount}</span>
+                  <span data-label="Live" className="font-mono">{room.connectedClients}</span>
+                  <span data-label="Play" className="font-mono">{room.gameplayPlayerCount}</span>
                   <div className="flex flex-wrap gap-2">
                     <button type="button" onClick={() => setSelectedRoomId(room.roomId)} className="rounded-lg border border-(--border) px-2 py-1 text-xs hover:border-(--accent)">Select</button>
                     <button type="button" onClick={() => void copyRoomUrl(room.roomId)} className="rounded-lg border border-(--border) px-2 py-1 text-xs hover:border-(--accent)">Copy URL</button>
@@ -1163,15 +1165,15 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
               <input value={bankTagFilter} onChange={(event) => setBankTagFilter(event.target.value)} placeholder="Tag filter" className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm" />
             </div>
             <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.8fr)]">
-              <ResponsiveTable headers={["ID", "Topic", "Difficulty", "Status", "Tags", "Validation"]}>
+              <ResponsiveTable kind="questions" headers={["ID", "Topic", "Difficulty", "Status", "Tags", "Validation"]}>
                 {filteredQuestionRows.slice(0, 80).map((row) => (
-                  <button key={`${row.status}-${row.id}`} type="button" onClick={() => setSelectedQuestionId(row.id)} className="grid w-full gap-2 border-b border-(--border) px-3 py-3 text-left text-sm last:border-0 hover:bg-(--ticker-bg) md:grid-cols-[110px_minmax(0,1fr)_80px_120px_minmax(0,1fr)_110px]">
-                    <span className="font-mono text-(--accent)">{row.id}</span>
-                    <span className="truncate">{row.topicTitle}</span>
-                    <span>{row.difficulty}</span>
-                    <StatusBadge label={row.status} tone={statusClass(row.status)} />
-                    <span className="truncate text-xs text-(--muted)">{row.tags.join(", ") || "No tags"}</span>
-                    <span className={row.validationIssues.length ? "text-yellow-300" : "text-green-400"}>{row.validationIssues.length ? `${row.validationIssues.length} issue(s)` : "Valid"}</span>
+                  <button key={`${row.status}-${row.id}`} type="button" onClick={() => setSelectedQuestionId(row.id)} className={`${staffStyles.questionRow} grid w-full gap-2 border-b border-(--border) px-3 py-3 text-left text-sm last:border-0 hover:bg-(--ticker-bg)`}>
+                    <span data-label="ID" className="font-mono text-(--accent)">{row.id}</span>
+                    <span data-label="Topic">{row.topicTitle}</span>
+                    <span data-label="Difficulty">{row.difficulty}</span>
+                    <span data-label="Status"><StatusBadge label={row.status} tone={statusClass(row.status)} /></span>
+                    <span data-label="Tags" className="text-xs text-(--muted)">{row.tags.join(", ") || "No tags"}</span>
+                    <span data-label="Validation" className={row.validationIssues.length ? "text-yellow-300" : "text-green-400"}>{row.validationIssues.length ? `${row.validationIssues.length} issue(s)` : "Valid"}</span>
                   </button>
                 ))}
                 {filteredQuestionRows.length === 0 && <EmptyState text="No questions match the current filters." />}
@@ -1282,6 +1284,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
           </div>
         )}
 
+        {activeTab === "review" && hasAnyPermission(currentUser.role, ["content:review", "learning:review"]) && <ContentCorrectionQueue />}
         {activeTab === "review" && (
           <Panel title="Editorial Queue" description="Review submitted questions and publish independently approved revisions.">
             <div className="grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(320px,1.1fr)]">
@@ -1674,10 +1677,10 @@ function EmptyState({ text }: { text: string }) {
   return <div className="rounded-lg border border-dashed border-(--border) p-4 text-sm text-(--muted)">{text}</div>;
 }
 
-function ResponsiveTable({ headers, children }: { headers: string[]; children: React.ReactNode }) {
+function ResponsiveTable({ kind, headers, children }: { kind: "rooms" | "questions"; headers: string[]; children: React.ReactNode }) {
   return (
-    <div className="overflow-hidden rounded-lg border border-(--border)">
-      <div className="hidden border-b border-(--border) bg-background px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-(--muted) md:grid md:grid-cols-[inherit]">
+    <div className={staffStyles.table}>
+      <div className={staffStyles.tableHeader} data-kind={kind}>
         {headers.map((header) => <span key={header}>{header}</span>)}
       </div>
       <div>{children}</div>

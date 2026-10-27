@@ -15,6 +15,8 @@ function isAllowed(segments: string[]): boolean {
   const path = segments.join("/");
   if (
     path === "status"
+    || path === "search"
+    || path === "arguments"
     || path === "topics"
     || path === "neighborhood"
     || path === "compare"
@@ -33,7 +35,12 @@ function isAllowed(segments: string[]): boolean {
 function sanitizedSearch(request: NextRequest, path: string): URLSearchParams {
   const result = new URLSearchParams();
   const source = request.nextUrl.searchParams;
-  if (path === "neighborhood") {
+  if (path === "search" || path === "arguments") {
+    const query = (source.get("q") || "").trim();
+    if (query && query.length <= 500) result.set("q", query);
+    const limit = Math.max(1, Math.min(25, Number.parseInt(source.get("limit") || "12", 10) || 12));
+    result.set("limit", String(limit));
+  } else if (path === "neighborhood") {
     const nodeId = source.get("nodeId") || "";
     if (SAFE_CANONICAL.test(nodeId)) result.set("nodeId", nodeId);
     const depth = Math.max(0, Math.min(3, Number.parseInt(source.get("depth") || "2", 10) || 2));
@@ -91,6 +98,8 @@ export async function GET(
 
   const path = segments.join("/");
   const search = sanitizedSearch(request, path);
+  if (path === "search" && !search.has("q")) return NextResponse.json({ error: "Enter a search phrase of up to 500 characters." }, { status: 400 });
+  if (path === "arguments" && (request.nextUrl.searchParams.get("q") || "").trim().length > 500) return NextResponse.json({ error: "Search is too long." }, { status: 400 });
   if (path === "neighborhood" && !search.has("nodeId")) return NextResponse.json({ error: "A valid nodeId is required." }, { status: 400 });
   if ((path === "compare" || path === "compare/advanced") && (!search.has("left") || !search.has("right"))) {
     return NextResponse.json({ error: "Valid left and right node IDs are required." }, { status: 400 });

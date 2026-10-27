@@ -1,0 +1,75 @@
+.layout { display: flex; min-height: 100dvh; padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); background: radial-gradient(circle at 88% 6%, color-mix(in srgb, var(--gold) 7%, transparent), transparent 28rem), var(--background); color: var(--text); }
+.playColumn { min-width: 0; width: 100%; max-width: 760px; margin-inline: auto; }
+.playFrame { display: flex; min-width: 0; min-height: calc(100dvh - 88px); flex-direction: column; }
+.sidebar { display: none; }
+.roomBar { width: calc(100% - 40px); margin: 24px auto 10px; }
+.eyebrow { color: var(--gold-hover); font-size: 10px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; }
+.roomHeading { display: flex; min-width: 0; align-items: flex-start; justify-content: space-between; gap: 12px; margin-top: 10px; }
+.roomHeading h1 { min-width: 0; overflow-wrap: anywhere; font: 500 29px/1.2 var(--font-editorial); letter-spacing: -0.7px; }
+.connection { display: inline-flex; min-height: 29px; flex-shrink: 0; align-items: center; gap: 6px; border: 1px solid var(--border); border-radius: 20px; padding: 6px 10px; background: var(--surface); color: var(--text-muted); font-size: 9px; font-weight: 650; }
+.connection::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); }
+.connection[data-state="connected"] { color: var(--success); }
+.connection[data-state="connected"]::before { background: var(--success); }
+.connection[data-state="disconnected"] { color: var(--danger); }
+.connection[data-state="disconnected"]::before { background: var(--danger); }
+.roomMeta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 13px; margin-top: 9px; color: var(--text-muted); font-size: 11px; line-height: 1.8; }
+.roomMeta > span { min-width: 0; overflow-wrap: anywhere; }
+.roomMeta button { display: inline-flex; min-height: 44px; align-items: center; gap: 5px; color: var(--gold-hover); font-size: 11px; font-weight: 650; }
+.roomMeta button:last-child { margin-left: auto; }
+.statusStack { display: grid; gap: 10px; margin: 0 20px; }
+.phaseStatus { display: flex; flex-wrap: wrap; align-items: center; gap: 3px 10px; border-left: 2px solid var(--gold); padding: 5px 12px; color: var(--text); }
+.phaseStatus h2 { font-size: 12px; font-weight: 650; }
+.phaseStatus > p { width: 100%; color: var(--text-muted); font-size: 11px; line-height: 1.8; }
+.submissionNotice { margin: 12px 20px 0; border-left: 2px solid var(--warning); padding: 7px 12px; color: var(--text); font-size: 12px; line-height: 1.8; }
+.submissionNotice[data-submitted="true"] { border-color: var(--success); color: var(--success); }
+.onboarding { border: 1px solid var(--border); border-radius: 13px; background: var(--surface); padding: 14px; }
+.roundBody { position: relative; min-width: 0; padding-bottom: 15px; }
+.scoreSummary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 17px 20px 0; overflow: hidden; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.scoreSummary > div, .rankButton { position: relative; min-width: 0; padding: 12px 15px; }
+.scoreSummary > div + div, .rankButton { border-left: 1px solid var(--border); }
+.scoreSummary > div > div:first-child { display: flex; align-items: center; gap: 5px; color: var(--text-muted); font-size: 9px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; }
+.scoreSummary :global(.quiz-mobile-score-value), .rankButton strong { display: block; margin-top: 5px; color: var(--text); font-size: 21px; font-weight: 650; line-height: 1.2; }
+.rankButton { min-height: 73px; text-align: left; }
+.rankButton > span { display: inline-flex; align-items: center; gap: 5px; color: var(--gold-hover); font-size: 9px; font-weight: 650; letter-spacing: 0.8px; text-transform: uppercase; }
+.timer { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 15px 20px 0; padding: 0; }
+.timer p { margin-top: 6px; color: var(--text-muted); font-size: 11px; }
+.timer .ring { position: relative; width: 65px; height: 65px; flex-shrink: 0; }
+.timerNumber { position: absolute; inset: 0; display: grid; place-items: center; color: var(--text); font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.question { position: relative; overflow: hidden; margin: 14px 20px 0; border: 1px solid #355061; border-radius: 17px; padding: 21px; background: radial-gradient(ellipse at 100% 0%, #2e4852, transparent 80%), #112c3d; color: #fff9ec; }
+.question .eyebrow { color: #ddc586; font-size: 9px; }
+.question h2 { position: relative; margin-top: 12px; overflow-wrap: anywhere; font: 400 25px/1.3 var(--font-editorial); letter-spacing: -0.4px; }
+.question > svg { position: absolute; right: 15px; top: 15px; color: #ddc586; opacity: 0.17; }
+.answers { display: grid; gap: 10px; margin: 15px 20px 0; }
+.answer { display: flex; width: 100%; min-height: 58px; min-width: 0; align-items: center; gap: 12px; border-width: 1px; border-style: solid; border-radius: 13px; padding: 12px; text-align: left; transition: border-color 150ms, background 150ms; }
+.answerBadge { display: grid; width: 31px; height: 33px; flex-shrink: 0; place-items: center; border-width: 1px; border-style: solid; border-radius: 9px; font-size: 12px; font-weight: 650; }
+.answerText { font-size: 14px; font-weight: 500; line-height: 1.7; }
+.roundDetails { margin: 18px 20px; border-top: 1px solid var(--border); }
+.roundDetails summary { display: flex; min-height: 48px; align-items: center; justify-content: space-between; color: var(--text-muted); font-size: 12px; font-weight: 600; list-style: none; cursor: pointer; }
+.roundDetails summary::-webkit-details-marker { display: none; }
+.roundDetails summary::after { content: "+"; color: var(--gold-hover); font-size: 18px; }
+.roundDetails[open] summary::after { content: "−"; }
+.roundDetails > div { margin-inline: 0; border-radius: 12px; box-shadow: none; }
+.roundDetails button { min-height: 44px; }
+.teaching { margin: 18px 20px 0; overflow: hidden; border: 1px solid var(--border); border-radius: 15px; background: var(--surface); }
+.teachingButton { display: flex; width: 100%; min-height: 56px; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; text-align: left; }
+.teachingButton > span:first-child { min-width: 0; font: 500 21px/1.3 var(--font-editorial); }
+.teachingButton > span:last-child { color: var(--gold-hover); font-size: 10px; font-weight: 650; }
+.teachingContent { border-top: 1px solid var(--border); padding: 17px; }
+.teachingContent p { font-size: 14px; line-height: 1.9; }
+.references { display: flex; flex-wrap: wrap; gap: 9px 14px; margin-top: 14px; color: var(--text-muted); font-size: 11px; line-height: 1.7; }
+.dialog { overflow: hidden; border-radius: 20px; }
+.modalHeader { padding: 23px 23px 16px; }
+.modalHeader h2 { margin-top: 9px; overflow-wrap: anywhere; font: 500 30px/1.15 var(--font-editorial); letter-spacing: -0.7px; }
+.modalHeader p:not(.eyebrow) { margin-top: 11px; color: var(--text-muted); font-size: 13px; line-height: 1.8; }
+.modalHeader button { min-height: 44px; color: var(--gold-hover); font-size: 12px; font-weight: 650; }
+.modalBody { min-height: 0; flex: 1; overflow-y: auto; padding: 0 23px 23px; }
+.roomTitle { font: 500 23px/1.3 var(--font-editorial); letter-spacing: -0.4px; overflow-wrap: anywhere; }
+.joinForm { padding: 0 23px 23px; }
+.joinForm input { min-width: 0; border-radius: 12px; font-size: 16px; }
+.joinForm label { color: var(--text); font-size: 12px; font-weight: 650; }
+.joinForm p { color: var(--text-muted); font-size: 11px; line-height: 1.8; }
+.reportLink { margin: 7px 20px 0; }
+.reportLink button { min-height: 32px; font-size: 10px; }
+.roundProgress { margin: 18px 20px 5px; }
+@media (min-width: 1100px) { .layout { justify-content: center; } .playColumn { flex: 1; max-width: 760px; margin-inline: 0; } .sidebar { display: block; position: sticky; top: 0; width: 320px; height: calc(100dvh - 88px); flex-shrink: 0; overflow-y: auto; border-left: 1px solid var(--border); background: var(--surface); } }
+@media (max-width: 359px) { .roomBar { width: calc(100% - 28px); } .statusStack { margin-inline: 14px; } .scoreSummary, .timer, .question, .answers, .roundDetails, .teaching, .roundProgress { margin-inline: 14px; } .scoreSummary > div, .rankButton { padding-inline: 12px; } .question { padding: 18px; } .question h2 { font-size: 23px; } .modalHeader { padding: 20px 18px 14px; } .modalBody, .joinForm { padding-inline: 18px; } }

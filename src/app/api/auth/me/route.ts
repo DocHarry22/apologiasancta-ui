@@ -15,6 +15,7 @@ export async function GET(request: NextRequest) {
       id: auth.user.id,
       displayName: auth.user.displayName,
       email: auth.user.email ?? null,
+      emailVerifiedAt: auth.user.emailVerifiedAt ?? null,
       role: auth.user.role,
       accountType: auth.user.accountType,
       phone: auth.user.phone ?? null,

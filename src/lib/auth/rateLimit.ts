@@ -26,6 +26,11 @@ export interface RateLimiter {
 
 const loginAttempts = new Map<string, RateEntry>();
 const signupAttempts = new Map<string, RateEntry>();
+const contentReportAttempts = new Map<string, RateEntry>();
+
+export function checkContentReportRateLimit(accountId: string) {
+  return checkFixedWindow(contentReportAttempts, accountId, 20, 15 * 60 * 1000);
+}
 
 function normalizeRateLimitKey(value: string): string {
   return value.trim().slice(0, 128) || "unknown";

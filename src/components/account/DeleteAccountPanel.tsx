@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { ScreenSurface, ScreenIntro } from "@/components/native/ScreenSurface";
+import styles from "@/components/native/ScreenSurface.module.css";
+import study from "@/components/native/StudyUI.module.css";
 
 export function DeleteAccountPanel({ signedIn, accountType }: { signedIn: boolean; accountType: "public" | "staff" | null }) {
   const [confirmation, setConfirmation] = useState("");
@@ -56,32 +59,26 @@ export function DeleteAccountPanel({ signedIn, accountType }: { signedIn: boolea
 
   if (!signedIn) {
     return (
-      <section className="surface-card-elevated mx-auto max-w-2xl p-6 sm:p-8">
-        <p className="text-xs font-black uppercase tracking-[0.15em] text-(--gold-hover)">Account deletion</p>
-        <h1 className="mt-2 editorial-heading text-3xl">Delete your Apologia Sancta account</h1>
+      <ScreenSurface><ScreenIntro eyebrow="Account controls" title="Delete your Apologia Sancta account" description="Review what account deletion removes before you choose to continue." /><section className={styles.card}>
         <p className="mt-4 text-sm leading-6 text-(--text-muted)">
           Sign in to verify ownership, then you can permanently delete your account and account-linked learning data from this page.
         </p>
         <Link className="btn-primary mt-6 inline-flex" href="/login?next=%2Faccount%2Fdelete">Sign in to continue</Link>
-      </section>
+      </section></ScreenSurface>
     );
   }
 
   if (accountType !== "public") {
     return (
-      <section className="surface-card-elevated mx-auto max-w-2xl p-6 sm:p-8">
-        <p className="text-xs font-black uppercase tracking-[0.15em] text-(--gold-hover)">Account deletion</p>
-        <h1 className="mt-2 editorial-heading text-3xl">Staff account</h1>
+      <ScreenSurface><ScreenIntro eyebrow="Account controls" title="Staff account" /><section className={styles.card}>
         <p className="mt-4 text-sm leading-6 text-(--text-muted)">Staff accounts are governed administratively and cannot be deleted through the learner self-service flow.</p>
         <Link className="btn-secondary mt-6 inline-flex" href="/account">Back to account</Link>
-      </section>
+      </section></ScreenSurface>
     );
   }
 
   return (
-    <section className="surface-card-elevated mx-auto max-w-2xl p-6 sm:p-8">
-      <p className="text-xs font-black uppercase tracking-[0.15em] text-(--danger)">Permanent action</p>
-      <h1 className="mt-2 editorial-heading text-3xl">Delete your account</h1>
+    <ScreenSurface><header className={study.intro}><p className={study.eyebrow} style={{ color: "var(--danger)" }}>Permanent action</p><h1 className={study.title}>Delete your account</h1></header><section className={styles.card}>
       <p className="mt-4 text-sm leading-6 text-(--text-muted)">
         This permanently removes your Apologia Sancta learner account, profile details, lesson progress, bookmarks, mastery attempts, answers, unlocks, review schedule, and derived mastery records. Live-quiz history is anonymised so aggregate competition results can remain intact without your account link or display name.
       </p>
@@ -96,6 +93,7 @@ export function DeleteAccountPanel({ signedIn, accountType }: { signedIn: boolea
         value={confirmation}
         onChange={(event) => setConfirmation(event.target.value)}
         autoComplete="off"
+        autoCapitalize="characters"
         spellCheck={false}
       />
 
@@ -105,10 +103,10 @@ export function DeleteAccountPanel({ signedIn, accountType }: { signedIn: boolea
         </p>
       ) : null}
 
-      <div className="mt-6 flex flex-wrap gap-3">
+      <div className={styles.actions}>
         <button
           type="button"
-          className="rounded-lg border border-(--danger) px-4 py-2.5 text-sm font-black text-(--danger) disabled:cursor-not-allowed disabled:opacity-50"
+          className={styles.danger}
           disabled={confirmation !== "DELETE" || status === "deleting" || status === "success"}
           onClick={deleteAccount}
         >
@@ -116,6 +114,6 @@ export function DeleteAccountPanel({ signedIn, accountType }: { signedIn: boolea
         </button>
         <Link className="btn-secondary" href="/account?section=privacy">Cancel</Link>
       </div>
-    </section>
+    </section></ScreenSurface>
   );
 }

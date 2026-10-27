@@ -81,16 +81,17 @@ export async function listKnowledgeGapRecommendations(
   }));
 }
 
-export async function listSavedKnowledgeJourneys(learnerId: string, limit = 50) {
+export async function listSavedKnowledgeJourneys(learnerId: string, limit = 50, source: string | null = null, offset = 0) {
   const bounded = Math.max(1, Math.min(100, Math.trunc(limit)));
   const result = await learningQuery<Record<string, unknown>>(
     `SELECT id, title, root_node_id, node_ids, lens, visibility, share_token,
             metadata, created_at, updated_at
        FROM public.saved_knowledge_journeys
       WHERE learner_id = $1
+        AND ($3::text IS NULL OR metadata->>'source' = $3)
       ORDER BY updated_at DESC, id
-      LIMIT $2`,
-    [learnerId, bounded],
+      LIMIT $2 OFFSET $4`,
+    [learnerId, bounded, source, Math.max(0, Math.trunc(offset))],
   );
   return result.rows.map((row) => serializeLearningRow(row));
 }

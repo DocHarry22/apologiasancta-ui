@@ -26,6 +26,8 @@ export interface Choice {
 
 /** Question data */
 export interface Question {
+  contentId?: string;
+  reportRevisionId?: string;
   text: string;
   choices: Choice[];
   /** Only present when phase === "REVEAL" */

@@ -111,7 +111,9 @@ export function savedJourneysGetRoute(request: NextRequest) {
     const auth = await requireLearnerContext(request);
     if (!auth.ok) return auth.response;
     const limit = boundedInt(request.nextUrl.searchParams.get("limit"), 50, 1, 100);
-    return noStore(dataResponse(await listSavedKnowledgeJourneys(auth.context.learner.id, limit), { meta: { limit } }));
+    const source = request.nextUrl.searchParams.get("source")?.trim().slice(0, 80) || null;
+    const offset = boundedInt(request.nextUrl.searchParams.get("offset"), 0, 0, 100000);
+    return noStore(dataResponse(await listSavedKnowledgeJourneys(auth.context.learner.id, limit, source, offset), { meta: { limit, offset } }));
   });
 }
 

@@ -1,9 +1,13 @@
-import { AppShell } from "@/components/shell/AppShell";
-import { ResearchModeNav } from "@/components/research/ResearchModeNav";
+import { ReportIssue } from "@/components/content/ReportIssue";
+import { ResearchLayout } from "@/components/research/ResearchLayout";
+import KnowledgeSelector from "@/components/research/KnowledgeSelector";
+import styles from "@/components/research/ResearchUI.module.css";
 import SaveKnowledgeJourneyButton from "@/components/research/SaveKnowledgeJourneyButton";
 import { StatusBadge } from "@/components/ui/Primitives";
+import { GraphLink } from "@/components/research/GraphLink";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 import { fetchKnowledgeEngine } from "@/lib/server/knowledgeEngine";
+import type { TimelineResponse as TimelinePayload } from "@/lib/knowledge/researchContract";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -13,27 +17,6 @@ export const metadata = {
 
 const CANONICAL_ID = /^[a-z][a-z0-9_-]*:[a-z0-9][a-z0-9._:-]*$/;
 const SIMPLE = /^[a-z0-9_-]+$/;
-
-type TimelineEntry = {
-  year: number;
-  date?: string;
-  node: {
-    id: string;
-    kind: string;
-    title: string;
-    proposition?: string;
-    summary?: string;
-  };
-  provenanceIds?: string[];
-};
-
-type TimelinePayload = {
-  entries?: TimelineEntry[];
-  meta?: {
-    bounded?: boolean;
-    undatedRecordsExcluded?: boolean;
-  };
-};
 
 function first(value: string | string[] | undefined): string {
   return Array.isArray(value) ? value[0] || "" : value || "";
@@ -72,12 +55,12 @@ export default async function ResearchTimelinePage({
   let error = "";
   if (requested) {
     try {
-      payload = await fetchKnowledgeEngine("/knowledge/timeline", params) as TimelinePayload;
+      payload = await fetchKnowledgeEngine("/knowledge/timeline", params);
     } catch (caught) {
       error = caught instanceof Error ? caught.message : "Timeline is temporarily unavailable.";
     }
   }
-  const entries = Array.isArray(payload?.entries) ? payload.entries : [];
+  const entries = payload?.entries ?? [];
   const journeyNodeIds = [...new Set(entries.map((entry) => entry.node.id).filter((id) => CANONICAL_ID.test(id)))];
   const journeyRoot = CANONICAL_ID.test(nodeId) ? nodeId : journeyNodeIds[0] || "";
   const journeyTitle = domain
@@ -85,30 +68,19 @@ export default async function ResearchTimelinePage({
     : entries.length ? `Timeline: ${entries[0]?.node.title || "published events"}` : "Published timeline";
 
   return (
-    <AppShell>
-      <div className="page-container py-8 sm:py-11">
-        <div className="flex flex-col gap-5 border-b border-(--border) pb-7 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="eyebrow">Research · chronology</p>
-            <h1 className="editorial-heading mt-2 text-4xl font-semibold sm:text-5xl">Timeline</h1>
-            <p className="mt-3 max-w-3xl text-sm leading-6 text-(--text-muted)">
-              Follow explicitly dated, published canonical events. Undated records are excluded rather than assigned invented chronology.
-            </p>
-          </div>
-          <ResearchModeNav current="timeline" />
-        </div>
+    <ResearchLayout current="timeline" eyebrow="Research · timeline" title="Trace the story." accent="See the connections." description="Follow the faith through published events and their recorded dates. Choose an area of study or a saved topic to begin.">
 
-        <form method="get" className="surface-card mt-7 grid gap-4 p-5 md:grid-cols-2 xl:grid-cols-5" aria-label="Timeline filters">
-          <label className="text-sm font-semibold">Canonical node ID<input name="nodeId" defaultValue={nodeId} placeholder="node:..." className="mt-2 w-full rounded-lg border border-(--border) bg-(--surface-elevated) px-3 py-2 font-mono text-sm" /></label>
-          <label className="text-sm font-semibold">Topic ID<input name="topicId" defaultValue={topicId} placeholder="topic:..." className="mt-2 w-full rounded-lg border border-(--border) bg-(--surface-elevated) px-3 py-2 font-mono text-sm" /></label>
-          <label className="text-sm font-semibold">Domain<input name="domain" defaultValue={domain} placeholder="christology" className="mt-2 w-full rounded-lg border border-(--border) bg-(--surface-elevated) px-3 py-2 text-sm" /></label>
+        <p className="mt-4 text-sm text-(--text-muted)">Undated records are excluded rather than assigned invented chronology.</p>
+        <form method="get" className={styles.compareForm} aria-label="Timeline filters">
+          <label className="text-sm font-semibold md:col-span-2">Area of study<input name="domain" defaultValue={domain} placeholder="e.g. christology" className="form-control mt-2 w-full" /></label>
           <label className="text-sm font-semibold">From year<input name="from" inputMode="numeric" defaultValue={from} placeholder="-100" className="mt-2 w-full rounded-lg border border-(--border) bg-(--surface-elevated) px-3 py-2 text-sm" /></label>
           <label className="text-sm font-semibold">To year<input name="to" inputMode="numeric" defaultValue={to} placeholder="2026" className="mt-2 w-full rounded-lg border border-(--border) bg-(--surface-elevated) px-3 py-2 text-sm" /></label>
-          <div className="md:col-span-2 xl:col-span-5"><button className="btn-primary" type="submit">Build timeline</button></div>
+          <details className="md:col-span-2" open={Boolean(nodeId || topicId)}><summary className="min-h-11 cursor-pointer text-sm font-semibold text-(--gold-hover)">More filters</summary><div className="mt-3 grid gap-4"><KnowledgeSelector label="Claim (optional)" name="nodeId" initialId={CANONICAL_ID.test(nodeId) ? nodeId : ""} required={false} /><label className="text-sm font-semibold">Topic reference<input name="topicId" defaultValue={topicId} placeholder="topic:..." className="form-control mt-2 w-full" /></label></div></details>
+          <div className="md:col-span-2"><button className="btn-primary w-full" type="submit">Build timeline</button></div>
         </form>
 
         {!requested ? (
-          <div className="surface-card mt-6 p-6"><StatusBadge>Choose a published scope</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">Enter a canonical node, topic, or domain. The server returns only published event nodes with explicit stored chronology.</p></div>
+          <div className="surface-card mt-6 p-6"><StatusBadge>Choose an area to begin</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">Choose an area of study or a published topic. Only events with recorded dates appear in the timeline.</p></div>
         ) : error ? (
           <div className="surface-card mt-6 p-6"><StatusBadge tone="danger">Timeline unavailable</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">{error}</p></div>
         ) : entries.length === 0 ? (
@@ -127,10 +99,10 @@ export default async function ResearchTimelinePage({
                     <span className="absolute -left-[2.15rem] top-2 h-3 w-3 rounded-full border-2 border-(--gold) bg-(--surface-elevated)" aria-hidden="true" />
                     <article className="surface-card p-5">
                       <div className="flex flex-wrap items-center gap-2"><StatusBadge tone="info">{entry.date || entry.year}</StatusBadge><StatusBadge>{entry.node.kind}</StatusBadge>{entry.provenanceIds?.length ? <StatusBadge tone="success">{entry.provenanceIds.length} provenance refs</StatusBadge> : null}</div>
-                      <h2 className="editorial-heading mt-3 text-2xl font-semibold">{entry.node.title}</h2>
+                      <h2 className="editorial-heading mt-3 text-2xl font-semibold">{entry.node.title}</h2><ReportIssue app="research" contentType="claim" contentId={entry.node.id} title={entry.node.title} snapshot={entry.node} />
                       {entry.node.proposition ? <p className="mt-2 text-sm font-medium leading-6">{entry.node.proposition}</p> : null}
                       {entry.node.summary ? <p className="mt-2 text-sm leading-6 text-(--text-muted)">{entry.node.summary}</p> : null}
-                      <div className="mt-4 flex flex-wrap gap-2"><code className="rounded bg-(--surface-elevated) px-2 py-1 text-xs">{entry.node.id}</code>{graphHref ? <a className="btn-quiet px-3 py-1.5" href={graphHref} target="_blank" rel="noopener noreferrer">Open in Galaxy ↗</a> : null}</div>
+                      <div className="mt-4 flex flex-wrap gap-2"><code className="rounded bg-(--surface-elevated) px-2 py-1 text-xs">{entry.node.id}</code>{graphHref ? <GraphLink className="btn-quiet px-3 py-1.5" href={graphHref}>Open in Galaxy</GraphLink> : null}</div>
                     </article>
                   </li>
                 );
@@ -138,7 +110,6 @@ export default async function ResearchTimelinePage({
             </ol>
           </section>
         )}
-      </div>
-    </AppShell>
+    </ResearchLayout>
   );
 }

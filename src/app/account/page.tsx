@@ -67,6 +67,7 @@ export default async function AccountPage({
         profile={{
           displayName: currentUser.displayName,
           email: currentUser.email ?? null,
+          emailVerifiedAt: currentUser.emailVerifiedAt ?? null,
           roleLabel: roleLabels[currentUser.role],
           accountType: currentUser.accountType,
           phone: currentUser.phone ?? null,

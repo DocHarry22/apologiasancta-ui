@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { createHash, randomBytes, randomUUID } from "node:crypto";
 import {
   convertToPostgresPlaceholders,
   getAdminDatabaseDialect,
@@ -20,6 +20,9 @@ export interface AdminUser {
   accountType: AdminUserAccountType;
   phone?: string | null;
   passwordChangedAt?: string | null;
+  emailVerifiedAt?: string | null;
+  emailVerificationRequired?: boolean;
+  sessionsRevokedBefore?: number | null;
   status: AdminUserStatus;
   createdAt: string;
   updatedAt: string;
@@ -27,6 +30,7 @@ export interface AdminUser {
 }
 
 export interface CreateAdminUserInput {
+  requireEmailVerification?: boolean;
   email: string;
   password: string;
   displayName: string;
@@ -252,10 +256,11 @@ async function ensureSchema(): Promise<void> {
     )
   `);
 
-  // Best-effort migration for existing deployments.
-  await pool.execute("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS account_type VARCHAR(32) NOT NULL DEFAULT 'staff'");
-  await pool.execute("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS phone VARCHAR(64) NULL");
-  await pool.execute("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS password_changed_at DATETIME NULL");
+  // MySQL requires duplicate-column handling rather than ADD COLUMN IF NOT EXISTS.
+  for (const definition of ["account_type VARCHAR(32) NOT NULL DEFAULT 'staff'", "phone VARCHAR(64) NULL", "password_changed_at DATETIME NULL"]) {
+    try { await pool.execute(`ALTER TABLE admin_users ADD COLUMN ${definition}`); }
+    catch (error) { if ((error as { code?: string }).code !== "ER_DUP_FIELDNAME") throw error; }
+  }
 }
 
 function rowToUser(row: Record<string, unknown>): AdminUser {
@@ -268,6 +273,9 @@ function rowToUser(row: Record<string, unknown>): AdminUser {
     id: String(row.id),
     email: String(row.email),
     passwordHash: String(row.password_hash),
+    emailVerifiedAt: row.email_verified_at ? new Date(String(row.email_verified_at)).toISOString() : null,
+    emailVerificationRequired: row.email_verification_required === true || Number(row.email_verification_required) === 1,
+    sessionsRevokedBefore: row.sessions_revoked_before ? Number(row.sessions_revoked_before) : null,
     displayName: String(row.display_name),
     role,
     accountType,
@@ -410,6 +418,7 @@ export async function ensureAdminUserStore(): Promise<void> {
 
     if (hasDatabaseConfig()) {
       await ensureSchema();
+      await ensureAccountEmailSchema();
     }
     await upsertSeedAdmin();
     initialized = true;
@@ -441,6 +450,8 @@ export async function authenticateAdminUser(email: string, password: string): Pr
 
   if (!user || user.status !== "active") return null;
   if (!(await verifyPassword(password, user.passwordHash))) return null;
+
+  if (user.emailVerificationRequired && !user.emailVerifiedAt) return user;
 
   await markAdminUserLogin(user.id);
   return { ...user, lastLoginAt: new Date().toISOString() };
@@ -494,6 +505,8 @@ export async function createAdminUser(input: CreateAdminUserInput): Promise<Admi
     accountType,
     phone,
     passwordChangedAt: null,
+    emailVerifiedAt: null,
+    emailVerificationRequired: input.requireEmailVerification === true,
     status: "active",
     createdAt: now,
     updatedAt: now,
@@ -507,9 +520,9 @@ export async function createAdminUser(input: CreateAdminUserInput): Promise<Admi
 
   const pool = await getDatabasePool();
   await pool.execute(
-    `INSERT INTO ${getAdminTableName()} (id, email, password_hash, display_name, role, account_type, phone, status, created_at, updated_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, 'active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
-    [created.id, created.email, created.passwordHash, created.displayName, created.role, created.accountType, created.phone]
+    `INSERT INTO ${getAdminTableName()} (id, email, password_hash, display_name, role, account_type, phone, email_verification_required, status, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
+    [created.id, created.email, created.passwordHash, created.displayName, created.role, created.accountType, created.phone, created.emailVerificationRequired]
   );
 
   return created;
@@ -599,6 +612,7 @@ export async function changeAdminUserPassword(
         passwordChangedAt,
         updatedAt: now,
       });
+      memoryEmailTokens.delete(`reset:${userId}`);
       return "ok";
     }
     return "not_found";
@@ -606,7 +620,7 @@ export async function changeAdminUserPassword(
 
   const pool = await getDatabasePool();
   await pool.execute(
-    `UPDATE ${getAdminTableName()} SET password_hash = ?, password_changed_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
+    `UPDATE ${getAdminTableName()} SET password_hash = ?, password_changed_at = CURRENT_TIMESTAMP, reset_token_hash = NULL, reset_token_expires_at = NULL, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
     [nextHash, userId]
   );
   return "ok";
@@ -640,9 +654,151 @@ export async function revokeAdminUserOtherSessions(userId: string): Promise<Revo
   return "ok";
 }
 
+export type AccountEmailPurpose = "reset" | "verify";
+const memoryEmailTokens = new Map<string, { hash: string; expiresAt: number }>();
+const memoryEmailLimits = new Map<string, { attempts: number; windowStart: number }>();
+
+function emailLimitTable(): string {
+  return getAdminDatabaseDialect() === "postgres"
+    ? `"${getPostgresAdminSchema()}"."auth_email_limits"` : "auth_email_limits";
+}
+
+async function ensureAccountEmailSchema(): Promise<void> {
+  const pool = await getDatabasePool();
+  const postgres = getAdminDatabaseDialect() === "postgres";
+  const columns: Record<string, string> = {
+    email_verified_at: postgres ? "TIMESTAMPTZ NULL" : "DATETIME NULL",
+    email_verification_required: "BOOLEAN NOT NULL DEFAULT FALSE",
+    sessions_revoked_before: "BIGINT NULL",
+    reset_token_hash: "VARCHAR(64) NULL",
+    reset_token_expires_at: "BIGINT NULL",
+    verify_token_hash: "VARCHAR(64) NULL",
+    verify_token_expires_at: "BIGINT NULL",
+  };
+  for (const [column, type] of Object.entries(columns)) {
+    if (postgres) {
+      await pool.execute(`ALTER TABLE ${getAdminTableName()} ADD COLUMN IF NOT EXISTS ${column} ${type}`);
+    } else {
+      // MySQL does not support ADD COLUMN IF NOT EXISTS on all supported versions.
+      try { await pool.execute(`ALTER TABLE ${getAdminTableName()} ADD COLUMN ${column} ${type}`); }
+      catch (error) { if ((error as { code?: string }).code !== "ER_DUP_FIELDNAME") throw error; }
+    }
+  }
+  for (const purpose of ["reset", "verify"]) {
+    const index = `idx_admin_users_${purpose}_token`;
+    try {
+      await pool.execute(`CREATE INDEX ${postgres ? "IF NOT EXISTS " : ""}${index} ON ${getAdminTableName()} (${purpose}_token_hash)`);
+    } catch (error) {
+      if (postgres || (error as { code?: string }).code !== "ER_DUP_KEYNAME") throw error;
+    }
+  }
+  await pool.execute(`CREATE TABLE IF NOT EXISTS ${emailLimitTable()} (
+    key_hash VARCHAR(64) PRIMARY KEY, attempts INTEGER NOT NULL, window_start BIGINT NOT NULL
+  )`);
+  if (postgres) {
+    await pool.execute(`REVOKE ALL ON TABLE ${emailLimitTable()} FROM PUBLIC`);
+    await pool.execute(`DO $$ DECLARE exposed_role text; BEGIN
+      FOR exposed_role IN SELECT rolname FROM pg_roles WHERE rolname IN ('anon', 'authenticated') LOOP
+        EXECUTE format('REVOKE ALL ON TABLE ${emailLimitTable()} FROM %I', exposed_role);
+      END LOOP; END $$`);
+  }
+}
+
+/** Durable fixed-window counters shared by every application instance. */
+export async function takeAccountEmailLimit(keyHash: string, max: number, windowMs: number): Promise<{ allowed: boolean; retryAfterSeconds: number }> {
+  await ensureAdminUserStore();
+  const now = Date.now();
+  let entry: { attempts: number; windowStart: number };
+  if (!hasDatabaseConfig()) {
+    for (const [key, value] of memoryEmailLimits) {
+      if (value.windowStart < now - 60 * 60 * 1000) memoryEmailLimits.delete(key);
+    }
+    const previous = memoryEmailLimits.get(keyHash);
+    entry = previous && previous.windowStart > now - windowMs
+      ? { ...previous, attempts: previous.attempts + 1 } : { attempts: 1, windowStart: now };
+    memoryEmailLimits.set(keyHash, entry);
+  } else {
+    const pool = await getDatabasePool();
+    const table = emailLimitTable();
+    // Expired counters contain no PII and are pruned on subsequent requests.
+    await pool.execute(`DELETE FROM ${table} WHERE window_start < ?`, [now - 60 * 60 * 1000]);
+    let rows: unknown[];
+    if (getAdminDatabaseDialect() === "postgres") {
+      [rows] = await pool.execute(`INSERT INTO ${table} AS limits (key_hash, attempts, window_start) VALUES (?, 1, ?)
+        ON CONFLICT (key_hash) DO UPDATE SET
+          attempts = CASE WHEN limits.window_start <= ? THEN 1 ELSE limits.attempts + 1 END,
+          window_start = CASE WHEN limits.window_start <= ? THEN ? ELSE limits.window_start END
+        RETURNING attempts, window_start`, [keyHash, now, now - windowMs, now - windowMs, now]);
+    } else {
+      await pool.execute(`INSERT INTO ${table} (key_hash, attempts, window_start) VALUES (?, 1, ?)
+        ON DUPLICATE KEY UPDATE attempts = IF(window_start <= ?, 1, attempts + 1),
+          window_start = IF(window_start <= ?, ?, window_start)`, [keyHash, now, now - windowMs, now - windowMs, now]);
+      [rows] = await pool.execute(`SELECT attempts, window_start FROM ${table} WHERE key_hash = ?`, [keyHash]);
+    }
+    const row = rows[0] as { attempts: number; window_start: number };
+    entry = { attempts: Number(row.attempts), windowStart: Number(row.window_start) };
+  }
+  return { allowed: entry.attempts <= max, retryAfterSeconds: Math.max(1, Math.ceil((entry.windowStart + windowMs - now) / 1000)) };
+}
+
+async function accountEmailUpdate(sql: string, values: unknown[]): Promise<boolean> {
+  const postgres = getAdminDatabaseDialect() === "postgres";
+  const pool = await getDatabasePool();
+  const [result] = await pool.execute(sql + (postgres ? " RETURNING id" : ""), values);
+  return postgres ? result.length === 1 : Number((result as unknown as { affectedRows: number }).affectedRows) === 1;
+}
+
+export async function issueAccountEmailToken(email: string, purpose: AccountEmailPurpose): Promise<{ token: string } | null> {
+  await ensureAdminUserStore();
+  const user = hasDatabaseConfig() ? await findDbUserByEmail(email) : memoryUsers.get(normalizeEmail(email));
+  if (!user || user.status !== "active" || (purpose === "verify" && user.emailVerifiedAt)) return null;
+  const token = randomBytes(32).toString("hex");
+  const hash = createHash("sha256").update(token).digest("hex");
+  const expiresAt = Date.now() + (purpose === "reset" ? 30 * 60 * 1000 : 24 * 60 * 60 * 1000);
+  if (!hasDatabaseConfig()) {
+    memoryEmailTokens.set(`${purpose}:${user.id}`, { hash, expiresAt });
+  } else {
+    if (!(await accountEmailUpdate(`UPDATE ${getAdminTableName()} SET ${purpose}_token_hash = ?, ${purpose}_token_expires_at = ?
+      WHERE id = ? AND status = 'active' AND password_hash = ?${purpose === "verify" ? " AND email_verified_at IS NULL" : ""}`,
+    [hash, expiresAt, user.id, user.passwordHash]))) return null;
+  }
+  return { token };
+}
+
+/** Conditional UPDATE consumes the token and changes account state atomically. */
+export async function consumeAccountEmailToken(token: string, purpose: AccountEmailPurpose, newPassword?: string): Promise<boolean> {
+  if (!/^[a-f0-9]{64}$/.test(token)) return false;
+  if (purpose === "reset" && (!newPassword || newPassword.length < 8 || newPassword.length > 256)) return false;
+  await ensureAdminUserStore();
+  const hash = createHash("sha256").update(token).digest("hex");
+  const nextHash = purpose === "reset" ? await hashPassword(newPassword!) : null;
+  const now = Date.now();
+  if (!hasDatabaseConfig()) {
+    for (const [email, user] of memoryUsers) {
+      const stored = memoryEmailTokens.get(`${purpose}:${user.id}`);
+      if (user.status !== "active" || !stored || stored.hash !== hash || stored.expiresAt <= now) continue;
+      memoryEmailTokens.delete(`${purpose}:${user.id}`);
+      memoryUsers.set(email, purpose === "reset"
+        ? { ...user, passwordHash: nextHash!, passwordChangedAt: new Date(now).toISOString(), sessionsRevokedBefore: now + 1, updatedAt: new Date(now).toISOString() }
+        : { ...user, emailVerifiedAt: new Date(now).toISOString(), emailVerificationRequired: false, updatedAt: new Date(now).toISOString() });
+      return true;
+    }
+    return false;
+  }
+  const changes = purpose === "reset"
+    ? "password_hash = ?, password_changed_at = CURRENT_TIMESTAMP, sessions_revoked_before = ?,"
+    : "email_verified_at = CURRENT_TIMESTAMP, email_verification_required = FALSE,";
+  return accountEmailUpdate(`UPDATE ${getAdminTableName()} SET ${changes}
+    ${purpose}_token_hash = NULL, ${purpose}_token_expires_at = NULL, updated_at = CURRENT_TIMESTAMP
+    WHERE ${purpose}_token_hash = ? AND ${purpose}_token_expires_at > ? AND status = 'active'`,
+  purpose === "reset" ? [nextHash, now + 1, hash, now] : [hash, now]);
+}
+
 export function resetAdminUserStoreForTests(): void {
   initialized = false;
   initializationPromise = null;
   memoryUsers.clear();
   poolPromise = null;
+  memoryEmailTokens.clear();
+  memoryEmailLimits.clear();
 }

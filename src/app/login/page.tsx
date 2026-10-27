@@ -11,6 +11,7 @@ export default function LoginPage() {
     <AdminLoginPage
       defaultNextPath="/"
       allowedNextPrefixes={[
+        "/report-issue",
         "/account",
         "/learn",
         "/library",

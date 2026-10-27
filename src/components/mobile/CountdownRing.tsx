@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import type { QuizPhase } from "@/types/quiz";
 import { getCountdownProgress } from "@/lib/mobileUx";
+import styles from "./QuizScreen.module.css";
 
 interface CountdownRingProps {
   /** Unix timestamp (ms) when timer ends */
@@ -86,72 +87,11 @@ export function CountdownRing({ endsAtMs, durationSeconds, phase = "OPEN" }: Cou
 
   const phaseLabel = phase === "OPEN" ? (isUrgent ? "Hurry!" : "Answer Now") : phase === "REVEAL" ? "Reveal" : "Locked";
 
-  return (
-    <div 
-      className="quiz-countdown flex flex-col items-center py-4 lg:py-3"
-      role="timer"
-      aria-label={`${secondsLeft} seconds remaining`}
-    >
-      <div className={`quiz-countdown-ring relative h-32 w-32 sm:h-36 sm:w-36 lg:h-28 lg:w-28 ${isUrgent ? "timer-urgent" : ""}`}>
-        <svg 
-          className="w-full h-full transform -rotate-90" 
-          viewBox="0 0 100 100"
-          aria-hidden="true"
-        >
-          {/* Background ring */}
-          <circle
-            cx="50"
-            cy="50"
-            r="42"
-            fill="none"
-            stroke="var(--timer-ring-bg)"
-            strokeWidth="4"
-          />
-          {/* Progress ring */}
-          <circle
-            cx="50"
-            cy="50"
-            r="42"
-            fill="none"
-            stroke={isUrgent ? "var(--timer-urgent)" : "url(#timerGradientCompact)"}
-            strokeWidth="4"
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            strokeDashoffset={strokeDashoffset}
-            className="transition-[stroke-dashoffset] duration-200 ease-linear"
-            style={{
-              filter: isUrgent ? "drop-shadow(0 0 6px var(--timer-urgent))" : undefined,
-            }}
-          />
-          <defs>
-            <linearGradient id="timerGradientCompact" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="var(--timer-ring-gold)" />
-              <stop offset="100%" stopColor="var(--timer-ring-blue)" />
-            </linearGradient>
-          </defs>
-        </svg>
-        {/* Timer text */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <svg className="mb-1 h-5 w-5 text-(--mobile-muted) opacity-80 lg:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <circle cx="12" cy="12" r="9" />
-            <path d="M12 7v5l3 2" />
-          </svg>
-          <span
-            className={`text-3xl font-bold tabular-nums leading-none transition-colors duration-300 lg:text-2xl ${
-                  isUrgent ? "text-(--timer-urgent)" : "text-foreground"
-            }`}
-          >
-            {formatTime(secondsLeft)}
-          </span>
-        </div>
-      </div>
-      <span 
-        className={`mt-2 text-sm font-bold uppercase tracking-[0.22em] transition-colors duration-300 lg:mt-1 lg:text-xs ${
-          isUrgent ? "text-(--timer-urgent)" : "text-(--accent)"
-        }`}
-      >
-        {phaseLabel}
-      </span>
+  return <div className={styles.timer} role="timer" aria-label={phase === "OPEN" ? secondsLeft + " seconds remaining" : phaseLabel}>
+    <div><span className={styles.eyebrow}>{phaseLabel}</span><p>{phase === "OPEN" ? "Choose one answer. Your selection locks immediately." : phase === "REVEAL" ? "Take a moment to reflect on the answer." : "Waiting for the host to reveal the answer."}</p></div>
+    <div className={styles.ring}>
+      <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--timer-ring-bg)" strokeWidth="4" /><circle cx="50" cy="50" r="42" fill="none" stroke={isUrgent ? "var(--timer-urgent)" : "var(--gold)"} strokeWidth="4" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} className="transition-[stroke-dashoffset] duration-200 ease-linear" /></svg>
+      <span className={styles.timerNumber} style={isUrgent ? { color: "var(--danger)" } : undefined}>{phase === "OPEN" ? formatTime(secondsLeft) : "—"}</span>
     </div>
-  );
+  </div>;
 }

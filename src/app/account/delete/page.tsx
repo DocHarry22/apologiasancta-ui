@@ -29,9 +29,7 @@ export default async function DeleteAccountPage() {
 
   return (
     <AppShell>
-      <div className="page-container py-10 sm:py-14">
-        <DeleteAccountPanel signedIn={accountType !== null} accountType={accountType} />
-      </div>
+      <DeleteAccountPanel signedIn={accountType !== null} accountType={accountType} />
     </AppShell>
   );
 }

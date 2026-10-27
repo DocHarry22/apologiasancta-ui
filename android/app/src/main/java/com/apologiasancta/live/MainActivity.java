@@ -14,6 +14,7 @@ public class MainActivity extends BridgeActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getBridge().setWebViewClient(new GraphWebViewClient(getBridge()));
         // Android 15+ enforces edge-to-edge for our target SDK. Reserve the
         // system bars natively so every route is safe, even on WebViews that
         // do not expose CSS safe-area-inset values.

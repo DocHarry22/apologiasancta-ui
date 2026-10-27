@@ -35,6 +35,17 @@ describe("unified application shell", () => {
     expect(screen.getAllByRole("link", { name: "Learn" }).every((link) => link.getAttribute("aria-current") === "page")).toBe(true);
   });
 
+  it("preserves an explicit dark preference when the device uses light mode", async () => {
+    localStorage.setItem("apologia-sancta-theme", "dark");
+    document.documentElement.dataset.theme = "dark";
+    document.documentElement.dataset.themePreference = "dark";
+    render(<ThemeProvider><ThemeToggle /></ThemeProvider>);
+    expect(await screen.findByRole("button", { name: "Switch to light mode" })).toBeInTheDocument();
+    await waitFor(() => expect(document.documentElement.dataset.theme).toBe("dark"));
+    expect(document.documentElement.dataset.themePreference).toBe("dark");
+    expect(localStorage.getItem("apologia-sancta-theme")).toBe("dark");
+  });
+
   it("dismisses the external Graph promotion for the persistence window", async () => {
     const user = userEvent.setup();
     render(<GraphPromoBanner />);

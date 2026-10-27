@@ -1,0 +1,117 @@
+.app {
+  min-height: 100dvh;
+  padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+  background: var(--background);
+  color: var(--text);
+}
+
+.content { width: min(calc(100% - 40px), 760px); margin-inline: auto; }
+.welcome { padding-block: 27px 23px; }
+.eyebrow { color: var(--gold-hover); font-size: 10px; font-weight: 700; line-height: 1.5; letter-spacing: 1.8px; text-transform: uppercase; }
+.welcome h1 { margin-top: 8px; font: 500 clamp(28px, 7.8vw, 38px)/1.15 var(--font-editorial); letter-spacing: -1.1px; }
+.welcome h1 em { color: var(--gold-hover); font-weight: 400; }
+.welcome > p:last-child { margin-top: 9px; color: var(--text-muted); font-size: 13px; line-height: 1.7; }
+
+.formation { position: relative; overflow: hidden; isolation: isolate; border: 1px solid #355061; border-radius: 20px; background: radial-gradient(ellipse at 100% 20%, #2e4852, transparent 68%), #112c3d; color: #fff9ec; box-shadow: 0 12px 28px #081b2914; }
+.formationContent { position: relative; z-index: 1; padding: 23px; }
+.heroLabel { display: inline-flex; align-items: center; gap: 7px; color: #ddc586; font-size: 9px; font-weight: 650; letter-spacing: 2px; }
+.formation h2 { margin-top: 15px; white-space: pre-line; font: 400 clamp(28px, 7.8vw, 39px)/1.12 var(--font-editorial); letter-spacing: -0.7px; }
+.formation p { margin-top: 13px; color: #c7d2d6; font-size: 13px; line-height: 1.8; }
+.chapel { position: absolute; z-index: -1; right: -10px; bottom: 43px; width: 45%; height: 240px; stroke: #ddc586; stroke-width: 0.8; opacity: 0.18; mask-image: linear-gradient(to right, transparent, #000 40%); }
+.heroButton { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 15px; margin-top: 21px; padding: 12px 17px; border: 1px solid #ead096; border-radius: 11px; background: #e4c580; color: #192a32; font-size: 14px; font-weight: 750; transition: background 150ms; }
+.heroButton:hover { background: #f2d89b; }
+.heroButton:active { background: #d2b068; }
+.lessonPreview { display: flex; min-height: 18px; align-items: center; gap: 7px; margin-top: 12px; color: #c7d2d6; font-size: 11px; line-height: 1.6; }
+.lessonPreview > span:not(.previewDot) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lessonPreview small { margin-left: auto; white-space: nowrap; font-size: 9px; }
+.previewDot { width: 4px; height: 4px; flex-shrink: 0; border-radius: 50%; background: #ddc586; }
+.notice { display: flex; align-items: center; gap: 12px; margin-top: 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; color: var(--text-muted); font-size: 11px; line-height: 1.7; }
+.notice button { min-width: 44px; min-height: 44px; margin-left: auto; color: var(--gold-hover); font-weight: 700; }
+
+.activity { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-block: 18px 27px; padding-block: 5px; }
+.activity > a { display: flex; align-items: center; gap: 10px; min-height: 48px; }
+.activity > a + a { padding-left: 17px; border-left: 1px solid var(--border); }
+.activityIcon { display: grid; width: 34px; height: 34px; flex-shrink: 0; place-items: center; border: 1px solid var(--border); border-radius: 11px; color: var(--gold-hover); background: color-mix(in srgb, var(--gold) 5%, var(--surface)); }
+.activity strong { display: block; font-size: 18px; font-weight: 650; }
+.activity small { display: block; margin-top: 2px; color: var(--text-muted); font-size: 10px; line-height: 1.6; }
+.sectionHeading { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 13px; }
+.sectionHeading h2 { font: 500 20px/1.2 var(--font-editorial); letter-spacing: -0.4px; }
+.sectionHeading > span { color: var(--text-muted); font-size: 7px; letter-spacing: 1.1px; }
+.sectionHeading > a { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; color: var(--gold-hover); font-size: 11px; font-weight: 650; }
+.shortcuts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+.shortcuts > a { display: flex; min-width: 0; flex-direction: column; align-items: flex-start; padding: 15px 12px 12px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); transition: border-color 150ms; }
+.shortcuts > a:hover { border-color: var(--gold); }
+.shortcutIcon { color: var(--gold-hover); }
+.shortcuts strong { margin-top: 12px; font-size: 14px; font-weight: 650; }
+.shortcuts small { margin-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.5; }
+.shortcuts > a > svg { align-self: flex-end; margin-top: 12px; color: var(--gold-hover); }
+
+.liveQuiz { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 0 12px; margin-block: 25px; padding: 18px; border: 1px solid var(--border); border-radius: 16px; background: color-mix(in srgb, var(--gold) 6%, var(--surface)); }
+.liveIcon { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 12px; background: color-mix(in srgb, var(--gold) 12%, transparent); color: var(--gold-hover); }
+.liveCopy .eyebrow { font-size: 9px; letter-spacing: 1.7px; }
+.liveCopy h2 { margin-top: 5px; font: 500 19px/1.2 var(--font-editorial); letter-spacing: -0.4px; }
+.liveCopy > p:last-child { margin-top: 7px; color: var(--text-muted); font-size: 12px; line-height: 1.7; }
+.joinButton { display: flex; min-height: 44px; grid-column: 2; align-items: center; justify-content: space-between; gap: 8px; margin-top: 13px; border-radius: 9px; background: var(--surface-elevated); padding: 10px 12px; border: 1px solid var(--border); color: var(--text); font-size: 13px; font-weight: 700; }
+.joinButton:hover { border-color: var(--gold); }
+.roomCode { grid-column: 1 / -1; margin-top: 5px; }
+.roomCode summary { display: flex; min-height: 44px; align-items: center; justify-content: center; color: var(--text-muted); font-size: 12px; cursor: pointer; list-style: none; }
+.roomCode summary::-webkit-details-marker { display: none; }
+.roomCode summary::after { content: "+"; margin-left: 7px; color: var(--gold-hover); font-size: 16px; }
+.roomCode[open] summary::after { content: "−"; }
+.roomCode > div { padding-top: 5px; }
+
+.topics { display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; padding-bottom: 10px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.topic { display: flex; width: calc((100% - 12px) / 2.15); min-width: 139px; flex-shrink: 0; flex-direction: column; scroll-snap-align: start; }
+.topicArtwork { position: relative; display: grid; height: 98px; overflow: hidden; place-items: center; border: 1px solid var(--border); border-radius: 12px; background: color-mix(in srgb, var(--gold) 9%, var(--surface)); color: var(--gold-hover); }
+.topicArtwork::before { content: ""; position: absolute; width: 98px; height: 130px; top: 16px; border: 1px solid currentColor; border-radius: 55px 55px 0 0; opacity: 0.17; }
+.topicArtwork::after { content: ""; position: absolute; width: 83px; height: 120px; top: 23px; border: 1px solid currentColor; border-radius: 55px 55px 0 0; opacity: 0.12; }
+.topicArtwork[data-tone="1"] { background: color-mix(in srgb, var(--blue) 9%, var(--surface)); color: var(--blue); }
+.topicArtwork[data-tone="2"] { background: color-mix(in srgb, var(--success) 7%, var(--surface)); color: var(--success); }
+.topicNumber { position: absolute; bottom: 8px; left: 10px; color: var(--text-muted); font-size: 8px; letter-spacing: 1px; }
+.topic strong { margin-top: 10px; font: 500 17px/1.3 var(--font-editorial); }
+.topic small { margin-top: 4px; color: var(--text-muted); font-size: 11px; }
+.libraryLink { display: flex; min-height: 90px; align-items: center; gap: 15px; padding: 16px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.libraryLink > svg { flex-shrink: 0; color: var(--gold-hover); }
+.libraryLink strong, .libraryLink small { display: block; }
+.libraryLink strong { font: 500 17px var(--font-editorial); }
+.libraryLink small { margin-top: 5px; color: var(--text-muted); font-size: 11px; line-height: 1.7; }
+.libraryLink > svg:last-child { margin-left: auto; }
+
+.scripture { margin-top: 24px; padding: 20px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.scripture .eyebrow { display: flex; align-items: center; gap: 7px; font-size: 10px; }
+.scripture blockquote { margin-top: 13px; font: italic 400 19px/1.6 var(--font-editorial); }
+.verseReference { display: flex; align-items: center; justify-content: space-between; margin-top: 13px; color: var(--gold-hover); font-size: 10px; font-weight: 650; }
+.verseReference span { font-size: 19px; }
+.accountPrompt { display: flex; min-height: 80px; align-items: center; gap: 12px; margin-top: 17px; }
+.accountPrompt strong, .accountPrompt small { display: block; }
+.accountPrompt strong { font-size: 11px; font-weight: 650; }
+.accountPrompt small { margin-top: 4px; color: var(--text-muted); font-size: 10px; }
+.accountPrompt > svg { flex-shrink: 0; margin-left: auto; color: var(--gold-hover); }
+.signoff { padding-block: 17px 6px; text-align: center; color: var(--text-muted); font: italic 12px var(--font-editorial); }
+
+@media (max-width: 359px) {
+  .content { width: calc(100% - 28px); }
+  .formationContent { padding: 20px; }
+  .activity > a { gap: 7px; }
+  .activity > a + a { padding-left: 10px; }
+  .activity small { font-size: 8px; }
+  .sectionHeading > span { display: none; }
+  .shortcuts { gap: 7px; }
+  .shortcuts > a { padding-inline: 10px; }
+}
+
+@media (min-width: 600px) {
+  .content { width: min(calc(100% - 64px), 760px); }
+  .welcome { padding-top: 36px; }
+  .formationContent { padding: 32px; }
+  .heroButton { max-width: 320px; }
+  .lessonPreview { max-width: 320px; }
+  .chapel { right: 30px; bottom: -20px; width: 230px; height: 310px; }
+  .shortcuts > a { padding: 20px; }
+  .topic { width: calc((100% - 36px) / 3.5); }
+  .activity { max-width: 510px; }
+  .liveQuiz { grid-template-columns: 40px minmax(0, 1fr) 150px; align-items: center; padding: 22px; }
+  .joinButton { grid-column: 3; grid-row: 1; margin-top: 0; }
+  .roomCode { grid-column: 2 / -1; }
+}
+.graphEntry { grid-template-columns: 36px minmax(0, 1fr) 20px; align-items: center; }

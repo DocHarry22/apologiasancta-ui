@@ -1,4 +1,5 @@
 import type { CapacitorConfig } from "@capacitor/cli";
+import { DEFAULT_RESEARCH_GRAPH_URL, graphOrigin } from "./src/lib/graphEmbed";
 
 // ---------------------------------------------------------------------------
 // Build mode
@@ -128,6 +129,11 @@ const config: CapacitorConfig = {
     adjustMarginsForEdgeToEdge: "disable",
   },
   plugins: {
+    GraphEmbed: {
+      // Native subframe routing only. Do not add Graph to server.allowNavigation,
+      // which would also grant its origin access to Capacitor plugin messages.
+      origin: graphOrigin(process.env.NEXT_PUBLIC_RESEARCH_GRAPH_URL?.trim() || DEFAULT_RESEARCH_GRAPH_URL) || "",
+    },
     App: {
       // Version reporting and lifecycle events must not take over navigation.
       disableBackButtonHandler: true,
@@ -135,6 +141,7 @@ const config: CapacitorConfig = {
     SplashScreen: {
       launchAutoHide: false,
       launchFadeOutDuration: 250,
+      androidSplashResourceName: "launch_background",
     },
   },
 };

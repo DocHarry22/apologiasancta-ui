@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ProgressBar, StatusBadge } from "@/components/ui/Primitives";
+import { GraphLink } from "@/components/research/GraphLink";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 
 type GapRecommendation = {
@@ -107,7 +108,7 @@ export default function KnowledgeGapRecommendations() {
                 {item.lessonTitle && item.lessonSlug ? <p className="mt-3 text-sm"><span className="text-(--text-muted)">Mapped review lesson:</span> <strong>{item.lessonTitle}</strong></p> : null}
                 <div className="mt-4 flex flex-wrap gap-2">
                   {item.lessonSlug ? <Link className="btn-primary px-3 py-2 text-sm" href={`/learn/${encodeURIComponent(item.lessonSlug)}`}>Review lesson</Link> : null}
-                  {graphHref ? <a className="btn-secondary px-3 py-2 text-sm" href={graphHref} target="_blank" rel="noopener noreferrer">Explore concept ↗</a> : null}
+                  {graphHref ? <GraphLink className="btn-secondary px-3 py-2 text-sm" href={graphHref}>Explore concept</GraphLink> : null}
                 </div>
               </article>
             );
