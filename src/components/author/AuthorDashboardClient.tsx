@@ -494,7 +494,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       setMessage({ type: "error", text: response.error || "Unable to load invite settings." });
     }
     setInviteLoading(false);
-  }, [canManageUsers]);
+  }, [canManageUsers, setInviteCodeInput, setInviteRoleInput]);
 
   const saveInviteSettings = useCallback(async (rotate: boolean) => {
     if (!canManageUsers) return;
@@ -516,7 +516,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       setMessage({ type: "error", text: response.error || "Unable to update invite settings." });
     }
     setInviteLoading(false);
-  }, [canManageUsers, inviteCodeInput, inviteRoleInput]);
+  }, [canManageUsers, inviteCodeInput, inviteRoleInput, setInviteCodeInput, setInviteRoleInput]);
 
   const changePassword = useCallback(async () => {
     setPasswordLoading(true);
@@ -538,7 +538,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       setMessage({ type: "error", text: response.error || "Unable to update password." });
     }
     setPasswordLoading(false);
-  }, [confirmPasswordInput, currentPasswordInput, newPasswordInput]);
+  }, [confirmPasswordInput, currentPasswordInput, newPasswordInput, setCurrentPasswordInput, setNewPasswordInput, setConfirmPasswordInput]);
 
   const revokeOtherSessions = useCallback(async () => {
     setRevokeSessionsLoading(true);

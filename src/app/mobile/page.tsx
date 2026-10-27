@@ -217,6 +217,8 @@ function MobilePageContent() {
   const [streakToastKey, setStreakToastKey] = useState(0);
   const [answerSubmissionState, setAnswerSubmissionState] = useState<AnswerSubmissionState>("idle");
   const [answerNotice, setAnswerNotice] = useState<string | null>(null);
+  // Client-local selection is never overwritten from the server.
+  const [selectedId, setSelectedId] = useState<string | undefined>();
 
   const handleRoomSelected = useCallback((room: RoomSummary) => {
     applyRoomSelection(room.roomId, room.name);
@@ -232,9 +234,6 @@ function MobilePageContent() {
   const handleSwitchRoom = useCallback(() => {
     setIsRoomPickerOpen(true);
   }, []);
-  
-  // Client-local state (never overwritten from server)
-  const [selectedId, setSelectedId] = useState<string | undefined>();
   
   // Answer selection tracking refs - defined early so handleTopicStart can reset them
   const lastOpenRoundKeyRef = useRef<string>("");
@@ -809,12 +808,9 @@ function MobilePageContent() {
     connectionStatus,
   });
 
-  const currentRoundKey = `${quizState.questionIndex}:${quizState.endsAtMs}`;
   const hasSubmittedCurrentRound =
     Boolean(selectedId) &&
-    (answeredRoundKeyRef.current === currentRoundKey ||
-      submittingRoundKeyRef.current === currentRoundKey ||
-      answerSubmissionState === "submitted" ||
+    (answerSubmissionState === "submitted" ||
       answerSubmissionState === "submitting");
   const showAdminEntry = searchParams.get("admin") === "1" || process.env.NODE_ENV !== "production";
 
