@@ -10,6 +10,7 @@ import { useStreak } from "@/hooks/useStreak";
 import { EMPTY_LEARNING_PROGRESS, LEARNING_PROGRESS_KEY, parseLearningProgress, type LearningProgress } from "@/lib/learningProgress";
 import { getEngineUrl, getResearchGraphUrl } from "@/lib/publicEnv";
 import { getDailyVerse } from "@/lib/verses";
+import { ANDROID_PHONE_TEST_APK_URL } from "@/lib/androidPhoneTest";
 import type { Leaderboard, QuizPhase, RoomSummary } from "@/types/quiz";
 
 type TopicSummary = { id: string; title: string; description: string; questionCount: number; tags: string[] };
@@ -195,9 +196,11 @@ export function HomeDashboard({ userName, topics }: { userName: string | null; t
           </h1>
           <p className="mt-4 max-w-xl text-base leading-7 text-(--text-muted)">Build a connected understanding of Catholic truth, practise the reasons for it, and compete with charity.</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href={nextHref} className="btn-primary">Continue learning <span aria-hidden="true">→</span></Link>
+            <a href={ANDROID_PHONE_TEST_APK_URL} download className="btn-primary">Download Android APK <span aria-hidden="true">↓</span></a>
+            <Link href={nextHref} className="btn-secondary">Continue learning <span aria-hidden="true">→</span></Link>
             <Link href="/mobile" className="btn-secondary">Join live quiz</Link>
           </div>
+          <p className="mt-3 max-w-xl text-xs leading-5 text-(--text-muted)">Android 1.0.4 · Test build · 7.3 MB. If you installed the old public 1.0.3 APK, uninstall it first. This clears data stored only on your phone.</p>
           <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm text-(--text-muted)">
             <span><strong className="text-(--text)">{hydrated ? `${completion}%` : "—"}</strong> formation complete <span className="text-xs">{progressLabel}</span></span>
             <span><strong className="text-(--text)">{streak}</strong>-day study streak <span className="text-xs">on this device</span></span>
@@ -297,7 +300,7 @@ export function HomeDashboard({ userName, topics }: { userName: string | null; t
         {graphUrl ? <a href={graphUrl} target="_blank" rel="noopener noreferrer" className="surface-card p-4 hover:border-(--gold)"><p className="eyebrow">Research Graph</p><h2 className="editorial-heading mt-2 text-lg font-semibold">Browse connected research records</h2><p className="mt-1 text-sm text-(--text-muted)">Open the separate Apologia Graph catalogue. <span className="sr-only">Opens in a new tab.</span> ↗</p></a> : null}
         <Link href="/account?section=learning" className="surface-card p-4 hover:border-(--gold)"><p className="eyebrow">Recent achievement</p><h2 className="editorial-heading mt-2 text-lg font-semibold">{completedLessonIds.length ? `${completedLessonIds.length} lesson${completedLessonIds.length === 1 ? "" : "s"} completed` : "Your first milestone awaits"}</h2><p className="mt-1 text-sm text-(--text-muted)">{completedLessonIds.length ? "Review your device learning record." : "Complete a sourced lesson to begin your formation record."}</p></Link>
       </section>
-      <section className="surface-card mt-5 p-4" aria-label="Install Apologia Sancta"><InstallActions /></section>
+      <section className="surface-card mt-5 p-4" aria-label="Install Apologia Sancta"><InstallActions androidApkUrl={ANDROID_PHONE_TEST_APK_URL} phoneTest /></section>
     </div>
   );
 }

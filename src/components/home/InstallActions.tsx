@@ -50,7 +50,7 @@ function InstallCard({
   );
 }
 
-export function InstallActions() {
+export function InstallActions({ androidApkUrl, phoneTest = false }: { androidApkUrl?: string; phoneTest?: boolean } = {}) {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [installState, setInstallState] = useState<"idle" | "installing" | "installed">("idle");
   const [installError, setInstallError] = useState<string | null>(null);
@@ -93,7 +93,7 @@ export function InstallActions() {
     };
   }, []);
 
-  const apkUrl = getAndroidApkUrl();
+  const apkUrl = androidApkUrl ?? getAndroidApkUrl();
   const engineConfigured = isEngineConfigured();
   const canPromptInstall = installPrompt !== null && !platform.isStandalone;
 
@@ -189,7 +189,7 @@ export function InstallActions() {
 
         <InstallCard
           title="Android APK"
-          description="Download the latest production-signed Android wrapper if you want a native launcher around the hosted live app."
+          description={phoneTest ? "Try Android 1.0.4 with the redesigned screens and the live 3D Graph." : "Download the latest production-signed Android wrapper if you want a native launcher around the hosted live app."}
         >
           {apkUrl ? (
             <a
@@ -197,7 +197,7 @@ export function InstallActions() {
               download
               className="inline-flex min-h-11 items-center justify-center rounded-xl border border-(--accent) px-4 py-2 text-sm font-semibold text-(--accent)"
             >
-              Download Published APK
+              {phoneTest ? "Download Android 1.0.4" : "Download Published APK"}
             </a>
           ) : (
             <span
@@ -208,7 +208,7 @@ export function InstallActions() {
             </span>
           )}
           <p className="text-xs leading-relaxed text-(--muted)">
-            Production downloads always use the newest verified GitHub release asset.
+            {phoneTest ? "Signed test build · 7.3 MB. Uninstall the old public 1.0.3 APK first; phone-only data will be cleared." : "Production downloads always use the newest verified GitHub release asset."}
           </p>
         </InstallCard>
 

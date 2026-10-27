@@ -28,6 +28,7 @@ export default async function DebateIndexPage({
   return (
     <ResearchLayout current="debate" eyebrow="Research · debate" title="Listen thoughtfully." accent="Respond with charity." description="Explore an argument through its premises, objections, responses, and evidence. Begin with a published argument below.">
 
+        <p className="mt-4 text-sm text-(--text-muted)">This mode does not assign a score to theological truth.</p>
         <form method="get" className="surface-card mt-7 max-w-3xl p-6" aria-label="Open published debate argument">
           <KnowledgeSelector label="Choose an argument" name="argumentId" kind="argument" />
           <button type="submit" className="btn-primary mt-4">Open debate</button>

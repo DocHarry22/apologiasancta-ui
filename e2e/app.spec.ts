@@ -92,19 +92,19 @@ test("public routes load", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("body")).toContainText(/Apologia Sancta/i);
   await expect(page.getByRole("button", { name: "Install App" })).toBeDisabled();
-  await expect(page.getByRole("link", { name: "Download Published APK" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "Download Android APK", exact: true })).toHaveAttribute(
     "href",
-    "https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk",
+    "https://github.com/DocHarry22/apologiasancta-ui/releases/download/phone-test-20261027/apologia-sancta.apk",
   );
 
   await page.goto("/library");
-  await expect(page.getByRole("heading", { name: /Explore the treasury/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Follow your curiosity/i })).toBeVisible();
 
   await page.goto("/learn");
-  await expect(page.getByRole("heading", { name: /Learn the Faith/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Know your faith/i })).toBeVisible();
 
   await page.goto("/research");
-  await expect(page.getByRole("heading", { name: /See how the truths/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Follow your questions/i })).toBeVisible();
 
   await page.goto("/privacy");
   await expect(page.getByRole("heading", { name: /Privacy overview/i })).toBeVisible();
@@ -150,9 +150,9 @@ test("native home uses the unified theme and five-destination navigation at 320p
   await expect(navigation.getByRole("link", { name: "Learn" })).toHaveAttribute("href", /^\/learn\/?$/);
   await expect(navigation.getByRole("link", { name: "Library" })).toHaveAttribute("href", /^\/library\/?$/);
   await expect(navigation.getByRole("link", { name: "Account" })).toHaveAttribute("href", /^\/account\/?$/);
-  const graphLink = page.getByRole("link", { name: /Open Graph/i });
-  await expect(graphLink).toHaveAttribute("target", "_blank");
-  await expect(graphLink).toHaveAttribute("rel", "noopener noreferrer");
+  const graphLink = page.getByRole("link", { name: "Explore the 3D Galaxy" });
+  await expect(graphLink).toHaveAttribute("href", /^\/research\/graph\/?$/);
+  await expect(graphLink).not.toHaveAttribute("target", "_blank");
   await expect(page.locator('a[href*="github.com/DocHarry22/apologia-graph"]')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   const themeToggle = page.getByRole("button", { name: /Switch to (light|dark) mode/ }).first();
@@ -340,12 +340,12 @@ test("switching rooms preserves and reuses the saved player identity", async ({ 
   page.on("dialog", (dialog) => dialog.accept());
 
   await page.goto("/mobile");
-  await expect(page.getByRole("button", { name: /Alpha Room/ })).toBeVisible();
-  await page.getByRole("button", { name: /Alpha Room/ }).click();
+  await expect(page.getByRole("heading", { name: "Alpha Room" })).toBeVisible();
+  await page.getByRole("button", { name: /Change room/ }).click();
   await page.getByLabel("Search rooms").fill("Beta Room");
   await page.getByRole("button", { name: "Join room" }).click();
 
-  await expect(page.getByRole("button", { name: /Beta Room/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Beta Room" })).toBeVisible();
   await expect.poll(() => joinRequests).toContainEqual({ roomId: "alpha", authorization: "Bearer room-token-alpha" });
   await expect.poll(() => joinRequests).toContainEqual({ roomId: "beta", authorization: "Bearer room-token-alpha" });
   await expect.poll(() => page.evaluate(() => ({

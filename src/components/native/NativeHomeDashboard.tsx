@@ -1,7 +1,5 @@
 "use client";
 
-      <Link href="/research/graph" className={`${styles.liveQuiz} ${styles.graphEntry}`} aria-label="Explore the 3D Galaxy"><div className={styles.liveIcon}><AppIcon name="research" width={25} height={25} /></div><div className={styles.liveCopy}><p className={styles.eyebrow}>SEE HOW IT CONNECTS</p><h2>A galaxy of understanding.</h2><p>Rotate the graph. Follow a claim. Read its sources.</p></div><AppIcon name="arrow" className="shrink-0 text-(--gold-hover)" width={19} height={19} /></Link>
-
 import Link from "next/link";
 import { NativeHeader } from "./NativeHeader";
 import { QuickJoinForm } from "@/components/home/QuickJoinForm";
@@ -83,6 +81,8 @@ export function NativeHomeDashboard({ userName, topics, verse }: { userName: str
         <button type="button" onClick={requestQuizEntry} className={styles.joinButton}>Find a room<AppIcon name="arrow" width={17} height={17} /></button>
         <details className={styles.roomCode}><summary>Have a room code?</summary><div><QuickJoinForm compact /></div></details>
       </section>
+
+      <Link href="/research/graph" className={`${styles.liveQuiz} ${styles.graphEntry}`} aria-label="Explore the 3D Galaxy"><div className={styles.liveIcon}><AppIcon name="research" width={25} height={25} /></div><div className={styles.liveCopy}><p className={styles.eyebrow}>SEE HOW IT CONNECTS</p><h2>A galaxy of understanding.</h2><p>Rotate the graph. Follow a claim. Read its sources.</p></div><AppIcon name="arrow" className="shrink-0 text-(--gold-hover)" width={19} height={19} /></Link>
 
       <section aria-labelledby="native-topics-title">
         <div className={styles.sectionHeading}><h2 id="native-topics-title">Follow your curiosity</h2><Link href="/library">View all <span aria-hidden="true">→</span></Link></div>
