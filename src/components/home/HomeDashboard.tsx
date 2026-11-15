@@ -9,7 +9,7 @@ import { ProgressBar, ProgressRing, SectionHeading, StatusBadge } from "@/compon
 import { useStreak } from "@/hooks/useStreak";
 import { EMPTY_LEARNING_PROGRESS, LEARNING_PROGRESS_KEY, parseLearningProgress, type LearningProgress } from "@/lib/learningProgress";
 import { getEngineUrl, getResearchGraphUrl } from "@/lib/publicEnv";
-import { getDailyVerse } from "@/lib/verses";
+import type { ApologeticsVerse } from "@/lib/verses";
 import { ANDROID_PHONE_TEST_APK_URL } from "@/lib/androidPhoneTest";
 import type { Leaderboard, QuizPhase, RoomSummary } from "@/types/quiz";
 
@@ -181,14 +181,13 @@ function TopicGlyph({ index }: { index: number }) {
   return <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-(--border) bg-(--surface-elevated) font-[family-name:var(--font-editorial)] text-xl text-(--gold-hover)" aria-hidden="true">{["✦", "☩", "◈", "✧", "⌘", "◇"][index % 6]}</span>;
 }
 
-export function HomeDashboard({ userName, topics }: { userName: string | null; topics: TopicSummary[] }) {
+export function HomeDashboard({ userName, topics, dailyVerse }: { userName: string | null; topics: TopicSummary[]; dailyVerse: ApologeticsVerse }) {
   const [progress, setProgress] = useState<LearningProgress>(EMPTY_LEARNING_PROGRESS);
   const [learningItems, setLearningItems] = useState<LearningPreview[]>([]);
   const [officialProgress, setOfficialProgress] = useState<OfficialProgress | null>(null);
   const [hydrated, setHydrated] = useState(false);
   const { streak } = useStreak();
   const release = useLatestRelease();
-  const dailyVerse = getDailyVerse();
   const graphUrl = getResearchGraphUrl();
 
   useEffect(() => {
