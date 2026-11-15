@@ -29,6 +29,16 @@ test("public routes use the shared shell and expose the required destinations", 
   assert.match(researchLayout, /<AppShell/);
 });
 
+test("Home resolves date-sensitive Scripture on the server before client hydration", async () => {
+  const [home, dashboard] = await Promise.all([
+    read("src/app/page.tsx"),
+    read("src/components/home/HomeDashboard.tsx"),
+  ]);
+  assert.match(home, /dailyVerse=\{getDailyVerse\(\)\}/);
+  assert.match(dashboard, /dailyVerse: ApologeticsVerse/);
+  assert.doesNotMatch(dashboard, /const dailyVerse = getDailyVerse\(\)/);
+});
+
 test("Graph links and UI-to-Engine secret naming follow the production contract", async () => {
   const [banner, research, env, proxy] = await Promise.all([read("src/components/shell/GraphPromoBanner.tsx"), read("src/app/research/page.tsx"), read(".env.example"), read("src/lib/server/engineProxy.ts")]);
   assert.match(banner, /target="_blank"/); assert.match(banner, /rel="noopener noreferrer"/);

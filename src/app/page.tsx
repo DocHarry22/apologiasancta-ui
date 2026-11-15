@@ -4,6 +4,7 @@ import { HomeDashboard } from "@/components/home/HomeDashboard";
 import { readSessionCookie, SESSION_COOKIE_NAME } from "@/lib/auth/session";
 import { listTopicsWithCounts } from "@/lib/content";
 import { getCurrentUser } from "@/lib/server/currentUser";
+import { getDailyVerse } from "@/lib/verses";
 
 export default async function Home() {
   let userName: string | null = null;
@@ -18,7 +19,7 @@ export default async function Home() {
 
   return (
     <AppShell>
-      <HomeDashboard userName={userName} topics={topics} />
+      <HomeDashboard userName={userName} topics={topics} dailyVerse={getDailyVerse()} />
     </AppShell>
   );
 }
