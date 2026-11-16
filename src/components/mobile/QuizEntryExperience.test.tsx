@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen, waitFor, within } from "@testing-library/react";
+import { act, cleanup, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { RoomSelectionModal } from "./RoomSelectionModal";
@@ -30,6 +30,18 @@ describe("quiz entry and feedback", () => {
     render(<RoomSelectionModal engineUrl="https://engine.test" onSelected={vi.fn()} />);
     await userEvent.setup().click(await screen.findByRole("button", { name: "Retry" }));
     expect(await screen.findByRole("heading", { name: "Parish quiz" })).toBeInTheDocument();
+  });
+
+  it("explains a slow Engine wake-up and aborts the request when closed", async () => {
+    vi.useFakeTimers();
+    const fetcher = vi.spyOn(globalThis, "fetch").mockImplementation(() => new Promise(() => undefined));
+    const view = render(<RoomSelectionModal engineUrl="https://engine.test" onSelected={vi.fn()} />);
+    await act(async () => { await vi.advanceTimersByTimeAsync(3_000); });
+    expect(screen.getByRole("status")).toHaveTextContent("Waking the live service");
+    const signal = fetcher.mock.calls[0][1]?.signal as AbortSignal;
+    view.unmount();
+    expect(signal.aborted).toBe(true);
+    vi.useRealTimers();
   });
 
   it("shows the correct phase in the compact timer and keeps teaching references available", async () => {

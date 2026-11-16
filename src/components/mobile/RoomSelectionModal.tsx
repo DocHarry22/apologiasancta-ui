@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useCallback, useEffect } from "react";
+import { useMemo, useState, useCallback, useEffect, useRef } from "react";
 import type { RoomSummary } from "@/types/quiz";
 import { Dialog } from "@/components/ui/Dialog";
 import { AppIcon } from "@/components/native/AppIcon";
@@ -28,63 +28,42 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [notice, setNotice] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadRooms = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const response = await fetch(`${engineUrl}/rooms`, { cache: "no-store" });
-        if (!response.ok) {
-          throw new Error(`Failed to load rooms (${response.status})`);
-        }
-
-        const data = (await response.json()) as RoomsResponse;
-        if (cancelled) {
-          return;
-        }
-
-        setRooms(data.rooms);
-      } catch (loadError) {
-        if (cancelled) {
-          return;
-        }
-
-        setError(loadError instanceof Error ? loadError.message : "Failed to load rooms");
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    };
-
-    void loadRooms();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [engineUrl]);
+  const [slowLoading, setSlowLoading] = useState(false);
+  const requestRef = useRef<AbortController | null>(null);
 
   const loadRooms = useCallback(async () => {
+    requestRef.current?.abort();
+    const controller = new AbortController();
+    requestRef.current = controller;
     setLoading(true);
+    setSlowLoading(false);
     setError(null);
+    const slowTimer = window.setTimeout(() => {
+      if (!controller.signal.aborted) setSlowLoading(true);
+    }, 3_000);
 
     try {
-      const response = await fetch(`${engineUrl}/rooms`, { cache: "no-store" });
+      const response = await fetch(`${engineUrl}/rooms`, { cache: "no-store", signal: controller.signal });
       if (!response.ok) {
         throw new Error(response.status === 503 ? "Engine unavailable" : `Unable to load rooms (${response.status})`);
       }
       const data = (await response.json()) as RoomsResponse;
-      setRooms(data.rooms);
+      if (!controller.signal.aborted) setRooms(data.rooms);
     } catch (loadError) {
-      setError(loadError instanceof Error ? loadError.message : "Engine unavailable");
+      if (!controller.signal.aborted) setError(loadError instanceof Error ? loadError.message : "Engine unavailable");
     } finally {
-      setLoading(false);
+      window.clearTimeout(slowTimer);
+      if (!controller.signal.aborted) {
+        setLoading(false);
+        setSlowLoading(false);
+      }
     }
   }, [engineUrl]);
+
+  useEffect(() => {
+    void loadRooms();
+    return () => requestRef.current?.abort();
+  }, [loadRooms]);
 
   const filteredRooms = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -133,8 +112,8 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
 
         <div className={styles.modalBody}>
         {loading ? (
-          <div className="rounded-xl p-4 text-sm" style={{ backgroundColor: "var(--option-bg)", color: "var(--muted)" }}>
-            Loading available rooms...
+          <div className="rounded-xl p-4 text-sm" role="status" style={{ backgroundColor: "var(--option-bg)", color: "var(--muted)" }}>
+            {slowLoading ? "Waking the live service… This can take up to a minute." : "Loading available rooms…"}
           </div>
         ) : error ? (
           <div className="space-y-3">

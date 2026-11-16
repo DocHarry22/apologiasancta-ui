@@ -39,6 +39,7 @@ export function useLiveRoom() {
   const [room, setRoom] = useState<RoomSummary | null>(null);
   const [state, setState] = useState<LiveState | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "unavailable">("loading");
+  const [slow, setSlow] = useState(false);
 
   useEffect(() => {
     const engine = getEngineUrl();
@@ -49,6 +50,9 @@ export function useLiveRoom() {
 
     const controller = new AbortController();
     let refreshing = false;
+    const slowTimer = window.setTimeout(() => {
+      if (!controller.signal.aborted) setSlow(true);
+    }, 3_000);
 
     const refresh = async () => {
       if (refreshing || controller.signal.aborted) return;
@@ -73,12 +77,16 @@ export function useLiveRoom() {
           setRoom(activeRoom);
           setState(nextState);
           setStatus("ready");
+          window.clearTimeout(slowTimer);
+          setSlow(false);
         }
       } catch (error) {
         if (!controller.signal.aborted && (error as Error).name !== "AbortError") {
           setRoom(null);
           setState(null);
           setStatus("unavailable");
+          window.clearTimeout(slowTimer);
+          setSlow(false);
         }
       } finally {
         refreshing = false;
@@ -95,12 +103,13 @@ export function useLiveRoom() {
 
     return () => {
       window.clearInterval(interval);
+      window.clearTimeout(slowTimer);
       document.removeEventListener("visibilitychange", refreshWhenVisible);
       controller.abort();
     };
   }, []);
 
-  return { room, state, status };
+  return { room, state, status, slow };
 }
 
 function useLatestRelease() {
@@ -119,7 +128,7 @@ function useLatestRelease() {
 }
 
 function LiveQuizStrip() {
-  const { room, state, status } = useLiveRoom();
+  const { room, state, status, slow } = useLiveRoom();
   const [clockMs, setClockMs] = useState(0);
   useEffect(() => {
     const updateClock = () => setClockMs(Date.now());
@@ -136,7 +145,9 @@ function LiveQuizStrip() {
         ? `Round ${state.questionIndex + 1} of ${state.totalQuestions}`
         : room
           ? "The room is open; the host has not started a timed question."
-          : "You can retry from the live quiz screen.";
+          : status === "loading"
+            ? slow ? "The live service is waking up. This can take up to a minute." : "Connecting to the live service."
+            : "You can retry from the live quiz screen.";
   const leaders = state?.leaderboard?.topScorers?.slice(0, 3) ?? [];
 
   return (
@@ -144,12 +155,12 @@ function LiveQuizStrip() {
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
           <StatusBadge tone={liveNow ? "success" : status === "unavailable" ? "danger" : "info"}>
-            <span aria-hidden="true">●</span>{liveNow ? "Live now" : status === "loading" ? "Checking room" : status === "unavailable" ? "Engine unavailable" : state?.phase === "LOCKED" ? "Answers locked" : state?.phase === "REVEAL" ? "Revealing answer" : "Room open"}
+            <span aria-hidden="true">●</span>{liveNow ? "Live now" : status === "loading" ? slow ? "Waking live service" : "Checking room" : status === "unavailable" ? "Engine unavailable" : state?.phase === "LOCKED" ? "Answers locked" : state?.phase === "REVEAL" ? "Revealing answer" : "Room open"}
           </StatusBadge>
           {room ? <span className="text-xs text-(--text-muted)">{room.playerCount} {room.playerCount === 1 ? "player" : "players"}</span> : null}
         </div>
         <h2 id="live-quiz-heading" className="editorial-heading mt-2 truncate text-xl font-semibold sm:text-2xl">
-          {state?.themeTitle || room?.name || (status === "unavailable" ? "Live quiz is temporarily offline" : "Waiting for room details")}
+          {state?.themeTitle || room?.name || (status === "unavailable" ? "Live quiz is temporarily offline" : slow ? "Preparing the live room" : "Waiting for room details")}
         </h2>
         <p className="mt-1 text-sm text-(--text-muted)">
           {roundStatus}

@@ -20,6 +20,7 @@ export function LeaderboardPageClient() {
   const [leaderboard, setLeaderboard] = useState<Leaderboard | null>(null);
   const [playerName, setPlayerName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [slowLoading, setSlowLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const engineUrl = getEngineUrl();
   const requestRef = useRef<AbortController | null>(null);
@@ -31,14 +32,20 @@ export function LeaderboardPageClient() {
     const controller = new AbortController();
     requestRef.current = controller;
     if (!engineUrl) { setError("Live rankings are temporarily unavailable."); setLoading(false); return; }
-    setLoading(true); setError(null);
+    setLoading(true); setSlowLoading(false); setError(null);
+    const slowTimer = window.setTimeout(() => {
+      if (!controller.signal.aborted) setSlowLoading(true);
+    }, 3_000);
     try {
       const response = await fetch(`${engineUrl}/leaderboard?period=${period}`, { cache: "no-store", signal: controller.signal });
       if (!response.ok) throw new Error(`Leaderboard unavailable (${response.status})`);
       const payload = await response.json() as { leaderboard?: Leaderboard } & Leaderboard;
       if (!controller.signal.aborted) setLeaderboard(payload.leaderboard ?? payload);
     } catch (loadError) { if (!controller.signal.aborted) setError(loadError instanceof Error ? loadError.message : "Leaderboard unavailable."); }
-    finally { if (!controller.signal.aborted) setLoading(false); }
+    finally {
+      window.clearTimeout(slowTimer);
+      if (!controller.signal.aborted) { setLoading(false); setSlowLoading(false); }
+    }
   }, [engineUrl, period]);
 
   useEffect(() => { void load(); return () => requestRef.current?.abort(); }, [load]);
@@ -61,7 +68,7 @@ export function LeaderboardPageClient() {
 
       <div className={styles.heading}><h2>{period === "daily" ? "Daily leaders" : period === "weekly" ? "Weekly leaders" : "All-time leaders"}</h2><button type="button" onClick={() => void load()} disabled={loading}><AppIcon name="signal" width={15} height={15} /> Refresh</button></div>
       <section aria-label="Rankings" aria-live="polite" aria-busy={loading}>
-        {loading ? <div className={styles.loading} aria-label="Loading leaderboard">{[0,1,2,3,4].map((item) => <Skeleton key={item} className="h-20 w-full rounded-xl" />)}</div>
+        {loading ? <div className={styles.loading} aria-label="Loading leaderboard"><p className="text-sm text-(--text-muted)" role="status">{slowLoading ? "Waking the live rankings service… This can take up to a minute." : "Loading rankings…"}</p>{[0,1,2,3,4].map((item) => <Skeleton key={item} className="h-20 w-full rounded-xl" />)}</div>
         : error ? <div className={study.empty}><AppIcon name="trophy" /><h2>Could not load the leaderboard</h2><p>{error}</p><button type="button" onClick={() => void load()} className={study.textLink}>Retry <AppIcon name="arrow" width={16} height={16} /></button></div>
         : rows.length === 0 ? <div className={study.empty}><AppIcon name="trophy" /><h2>No {view} yet</h2><p>A completed live round will add results to this ranking.</p><Link href="/mobile" className={study.textLink}>Join a live room <AppIcon name="arrow" width={16} height={16} /></Link></div>
         : <ol className={styles.rankings}>{rows.map((row) => <li key={`${row.rank}-${row.name}`} className={`${styles.row} ${row.rank === 1 ? styles.leader : ""}`}><span className={styles.rank}>{row.rank}</span><span className={styles.avatar} aria-hidden="true">{row.name.trim().split(/\s+/).map((part) => Array.from(part)[0]).slice(0, 2).join("").toUpperCase()}</span><div className={styles.name}>{row.name}<small>{row.rank === 1 ? "Leading the way" : row.rank <= 3 ? "Among the leaders" : "Growing with every question"}</small></div><div className={styles.value}><strong>{row.value.toLocaleString()}</strong><small>{row.suffix}</small></div></li>)}</ol>}

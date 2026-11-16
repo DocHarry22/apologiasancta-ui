@@ -53,3 +53,12 @@ it("retries a failed request and presents the empty ranking without invented res
   expect(screen.getByRole("link", { name: /Join a live room/ })).toHaveAttribute("href", "/mobile");
   expect(screen.queryByRole("listitem")).not.toBeInTheDocument();
 });
+
+it("explains a slow rankings cold start", async () => {
+  vi.useFakeTimers();
+  vi.stubGlobal("fetch", vi.fn(() => new Promise(() => undefined)));
+  render(<LeaderboardPageClient />);
+  await act(async () => { await vi.advanceTimersByTimeAsync(3_000); });
+  expect(screen.getByRole("status")).toHaveTextContent("Waking the live rankings service");
+  vi.useRealTimers();
+});
