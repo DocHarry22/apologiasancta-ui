@@ -54,3 +54,15 @@ test("live registration remains compatible during the signed-token rollout", asy
   assert.match(mobile, /\.\.\.\(joinToken \? \{ Authorization:/);
   assert.match(mobile, /if \(isUsingSSE && ENGINE_URL && userId\)/);
 });
+
+test("optional content-agent configuration produces an explicit successful skip", async () => {
+  const workflow = await read(".github/workflows/content-agent.yml");
+  assert.doesNotMatch(workflow, /research:\n\s+if:/);
+  assert.match(workflow, /id: preflight/);
+  assert.match(workflow, /run_worker=false/);
+  assert.match(workflow, /Content agent skipped/);
+  assert.match(workflow, /GITHUB_STEP_SUMMARY/);
+  assert.match(workflow, /if: steps\.preflight\.outputs\.run_worker == 'true'/);
+  assert.match(workflow, /Configured CONTENT_AGENT_APP_URL must use HTTPS/);
+  assert.match(workflow, /curl --fail-with-body/);
+});
