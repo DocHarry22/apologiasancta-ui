@@ -24,6 +24,8 @@ The Next app uses middleware, route handlers, staff sessions and server-side eng
 - `ACCOUNT_IDENTITY_ASSERTION_TTL_SECONDS=120`
 - `DATABASE_URL` for durable staff/workflow/audit storage
 - `APP_STORAGE_DRIVER=database` (do not use file storage in a multi-instance production deployment)
+- `LEARNING_DATABASE_URL` for the dedicated PostgreSQL learning catalogue and learner-state store
+- Optional: `LEARNING_DB_SSL_MODE=require` for hosted PostgreSQL providers that require TLS (`verify-full` when the provider supplies a trusted certificate chain)
 - `EDITORIAL_EMERGENCY_IMPORT_ENABLED=false` (recommended; the normal dashboard cannot bypass human review)
 - Optional: `EDITORIAL_PUBLISH_LEASE_SECONDS=90` (30-300 seconds; controls safe retry after a publisher crash)
 - Optional: `EDITORIAL_ENGINE_TIMEOUT_MS=20000` (clamped to at least five seconds below the publish lease)
@@ -113,6 +115,16 @@ separate presence from acceptance: `accountIdentitySecretPresent=true` with
 `accountIdentitySecret=false` means a non-blank value was supplied but rejected
 by the safety checks. Neither field exposes the secret, its length, a hash, or
 the rejected comparison target.
+
+The public, secret-free `/api/diagnostics` response also reports learning
+database configuration readiness. `learningDatabaseUrlPresent` confirms only
+that `LEARNING_DATABASE_URL` is non-blank; `learningDatabaseUrlSupported`
+confirms a PostgreSQL URL; `learningDatabaseSslMode` confirms a supported TLS
+mode; and `learningDatabase` is true only when all configuration checks pass.
+The endpoint never returns the connection string, hostname, username,
+password, or database contents. A true configuration result does not prove
+connectivity or data recovery: validate the 24 knowledge tables and runtime
+state independently before changing any provider setting.
 
 Merging GitHub cannot update Hostinger unless that project has automatic Git deployment enabled. If it does not, deploy the exact merged UI commit through Hostinger and record the commit SHA in the release notes.
 

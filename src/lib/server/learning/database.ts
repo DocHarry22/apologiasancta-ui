@@ -8,6 +8,38 @@ declare global {
   var __apologiaLearningPool: Pool | undefined;
 }
 
+export type LearningDatabaseConfiguration = {
+  urlPresent: boolean;
+  urlSupported: boolean;
+  sslModeSupported: boolean;
+  ready: boolean;
+};
+
+const SUPPORTED_SSL_MODES = new Set(["disable", "require", "verify-ca", "verify-full"]);
+
+function isSupportedLearningDatabaseUrl(value: string): boolean {
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "postgres:" || parsed.protocol === "postgresql:";
+  } catch {
+    return false;
+  }
+}
+
+export function getLearningDatabaseConfiguration(): LearningDatabaseConfiguration {
+  const databaseUrl = process.env.LEARNING_DATABASE_URL?.trim() ?? "";
+  const sslMode = process.env.LEARNING_DB_SSL_MODE?.trim().toLowerCase() ?? "";
+  const urlPresent = databaseUrl.length > 0;
+  const urlSupported = urlPresent && isSupportedLearningDatabaseUrl(databaseUrl);
+  const sslModeSupported = sslMode.length === 0 || SUPPORTED_SSL_MODES.has(sslMode);
+  return {
+    urlPresent,
+    urlSupported,
+    sslModeSupported,
+    ready: urlSupported && sslModeSupported,
+  };
+}
+
 function boundedTimeout(value: string | undefined, fallback: number): number {
   const parsed = Number(value);
   return Number.isInteger(parsed) && parsed >= 1_000 && parsed <= 60_000 ? parsed : fallback;
@@ -22,10 +54,7 @@ function getLearningDatabaseUrl(): string {
       "The learning service is temporarily unavailable.",
     );
   }
-  try {
-    const parsed = new URL(value);
-    if (parsed.protocol !== "postgres:" && parsed.protocol !== "postgresql:") throw new Error("unsupported protocol");
-  } catch {
+  if (!isSupportedLearningDatabaseUrl(value)) {
     throw new LearningApiError(
       "learning_service_unavailable",
       503,

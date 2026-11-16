@@ -42,15 +42,48 @@ describe("GET /api/diagnostics", () => {
     expect(response.headers.get("cache-control")).toBe("no-store");
     expect(payload).toEqual(expect.objectContaining({
       features: { accountIdentity: false },
-      readiness: {
+      readiness: expect.objectContaining({
         accountIdentity: false,
         accountIdentitySecretPresent: expectedPresent,
         accountIdentitySecret: expectedAccepted,
         engineInternalUrl: true,
-      },
+      }),
     }));
     if (secret?.trim()) {
       expect(JSON.stringify(payload)).not.toContain(secret.trim());
     }
+  });
+
+  it.each([
+    ["missing URL", undefined, undefined, false, false, true, false],
+    ["unsupported URL", "mysql://learning-user:secret@db.test/learning", undefined, true, false, true, false],
+    ["unsupported SSL mode", "postgres://learning-user:secret@db.test/learning", "prefer", true, true, false, false],
+    ["valid PostgreSQL configuration", "postgresql://learning-user:secret@db.test/learning", "require", true, true, true, true],
+  ] as const)("reports a %s without exposing the database URL", async (
+    _case,
+    databaseUrl,
+    sslMode,
+    expectedPresent,
+    expectedSupported,
+    expectedSslMode,
+    expectedReady,
+  ) => {
+    configureIdentity(undefined);
+    if (databaseUrl === undefined) delete process.env.LEARNING_DATABASE_URL;
+    else process.env.LEARNING_DATABASE_URL = databaseUrl;
+    if (sslMode === undefined) delete process.env.LEARNING_DB_SSL_MODE;
+    else process.env.LEARNING_DB_SSL_MODE = sslMode;
+
+    const response = await GET();
+    const payload = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(payload.readiness).toEqual(expect.objectContaining({
+      learningDatabase: expectedReady,
+      learningDatabaseUrlPresent: expectedPresent,
+      learningDatabaseUrlSupported: expectedSupported,
+      learningDatabaseSslMode: expectedSslMode,
+    }));
+    if (databaseUrl) expect(JSON.stringify(payload)).not.toContain(databaseUrl);
   });
 });
