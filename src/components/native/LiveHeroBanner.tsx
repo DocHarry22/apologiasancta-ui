@@ -40,11 +40,17 @@ export function LiveHeroBanner({ engineUrl }: LiveHeroBannerProps) {
       }
     }
 
-    fetchStatus();
-    const interval = setInterval(fetchStatus, 30_000);
+    const fetchWhenVisible = () => {
+      if (document.visibilityState !== "hidden") void fetchStatus();
+    };
+
+    fetchWhenVisible();
+    const interval = setInterval(fetchWhenVisible, 30_000);
+    document.addEventListener("visibilitychange", fetchWhenVisible);
     return () => {
       cancelled = true;
       clearInterval(interval);
+      document.removeEventListener("visibilitychange", fetchWhenVisible);
     };
   }, [engineUrl]);
 
