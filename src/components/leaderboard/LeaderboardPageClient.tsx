@@ -8,6 +8,7 @@ import study from "@/components/native/StudyUI.module.css";
 import styles from "./Leaderboard.module.css";
 import { USERNAME_STORAGE_KEY } from "@/lib/playerIdentity";
 import { getEngineUrl } from "@/lib/publicEnv";
+import { fetchWithTimeout } from "@/lib/fetchWithTimeout";
 import type { Leaderboard, LeaderboardPeriod } from "@/types/quiz";
 
 const periods: Array<{ id: LeaderboardPeriod; label: string }> = [
@@ -37,7 +38,7 @@ export function LeaderboardPageClient() {
       if (!controller.signal.aborted) setSlowLoading(true);
     }, 3_000);
     try {
-      const response = await fetch(`${engineUrl}/leaderboard?period=${period}`, { cache: "no-store", signal: controller.signal });
+      const response = await fetchWithTimeout(`${engineUrl}/leaderboard?period=${period}`, { cache: "no-store", signal: controller.signal });
       if (!response.ok) throw new Error(`Leaderboard unavailable (${response.status})`);
       const payload = await response.json() as { leaderboard?: Leaderboard } & Leaderboard;
       if (!controller.signal.aborted) setLeaderboard(payload.leaderboard ?? payload);

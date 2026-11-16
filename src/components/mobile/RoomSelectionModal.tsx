@@ -5,6 +5,7 @@ import type { RoomSummary } from "@/types/quiz";
 import { Dialog } from "@/components/ui/Dialog";
 import { AppIcon } from "@/components/native/AppIcon";
 import { StudySearch } from "@/components/native/StudyUI";
+import { fetchWithTimeout } from "@/lib/fetchWithTimeout";
 import styles from "./QuizScreen.module.css";
 
 interface RoomSelectionModalProps {
@@ -43,7 +44,7 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
     }, 3_000);
 
     try {
-      const response = await fetch(`${engineUrl}/rooms`, { cache: "no-store", signal: controller.signal });
+      const response = await fetchWithTimeout(`${engineUrl}/rooms`, { cache: "no-store", signal: controller.signal });
       if (!response.ok) {
         throw new Error(response.status === 503 ? "Engine unavailable" : `Unable to load rooms (${response.status})`);
       }

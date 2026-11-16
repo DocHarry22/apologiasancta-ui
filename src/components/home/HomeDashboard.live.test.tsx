@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { LIVE_SERVICE_REQUEST_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 import { useLiveRoom } from "./HomeDashboard";
 
 const engineUrl = "https://quiz.example.test";
@@ -117,6 +118,24 @@ describe("Home live quiz refresh", () => {
       await act(async () => { finish({ ok: true, json: async () => ({ rooms: [] }) }); await Promise.resolve(); });
       expect(result.current.status).toBe("ready");
       expect(result.current.slow).toBe(false);
+    } finally {
+      unmount();
+    }
+  });
+
+  it("ends a hung cold start instead of leaving the live strip busy forever", async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal("fetch", vi.fn((_request: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+      init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+    })));
+
+    const { result, unmount } = renderHook(() => useLiveRoom());
+    try {
+      await act(async () => { await vi.advanceTimersByTimeAsync(LIVE_SERVICE_REQUEST_TIMEOUT_MS); });
+      expect(result.current.status).toBe("unavailable");
+      expect(result.current.slow).toBe(false);
+      expect(result.current.room).toBeNull();
+      expect(result.current.state).toBeNull();
     } finally {
       unmount();
     }

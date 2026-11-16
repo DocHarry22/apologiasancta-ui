@@ -3,12 +3,13 @@ import { act, cleanup, render, screen, waitFor, within } from "@testing-library/
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { LeaderboardPageClient } from "./LeaderboardPageClient";
+import { LIVE_SERVICE_REQUEST_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 vi.mock("@/lib/publicEnv", () => ({ getEngineUrl: () => "https://engine.test" }));
 const weekly = { topScorers: [{ rank: 1, name: "Ada", score: 1020 }, { rank: 4, name: "Maria", score: 300 }], topStreaks: [{ rank: 1, name: "James", streak: 7 }] };
 const daily = { topScorers: [{ rank: 1, name: "Today’s player", score: 50 }], topStreaks: [{ rank: 1, name: "Daily streak", streak: 3 }] };
 beforeEach(() => localStorage.clear());
-afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
+afterEach(() => { cleanup(); vi.useRealTimers(); vi.unstubAllGlobals(); });
 
 it("keeps score type and period independent and shows actual returned ranks", async () => {
   const fetcher = vi.fn().mockResolvedValueOnce(Response.json({ leaderboard: weekly })).mockResolvedValueOnce(Response.json(daily));
@@ -61,4 +62,16 @@ it("explains a slow rankings cold start", async () => {
   await act(async () => { await vi.advanceTimersByTimeAsync(3_000); });
   expect(screen.getByRole("status")).toHaveTextContent("Waking the live rankings service");
   vi.useRealTimers();
+});
+
+it("replaces a hung rankings request with a retryable error", async () => {
+  vi.useFakeTimers();
+  vi.stubGlobal("fetch", vi.fn((_request: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+    init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+  })));
+  render(<LeaderboardPageClient />);
+  await act(async () => { await vi.advanceTimersByTimeAsync(LIVE_SERVICE_REQUEST_TIMEOUT_MS); });
+  expect(screen.getByRole("heading", { name: "Could not load the leaderboard" })).toBeInTheDocument();
+  expect(screen.getByText(/did not respond in time/i)).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Retry", exact: true })).toBeEnabled();
 });
