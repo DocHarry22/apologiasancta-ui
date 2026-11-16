@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ScreenSurface, ScreenIntro } from "@/components/native/ScreenSurface";
 import styles from "@/components/native/ScreenSurface.module.css";
 import study from "@/components/native/StudyUI.module.css";
 
 export function DeleteAccountPanel({ signedIn, accountType }: { signedIn: boolean; accountType: "public" | "staff" | null }) {
+  const router = useRouter();
   const [confirmation, setConfirmation] = useState("");
   const [status, setStatus] = useState<"idle" | "deleting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -50,7 +52,10 @@ export function DeleteAccountPanel({ signedIn, accountType }: { signedIn: boolea
       }
       setStatus("success");
       setMessage("Your Apologia Sancta account and account-linked learning data were deleted.");
-      window.setTimeout(() => window.location.assign("/"), 1200);
+      window.setTimeout(() => {
+        router.replace("/");
+        router.refresh();
+      }, 1200);
     } catch {
       setStatus("error");
       setMessage("Account deletion is temporarily unavailable. Please retry.");

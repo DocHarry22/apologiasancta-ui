@@ -3,6 +3,7 @@ import staffStyles from "@/app/author/StaffWorkspace.module.css";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { PublishedQuestionRecord, TopicWithCount } from "@/lib/content";
 import type { CurrentUser } from "@/lib/server/currentUser";
 import { runWithStoredAccountSessionBoundary } from "@/lib/playerIdentity";
@@ -152,7 +153,13 @@ async function refreshCsrfToken(): Promise<void> {
   }
 }
 
-async function dashboardApi<T>(path: string, options: { method?: "GET" | "POST" | "PATCH"; body?: unknown; retried?: boolean } = {}): Promise<{ ok: true; data: T } | { ok: false; error: string; status?: number }> {
+type DashboardApiOptions = { method?: "GET" | "POST" | "PATCH"; body?: unknown; retried?: boolean };
+
+async function performDashboardApi<T>(
+  path: string,
+  options: DashboardApiOptions = {},
+  onUnauthorized?: (loginPath: string) => void,
+): Promise<{ ok: true; data: T } | { ok: false; error: string; status?: number }> {
   const method = options.method ?? "GET";
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (method !== "GET") {
@@ -170,13 +177,13 @@ async function dashboardApi<T>(path: string, options: { method?: "GET" | "POST" 
   if (response.status === 401 && typeof window !== "undefined") {
     const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
     const nextPath = window.location.pathname || "/";
-    window.location.href = `${basePath}/login?reason=session_expired&next=${encodeURIComponent(nextPath)}`;
+    onUnauthorized?.(`${basePath}/login?reason=session_expired&next=${encodeURIComponent(nextPath)}`);
     return { ok: false, status: 401, error: "Unauthorized" };
   }
 
   if (response.status === 403 && method !== "GET" && !options.retried) {
     await refreshCsrfToken();
-    return dashboardApi<T>(path, { ...options, retried: true });
+    return performDashboardApi<T>(path, { ...options, retried: true }, onUnauthorized);
   }
 
   const data = await response.json().catch(() => ({})) as { error?: string };
@@ -269,7 +276,14 @@ function DangerousConfirmModal({
 }
 
 export default function AuthorDashboardClient({ topics, publishedQuestions, currentUser, initialTab }: Props) {
+  const router = useRouter();
   const { theme, toggleTheme } = useTheme();
+  const dashboardApi = useCallback(<T,>(path: string, options: DashboardApiOptions = {}) => (
+    performDashboardApi<T>(path, options, (loginPath) => {
+      router.replace(loginPath);
+      router.refresh();
+    })
+  ), [router]);
   const visibleSections = sections.filter((section) => hasAnyPermission(currentUser.role, section.permissions));
   const [activeTab, setActiveTab] = useState<TabId>(initialTab ?? visibleSections[0]?.id ?? "overview");
   const [selectedTopicId, setSelectedTopicId] = useState<string>(topics[0]?.id || "");
@@ -412,7 +426,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       setMessage({ type: response.status === 401 || response.status === 403 ? "error" : "info", text: response.error || "Workflow persistence is unavailable." });
     }
     setWorkflowLoading(false);
-  }, []);
+  }, [dashboardApi]);
 
   const fetchAuditEvents = useCallback(async () => {
     if (!hasPermission(currentUser.role, "audit:view")) return;
@@ -430,7 +444,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       setMessage({ type: response.status === 401 || response.status === 403 ? "error" : "info", text: response.error || "Audit persistence is unavailable." });
     }
     setAuditLoading(false);
-  }, [auditSearch, auditTypeFilter, currentUser.role]);
+  }, [auditSearch, auditTypeFilter, currentUser.role, dashboardApi]);
 
   useVisiblePolling(fetchOperationalStatus, 15_000);
 
@@ -461,7 +475,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       setMessage({ type: "error", text: response.error || "Unable to load user accounts." });
     }
     setUsersLoading(false);
-  }, [canManageUsers]);
+  }, [canManageUsers, dashboardApi]);
 
   const updateManagedUser = useCallback(async (payload: { userId: string; role?: ManagedUser["role"]; status?: ManagedUser["status"] }) => {
     if (!canManageUsers) return;
@@ -477,7 +491,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       setMessage({ type: "error", text: response.error || "Unable to update user." });
     }
     setUpdatingUserId(null);
-  }, [canManageUsers]);
+  }, [canManageUsers, dashboardApi]);
 
   const fetchInviteSettings = useCallback(async () => {
     if (!canManageUsers) return;
@@ -491,7 +505,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       setMessage({ type: "error", text: response.error || "Unable to load invite settings." });
     }
     setInviteLoading(false);
-  }, [canManageUsers, setInviteCodeInput, setInviteRoleInput]);
+  }, [canManageUsers, dashboardApi, setInviteCodeInput, setInviteRoleInput]);
 
   const saveInviteSettings = useCallback(async (rotate: boolean) => {
     if (!canManageUsers) return;
@@ -513,7 +527,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       setMessage({ type: "error", text: response.error || "Unable to update invite settings." });
     }
     setInviteLoading(false);
-  }, [canManageUsers, inviteCodeInput, inviteRoleInput, setInviteCodeInput, setInviteRoleInput]);
+  }, [canManageUsers, dashboardApi, inviteCodeInput, inviteRoleInput, setInviteCodeInput, setInviteRoleInput]);
 
   const changePassword = useCallback(async () => {
     setPasswordLoading(true);
@@ -535,7 +549,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       setMessage({ type: "error", text: response.error || "Unable to update password." });
     }
     setPasswordLoading(false);
-  }, [confirmPasswordInput, currentPasswordInput, newPasswordInput, setCurrentPasswordInput, setNewPasswordInput, setConfirmPasswordInput]);
+  }, [confirmPasswordInput, currentPasswordInput, dashboardApi, newPasswordInput, setCurrentPasswordInput, setNewPasswordInput, setConfirmPasswordInput]);
 
   const revokeOtherSessions = useCallback(async () => {
     setRevokeSessionsLoading(true);
@@ -550,7 +564,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       setMessage({ type: "error", text: response.error || "Unable to revoke other sessions." });
     }
     setRevokeSessionsLoading(false);
-  }, []);
+  }, [dashboardApi]);
 
   useEffect(() => {
     if (!canManageUsers || activeTab !== "settings") return;
@@ -846,7 +860,8 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
       }));
     } finally {
       const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
-      window.location.href = `${basePath}/login`;
+      router.replace(`${basePath}/login`);
+      router.refresh();
     }
   };
 

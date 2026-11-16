@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@/lib/theme";
 import { roleLabels } from "@/lib/auth/roles";
 import type { CurrentUser } from "@/lib/server/currentUser";
@@ -29,6 +29,7 @@ const NAV_ITEMS: { id: string; label: string; path: string; icon: AppIconName }[
 
 export default function AuthorSidebar({ user }: { user: CurrentUser }) {
   const pathname = usePathname().replace(/\/$/, "");
+  const router = useRouter();
   const { theme, toggleTheme } = useTheme();
   const basePath = pathname.startsWith("/admin") ? "/admin" : "/author";
   const items = NAV_ITEMS.filter((item) => item.id !== "agent" || basePath === "/admin");
@@ -48,7 +49,10 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
         event.preventDefault();
         void runWithStoredAccountSessionBoundary(() => fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" }))
           .catch(() => undefined)
-          .finally(() => { window.location.href = `${basePath}/login`; });
+          .finally(() => {
+            router.replace(`${basePath}/login`);
+            router.refresh();
+          });
       }}><button type="submit">Log out</button></form>
     </div>
   </div>;
