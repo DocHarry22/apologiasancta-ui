@@ -91,7 +91,7 @@ describe("Home live quiz refresh", () => {
 
       visibility.mockReturnValue("hidden");
       document.dispatchEvent(new Event("visibilitychange"));
-      await act(async () => { await Promise.resolve(); });
+      await act(async () => { await vi.advanceTimersByTimeAsync(45_000); });
       expect(fetchMock).toHaveBeenCalledTimes(1);
 
       visibility.mockReturnValue("visible");
