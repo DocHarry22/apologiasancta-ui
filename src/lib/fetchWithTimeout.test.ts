@@ -58,4 +58,14 @@ describe("fetchWithTimeout", () => {
     controller.abort();
     await expect(request).rejects.toMatchObject({ name: "AbortError" });
   });
+
+  it("returns unsuccessful responses without trying to parse their body", async () => {
+    const json = vi.fn();
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 503, json } as unknown as Response));
+
+    const result = await fetchJsonWithTimeout("https://engine.test/rooms", {}, 1_000);
+    expect(result.ok).toBe(false);
+    expect(result.response.status).toBe(503);
+    expect(json).not.toHaveBeenCalled();
+  });
 });

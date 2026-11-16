@@ -61,21 +61,22 @@ export function useLiveRoom() {
       if (refreshing || controller.signal.aborted) return;
       refreshing = true;
       try {
-        const { response: roomsResponse, data: roomsPayload } = await fetchJsonWithTimeout<{ rooms?: RoomSummary[] }>(
+        const roomsResult = await fetchJsonWithTimeout<{ rooms?: RoomSummary[] }>(
           `${engine}/rooms`,
           { cache: "no-store", signal: controller.signal },
         );
-        if (!roomsResponse.ok) throw new Error("rooms unavailable");
+        if (!roomsResult.ok) throw new Error("rooms unavailable");
+        const roomsPayload = roomsResult.data;
         const activeRoom = roomsPayload.rooms?.find((item) => item.isActive) ?? roomsPayload.rooms?.[0] ?? null;
         let nextState: LiveState | null = null;
 
         if (activeRoom) {
-          const { response: stateResponse, data: statePayload } = await fetchJsonWithTimeout<LiveState>(
+          const stateResult = await fetchJsonWithTimeout<LiveState>(
             `${engine}/state?roomId=${encodeURIComponent(activeRoom.roomId)}`,
             { cache: "no-store", signal: controller.signal },
           );
-          if (!stateResponse.ok) throw new Error("quiz state unavailable");
-          nextState = statePayload;
+          if (!stateResult.ok) throw new Error("quiz state unavailable");
+          nextState = stateResult.data;
         }
 
         if (!controller.signal.aborted) {

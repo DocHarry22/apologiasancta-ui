@@ -38,11 +38,12 @@ export function LeaderboardPageClient() {
       if (!controller.signal.aborted) setSlowLoading(true);
     }, 3_000);
     try {
-      const { response, data: payload } = await fetchJsonWithTimeout<{ leaderboard?: Leaderboard } & Leaderboard>(
+      const result = await fetchJsonWithTimeout<{ leaderboard?: Leaderboard } & Leaderboard>(
         `${engineUrl}/leaderboard?period=${period}`,
         { cache: "no-store", signal: controller.signal },
       );
-      if (!response.ok) throw new Error(`Leaderboard unavailable (${response.status})`);
+      if (!result.ok) throw new Error(`Leaderboard unavailable (${result.response.status})`);
+      const payload = result.data;
       if (!controller.signal.aborted) setLeaderboard(payload.leaderboard ?? payload);
     } catch (loadError) { if (!controller.signal.aborted) setError(loadError instanceof Error ? loadError.message : "Leaderboard unavailable."); }
     finally {

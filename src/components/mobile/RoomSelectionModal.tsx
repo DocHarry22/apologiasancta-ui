@@ -44,14 +44,14 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
     }, 3_000);
 
     try {
-      const { response, data } = await fetchJsonWithTimeout<RoomsResponse>(
+      const result = await fetchJsonWithTimeout<RoomsResponse>(
         `${engineUrl}/rooms`,
         { cache: "no-store", signal: controller.signal },
       );
-      if (!response.ok) {
-        throw new Error(response.status === 503 ? "Engine unavailable" : `Unable to load rooms (${response.status})`);
+      if (!result.ok) {
+        throw new Error(result.response.status === 503 ? "Engine unavailable" : `Unable to load rooms (${result.response.status})`);
       }
-      if (!controller.signal.aborted) setRooms(data.rooms);
+      if (!controller.signal.aborted) setRooms(result.data.rooms);
     } catch (loadError) {
       if (!controller.signal.aborted) setError(loadError instanceof Error ? loadError.message : "Engine unavailable");
     } finally {
