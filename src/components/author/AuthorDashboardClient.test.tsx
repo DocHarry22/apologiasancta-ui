@@ -8,6 +8,10 @@ import type { CurrentUser } from "@/lib/server/currentUser";
 import { canCreateWorkflow, canEditWorkflowItem, canSubmitWorkflowItem } from "@/lib/workflowPermissions";
 import AuthorDashboardClient from "./AuthorDashboardClient";
 
+const navigation = vi.hoisted(() => ({ replace: vi.fn(), refresh: vi.fn() }));
+
+vi.mock("next/navigation", () => ({ useRouter: () => navigation }));
+
 const operationalMocks = vi.hoisted(() => ({
   adminStatus: vi.fn(async () => ({
     success: true,
@@ -176,6 +180,8 @@ function response(ok: boolean, status: number, body: Record<string, unknown>): R
 
 describe("AuthorDashboardClient editorial queue", () => {
   beforeEach(() => {
+    navigation.replace.mockReset();
+    navigation.refresh.mockReset();
     operationalMocks.adminStatus.mockClear();
     operationalMocks.contentStatus.mockClear();
     operationalMocks.roomList.mockClear();
@@ -207,6 +213,30 @@ describe("AuthorDashboardClient editorial queue", () => {
       expect(canEditWorkflowItem(role, `${role}-1`, otherDraft)).toBe(false);
       expect(canSubmitWorkflowItem(role, `${role}-1`, otherDraft)).toBe(false);
     }
+  });
+
+  it("routes an expired admin session to login without forcing a document reload", async () => {
+    window.history.pushState({}, "", "/admin/review");
+    vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
+      if (String(input) === "/api/workflow/items") {
+        return response(false, 401, { ok: false, error: "Unauthorized" });
+      }
+      throw new Error(`Unexpected fetch: ${String(input)}`);
+    }));
+
+    render(
+      <AuthorDashboardClient
+        topics={[]}
+        publishedQuestions={[]}
+        currentUser={superAdmin}
+        initialTab="review"
+      />
+    );
+
+    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith(
+      "/admin/login?reason=session_expired&next=%2Fadmin%2Freview",
+    ));
+    expect(navigation.refresh).toHaveBeenCalled();
   });
 
   it("keeps approved revisions selectable and retryable after reload without changing submitted review controls", async () => {

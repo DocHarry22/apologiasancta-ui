@@ -5,8 +5,15 @@ import userEvent from "@testing-library/user-event";
 import AuthorSidebar from "./AuthorSidebar";
 import type { CurrentUser } from "@/lib/server/currentUser";
 
-const state = vi.hoisted(() => ({ path: "/admin/learning/" }));
-vi.mock("next/navigation", () => ({ usePathname: () => state.path }));
+const state = vi.hoisted(() => ({
+  path: "/admin/learning/",
+  replace: vi.fn(),
+  refresh: vi.fn(),
+}));
+vi.mock("next/navigation", () => ({
+  usePathname: () => state.path,
+  useRouter: () => ({ replace: state.replace, refresh: state.refresh }),
+}));
 vi.mock("@/lib/theme", () => ({ useTheme: () => ({ theme: "light", toggleTheme: vi.fn() }) }));
 vi.mock("@/components/native/NativeHeader", () => ({ NativeHeader: () => <header>Apologia Sancta</header> }));
 const user = { displayName: "Ada Staff", role: "super_admin", accountType: "staff" } as CurrentUser;
@@ -34,4 +41,19 @@ it("leaves the login screen to its own authentication shell", () => {
   state.path = "/admin/login";
   const { container } = render(<AuthorSidebar user={user} />);
   expect(container).toBeEmptyDOMElement();
+});
+
+it("logs out through the session boundary and routes within the admin shell", async () => {
+  state.path = "/admin/settings";
+  state.replace.mockClear();
+  state.refresh.mockClear();
+  const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 204 }));
+  render(<AuthorSidebar user={user} />);
+
+  await userEvent.click(screen.getAllByRole("button", { name: "Log out" })[0]);
+
+  expect(fetchMock).toHaveBeenCalledWith("/api/auth/logout", { method: "POST", credentials: "same-origin" });
+  expect(state.replace).toHaveBeenCalledWith("/admin/login");
+  expect(state.refresh).toHaveBeenCalled();
+  fetchMock.mockRestore();
 });
