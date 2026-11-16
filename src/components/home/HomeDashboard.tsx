@@ -8,6 +8,7 @@ import { SHOW_WHATS_NEW_EVENT } from "@/components/releases/WhatsNewPopup";
 import { ProgressBar, ProgressRing, SectionHeading, StatusBadge } from "@/components/ui/Primitives";
 import { useStreak } from "@/hooks/useStreak";
 import { EMPTY_LEARNING_PROGRESS, LEARNING_PROGRESS_KEY, parseLearningProgress, type LearningProgress } from "@/lib/learningProgress";
+import { applyAccountUnlocks } from "@/lib/learning/homeProgress";
 import { getEngineUrl, getResearchGraphUrl } from "@/lib/publicEnv";
 import type { ApologeticsVerse } from "@/lib/verses";
 import { ANDROID_PHONE_TEST_APK_URL } from "@/lib/androidPhoneTest";
@@ -33,6 +34,7 @@ type LearningPreview = {
 };
 type OfficialProgress = {
   lessons?: Array<{ lessonId?: string; state?: string; status?: string; readingProgressPercent?: number; progressPercent?: number }>;
+  unlocks?: Array<{ groupId?: string }>;
 };
 
 export function useLiveRoom() {
@@ -194,7 +196,7 @@ function TopicGlyph({ index }: { index: number }) {
 
 export function HomeDashboard({ userName, topics, dailyVerse }: { userName: string | null; topics: TopicSummary[]; dailyVerse: ApologeticsVerse }) {
   const [progress, setProgress] = useState<LearningProgress>(EMPTY_LEARNING_PROGRESS);
-  const [learningItems, setLearningItems] = useState<LearningPreview[]>([]);
+  const [learningPreview, setLearningPreview] = useState<LearningPreview[]>([]);
   const [officialProgress, setOfficialProgress] = useState<OfficialProgress | null>(null);
   const [hydrated, setHydrated] = useState(false);
   const { streak } = useStreak();
@@ -213,7 +215,7 @@ export function HomeDashboard({ userName, topics, dailyVerse }: { userName: stri
         const previewResponse = await fetch("/api/v1/learning/progress/preview", { cache: "no-store", signal: controller.signal });
         if (previewResponse.ok) {
           const payload = await previewResponse.json() as { data?: LearningPreview[] } | LearningPreview[];
-          setLearningItems(Array.isArray(payload) ? payload : payload.data ?? []);
+          setLearningPreview(Array.isArray(payload) ? payload : payload.data ?? []);
         }
         if (userName) {
           const progressResponse = await fetch("/api/v1/learning/progress", { cache: "no-store", signal: controller.signal });
@@ -223,13 +225,17 @@ export function HomeDashboard({ userName, topics, dailyVerse }: { userName: stri
           }
         }
       } catch (error) {
-        if ((error as Error).name !== "AbortError") setLearningItems([]);
+        if ((error as Error).name !== "AbortError") setLearningPreview([]);
       }
     };
     void loadLearning();
     return () => controller.abort();
   }, [userName]);
 
+  const learningItems = useMemo(
+    () => applyAccountUnlocks(learningPreview, officialProgress?.unlocks),
+    [learningPreview, officialProgress],
+  );
   const officialLessons = useMemo(() => officialProgress?.lessons ?? [], [officialProgress]);
   const completedLessonIds = useMemo(() => officialLessons
     .filter((lesson) => lesson.state === "completed" || lesson.status === "completed" || Number(lesson.readingProgressPercent ?? lesson.progressPercent) >= 100)

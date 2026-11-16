@@ -354,7 +354,7 @@ export async function checkPracticeAnswer(questionId: string, optionId: string) 
   const result = await learningQuery<Record<string, unknown>>(
     `SELECT o.is_correct, o.explanation AS option_explanation,
             q.correct_answer_explanation,
-            coalesce(references.items, '[]'::jsonb) AS source_references
+            coalesce(citations.items, '[]'::jsonb) AS source_references
        FROM content.published_questions published
        JOIN content.questions q ON q.id = published.id
        JOIN content.question_options o ON o.question_id = q.id AND o.id = $2
@@ -363,7 +363,7 @@ export async function checkPracticeAnswer(questionId: string, optionId: string) 
            FROM content.published_content_sources pcs
            JOIN content.published_sources src ON src.id = pcs.source_id
           WHERE pcs.entity_kind = 'question' AND pcs.entity_id = q.id
-       ) references ON true
+       ) citations ON true
       WHERE q.id = $1
         AND EXISTS (
           SELECT 1 FROM content.question_contexts context
