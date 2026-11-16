@@ -24,6 +24,7 @@ import AuthorForm from "./AuthorForm";
 import JsonPreview from "./JsonPreview";
 import EngineHealthPanel from "./EngineHealthPanel";
 import ContentCorrectionQueue from "./ContentCorrectionQueue";
+import { useVisiblePolling } from "@/hooks/useVisiblePolling";
 
 interface Props {
   topics: TopicWithCount[];
@@ -431,11 +432,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
     setAuditLoading(false);
   }, [auditSearch, auditTypeFilter, currentUser.role]);
 
-  useEffect(() => {
-    void fetchOperationalStatus();
-    const interval = window.setInterval(() => void fetchOperationalStatus(), 15000);
-    return () => window.clearInterval(interval);
-  }, [fetchOperationalStatus]);
+  useVisiblePolling(fetchOperationalStatus, 15_000);
 
   useEffect(() => {
     void fetchWorkflowItems();

@@ -393,14 +393,20 @@ function MobilePageContent() {
       }
     };
 
-    void fetchLeaderboard();
+    const fetchWhenVisible = () => {
+      if (document.visibilityState !== "hidden") void fetchLeaderboard();
+    };
+
+    fetchWhenVisible();
     const intervalId = window.setInterval(() => {
-      void fetchLeaderboard();
+      fetchWhenVisible();
     }, LEADERBOARD_REFRESH_MS);
+    document.addEventListener("visibilitychange", fetchWhenVisible);
 
     return () => {
       cancelled = true;
       window.clearInterval(intervalId);
+      document.removeEventListener("visibilitychange", fetchWhenVisible);
     };
   }, [isUsingSSE, leaderboardMode, roomId, leaderboardRefreshKey]);
 

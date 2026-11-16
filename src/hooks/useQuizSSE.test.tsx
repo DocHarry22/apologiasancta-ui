@@ -37,6 +37,7 @@ const state: QuizState = {
 describe("useQuizSSE", () => {
   beforeEach(() => {
     MockEventSource.instances = [];
+    vi.spyOn(document, "visibilityState", "get").mockReturnValue("visible");
     vi.stubGlobal("EventSource", MockEventSource);
     vi.stubGlobal("fetch", vi.fn(async () => Response.json(state)));
   });
@@ -126,6 +127,30 @@ describe("useQuizSSE", () => {
     }
 
     expect(fetch).toHaveBeenCalledWith("https://engine.test/state");
+  });
+
+  it("pauses fallback polling while hidden and refreshes on foreground", async () => {
+    vi.useFakeTimers();
+    let visibility: DocumentVisibilityState = "visible";
+    vi.spyOn(document, "visibilityState", "get").mockImplementation(() => visibility);
+    renderHook(() => useQuizSSE("https://engine.test"));
+
+    for (let i = 0; i < 5; i++) {
+      act(() => MockEventSource.instances.at(-1)?.onerror?.());
+      if (i < 4) await act(async () => vi.runOnlyPendingTimers());
+    }
+
+    const callsAfterFallback = vi.mocked(fetch).mock.calls.length;
+    visibility = "hidden";
+    act(() => {
+      document.dispatchEvent(new Event("visibilitychange"));
+      vi.advanceTimersByTime(10_000);
+    });
+    expect(fetch).toHaveBeenCalledTimes(callsAfterFallback);
+
+    visibility = "visible";
+    act(() => document.dispatchEvent(new Event("visibilitychange")));
+    expect(fetch).toHaveBeenCalledTimes(callsAfterFallback + 1);
   });
 
   it("cleans up EventSource and timers on unmount", () => {

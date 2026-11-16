@@ -167,7 +167,7 @@ export function useQuizSSE(
    * Fetch state via REST API (polling fallback)
    */
   const fetchState = useCallback(async () => {
-    if (!engineUrl) return;
+    if (!engineUrl || (typeof document !== "undefined" && document.visibilityState === "hidden")) return;
     
     try {
       const query = new URLSearchParams();
@@ -222,6 +222,17 @@ export function useQuizSSE(
       console.log("[useQuizSSE] Stopped polling");
     }
   }, []);
+
+  useEffect(() => {
+    const refreshPollingOnForeground = () => {
+      if (document.visibilityState !== "hidden" && pollTimerRef.current) {
+        void fetchState();
+      }
+    };
+
+    document.addEventListener("visibilitychange", refreshPollingOnForeground);
+    return () => document.removeEventListener("visibilitychange", refreshPollingOnForeground);
+  }, [fetchState]);
   
   // Use a ref to hold the connect function so it can reference itself
   const connectRef = useRef<() => void>(() => {});

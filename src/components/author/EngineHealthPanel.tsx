@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { checkHealth, type HealthResponse } from "@/lib/engineAdmin";
+import { useVisiblePolling } from "@/hooks/useVisiblePolling";
 
 interface Props {
   engineUrl: string | null;
@@ -43,21 +44,7 @@ export default function EngineHealthPanel({ engineUrl }: Props) {
     setLoading(false);
   }, [engineUrl]);
 
-  useEffect(() => {
-    void fetchHealth();
-
-    if (!engineUrl) {
-      return;
-    }
-
-    const intervalId = window.setInterval(() => {
-      void fetchHealth();
-    }, REFRESH_INTERVAL_MS);
-
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [engineUrl, fetchHealth]);
+  useVisiblePolling(fetchHealth, REFRESH_INTERVAL_MS);
 
   return (
     <section className="rounded-xl border border-(--border) bg-background p-4 space-y-4">

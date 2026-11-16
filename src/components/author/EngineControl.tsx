@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
+import { useVisiblePolling } from "@/hooks/useVisiblePolling";
 import {
   type ContentStatusResponse,
   type AdminStatus,
@@ -52,21 +53,7 @@ export default function EngineControl() {
     }
   }, []);
 
-  useEffect(() => {
-    // Use microtask to avoid synchronous setState in effect body
-    const controller = new AbortController();
-    queueMicrotask(() => {
-      if (!controller.signal.aborted) {
-        fetchStatus();
-      }
-    });
-    // Refresh every 10 seconds
-    const interval = setInterval(fetchStatus, 10000);
-    return () => {
-      controller.abort();
-      clearInterval(interval);
-    };
-  }, [fetchStatus]);
+  useVisiblePolling(fetchStatus, 10_000);
 
   const handleSetPool = async () => {
     setLoading(true);
