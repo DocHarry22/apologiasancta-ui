@@ -47,14 +47,18 @@ describe("fetchWithTimeout", () => {
   });
 
   it("forwards caller cancellation while consuming a JSON body", async () => {
+    let markBodyStarted!: () => void;
+    const bodyStarted = new Promise<void>((resolve) => { markBodyStarted = resolve; });
     vi.stubGlobal("fetch", vi.fn((_input: RequestInfo | URL, init?: RequestInit) => Promise.resolve({
       ok: true,
       json: () => new Promise((_resolve, reject) => {
+        markBodyStarted();
         init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
       }),
     } as Response)));
     const controller = new AbortController();
     const request = fetchJsonWithTimeout("https://engine.test/rooms", { signal: controller.signal }, 1_000);
+    await bodyStarted;
     controller.abort();
     await expect(request).rejects.toMatchObject({ name: "AbortError" });
   });
