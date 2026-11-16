@@ -5,7 +5,7 @@ import type { RoomSummary } from "@/types/quiz";
 import { Dialog } from "@/components/ui/Dialog";
 import { AppIcon } from "@/components/native/AppIcon";
 import { StudySearch } from "@/components/native/StudyUI";
-import { fetchWithTimeout } from "@/lib/fetchWithTimeout";
+import { fetchJsonWithTimeout } from "@/lib/fetchWithTimeout";
 import styles from "./QuizScreen.module.css";
 
 interface RoomSelectionModalProps {
@@ -44,12 +44,14 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
     }, 3_000);
 
     try {
-      const response = await fetchWithTimeout(`${engineUrl}/rooms`, { cache: "no-store", signal: controller.signal });
-      if (!response.ok) {
-        throw new Error(response.status === 503 ? "Engine unavailable" : `Unable to load rooms (${response.status})`);
+      const result = await fetchJsonWithTimeout<RoomsResponse>(
+        `${engineUrl}/rooms`,
+        { cache: "no-store", signal: controller.signal },
+      );
+      if (!result.ok) {
+        throw new Error(result.response.status === 503 ? "Engine unavailable" : `Unable to load rooms (${result.response.status})`);
       }
-      const data = (await response.json()) as RoomsResponse;
-      if (!controller.signal.aborted) setRooms(data.rooms);
+      if (!controller.signal.aborted) setRooms(result.data.rooms);
     } catch (loadError) {
       if (!controller.signal.aborted) setError(loadError instanceof Error ? loadError.message : "Engine unavailable");
     } finally {
