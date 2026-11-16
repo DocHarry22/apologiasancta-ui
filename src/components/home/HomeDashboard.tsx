@@ -90,7 +90,7 @@ export function useLiveRoom() {
     };
 
     void refresh();
-    const interval = window.setInterval(() => void refresh(), 15_000);
+    const interval = window.setInterval(refreshWhenVisible, 15_000);
     document.addEventListener("visibilitychange", refreshWhenVisible);
 
     return () => {
