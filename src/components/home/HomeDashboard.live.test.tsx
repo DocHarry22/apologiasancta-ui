@@ -102,4 +102,23 @@ describe("Home live quiz refresh", () => {
       unmount();
     }
   });
+
+  it("reports a slow cold start and clears it when the room responds", async () => {
+    vi.useFakeTimers();
+    let finish: (value: { ok: boolean; json: () => Promise<{ rooms: never[] }> }) => void = () => undefined;
+    vi.stubGlobal("fetch", vi.fn(() => new Promise((resolve) => { finish = resolve; })));
+
+    const { result, unmount } = renderHook(() => useLiveRoom());
+    try {
+      await act(async () => { await vi.advanceTimersByTimeAsync(3_000); });
+      expect(result.current.status).toBe("loading");
+      expect(result.current.slow).toBe(true);
+
+      await act(async () => { finish({ ok: true, json: async () => ({ rooms: [] }) }); await Promise.resolve(); });
+      expect(result.current.status).toBe("ready");
+      expect(result.current.slow).toBe(false);
+    } finally {
+      unmount();
+    }
+  });
 });
