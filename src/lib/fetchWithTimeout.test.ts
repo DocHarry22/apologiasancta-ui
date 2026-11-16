@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fetchWithTimeout, RequestTimeoutError } from "./fetchWithTimeout";
+import { fetchJsonWithTimeout, RequestTimeoutError } from "./fetchWithTimeout";
 
 function pendingFetch(_input: RequestInfo | URL, init?: RequestInit) {
   return new Promise<Response>((_resolve, reject) => {
@@ -17,7 +17,7 @@ describe("fetchWithTimeout", () => {
     vi.useFakeTimers();
     vi.stubGlobal("fetch", vi.fn(pendingFetch));
 
-    const request = fetchWithTimeout("https://engine.test/rooms", {}, 1_000);
+    const request = fetchJsonWithTimeout("https://engine.test/rooms", {}, 1_000);
     const assertion = expect(request).rejects.toBeInstanceOf(RequestTimeoutError);
     await vi.advanceTimersByTimeAsync(1_000);
     await assertion;
@@ -26,7 +26,35 @@ describe("fetchWithTimeout", () => {
   it("preserves caller cancellation instead of reporting it as a timeout", async () => {
     vi.stubGlobal("fetch", vi.fn(pendingFetch));
     const controller = new AbortController();
-    const request = fetchWithTimeout("https://engine.test/rooms", { signal: controller.signal }, 1_000);
+    const request = fetchJsonWithTimeout("https://engine.test/rooms", { signal: controller.signal }, 1_000);
+    controller.abort();
+    await expect(request).rejects.toMatchObject({ name: "AbortError" });
+  });
+
+  it("keeps the timeout active while consuming a stalled JSON body", async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal("fetch", vi.fn((_input: RequestInfo | URL, init?: RequestInit) => Promise.resolve({
+      ok: true,
+      json: () => new Promise((_resolve, reject) => {
+        init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+      }),
+    } as Response)));
+
+    const request = fetchJsonWithTimeout("https://engine.test/rooms", {}, 1_000);
+    const assertion = expect(request).rejects.toBeInstanceOf(RequestTimeoutError);
+    await vi.advanceTimersByTimeAsync(1_000);
+    await assertion;
+  });
+
+  it("forwards caller cancellation while consuming a JSON body", async () => {
+    vi.stubGlobal("fetch", vi.fn((_input: RequestInfo | URL, init?: RequestInit) => Promise.resolve({
+      ok: true,
+      json: () => new Promise((_resolve, reject) => {
+        init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+      }),
+    } as Response)));
+    const controller = new AbortController();
+    const request = fetchJsonWithTimeout("https://engine.test/rooms", { signal: controller.signal }, 1_000);
     controller.abort();
     await expect(request).rejects.toMatchObject({ name: "AbortError" });
   });

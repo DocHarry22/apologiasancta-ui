@@ -9,7 +9,7 @@ import { ProgressBar, ProgressRing, SectionHeading, StatusBadge } from "@/compon
 import { useStreak } from "@/hooks/useStreak";
 import { EMPTY_LEARNING_PROGRESS, LEARNING_PROGRESS_KEY, parseLearningProgress, type LearningProgress } from "@/lib/learningProgress";
 import { applyAccountUnlocks } from "@/lib/learning/homeProgress";
-import { fetchWithTimeout } from "@/lib/fetchWithTimeout";
+import { fetchJsonWithTimeout } from "@/lib/fetchWithTimeout";
 import { getEngineUrl, getResearchGraphUrl } from "@/lib/publicEnv";
 import type { ApologeticsVerse } from "@/lib/verses";
 import { ANDROID_PHONE_TEST_APK_URL } from "@/lib/androidPhoneTest";
@@ -61,19 +61,21 @@ export function useLiveRoom() {
       if (refreshing || controller.signal.aborted) return;
       refreshing = true;
       try {
-        const roomsResponse = await fetchWithTimeout(`${engine}/rooms`, { cache: "no-store", signal: controller.signal });
+        const { response: roomsResponse, data: roomsPayload } = await fetchJsonWithTimeout<{ rooms?: RoomSummary[] }>(
+          `${engine}/rooms`,
+          { cache: "no-store", signal: controller.signal },
+        );
         if (!roomsResponse.ok) throw new Error("rooms unavailable");
-        const roomsPayload = await roomsResponse.json() as { rooms?: RoomSummary[] };
         const activeRoom = roomsPayload.rooms?.find((item) => item.isActive) ?? roomsPayload.rooms?.[0] ?? null;
         let nextState: LiveState | null = null;
 
         if (activeRoom) {
-          const stateResponse = await fetchWithTimeout(`${engine}/state?roomId=${encodeURIComponent(activeRoom.roomId)}`, {
-            cache: "no-store",
-            signal: controller.signal,
-          });
+          const { response: stateResponse, data: statePayload } = await fetchJsonWithTimeout<LiveState>(
+            `${engine}/state?roomId=${encodeURIComponent(activeRoom.roomId)}`,
+            { cache: "no-store", signal: controller.signal },
+          );
           if (!stateResponse.ok) throw new Error("quiz state unavailable");
-          nextState = await stateResponse.json() as LiveState;
+          nextState = statePayload;
         }
 
         if (!controller.signal.aborted) {

@@ -7,11 +7,11 @@ export class RequestTimeoutError extends Error {
   }
 }
 
-export async function fetchWithTimeout(
+export async function fetchJsonWithTimeout<T>(
   input: RequestInfo | URL,
   init: RequestInit = {},
   timeoutMs = LIVE_SERVICE_REQUEST_TIMEOUT_MS,
-): Promise<Response> {
+): Promise<{ response: Response; data: T }> {
   const controller = new AbortController();
   const parentSignal = init.signal;
   let timedOut = false;
@@ -26,7 +26,12 @@ export async function fetchWithTimeout(
   }, timeoutMs);
 
   try {
-    return await fetch(input, { ...init, signal: controller.signal });
+    const response = await fetch(input, { ...init, signal: controller.signal });
+    if (controller.signal.aborted) {
+      throw controller.signal.reason ?? new DOMException("Aborted", "AbortError");
+    }
+    const data = await response.json() as T;
+    return { response, data };
   } catch (error) {
     if (timedOut) throw new RequestTimeoutError();
     throw error;
