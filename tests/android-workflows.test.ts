@@ -75,26 +75,22 @@ test("Android native project targets Android 16 with a compatible build toolchai
   assert.match(rootGradle, /com\.android\.tools\.build:gradle:8\.13\.2/);
 });
 
-test("GitHub distribution publishes actual canonical filenames, not display labels", () => {
+test("only the dedicated signed workflow can publish canonical release assets", () => {
   const publicEnv = readFileSync(join(repositoryRoot, "src/lib/publicEnv.ts"), "utf8");
   assert.match(publicEnv, /releases\/latest\/download\/apologia-sancta\.apk/);
   for (const extension of ["apk", "aab"]) {
-    assert.ok(debugWorkflow.includes(`install -m 0644 "$${extension}_path" "$artifact_dir/apologia-sancta.${extension}"`));
-    assert.ok(debugWorkflow.includes(`"$ARTIFACT_DIR/apologia-sancta.${extension}"`));
+    assert.ok(releaseWorkflow.includes(`"$artifact_dir/apologia-sancta.${extension}"`));
   }
-  assert.doesNotMatch(debugWorkflow, /#apologia-sancta\.(apk|aab)/);
-  assert.match(debugWorkflow, /path: \$\{\{ steps\.release-artifacts\.outputs\.artifact_dir \}\}/);
-  assert.match(debugWorkflow, /sha256sum apologia-sancta\.apk apologia-sancta\.aab > SHA256SUMS/);
+  assert.doesNotMatch(debugWorkflow, /gh release|contents: write|ephemeral|ANDROID_KEYSTORE_BASE64/);
+  assert.match(releaseWorkflow, /gh release create "\$RELEASE_TAG"/);
 });
 
-test("distribution reruns preserve existing releases and restrict publishing to main", () => {
-  assert.doesNotMatch(debugWorkflow, /gh release (delete|upload)/);
-  assert.match(debugWorkflow, /Refuse to replace an existing distribution release/);
-  assert.match(debugWorkflow, /github\.ref == 'refs\/heads\/main'/);
-  assert.match(debugWorkflow, /github\.event_name == 'push'/);
-  assert.match(debugWorkflow, /permissions:\s+contents: read/);
-  assert.match(debugWorkflow, /::add-mask::\$password/);
-  assert.match(debugWorkflow, /Remove ephemeral signing key\s+if: always\(\)/);
+test("missing optional release configuration skips successfully with a summary", () => {
+  assert.match(releaseWorkflow, /echo "ready=false" >> "\$GITHUB_OUTPUT"/);
+  assert.match(releaseWorkflow, /### Signed Android release skipped/);
+  assert.match(releaseWorkflow, /No release artifact was built or published/);
+  assert.doesNotMatch(releaseWorkflow, /tag-triggered Android release requires signing credentials/);
+  assert.match(releaseWorkflow, /if: needs\.signing-preflight\.outputs\.ready == 'true'/);
 });
 
 test("signed release builds are gated by every required secret", () => {
@@ -106,13 +102,15 @@ test("signed release builds are gated by every required secret", () => {
   ]) {
     assert.match(releaseWorkflow, new RegExp(`secrets\\.${secretName}`));
   }
+  assert.match(releaseWorkflow, /vars\.ANDROID_SIGNING_CERT_SHA256/);
+  assert.match(releaseWorkflow, /vars\.ANDROID_VERSION_CODE/);
 
   assert.match(
     releaseWorkflow,
     /if: needs\.signing-preflight\.outputs\.ready == 'true'/,
   );
   assert.match(releaseWorkflow, /umask 077/);
-  assert.match(releaseWorkflow, /lintRelease assembleRelease bundleRelease/);
+  assert.match(releaseWorkflow, /testReleaseUnitTest lintRelease assembleRelease bundleRelease/);
   assert.match(releaseWorkflow, /platforms;android-36/);
   assert.match(releaseWorkflow, /targetSdkVersion:'36'/);
   assert.match(releaseWorkflow, /zipalign" -c -P 16 -v 4/);
@@ -135,6 +133,9 @@ test("signed release requires jarsigner to positively verify the AAB", () => {
   assert.match(releaseWorkflow, /apksigner" \\\r?\n\s+verify --verbose --print-certs/);
   assert.match(releaseWorkflow, /grep -Fqi "CN=Android Debug"/);
   assert.match(releaseWorkflow, /Refusing to publish an APK signed with the Android debug certificate/);
+  assert.match(releaseWorkflow, /APK certificate does not match the pinned persistent signing identity/);
+  assert.match(releaseWorkflow, /versionCode='\$APP_VERSION_CODE'/);
+  assert.match(releaseWorkflow, /versionName='\$APP_VERSION_NAME'/);
   assert.match(releaseWorkflow, /-J-Duser\.language=en/);
   assert.match(releaseWorkflow, /-J-Duser\.country=US/);
   assert.match(releaseWorkflow, /-verify "\$aab_path" 2>&1/);
@@ -146,6 +147,15 @@ test("signed release requires jarsigner to positively verify the AAB", () => {
     releaseWorkflow,
     /jarsigner\s+-verify "\$aab_path"\s*>\/dev\/null/,
   );
+});
+
+test("signed release refuses replacement tags and validates explicit release inputs", () => {
+  assert.match(releaseWorkflow, /node scripts\/validate-android-release\.cjs/);
+  assert.match(releaseWorkflow, /Release \$RELEASE_TAG already exists/);
+  assert.doesNotMatch(releaseWorkflow, /github\.run_number/);
+  assert.doesNotMatch(releaseWorkflow, /gh release (delete|upload)/);
+  assert.match(appGradle, /Release builds require explicit APP_VERSION_CODE and APP_VERSION_NAME/);
+  assert.match(appGradle, /releaseVersionCode < 1 \|\| releaseVersionCode > 2100000000/);
 });
 
 test("release app enforces HTTPS transport and excludes Android backup", () => {

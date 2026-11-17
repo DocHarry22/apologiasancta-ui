@@ -1,6 +1,6 @@
 # Apologia Sancta — Google Play Release Runbook
 
-Last updated: 24 August 2026
+Last updated: 17 November 2026
 
 ## Release identity
 
@@ -25,14 +25,17 @@ The signed Android release workflow must pass all of these before an artifact is
 1. Java 21 and the pinned Gradle/Android Gradle Plugin toolchain.
 2. Android SDK platform 36 is installed.
 3. Capacitor production sync succeeds with an HTTPS production application URL.
-4. All four release-signing secrets are present.
-5. `lintRelease` succeeds.
-6. Both `assembleRelease` and `bundleRelease` succeed.
-7. The APK reports `targetSdkVersion:'36'`.
-8. `zipalign -c -P 16 -v 4` succeeds for 16 KB page-size ZIP alignment validation.
-9. `apksigner` verifies the APK and rejects an Android debug certificate.
-10. `jarsigner` positively verifies the AAB.
-11. SHA-256 checksums are generated for every published APK/AAB.
+4. All four release-signing secrets are present; otherwise the optional release job succeeds as an explicit skip and publishes nothing.
+5. The requested signing certificate matches the pinned `ANDROID_SIGNING_CERT_SHA256` identity.
+6. Version code and semantic version name are explicit, mutually consistent with the release tag, and the version code increases.
+7. `testReleaseUnitTest` and `lintRelease` succeed.
+8. Both `assembleRelease` and `bundleRelease` succeed.
+9. The APK reports `targetSdkVersion:'36'`, the official application ID and the requested version.
+10. `zipalign -c -P 16 -v 4` succeeds for 16 KB page-size ZIP alignment validation.
+11. `apksigner` verifies the APK and rejects an Android debug certificate.
+12. `jarsigner` positively verifies the AAB.
+13. An existing release tag is never overwritten, and any previous public APK must have the same signing certificate and a lower version code.
+14. SHA-256 checksums are generated for every published APK/AAB.
 
 ## GitHub Actions configuration
 
@@ -42,6 +45,14 @@ Repository secrets required by **Android signed release**:
 - `ANDROID_KEYSTORE_PASSWORD`
 - `ANDROID_KEY_ALIAS`
 - `ANDROID_KEY_PASSWORD`
+
+Repository variable required for every signed release:
+
+- `ANDROID_SIGNING_CERT_SHA256` — the trusted release certificate SHA-256 reported by `apksigner verify --print-certs` for the retained signing key.
+
+Additional repository variable required for tag-triggered releases:
+
+- `ANDROID_VERSION_CODE` — a positive value greater than the previously published APK version code.
 
 Repository variables recommended:
 
@@ -56,18 +67,21 @@ Do not publish with localhost, a LAN address, HTTP, a staging deployment, or an 
 Preferred path:
 
 1. Open **Actions → Android signed release**.
-2. Use a monotonically increasing positive `version_code`.
-3. Use the public semantic `version_name` (for example `1.0.0`).
-4. Confirm the production app URL.
-5. Run the workflow.
-6. Download `apologia-sancta.aab` from the signed workflow artifact.
-7. Upload that AAB to the intended Google Play track.
+2. Confirm `ANDROID_SIGNING_CERT_SHA256` pins the certificate belonging to the configured signing key.
+3. Use a monotonically increasing positive `version_code`.
+4. Use the public semantic `version_name` (for example `1.0.0`).
+5. Confirm the production app URL.
+6. Run the workflow.
+7. Download `apologia-sancta.aab` from the signed workflow artifact.
+8. Upload that AAB to the intended Google Play track.
 
 The local `npm run apk:release` path also builds both the signed APK and AAB and runs release lint. It requires the same production URL and signing environment variables.
 
 ## Play App Signing
 
 Use Google Play App Signing for the Play application and preserve the upload key securely. The repository signing key used by CI should be the Play upload key, not a disposable debug key.
+
+The historical direct-download 1.0.3 APK was signed by a workflow-generated key that was deleted after publication. Do not publish a replacement APK under the same application ID unless that original signing key is recovered and its certificate matches the pinned fingerprint. A different certificate cannot update the installed direct-download app in place. The ordinary Android CI workflow only produces a debug artifact and cannot publish a release.
 
 Reference: https://developer.android.com/guide/app-bundle/faq
 
