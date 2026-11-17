@@ -2,7 +2,7 @@
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { DatabaseLesson, LearningCatalogue, LearningHierarchyPage } from "@/components/learn/LearningPlatform";
+import { DatabaseLesson, LearningCatalogue, LearningHierarchyPage, LearningSearch, MasteryExperience, PublishedPractice } from "@/components/learn/LearningPlatform";
 import { EngineTopicsList, type LibraryResource } from "@/components/library/EngineTopicsList";
 import { EngineTopicDetails, type EngineTopicResponse } from "@/components/library/EngineTopicDetails";
 import { LIBRARY_BOOKMARKS_KEY } from "@/lib/libraryBookmarks";
@@ -44,13 +44,28 @@ describe("Learn browsing and reading", () => {
   it("retries a failed learning request", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValueOnce(json({ error: "Unavailable" }, 503)).mockResolvedValueOnce(json([programme])));
     render(<LearningCatalogue />);
-    expect(await screen.findByRole("alert")).toHaveTextContent("We couldn’t load your lessons.");
+    expect(await screen.findByRole("alert")).toHaveTextContent("We couldn’t load your learning paths.");
     expect(screen.getByText("Learning paths are temporarily unavailable")).toBeInTheDocument();
     expect(screen.queryByText("0 programmes to explore")).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Explore the library" })).toHaveAttribute("href", "/library");
     expect(screen.queryByRole("link", { name: "Practice instead" })).not.toBeInTheDocument();
     await userEvent.setup().click(screen.getByRole("button", { name: "Try again" }));
     expect(await screen.findByRole("link", { name: /Foundations of the Faith/ })).toBeInTheDocument();
+  });
+
+  it.each([
+    ["practice", () => <PublishedPractice />, "We couldn’t load practice questions."],
+    ["search", () => <LearningSearch />, "We couldn’t search the learning catalogue."],
+    ["learning path", () => <LearningHierarchyPage kind="programme" slug="foundations" />, "We couldn’t load this learning path."],
+    ["lesson", () => <DatabaseLesson slug="the-creed" />, "We couldn’t load this lesson."],
+    ["mastery", () => <MasteryExperience groupSlug="the-creed" />, "We couldn’t load this mastery assessment."],
+  ])("explains a %s outage in the context of that learning surface", async (_surface, createComponent, heading) => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(json({ error: "Unavailable" }, 503)));
+    render(createComponent());
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent(heading);
+    expect(screen.getByRole("link", { name: "Explore the library" })).toHaveAttribute("href", "/library");
+    expect(screen.queryByText("We couldn’t load your learning paths.")).not.toBeInTheDocument();
   });
 
   it("uses confirmed unlocks while leaving other groups locked", async () => {
