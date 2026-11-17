@@ -104,14 +104,33 @@ function useLearningResource<T>(url: string) {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const reload = useCallback(async () => {
+  const [requestVersion, setRequestVersion] = useState(0);
+  const reload = useCallback(() => setRequestVersion((version) => version + 1), []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    let ownsRequest = true;
+
     setLoading(true);
     setError(null);
-    try { setData((await api<T>(url)).data); }
-    catch (cause) { setError(cause instanceof Error ? cause.message : "Learning content is unavailable."); }
-    finally { setLoading(false); }
-  }, [url]);
-  useEffect(() => { void reload(); }, [reload]);
+    void api<T>(url, { signal: controller.signal })
+      .then((response) => {
+        if (ownsRequest) setData(response.data);
+      })
+      .catch((cause) => {
+        if (!ownsRequest || controller.signal.aborted) return;
+        setError(cause instanceof Error ? cause.message : "Learning content is unavailable.");
+      })
+      .finally(() => {
+        if (ownsRequest) setLoading(false);
+      });
+
+    return () => {
+      ownsRequest = false;
+      controller.abort();
+    };
+  }, [requestVersion, url]);
+
   return { data, error, loading, reload };
 }
 

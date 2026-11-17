@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DatabaseLesson, LearningCatalogue, LearningHierarchyPage, LearningSearch, MasteryExperience, PublishedPractice } from "@/components/learn/LearningPlatform";
@@ -10,6 +10,11 @@ import { LIBRARY_BOOKMARKS_KEY } from "@/lib/libraryBookmarks";
 vi.mock("@/lib/publicEnv", () => ({ getEngineUrl: () => null }));
 vi.mock("@/components/content/ReportIssue", () => ({ ReportIssue: () => <button type="button">Report a correction</button> }));
 const json = (data: unknown, status = 200) => new Response(JSON.stringify({ data }), { status });
+const deferred = <T,>() => {
+  let resolve!: (value: T) => void;
+  const promise = new Promise<T>((complete) => { resolve = complete; });
+  return { promise, resolve };
+};
 const programme = { id: "programme", slug: "foundations", title: "Foundations of the Faith", shortDescription: "Understand the Creed and Scripture.", visibility: "public" };
 const programmes = [programme, { ...programme, id: "locked", slug: "locked", title: "Advanced theology", visibility: "locked" }, { ...programme, id: "soon", title: "Church history", visibility: "coming_soon" }, { ...programme, id: "hidden", title: "Unpublished", visibility: "hidden" }];
 const resources: LibraryResource[] = [
@@ -51,6 +56,64 @@ describe("Learn browsing and reading", () => {
     expect(screen.queryByRole("link", { name: "Practice instead" })).not.toBeInTheDocument();
     await userEvent.setup().click(screen.getByRole("button", { name: "Try again" }));
     expect(await screen.findByRole("link", { name: /Foundations of the Faith/ })).toBeInTheDocument();
+  });
+
+  it("cancels superseded searches and ignores a late stale response", async () => {
+    const first = deferred<Response>();
+    const second = deferred<Response>();
+    const fetcher = vi.fn((input: string | URL | Request, init?: RequestInit) => {
+      const url = typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url;
+      expect(init?.signal).toBeInstanceOf(AbortSignal);
+      if (url.includes("q=first")) return first.promise;
+      if (url.includes("q=second")) return second.promise;
+      return Promise.resolve(json([]));
+    });
+    vi.stubGlobal("fetch", fetcher);
+    const user = userEvent.setup();
+
+    render(<LearningSearch />);
+    expect(await screen.findByRole("heading", { name: "Follow a question." })).toBeInTheDocument();
+
+    const search = screen.getByRole("searchbox", { name: "Search lessons and subjects" });
+    await user.type(search, "first");
+    await user.click(screen.getByRole("button", { name: /Search lessons/ }));
+    await waitFor(() => expect(fetcher.mock.calls.some(([input]) => String(input).includes("q=first"))).toBe(true));
+    const firstCall = fetcher.mock.calls.find(([input]) => String(input).includes("q=first"));
+
+    await user.clear(search);
+    await user.type(search, "second");
+    await user.click(screen.getByRole("button", { name: /Search lessons/ }));
+    await waitFor(() => expect(fetcher.mock.calls.some(([input]) => String(input).includes("q=second"))).toBe(true));
+    expect((firstCall?.[1]?.signal as AbortSignal).aborted).toBe(true);
+
+    act(() => second.resolve(json([{ ...programme, id: "second", slug: "second", title: "Second result" }])));
+    expect(await screen.findByRole("heading", { name: "Second result" })).toBeInTheDocument();
+
+    await act(async () => {
+      first.resolve(json([{ ...programme, id: "first", slug: "first", title: "Stale first result" }]));
+      await first.promise;
+      await Promise.resolve();
+    });
+    expect(screen.queryByRole("heading", { name: "Stale first result" })).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Second result" })).toBeInTheDocument();
+  });
+
+  it("aborts an in-flight learning request when its surface unmounts", async () => {
+    const request = deferred<Response>();
+    let requestSignal: AbortSignal | undefined;
+    const fetcher = vi.fn((input: string | URL | Request, init?: RequestInit) => {
+      expect(String(input)).toContain("/api/v1/learning/programmes");
+      requestSignal = init?.signal as AbortSignal | undefined;
+      return request.promise;
+    });
+    vi.stubGlobal("fetch", fetcher);
+
+    const { unmount } = render(<LearningCatalogue />);
+    await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(1));
+    expect(requestSignal?.aborted).toBe(false);
+
+    unmount();
+    expect(requestSignal?.aborted).toBe(true);
   });
 
   it.each([
