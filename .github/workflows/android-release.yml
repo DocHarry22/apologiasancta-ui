@@ -8,8 +8,8 @@ on:
         required: true
         type: string
       version_code:
-        description: Positive Android versionCode; defaults to the workflow run number
-        required: false
+        description: Explicit, increasing Android versionCode (1 to 2100000000)
+        required: true
         type: string
       version_name:
         description: Android versionName, for example 1.0.1
@@ -52,6 +52,8 @@ jobs:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_SIGNING_CERT_SHA256: ${{ vars.ANDROID_SIGNING_CERT_SHA256 }}
+          ANDROID_VERSION_CODE: ${{ inputs.version_code || vars.ANDROID_VERSION_CODE }}
         run: |
           set -euo pipefail
           missing=()
@@ -59,6 +61,8 @@ jobs:
           [[ -n "$ANDROID_KEYSTORE_PASSWORD" ]] || missing+=(ANDROID_KEYSTORE_PASSWORD)
           [[ -n "$ANDROID_KEY_ALIAS" ]] || missing+=(ANDROID_KEY_ALIAS)
           [[ -n "$ANDROID_KEY_PASSWORD" ]] || missing+=(ANDROID_KEY_PASSWORD)
+          [[ -n "$ANDROID_SIGNING_CERT_SHA256" ]] || missing+=(ANDROID_SIGNING_CERT_SHA256)
+          [[ -n "$ANDROID_VERSION_CODE" ]] || missing+=(ANDROID_VERSION_CODE)
 
           if (( ${#missing[@]} == 0 )); then
             echo "ready=true" >> "$GITHUB_OUTPUT"
@@ -67,13 +71,9 @@ jobs:
             echo "ready=false" >> "$GITHUB_OUTPUT"
             {
               echo "### Signed Android release skipped"
-              echo "Configure these GitHub Actions secrets before retrying:"
+              echo "No release artifact was built or published. Configure the missing repository secrets or variables before retrying:"
               printf -- '- `%s`\n' "${missing[@]}"
             } >> "$GITHUB_STEP_SUMMARY"
-            if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
-              echo "A tag-triggered Android release requires signing credentials." >&2
-              exit 1
-            fi
           fi
 
   signed-release:
@@ -91,8 +91,9 @@ jobs:
       NEXT_PUBLIC_ENGINE_URL: ${{ vars.ANDROID_ENGINE_URL || 'https://apologiasancta-engine.onrender.com' }}
       NEXT_PUBLIC_RESEARCH_GRAPH_URL: ${{ vars.ANDROID_GRAPH_URL || 'https://mediumvioletred-kingfisher-797460.hostingersite.com' }}
       NEXT_PUBLIC_ANDROID_APK_URL: https://github.com/DocHarry22/apologiasancta-ui/releases/latest/download/apologia-sancta.apk
-      APP_VERSION_CODE: ${{ inputs.version_code || github.run_number }}
+      APP_VERSION_CODE: ${{ inputs.version_code || vars.ANDROID_VERSION_CODE }}
       APP_VERSION_NAME: ${{ inputs.version_name || github.ref_name }}
+      ANDROID_SIGNING_CERT_SHA256: ${{ vars.ANDROID_SIGNING_CERT_SHA256 }}
       RELEASE_TAG: ${{ inputs.tag_name || github.ref_name }}
 
     steps:
@@ -132,14 +133,20 @@ jobs:
           set -euo pipefail
           export APP_VERSION_NAME="${APP_VERSION_NAME#android-v}"
           echo "APP_VERSION_NAME=$APP_VERSION_NAME" >> "$GITHUB_ENV"
-          [[ "$APP_VERSION_CODE" =~ ^[1-9][0-9]*$ ]] || {
-            echo "version_code must be a positive integer." >&2
+          node scripts/validate-android-release.cjs
+
+      - name: Preserve existing release assets
+        if: github.event_name == 'push' || inputs.publish_release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          releases="$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases" --jq '.[].tag_name')"
+          if grep -Fxq "$RELEASE_TAG" <<< "$releases"; then
+            echo "Release $RELEASE_TAG already exists. Use a new version rather than replacing signed assets." >&2
             exit 1
-          }
-          [[ "$RELEASE_TAG" =~ ^android-v[0-9A-Za-z._-]+$ ]] || {
-            echo "tag_name must start with android-v and contain only letters, numbers, dots, underscores, or hyphens." >&2
-            exit 1
-          }
+          fi
 
       - name: Decode release keystore
         shell: bash
@@ -165,7 +172,7 @@ jobs:
           APKSIGN_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           APKSIGN_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           APKSIGN_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: ./gradlew --no-daemon --stacktrace lintRelease assembleRelease bundleRelease
+        run: ./gradlew --no-daemon --stacktrace testReleaseUnitTest lintRelease assembleRelease bundleRelease
 
       - name: Verify and package signed artifacts
         id: package
@@ -196,6 +203,14 @@ jobs:
             echo "Refusing to publish an APK signed with the Android debug certificate." >&2
             exit 1
           fi
+          actual_fingerprint="$(sed -n 's/^Signer #1 certificate SHA-256 digest: //p' <<< "$apk_verification")"
+          if [[ "${actual_fingerprint,,}" != "${ANDROID_SIGNING_CERT_SHA256,,}" ]]; then
+            echo "APK certificate does not match the pinned persistent signing identity." >&2
+            exit 1
+          fi
+          grep -Fq "name='com.apologiasancta.live'" <<< "$badging"
+          grep -Fq "versionCode='$APP_VERSION_CODE'" <<< "$badging"
+          grep -Fq "versionName='$APP_VERSION_NAME'" <<< "$badging"
           # Android upload keys are normally self-signed. `-strict` turns that
           # expected certificate-chain warning into exit code 4, so verify the
           # archive without strict trust checks and require jarsigner's positive
@@ -251,6 +266,8 @@ jobs:
             sdk_root="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
             previous_badging="$("$sdk_root/build-tools/35.0.0/aapt2" dump badging "$previous_apk")"
             previous_verification="$("$sdk_root/build-tools/35.0.0/apksigner" verify --print-certs "$previous_apk")"
+            previous_version_code="$(sed -n "s/^package: .*versionCode='\\([^']*\\)'.*/\\1/p" <<< "$previous_badging")"
+            PREVIOUS_VERSION_CODE="$previous_version_code" node scripts/validate-android-release.cjs
             PREVIOUS_APK_BADGING="$previous_badging" PREVIOUS_APK_VERIFICATION="$previous_verification" \
               node scripts/write-android-update.cjs --check-upgrade "$ARTIFACT_DIR/android-update.json"
           fi

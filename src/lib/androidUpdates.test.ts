@@ -3,11 +3,43 @@ import { describe, expect, it } from "vitest";
 import { ANDROID_APPLICATION_ID, ANDROID_RELEASES_URL, ANDROID_UPDATE_SNOOZE_MS, isAndroidUpdateSnoozed, isNewerAndroidUpdate, parseAndroidUpdate } from "./androidUpdates";
 
 const { createAndroidUpdate, validateAndroidUpgrade } = createRequire(import.meta.url)("../../scripts/write-android-update.cjs");
+const { validateReleaseConfiguration } = createRequire(import.meta.url)("../../scripts/validate-android-release.cjs");
 const badging = (code = 4, name = "1.0.4") => `package: name='${ANDROID_APPLICATION_ID}' versionCode='${code}' versionName='${name}'`;
 const verification = (cert = "a".repeat(64)) => `Signer #1 certificate DN: CN=Apologia Sancta\nSigner #1 certificate SHA-256 digest: ${cert}\n`;
 const makeUpdate = () => createAndroidUpdate({ badging: badging(), verification: verification(), apkSha256: "b".repeat(64), releaseTag: "android-v1.0.4" });
 
 describe("Android update identity and release gate", () => {
+  const releaseConfiguration = {
+    versionCode: "4",
+    versionName: "1.0.4",
+    releaseTag: "android-v1.0.4",
+    signingCertSha256: "a".repeat(64),
+  };
+
+  it("requires an explicit pinned signing identity and matching release version", () => {
+    expect(validateReleaseConfiguration(releaseConfiguration)).toEqual({
+      versionCode: 4,
+      versionName: "1.0.4",
+      releaseTag: "android-v1.0.4",
+      signingCertSha256: "a".repeat(64),
+    });
+    for (const patch of [
+      { versionCode: "0" },
+      { versionCode: "04" },
+      { versionCode: "2100000001" },
+      { versionName: "1.0" },
+      { releaseTag: "android-v1.0.5" },
+      { signingCertSha256: "bad" },
+    ]) expect(() => validateReleaseConfiguration({ ...releaseConfiguration, ...patch })).toThrow();
+  });
+
+  it("requires every release version code to increase", () => {
+    expect(() => validateReleaseConfiguration({ ...releaseConfiguration, previousVersionCode: "3" })).not.toThrow();
+    for (const previousVersionCode of ["4", "5"]) {
+      expect(() => validateReleaseConfiguration({ ...releaseConfiguration, previousVersionCode })).toThrow(/greater/);
+    }
+  });
+
   it("round-trips verified APK metadata into the client schema", () => {
     expect(parseAndroidUpdate(makeUpdate())).toMatchObject({ versionCode: 4, versionName: "1.0.4", applicationId: ANDROID_APPLICATION_ID });
   });
