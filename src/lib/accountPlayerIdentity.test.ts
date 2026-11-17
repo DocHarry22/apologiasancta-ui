@@ -244,4 +244,20 @@ describe("account player identity client", () => {
       cache: "no-store",
     }));
   });
+
+  it("propagates caller cancellation instead of falling through to guest identity", async () => {
+    const controller = new AbortController();
+    const fetchMock = vi.fn((_input: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+      init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+    }));
+
+    const request = requestAccountPlayerIdentity(
+      { roomId: "parish", displayName: "Aquinas" },
+      fetchMock as unknown as typeof fetch,
+      controller.signal,
+    );
+    controller.abort();
+
+    await expect(request).rejects.toMatchObject({ name: "AbortError" });
+  });
 });

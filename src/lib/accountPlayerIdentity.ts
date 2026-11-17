@@ -37,7 +37,8 @@ export async function requestAccountPlayerIdentity(
       cache: "no-store",
       signal,
     }, undefined, fetchImpl);
-  } catch {
+  } catch (error) {
+    if (signal?.aborted) throw error;
     return { kind: "guest_fallback" };
   }
   const csrfResponse = csrfResult.response;
@@ -68,7 +69,8 @@ export async function requestAccountPlayerIdentity(
       body: JSON.stringify(input),
       signal,
     }, undefined, fetchImpl);
-  } catch {
+  } catch (error) {
+    if (signal?.aborted) throw error;
     return { kind: "guest_fallback" };
   }
   const identityResponse = identityResult.response;
@@ -135,7 +137,8 @@ export async function isAccountPlayerSessionCurrent(
     return response.ok
       && typeof payload?.sessionBinding === "string"
       && payload.sessionBinding === storedSessionBinding;
-  } catch {
+  } catch (error) {
+    if (signal?.aborted) throw error;
     return false;
   }
 }
