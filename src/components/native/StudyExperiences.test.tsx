@@ -45,6 +45,10 @@ describe("Learn browsing and reading", () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValueOnce(json({ error: "Unavailable" }, 503)).mockResolvedValueOnce(json([programme])));
     render(<LearningCatalogue />);
     expect(await screen.findByRole("alert")).toHaveTextContent("We couldn’t load your lessons.");
+    expect(screen.getByText("Learning paths are temporarily unavailable")).toBeInTheDocument();
+    expect(screen.queryByText("0 programmes to explore")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Explore the library" })).toHaveAttribute("href", "/library");
+    expect(screen.getByRole("link", { name: "Practice instead" })).toHaveAttribute("href", "/practice");
     await userEvent.setup().click(screen.getByRole("button", { name: "Try again" }));
     expect(await screen.findByRole("link", { name: /Foundations of the Faith/ })).toBeInTheDocument();
   });

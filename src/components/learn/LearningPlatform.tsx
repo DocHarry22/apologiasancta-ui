@@ -120,7 +120,17 @@ function LoadingCards() {
 }
 
 function ErrorState({ message, retry }: { message: string; retry: () => void }) {
-  return <div className={styles.empty} role="alert"><AppIcon name="book" /><h2>We couldn’t load your lessons.</h2><p>{message}</p><button type="button" className="btn-secondary" onClick={retry}>Try again</button></div>;
+  return <div className={styles.empty} role="alert">
+    <AppIcon name="book" />
+    <h2>We couldn’t load your lessons.</h2>
+    <p>{message}</p>
+    <p>Your published catalogue remains unavailable, but you can keep studying with the available library and practice questions.</p>
+    <div className="flex flex-wrap justify-center gap-3">
+      <button type="button" className="btn-primary" onClick={retry}>Try again</button>
+      <Link className="btn-secondary" href="/library">Explore the library</Link>
+      <Link className="btn-quiet" href="/practice">Practice instead</Link>
+    </div>
+  </div>;
 }
 
 function itemHref(item: CatalogueItem, kind: "programme" | "subject" | "group" | "lesson") {
@@ -167,7 +177,7 @@ export function LearningCatalogue() {
     <StudySearch id="programme-search" label="Search programmes" value={query} onChange={setQuery} placeholder="What would you like to learn?" />
     <div className={styles.chipRow} role="group" aria-label="Programme availability">{["All programmes", "Available", "Coming soon"].map((label) => <button className={styles.chip} type="button" key={label} aria-pressed={availability === label} onClick={() => setAvailability(label)}>{label}</button>)}</div>
     <section id="learning-programmes" className="scroll-mt-24" aria-labelledby="programmes-heading">
-      <div className={styles.sectionHeading}><div><h2 id="programmes-heading">Your next chapter</h2><p aria-live="polite">{loading ? "Finding your learning paths…" : `${filtered.length} ${filtered.length === 1 ? "programme" : "programmes"} to explore`}</p></div><Link href="/learn/search" className={styles.textLink}>Find a lesson <AppIcon name="arrow" width={15} height={15} /></Link></div>
+      <div className={styles.sectionHeading}><div><h2 id="programmes-heading">Your next chapter</h2><p aria-live="polite">{loading ? "Finding your learning paths…" : error ? "Learning paths are temporarily unavailable" : `${filtered.length} ${filtered.length === 1 ? "programme" : "programmes"} to explore`}</p></div><Link href="/learn/search" className={styles.textLink}>Find a lesson <AppIcon name="arrow" width={15} height={15} /></Link></div>
       {loading ? <LoadingCards /> : error ? <ErrorState message={error} retry={reload} /> : filtered.length ? <div className={styles.catalogue}>{filtered.map((item, index) => <CatalogueCard key={item.id} item={item} kind="programme" index={index} />)}</div> : <div className={styles.empty}><AppIcon name="book" /><h3>{programmes.length ? "A different path, perhaps?" : "Your next chapter is on its way."}</h3><p>{programmes.length ? "Try another search or choose a different availability filter." : "New programmes will appear here when they’re ready. You can explore the library in the meantime."}</p>{programmes.length ? <button className="btn-secondary" onClick={() => { setQuery(""); setAvailability("All programmes"); }}>Clear filters</button> : <Link className="btn-secondary" href="/library">Explore the library</Link>}</div>}
     </section>
     <aside className={styles.notice}><AppIcon name="bookmark" width={21} height={21} /><div><strong>Make it part of your day.</strong>Return to a lesson whenever you need. Sign in to keep your lesson progress and bookmarks together.</div></aside>

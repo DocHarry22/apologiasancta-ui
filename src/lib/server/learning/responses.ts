@@ -31,6 +31,7 @@ export function errorResponse(error: LearningApiError, requestId?: string): Next
     },
   }, { status: error.status });
   response.headers.set("Cache-Control", "no-store");
+  if (error.status === 503) response.headers.set("Retry-After", "60");
   if (requestId) response.headers.set("x-request-id", requestId);
   return response;
 }
