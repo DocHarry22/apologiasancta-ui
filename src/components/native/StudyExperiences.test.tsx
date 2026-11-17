@@ -89,8 +89,12 @@ describe("Learn browsing and reading", () => {
     act(() => second.resolve(json([{ ...programme, id: "second", slug: "second", title: "Second result" }])));
     expect(await screen.findByRole("heading", { name: "Second result" })).toBeInTheDocument();
 
-    act(() => first.resolve(json([{ ...programme, id: "first", slug: "first", title: "Stale first result" }])));
-    await waitFor(() => expect(screen.queryByRole("heading", { name: "Stale first result" })).not.toBeInTheDocument());
+    await act(async () => {
+      first.resolve(json([{ ...programme, id: "first", slug: "first", title: "Stale first result" }]));
+      await first.promise;
+      await Promise.resolve();
+    });
+    expect(screen.queryByRole("heading", { name: "Stale first result" })).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Second result" })).toBeInTheDocument();
   });
 
