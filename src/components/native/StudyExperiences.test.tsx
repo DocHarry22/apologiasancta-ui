@@ -48,7 +48,7 @@ describe("Learn browsing and reading", () => {
     expect(screen.getByText("Learning paths are temporarily unavailable")).toBeInTheDocument();
     expect(screen.queryByText("0 programmes to explore")).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Explore the library" })).toHaveAttribute("href", "/library");
-    expect(screen.getByRole("link", { name: "Practice instead" })).toHaveAttribute("href", "/practice");
+    expect(screen.queryByRole("link", { name: "Practice instead" })).not.toBeInTheDocument();
     await userEvent.setup().click(screen.getByRole("button", { name: "Try again" }));
     expect(await screen.findByRole("link", { name: /Foundations of the Faith/ })).toBeInTheDocument();
   });

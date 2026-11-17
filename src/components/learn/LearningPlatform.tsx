@@ -124,11 +124,10 @@ function ErrorState({ message, retry }: { message: string; retry: () => void }) 
     <AppIcon name="book" />
     <h2>We couldn’t load your lessons.</h2>
     <p>{message}</p>
-    <p>Your published catalogue remains unavailable, but you can keep studying with the available library and practice questions.</p>
+    <p>Your published catalogue remains unavailable, but you can keep studying with the available library.</p>
     <div className="flex flex-wrap justify-center gap-3">
       <button type="button" className="btn-primary" onClick={retry}>Try again</button>
       <Link className="btn-secondary" href="/library">Explore the library</Link>
-      <Link className="btn-quiet" href="/practice">Practice instead</Link>
     </div>
   </div>;
 }
