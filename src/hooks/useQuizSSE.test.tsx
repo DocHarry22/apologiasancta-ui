@@ -126,7 +126,7 @@ describe("useQuizSSE", () => {
       }
     }
 
-    expect(fetch).toHaveBeenCalledWith("https://engine.test/state");
+    expect(fetch).toHaveBeenCalledWith("https://engine.test/state", expect.objectContaining({ cache: "no-store", signal: expect.any(AbortSignal) }));
   });
 
   it("pauses fallback polling while hidden and refreshes on foreground", async () => {
@@ -139,6 +139,7 @@ describe("useQuizSSE", () => {
       act(() => MockEventSource.instances.at(-1)?.onerror?.());
       if (i < 4) await act(async () => vi.runOnlyPendingTimers());
     }
+    await act(async () => { await Promise.resolve(); });
 
     const callsAfterFallback = vi.mocked(fetch).mock.calls.length;
     visibility = "hidden";
@@ -151,6 +152,29 @@ describe("useQuizSSE", () => {
     visibility = "visible";
     act(() => document.dispatchEvent(new Event("visibilitychange")));
     expect(fetch).toHaveBeenCalledTimes(callsAfterFallback + 1);
+  });
+
+  it("does not stack fallback polls while a response body is still pending", async () => {
+    vi.useFakeTimers();
+    const fetchMock = vi.fn((_input: RequestInfo | URL, init?: RequestInit) => Promise.resolve({
+      ok: true,
+      json: () => new Promise((_resolve, reject) => {
+        init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+      }),
+    } as Response));
+    vi.stubGlobal("fetch", fetchMock);
+    const { unmount } = renderHook(() => useQuizSSE("https://engine.test"));
+
+    for (let i = 0; i < 5; i++) {
+      act(() => MockEventSource.instances.at(-1)?.onerror?.());
+      if (i < 4) await act(async () => vi.runOnlyPendingTimers());
+    }
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    await act(async () => vi.advanceTimersByTime(10_000));
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    unmount();
   });
 
   it("cleans up EventSource and timers on unmount", () => {

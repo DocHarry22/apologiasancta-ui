@@ -2,6 +2,7 @@ import {
   isAuthSessionEpochCurrent,
   readAuthSessionEpoch,
 } from "./playerIdentity";
+import { fetchJsonWithTimeout } from "./fetchWithTimeout";
 
 export type AccountPlayerIdentityResult =
   | {
@@ -24,30 +25,41 @@ const SESSION_BINDING_PATTERN = /^[a-zA-Z0-9_-]{43}$/;
  */
 export async function requestAccountPlayerIdentity(
   input: { roomId: string; displayName: string },
-  fetchImpl: FetchLike = fetch
+  fetchImpl: FetchLike = fetch,
+  signal?: AbortSignal,
 ): Promise<AccountPlayerIdentityResult> {
   const authSessionEpoch = readAuthSessionEpoch();
-  let csrfResponse: Response;
+  let csrfResult;
   try {
-    csrfResponse = await fetchImpl("/api/auth/csrf", {
+    csrfResult = await fetchJsonWithTimeout<{ csrfToken?: string }>("/api/auth/csrf", {
       method: "GET",
       credentials: "same-origin",
       cache: "no-store",
-    });
-  } catch {
+      signal,
+    }, undefined, fetchImpl);
+  } catch (error) {
+    if (signal?.aborted) throw error;
     return { kind: "guest_fallback" };
   }
+  const csrfResponse = csrfResult.response;
   if (csrfResponse.status === 401 || csrfResponse.status >= 500) {
     return { kind: "guest_fallback" };
   }
-  const csrfPayload = await csrfResponse.json().catch(() => null) as { csrfToken?: string } | null;
+  const csrfPayload = csrfResult.data ?? null;
   if (!csrfResponse.ok || !csrfPayload?.csrfToken) {
     return { kind: "guest_fallback" };
   }
 
-  let identityResponse: Response;
+  let identityResult;
   try {
-    identityResponse = await fetchImpl("/api/quiz/identity", {
+    identityResult = await fetchJsonWithTimeout<{
+      userId?: string;
+      username?: string;
+      joinToken?: string;
+      sessionBinding?: string;
+      code?: string;
+      error?: string;
+    }>("/api/quiz/identity", {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -55,18 +67,14 @@ export async function requestAccountPlayerIdentity(
         "x-csrf-token": csrfPayload.csrfToken,
       },
       body: JSON.stringify(input),
-    });
-  } catch {
+      signal,
+    }, undefined, fetchImpl);
+  } catch (error) {
+    if (signal?.aborted) throw error;
     return { kind: "guest_fallback" };
   }
-  const identityPayload = await identityResponse.json().catch(() => null) as {
-    userId?: string;
-    username?: string;
-    joinToken?: string;
-    sessionBinding?: string;
-    code?: string;
-    error?: string;
-  } | null;
+  const identityResponse = identityResult.response;
+  const identityPayload = identityResult.data ?? null;
 
   if (
     identityResponse.ok
@@ -113,20 +121,24 @@ export async function requestAccountPlayerIdentity(
  */
 export async function isAccountPlayerSessionCurrent(
   storedSessionBinding: string,
-  fetchImpl: FetchLike = fetch
+  fetchImpl: FetchLike = fetch,
+  signal?: AbortSignal,
 ): Promise<boolean> {
   if (!storedSessionBinding) return false;
   try {
-    const response = await fetchImpl("/api/quiz/identity", {
+    const result = await fetchJsonWithTimeout<{ sessionBinding?: string }>("/api/quiz/identity", {
       method: "GET",
       credentials: "same-origin",
       cache: "no-store",
-    });
-    const payload = await response.json().catch(() => null) as { sessionBinding?: string } | null;
+      signal,
+    }, undefined, fetchImpl);
+    const response = result.response;
+    const payload = result.data ?? null;
     return response.ok
       && typeof payload?.sessionBinding === "string"
       && payload.sessionBinding === storedSessionBinding;
-  } catch {
+  } catch (error) {
+    if (signal?.aborted) throw error;
     return false;
   }
 }

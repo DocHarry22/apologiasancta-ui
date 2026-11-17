@@ -37,6 +37,7 @@ import { useRoomSelectionBootstrap } from "@/hooks/useRoomSelectionBootstrap";
 import { getEngineUrl } from "@/lib/publicEnv";
 import { hapticSuccess, hapticError, hapticLight, keepAwake, allowSleep } from "@/lib/native";
 import { getAnswerRejectionNotice, isAnswerWindowLocallyOpen } from "@/lib/answerSubmission";
+import { fetchJsonWithTimeout, RequestTimeoutError } from "@/lib/fetchWithTimeout";
 import { useScoreHistory } from "@/hooks/useScoreHistory";
 import {
   getMobileOnboardingState,
@@ -359,13 +360,23 @@ function MobilePageContent() {
     }
 
     let cancelled = false;
+    let requestInFlight = false;
+    let activeController: AbortController | null = null;
 
     const fetchLeaderboard = async () => {
+      if (requestInFlight) return;
+      requestInFlight = true;
+      const controller = new AbortController();
+      activeController = controller;
       setLeaderboardLoading(true);
 
       try {
-        const response = await fetch(url, { cache: "no-store" });
-        const data = await response.json();
+        const result = await fetchJsonWithTimeout<{ leaderboard?: Leaderboard; error?: string }>(url, {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        const response = result.response;
+        const data = result.data ?? {};
 
         if (cancelled) {
           return;
@@ -377,7 +388,8 @@ function MobilePageContent() {
           return;
         }
 
-        setRemoteLeaderboard(data.leaderboard as Leaderboard);
+        if (!data.leaderboard) throw new Error("The leaderboard response was incomplete.");
+        setRemoteLeaderboard(data.leaderboard);
         setLeaderboardError(null);
       } catch (error) {
         if (cancelled) {
@@ -387,6 +399,8 @@ function MobilePageContent() {
         setLeaderboardError(error instanceof Error ? error.message : "Failed to load leaderboard");
         setRemoteLeaderboard(null);
       } finally {
+        requestInFlight = false;
+        if (activeController === controller) activeController = null;
         if (!cancelled) {
           setLeaderboardLoading(false);
         }
@@ -405,6 +419,7 @@ function MobilePageContent() {
 
     return () => {
       cancelled = true;
+      activeController?.abort();
       window.clearInterval(intervalId);
       document.removeEventListener("visibilitychange", fetchWhenVisible);
     };
@@ -701,7 +716,7 @@ function MobilePageContent() {
     // Submit answer to backend when using SSE/live engine AND user is registered
     if (isUsingSSE && ENGINE_URL && userId) {
       try {
-        const response = await fetch(`${ENGINE_URL}/answer`, {
+        const result = await fetchJsonWithTimeout<{ ok?: boolean; accepted?: boolean; reason?: string }>(`${ENGINE_URL}/answer`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -714,13 +729,8 @@ function MobilePageContent() {
             roomId,
           }),
         });
-
-        let payload: { ok?: boolean; accepted?: boolean; reason?: string } | null = null;
-        try {
-          payload = await response.json();
-        } catch {
-          payload = null;
-        }
+        const response = result.response;
+        const payload = result.data ?? null;
 
         const accepted = response.ok && payload?.accepted !== false;
         if (!accepted) {
@@ -748,7 +758,7 @@ function MobilePageContent() {
         console.warn("[Mobile] Answer submit failed:", error);
         setSelectedId(undefined);
         setAnswerSubmissionState("error");
-        setAnswerNotice("Connection issue. Try again.");
+        setAnswerNotice(error instanceof RequestTimeoutError ? "The live service timed out. Try again." : "Connection issue. Try again.");
       } finally {
         submittingRoundKeyRef.current = "";
       }

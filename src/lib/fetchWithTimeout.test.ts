@@ -63,13 +63,42 @@ describe("fetchWithTimeout", () => {
     await expect(request).rejects.toMatchObject({ name: "AbortError" });
   });
 
-  it("returns unsuccessful responses without trying to parse their body", async () => {
-    const json = vi.fn();
-    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 503, json } as unknown as Response));
+  it("returns structured error bodies for status-specific recovery", async () => {
+    const json = vi.fn().mockResolvedValue({ reason: "not_registered" });
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 401, json } as unknown as Response));
 
     const result = await fetchJsonWithTimeout("https://engine.test/rooms", {}, 1_000);
     expect(result.ok).toBe(false);
-    expect(result.response.status).toBe(503);
-    expect(json).not.toHaveBeenCalled();
+    expect(result.response.status).toBe(401);
+    expect(result.data).toEqual({ reason: "not_registered" });
+    expect(json).toHaveBeenCalledOnce();
+  });
+
+  it("keeps the timeout active while consuming an unsuccessful response body", async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal("fetch", vi.fn((_input: RequestInfo | URL, init?: RequestInit) => Promise.resolve({
+      ok: false,
+      status: 503,
+      json: () => new Promise((_resolve, reject) => {
+        init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+      }),
+    } as Response)));
+
+    const request = fetchJsonWithTimeout("https://engine.test/rooms", {}, 1_000);
+    const assertion = expect(request).rejects.toBeInstanceOf(RequestTimeoutError);
+    await vi.advanceTimersByTimeAsync(1_000);
+    await assertion;
+  });
+
+  it("tolerates a non-JSON error body without hiding the response status", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({
+      ok: false,
+      status: 502,
+      json: vi.fn().mockRejectedValue(new SyntaxError("Unexpected token")),
+    } as unknown as Response));
+
+    const result = await fetchJsonWithTimeout("https://engine.test/rooms", {}, 1_000);
+    expect(result).toMatchObject({ ok: false, response: { status: 502 } });
+    expect(result.data).toBeUndefined();
   });
 });
