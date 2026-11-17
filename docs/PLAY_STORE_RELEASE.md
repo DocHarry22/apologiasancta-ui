@@ -46,9 +46,12 @@ Repository secrets required by **Android signed release**:
 - `ANDROID_KEY_ALIAS`
 - `ANDROID_KEY_PASSWORD`
 
-Repository variables required for tag-triggered releases:
+Repository variable required for every signed release:
 
 - `ANDROID_SIGNING_CERT_SHA256` — the trusted release certificate SHA-256 reported by `apksigner verify --print-certs` for the retained signing key.
+
+Additional repository variable required for tag-triggered releases:
+
 - `ANDROID_VERSION_CODE` — a positive value greater than the previously published APK version code.
 
 Repository variables recommended:
@@ -64,12 +67,13 @@ Do not publish with localhost, a LAN address, HTTP, a staging deployment, or an 
 Preferred path:
 
 1. Open **Actions → Android signed release**.
-2. Use a monotonically increasing positive `version_code`.
-3. Use the public semantic `version_name` (for example `1.0.0`).
-4. Confirm the production app URL.
-5. Run the workflow.
-6. Download `apologia-sancta.aab` from the signed workflow artifact.
-7. Upload that AAB to the intended Google Play track.
+2. Confirm `ANDROID_SIGNING_CERT_SHA256` pins the certificate belonging to the configured signing key.
+3. Use a monotonically increasing positive `version_code`.
+4. Use the public semantic `version_name` (for example `1.0.0`).
+5. Confirm the production app URL.
+6. Run the workflow.
+7. Download `apologia-sancta.aab` from the signed workflow artifact.
+8. Upload that AAB to the intended Google Play track.
 
 The local `npm run apk:release` path also builds both the signed APK and AAB and runs release lint. It requires the same production URL and signing environment variables.
 
