@@ -57,8 +57,10 @@ export async function POST(req: NextRequest) {
 
   const displayName = normalizeText(body.name);
   const email = normalizeText(body.email).toLowerCase();
-  const password = normalizeText(body.password);
-  const confirmPassword = normalizeText(body.confirmPassword);
+  // Passwords are opaque credentials. Preserve exactly what the user entered,
+  // matching login and password changes, including intentional whitespace.
+  const password = typeof body.password === "string" ? body.password : "";
+  const confirmPassword = typeof body.confirmPassword === "string" ? body.confirmPassword : "";
   const phone = normalizeText(body.phone);
   const inviteCode = normalizeText(body.inviteCode);
 

@@ -49,7 +49,7 @@ describe("authentication diagnostics", () => {
     const errorLog = vi.spyOn(console, "error").mockImplementation(() => undefined);
     const configuration = getAdminAuthConfigurationReport({
       NODE_ENV: "production",
-      AUTHOR_SESSION_SECRET: "do-not-log-this-session-secret",
+      AUTHOR_SESSION_SECRET: "do-not-log-this-session-secret-123456789",
       MYSQL_HOST: "private-host.example",
       MYSQL_DATABASE: "private_database",
       MYSQL_USER: "private_user",
