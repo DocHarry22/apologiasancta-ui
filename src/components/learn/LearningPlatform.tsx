@@ -12,10 +12,12 @@ import { StudyArtwork, StudySearch } from "@/components/native/StudyUI";
 import styles from "@/components/native/StudyUI.module.css";
 
 type ApiEnvelope<T> = { data: T; meta?: Record<string, unknown> };
+type CatalogueItemKind = "programme" | "subject" | "group" | "lesson" | "source";
 type CatalogueItem = {
   id: string;
   slug: string;
   title: string;
+  contentType?: CatalogueItemKind;
   shortDescription?: string;
   description?: string;
   coverImageUrl?: string;
@@ -151,17 +153,25 @@ function ErrorState({ message, retry, title, detail }: { message: string; retry:
   </div>;
 }
 
-function itemHref(item: CatalogueItem, kind: "programme" | "subject" | "group" | "lesson") {
+function itemHref(item: CatalogueItem, kind: CatalogueItemKind) {
   if (kind === "programme") return `/learn/programmes/${item.slug}`;
   if (kind === "subject") return `/learn/subjects/${item.slug}`;
   if (kind === "group") return `/learn/groups/${item.slug}`;
-  return `/learn/${item.slug}`;
+  if (kind === "lesson") return `/learn/${item.slug}`;
+  return null;
+}
+
+function catalogueItemKind(item: CatalogueItem): CatalogueItemKind {
+  if (item.contentType && ["programme", "subject", "group", "lesson", "source"].includes(item.contentType)) {
+    return item.contentType;
+  }
+  return item.lessons ? "group" : "lesson";
 }
 
 function masteryQuestionId(question: MasteryQuestion): string { return question.id ?? question.questionId ?? ""; }
 function masteryOptionId(option: MasteryQuestion["options"][number]): string { return option.id ?? option.optionId ?? ""; }
 
-function CatalogueCard({ item, kind, index = 0 }: { item: CatalogueItem; kind: "programme" | "subject" | "group" | "lesson"; index?: number }) {
+function CatalogueCard({ item, kind, index = 0 }: { item: CatalogueItem; kind: CatalogueItemKind; index?: number }) {
   const locked = (item.visibility === "locked" && item.unlocked !== true && item.isInitiallyUnlocked !== true) || item.unlocked === false;
   const comingSoon = item.visibility === "coming_soon";
   if (item.visibility === "hidden") return null;
@@ -173,10 +183,11 @@ function CatalogueCard({ item, kind, index = 0 }: { item: CatalogueItem; kind: "
       <p className={styles.description}>{item.shortDescription || item.description || "Discover the next step in your formation."}</p>
       <div className={styles.meta}>{item.difficulty ? <span>{item.difficulty}</span> : null}{item.estimatedMinutes ? <span>{item.estimatedMinutes} min</span> : null}{item.subjects?.length ? <span>{item.subjects.length} subjects</span> : null}{item.lessons?.length ? <span>{item.lessons.length} lessons</span> : null}</div>
       {typeof item.completionPercent === "number" ? <div className="mt-3"><ProgressBar value={item.completionPercent} label={`${item.title} completion`} /></div> : null}
-      <span className={styles.cardArrow}>{comingSoon ? "Coming soon" : locked ? "Complete the prerequisites to unlock" : item.completed ? "Review" : kind === "lesson" ? "Read lesson" : "Explore"}<AppIcon name={locked ? "lock" : comingSoon ? "book" : "arrow"} width={15} height={15} /></span>
+      <span className={styles.cardArrow}>{comingSoon ? "Coming soon" : locked ? "Complete the prerequisites to unlock" : kind === "source" ? "Source citation" : item.completed ? "Review" : kind === "lesson" ? "Read lesson" : "Explore"}<AppIcon name={locked ? "lock" : comingSoon || kind === "source" ? "book" : "arrow"} width={15} height={15} /></span>
     </div>
   </>;
-  return locked || comingSoon ? <div className={styles.learningCard} aria-disabled="true">{content}</div> : <Link className={styles.learningCard} href={itemHref(item, kind)}>{content}</Link>;
+  const href = itemHref(item, kind);
+  return locked || comingSoon || !href ? <div className={styles.learningCard} aria-disabled={locked || comingSoon ? "true" : undefined}>{content}</div> : <Link className={styles.learningCard} href={href}>{content}</Link>;
 }
 
 export function LearningCatalogue() {
@@ -434,7 +445,7 @@ export function LearningSearch() {
   const [submitted, setSubmitted] = useState("");
   const url = useMemo(() => `/api/v1/learning/search?q=${encodeURIComponent(submitted)}&page=1&pageSize=20`, [submitted]);
   const { data, error, loading, reload } = useLearningResource<CatalogueItem[]>(url);
-  return <div className={styles.screen}><Link className={styles.breadcrumb} href="/learn"><AppIcon name="chevron" width={15} height={15} /> All programmes</Link><header className={styles.intro}><p className={styles.eyebrow}>Find your next lesson</p><h1 className={styles.title}>A question. <em>A discovery.</em></h1><p>Search lessons, subjects, sources, and references.</p></header><form className="flex flex-col gap-3 sm:flex-row" role="search" onSubmit={(event) => { event.preventDefault(); setSubmitted(query.trim()); }}><div className="min-w-0 flex-1"><StudySearch id="learning-search" label="Search lessons and subjects" value={query} onChange={setQuery} placeholder="What would you like to understand?" /></div><button className="btn-primary" type="submit">Search lessons <AppIcon name="arrow" width={17} height={17} /></button></form><section className="mt-7" aria-live="polite">{loading ? <LoadingCards /> : error ? <ErrorState message={error} retry={reload} title="We couldn’t search the learning catalogue." detail="Lesson and source search is temporarily unavailable." /> : data?.length ? <div className={styles.catalogue}>{data.map((item, index) => <CatalogueCard key={`${item.id}-${item.slug}`} item={item} index={index} kind={(item.lessons ? "group" : "lesson")} />)}</div> : <div className={styles.empty}><AppIcon name="search" /><h2>{submitted ? "No lessons found just yet." : "Follow a question."}</h2><p>{submitted ? "Try a broader word or a different reference." : "Enter a word, a topic, or a source to begin exploring."}</p></div>}</section></div>;
+  return <div className={styles.screen}><Link className={styles.breadcrumb} href="/learn"><AppIcon name="chevron" width={15} height={15} /> All programmes</Link><header className={styles.intro}><p className={styles.eyebrow}>Find your next lesson</p><h1 className={styles.title}>A question. <em>A discovery.</em></h1><p>Search lessons, subjects, sources, and references.</p></header><form className="flex flex-col gap-3 sm:flex-row" role="search" onSubmit={(event) => { event.preventDefault(); setSubmitted(query.trim()); }}><div className="min-w-0 flex-1"><StudySearch id="learning-search" label="Search lessons and subjects" value={query} onChange={setQuery} placeholder="What would you like to understand?" /></div><button className="btn-primary" type="submit">Search lessons <AppIcon name="arrow" width={17} height={17} /></button></form><section className="mt-7" aria-live="polite">{loading ? <LoadingCards /> : error ? <ErrorState message={error} retry={reload} title="We couldn’t search the learning catalogue." detail="Lesson and source search is temporarily unavailable." /> : data?.length ? <div className={styles.catalogue}>{data.map((item, index) => <CatalogueCard key={`${item.id}-${item.slug}`} item={item} index={index} kind={catalogueItemKind(item)} />)}</div> : <div className={styles.empty}><AppIcon name="search" /><h2>{submitted ? "No lessons found just yet." : "Follow a question."}</h2><p>{submitted ? "Try a broader word or a different reference." : "Enter a word, a topic, or a source to begin exploring."}</p></div>}</section></div>;
 }
 
 type PracticeQuestion = MasteryQuestion;

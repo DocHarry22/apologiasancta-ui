@@ -98,6 +98,26 @@ describe("Learn browsing and reading", () => {
     expect(screen.getByRole("heading", { name: "Second result" })).toBeInTheDocument();
   });
 
+  it("routes each search result by its published content type and does not invent a source page", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(json([
+      { ...programme, id: "programme-result", contentType: "programme" },
+      { ...programme, id: "subject-result", slug: "the-creed", title: "The Creed", contentType: "subject" },
+      { ...programme, id: "group-result", slug: "creed-basics", title: "Creed basics", contentType: "group" },
+      { ...programme, id: "lesson-result", slug: "the-profession", title: "The profession of faith", contentType: "lesson" },
+      { ...programme, id: "source-result", slug: "catechism", title: "Catechism of the Catholic Church", shortDescription: "CCC 185–197", contentType: "source" },
+    ])));
+
+    render(<LearningSearch />);
+
+    expect(await screen.findByRole("link", { name: /Foundations of the Faith/ })).toHaveAttribute("href", "/learn/programmes/foundations");
+    expect(screen.getByRole("link", { name: /The Creed/ })).toHaveAttribute("href", "/learn/subjects/the-creed");
+    expect(screen.getByRole("link", { name: /Creed basics/ })).toHaveAttribute("href", "/learn/groups/creed-basics");
+    expect(screen.getByRole("link", { name: /The profession of faith/ })).toHaveAttribute("href", "/learn/the-profession");
+    expect(screen.getByRole("heading", { name: "Catechism of the Catholic Church" })).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /Catechism of the Catholic Church/ })).not.toBeInTheDocument();
+    expect(screen.getByText("Source citation")).toBeInTheDocument();
+  });
+
   it("aborts an in-flight learning request when its surface unmounts", async () => {
     const request = deferred<Response>();
     let requestSignal: AbortSignal | undefined;

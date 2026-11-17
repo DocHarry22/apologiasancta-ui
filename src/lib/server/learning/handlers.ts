@@ -127,7 +127,7 @@ export function searchRoute(request: NextRequest) {
     const page = parsePagination(request.nextUrl.searchParams);
     const query = parseSearchTerm(request.nextUrl.searchParams.get("q"));
     const rawType = request.nextUrl.searchParams.get("type");
-    const contentType = rawType && ["programme", "subject", "group", "lesson"].includes(rawType) ? rawType : null;
+    const contentType = rawType && ["programme", "subject", "group", "lesson", "source"].includes(rawType) ? rawType : null;
     if (rawType && !contentType) throw new LearningValidationError("The content type filter is invalid.");
     const difficulty = request.nextUrl.searchParams.get("difficulty")?.trim().slice(0, 80) || null;
     const result = await searchPublishedContent({ query, contentType, difficulty, page });
