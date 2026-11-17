@@ -13,6 +13,7 @@ import {
   saveStoredPlayerIdentity,
 } from "@/lib/playerIdentity";
 import { getSavedIdentityDecision } from "@/lib/registrationRecovery";
+import { fetchJsonWithTimeout } from "@/lib/fetchWithTimeout";
 
 type UseRoomRegistrationParams = { engineUrl: string | null; roomId: string | null };
 type JoinResponse = { ok?: boolean; joinToken?: string; userId?: string; username?: string; reason?: string; error?: string };
@@ -54,11 +55,16 @@ export function useRoomRegistration({ engineUrl, roomId }: UseRoomRegistrationPa
     if (!stored.userId || !stored.username) { setIsRegistered(false); setUserId(null); setUsername(stored.username); setJoinToken(null); setIsCheckingRegistration(false); return; }
 
     let cancelled = false;
+    const controller = new AbortController();
     setIsRegistered(false); setUserId(null); setUsername(stored.username); setJoinToken(null); setIsCheckingRegistration(true);
 
     const resumeLegacy = async () => {
-      const response = await fetch(`${engineUrl}/register/me?userId=${encodeURIComponent(stored.userId!)}&roomId=${encodeURIComponent(roomId)}`);
-      const data = await response.json().catch(() => ({})) as JoinResponse;
+      const result = await fetchJsonWithTimeout<JoinResponse>(
+        `${engineUrl}/register/me?userId=${encodeURIComponent(stored.userId!)}&roomId=${encodeURIComponent(roomId)}`,
+        { cache: "no-store", signal: controller.signal },
+      );
+      const response = result.response;
+      const data = result.data ?? {};
       if (cancelled) return;
       const decision = getSavedIdentityDecision({ ok: response.ok, status: response.status, reason: data.reason });
       if (decision === "resume" && data.userId && data.username) { applyRegistration(data.userId, data.username, null); return; }
@@ -71,7 +77,7 @@ export function useRoomRegistration({ engineUrl, roomId }: UseRoomRegistrationPa
         const sessionIsCurrent = Boolean(
           stored.accountSessionBinding
           && stored.joinToken
-          && await isAccountPlayerSessionCurrent(stored.accountSessionBinding)
+          && await isAccountPlayerSessionCurrent(stored.accountSessionBinding, fetch, controller.signal)
         );
         if (!sessionIsCurrent) {
           if (!cancelled) resetRegistrationState();
@@ -79,12 +85,14 @@ export function useRoomRegistration({ engineUrl, roomId }: UseRoomRegistrationPa
         }
       }
       if (!stored.joinToken) { await resumeLegacy(); return; }
-      const response = await fetch(`${engineUrl}/rooms/${encodeURIComponent(roomId)}/join`, {
+      const result = await fetchJsonWithTimeout<JoinResponse>(`${engineUrl}/rooms/${encodeURIComponent(roomId)}/join`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${stored.joinToken}` },
         body: JSON.stringify({ userId: stored.userId }),
+        signal: controller.signal,
       });
-      const data = await response.json().catch(() => ({})) as JoinResponse;
+      const response = result.response;
+      const data = result.data ?? {};
       if (cancelled) return;
       if (response.ok) { applyRegistration(stored.userId!, data.username || stored.username!, data.joinToken || stored.joinToken); return; }
       if ([404, 405].includes(response.status)) { await resumeLegacy(); return; }
@@ -93,7 +101,7 @@ export function useRoomRegistration({ engineUrl, roomId }: UseRoomRegistrationPa
     };
 
     void resume().catch(() => { if (!cancelled) { setIsRegistered(false); setUserId(null); setUsername(stored.username); setJoinToken(null); } }).finally(() => { if (!cancelled) setIsCheckingRegistration(false); });
-    return () => { cancelled = true; };
+    return () => { cancelled = true; controller.abort(); };
   }, [applyRegistration, engineUrl, identityStorageRevision, resetRegistrationState, roomId]);
 
   const handleJoined = useCallback((nextUserId: string, nextUsername: string, nextJoinToken?: string | null) => { applyRegistration(nextUserId, nextUsername, nextJoinToken ?? null); }, [applyRegistration]);

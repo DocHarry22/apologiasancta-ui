@@ -1,7 +1,7 @@
 "use client";
 import styles from "./QuizScreen.module.css";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { PLAYER_NAME_KEY } from "./YourScoreCard";
 import { getEngineUrl } from "@/lib/publicEnv";
 import {
@@ -16,6 +16,7 @@ import {
 import { getReusableStoredUserId } from "@/lib/registrationRecovery";
 import { requestAccountPlayerIdentity } from "@/lib/accountPlayerIdentity";
 import { Dialog } from "@/components/ui/Dialog";
+import { fetchJsonWithTimeout, RequestTimeoutError } from "@/lib/fetchWithTimeout";
 
 interface JoinGameModalProps {
   roomId: string;
@@ -34,10 +35,12 @@ const API_URL = getEngineUrl();
 export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGameModalProps) {
   const [username, setUsername] = useState("");
   const [state, setState] = useState<RegistrationState>({ status: "idle" });
+  const requestRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     const stored = readStoredPlayerIdentity();
     if (stored.username) setUsername(stored.username);
+    return () => requestRef.current?.abort();
   }, []);
 
   const handleSubmit = useCallback(async (event: React.FormEvent) => {
@@ -51,9 +54,12 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
     }
 
     setState({ status: "loading" });
+    requestRef.current?.abort();
+    const controller = new AbortController();
+    requestRef.current = controller;
     const authSessionEpoch = readAuthSessionEpoch();
     try {
-      const accountIdentity = await requestAccountPlayerIdentity({ roomId, displayName: trimmed });
+      const accountIdentity = await requestAccountPlayerIdentity({ roomId, displayName: trimmed }, fetch, controller.signal);
       if (accountIdentity.kind === "joined") {
         // Recheck at the final browser side-effect boundary. The request helper
         // also rejects an epoch change while awaiting the server, while this
@@ -85,21 +91,23 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
       const reusableUserId = stored.joinToken
         ? getReusableStoredUserId(stored.userId, stored.username, trimmed)
         : undefined;
-      const response = await fetch(`${API_URL}/register`, {
+      const result = await fetchJsonWithTimeout<{
+        userId?: string;
+        username?: string;
+        joinToken?: string;
+        error?: string;
+        message?: string;
+      }>(`${API_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           ...(stored.joinToken ? { Authorization: `Bearer ${stored.joinToken}` } : {}),
         },
         body: JSON.stringify({ username: trimmed, roomId, userId: reusableUserId }),
+        signal: controller.signal,
       });
-      const data = await response.json().catch(() => ({})) as {
-        userId?: string;
-        username?: string;
-        joinToken?: string;
-        error?: string;
-        message?: string;
-      };
+      const response = result.response;
+      const data = result.data ?? {};
 
       if (response.ok && data.userId && data.username) {
         saveStoredGuestPlayerIdentity(data.userId, data.username, data.joinToken);
@@ -123,8 +131,16 @@ export function JoinGameModal({ roomId, roomName, onJoined, onCancel }: JoinGame
         return;
       }
       setState({ status: "error", errorMessage: data.error || data.message || "Could not join this room." });
-    } catch {
-      setState({ status: "error", errorMessage: "The live engine could not be reached. Check your connection and retry." });
+    } catch (error) {
+      if (controller.signal.aborted && !(error instanceof RequestTimeoutError)) return;
+      setState({
+        status: "error",
+        errorMessage: error instanceof RequestTimeoutError
+          ? error.message
+          : "The live engine could not be reached. Check your connection and retry.",
+      });
+    } finally {
+      if (requestRef.current === controller) requestRef.current = null;
     }
   }, [onJoined, roomId, username]);
 

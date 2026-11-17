@@ -8,13 +8,14 @@ export class RequestTimeoutError extends Error {
 }
 
 export type JsonFetchResult<T> =
-  | { ok: false; response: Response }
+  | { ok: false; response: Response; data?: T }
   | { ok: true; response: Response; data: T };
 
 export async function fetchJsonWithTimeout<T>(
   input: RequestInfo | URL,
   init: RequestInit = {},
   timeoutMs = LIVE_SERVICE_REQUEST_TIMEOUT_MS,
+  fetchImpl: typeof fetch = fetch,
 ): Promise<JsonFetchResult<T>> {
   const controller = new AbortController();
   const parentSignal = init.signal;
@@ -30,13 +31,21 @@ export async function fetchJsonWithTimeout<T>(
   }, timeoutMs);
 
   try {
-    const response = await fetch(input, { ...init, signal: controller.signal });
+    const response = await fetchImpl(input, { ...init, signal: controller.signal });
     if (controller.signal.aborted) {
       throw controller.signal.reason ?? new DOMException("Aborted", "AbortError");
     }
-    if (!response.ok) return { ok: false, response };
-    const data = await response.json() as T;
-    return { ok: true, response, data };
+    let data: T | undefined;
+    try {
+      data = await response.json() as T;
+    } catch (error) {
+      if (controller.signal.aborted) {
+        throw controller.signal.reason ?? error;
+      }
+      if (response.ok) throw error;
+    }
+    if (!response.ok) return { ok: false, response, ...(data === undefined ? {} : { data }) };
+    return { ok: true, response, data: data as T };
   } catch (error) {
     if (timedOut) throw new RequestTimeoutError();
     throw error;

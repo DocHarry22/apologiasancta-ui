@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { AnswerResultEvent, QuizState, ConnectionStatus, TopicCompleteEvent, TopicStartEvent, TopicCountdownEvent, CongratsEvent } from "@/types/quiz";
+import { fetchJsonWithTimeout } from "@/lib/fetchWithTimeout";
 
 interface UseQuizSSEOptions {
   /** Optional user ID for personalized SSE stream (enables 'me' field in state) */
@@ -86,6 +87,7 @@ export function useQuizSSE(
   const reconnectAttemptRef = useRef(0);
   const reconnectTimerRef = useRef<NodeJS.Timeout | null>(null);
   const pollTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const pollRequestRef = useRef<AbortController | null>(null);
   const isOfflineRef = useRef(false);
   const onTopicCompleteRef = useRef(onTopicComplete);
   const onTopicStartRef = useRef(onTopicStart);
@@ -151,6 +153,8 @@ export function useQuizSSE(
       clearInterval(pollTimerRef.current);
       pollTimerRef.current = null;
     }
+    pollRequestRef.current?.abort();
+    pollRequestRef.current = null;
   }, []);
 
   /**
@@ -168,6 +172,9 @@ export function useQuizSSE(
    */
   const fetchState = useCallback(async () => {
     if (!engineUrl || (typeof document !== "undefined" && document.visibilityState === "hidden")) return;
+    if (pollRequestRef.current) return;
+    const controller = new AbortController();
+    pollRequestRef.current = controller;
     
     try {
       const query = new URLSearchParams();
@@ -175,10 +182,12 @@ export function useQuizSSE(
         query.set("roomId", roomId);
       }
 
-      const response = await fetch(`${engineUrl}/state${query.size > 0 ? `?${query.toString()}` : ""}`);
-      if (response.ok) {
-        const state: QuizState = await response.json();
-        setQuizState(state);
+      const result = await fetchJsonWithTimeout<QuizState>(
+        `${engineUrl}/state${query.size > 0 ? `?${query.toString()}` : ""}`,
+        { cache: "no-store", signal: controller.signal },
+      );
+      if (result.ok) {
+        setQuizState(result.data);
         setLastError(undefined);
         
         // Polling is a fallback transport; keep that visible instead of
@@ -187,12 +196,15 @@ export function useQuizSSE(
           setConnectionStatus("polling");
         }
       } else {
-        setLastError(`HTTP ${response.status}`);
+        setLastError(`HTTP ${result.response.status}`);
       }
     } catch (error) {
+      if (controller.signal.aborted) return;
       const msg = error instanceof Error ? error.message : "Poll failed";
       console.warn("[useQuizSSE] Poll failed:", msg);
       setLastError(msg);
+    } finally {
+      if (pollRequestRef.current === controller) pollRequestRef.current = null;
     }
   }, [engineUrl, connectionStatus, roomId]);
 
@@ -221,6 +233,8 @@ export function useQuizSSE(
       pollTimerRef.current = null;
       console.log("[useQuizSSE] Stopped polling");
     }
+    pollRequestRef.current?.abort();
+    pollRequestRef.current = null;
   }, []);
 
   useEffect(() => {

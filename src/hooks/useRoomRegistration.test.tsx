@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   readStoredPlayerIdentity,
@@ -13,6 +13,7 @@ import { useRoomRegistration } from "./useRoomRegistration";
 describe("useRoomRegistration account ownership", () => {
   beforeEach(() => {
     localStorage.clear();
+    vi.useRealTimers();
     vi.unstubAllGlobals();
   });
 
@@ -105,5 +106,25 @@ describe("useRoomRegistration account ownership", () => {
     await waitFor(() => expect(result.current.isRegistered).toBe(true));
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(fetchMock.mock.calls[0][0]).toBe("https://engine.test/rooms/global/join");
+  });
+
+  it("stops checking a saved guest session when the Engine body stalls", async () => {
+    vi.useFakeTimers();
+    saveStoredGuestPlayerIdentity("guest-player", "Guest_User", "guest-token.signature");
+    vi.stubGlobal("fetch", vi.fn((_input: RequestInfo | URL, init?: RequestInit) => Promise.resolve({
+      ok: true,
+      json: () => new Promise((_resolve, reject) => {
+        init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+      }),
+    } as Response)));
+
+    const { result } = renderHook(() => useRoomRegistration({
+      engineUrl: "https://engine.test",
+      roomId: "global",
+    }));
+
+    await act(async () => vi.advanceTimersByTime(45_000));
+    expect(result.current.isCheckingRegistration).toBe(false);
+    expect(result.current.isRegistered).toBe(false);
   });
 });
