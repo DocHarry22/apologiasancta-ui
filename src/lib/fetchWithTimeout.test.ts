@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fetchJsonWithTimeout, RequestTimeoutError } from "./fetchWithTimeout";
+import { fetchJsonWithTimeout, fetchResponseWithTimeout, RequestTimeoutError } from "./fetchWithTimeout";
 
 function pendingFetch(_input: RequestInfo | URL, init?: RequestInit) {
   return new Promise<Response>((_resolve, reject) => {
@@ -13,6 +13,26 @@ afterEach(() => {
 });
 
 describe("fetchWithTimeout", () => {
+  it("bounds response-only requests without requiring a JSON body", async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal("fetch", vi.fn(pendingFetch));
+
+    const request = fetchResponseWithTimeout("/api/auth/logout", { method: "POST" }, 1_000);
+    const assertion = expect(request).rejects.toBeInstanceOf(RequestTimeoutError);
+    await vi.advanceTimersByTimeAsync(1_000);
+    await assertion;
+  });
+
+  it("returns response-only results and clears their deadline", async () => {
+    vi.useFakeTimers();
+    const response = new Response(null, { status: 204 });
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(response));
+
+    await expect(fetchResponseWithTimeout("/api/auth/logout", { method: "POST" }, 1_000)).resolves.toBe(response);
+    await vi.advanceTimersByTimeAsync(1_000);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
   it("turns a hung request into a stable retryable timeout", async () => {
     vi.useFakeTimers();
     vi.stubGlobal("fetch", vi.fn(pendingFetch));
