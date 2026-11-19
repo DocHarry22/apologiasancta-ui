@@ -8,6 +8,7 @@ import {
   readStoredPlayerIdentity,
   saveStoredAccountPlayerIdentity,
 } from "@/lib/playerIdentity";
+import { RequestTimeoutError } from "@/lib/fetchWithTimeout";
 import { AuthExperience } from "./AuthExperience";
 
 const router = vi.hoisted(() => ({
@@ -68,6 +69,19 @@ describe("AuthExperience", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent("account database connection timed out");
     expect(screen.getByRole("alert")).toHaveTextContent("auth-ref-123");
     expect(screen.getByRole("alert")).toHaveFocus();
+  });
+
+  it("releases a stalled sign-in form with actionable retry feedback", async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new RequestTimeoutError()));
+
+    render(<AuthExperience {...defaultProps} initialMode="signin" />);
+    await user.type(screen.getByLabelText("Email address"), "learner@example.test");
+    await user.type(screen.getByLabelText(/^Password/), "valid-password");
+    await user.click(screen.getByRole("button", { name: "Sign in securely" }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("Sign-in took too long");
+    expect(screen.getByRole("button", { name: "Sign in securely" })).toBeEnabled();
   });
 
   it("keeps entered details when switching modes with the keyboard and supports password visibility", async () => {
@@ -178,7 +192,7 @@ describe("AuthExperience", () => {
     await user.click(screen.getByRole("button", { name: "Clear saved session" }));
 
     expect(await screen.findByRole("alert")).toHaveTextContent("could not be cleared");
-    expect(fetchMock).toHaveBeenCalledWith("/api/auth/logout", { method: "POST" });
+    expect(fetchMock).toHaveBeenCalledWith("/api/auth/logout", expect.objectContaining({ method: "POST" }));
     expect(dispatchEpoch).toBeGreaterThan(initialEpoch);
     expect(readAuthSessionEpoch()).toBeGreaterThan(dispatchEpoch);
     expect(readStoredPlayerIdentity()).toEqual({

@@ -9,6 +9,8 @@ import auth from "./AuthExperience.module.css";
 import study from "@/components/native/StudyUI.module.css";
 import styles from "./AccountRecovery.module.css";
 import { runWithStoredAccountSessionBoundary } from "@/lib/playerIdentity";
+import { fetchAccountAccessJson } from "@/lib/accountAccessRequest";
+import { RequestTimeoutError } from "@/lib/fetchWithTimeout";
 
 type Mode = "forgot" | "reset" | "verify";
 
@@ -66,13 +68,14 @@ export function AccountRecovery({ mode }: { mode: Mode }) {
     const endpoint = consuming ? (mode === "reset" ? "reset-password" : "verify-email")
       : (mode === "verify" ? "verify-email/resend" : "forgot-password");
     try {
-      const request = () => fetch(`/api/auth/${endpoint}`, {
+      const request = () => fetchAccountAccessJson<{ ok?: boolean; code?: string; error?: string; message?: string }>(`/api/auth/${endpoint}`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify(consuming ? { token, newPassword: password, confirmPassword } : { email }),
       });
-      const response = mode === "reset" && consuming
+      const result = mode === "reset" && consuming
         ? await runWithStoredAccountSessionBoundary(request) : await request();
-      const payload = await response.json().catch(() => null) as { ok?: boolean; code?: string; error?: string; message?: string } | null;
+      const response = result.response;
+      const payload = result.data ?? null;
       if (!response.ok || !payload?.ok) {
         if (response.status === 429) setRetryIn(Math.max(1, Number(response.headers.get("Retry-After")) || 60));
         if (payload?.code === "invalid_link") setToken("");
@@ -92,9 +95,11 @@ export function AccountRecovery({ mode }: { mode: Mode }) {
         setMessage(payload.message || "If this address is eligible, an email will arrive shortly. Check your inbox and spam folder.");
         setRetryIn(60);
       }
-    } catch {
+    } catch (requestError) {
       setError(true);
-      setMessage("Network error. Check your connection and try again.");
+      setMessage(requestError instanceof RequestTimeoutError
+        ? "The account service took too long to respond. Please try again."
+        : "Network error. Check your connection and try again.");
     } finally { setBusy(false); }
   };
 

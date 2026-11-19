@@ -16,6 +16,8 @@ import study from "@/components/native/StudyUI.module.css";
 import styles from "./AuthExperience.module.css";
 import { AuthPasswordField as PasswordField } from "./AuthPasswordField";
 import { runWithStoredAccountSessionBoundary } from "@/lib/playerIdentity";
+import { fetchAccountAccessJson, fetchAccountAccessResponse } from "@/lib/accountAccessRequest";
+import { RequestTimeoutError } from "@/lib/fetchWithTimeout";
 
 type AuthMode = "signin" | "signup";
 type FormState = "idle" | "loading" | "error" | "success";
@@ -167,13 +169,14 @@ export function AuthExperience({
     setMessage("");
 
     try {
-      const response = await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/login", {
+      const result = await runWithStoredAccountSessionBoundary(() => fetchAccountAccessJson<AuthPayload>("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       }));
 
-      const payload = (await response.json().catch(() => null)) as AuthPayload | null;
+      const response = result.response;
+      const payload = result.data ?? null;
       if (response.ok) {
         setFormState("success");
         navigateAfterAuth(destinationAfterAuth(payload));
@@ -192,9 +195,11 @@ export function AuthExperience({
       } else {
         setMessage(payload?.error || "Unable to sign in right now. Please try again.");
       }
-    } catch {
+    } catch (error) {
       setFormState("error");
-      setMessage("Network error. Check your connection and try again.");
+      setMessage(error instanceof RequestTimeoutError
+        ? "Sign-in took too long. The account service may be unavailable. Please try again."
+        : "Network error. Check your connection and try again.");
     }
   };
 
@@ -210,7 +215,7 @@ export function AuthExperience({
     }
 
     try {
-      const response = await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/signup", {
+      const result = await runWithStoredAccountSessionBoundary(() => fetchAccountAccessJson<AuthPayload>("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -223,7 +228,8 @@ export function AuthExperience({
         }),
       }));
 
-      const payload = (await response.json().catch(() => null)) as AuthPayload | null;
+      const response = result.response;
+      const payload = result.data ?? null;
       if (response.ok) {
         setFormState("success");
         if (payload?.verificationRequired) router.push("/verify-email");
@@ -239,9 +245,11 @@ export function AuthExperience({
       } else {
         setMessage(payload?.error || "Unable to create your account right now. Please try again.");
       }
-    } catch {
+    } catch (error) {
       setFormState("error");
-      setMessage("Network error. Check your connection and try again.");
+      setMessage(error instanceof RequestTimeoutError
+        ? "Account creation took too long. The account service may be unavailable. Please try again."
+        : "Network error. Check your connection and try again.");
     }
   };
 
@@ -249,13 +257,15 @@ export function AuthExperience({
     setFormState("loading");
     setMessage("");
     try {
-      await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/logout", { method: "POST" }));
+      await runWithStoredAccountSessionBoundary(() => fetchAccountAccessResponse("/api/auth/logout", { method: "POST" }));
       setFormState("success");
       setMessage("Saved session cleared. You can sign in with another account.");
       router.refresh();
-    } catch {
+    } catch (error) {
       setFormState("error");
-      setMessage("The saved session could not be cleared. Check your connection and try again.");
+      setMessage(error instanceof RequestTimeoutError
+        ? "Clearing the saved session took too long. Please try again."
+        : "The saved session could not be cleared. Check your connection and try again.");
     }
   };
 

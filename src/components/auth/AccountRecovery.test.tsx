@@ -5,6 +5,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { AccountRecovery, EmailVerificationPanel } from "./AccountRecovery";
 import { readAuthSessionEpoch, readStoredPlayerIdentity, saveStoredAccountPlayerIdentity } from "@/lib/playerIdentity";
+import { RequestTimeoutError } from "@/lib/fetchWithTimeout";
 
 vi.mock("@/components/ui/ThemeToggle", () => ({ ThemeToggle: () => <button>Theme</button> }));
 const token = "a".repeat(64);
@@ -98,6 +99,16 @@ describe("account recovery UI", () => {
     await user.type(screen.getByLabelText("Email address"), "learner@example.test");
     await user.click(screen.getByRole("button", { name: "Send reset link" }));
     expect(screen.getByRole("alert")).toHaveTextContent("Check your connection and try again");
+    expect(screen.getByRole("button", { name: "Send reset link" })).toBeEnabled();
+  });
+
+  it("releases a stalled recovery form with actionable retry feedback", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new RequestTimeoutError()));
+    const user = userEvent.setup();
+    render(<AccountRecovery mode="forgot" />);
+    await user.type(screen.getByLabelText("Email address"), "learner@example.test");
+    await user.click(screen.getByRole("button", { name: "Send reset link" }));
+    expect(screen.getByRole("alert")).toHaveTextContent("account service took too long");
     expect(screen.getByRole("button", { name: "Send reset link" })).toBeEnabled();
   });
 
