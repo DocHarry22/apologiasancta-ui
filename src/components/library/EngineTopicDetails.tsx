@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/Primitives";
 import { getEngineUrl } from "@/lib/publicEnv";
 import { AppIcon } from "@/components/native/AppIcon";
 import { StudySearch } from "@/components/native/StudyUI";
+import { fetchJsonWithTimeout, PUBLIC_ENGINE_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 import styles from "@/components/native/StudyUI.module.css";
 
 export interface EngineTopicResponse {
@@ -38,13 +39,15 @@ export function EngineTopicDetails({ topicId, fallbackTopic = null }: { topicId:
     const applyFallback = () => { if (fallbackTopic) { setTopic(fallbackTopic); setSource("bundled"); setError(null); } else { setError("This topic is unavailable from both the live Engine and bundled catalogue."); } setLoading(false); };
     if (!engineUrl) { applyFallback(); return; }
     const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 8000);
-    fetch(`${engineUrl}/topics/${encodeURIComponent(topicId)}`, { cache: "no-store", signal: controller.signal })
-      .then(async (response) => { if (!response.ok) throw new Error(`Topic unavailable (${response.status})`); return response.json() as Promise<EngineTopicResponse>; })
+    fetchJsonWithTimeout<EngineTopicResponse>(
+      `${engineUrl}/topics/${encodeURIComponent(topicId)}`,
+      { cache: "no-store", signal: controller.signal },
+      PUBLIC_ENGINE_READ_TIMEOUT_MS,
+    )
+      .then((result) => { if (!result.ok) throw new Error(`Topic unavailable (${result.response.status})`); return result.data; })
       .then((data) => { if (!Array.isArray(data.questions)) throw new Error("Invalid topic"); if (active) { setTopic(data); setSource("engine"); setError(null); setLoading(false); } })
       .catch(() => { if (active) applyFallback(); })
-      .finally(() => window.clearTimeout(timeout));
-    return () => { active = false; controller.abort(); window.clearTimeout(timeout); };
+    return () => { active = false; controller.abort(); };
   }, [fallbackTopic, topicId, attempt]);
 
   const filtered = useMemo(() => {

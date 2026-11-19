@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { LIVE_SERVICE_REQUEST_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
-import { useLiveRoom } from "./HomeDashboard";
+import { LIVE_SERVICE_REQUEST_TIMEOUT_MS, PUBLIC_ENGINE_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
+import { useLatestRelease, useLiveRoom } from "./HomeDashboard";
 
 const engineUrl = "https://quiz.example.test";
 
@@ -136,6 +136,28 @@ describe("Home live quiz refresh", () => {
       expect(result.current.slow).toBe(false);
       expect(result.current.room).toBeNull();
       expect(result.current.state).toBeNull();
+    } finally {
+      unmount();
+    }
+  });
+});
+
+describe("Home release lookup", () => {
+  it("ends a hung optional release lookup on the public read deadline", async () => {
+    vi.useFakeTimers();
+    let aborts = 0;
+    vi.stubGlobal("fetch", vi.fn((_request: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+      init?.signal?.addEventListener("abort", () => {
+        aborts += 1;
+        reject(new DOMException("Aborted", "AbortError"));
+      }, { once: true });
+    })));
+
+    const { result, unmount } = renderHook(() => useLatestRelease());
+    try {
+      await act(async () => { await vi.advanceTimersByTimeAsync(PUBLIC_ENGINE_READ_TIMEOUT_MS); });
+      expect(result.current).toBeNull();
+      expect(aborts).toBe(1);
     } finally {
       unmount();
     }

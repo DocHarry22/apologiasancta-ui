@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { fetchJsonWithTimeout, PUBLIC_ENGINE_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 interface Topic {
   id: string;
@@ -135,13 +136,14 @@ export function TopicsScroll({ topics, engineUrl }: TopicsScrollProps) {
 
     const loadTopics = async () => {
       try {
-        const response = await fetch(`${engineUrl}/topics`, {
-          cache: "no-store",
-          signal: controller.signal,
-        });
-        if (!response.ok) return;
+        const result = await fetchJsonWithTimeout<unknown>(
+          `${engineUrl}/topics`,
+          { cache: "no-store", signal: controller.signal },
+          PUBLIC_ENGINE_READ_TIMEOUT_MS,
+        );
+        if (!result.ok) return;
 
-        const payload = parseTopicsResponse(await response.json());
+        const payload = parseTopicsResponse(result.data);
         if (!payload || controller.signal.aborted) return;
         setFeaturedTopics(getFeaturedTopics(topics, payload.topics));
       } catch (error) {

@@ -9,7 +9,7 @@ import { ProgressBar, ProgressRing, SectionHeading, StatusBadge } from "@/compon
 import { useStreak } from "@/hooks/useStreak";
 import { EMPTY_LEARNING_PROGRESS, LEARNING_PROGRESS_KEY, parseLearningProgress, type LearningProgress } from "@/lib/learningProgress";
 import { applyAccountUnlocks } from "@/lib/learning/homeProgress";
-import { fetchJsonWithTimeout } from "@/lib/fetchWithTimeout";
+import { fetchJsonWithTimeout, PUBLIC_ENGINE_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 import { getEngineUrl, getResearchGraphUrl } from "@/lib/publicEnv";
 import type { ApologeticsVerse } from "@/lib/verses";
 import { ANDROID_PHONE_TEST_APK_URL } from "@/lib/androidPhoneTest";
@@ -118,15 +118,18 @@ export function useLiveRoom() {
   return { room, state, status, slow };
 }
 
-function useLatestRelease() {
+export function useLatestRelease() {
   const [release, setRelease] = useState<Release | null>(null);
   useEffect(() => {
     const engine = getEngineUrl();
     if (!engine) return;
     const controller = new AbortController();
-    fetch(`${engine}/releases/latest`, { cache: "no-store", signal: controller.signal })
-      .then((response) => response.ok ? response.json() : null)
-      .then((payload: { release?: Release | null } | null) => setRelease(payload?.release ?? null))
+    fetchJsonWithTimeout<{ release?: Release | null }>(
+      `${engine}/releases/latest`,
+      { cache: "no-store", signal: controller.signal },
+      PUBLIC_ENGINE_READ_TIMEOUT_MS,
+    )
+      .then((result) => setRelease(result.ok ? result.data.release ?? null : null))
       .catch(() => undefined);
     return () => controller.abort();
   }, []);
