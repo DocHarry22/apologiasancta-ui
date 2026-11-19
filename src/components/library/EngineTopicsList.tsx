@@ -6,6 +6,7 @@ import { AppIcon } from "@/components/native/AppIcon";
 import { StudyArtwork, StudySearch } from "@/components/native/StudyUI";
 import styles from "@/components/native/StudyUI.module.css";
 import { LIBRARY_BOOKMARKS_KEY, parseLibraryBookmarks } from "@/lib/libraryBookmarks";
+import { fetchJsonWithTimeout } from "@/lib/fetchWithTimeout";
 import { getEngineUrl } from "@/lib/publicEnv";
 
 export type LibraryResource = {
@@ -26,6 +27,7 @@ export type LibraryResource = {
 
 type EngineTopic = { id: string; title: string; questionCount: number };
 const PAGE_SIZE = 10;
+export const LIBRARY_ENGINE_REQUEST_TIMEOUT_MS = 8_000;
 
 function ResourceIcon({ resource }: { resource: LibraryResource }) {
   return <StudyArtwork icon={resource.category === "Doctrine" ? "cross" : resource.category === "Church History" ? "library" : resource.category === "Apologetics" ? "research" : "book"} tone={resource.category === "Scripture" ? 1 : resource.category === "Church History" ? 2 : 0} />;
@@ -63,10 +65,14 @@ export function EngineTopicsList({ resources, questionTotal, sourceTotal }: { re
     const engine = getEngineUrl();
     if (!engine) { setEngineState("fallback"); return; }
     const controller = new AbortController();
-    fetch(`${engine}/topics`, { cache: "no-store", signal: controller.signal })
-      .then(async (response) => {
-        if (!response.ok) throw new Error("topic service unavailable");
-        const payload = await response.json() as { topics?: EngineTopic[] };
+    fetchJsonWithTimeout<{ topics?: EngineTopic[] }>(
+      `${engine}/topics`,
+      { cache: "no-store", signal: controller.signal },
+      LIBRARY_ENGINE_REQUEST_TIMEOUT_MS,
+    )
+      .then((result) => {
+        if (!result.ok) throw new Error("topic service unavailable");
+        const payload = result.data;
         const live = payload.topics ?? [];
         setItems((current) => {
           const byId = new Map(current.map((item) => [item.id, item]));
