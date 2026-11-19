@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { fetchJsonWithTimeout } from "@/lib/fetchWithTimeout";
 import styles from "./ResearchUI.module.css";
 
 export type KnowledgeOption = { id: string; title: string; kind?: string; summary?: string };
+export const KNOWLEDGE_SELECTOR_REQUEST_TIMEOUT_MS = 8_000;
 
 export default function KnowledgeSelector({ label, name, kind = "claim", initialId = "", initialTitle = "", excludeId = "", onSelect, required = true }: {
   label: string; name: string; kind?: "claim" | "argument"; initialId?: string; initialTitle?: string;
@@ -27,9 +29,12 @@ export default function KnowledgeSelector({ label, name, kind = "claim", initial
   useEffect(() => {
     if (!initialId || initialTitle) return;
     const controller = new AbortController();
-    fetch(`/api/knowledge/${kind === "argument" ? "arguments" : "nodes"}/${encodeURIComponent(initialId)}`, { signal: controller.signal })
-      .then(async (response) => response.ok ? response.json() : null)
-      .then((node) => { if (node?.title && !controller.signal.aborted && !edited.current) setQuery(node.title); })
+    fetchJsonWithTimeout<KnowledgeOption>(
+      `/api/knowledge/${kind === "argument" ? "arguments" : "nodes"}/${encodeURIComponent(initialId)}`,
+      { signal: controller.signal },
+      KNOWLEDGE_SELECTOR_REQUEST_TIMEOUT_MS,
+    )
+      .then((result) => { if (result.ok && result.data.title && !controller.signal.aborted && !edited.current) setQuery(result.data.title); })
       .catch(() => {});
     return () => controller.abort();
   }, [initialId, initialTitle, kind]);
@@ -41,11 +46,14 @@ export default function KnowledgeSelector({ label, name, kind = "claim", initial
       setStatus("Searching published records…");
       try {
         const params = new URLSearchParams({ q: query.trim(), limit: "12" });
-        const response = await fetch(`/api/knowledge/${kind === "argument" ? "arguments" : "search"}?${params}`, { signal: controller.signal });
-        if (!response.ok) throw new Error();
-        const data = await response.json();
+        const result = await fetchJsonWithTimeout<{ arguments?: KnowledgeOption[]; results?: KnowledgeOption[] }>(
+          `/api/knowledge/${kind === "argument" ? "arguments" : "search"}?${params}`,
+          { signal: controller.signal },
+          KNOWLEDGE_SELECTOR_REQUEST_TIMEOUT_MS,
+        );
+        if (!result.ok) throw new Error();
         if (controller.signal.aborted) return;
-        const records = (kind === "argument" ? data.arguments : data.results) || [];
+        const records = (kind === "argument" ? result.data.arguments : result.data.results) || [];
         const next = records.filter((item: KnowledgeOption) => item.id && item.title && item.id !== excludeId);
         setOptions(next);
         setActive(-1);
