@@ -1,9 +1,10 @@
 // @vitest-environment jsdom
 
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { LessonBookmarkControl } from "./LearningPlatform";
+import { LearningCatalogue, LessonBookmarkControl } from "./LearningPlatform";
+import { LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 const LESSON_ID = "11111111-1111-4111-8111-111111111111";
 const BOOKMARK_ID = "22222222-2222-4222-8222-222222222222";
@@ -16,7 +17,26 @@ function jsonResponse(body: unknown, status = 200) {
 }
 
 afterEach(() => {
+  vi.useRealTimers();
+  vi.unstubAllGlobals();
   vi.restoreAllMocks();
+});
+
+describe("learning catalogue deadline", () => {
+  it("offers retry instead of loading forever when the catalogue read hangs", async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal("fetch", vi.fn((_input: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+      init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+    })));
+
+    render(<LearningCatalogue />);
+    expect(screen.getByLabelText("Loading learning content")).toBeInTheDocument();
+
+    await act(async () => { await vi.advanceTimersByTimeAsync(LEARNER_API_READ_TIMEOUT_MS); });
+
+    expect(screen.getByRole("alert")).toHaveTextContent("did not respond in time");
+    expect(screen.getByRole("button", { name: "Try again" })).toBeEnabled();
+  });
 });
 
 describe("LessonBookmarkControl", () => {

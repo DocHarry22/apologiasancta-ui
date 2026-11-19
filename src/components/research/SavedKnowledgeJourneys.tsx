@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { StatusBadge } from "@/components/ui/Primitives";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 import { GraphLink } from "./GraphLink";
 import { graphJourneyHref, isGraphJourney } from "@/lib/graphJourneys";
+import { fetchJsonWithTimeout, fetchResponseWithTimeout, LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 type Journey = {
   id: string;
@@ -23,7 +24,11 @@ type Journey = {
 type Envelope = { data?: Journey[]; error?: { message?: string } };
 
 async function csrfToken(): Promise<string> {
-  const response = await fetch("/api/auth/csrf", { credentials: "same-origin", cache: "no-store" });
+  const response = await fetchResponseWithTimeout(
+    "/api/auth/csrf",
+    { credentials: "same-origin", cache: "no-store" },
+    LEARNER_API_READ_TIMEOUT_MS,
+  );
   if (!response.ok) throw new Error("Security token unavailable.");
   const body = await response.json() as { csrfToken?: string };
   if (!body.csrfToken) throw new Error("Security token unavailable.");
@@ -35,28 +40,42 @@ export default function SavedKnowledgeJourneys() {
   const [state, setState] = useState<"loading" | "ready" | "signed_out" | "error">("loading");
   const [message, setMessage] = useState("");
   const graphUrl = useMemo(() => getResearchGraphUrl(), []);
+  const loadControllerRef = useRef<AbortController | null>(null);
 
   const load = useCallback(async () => {
+    loadControllerRef.current?.abort();
+    const controller = new AbortController();
+    loadControllerRef.current = controller;
     setState("loading");
     setMessage("");
     try {
-      const response = await fetch("/api/v1/learning/journeys?limit=100", { credentials: "same-origin", cache: "no-store" });
-      if (response.status === 401) {
+      const result = await fetchJsonWithTimeout<Envelope>(
+        "/api/v1/learning/journeys?limit=100",
+        { credentials: "same-origin", cache: "no-store", signal: controller.signal },
+        LEARNER_API_READ_TIMEOUT_MS,
+      );
+      if (!result.ok && result.response.status === 401) {
         setState("signed_out");
         setItems([]);
         return;
       }
-      const payload = await response.json().catch(() => ({})) as Envelope;
-      if (!response.ok) throw new Error(payload.error?.message || `Request failed (${response.status}).`);
+      const payload = result.data ?? {};
+      if (!result.ok) throw new Error(payload.error?.message || `Request failed (${result.response.status}).`);
       setItems(Array.isArray(payload.data) ? payload.data : []);
       setState("ready");
     } catch (error) {
+      if (controller.signal.aborted) return;
       setState("error");
       setMessage(error instanceof Error ? error.message : "Saved journeys are unavailable.");
+    } finally {
+      if (loadControllerRef.current === controller) loadControllerRef.current = null;
     }
   }, []);
 
-  useEffect(() => { void load(); }, [load]);
+  useEffect(() => {
+    void load();
+    return () => loadControllerRef.current?.abort();
+  }, [load]);
 
   async function remove(journey: Journey) {
     if (!window.confirm(`Delete “${journey.title}”?`)) return;

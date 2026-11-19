@@ -1,12 +1,13 @@
 // @vitest-environment jsdom
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { AccountDashboard } from "./AccountDashboard";
 import { LEARNING_PROGRESS_KEY } from "@/lib/learningProgress";
 import { LIBRARY_BOOKMARKS_KEY } from "@/lib/libraryBookmarks";
 import { JOIN_TOKEN_STORAGE_KEY, USER_ID_STORAGE_KEY, USERNAME_STORAGE_KEY } from "@/lib/playerIdentity";
+import { LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 const router = vi.hoisted(() => ({ replace: vi.fn() }));
 const setPreference = vi.hoisted(() => vi.fn());
@@ -60,8 +61,29 @@ describe("AccountDashboard", () => {
   });
 
   afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
     window.localStorage.clear();
     vi.restoreAllMocks();
+  });
+
+  it("falls back to device progress when the official progress read hangs", async () => {
+    vi.useFakeTimers();
+    let aborts = 0;
+    vi.stubGlobal("fetch", vi.fn((_input: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+      init?.signal?.addEventListener("abort", () => {
+        aborts += 1;
+        reject(new DOMException("Aborted", "AbortError"));
+      }, { once: true });
+    })));
+    window.localStorage.setItem(LEARNING_PROGRESS_KEY, JSON.stringify({ completedLessonIds: ["one"] }));
+
+    render(<AccountDashboard {...props} initialSection="learning" />);
+    await act(async () => { await vi.advanceTimersByTimeAsync(LEARNER_API_READ_TIMEOUT_MS); });
+
+    expect(aborts).toBe(1);
+    expect(screen.getByText("Saved only on this device")).toBeInTheDocument();
+    expect(screen.getByText("1/4")).toBeInTheDocument();
   });
 
   it("reports learning progress as device-only and reads only known lessons", async () => {

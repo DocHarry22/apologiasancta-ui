@@ -10,6 +10,7 @@ import { ProgressBar } from "@/components/ui/Primitives";
 import { AppIcon } from "@/components/native/AppIcon";
 import { StudyArtwork, StudySearch } from "@/components/native/StudyUI";
 import styles from "@/components/native/StudyUI.module.css";
+import { fetchJsonWithTimeout, fetchResponseWithTimeout, LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 type ApiEnvelope<T> = { data: T; meta?: Record<string, unknown> };
 type CatalogueItemKind = "programme" | "subject" | "group" | "lesson" | "source";
@@ -79,7 +80,11 @@ function asEnvelope<T>(value: unknown): ApiEnvelope<T> {
 }
 
 async function api<T>(url: string, init?: RequestInit): Promise<ApiEnvelope<T>> {
-  const response = await fetch(url, { credentials: "same-origin", cache: "no-store", ...init });
+  const request = { credentials: "same-origin" as const, cache: "no-store" as const, ...init };
+  const method = (request.method ?? "GET").toUpperCase();
+  const response = method === "GET" || method === "HEAD"
+    ? await fetchResponseWithTimeout(url, request, LEARNER_API_READ_TIMEOUT_MS)
+    : await fetch(url, request);
   const body = await response.json().catch(() => ({}));
   if (!response.ok) {
     const message = body && typeof body.error === "string"
@@ -95,7 +100,11 @@ async function api<T>(url: string, init?: RequestInit): Promise<ApiEnvelope<T>> 
 }
 
 async function csrfHeaders(unauthorizedMessage = "Sign in to save official progress."): Promise<Record<string, string>> {
-  const response = await fetch("/api/auth/csrf", { credentials: "same-origin", cache: "no-store" });
+  const response = await fetchResponseWithTimeout(
+    "/api/auth/csrf",
+    { credentials: "same-origin", cache: "no-store" },
+    LEARNER_API_READ_TIMEOUT_MS,
+  );
   if (!response.ok) throw new Error(response.status === 401 ? unauthorizedMessage : "Security token unavailable.");
   const body = await response.json() as { csrfToken?: string };
   if (!body.csrfToken) throw new Error("Security token unavailable.");
@@ -220,9 +229,12 @@ export function LearningHierarchyPage({ kind, slug }: { kind: "programme" | "sub
   useEffect(() => {
     if (kind !== "subject") return;
     const controller = new AbortController();
-    fetch("/api/v1/learning/unlocks", { cache: "no-store", signal: controller.signal })
-      .then(async (response) => response.ok ? response.json() as Promise<{ data?: Array<{ groupId?: string }> }> : null)
-      .then((payload) => setUnlockedGroupIds(new Set((payload?.data ?? []).flatMap((item) => item.groupId ? [item.groupId] : []))))
+    fetchJsonWithTimeout<{ data?: Array<{ groupId?: string }> }>(
+      "/api/v1/learning/unlocks",
+      { cache: "no-store", signal: controller.signal },
+      LEARNER_API_READ_TIMEOUT_MS,
+    )
+      .then((result) => setUnlockedGroupIds(new Set((result.ok ? result.data.data ?? [] : []).flatMap((item) => item.groupId ? [item.groupId] : []))))
       .catch((cause) => { if ((cause as Error).name !== "AbortError") setUnlockedGroupIds(new Set()); });
     return () => controller.abort();
   }, [kind]);
