@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
 import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
-import KnowledgeSelector from "./KnowledgeSelector";
+import KnowledgeSelector, { KNOWLEDGE_SELECTOR_REQUEST_TIMEOUT_MS } from "./KnowledgeSelector";
 
-afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
+afterEach(() => { cleanup(); vi.useRealTimers(); vi.unstubAllGlobals(); });
 const records = [{ id: "claim:incarnation", title: "The Incarnation", kind: "claim" }, { id: "claim:trinity", title: "The Trinity", kind: "claim" }];
 
 it("allows an optional claim to be empty but requires a published selection after typing", async () => {
@@ -66,4 +66,37 @@ it("ignores stale searches and closes the list with Escape", async () => {
   expect(screen.queryByText("The Incarnation")).toBeNull();
   fireEvent.keyDown(input, { key: "Escape" });
   expect(input).toHaveAttribute("aria-expanded", "false");
+});
+
+it("bounds stalled searches and exposes the existing retry action", async () => {
+  vi.useFakeTimers();
+  const fetcher = vi.fn((_input: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+    init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+  }));
+  vi.stubGlobal("fetch", fetcher);
+  render(<KnowledgeSelector label="Claim" name="left" />);
+
+  fireEvent.change(screen.getByRole("combobox"), { target: { value: "Incarnation" } });
+  await act(async () => { await vi.advanceTimersByTimeAsync(250); });
+  expect(screen.getByRole("status")).toHaveTextContent("Searching published records");
+
+  await act(async () => { await vi.advanceTimersByTimeAsync(KNOWLEDGE_SELECTOR_REQUEST_TIMEOUT_MS); });
+  expect(screen.getByRole("button", { name: "Retry search" })).toBeVisible();
+  expect(fetcher).toHaveBeenCalledTimes(1);
+});
+
+it("also bounds initial canonical-title hydration", async () => {
+  vi.useFakeTimers();
+  let requestSignal: AbortSignal | null = null;
+  vi.stubGlobal("fetch", vi.fn((_input: RequestInfo | URL, init?: RequestInit) => {
+    requestSignal = init?.signal || null;
+    return new Promise<Response>((_resolve, reject) => {
+      requestSignal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+    });
+  }));
+
+  render(<KnowledgeSelector label="Claim" name="left" initialId="claim:incarnation" />);
+  expect(requestSignal?.aborted).toBe(false);
+  await act(async () => { await vi.advanceTimersByTimeAsync(KNOWLEDGE_SELECTOR_REQUEST_TIMEOUT_MS); });
+  expect(requestSignal?.aborted).toBe(true);
 });
