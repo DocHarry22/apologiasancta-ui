@@ -1,6 +1,6 @@
 export const DEFAULT_PUBLIC_APP_ORIGIN = "https://sandybrown-bear-488955.hostingersite.com";
 
-const LOCAL_DEVELOPMENT_HOSTS = new Set(["localhost", "127.0.0.1", "::1"]);
+const LOCAL_DEVELOPMENT_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
 
 function safeOrigin(value: string | undefined, allowLocalHttp: boolean): string | null {
   const configured = value?.trim();
