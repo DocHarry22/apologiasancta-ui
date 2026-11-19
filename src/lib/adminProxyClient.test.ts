@@ -30,6 +30,30 @@ describe("adminProxyClient request deadlines", () => {
     });
   });
 
+  it("keeps the deadline active while consuming a stalled response body", async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal("fetch", vi.fn((_input: RequestInfo | URL, init?: RequestInit) => Promise.resolve({
+      ok: true,
+      status: 200,
+      headers: new Headers({ "content-type": "application/json" }),
+      json: () => new Promise((_resolve, reject) => {
+        init?.signal?.addEventListener(
+          "abort",
+          () => reject(new DOMException("Aborted", "AbortError")),
+          { once: true },
+        );
+      }),
+    } as Response)));
+
+    const request = adminProxy.status();
+    await vi.advanceTimersByTimeAsync(ADMIN_PROXY_REQUEST_TIMEOUT_MS);
+
+    await expect(request).resolves.toEqual({
+      success: false,
+      error: "Admin data did not respond in time. Please retry.",
+    });
+  });
+
   it("warns that a timed-out mutation can have an unknown outcome", async () => {
     vi.useFakeTimers();
     vi.stubGlobal("fetch", vi.fn(pendingFetch));

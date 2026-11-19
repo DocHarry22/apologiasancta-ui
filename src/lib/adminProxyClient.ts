@@ -27,6 +27,38 @@ export type { LoopMode } from "@/lib/engineAdmin";
 
 export const ADMIN_PROXY_REQUEST_TIMEOUT_MS = 20_000;
 
+type AdminProxyResponse = {
+  response: Response;
+  data?: Record<string, unknown>;
+  text?: string;
+};
+
+async function fetchAdminProxyResponse(
+  input: RequestInfo | URL,
+  init: RequestInit,
+): Promise<AdminProxyResponse> {
+  const controller = new AbortController();
+  let timedOut = false;
+  const timeout = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, ADMIN_PROXY_REQUEST_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(input, { ...init, signal: controller.signal });
+    const contentType = response.headers.get("content-type") || "";
+    if (contentType.toLowerCase().includes("application/json")) {
+      return { response, data: await response.json() as Record<string, unknown> };
+    }
+    return { response, text: await response.text() };
+  } catch (error) {
+    if (timedOut) throw new RequestTimeoutError();
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 // --------------------------------------------------------------------------
 // Internal fetch wrapper
 // --------------------------------------------------------------------------
@@ -72,15 +104,15 @@ async function proxyFetch<T = unknown>(
       if (csrf) headers["x-csrf-token"] = csrf;
     }
 
-    const response = await fetchResponseWithTimeout(
+    const result = await fetchAdminProxyResponse(
       `/api/admin${path}`,
       {
         method,
         headers,
         body: body !== undefined ? JSON.stringify(body) : undefined,
       },
-      ADMIN_PROXY_REQUEST_TIMEOUT_MS,
     );
+    const { response } = result;
 
     if (response.status === 401) {
       return {
@@ -110,7 +142,7 @@ async function proxyFetch<T = unknown>(
 
     const contentType = response.headers.get("content-type") || "";
     if (!contentType.toLowerCase().includes("application/json")) {
-      const text = await response.text();
+      const text = result.text || "";
       const preview = text.trim().slice(0, 120).replace(/\s+/g, " ");
       return {
         success: false,
@@ -120,7 +152,7 @@ async function proxyFetch<T = unknown>(
       };
     }
 
-    const data = await response.json() as Record<string, unknown>;
+    const data = result.data || {};
 
     if (!response.ok) {
       return {
