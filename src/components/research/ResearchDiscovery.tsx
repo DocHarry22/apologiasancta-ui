@@ -2,11 +2,16 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { fetchJsonWithTimeout } from "@/lib/fetchWithTimeout";
 import type { KnowledgeOption } from "./KnowledgeSelector";
 import styles from "./ResearchUI.module.css";
 
 type Topic = { id: string; title: string; summary?: string; rootNodeId?: string; root_node_id?: string };
 type Pair = { left: KnowledgeOption; right: KnowledgeOption; relationship: string };
+type KnowledgeEdge = { fromNodeId?: string; toNodeId?: string; from_node_id?: string; to_node_id?: string; relationshipType?: string; relationship_type?: string };
+type TopicResponse = { topics?: Topic[] };
+type NeighborhoodResponse = { nodes?: KnowledgeOption[]; edges?: KnowledgeEdge[] };
+export const RESEARCH_DISCOVERY_REQUEST_TIMEOUT_MS = 8_000;
 
 export default function ResearchDiscovery({ anchor = "", lens = "catholic", showJourneys = true }: { anchor?: string; lens?: string; showJourneys?: boolean }) {
   const [topics, setTopics] = useState<Topic[]>([]);
@@ -16,22 +21,26 @@ export default function ResearchDiscovery({ anchor = "", lens = "catholic", show
   useEffect(() => {
     const controller = new AbortController();
     setPairs([]); setStatus("Loading research starting points…");
-    async function read(path: string) {
-      const response = await fetch(`/api/knowledge/${path}`, { signal: controller.signal });
-      if (!response.ok) throw new Error();
-      return response.json();
+    async function read<T>(path: string): Promise<T> {
+      const result = await fetchJsonWithTimeout<T>(
+        `/api/knowledge/${path}`,
+        { signal: controller.signal },
+        RESEARCH_DISCOVERY_REQUEST_TIMEOUT_MS,
+      );
+      if (!result.ok) throw new Error();
+      return result.data;
     }
     async function load() {
       try {
-        const topicResult = await read("topics?limit=3").then((data) => ({ data, failed: false }), () => ({ data: { topics: [] }, failed: true }));
+        const topicResult = await read<TopicResponse>("topics?limit=3").then((data) => ({ data, failed: false }), () => ({ data: { topics: [] }, failed: true }));
         if (controller.signal.aborted) return;
         const next: Topic[] = (topicResult.data.topics || []).filter((topic: Topic) => topic.rootNodeId || topic.root_node_id);
         setTopics(next);
         const roots = anchor ? [anchor] : next.map((topic) => topic.rootNodeId || topic.root_node_id || "");
         const results = await Promise.allSettled(roots.map(async (root) => {
-          const neighborhood = await read(`neighborhood?${new URLSearchParams({ nodeId: root, depth: "1", limit: "20", lens })}`);
+          const neighborhood = await read<NeighborhoodResponse>(`neighborhood?${new URLSearchParams({ nodeId: root, depth: "1", limit: "20", lens })}`);
           const nodes: KnowledgeOption[] = neighborhood.nodes || [];
-          return (neighborhood.edges || []).flatMap((edge: { fromNodeId?: string; toNodeId?: string; from_node_id?: string; to_node_id?: string; relationshipType?: string; relationship_type?: string }) => {
+          return (neighborhood.edges || []).flatMap((edge) => {
             const from = edge.fromNodeId || edge.from_node_id, to = edge.toNodeId || edge.to_node_id;
             const left = nodes.find((node) => node.id === from), right = nodes.find((node) => node.id === to);
             return left && right && left.id !== right.id && (left.id === root || right.id === root)
