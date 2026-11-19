@@ -9,7 +9,7 @@ import { ProgressBar, ProgressRing, SectionHeading, StatusBadge } from "@/compon
 import { useStreak } from "@/hooks/useStreak";
 import { EMPTY_LEARNING_PROGRESS, LEARNING_PROGRESS_KEY, parseLearningProgress, type LearningProgress } from "@/lib/learningProgress";
 import { applyAccountUnlocks } from "@/lib/learning/homeProgress";
-import { fetchJsonWithTimeout, PUBLIC_ENGINE_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
+import { fetchJsonWithTimeout, LEARNER_API_READ_TIMEOUT_MS, PUBLIC_ENGINE_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 import { getEngineUrl, getResearchGraphUrl } from "@/lib/publicEnv";
 import type { ApologeticsVerse } from "@/lib/verses";
 import { ANDROID_PHONE_TEST_APK_URL } from "@/lib/androidPhoneTest";
@@ -219,16 +219,23 @@ export function HomeDashboard({ userName, topics, dailyVerse }: { userName: stri
     const controller = new AbortController();
     const loadLearning = async () => {
       try {
-        const previewResponse = await fetch("/api/v1/learning/progress/preview", { cache: "no-store", signal: controller.signal });
-        if (previewResponse.ok) {
-          const payload = await previewResponse.json() as { data?: LearningPreview[] } | LearningPreview[];
+        const previewResult = await fetchJsonWithTimeout<{ data?: LearningPreview[] } | LearningPreview[]>(
+          "/api/v1/learning/progress/preview",
+          { cache: "no-store", signal: controller.signal },
+          LEARNER_API_READ_TIMEOUT_MS,
+        );
+        if (previewResult.ok) {
+          const payload = previewResult.data;
           setLearningPreview(Array.isArray(payload) ? payload : payload.data ?? []);
         }
         if (userName) {
-          const progressResponse = await fetch("/api/v1/learning/progress", { cache: "no-store", signal: controller.signal });
-          if (progressResponse.ok) {
-            const payload = await progressResponse.json() as { data?: OfficialProgress };
-            setOfficialProgress(payload.data ?? null);
+          const progressResult = await fetchJsonWithTimeout<{ data?: OfficialProgress }>(
+            "/api/v1/learning/progress",
+            { cache: "no-store", signal: controller.signal },
+            LEARNER_API_READ_TIMEOUT_MS,
+          );
+          if (progressResult.ok) {
+            setOfficialProgress(progressResult.data.data ?? null);
           }
         }
       } catch (error) {

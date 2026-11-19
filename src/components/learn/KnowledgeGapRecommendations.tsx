@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ProgressBar, StatusBadge } from "@/components/ui/Primitives";
 import { GraphLink } from "@/components/research/GraphLink";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
+import { fetchJsonWithTimeout, LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 type GapRecommendation = {
   nodeId: string;
@@ -50,18 +51,18 @@ export default function KnowledgeGapRecommendations() {
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch("/api/v1/learning/recommendations/knowledge?limit=6&masteryBelow=80", {
+    fetchJsonWithTimeout<Envelope>("/api/v1/learning/recommendations/knowledge?limit=6&masteryBelow=80", {
       credentials: "same-origin",
       cache: "no-store",
       signal: controller.signal,
-    })
-      .then(async (response) => {
-        if (response.status === 401) {
+    }, LEARNER_API_READ_TIMEOUT_MS)
+      .then((result) => {
+        if (!result.ok && result.response.status === 401) {
           setState("signed_out");
           return null;
         }
-        if (!response.ok) throw new Error("recommendations unavailable");
-        return response.json() as Promise<Envelope>;
+        if (!result.ok) throw new Error("recommendations unavailable");
+        return result.data;
       })
       .then((payload) => {
         if (!payload) return;

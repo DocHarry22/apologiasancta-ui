@@ -20,6 +20,7 @@ import {
 } from "@/lib/learningProgress";
 import { LIBRARY_BOOKMARKS_KEY, parseLibraryBookmarks } from "@/lib/libraryBookmarks";
 import { clearStoredPlayerIdentity, runWithStoredAccountSessionBoundary } from "@/lib/playerIdentity";
+import { fetchJsonWithTimeout, LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 import { useTheme, type ThemePreference } from "@/lib/theme";
 import { EmailVerificationPanel } from "@/components/auth/AccountRecovery";
 import { AppIcon, type AppIconName } from "@/components/native/AppIcon";
@@ -132,9 +133,12 @@ export function AccountDashboard({
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch("/api/v1/learning/progress", { cache: "no-store", signal: controller.signal })
-      .then(async (response) => response.ok ? response.json() as Promise<{ data?: OfficialLearningProgress }> : null)
-      .then((payload) => setOfficialLearning(payload?.data ?? null))
+    fetchJsonWithTimeout<{ data?: OfficialLearningProgress }>(
+      "/api/v1/learning/progress",
+      { cache: "no-store", signal: controller.signal },
+      LEARNER_API_READ_TIMEOUT_MS,
+    )
+      .then((result) => setOfficialLearning(result.ok ? result.data.data ?? null : null))
       .catch((error) => { if ((error as Error).name !== "AbortError") setOfficialLearning(null); });
     return () => controller.abort();
   }, []);
