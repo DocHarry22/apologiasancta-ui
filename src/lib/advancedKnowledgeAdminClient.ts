@@ -1,5 +1,13 @@
 "use client";
 
+import {
+  fetchJsonWithTimeout,
+  fetchResponseWithTimeout,
+  RequestTimeoutError,
+} from "@/lib/fetchWithTimeout";
+
+export const KNOWLEDGE_FOUNDRY_REQUEST_TIMEOUT_MS = 20_000;
+
 export type CoverageDashboard = {
   nodesByKind: Array<{ kind: string; count: number }>;
   nodesByState: Array<{ content_state: string; count: number }>;
@@ -43,7 +51,11 @@ function csrfToken(): string | null {
 
 async function refreshCsrf(): Promise<void> {
   try {
-    await fetch("/api/auth/csrf", { credentials: "same-origin", cache: "no-store" });
+    await fetchResponseWithTimeout(
+      "/api/auth/csrf",
+      { credentials: "same-origin", cache: "no-store" },
+      KNOWLEDGE_FOUNDRY_REQUEST_TIMEOUT_MS,
+    );
   } catch {
     // Best effort; the subsequent request will fail safely if no token is available.
   }
@@ -59,24 +71,42 @@ async function request<T>(path: string, options: { method?: "GET" | "POST"; body
   }
 
   try {
-    const response = await fetch(`/api/admin/knowledge-advanced${path}`, {
-      method,
-      headers,
-      credentials: "same-origin",
-      cache: "no-store",
-      body: options.body ? JSON.stringify(options.body) : undefined,
-    });
+    const result = await fetchJsonWithTimeout<Record<string, unknown>>(
+      `/api/admin/knowledge-advanced${path}`,
+      {
+        method,
+        headers,
+        credentials: "same-origin",
+        cache: "no-store",
+        body: options.body ? JSON.stringify(options.body) : undefined,
+      },
+      KNOWLEDGE_FOUNDRY_REQUEST_TIMEOUT_MS,
+    );
+    const { response } = result;
     if (response.status === 403 && method !== "GET" && !options.retried) {
       await refreshCsrf();
       return request<T>(path, { ...options, retried: true });
     }
     const contentType = response.headers.get("content-type")?.toLowerCase() || "";
     if (!contentType.includes("application/json")) return { ok: false, error: "Knowledge Foundry returned an unexpected response.", status: 502 };
-    const payload = await response.json() as Record<string, unknown>;
-    if (!response.ok) return { ok: false, error: typeof payload.error === "string" ? payload.error : `HTTP ${response.status}`, status: response.status };
+    const payload = result.data || {};
+    if (!result.ok) return { ok: false, error: typeof payload.error === "string" ? payload.error : `HTTP ${response.status}`, status: response.status };
     return { ok: true, data: payload as T };
   } catch (error) {
-    return { ok: false, error: error instanceof Error ? error.message : "Knowledge Foundry network error." };
+    if (error instanceof RequestTimeoutError) {
+      return {
+        ok: false,
+        error: method === "GET"
+          ? "Knowledge Foundry did not respond in time. Please retry."
+          : "The Knowledge Foundry request timed out and may still have completed. Refresh proposals before retrying.",
+      };
+    }
+    return {
+      ok: false,
+      error: error instanceof SyntaxError
+        ? "Knowledge Foundry returned an unexpected response."
+        : error instanceof Error ? error.message : "Knowledge Foundry network error.",
+    };
   }
 }
 
