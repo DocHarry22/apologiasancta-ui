@@ -10,7 +10,7 @@ import { ProgressBar } from "@/components/ui/Primitives";
 import { AppIcon } from "@/components/native/AppIcon";
 import { StudyArtwork, StudySearch } from "@/components/native/StudyUI";
 import styles from "@/components/native/StudyUI.module.css";
-import { fetchJsonWithTimeout, fetchResponseWithTimeout, LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
+import { fetchJsonWithTimeout, LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 type ApiEnvelope<T> = { data: T; meta?: Record<string, unknown> };
 type CatalogueItemKind = "programme" | "subject" | "group" | "lesson" | "source";
@@ -82,15 +82,23 @@ function asEnvelope<T>(value: unknown): ApiEnvelope<T> {
 async function api<T>(url: string, init?: RequestInit): Promise<ApiEnvelope<T>> {
   const request = { credentials: "same-origin" as const, cache: "no-store" as const, ...init };
   const method = (request.method ?? "GET").toUpperCase();
-  const response = method === "GET" || method === "HEAD"
-    ? await fetchResponseWithTimeout(url, request, LEARNER_API_READ_TIMEOUT_MS)
-    : await fetch(url, request);
-  const body = await response.json().catch(() => ({}));
+  let response: Response;
+  let body: unknown;
+  if (method === "GET" || method === "HEAD") {
+    const result = await fetchJsonWithTimeout<unknown>(url, request, LEARNER_API_READ_TIMEOUT_MS);
+    response = result.response;
+    body = result.data ?? {};
+  } else {
+    response = await fetch(url, request);
+    body = await response.json().catch(() => ({}));
+  }
   if (!response.ok) {
-    const message = body && typeof body.error === "string"
-      ? body.error
-      : body?.error && typeof body.error.message === "string"
-        ? body.error.message
+    const errorBody = body as { error?: string | { message?: string } } | null;
+    const nestedError = errorBody?.error && typeof errorBody.error === "object" ? errorBody.error : null;
+    const message = errorBody && typeof errorBody.error === "string"
+      ? errorBody.error
+      : nestedError && typeof nestedError.message === "string"
+        ? nestedError.message
         : `Request failed (${response.status})`;
     const error = new Error(message) as Error & { status?: number };
     error.status = response.status;
@@ -100,15 +108,14 @@ async function api<T>(url: string, init?: RequestInit): Promise<ApiEnvelope<T>> 
 }
 
 async function csrfHeaders(unauthorizedMessage = "Sign in to save official progress."): Promise<Record<string, string>> {
-  const response = await fetchResponseWithTimeout(
+  const result = await fetchJsonWithTimeout<{ csrfToken?: string }>(
     "/api/auth/csrf",
     { credentials: "same-origin", cache: "no-store" },
     LEARNER_API_READ_TIMEOUT_MS,
   );
-  if (!response.ok) throw new Error(response.status === 401 ? unauthorizedMessage : "Security token unavailable.");
-  const body = await response.json() as { csrfToken?: string };
-  if (!body.csrfToken) throw new Error("Security token unavailable.");
-  return { "content-type": "application/json", "x-csrf-token": body.csrfToken };
+  if (!result.ok) throw new Error(result.response.status === 401 ? unauthorizedMessage : "Security token unavailable.");
+  if (!result.data.csrfToken) throw new Error("Security token unavailable.");
+  return { "content-type": "application/json", "x-csrf-token": result.data.csrfToken };
 }
 
 function useLearningResource<T>(url: string) {

@@ -25,9 +25,14 @@ afterEach(() => {
 describe("learning catalogue deadline", () => {
   it("offers retry instead of loading forever when the catalogue read hangs", async () => {
     vi.useFakeTimers();
-    vi.stubGlobal("fetch", vi.fn((_input: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
-      init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
-    })));
+    vi.stubGlobal("fetch", vi.fn((_input: RequestInfo | URL, init?: RequestInit) => {
+      const body = new ReadableStream({
+        start(controller) {
+          init?.signal?.addEventListener("abort", () => controller.error(new DOMException("Aborted", "AbortError")), { once: true });
+        },
+      });
+      return Promise.resolve(new Response(body, { status: 200, headers: { "content-type": "application/json" } }));
+    }));
 
     render(<LearningCatalogue />);
     expect(screen.getByLabelText("Loading learning content")).toBeInTheDocument();

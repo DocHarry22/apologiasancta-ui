@@ -6,7 +6,7 @@ import { StatusBadge } from "@/components/ui/Primitives";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 import { GraphLink } from "./GraphLink";
 import { graphJourneyHref, isGraphJourney } from "@/lib/graphJourneys";
-import { fetchJsonWithTimeout, fetchResponseWithTimeout, LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
+import { fetchJsonWithTimeout, LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 type Journey = {
   id: string;
@@ -24,15 +24,13 @@ type Journey = {
 type Envelope = { data?: Journey[]; error?: { message?: string } };
 
 async function csrfToken(): Promise<string> {
-  const response = await fetchResponseWithTimeout(
+  const result = await fetchJsonWithTimeout<{ csrfToken?: string }>(
     "/api/auth/csrf",
     { credentials: "same-origin", cache: "no-store" },
     LEARNER_API_READ_TIMEOUT_MS,
   );
-  if (!response.ok) throw new Error("Security token unavailable.");
-  const body = await response.json() as { csrfToken?: string };
-  if (!body.csrfToken) throw new Error("Security token unavailable.");
-  return body.csrfToken;
+  if (!result.ok || !result.data.csrfToken) throw new Error("Security token unavailable.");
+  return result.data.csrfToken;
 }
 
 export default function SavedKnowledgeJourneys() {
