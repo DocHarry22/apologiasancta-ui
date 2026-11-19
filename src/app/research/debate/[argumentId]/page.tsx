@@ -7,6 +7,7 @@ import { StatusBadge } from "@/components/ui/Primitives";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 import { fetchKnowledgeEngine, KnowledgeEngineError } from "@/lib/server/knowledgeEngine";
 import type { DebateResponse as DebatePayload } from "@/lib/knowledge/researchContract";
+import { ResearchRetryButton } from "@/components/research/ResearchRetryButton";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +41,7 @@ export default async function DebateArgumentPage({ params }: { params: Promise<{
           <div className="surface-card mt-6 p-6" role="alert">
             <StatusBadge tone="danger">Debate unavailable</StatusBadge>
             <p className="mt-3 text-sm leading-6 text-(--text-muted)">{error instanceof Error ? error.message : "Debate is temporarily unavailable."}</p>
+            <ResearchRetryButton label="Retry debate" />
           </div>
       </ResearchLayout>
     );

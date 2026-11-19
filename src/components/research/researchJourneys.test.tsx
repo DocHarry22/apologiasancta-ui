@@ -5,17 +5,17 @@ import TimelinePage from "@/app/research/timeline/page";
 import ComparePage from "@/app/research/compare/page";
 import DebatePage from "@/app/research/debate/[argumentId]/page";
 
-const { save } = vi.hoisted(() => ({ save: vi.fn() }));
+const { refresh, save } = vi.hoisted(() => ({ refresh: vi.fn(), save: vi.fn() }));
 vi.mock("server-only", () => ({}));
 vi.mock("@/components/shell/AppShell", () => ({ AppShell: ({ children }: { children: React.ReactNode }) => <main>{children}</main> }));
 vi.mock("@/components/content/ReportIssue", () => ({ ReportIssue: () => null }));
 vi.mock("@/components/research/ResearchDiscovery", () => ({ default: () => null }));
 vi.mock("@/components/research/CompareClaimsForm", () => ({ default: () => null }));
 vi.mock("@/components/research/SaveKnowledgeJourneyButton", () => ({ default: (props: unknown) => { save(props); return <button>Save journey</button>; } }));
-vi.mock("next/navigation", () => ({ notFound: () => { throw new Error("not-found"); } }));
+vi.mock("next/navigation", () => ({ notFound: () => { throw new Error("not-found"); }, useRouter: () => ({ refresh }) }));
 vi.mock("@/lib/publicEnv", () => ({ getResearchGraphUrl: () => "https://graph.test" }));
 
-afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); save.mockClear(); });
+afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); refresh.mockClear(); save.mockClear(); });
 
 describe.each([
   "https://engine.test",
@@ -59,13 +59,16 @@ describe.each([
     const timeline = renderToStaticMarkup(await TimelinePage({ searchParams: Promise.resolve({ domain: "history" }) }));
     expect(timeline).toContain("Timeline unavailable");
     expect(timeline).toContain("incompatible research response");
+    expect(timeline).toContain("Retry timeline");
     configure({ left: fixtures.compare.left, right: fixtures.compare.right, relationships: [] });
     const compare = renderToStaticMarkup(await ComparePage({ searchParams: Promise.resolve({ left: "node:left", right: "node:right" }) }));
     expect(compare).toContain("Comparison unavailable");
+    expect(compare).toContain("Retry comparison");
     configure({ id: "argument:case", title: "Old flat argument" });
     const debate = renderToStaticMarkup(await DebatePage({ params: Promise.resolve({ argumentId: "argument:case" }) }));
     expect(debate).toContain("Debate unavailable");
     expect(debate).toContain("incompatible research response");
+    expect(debate).toContain("Retry debate");
     expect(save).not.toHaveBeenCalled();
   });
 });

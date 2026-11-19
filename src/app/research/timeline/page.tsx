@@ -5,6 +5,7 @@ import styles from "@/components/research/ResearchUI.module.css";
 import SaveKnowledgeJourneyButton from "@/components/research/SaveKnowledgeJourneyButton";
 import { StatusBadge } from "@/components/ui/Primitives";
 import { GraphLink } from "@/components/research/GraphLink";
+import { ResearchRetryButton } from "@/components/research/ResearchRetryButton";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 import { fetchKnowledgeEngine } from "@/lib/server/knowledgeEngine";
 import type { TimelineResponse as TimelinePayload } from "@/lib/knowledge/researchContract";
@@ -82,7 +83,7 @@ export default async function ResearchTimelinePage({
         {!requested ? (
           <div className="surface-card mt-6 p-6"><StatusBadge>Choose an area to begin</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">Choose an area of study or a published topic. Only events with recorded dates appear in the timeline.</p></div>
         ) : error ? (
-          <div className="surface-card mt-6 p-6"><StatusBadge tone="danger">Timeline unavailable</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">{error}</p></div>
+          <div className="surface-card mt-6 p-6" role="alert"><StatusBadge tone="danger">Timeline unavailable</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">{error}</p><ResearchRetryButton label="Retry timeline" /></div>
         ) : entries.length === 0 ? (
           <div className="surface-card mt-6 p-6"><StatusBadge>No dated published events</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">No explicitly dated published event nodes matched this scope. The timeline does not manufacture dates for undated material.</p></div>
         ) : (

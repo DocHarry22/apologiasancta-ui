@@ -7,6 +7,7 @@ import { fetchKnowledgeEngine } from "@/lib/server/knowledgeEngine";
 import type { ResearchNode as NodeView, CompareResponse as ComparePayload } from "@/lib/knowledge/researchContract";
 import CompareClaimsForm from "@/components/research/CompareClaimsForm";
 import ResearchDiscovery from "@/components/research/ResearchDiscovery";
+import { ResearchRetryButton } from "@/components/research/ResearchRetryButton";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -88,7 +89,7 @@ export default async function ResearchComparePage({
         ) : (!validLeft || !validRight) ? (
           <div className="surface-card mt-6 p-6"><StatusBadge>Complete your comparison</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">Choose a published claim in each search field above.</p></div>
         ) : error ? (
-          <div className="surface-card mt-6 p-6"><StatusBadge tone="danger">Comparison unavailable</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">{error}</p></div>
+          <div className="surface-card mt-6 p-6" role="alert"><StatusBadge tone="danger">Comparison unavailable</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">{error}</p><ResearchRetryButton label="Retry comparison" /></div>
         ) : payload ? (
           <>
             <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">

@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const publicProxy = readFileSync("src/app/api/knowledge/[[...path]]/route.ts", "utf8");
+const researchPage = readFileSync("src/app/research/page.tsx", "utf8");
 const timelinePage = readFileSync("src/app/research/timeline/page.tsx", "utf8");
 const comparePage = readFileSync("src/app/research/compare/page.tsx", "utf8");
 const debatePage = readFileSync("src/app/research/debate/[argumentId]/page.tsx", "utf8");
@@ -32,6 +33,13 @@ test("Compare and Debate disclose their stored published relationship boundary",
   assert.match(debatePage, /Unpublished response branches are excluded server-side/);
   assert.match(debatePage, /No truth score/);
   assert.match(debatePage, /fetchKnowledgeEngine\(`\/knowledge\/debate\//);
+});
+
+test("server-rendered research failures remain recoverable after an upstream outage", () => {
+  assert.match(researchPage, /<ResearchRetryButton label="Retry topics"/);
+  assert.match(timelinePage, /<ResearchRetryButton label="Retry timeline"/);
+  assert.match(comparePage, /<ResearchRetryButton label="Retry comparison"/);
+  assert.match(debatePage, /<ResearchRetryButton label="Retry debate"/);
 });
 
 test("Knowledge Foundry admin bridge keeps credentials server-side and enforces normal web controls", () => {
