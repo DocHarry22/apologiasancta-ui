@@ -21,8 +21,11 @@ import type {
   StartTopicResponse,
   LoopMode,
 } from "@/lib/engineAdmin";
+import { fetchResponseWithTimeout, RequestTimeoutError } from "@/lib/fetchWithTimeout";
 
 export type { LoopMode } from "@/lib/engineAdmin";
+
+export const ADMIN_PROXY_REQUEST_TIMEOUT_MS = 20_000;
 
 // --------------------------------------------------------------------------
 // Internal fetch wrapper
@@ -41,7 +44,11 @@ function getCsrfToken(): string | null {
  */
 async function refreshCsrfToken(): Promise<void> {
   try {
-    await fetch("/api/auth/csrf", { method: "GET", credentials: "same-origin" });
+    await fetchResponseWithTimeout(
+      "/api/auth/csrf",
+      { method: "GET", credentials: "same-origin" },
+      ADMIN_PROXY_REQUEST_TIMEOUT_MS,
+    );
   } catch {
     // ignore — best-effort refresh
   }
@@ -65,11 +72,15 @@ async function proxyFetch<T = unknown>(
       if (csrf) headers["x-csrf-token"] = csrf;
     }
 
-    const response = await fetch(`/api/admin${path}`, {
-      method,
-      headers,
-      body: body !== undefined ? JSON.stringify(body) : undefined,
-    });
+    const response = await fetchResponseWithTimeout(
+      `/api/admin${path}`,
+      {
+        method,
+        headers,
+        body: body !== undefined ? JSON.stringify(body) : undefined,
+      },
+      ADMIN_PROXY_REQUEST_TIMEOUT_MS,
+    );
 
     if (response.status === 401) {
       return {
@@ -125,7 +136,11 @@ async function proxyFetch<T = unknown>(
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Network error",
+      error: error instanceof RequestTimeoutError
+        ? method === "GET"
+          ? "Admin data did not respond in time. Please retry."
+          : "The admin request timed out and may still have completed. Refresh status before retrying."
+        : error instanceof Error ? error.message : "Network error",
     };
   }
 }
