@@ -6,6 +6,7 @@ import { getEngineUrl } from "@/lib/publicEnv";
 import type { ReleaseNotification } from "@/types/releases";
 import { isNativePlatform } from "@/lib/native";
 import study from "@/components/native/StudyUI.module.css";
+import { fetchJsonWithTimeout, PUBLIC_ENGINE_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 const SEEN_KEY = "apologia-seen-release";
 export const SHOW_WHATS_NEW_EVENT = "apologia:show-whats-new";
@@ -18,9 +19,13 @@ export function WhatsNewPopup() {
     const engineUrl = getEngineUrl();
     if (!engineUrl) return;
     const controller = new AbortController();
-    const loadLatest = (forceOpen = false) => fetch(`${engineUrl}/releases/latest`, { signal: controller.signal })
-      .then((response) => response.ok ? response.json() : Promise.reject())
-      .then((payload: { release?: ReleaseNotification | null }) => {
+    const loadLatest = (forceOpen = false) => fetchJsonWithTimeout<{ release?: ReleaseNotification | null }>(
+      `${engineUrl}/releases/latest`,
+      { cache: "no-store", signal: controller.signal },
+      PUBLIC_ENGINE_READ_TIMEOUT_MS,
+    )
+      .then((result) => result.ok ? result.data : Promise.reject())
+      .then((payload) => {
         const latest = payload.release;
         latestReleaseRef.current = latest ?? null;
         if (latest && (forceOpen || (!isNativePlatform() && window.localStorage.getItem(SEEN_KEY) !== `${latest.repository}:${latest.commitSha}`))) {

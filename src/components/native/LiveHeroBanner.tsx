@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useQuizEntryGate } from "@/hooks/useQuizEntryGate";
+import { fetchJsonWithTimeout, PUBLIC_ENGINE_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 interface EngineStatus {
   running: boolean;
@@ -20,12 +21,20 @@ export function LiveHeroBanner({ engineUrl }: LiveHeroBannerProps) {
 
   useEffect(() => {
     let cancelled = false;
+    let refreshing = false;
+    const controller = new AbortController();
 
     async function fetchStatus() {
+      if (refreshing || controller.signal.aborted) return;
+      refreshing = true;
       try {
-        const res = await fetch(`${engineUrl}/`, { cache: "no-store" });
-        if (!res.ok) throw new Error("Non-OK response");
-        const data = await res.json();
+        const result = await fetchJsonWithTimeout<{ controller?: Partial<EngineStatus> }>(
+          `${engineUrl}/`,
+          { cache: "no-store", signal: controller.signal },
+          PUBLIC_ENGINE_READ_TIMEOUT_MS,
+        );
+        if (!result.ok) throw new Error("Non-OK response");
+        const data = result.data;
         if (!cancelled) {
           setStatus({
             running: data.controller?.running ?? false,
@@ -36,6 +45,7 @@ export function LiveHeroBanner({ engineUrl }: LiveHeroBannerProps) {
       } catch {
         // Engine unreachable — leave status null (fallback UI shown)
       } finally {
+        refreshing = false;
         if (!cancelled) setLoading(false);
       }
     }
@@ -49,6 +59,7 @@ export function LiveHeroBanner({ engineUrl }: LiveHeroBannerProps) {
     document.addEventListener("visibilitychange", fetchWhenVisible);
     return () => {
       cancelled = true;
+      controller.abort();
       clearInterval(interval);
       document.removeEventListener("visibilitychange", fetchWhenVisible);
     };

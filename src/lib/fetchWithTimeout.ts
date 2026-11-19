@@ -1,4 +1,5 @@
 export const LIVE_SERVICE_REQUEST_TIMEOUT_MS = 45_000;
+export const PUBLIC_ENGINE_READ_TIMEOUT_MS = 8_000;
 
 export class RequestTimeoutError extends Error {
   constructor(message = "The live service did not respond in time. Please retry.") {

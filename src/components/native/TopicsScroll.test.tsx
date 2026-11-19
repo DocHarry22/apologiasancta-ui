@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
-import { render, screen, waitFor } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { act, render, screen, waitFor } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { PUBLIC_ENGINE_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 import { getFeaturedTopics, TopicsScroll } from "./TopicsScroll";
 
 const fallbackTopics = [
@@ -12,6 +13,11 @@ const fallbackTopics = [
 describe("TopicsScroll", () => {
   beforeEach(() => {
     vi.restoreAllMocks();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
   });
 
   it("links directly to topic detail routes and uses accurate question wording", () => {
@@ -62,6 +68,23 @@ describe("TopicsScroll", () => {
     render(<TopicsScroll topics={fallbackTopics} engineUrl="https://engine.test" />);
 
     await waitFor(() => expect(globalThis.fetch).toHaveBeenCalledOnce());
+    expect(screen.getByRole("link", { name: "Christology, 13 questions" })).toBeInTheDocument();
+  });
+
+  it("keeps the bundled fallback when the live topic request hangs", async () => {
+    vi.useFakeTimers();
+    let aborts = 0;
+    vi.stubGlobal("fetch", vi.fn((_input: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+      init?.signal?.addEventListener("abort", () => {
+        aborts += 1;
+        reject(new DOMException("Aborted", "AbortError"));
+      }, { once: true });
+    })));
+
+    render(<TopicsScroll topics={fallbackTopics} engineUrl="https://engine.test" />);
+    await act(async () => { await vi.advanceTimersByTimeAsync(PUBLIC_ENGINE_READ_TIMEOUT_MS); });
+
+    expect(aborts).toBe(1);
     expect(screen.getByRole("link", { name: "Christology, 13 questions" })).toBeInTheDocument();
   });
 });
