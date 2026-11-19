@@ -3,12 +3,11 @@ import { ThemeProvider } from "@/lib/theme";
 import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
 import { CapacitorShell } from "@/components/native/CapacitorShell";
 import { WhatsNewPopup } from "@/components/releases/WhatsNewPopup";
+import { getPublicAppOrigin } from "@/lib/publicAppUrl";
 import "./globals.css";
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://sandybrown-bear-488955.hostingersite.com";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(appUrl),
+  metadataBase: new URL(getPublicAppOrigin()),
   title: {
     default: "Apologia Sancta | Catholic Learning and Live Quiz Competition",
     template: "%s | Apologia Sancta",
