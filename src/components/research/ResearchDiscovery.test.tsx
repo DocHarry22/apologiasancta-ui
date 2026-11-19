@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
-import ResearchDiscovery from "./ResearchDiscovery";
+import ResearchDiscovery, { RESEARCH_DISCOVERY_REQUEST_TIMEOUT_MS } from "./ResearchDiscovery";
 
-afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
+afterEach(() => { cleanup(); vi.useRealTimers(); vi.unstubAllGlobals(); });
 const nodes = [{ id: "claim:a", title: "Central claim" }, { id: "claim:b", title: "Connected claim" }];
 const neighborhood = { nodes, edges: [{ id: "edge:one", fromNodeId: "claim:b", toNodeId: "claim:a", relationshipType: "supports" }, { id: "edge:two", fromNodeId: "claim:b", toNodeId: "claim:a", relationshipType: "distinguishes" }] };
 it("suggests distinct published pairs with direction and preserves the comparison lens", async () => {
@@ -22,4 +22,22 @@ it("keeps comparisons for a selected claim available when topics fail", async ()
   render(<ResearchDiscovery anchor="claim:a" />);
   await screen.findByRole("link", { name: /Compare these claims/ });
   await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent("Some suggestions are unavailable"));
+});
+it("turns a hung Knowledge request into a retryable state", async () => {
+  vi.useFakeTimers();
+  const request = vi.fn((_path: string, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+    init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+  }));
+  vi.stubGlobal("fetch", request);
+
+  render(<ResearchDiscovery />);
+  expect(screen.getByRole("status")).toHaveTextContent("Loading research starting points");
+
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(RESEARCH_DISCOVERY_REQUEST_TIMEOUT_MS);
+  });
+
+  expect(screen.getByRole("status")).toHaveTextContent("Some suggestions are unavailable");
+  expect(screen.getByRole("button", { name: "Retry suggestions" })).toBeVisible();
+  expect(request).toHaveBeenCalledTimes(1);
 });
