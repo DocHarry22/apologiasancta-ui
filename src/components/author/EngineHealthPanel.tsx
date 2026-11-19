@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { checkHealth, type HealthResponse } from "@/lib/engineAdmin";
+import { checkHealth, type HealthResponse, type PersistenceStatus } from "@/lib/engineAdmin";
 import { useVisiblePolling } from "@/hooks/useVisiblePolling";
 
 interface Props {
@@ -16,6 +16,25 @@ function formatTimestamp(timestamp: number | null | undefined): string {
   }
 
   return new Date(timestamp).toLocaleString();
+}
+
+export type PersistenceEvidenceState = "not_configured" | "verified" | "unverified";
+export type EngineHealthStatus = "healthy" | "degraded" | "unhealthy";
+
+export function getPersistenceEvidenceState(
+  persistence: PersistenceStatus | undefined,
+): PersistenceEvidenceState {
+  if (!persistence?.configured) return "not_configured";
+  if (persistence.lastSavedAt !== null || persistence.lastRestoreSucceeded) return "verified";
+  return "unverified";
+}
+
+export function getEngineHealthStatus(
+  engineOk: boolean,
+  persistenceState: PersistenceEvidenceState,
+): EngineHealthStatus {
+  if (!engineOk) return "unhealthy";
+  return persistenceState === "unverified" ? "degraded" : "healthy";
 }
 
 export default function EngineHealthPanel({ engineUrl }: Props) {
@@ -46,6 +65,15 @@ export default function EngineHealthPanel({ engineUrl }: Props) {
 
   useVisiblePolling(fetchHealth, REFRESH_INTERVAL_MS);
 
+  const persistenceState = getPersistenceEvidenceState(health?.persistence);
+  const engineStatus = health ? getEngineHealthStatus(health.ok, persistenceState) : null;
+  const persistenceLabel =
+    persistenceState === "verified"
+      ? "Verified"
+      : persistenceState === "unverified"
+        ? "Configured, unverified"
+        : "Not configured";
+
   return (
     <section className="rounded-xl border border-(--border) bg-background p-4 space-y-4">
       <div className="flex items-start justify-between gap-3">
@@ -74,8 +102,16 @@ export default function EngineHealthPanel({ engineUrl }: Props) {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 text-sm">
             <div className="space-y-1">
               <span className="text-xs text-(--muted)">Status</span>
-              <p className={health.ok ? "text-green-400 font-medium" : "text-(--wrong) font-medium"}>
-                {health.ok ? "Healthy" : "Unhealthy"}
+              <p
+                className={
+                  engineStatus === "healthy"
+                    ? "text-green-400 font-medium"
+                    : engineStatus === "degraded"
+                      ? "text-amber-400 font-medium"
+                      : "text-(--wrong) font-medium"
+                }
+              >
+                {engineStatus === "healthy" ? "Healthy" : engineStatus === "degraded" ? "Degraded" : "Unhealthy"}
               </p>
             </div>
             <div className="space-y-1">
@@ -101,14 +137,30 @@ export default function EngineHealthPanel({ engineUrl }: Props) {
             </div>
             <div className="space-y-1">
               <span className="text-xs text-(--muted)">Persistence</span>
-              <p className={health.persistence?.configured ? "text-green-400" : "text-(--muted)"}>
-                {health.persistence?.configured ? "Configured" : "Not configured"}
+              <p
+                className={
+                  persistenceState === "verified"
+                    ? "text-green-400"
+                    : persistenceState === "unverified"
+                      ? "text-amber-400"
+                      : "text-(--muted)"
+                }
+              >
+                {persistenceLabel}
               </p>
             </div>
           </div>
 
           {health.persistence && (
             <div className="rounded-lg border border-(--border) bg-(--card) p-3 space-y-2 text-sm">
+              {persistenceState === "unverified" && (
+                <div
+                  className="rounded-lg border border-amber-400/40 bg-amber-400/10 px-3 py-2 text-xs text-amber-300"
+                  role="status"
+                >
+                  Persistence is configured, but the engine has not reported a successful save or restore. Runtime state may not survive a restart. Check the Engine logs and database connection before deployment.
+                </div>
+              )}
               <div className="grid gap-3 sm:grid-cols-4">
                 <div className="space-y-1">
                   <span className="text-xs text-(--muted)">Pending Save</span>
@@ -116,8 +168,20 @@ export default function EngineHealthPanel({ engineUrl }: Props) {
                 </div>
                 <div className="space-y-1">
                   <span className="text-xs text-(--muted)">Last Restore</span>
-                  <p className={health.persistence.lastRestoreSucceeded ? "text-green-400" : "text-(--muted)"}>
-                    {health.persistence.lastRestoreSucceeded ? "Succeeded" : "No snapshot"}
+                  <p
+                    className={
+                      health.persistence.lastRestoreSucceeded
+                        ? "text-green-400"
+                        : health.persistence.lastRestoredAt
+                          ? "text-(--wrong)"
+                          : "text-amber-400"
+                    }
+                  >
+                    {health.persistence.lastRestoreSucceeded
+                      ? "Succeeded"
+                      : health.persistence.lastRestoredAt
+                        ? "Failed"
+                        : "Not verified"}
                   </p>
                 </div>
                 <div className="space-y-1">
@@ -133,7 +197,7 @@ export default function EngineHealthPanel({ engineUrl }: Props) {
                 Restart recovery restores content, room state, and the quiz checkpoint, but live timers remain paused until an admin resumes the engine.
               </p>
               <div className="space-y-1">
-                <span className="text-xs text-(--muted)">State File</span>
+                <span className="text-xs text-(--muted)">Persistence Target</span>
                 <p className="break-all font-mono text-xs text-(--accent)">{health.persistence.path}</p>
               </div>
             </div>
