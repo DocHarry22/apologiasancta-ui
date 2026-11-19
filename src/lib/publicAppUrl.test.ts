@@ -34,10 +34,18 @@ describe("public application URL", () => {
     }))).toBe(DEFAULT_PUBLIC_APP_ORIGIN);
   });
 
-  it("allows an explicit local HTTP origin only in development", () => {
-    expect(getPublicAppOrigin(environment({ NODE_ENV: "development" }), "http://127.0.0.1:3000/path"))
+  it("allows local HTTP origins only in development, including bracketed IPv6 loopback", () => {
+    const development = environment({ NODE_ENV: "development" });
+
+    expect(getPublicAppOrigin(development, "http://127.0.0.1:3000/path"))
       .toBe("http://127.0.0.1:3000");
-    expect(getPublicAppUrl("/library", environment({ NODE_ENV: "development" }), "http://localhost:3000/"))
+    expect(getPublicAppUrl("/library", development, "http://localhost:3000/"))
       .toBe("http://localhost:3000/library");
+    expect(getPublicAppOrigin(environment({
+      NODE_ENV: "development",
+      NEXT_PUBLIC_APP_URL: "http://[::1]:3000/configured",
+    }))).toBe("http://[::1]:3000");
+    expect(getPublicAppUrl("/author/login", development, "http://[::1]:3000/request"))
+      .toBe("http://[::1]:3000/author/login");
   });
 });
