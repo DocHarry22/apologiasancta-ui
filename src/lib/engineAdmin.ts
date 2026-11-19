@@ -17,6 +17,8 @@
 
 import type { RoomSummary } from "@/types/quiz";
 
+export const ENGINE_HEALTH_REQUEST_TIMEOUT_MS = 10_000;
+
 export interface EngineResponse<T = unknown> {
   success: boolean;
   data?: T;
@@ -183,8 +185,18 @@ export async function engineFetch<T = unknown>(
  * Health check (no token required)
  */
 export async function checkHealth(engineUrl: string): Promise<EngineResponse<HealthResponse>> {
+  const controller = new AbortController();
+  let timedOut = false;
+  const timeout = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, ENGINE_HEALTH_REQUEST_TIMEOUT_MS);
+
   try {
-    const response = await fetch(`${engineUrl}/health`);
+    const response = await fetch(`${engineUrl}/health`, {
+      cache: "no-store",
+      signal: controller.signal,
+    });
     const { data, parseError } = await parseEngineResponse(response);
 
     if (parseError) {
@@ -209,11 +221,19 @@ export async function checkHealth(engineUrl: string): Promise<EngineResponse<Hea
       data: data as HealthResponse,
     };
   } catch (error) {
+    if (timedOut) {
+      return {
+        success: false,
+        error: "Engine health check timed out. The live service may be unavailable.",
+      };
+    }
     const message = error instanceof Error ? error.message : "Network error";
     return {
       success: false,
       error: message,
     };
+  } finally {
+    clearTimeout(timeout);
   }
 }
 
