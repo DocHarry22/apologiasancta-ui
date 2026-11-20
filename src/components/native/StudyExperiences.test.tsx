@@ -118,6 +118,42 @@ describe("Learn browsing and reading", () => {
     expect(screen.getByText("Source citation")).toBeInTheDocument();
   });
 
+  it("searches bundled lesson text and source references when the live catalogue is unavailable", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(json({ error: "Unavailable" }, 503)));
+    const user = userEvent.setup();
+    render(<LearningSearch />);
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("Live learning search is temporarily unavailable.");
+    expect(screen.getByLabelText("Bundled Foundations search results")).toBeInTheDocument();
+
+    const search = screen.getByRole("searchbox", { name: "Search lessons and subjects" });
+    await user.type(search, "transubstantiation");
+    await user.click(screen.getByRole("button", { name: /Search lessons/ }));
+    expect(screen.getByRole("link", { name: /The Real Presence in the Eucharist/ })).toHaveAttribute("href", "/learn/real-presence-eucharist");
+    expect(screen.queryByRole("link", { name: /Peter and the Papacy/ })).not.toBeInTheDocument();
+
+    await user.clear(search);
+    await user.type(search, "Galatians 5:6");
+    await user.click(screen.getByRole("button", { name: /Search lessons/ }));
+    expect(screen.getByRole("link", { name: /Grace, Faith, and Works/ })).toHaveAttribute("href", "/learn/grace-faith-and-works");
+  });
+
+  it("clears a missing bundled query and restores all bundled lessons", async () => {
+    const fetcher = vi.fn().mockResolvedValue(json({ error: "Unavailable" }, 503));
+    vi.stubGlobal("fetch", fetcher);
+    const user = userEvent.setup();
+    render(<LearningSearch />);
+
+    const search = screen.getByRole("searchbox", { name: "Search lessons and subjects" });
+    await user.type(search, "not in the bundled library");
+    await user.click(screen.getByRole("button", { name: /Search lessons/ }));
+    expect(await screen.findByText("No bundled lesson matches “not in the bundled library”.")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Show all bundled lessons" }));
+    expect(screen.getByLabelText("Bundled Foundations search results")).toBeInTheDocument();
+    expect(search).toHaveValue("");
+    expect(fetcher).toHaveBeenCalledTimes(3);
+  });
+
   it("aborts an in-flight learning request when its surface unmounts", async () => {
     const request = deferred<Response>();
     let requestSignal: AbortSignal | undefined;
@@ -137,7 +173,7 @@ describe("Learn browsing and reading", () => {
   });
 
   it.each([
-    ["search", () => <LearningSearch />, "We couldn’t search the learning catalogue."],
+    ["search", () => <LearningSearch />, "Live learning search is temporarily unavailable."],
     ["learning path", () => <LearningHierarchyPage kind="programme" slug="foundations" />, "We couldn’t load this learning path."],
     ["lesson", () => <DatabaseLesson slug="the-creed" />, "We couldn’t load this lesson."],
     ["mastery", () => <MasteryExperience groupSlug="the-creed" />, "We couldn’t load this mastery assessment."],
