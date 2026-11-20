@@ -1,5 +1,10 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { getLearningDatabaseReadiness } from "@/lib/server/learning/readiness";
 import { GET } from "./route";
+
+vi.mock("@/lib/server/learning/readiness", () => ({
+  getLearningDatabaseReadiness: vi.fn(),
+}));
 
 const ORIGINAL_ENV = { ...process.env };
 
@@ -15,6 +20,7 @@ function configureIdentity(secret: string | undefined) {
 }
 
 afterEach(() => {
+  vi.mocked(getLearningDatabaseReadiness).mockReset();
   for (const key of Object.keys(process.env)) {
     if (!(key in ORIGINAL_ENV)) delete process.env[key];
   }
@@ -34,6 +40,14 @@ describe("GET /api/diagnostics", () => {
     expectedAccepted
   ) => {
     configureIdentity(secret);
+    vi.mocked(getLearningDatabaseReadiness).mockResolvedValue({
+      configured: false,
+      reachable: false,
+      schemaReady: false,
+      readable: false,
+      ready: false,
+      status: "not_configured",
+    });
 
     const response = await GET();
     const payload = await response.json();
@@ -73,6 +87,14 @@ describe("GET /api/diagnostics", () => {
     else process.env.LEARNING_DATABASE_URL = databaseUrl;
     if (sslMode === undefined) delete process.env.LEARNING_DB_SSL_MODE;
     else process.env.LEARNING_DB_SSL_MODE = sslMode;
+    vi.mocked(getLearningDatabaseReadiness).mockResolvedValue({
+      configured: expectedReady,
+      reachable: expectedReady,
+      schemaReady: expectedReady,
+      readable: expectedReady,
+      ready: expectedReady,
+      status: expectedReady ? "ready" : "invalid_configuration",
+    });
 
     const response = await GET();
     const payload = await response.json();
@@ -80,6 +102,11 @@ describe("GET /api/diagnostics", () => {
     expect(response.status).toBe(200);
     expect(payload.readiness).toEqual(expect.objectContaining({
       learningDatabase: expectedReady,
+      learningDatabaseConfiguration: expectedReady,
+      learningDatabaseReachable: expectedReady,
+      learningDatabaseSchema: expectedReady,
+      learningDatabaseReadable: expectedReady,
+      learningDatabaseStatus: expectedReady ? "ready" : "invalid_configuration",
       learningDatabaseUrlPresent: expectedPresent,
       learningDatabaseUrlSupported: expectedSupported,
       learningDatabaseSslMode: expectedSslMode,
