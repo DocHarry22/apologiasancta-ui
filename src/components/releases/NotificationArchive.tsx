@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { ReleaseNotification, ReleasePage } from "@/types/releases";
+import { fetchFirstPartyJson } from "@/lib/firstPartyRequest";
+import { RequestTimeoutError } from "@/lib/fetchWithTimeout";
 
 function getCsrfToken() {
   const match = document.cookie.match(/(?:^|;\s*)as_csrf_token=([^;]+)/);
@@ -15,6 +17,7 @@ export function NotificationArchive() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => { setPage(1); setQuery(search.trim()); }, 250);
@@ -26,25 +29,35 @@ export function NotificationArchive() {
     try {
       const params = new URLSearchParams({ page: String(page), pageSize: "10" });
       if (query) params.set("search", query);
-      const response = await fetch(`/api/admin/releases?${params}`, { credentials: "same-origin" });
-      const payload = await response.json();
-      if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
+      const result = await fetchFirstPartyJson<ReleasePage & { error?: string }>(`/api/admin/releases?${params}`, { credentials: "same-origin" });
+      const payload = result.data ?? {} as ReleasePage & { error?: string };
+      if (!result.ok) throw new Error(payload.error || `HTTP ${result.response.status}`);
       setData(payload);
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "Unable to load notifications");
+      setError(cause instanceof RequestTimeoutError ? "Release notifications did not respond in time. Please retry." : cause instanceof Error ? cause.message : "Unable to load notifications");
     } finally { setLoading(false); }
   }, [page, query]);
 
   useEffect(() => { void load(); }, [load]);
 
   const markRead = async (item: ReleaseNotification, read: boolean) => {
-    const response = await fetch(`/api/admin/releases/${item.id}/read`, {
-      method: "PATCH",
-      credentials: "same-origin",
-      headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-      body: JSON.stringify({ read }),
-    });
-    if (response.ok) await load();
+    setUpdatingId(item.id); setError("");
+    try {
+      const result = await fetchFirstPartyJson<{ error?: string }>(`/api/admin/releases/${item.id}/read`, {
+        method: "PATCH",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
+        body: JSON.stringify({ read }),
+      });
+      if (!result.ok) throw new Error(result.data?.error || `HTTP ${result.response.status}`);
+      await load();
+    } catch (cause) {
+      setError(cause instanceof RequestTimeoutError
+        ? "The notification update timed out and may still have completed. Refresh before retrying."
+        : cause instanceof Error ? cause.message : "Unable to update the notification.");
+    } finally {
+      setUpdatingId(null);
+    }
   };
 
   return (
@@ -78,7 +91,7 @@ export function NotificationArchive() {
                 <h2 className="mt-2 text-lg font-semibold">{item.title}</h2>
                 <p className="mt-2 text-sm leading-6 text-(--text-secondary)">{item.summary}</p>
               </div>
-              <button type="button" onClick={() => void markRead(item, !item.read)} className="shrink-0 rounded-lg border border-(--border) px-3 py-2 text-xs hover:border-(--accent) hover:text-(--accent)">{item.read ? "Mark unread" : "Mark read"}</button>
+              <button type="button" disabled={updatingId === item.id} onClick={() => void markRead(item, !item.read)} className="shrink-0 rounded-lg border border-(--border) px-3 py-2 text-xs hover:border-(--accent) hover:text-(--accent) disabled:opacity-50">{updatingId === item.id ? "Updating…" : item.read ? "Mark unread" : "Mark read"}</button>
             </div>
             {[...item.features, ...item.fixes, ...item.changes].length > 0 && (
               <ul className="mt-4 grid gap-2 text-sm md:grid-cols-2">

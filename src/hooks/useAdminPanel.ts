@@ -15,6 +15,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { adminProxy } from "@/lib/adminProxyClient";
 import { checkHealth, type HealthResponse, type EngineResponse } from "@/lib/engineAdmin";
+import { fetchFirstPartyResponse } from "@/lib/firstPartyRequest";
+import { RequestTimeoutError } from "@/lib/fetchWithTimeout";
 
 const UNLOCKED_KEY = "as_admin_unlocked";
 const UNLOCKED_AT_KEY = "as_admin_unlocked_at";
@@ -130,7 +132,7 @@ export function useAdminPanel(): AdminPanelState & AdminPanelActions {
   const validateAndUnlock = useCallback(async (): Promise<{ success: boolean; error?: string }> => {
     setValidating(true);
     try {
-      const res = await fetch("/api/auth/csrf", { method: "GET", credentials: "same-origin" });
+      const res = await fetchFirstPartyResponse("/api/auth/csrf", { method: "GET", credentials: "same-origin" });
 
       if (res.ok) {
         setIsUnlocked(true);
@@ -151,7 +153,7 @@ export function useAdminPanel(): AdminPanelState & AdminPanelActions {
 
       return { success: false, error: `Unexpected server response: ${res.status}` };
     } catch (error) {
-      return { success: false, error: error instanceof Error ? error.message : "Network error" };
+      return { success: false, error: error instanceof RequestTimeoutError ? "Session verification did not respond in time. Please retry." : error instanceof Error ? error.message : "Network error" };
     } finally {
       setValidating(false);
     }

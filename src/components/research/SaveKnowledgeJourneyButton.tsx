@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { fetchFirstPartyJson } from "@/lib/firstPartyRequest";
+import { RequestTimeoutError } from "@/lib/fetchWithTimeout";
 
 type Props = {
   title: string;
@@ -17,14 +19,13 @@ type SavedJourney = {
 };
 
 async function csrfToken(): Promise<string> {
-  const response = await fetch("/api/auth/csrf", { credentials: "same-origin", cache: "no-store" });
-  if (!response.ok) {
-    if (response.status === 401) throw new Error("Sign in to save this journey to your account.");
+  const result = await fetchFirstPartyJson<{ csrfToken?: string }>("/api/auth/csrf", { credentials: "same-origin", cache: "no-store" });
+  if (!result.ok) {
+    if (result.response.status === 401) throw new Error("Sign in to save this journey to your account.");
     throw new Error("Security token unavailable.");
   }
-  const body = await response.json() as { csrfToken?: string };
-  if (!body.csrfToken) throw new Error("Security token unavailable.");
-  return body.csrfToken;
+  if (!result.data.csrfToken) throw new Error("Security token unavailable.");
+  return result.data.csrfToken;
 }
 
 export default function SaveKnowledgeJourneyButton({ title, rootNodeId, nodeIds, lens = "catholic", metadata = {} }: Props) {
@@ -37,22 +38,28 @@ export default function SaveKnowledgeJourneyButton({ title, rootNodeId, nodeIds,
   async function save() {
     setState("saving");
     setMessage("");
+    let mutationStarted = false;
     try {
       const csrf = await csrfToken();
-      const response = await fetch("/api/v1/learning/journeys", {
+      mutationStarted = true;
+      const result = await fetchFirstPartyJson<{ data?: SavedJourney; error?: { message?: string } }>("/api/v1/learning/journeys", {
         method: "POST",
         credentials: "same-origin",
         headers: { "content-type": "application/json", "x-csrf-token": csrf },
         body: JSON.stringify({ title, rootNodeId, nodeIds: uniqueNodes, lens, visibility, metadata }),
       });
-      const payload = await response.json().catch(() => ({})) as { data?: SavedJourney; error?: { message?: string } };
-      if (!response.ok) throw new Error(payload.error?.message || `Save failed (${response.status}).`);
+      const payload = result.data ?? {};
+      if (!result.ok) throw new Error(payload.error?.message || `Save failed (${result.response.status}).`);
       setSaved(payload.data || null);
       setState("saved");
       setMessage(visibility === "private" ? "Journey saved privately." : "Journey saved with an unlisted share link.");
     } catch (error) {
       setState("error");
-      setMessage(error instanceof Error ? error.message : "Journey could not be saved.");
+      setMessage(error instanceof RequestTimeoutError
+        ? mutationStarted
+          ? "Saving timed out and may still have completed. Refresh saved journeys before retrying."
+          : "The security check did not respond in time. Please retry."
+        : error instanceof Error ? error.message : "Journey could not be saved.");
     }
   }
 

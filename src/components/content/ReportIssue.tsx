@@ -5,6 +5,8 @@ import { createPortal } from "react-dom";
 import { Dialog } from "@/components/ui/Dialog";
 import { displayedRevision, reportReasons, type ReportReason, type ReportTarget } from "@/lib/contentReports";
 import styles from "@/components/native/ScreenSurface.module.css";
+import { fetchFirstPartyJson } from "@/lib/firstPartyRequest";
+import { RequestTimeoutError } from "@/lib/fetchWithTimeout";
 
 export const PENDING_REPORT_KEY = "apologia-pending-content-report";
 
@@ -20,25 +22,33 @@ export function IssueReportForm({ target, sourceUrl, onClose, initialReason, ini
   async function submit() {
     if (busy) return;
     setBusy(true); setError(""); setSignIn(false);
+    let mutationStarted = false;
     try {
-      const csrf = await fetch("/api/auth/csrf", { credentials: "same-origin", cache: "no-store" });
-      if (csrf.status === 401) {
+      const csrf = await fetchFirstPartyJson<{ csrfToken?: string }>("/api/auth/csrf", { credentials: "same-origin", cache: "no-store" });
+      if (!csrf.ok && csrf.response.status === 401) {
         try { sessionStorage.setItem(PENDING_REPORT_KEY, JSON.stringify({ target, sourceUrl, reason, details })); } catch { /* The form remains open if browser storage is unavailable. */ }
         setSignIn(true);
         throw new Error("Sign in to send this report to the editorial team.");
       }
-      const security = await csrf.json();
-      if (!csrf.ok || !security.csrfToken) throw new Error("Security token unavailable. Please try again.");
-      const response = await fetch("/api/content-reports", {
+      if (!csrf.ok || !csrf.data.csrfToken) throw new Error("Security token unavailable. Please try again.");
+      mutationStarted = true;
+      const result = await fetchFirstPartyJson<{ id?: string; revisionId?: string; error?: string }>("/api/content-reports", {
         method: "POST", credentials: "same-origin",
-        headers: { "content-type": "application/json", "x-csrf-token": security.csrfToken },
+        headers: { "content-type": "application/json", "x-csrf-token": csrf.data.csrfToken },
         body: JSON.stringify({ target, sourceUrl, reason, details }),
       });
-      const body = await response.json();
-      if (!response.ok) throw new Error(body.error || "The report could not be sent. Please try again.");
-      setReceipt(body);
+      const body = result.data ?? {};
+      if (!result.ok) throw new Error(body.error || "The report could not be sent. Please try again.");
+      if (!body.id || !body.revisionId) throw new Error("The report receipt was incomplete. Check the editorial queue before retrying.");
+      setReceipt({ id: body.id, revisionId: body.revisionId });
       try { sessionStorage.removeItem(PENDING_REPORT_KEY); } catch { /* Receipt is already saved on the server. */ }
-    } catch (cause) { setError(cause instanceof Error ? cause.message : "The report could not be sent."); }
+    } catch (cause) {
+      setError(cause instanceof RequestTimeoutError
+        ? mutationStarted
+          ? "The report request timed out and may already have been received. Check the editorial queue before retrying."
+          : "The security check did not respond in time. Please retry."
+        : cause instanceof Error ? cause.message : "The report could not be sent.");
+    }
     finally { setBusy(false); }
   }
 

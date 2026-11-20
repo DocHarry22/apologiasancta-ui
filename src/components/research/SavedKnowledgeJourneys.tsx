@@ -6,7 +6,8 @@ import { StatusBadge } from "@/components/ui/Primitives";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 import { GraphLink } from "./GraphLink";
 import { graphJourneyHref, isGraphJourney } from "@/lib/graphJourneys";
-import { fetchJsonWithTimeout, LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
+import { fetchJsonWithTimeout, LEARNER_API_READ_TIMEOUT_MS, RequestTimeoutError } from "@/lib/fetchWithTimeout";
+import { fetchFirstPartyJson } from "@/lib/firstPartyRequest";
 
 type Journey = {
   id: string;
@@ -77,21 +78,26 @@ export default function SavedKnowledgeJourneys() {
 
   async function remove(journey: Journey) {
     if (!window.confirm(`Delete “${journey.title}”?`)) return;
+    let mutationStarted = false;
     try {
       const csrf = await csrfToken();
-      const response = await fetch(`/api/v1/learning/journeys/${encodeURIComponent(journey.id)}`, {
+      mutationStarted = true;
+      const result = await fetchFirstPartyJson<{ error?: { message?: string } }>(`/api/v1/learning/journeys/${encodeURIComponent(journey.id)}`, {
         method: "DELETE",
         credentials: "same-origin",
         headers: { "x-csrf-token": csrf },
       });
-      if (!response.ok) {
-        const payload = await response.json().catch(() => ({})) as { error?: { message?: string } };
-        throw new Error(payload.error?.message || "Journey could not be deleted.");
+      if (!result.ok) {
+        throw new Error(result.data?.error?.message || "Journey could not be deleted.");
       }
       setItems((current) => current.filter((item) => item.id !== journey.id));
       setMessage("Journey deleted.");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Journey could not be deleted.");
+      setMessage(error instanceof RequestTimeoutError
+        ? mutationStarted
+          ? "Deletion timed out and may still have completed. Refresh saved journeys before retrying."
+          : "The security check did not respond in time. Please retry."
+        : error instanceof Error ? error.message : "Journey could not be deleted.");
     }
   }
 

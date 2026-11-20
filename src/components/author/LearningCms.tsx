@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { fetchFirstPartyJson } from "@/lib/firstPartyRequest";
+import { RequestTimeoutError } from "@/lib/fetchWithTimeout";
 
 const entityTabs = ["programmes", "subjects", "groups", "lessons", "sections", "lesson-requirements", "objectives", "doctrinal-claims", "questions", "question-options", "question-contexts", "sources", "content-sources", "prerequisites"] as const;
 const operationalTabs = ["review", "calendar", "audit", "import-export"] as const;
@@ -132,17 +134,35 @@ function parentField(entity: Entity): string | null {
 }
 
 async function csrfHeaders() {
-  const response = await fetch("/api/auth/csrf", { credentials: "same-origin", cache: "no-store" });
-  if (!response.ok) throw new Error("Your staff session is unavailable. Sign in again.");
-  const body = await response.json() as { csrfToken?: string };
+  const result = await fetchFirstPartyJson<{ csrfToken?: string }>(
+    "/api/auth/csrf",
+    { credentials: "same-origin", cache: "no-store" },
+  );
+  if (!result.ok) throw new Error("Your staff session is unavailable. Sign in again.");
+  const body = result.data;
   if (!body.csrfToken) throw new Error("Security token unavailable.");
   return { "content-type": "application/json", "x-csrf-token": body.csrfToken };
 }
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(url, { credentials: "same-origin", cache: "no-store", ...init });
-  const body = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(typeof body.error === "string" ? body.error : body?.error && typeof body.error.message === "string" ? body.error.message : `Request failed (${response.status})`);
+  const method = init?.method?.toUpperCase() ?? "GET";
+  let result;
+  try {
+    result = await fetchFirstPartyJson<{ data?: T; error?: string | { message?: string } }>(
+      url,
+      { credentials: "same-origin", cache: "no-store", ...init },
+    );
+  } catch (error) {
+    if (error instanceof RequestTimeoutError) {
+      throw new Error(method === "GET"
+        ? "Learning CMS data did not respond in time. Please retry."
+        : "The Learning CMS request timed out and may still have completed. Refresh the record before retrying.");
+    }
+    throw error;
+  }
+  const response = result.response;
+  const body = result.data ?? {};
+  if (!response.ok) throw new Error(typeof body.error === "string" ? body.error : body.error && typeof body.error.message === "string" ? body.error.message : `Request failed (${response.status})`);
   return (body && typeof body === "object" && "data" in body ? body.data : body) as T;
 }
 
