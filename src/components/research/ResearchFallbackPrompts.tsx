@@ -12,6 +12,22 @@ export const RESEARCH_FALLBACK_PROMPTS = [
   { title: "What authority did Christ give Peter?", focus: "Scripture & Church history", difficulty: "Advanced", href: "/library/ecclesiology" },
 ] as const;
 
+export function ResearchLibraryFallbackLinks() {
+  return <aside className={styles.libraryFallback} aria-label="Available library study paths">
+    <h3>Continue in the library</h3>
+    <p>The live research catalogue is temporarily unavailable. These bundled study paths remain available.</p>
+    <ul>
+      {RESEARCH_FALLBACK_PROMPTS.map((prompt) => <li key={prompt.title}>
+        <Link href={prompt.href} aria-label={`Study ${prompt.title} in the library`}>
+          <span>{prompt.title}</span>
+          <small>{prompt.focus}</small>
+          <AppIcon name="arrow" width={14} height={14} />
+        </Link>
+      </li>)}
+    </ul>
+  </aside>;
+}
+
 export function ResearchFallbackPrompts({ knowledgeAvailable }: { knowledgeAvailable: boolean }) {
   return <>
     <div className={study.empty}>

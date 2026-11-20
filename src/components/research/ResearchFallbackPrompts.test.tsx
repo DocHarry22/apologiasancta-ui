@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
-import { ResearchFallbackPrompts } from "./ResearchFallbackPrompts";
+import { ResearchFallbackPrompts, ResearchLibraryFallbackLinks } from "./ResearchFallbackPrompts";
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ refresh: vi.fn() }),
@@ -25,5 +25,13 @@ it("keeps the same safe starting paths when no reviewed journey has been publish
 
   expect(screen.getByRole("heading", { name: "More paths are being prepared." })).toBeVisible();
   expect(screen.queryByRole("button", { name: "Retry topics" })).not.toBeInTheDocument();
+  expect(screen.getAllByRole("link", { name: /in the library/ })).toHaveLength(4);
+});
+
+it("offers a compact truthful fallback inside an unavailable research tool", () => {
+  render(<ResearchLibraryFallbackLinks />);
+
+  expect(screen.getByRole("heading", { name: "Continue in the library" })).toBeVisible();
+  expect(screen.getByText(/live research catalogue is temporarily unavailable/i)).toBeVisible();
   expect(screen.getAllByRole("link", { name: /in the library/ })).toHaveLength(4);
 });
