@@ -1,13 +1,15 @@
 // @vitest-environment jsdom
 import { afterEach, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { DeleteAccountPanel } from "./DeleteAccountPanel";
+import { ACCOUNT_ACCESS_REQUEST_TIMEOUT_MS } from "@/lib/accountAccessRequest";
 
 const navigation = vi.hoisted(() => ({ replace: vi.fn(), refresh: vi.fn() }));
 vi.mock("next/navigation", () => ({ useRouter: () => navigation }));
 
 afterEach(() => {
+  vi.useRealTimers();
   vi.restoreAllMocks();
   navigation.replace.mockReset();
   navigation.refresh.mockReset();
@@ -68,4 +70,29 @@ it("clears local state and returns home through client routing after deletion", 
   expect(navigation.replace).toHaveBeenCalledWith("/");
   expect(navigation.refresh).toHaveBeenCalled();
   expect(fetchMock).toHaveBeenCalledTimes(2);
+});
+
+it("bounds a stalled deletion and warns that the destructive outcome is unknown", async () => {
+  vi.useFakeTimers();
+  let deletionAborts = 0;
+  vi.stubGlobal("fetch", vi.fn((url: RequestInfo | URL, init?: RequestInit) => {
+    if (String(url) === "/api/auth/csrf") {
+      return Promise.resolve(new Response(JSON.stringify({ csrfToken: "csrf-test" })));
+    }
+    return new Promise<Response>((_resolve, reject) => {
+      init?.signal?.addEventListener("abort", () => {
+        deletionAborts += 1;
+        reject(new DOMException("Aborted", "AbortError"));
+      }, { once: true });
+    });
+  }));
+  render(<DeleteAccountPanel signedIn accountType="public" />);
+  fireEvent.change(screen.getByRole("textbox"), { target: { value: "DELETE" } });
+  fireEvent.click(screen.getByRole("button", { name: "Permanently delete account" }));
+
+  await act(async () => { await vi.advanceTimersByTimeAsync(ACCOUNT_ACCESS_REQUEST_TIMEOUT_MS); });
+
+  expect(deletionAborts).toBe(1);
+  expect(screen.getByRole("status")).toHaveTextContent("may already have completed");
+  expect(screen.getByRole("button", { name: "Permanently delete account" })).toBeEnabled();
 });

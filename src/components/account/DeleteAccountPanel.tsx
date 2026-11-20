@@ -6,6 +6,8 @@ import { useState } from "react";
 import { ScreenSurface, ScreenIntro } from "@/components/native/ScreenSurface";
 import styles from "@/components/native/ScreenSurface.module.css";
 import study from "@/components/native/StudyUI.module.css";
+import { fetchAccountAccessJson } from "@/lib/accountAccessRequest";
+import { RequestTimeoutError } from "@/lib/fetchWithTimeout";
 
 export function DeleteAccountPanel({ signedIn, accountType }: { signedIn: boolean; accountType: "public" | "staff" | null }) {
   const router = useRouter();
@@ -17,18 +19,21 @@ export function DeleteAccountPanel({ signedIn, accountType }: { signedIn: boolea
     if (confirmation !== "DELETE" || status === "deleting") return;
     setStatus("deleting");
     setMessage("");
+    let deletionStarted = false;
 
     try {
-      const csrfResponse = await fetch("/api/auth/csrf", { cache: "no-store", credentials: "include" });
+      const csrfResult = await fetchAccountAccessJson<{ csrfToken?: string }>("/api/auth/csrf", { cache: "no-store", credentials: "include" });
+      const csrfResponse = csrfResult.response;
       if (!csrfResponse.ok) {
         setStatus("error");
         setMessage("Your session has expired. Sign in again before deleting the account.");
         return;
       }
-      const csrfPayload = await csrfResponse.json() as { csrfToken?: string };
-      if (!csrfPayload.csrfToken) throw new Error("Missing CSRF token");
+      const csrfPayload = csrfResult.data ?? null;
+      if (!csrfPayload?.csrfToken) throw new Error("Missing CSRF token");
 
-      const response = await fetch("/api/auth/me", {
+      deletionStarted = true;
+      const result = await fetchAccountAccessJson<{ error?: string }>("/api/auth/me", {
         method: "DELETE",
         credentials: "include",
         headers: {
@@ -37,10 +42,11 @@ export function DeleteAccountPanel({ signedIn, accountType }: { signedIn: boolea
         },
         body: JSON.stringify({ confirmation: "DELETE" }),
       });
-      const payload = await response.json().catch(() => ({})) as { error?: string };
+      const { response } = result;
+      const payload = result.data ?? null;
       if (!response.ok) {
         setStatus("error");
-        setMessage(payload.error || "Account deletion is temporarily unavailable. Please retry.");
+        setMessage(payload?.error || "Account deletion is temporarily unavailable. Please retry.");
         return;
       }
 
@@ -56,9 +62,13 @@ export function DeleteAccountPanel({ signedIn, accountType }: { signedIn: boolea
         router.replace("/");
         router.refresh();
       }, 1200);
-    } catch {
+    } catch (error) {
       setStatus("error");
-      setMessage("Account deletion is temporarily unavailable. Please retry.");
+      setMessage(error instanceof RequestTimeoutError
+        ? deletionStarted
+          ? "The deletion request timed out and may already have completed. Check whether you can still sign in before trying again."
+          : "The security check took too long. No deletion request was sent; check your connection and try again."
+        : "Account deletion is temporarily unavailable. Please retry.");
     }
   };
 

@@ -1,13 +1,14 @@
 // @vitest-environment jsdom
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { AccountDashboard } from "./AccountDashboard";
 import { LEARNING_PROGRESS_KEY } from "@/lib/learningProgress";
 import { LIBRARY_BOOKMARKS_KEY } from "@/lib/libraryBookmarks";
 import { JOIN_TOKEN_STORAGE_KEY, USER_ID_STORAGE_KEY, USERNAME_STORAGE_KEY } from "@/lib/playerIdentity";
 import { LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
+import { ACCOUNT_ACCESS_REQUEST_TIMEOUT_MS } from "@/lib/accountAccessRequest";
 
 const router = vi.hoisted(() => ({ replace: vi.fn() }));
 const setPreference = vi.hoisted(() => vi.fn());
@@ -176,5 +177,33 @@ describe("AccountDashboard", () => {
     expect(call?.[0]).toBe("/api/auth/password");
     expect(call?.[1]?.headers).toMatchObject({ "x-csrf-token": "test-csrf" });
     expect(JSON.parse(String(call?.[1]?.body))).toEqual({ currentPassword: "old-password", newPassword: "new-password-2026", confirmPassword: "new-password-2026" });
+  });
+
+  it("bounds a stalled password mutation and warns that its outcome is unknown", async () => {
+    vi.useFakeTimers();
+    let mutationAborts = 0;
+    vi.stubGlobal("fetch", vi.fn((input: RequestInfo | URL, init?: RequestInit) => {
+      if (String(input) === "/api/auth/password") {
+        return new Promise<Response>((_resolve, reject) => {
+          init?.signal?.addEventListener("abort", () => {
+            mutationAborts += 1;
+            reject(new DOMException("Aborted", "AbortError"));
+          }, { once: true });
+        });
+      }
+      if (String(input) === "/api/auth/csrf") return Promise.resolve(new Response(JSON.stringify({ csrfToken: "test-csrf" })));
+      return Promise.resolve(new Response(JSON.stringify({ data: { lessons: [] } })));
+    }));
+    render(<AccountDashboard {...props} initialSection="security" />);
+    fireEvent.change(screen.getByLabelText("Current password"), { target: { value: "old-password" } });
+    fireEvent.change(screen.getByLabelText("New password", { exact: true }), { target: { value: "new-password-2026" } });
+    fireEvent.change(screen.getByLabelText("Confirm new password"), { target: { value: "new-password-2026" } });
+    fireEvent.submit(screen.getByRole("button", { name: "Change password" }).closest("form")!);
+
+    await act(async () => { await vi.advanceTimersByTimeAsync(ACCOUNT_ACCESS_REQUEST_TIMEOUT_MS); });
+
+    expect(mutationAborts).toBe(1);
+    expect(screen.getByRole("alert")).toHaveTextContent("may already have completed");
+    expect(screen.getByRole("button", { name: "Change password" })).toBeEnabled();
   });
 });
