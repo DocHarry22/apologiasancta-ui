@@ -94,18 +94,29 @@ describe("Android home and navigation", () => {
     const fetcher = vi.fn().mockResolvedValueOnce(json(null, 503)).mockResolvedValueOnce(json([group]));
     vi.stubGlobal("fetch", fetcher);
     render(<NativeHomeDashboard userName={null} topics={[]} verse={verse} />);
-    expect(await screen.findByRole("status")).toHaveTextContent("We couldn’t load your next lesson.");
-    expect(screen.getByRole("link", { name: "Explore lessons" })).toHaveAttribute("href", "/learn");
+    expect(await screen.findByRole("status")).toHaveTextContent("Learning paths are temporarily unavailable.");
+    expect(screen.getByRole("link", { name: "Explore sourced library" })).toHaveAttribute("href", "/library");
+    expect(screen.getByText("Sourced topics are still available.")).toBeVisible();
     expect(screen.getByRole("link", { name: /explore the library/i })).toHaveAttribute("href", "/library");
     await userEvent.setup().click(screen.getByRole("button", { name: "Retry" }));
     expect(await screen.findByRole("link", { name: "Start learning" })).toHaveAttribute("href", "/learn/groups/the-creed");
     expect(screen.queryByRole("status")).not.toBeInTheDocument();
   });
 
+  it("keeps a confirmed resume lesson usable when only the catalogue preview fails", async () => {
+    vi.stubGlobal("fetch", vi.fn(async (url: string) => url.endsWith("/preview") ? json(null, 503) : json({ lessons: [
+      { lessonId: "resume", lessonSlug: "why-we-believe", lessonTitle: "Why we believe", state: "in_progress", readingProgressPercent: 35 },
+    ] })));
+    render(<NativeHomeDashboard userName="Ada" topics={topics} verse={verse} />);
+    expect(await screen.findByRole("status")).toHaveTextContent("Learning paths are temporarily unavailable.");
+    expect(screen.getByRole("link", { name: "Continue lesson" })).toHaveAttribute("href", "/learn/why-we-believe");
+    expect(screen.queryByRole("link", { name: "Explore sourced library" })).not.toBeInTheDocument();
+  });
+
   it("keeps available learning usable when account progress fails", async () => {
     vi.stubGlobal("fetch", vi.fn(async (url: string) => url.endsWith("/preview") ? json([group]) : json(null, 503)));
     render(<NativeHomeDashboard userName="Ada" topics={topics} verse={verse} />);
-    expect(await screen.findByRole("status")).toHaveTextContent("Your saved progress couldn’t load.");
+    expect(await screen.findByRole("status")).toHaveTextContent("Your saved progress couldn’t load. Available learning paths still work.");
     expect(screen.getByRole("link", { name: "Start learning" })).toHaveAttribute("href", "/learn/groups/the-creed");
     expect(screen.getByRole("link", { name: "— Lessons completed" })).toBeInTheDocument();
   });
