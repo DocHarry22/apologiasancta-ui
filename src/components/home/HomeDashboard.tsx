@@ -268,6 +268,9 @@ export function HomeDashboard({ userName, topics, dailyVerse }: { userName: stri
     : 0;
   const nextItem = learningItems.find((item) => !["locked", "visible_locked", "coming_soon", "hidden"].includes(item.previewState ?? "")) ?? learningItems[0] ?? null;
   const nextHref = nextItem ? `/learn/groups/${nextItem.slug}` : "/learn";
+  const availableLearningItems = learningItems.filter((item) => !["locked", "visible_locked", "coming_soon", "hidden"].includes(item.previewState ?? ""));
+  const recommendedLearningItems = availableLearningItems.slice(1, 4);
+  const libraryRecommendations = topics.slice(0, 3);
   const progressLabel = officialProgress ? "synced to your account" : "official progress begins after sign-in";
 
   return (
@@ -281,7 +284,7 @@ export function HomeDashboard({ userName, topics, dailyVerse }: { userName: stri
           <p className="mt-4 max-w-xl text-base leading-7 text-(--text-muted)">Build a connected understanding of Catholic truth, practise the reasons for it, and compete with charity.</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a href={ANDROID_PHONE_TEST_APK_URL} download className="btn-primary">Download Android APK <span aria-hidden="true">↓</span></a>
-            <Link href={nextHref} className="btn-secondary">Continue learning <span aria-hidden="true">→</span></Link>
+            <Link href={learningStatus === "unavailable" ? "/library" : nextHref} className="btn-secondary">{learningStatus === "unavailable" ? "Explore sourced library" : "Continue learning"} <span aria-hidden="true">→</span></Link>
             <Link href="/mobile" className="btn-secondary">Join live quiz</Link>
           </div>
           <p className="mt-3 max-w-xl text-xs leading-5 text-(--text-muted)">Android 1.0.4 · Test build · 7.3 MB. If you installed the old public 1.0.3 APK, uninstall it first. This clears data stored only on your phone.</p>
@@ -344,13 +347,22 @@ export function HomeDashboard({ userName, topics, dailyVerse }: { userName: stri
           <section aria-labelledby="recommended-heading">
             <SectionHeading eyebrow="Recommended for you" title="Study with a purpose" />
             <div className="grid gap-4 md:grid-cols-3">
-              {learningItems.filter((item) => !["locked", "visible_locked", "coming_soon", "hidden"].includes(item.previewState ?? "")).slice(1, 4).map((item, index) => (
+              {recommendedLearningItems.map((item, index) => (
                 <Link key={item.id} href={`/learn/groups/${item.slug}`} className="surface-card p-4 hover:border-(--gold)">
                   <div className="flex items-start justify-between gap-3"><TopicGlyph index={index + 4} /><span className="text-(--text-muted)" aria-label="Bookmark available in the library">♡</span></div>
                   <h3 className="editorial-heading mt-4 text-lg font-semibold">{item.title}</h3>
                   <p className="mt-1 text-xs text-(--text-muted)">Learning group{item.estimatedMinutes ? ` · ${item.estimatedMinutes} min` : ""}{item.difficulty ? ` · ${item.difficulty}` : ""}</p>
                 </Link>
               ))}
+              {!recommendedLearningItems.length ? libraryRecommendations.map((topic, index) => (
+                <Link key={topic.id} href={`/library/${topic.id}`} className="surface-card p-4 hover:border-(--gold)">
+                  <div className="flex items-start justify-between gap-3"><TopicGlyph index={index + 4} /><span className="text-(--text-muted)" aria-label="Sourced library recommendation">✦</span></div>
+                  <p className="mt-4 text-xs font-bold uppercase tracking-wider text-(--text-muted)">Sourced library</p>
+                  <h3 className="editorial-heading mt-1 text-lg font-semibold">{topic.title}</h3>
+                  <p className="mt-1 text-xs text-(--text-muted)">{topic.questionCount} sourced questions</p>
+                </Link>
+              )) : null}
+              {!recommendedLearningItems.length && !libraryRecommendations.length ? <div className="surface-card p-5 md:col-span-3"><p className="font-bold">Keep studying with sourced material.</p><p className="mt-2 text-sm text-(--text-muted)">Browse Catholic topics and cited questions while personalised recommendations are being prepared.</p><Link className="btn-secondary mt-4" href="/library">Explore the sourced library</Link></div> : null}
             </div>
           </section>
         </div>

@@ -41,7 +41,13 @@ describe("Home learning availability", () => {
       json: async () => ({ error: { code: "learning_service_unavailable" } }),
     })));
 
-    render(<HomeDashboard userName={null} topics={[]} dailyVerse={dailyVerse} />);
+    render(<HomeDashboard userName={null} topics={[{
+      id: "christology",
+      title: "Christology",
+      description: "Study the person of Christ.",
+      questionCount: 23,
+      tags: ["Jesus"],
+    }]} dailyVerse={dailyVerse} />);
 
     expect(await screen.findAllByText("Learning paths are temporarily unavailable.")).not.toHaveLength(0);
     expect(screen.queryByText("No published learning groups yet.")).not.toBeInTheDocument();
@@ -49,6 +55,7 @@ describe("Home learning availability", () => {
     expect(screen.getAllByRole("link", { name: "Explore sourced library" }).every(
       (link) => link.getAttribute("href") === "/library",
     )).toBe(true);
+    expect(screen.getByRole("link", { name: /Sourced library Christology 23 sourced questions/i })).toHaveAttribute("href", "/library/christology");
   });
 
   it("reserves the empty-state readiness message for a successful empty response", async () => {
@@ -63,6 +70,7 @@ describe("Home learning availability", () => {
     expect(await screen.findByText("No published learning groups yet.")).toBeInTheDocument();
     expect(screen.getByText("The database-driven catalogue is ready for reviewed content.")).toBeInTheDocument();
     expect(screen.queryByText("Learning paths are temporarily unavailable.")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Explore the sourced library" })).toHaveAttribute("href", "/library");
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
   });
 });
