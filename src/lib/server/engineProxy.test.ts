@@ -10,7 +10,14 @@ vi.mock("./adminAuth", () => ({
 
 import { verifyAdminSession } from "./adminAuth";
 import { getEditorialEngineTimeoutMs } from "./editorialWorkflow";
-import { checkAllowedRoute, proxyAdminRequest, publishQuestionToEngine } from "./engineProxy";
+import {
+  ADMIN_ENGINE_MAX_REQUEST_BYTES,
+  ADMIN_ENGINE_MAX_RESPONSE_BYTES,
+  ADMIN_ENGINE_REQUEST_TIMEOUT_MS,
+  checkAllowedRoute,
+  proxyAdminRequest,
+  publishQuestionToEngine,
+} from "./engineProxy";
 
 const mockedVerifyAdminSession = vi.mocked(verifyAdminSession);
 
@@ -18,6 +25,9 @@ afterEach(() => {
   delete process.env.EDITORIAL_PUBLISH_LEASE_SECONDS;
   delete process.env.EDITORIAL_ENGINE_TIMEOUT_MS;
   delete process.env.EDITORIAL_EMERGENCY_IMPORT_ENABLED;
+  delete process.env.ADMIN_ENGINE_TIMEOUT_MS;
+  delete process.env.ADMIN_ENGINE_MAX_REQUEST_BYTES;
+  delete process.env.ADMIN_ENGINE_MAX_RESPONSE_BYTES;
 });
 
 function request(path: string, init: RequestInit = {}) {
@@ -181,11 +191,60 @@ describe("engine admin proxy", () => {
     expect(body.error).not.toContain("<html>");
   });
 
+  it("bounds admin Engine requests and reports an ambiguity-safe timeout", async () => {
+    const controller = new AbortController();
+    let signalReady: (() => void) | undefined;
+    const fetchStarted = new Promise<void>((resolve) => { signalReady = resolve; });
+    vi.spyOn(AbortSignal, "timeout").mockReturnValue(controller.signal);
+    vi.mocked(fetch).mockImplementationOnce((_input, init) => new Promise((_resolve, reject) => {
+      init?.signal?.addEventListener("abort", () => reject(init.signal?.reason), { once: true });
+      signalReady?.();
+    }));
+
+    const pending = proxyAdminRequest(await authedPost("start"), ["start"]);
+    await fetchStarted;
+    controller.abort(new DOMException("request timed out", "TimeoutError"));
+    const response = await pending;
+
+    expect(AbortSignal.timeout).toHaveBeenCalledWith(ADMIN_ENGINE_REQUEST_TIMEOUT_MS);
+    expect(response.status).toBe(504);
+    expect(await response.json()).toEqual({
+      success: false,
+      error: "Engine request timed out. The action may not have completed. Check live status before retrying.",
+    });
+  });
+
+  it("rejects oversized admin request bodies before contacting the Engine", async () => {
+    const response = await proxyAdminRequest(
+      await authedPost("start", JSON.stringify({ value: "x".repeat(ADMIN_ENGINE_MAX_REQUEST_BYTES) })),
+      ["start"]
+    );
+
+    expect(response.status).toBe(413);
+    expect(await response.json()).toEqual({ success: false, error: "Admin request body is too large." });
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("rejects oversized Engine responses without buffering or exposing them", async () => {
+    const secret = "upstream-sensitive-value";
+    vi.mocked(fetch).mockResolvedValueOnce(new Response(JSON.stringify({ value: `${secret}${"x".repeat(ADMIN_ENGINE_MAX_RESPONSE_BYTES)}` }), {
+      status: 200,
+      headers: { "content-type": "application/json" },
+    }));
+
+    const response = await proxyAdminRequest(await authedGet("status"), ["status"]);
+
+    expect(response.status).toBe(502);
+    const text = await response.text();
+    expect(text).toContain("Engine returned too much data.");
+    expect(text).not.toContain(secret);
+  });
+
   it("safely handles engine network failure and missing config", async () => {
-    vi.mocked(fetch).mockRejectedValueOnce(new Error("connect ECONNREFUSED https://engine.test"));
+    vi.mocked(fetch).mockRejectedValueOnce(new Error("connect ECONNREFUSED 10.0.0.8:5432"));
     let response = await proxyAdminRequest(await authedGet("status"), ["status"]);
     expect(response.status).toBe(502);
-    expect(await response.text()).not.toContain("https://engine.test");
+    expect(await response.text()).not.toContain("10.0.0.8");
 
     delete process.env.ENGINE_ADMIN_TOKEN;
     response = await proxyAdminRequest(await authedGet("status"), ["status"]);
