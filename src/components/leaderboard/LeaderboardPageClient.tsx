@@ -8,7 +8,7 @@ import study from "@/components/native/StudyUI.module.css";
 import styles from "./Leaderboard.module.css";
 import { USERNAME_STORAGE_KEY } from "@/lib/playerIdentity";
 import { getEngineUrl } from "@/lib/publicEnv";
-import { fetchJsonWithTimeout } from "@/lib/fetchWithTimeout";
+import { fetchJsonWithColdStartRetry } from "@/lib/fetchWithTimeout";
 import type { Leaderboard, LeaderboardPeriod } from "@/types/quiz";
 
 const periods: Array<{ id: LeaderboardPeriod; label: string }> = [
@@ -38,7 +38,7 @@ export function LeaderboardPageClient() {
       if (!controller.signal.aborted) setSlowLoading(true);
     }, 3_000);
     try {
-      const result = await fetchJsonWithTimeout<{ leaderboard?: Leaderboard } & Leaderboard>(
+      const result = await fetchJsonWithColdStartRetry<{ leaderboard?: Leaderboard } & Leaderboard>(
         `${engineUrl}/leaderboard?period=${period}`,
         { cache: "no-store", signal: controller.signal },
       );

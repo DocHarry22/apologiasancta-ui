@@ -5,7 +5,7 @@ import type { RoomSummary } from "@/types/quiz";
 import { Dialog } from "@/components/ui/Dialog";
 import { AppIcon } from "@/components/native/AppIcon";
 import { StudySearch } from "@/components/native/StudyUI";
-import { fetchJsonWithTimeout } from "@/lib/fetchWithTimeout";
+import { fetchJsonWithColdStartRetry } from "@/lib/fetchWithTimeout";
 import styles from "./QuizScreen.module.css";
 
 interface RoomSelectionModalProps {
@@ -44,7 +44,7 @@ export function RoomSelectionModal({ engineUrl, onSelected, currentRoomId = null
     }, 3_000);
 
     try {
-      const result = await fetchJsonWithTimeout<RoomsResponse>(
+      const result = await fetchJsonWithColdStartRetry<RoomsResponse>(
         `${engineUrl}/rooms`,
         { cache: "no-store", signal: controller.signal },
       );

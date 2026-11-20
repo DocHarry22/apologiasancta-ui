@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { RoomSelectionModal } from "./RoomSelectionModal";
 import { CountdownRing } from "./CountdownRing";
 import { TeachingMomentCard } from "./TeachingMomentCard";
+import { LIVE_SERVICE_REQUEST_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 afterEach(() => { cleanup(); vi.restoreAllMocks(); });
 const rooms = [{ roomId: "parish", name: "Parish quiz", playerCount: 4, isActive: true }, { roomId: "closed", name: "Evening study", playerCount: 0, isActive: false }];
@@ -42,6 +43,26 @@ describe("quiz entry and feedback", () => {
     view.unmount();
     expect(signal.aborted).toBe(true);
     vi.useRealTimers();
+  });
+
+  it("recovers the room list automatically after the wake-up request times out", async () => {
+    vi.useFakeTimers();
+    const fetcher = vi.spyOn(globalThis, "fetch")
+      .mockImplementationOnce((_request: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+        init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+      }))
+      .mockResolvedValueOnce(Response.json({ rooms }));
+
+    render(<RoomSelectionModal engineUrl="https://engine.test" onSelected={vi.fn()} />);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(LIVE_SERVICE_REQUEST_TIMEOUT_MS);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(screen.getByRole("heading", { name: "Parish quiz" })).toBeInTheDocument();
+    expect(fetcher).toHaveBeenCalledTimes(2);
+    expect(screen.queryByRole("button", { name: "Retry" })).not.toBeInTheDocument();
   });
 
   it("shows the correct phase in the compact timer and keeps teaching references available", async () => {
