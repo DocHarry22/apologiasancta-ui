@@ -49,12 +49,12 @@ describe("Learn browsing and reading", () => {
   it("retries a failed learning request", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValueOnce(json({ error: "Unavailable" }, 503)).mockResolvedValueOnce(json([programme])));
     render(<LearningCatalogue />);
-    expect(await screen.findByRole("alert")).toHaveTextContent("We couldn’t load your learning paths.");
+    expect(await screen.findByRole("alert")).toHaveTextContent("Live learning paths are temporarily unavailable.");
     expect(screen.getByText("Learning paths are temporarily unavailable")).toBeInTheDocument();
     expect(screen.queryByText("0 programmes to explore")).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Explore the library" })).toHaveAttribute("href", "/library");
+    expect(screen.getByRole("link", { name: /Scripture, Tradition, and the Magisterium/i })).toHaveAttribute("href", "/learn/scripture-tradition-magisterium");
     expect(screen.queryByRole("link", { name: "Practice instead" })).not.toBeInTheDocument();
-    await userEvent.setup().click(screen.getByRole("button", { name: "Try again" }));
+    await userEvent.setup().click(screen.getByRole("button", { name: "Try live catalogue again" }));
     expect(await screen.findByRole("link", { name: /Foundations of the Faith/ })).toBeInTheDocument();
   });
 
