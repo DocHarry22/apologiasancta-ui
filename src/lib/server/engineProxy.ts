@@ -13,6 +13,89 @@ import type { Question } from "@/types/content";
 import type { ContentImportResponse } from "@/lib/engineAdmin";
 import { getEditorialEngineTimeoutMs } from "./editorialWorkflow";
 
+export const ADMIN_ENGINE_REQUEST_TIMEOUT_MS = 10_000;
+export const ADMIN_ENGINE_MAX_REQUEST_BYTES = 256 * 1024;
+export const ADMIN_ENGINE_MAX_RESPONSE_BYTES = 1024 * 1024;
+
+class PayloadLimitError extends Error {
+  constructor() {
+    super("Payload exceeded the configured size limit.");
+    this.name = "PayloadLimitError";
+  }
+}
+
+function boundedPositiveInt(raw: string | undefined, fallback: number, maximum: number): number {
+  const parsed = Number.parseInt(raw || "", 10);
+  return Number.isFinite(parsed) && parsed > 0 ? Math.min(parsed, maximum) : fallback;
+}
+
+function getAdminEngineTimeoutMs(): number {
+  return boundedPositiveInt(process.env.ADMIN_ENGINE_TIMEOUT_MS, ADMIN_ENGINE_REQUEST_TIMEOUT_MS, 30_000);
+}
+
+function getAdminEngineRequestLimit(): number {
+  return boundedPositiveInt(process.env.ADMIN_ENGINE_MAX_REQUEST_BYTES, ADMIN_ENGINE_MAX_REQUEST_BYTES, 1024 * 1024);
+}
+
+function getAdminEngineResponseLimit(): number {
+  return boundedPositiveInt(process.env.ADMIN_ENGINE_MAX_RESPONSE_BYTES, ADMIN_ENGINE_MAX_RESPONSE_BYTES, 5 * 1024 * 1024);
+}
+
+async function readBoundedText(
+  body: ReadableStream<Uint8Array> | null,
+  declaredLength: string | null,
+  maxBytes: number
+): Promise<string> {
+  const declared = Number.parseInt(declaredLength || "", 10);
+  if (Number.isFinite(declared) && declared > maxBytes) {
+    await body?.cancel("engine-proxy-payload-size-limit").catch(() => undefined);
+    throw new PayloadLimitError();
+  }
+  if (!body) return "";
+
+  const reader = body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (!value?.byteLength) continue;
+      total += value.byteLength;
+      if (total > maxBytes) {
+        await reader.cancel("engine-proxy-payload-size-limit").catch(() => undefined);
+        throw new PayloadLimitError();
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+
+  const merged = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    merged.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return new TextDecoder().decode(merged);
+}
+
+async function readBoundedEngineJson(response: Response): Promise<unknown> {
+  const contentType = response.headers.get("content-type")?.toLowerCase() || "";
+  if (!contentType.includes("application/json")) {
+    await response.body?.cancel("engine-proxy-unexpected-content-type").catch(() => undefined);
+    throw new SyntaxError("Engine returned a non-JSON response.");
+  }
+  const text = await readBoundedText(
+    response.body,
+    response.headers.get("content-length"),
+    getAdminEngineResponseLimit()
+  );
+  if (!text) throw new SyntaxError("Engine returned an empty response.");
+  return JSON.parse(text) as unknown;
+}
+
 // ---------------------------------------------------------------------------
 // Engine config helpers (server-side only)
 // ---------------------------------------------------------------------------
@@ -64,11 +147,7 @@ export async function publishQuestionToEngine(question: Question, idempotencyKey
         commitMessage: `Publish approved question ${question.id}`,
       }),
     });
-    const contentType = response.headers.get("content-type") || "";
-    if (!contentType.toLowerCase().includes("application/json")) {
-      return { ok: false, status: 502, error: "Live Engine returned an unexpected response." };
-    }
-    const data = await response.json() as ContentImportResponse & { error?: string };
+    const data = await readBoundedEngineJson(response) as ContentImportResponse & { error?: string };
     if (!response.ok) {
       return { ok: false, status: response.status, error: data.error || `Live Engine publish failed with HTTP ${response.status}.` };
     }
@@ -80,7 +159,13 @@ export async function publishQuestionToEngine(question: Question, idempotencyKey
     if (error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError")) {
       return { ok: false, status: 504, error: "Live Engine publishing timed out." };
     }
-    return { ok: false, status: 502, error: "Live Engine is unreachable." };
+    return {
+      ok: false,
+      status: 502,
+      error: error instanceof PayloadLimitError
+        ? "Live Engine returned too much data."
+        : "Live Engine is unreachable or returned an invalid response.",
+    };
   }
 }
 
@@ -443,9 +528,28 @@ export async function proxyAdminRequest(
   let body: string | undefined;
   if (request.method !== "GET" && request.method !== "HEAD") {
     try {
-      body = await request.text();
-    } catch {
-      body = undefined;
+      body = await readBoundedText(
+        request.body,
+        request.headers.get("content-length"),
+        getAdminEngineRequestLimit()
+      );
+    } catch (error) {
+      const tooLarge = error instanceof PayloadLimitError;
+      const status = tooLarge ? 413 : 400;
+      auditLog({
+        method: request.method,
+        path: joinedPath,
+        ip,
+        outcome: "proxy_error",
+        statusCode: status,
+        reason: tooLarge ? "request body too large" : "request body unreadable",
+        userId: currentUser.id,
+        role: currentUser.role,
+      });
+      return NextResponse.json(
+        { success: false, error: tooLarge ? "Admin request body is too large." : "Admin request body could not be read." },
+        { status }
+      );
     }
   }
 
@@ -453,6 +557,7 @@ export async function proxyAdminRequest(
   try {
     const engineResponse = await fetch(urlStr, {
       method: request.method,
+      signal: AbortSignal.timeout(getAdminEngineTimeoutMs()),
       headers: {
         "Content-Type": "application/json",
         // x-admin-token is injected server-side only — never exposed to the browser.
@@ -461,30 +566,25 @@ export async function proxyAdminRequest(
       body: body || undefined,
     });
 
-    const contentType = engineResponse.headers.get("content-type") ?? "";
-    if (contentType.toLowerCase().includes("application/json")) {
-      const data: unknown = await engineResponse.json();
-      auditLog({ method: request.method, path: joinedPath, ip, outcome: "allowed", statusCode: engineResponse.status, userId: currentUser.id, role: currentUser.role });
-      return NextResponse.json(data, { status: engineResponse.status });
-    }
-
-    // Engine returned non-JSON (e.g. an HTML error page from a proxy/load-balancer).
-    // Do not forward raw HTML to the browser — return a safe error instead.
-    const safeMessage =
-      engineResponse.status >= 500
-        ? "Engine returned an unexpected server error."
-        : "Engine returned a non-JSON response.";
-    auditLog({ method: request.method, path: joinedPath, ip, outcome: "proxy_error", statusCode: engineResponse.status >= 400 ? engineResponse.status : 502, reason: "non-json engine response" });
-    return NextResponse.json(
-      { success: false, error: safeMessage },
-      { status: engineResponse.status >= 400 ? engineResponse.status : 502 }
-    );
+    const data = await readBoundedEngineJson(engineResponse);
+    auditLog({ method: request.method, path: joinedPath, ip, outcome: "allowed", statusCode: engineResponse.status, userId: currentUser.id, role: currentUser.role });
+    return NextResponse.json(data, { status: engineResponse.status });
   } catch (error) {
-    // Engine unreachable or network-level failure.
-    // Strip any internal URL from the error message before forwarding.
-    const raw = error instanceof Error ? error.message : "Proxy error";
-    const safeMessage = raw.includes(engineUrl) ? "Engine is unreachable." : raw;
-    auditLog({ method: request.method, path: joinedPath, ip, outcome: "proxy_error", statusCode: 502, reason: "engine unreachable" });
-    return NextResponse.json({ success: false, error: safeMessage }, { status: 502 });
+    const timedOut = error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError");
+    const tooLarge = error instanceof PayloadLimitError;
+    const reason = timedOut ? "engine timeout" : tooLarge ? "engine response too large" : error instanceof SyntaxError ? "invalid engine response" : "engine unreachable";
+    const status = timedOut ? 504 : 502;
+    auditLog({ method: request.method, path: joinedPath, ip, outcome: "proxy_error", statusCode: status, reason, userId: currentUser.id, role: currentUser.role });
+    return NextResponse.json(
+      {
+        success: false,
+        error: timedOut
+          ? "Engine request timed out. The action may not have completed. Check live status before retrying."
+          : tooLarge
+            ? "Engine returned too much data."
+            : "Engine is unreachable or returned an invalid response.",
+      },
+      { status }
+    );
   }
 }
