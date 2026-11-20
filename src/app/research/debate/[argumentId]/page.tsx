@@ -8,6 +8,7 @@ import { getResearchGraphUrl } from "@/lib/publicEnv";
 import { fetchKnowledgeEngine, KnowledgeEngineError } from "@/lib/server/knowledgeEngine";
 import type { DebateResponse as DebatePayload } from "@/lib/knowledge/researchContract";
 import { ResearchRetryButton } from "@/components/research/ResearchRetryButton";
+import { ResearchLibraryFallbackLinks } from "@/components/research/ResearchFallbackPrompts";
 
 export const dynamic = "force-dynamic";
 
@@ -42,6 +43,7 @@ export default async function DebateArgumentPage({ params }: { params: Promise<{
             <StatusBadge tone="danger">Debate unavailable</StatusBadge>
             <p className="mt-3 text-sm leading-6 text-(--text-muted)">{error instanceof Error ? error.message : "Debate is temporarily unavailable."}</p>
             <ResearchRetryButton label="Retry debate" />
+            <ResearchLibraryFallbackLinks />
           </div>
       </ResearchLayout>
     );

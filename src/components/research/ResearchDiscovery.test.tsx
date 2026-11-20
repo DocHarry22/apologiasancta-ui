@@ -39,5 +39,15 @@ it("turns a hung Knowledge request into a retryable state", async () => {
 
   expect(screen.getByRole("status")).toHaveTextContent("Some suggestions are unavailable");
   expect(screen.getByRole("button", { name: "Retry suggestions" })).toBeVisible();
+  expect(screen.getByRole("heading", { name: "Continue in the library" })).toBeVisible();
+  expect(screen.getAllByRole("link", { name: /in the library/ })).toHaveLength(4);
   expect(request).toHaveBeenCalledTimes(1);
+});
+
+it("does not duplicate a parent-provided outage fallback", async () => {
+  vi.stubGlobal("fetch", vi.fn(async () => ({ ok: false })));
+  render(<ResearchDiscovery showLibraryFallback={false} />);
+
+  await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent("Some suggestions are unavailable"));
+  expect(screen.queryByRole("heading", { name: "Continue in the library" })).not.toBeInTheDocument();
 });

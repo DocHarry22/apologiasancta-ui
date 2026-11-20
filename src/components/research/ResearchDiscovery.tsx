@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { fetchJsonWithTimeout } from "@/lib/fetchWithTimeout";
 import type { KnowledgeOption } from "./KnowledgeSelector";
+import { ResearchLibraryFallbackLinks } from "./ResearchFallbackPrompts";
 import styles from "./ResearchUI.module.css";
 
 type Topic = { id: string; title: string; summary?: string; rootNodeId?: string; root_node_id?: string };
@@ -13,7 +14,7 @@ type TopicResponse = { topics?: Topic[] };
 type NeighborhoodResponse = { nodes?: KnowledgeOption[]; edges?: KnowledgeEdge[] };
 export const RESEARCH_DISCOVERY_REQUEST_TIMEOUT_MS = 8_000;
 
-export default function ResearchDiscovery({ anchor = "", lens = "catholic", showJourneys = true }: { anchor?: string; lens?: string; showJourneys?: boolean }) {
+export default function ResearchDiscovery({ anchor = "", lens = "catholic", showJourneys = true, showLibraryFallback = true }: { anchor?: string; lens?: string; showJourneys?: boolean; showLibraryFallback?: boolean }) {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [pairs, setPairs] = useState<Pair[]>([]);
   const [status, setStatus] = useState("Loading research starting points…");
@@ -80,5 +81,6 @@ export default function ResearchDiscovery({ anchor = "", lens = "catholic", show
       {!topics.length && !status && <p className="mt-3 text-sm text-(--text-muted)">Reviewed topic journeys will appear here when published.</p>}
     </section>}
     {status && <div role="status" className="text-sm text-(--text-muted)">{status}{status.includes("unavailable") && <button type="button" className="btn-quiet ml-3" onClick={() => setRetry((value) => value + 1)}>Retry suggestions</button>}</div>}
+    {showLibraryFallback && status.includes("unavailable") && !pairs.length && !topics.length ? <ResearchLibraryFallbackLinks /> : null}
   </div>;
 }

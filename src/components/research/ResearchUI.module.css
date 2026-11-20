@@ -52,6 +52,15 @@
 .comparison strong { display: block; overflow-wrap: anywhere; font: 500 22px/1.3 var(--font-editorial); }
 .comparison > span { display: block; margin-block: 10px; color: var(--gold-hover); font-size: 10px; line-height: 1.8; }
 .comparison > span:last-child { margin-bottom: 0; margin-top: 17px; font-size: 11px; font-weight: 650; }
+.libraryFallback { margin-top: 18px; border: 1px solid color-mix(in srgb, var(--gold) 45%, var(--border)); border-radius: 15px; padding: 18px; background: color-mix(in srgb, var(--gold) 6%, var(--surface)); }
+.libraryFallback h3 { font: 500 22px/1.3 var(--font-editorial); letter-spacing: -0.4px; }
+.libraryFallback > p { margin-top: 7px; color: var(--text-muted); font-size: 12px; line-height: 1.8; }
+.libraryFallback ul { display: grid; gap: 8px; margin-top: 14px; }
+.libraryFallback a { display: grid; min-height: 58px; grid-template-columns: 1fr auto; align-items: center; gap: 3px 12px; border: 1px solid var(--border); border-radius: 11px; padding: 10px 12px; background: var(--surface); color: var(--text); }
+.libraryFallback a:hover { border-color: var(--gold); }
+.libraryFallback a span { overflow-wrap: anywhere; font-size: 12px; font-weight: 650; line-height: 1.5; }
+.libraryFallback a small { color: var(--text-muted); font-size: 10px; line-height: 1.5; }
+.libraryFallback a svg { grid-column: 2; grid-row: 1 / span 2; color: var(--gold-hover); }
 .selector { position: relative; min-width: 0; }
 .selector > label { color: var(--text); font-size: 12px; font-weight: 650; }
 .selector input:not([type="hidden"]) { width: 100%; min-width: 0; min-height: 52px; margin-top: 9px; border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; background: var(--background); color: var(--text); font-size: 16px; scroll-margin-top: 100px; }
@@ -73,5 +82,5 @@
 .lesson h2 { font: 500 25px/1.3 var(--font-editorial); letter-spacing: -0.4px; }
 .lesson button { min-height: 44px; }
 .lesson fieldset, .lesson details { border-radius: 14px; }
-@media (min-width: 700px) { .modes { grid-template-columns: repeat(7, minmax(0, 1fr)); } .cards, .suggestions { grid-template-columns: repeat(2, minmax(0, 1fr)); } .standards dl { grid-template-columns: repeat(2, minmax(0, 1fr)); } .compareForm { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 700px) { .modes { grid-template-columns: repeat(7, minmax(0, 1fr)); } .cards, .suggestions, .libraryFallback ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } .standards dl { grid-template-columns: repeat(2, minmax(0, 1fr)); } .compareForm { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 359px) { .topic { padding: 15px; gap: 11px; } .topic h3 { font-size: 21px; } .graph { padding: 19px; } }

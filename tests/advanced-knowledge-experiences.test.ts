@@ -40,9 +40,14 @@ test("server-rendered research failures remain recoverable after an upstream out
   assert.match(researchPage, /<ResearchFallbackPrompts knowledgeAvailable=/);
   assert.match(researchFallback, /<ResearchRetryButton label="Retry topics"/);
   assert.match(researchFallback, /These bundled library paths remain available/);
+  assert.match(researchFallback, /ResearchLibraryFallbackLinks/);
+  assert.match(researchFallback, /live research catalogue is temporarily unavailable/);
   assert.match(timelinePage, /<ResearchRetryButton label="Retry timeline"/);
+  assert.match(timelinePage, /<ResearchLibraryFallbackLinks/);
   assert.match(comparePage, /<ResearchRetryButton label="Retry comparison"/);
+  assert.match(comparePage, /<ResearchLibraryFallbackLinks/);
   assert.match(debatePage, /<ResearchRetryButton label="Retry debate"/);
+  assert.match(debatePage, /<ResearchLibraryFallbackLinks/);
 });
 
 test("Knowledge Foundry admin bridge keeps credentials server-side and enforces normal web controls", () => {

@@ -8,6 +8,7 @@ import type { ResearchNode as NodeView, CompareResponse as ComparePayload } from
 import CompareClaimsForm from "@/components/research/CompareClaimsForm";
 import ResearchDiscovery from "@/components/research/ResearchDiscovery";
 import { ResearchRetryButton } from "@/components/research/ResearchRetryButton";
+import { ResearchLibraryFallbackLinks } from "@/components/research/ResearchFallbackPrompts";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -89,7 +90,7 @@ export default async function ResearchComparePage({
         ) : (!validLeft || !validRight) ? (
           <div className="surface-card mt-6 p-6"><StatusBadge>Complete your comparison</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">Choose a published claim in each search field above.</p></div>
         ) : error ? (
-          <div className="surface-card mt-6 p-6" role="alert"><StatusBadge tone="danger">Comparison unavailable</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">{error}</p><ResearchRetryButton label="Retry comparison" /></div>
+          <div className="surface-card mt-6 p-6" role="alert"><StatusBadge tone="danger">Comparison unavailable</StatusBadge><p className="mt-3 text-sm leading-6 text-(--text-muted)">{error}</p><ResearchRetryButton label="Retry comparison" /><ResearchLibraryFallbackLinks /></div>
         ) : payload ? (
           <>
             <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -111,7 +112,7 @@ export default async function ResearchComparePage({
             <article className="surface-card mt-7 p-5"><div className="flex flex-wrap items-center gap-2"><h2 className="editorial-heading mr-auto text-2xl font-semibold">Bounded connecting path</h2><StatusBadge tone="success">Stored relationships only</StatusBadge><StatusBadge>Maximum four hops</StatusBadge></div>{payload.connectingPath?.length ? <ol className="mt-4 flex flex-wrap items-center gap-2">{payload.connectingPath.map((id, index) => <li key={`${id}:${index}`} className="flex items-center gap-2"><code className="rounded bg-(--surface-elevated) px-2 py-1 text-xs">{id}</code>{index < (payload.connectingPath?.length || 0) - 1 ? <span aria-hidden="true">→</span> : null}</li>)}</ol> : <p className="mt-3 text-sm text-(--text-muted)">No connecting path was found inside the bounded published traversal.</p>}</article>
           </>
         ) : null}
-        <ResearchDiscovery anchor={validLeft ? left : ""} lens={validLens ? lens : "catholic"} />
+        <ResearchDiscovery anchor={validLeft ? left : ""} lens={validLens ? lens : "catholic"} showLibraryFallback={!error} />
     </ResearchLayout>
   );
 }
