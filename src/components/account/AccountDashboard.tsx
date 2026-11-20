@@ -20,7 +20,8 @@ import {
 } from "@/lib/learningProgress";
 import { LIBRARY_BOOKMARKS_KEY, parseLibraryBookmarks } from "@/lib/libraryBookmarks";
 import { clearStoredPlayerIdentity, runWithStoredAccountSessionBoundary } from "@/lib/playerIdentity";
-import { fetchJsonWithTimeout, LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
+import { fetchJsonWithTimeout, LEARNER_API_READ_TIMEOUT_MS, RequestTimeoutError } from "@/lib/fetchWithTimeout";
+import { fetchAccountAccessJson, fetchAccountAccessResponse } from "@/lib/accountAccessRequest";
 import { useTheme, type ThemePreference } from "@/lib/theme";
 import { EmailVerificationPanel } from "@/components/auth/AccountRecovery";
 import { AppIcon, type AppIconName } from "@/components/native/AppIcon";
@@ -417,8 +418,9 @@ function SecurityPanel({ lastLoginAt, onSignedOut }: { lastLoginAt: string | nul
   const [message, setMessage] = useState<{ tone: "success" | "error" | "info"; text: string } | null>(null);
 
   const csrfToken = async (): Promise<string> => {
-    const response = await fetch("/api/auth/csrf", { cache: "no-store" });
-    const payload = (await response.json().catch(() => null)) as { csrfToken?: string; error?: string } | null;
+    const result = await fetchAccountAccessJson<{ csrfToken?: string; error?: string }>("/api/auth/csrf", { cache: "no-store" });
+    const { response } = result;
+    const payload = result.data ?? null;
     if (!response.ok || !payload?.csrfToken) {
       throw new Error(response.status === 401 ? "Your session expired. Sign in again." : payload?.error || "A secure request token could not be created.");
     }
@@ -433,21 +435,29 @@ function SecurityPanel({ lastLoginAt, onSignedOut }: { lastLoginAt: string | nul
       return;
     }
     setBusyAction("password");
+    let mutationStarted = false;
     try {
       const csrf = await csrfToken();
-      const response = await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/password", {
+      mutationStarted = true;
+      const result = await runWithStoredAccountSessionBoundary(() => fetchAccountAccessJson<{ error?: string }>("/api/auth/password", {
         method: "PATCH",
         headers: { "Content-Type": "application/json", "x-csrf-token": csrf },
         body: JSON.stringify({ currentPassword, newPassword, confirmPassword }),
       }));
-      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      const { response } = result;
+      const payload = result.data ?? null;
       if (!response.ok) throw new Error(payload?.error || "Password could not be changed.");
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
       setMessage({ tone: "success", text: "Password changed. Other sessions are now invalid; this session remains active." });
     } catch (error) {
-      setMessage({ tone: "error", text: error instanceof Error ? error.message : "Password could not be changed." });
+      const text = error instanceof RequestTimeoutError
+        ? mutationStarted
+          ? "The password request timed out and may already have completed. Check whether the new password works before submitting it again."
+          : "The security check took too long. No password change was sent; check your connection and try again."
+        : error instanceof Error ? error.message : "Password could not be changed.";
+      setMessage({ tone: "error", text });
     } finally {
       setBusyAction(null);
     }
@@ -456,17 +466,25 @@ function SecurityPanel({ lastLoginAt, onSignedOut }: { lastLoginAt: string | nul
   const revokeOtherSessions = async () => {
     setBusyAction("sessions");
     setMessage(null);
+    let mutationStarted = false;
     try {
       const csrf = await csrfToken();
-      const response = await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/sessions/revoke", {
+      mutationStarted = true;
+      const result = await runWithStoredAccountSessionBoundary(() => fetchAccountAccessJson<{ error?: string }>("/api/auth/sessions/revoke", {
         method: "POST",
         headers: { "x-csrf-token": csrf },
       }));
-      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      const { response } = result;
+      const payload = result.data ?? null;
       if (!response.ok) throw new Error(payload?.error || "Other sessions could not be revoked.");
       setMessage({ tone: "success", text: "Other signed-in sessions revoked. This session remains active." });
     } catch (error) {
-      setMessage({ tone: "error", text: error instanceof Error ? error.message : "Other sessions could not be revoked." });
+      const text = error instanceof RequestTimeoutError
+        ? mutationStarted
+          ? "The session-revocation request timed out and may already have completed. Refresh your account before submitting it again."
+          : "The security check took too long. No session-revocation request was sent; check your connection and try again."
+        : error instanceof Error ? error.message : "Other sessions could not be revoked.";
+      setMessage({ tone: "error", text });
     } finally {
       setBusyAction(null);
     }
@@ -476,10 +494,15 @@ function SecurityPanel({ lastLoginAt, onSignedOut }: { lastLoginAt: string | nul
     setBusyAction("logout");
     setMessage(null);
     try {
-      await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/logout", { method: "POST" }));
+      await runWithStoredAccountSessionBoundary(() => fetchAccountAccessResponse("/api/auth/logout", { method: "POST" }));
       onSignedOut();
-    } catch {
-      setMessage({ tone: "error", text: "Sign out failed. Check your connection and try again." });
+    } catch (error) {
+      setMessage({
+        tone: "error",
+        text: error instanceof RequestTimeoutError
+          ? "The sign-out request timed out and may already have completed. Refresh this page before trying again."
+          : "Sign out failed. Check your connection and try again.",
+      });
       setBusyAction(null);
     }
   };
