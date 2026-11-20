@@ -85,6 +85,26 @@ const bundledFoundationLessons: CatalogueItem[] = learningPath.lessons.map((less
   visibility: "public",
 }));
 
+function bundledSearchResults(query: string): CatalogueItem[] {
+  const normalizedQuery = query.trim().toLowerCase();
+  if (!normalizedQuery) return bundledFoundationLessons;
+  return learningPath.lessons.flatMap((lesson) => {
+    const searchable = [
+      lesson.title,
+      lesson.subtitle,
+      lesson.summary,
+      ...lesson.objectives,
+      ...lesson.sections.flatMap((section) => [section.heading, ...section.paragraphs, section.keyPoint ?? ""]),
+      lesson.objection.claim,
+      lesson.objection.response,
+      ...lesson.sources.flatMap((source) => [source.label, source.reference, source.kind]),
+    ].join(" ").toLowerCase();
+    return searchable.includes(normalizedQuery)
+      ? bundledFoundationLessons.filter((item) => item.slug === lesson.id)
+      : [];
+  });
+}
+
 type LessonBookmark = {
   id: string;
   lessonId: string;
@@ -549,7 +569,8 @@ export function LearningSearch() {
   const [submitted, setSubmitted] = useState("");
   const url = useMemo(() => `/api/v1/learning/search?q=${encodeURIComponent(submitted)}&page=1&pageSize=20`, [submitted]);
   const { data, error, loading, reload } = useLearningResource<CatalogueItem[]>(url);
-  return <div className={styles.screen}><Link className={styles.breadcrumb} href="/learn"><AppIcon name="chevron" width={15} height={15} /> All programmes</Link><header className={styles.intro}><p className={styles.eyebrow}>Find your next lesson</p><h1 className={styles.title}>A question. <em>A discovery.</em></h1><p>Search lessons, subjects, sources, and references.</p></header><form className="flex flex-col gap-3 sm:flex-row" role="search" onSubmit={(event) => { event.preventDefault(); setSubmitted(query.trim()); }}><div className="min-w-0 flex-1"><StudySearch id="learning-search" label="Search lessons and subjects" value={query} onChange={setQuery} placeholder="What would you like to understand?" /></div><button className="btn-primary" type="submit">Search lessons <AppIcon name="arrow" width={17} height={17} /></button></form><section className="mt-7" aria-live="polite">{loading ? <LoadingCards /> : error ? <ErrorState message={error} retry={reload} title="We couldn’t search the learning catalogue." detail="Lesson and source search is temporarily unavailable." /> : data?.length ? <div className={styles.catalogue}>{data.map((item, index) => <CatalogueCard key={`${item.id}-${item.slug}`} item={item} index={index} kind={catalogueItemKind(item)} />)}</div> : <div className={styles.empty}><AppIcon name="search" /><h2>{submitted ? "No lessons found just yet." : "Follow a question."}</h2><p>{submitted ? "Try a broader word or a different reference." : "Enter a word, a topic, or a source to begin exploring."}</p></div>}</section></div>;
+  const bundledResults = useMemo(() => bundledSearchResults(submitted), [submitted]);
+  return <div className={styles.screen}><Link className={styles.breadcrumb} href="/learn"><AppIcon name="chevron" width={15} height={15} /> All programmes</Link><header className={styles.intro}><p className={styles.eyebrow}>Find your next lesson</p><h1 className={styles.title}>A question. <em>A discovery.</em></h1><p>Search lessons, subjects, sources, and references.</p></header><form className="flex flex-col gap-3 sm:flex-row" role="search" onSubmit={(event) => { event.preventDefault(); setSubmitted(query.trim()); }}><div className="min-w-0 flex-1"><StudySearch id="learning-search" label="Search lessons and subjects" value={query} onChange={setQuery} placeholder="What would you like to understand?" /></div><button className="btn-primary" type="submit">Search lessons <AppIcon name="arrow" width={17} height={17} /></button></form><section className="mt-7" aria-live="polite">{loading ? <LoadingCards /> : error ? <div className="space-y-4"><div className={styles.empty} role="alert"><AppIcon name="search" /><h2>Live learning search is temporarily unavailable.</h2><p>{error}</p><p>Search the sourced Foundations lessons bundled with Apologia Sancta while the official catalogue recovers.</p><div className="flex flex-wrap justify-center gap-3"><button type="button" className="btn-primary" onClick={reload}>Try live search again</button><Link className="btn-secondary" href="/library">Explore the library</Link></div></div>{bundledResults.length ? <div className={styles.catalogue} aria-label="Bundled Foundations search results">{bundledResults.map((item, index) => <CatalogueCard key={item.id} item={item} index={index} kind="lesson" />)}</div> : <div className={styles.empty}><AppIcon name="book" /><h3>No bundled lesson matches “{submitted}”.</h3><p>Try a broader word, a Scripture reference, or browse all four Foundations lessons.</p><button type="button" className="btn-secondary" onClick={() => { setQuery(""); setSubmitted(""); }}>Show all bundled lessons</button></div>}<p className={styles.sourceNote}>Bundled path: {learningPath.title}. Results include lesson text, objections, and source references. Live subjects, programme structure, and account progress remain unavailable until the learning database recovers.</p></div> : data?.length ? <div className={styles.catalogue}>{data.map((item, index) => <CatalogueCard key={`${item.id}-${item.slug}`} item={item} index={index} kind={catalogueItemKind(item)} />)}</div> : <div className={styles.empty}><AppIcon name="search" /><h2>{submitted ? "No lessons found just yet." : "Follow a question."}</h2><p>{submitted ? "Try a broader word or a different reference." : "Enter a word, a topic, or a source to begin exploring."}</p></div>}</section></div>;
 }
 
 type PracticeQuestion = MasteryQuestion;
