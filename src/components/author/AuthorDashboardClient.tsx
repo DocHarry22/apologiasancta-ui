@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 26430)
-Total output lines: 1897
-
 "use client";
 import staffStyles from "@/app/author/StaffWorkspace.module.css";
 
@@ -872,7 +869,403 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
   const handleLogout = async () => {
     try {
       await runWithStoredAccountSessionBoundary(() => fetchFirstPartyResponse("/api/auth/logout", {
-        method: "PO…6430 tokens truncated…               }}
+        method: "POST",
+        credentials: "same-origin",
+      }));
+    } finally {
+      const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
+      router.replace(`${basePath}/login`);
+      router.refresh();
+    }
+  };
+
+  const engineAction = async (action: "start" | "resume" | "pause" | "next" | "reset") => {
+    setLoading(true);
+    setMessage(null);
+    const result = await adminProxy[action](selectedRoomId);
+    if (result.success) {
+      setMessage({ type: "success", text: action === "next" ? "Advanced to next question." : `Engine ${action} request completed.` });
+      await fetchOperationalStatus();
+    } else {
+      setMessage({ type: "error", text: result.error || `Failed to ${action} engine.` });
+    }
+    setLoading(false);
+  };
+
+  const createRoom = async () => {
+    const name = newRoomName.trim();
+    if (!name) {
+      setMessage({ type: "error", text: "Room name is required." });
+      return;
+    }
+    setLoading(true);
+    const result = await roomProxy.create(name, newRoomId.trim() || undefined);
+    if (result.success && result.data) {
+      setMessage({ type: "success", text: `Created room ${result.data.room.name}.` });
+      setNewRoomName("");
+      setNewRoomId("");
+      setSelectedRoomId(result.data.room.roomId);
+      await fetchOperationalStatus();
+    } else {
+      setMessage({ type: "error", text: result.error || "Failed to create room." });
+    }
+    setLoading(false);
+  };
+
+  const closeRoom = async (room: AdminRoomStatus) => {
+    runWithDangerConfirm(dangerousActions.closeRoom(room.name), async () => {
+      const result = await roomProxy.close(room.roomId);
+      if (result.success) {
+        setMessage({ type: "success", text: `Closed room ${room.name}.` });
+        await fetchOperationalStatus();
+      } else {
+        setMessage({ type: "error", text: result.error || "Failed to close room." });
+      }
+    });
+  };
+
+  const copyRoomUrl = async (roomId: string) => {
+    const url = `${window.location.origin}/mobile?room=${encodeURIComponent(roomId)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setMessage({ type: "success", text: "Room URL copied." });
+    } catch {
+      setMessage({ type: "info", text: url });
+    }
+  };
+
+  const setPool = async () => {
+    setLoading(true);
+    const result = await quizProxy.setPool(selectedPoolTopics, shufflePool);
+    if (result.success && result.data) {
+      setMessage({ type: "success", text: `Pool set with ${result.data.poolSize} question(s).` });
+      await fetchOperationalStatus();
+    } else {
+      setMessage({ type: "error", text: result.error || "Failed to set quiz pool." });
+    }
+    setLoading(false);
+  };
+
+  const saveSequence = async () => {
+    if (sequenceIssues.length > 0) {
+      setMessage({ type: "error", text: sequenceIssues[0].message });
+      return;
+    }
+
+    runWithDangerConfirm(dangerousActions.saveSequence(), async () => {
+      const result = await topicProxy.setSequence(sequenceConfig, selectedRoomId);
+      if (result.success) {
+        setMessage({ type: "success", text: "Topic sequence saved through the admin proxy." });
+        await fetchOperationalStatus();
+      } else {
+        setMessage({ type: "error", text: result.error || "Failed to save topic sequence." });
+      }
+    });
+  };
+
+  const mutateSequence = (nextSequence: string[]) => {
+    setSequenceConfig((config) => ({ ...config, topicSequence: nextSequence }));
+  };
+
+  const filteredQuestionRows = useMemo(() => {
+    const workflowRows = workflowItems.map((item) => ({
+      id: item.questionId || item.id,
+      workflowId: item.id,
+      topicId: item.topicId,
+      topicTitle: topics.find((topic) => topic.id === item.topicId)?.title || item.topicId,
+      difficulty: item.difficulty,
+      status: item.status,
+      tags: item.tags,
+      updatedAt: item.updatedAt,
+      question: workflowQuestion(item),
+      validationIssues: validateQuestion(workflowQuestion(item), { topicIds, existingIds }),
+    }));
+
+    const publishedRows = publishedQuestions.map((record) => ({
+      id: record.question.id,
+      workflowId: undefined,
+      topicId: record.question.topicId,
+      topicTitle: record.topicTitle,
+      difficulty: record.question.difficulty,
+      status: record.status,
+      tags: record.question.tags,
+      updatedAt: record.updatedAt,
+      question: record.question,
+      validationIssues: validateQuestion(record.question, { topicIds }),
+    }));
+
+    return [...workflowRows, ...publishedRows].filter((row) => {
+      const search = bankSearch.trim().toLowerCase();
+      const textMatch = !search || `${row.id} ${row.question.question} ${row.tags.join(" ")}`.toLowerCase().includes(search);
+      const topicMatch = bankTopicFilter === "all" || row.topicId === bankTopicFilter;
+      const difficultyMatch = bankDifficultyFilter === "all" || String(row.difficulty) === bankDifficultyFilter;
+      const statusMatch = bankStatusFilter === "all" || row.status === bankStatusFilter;
+      const tagMatch = !bankTagFilter.trim() || row.tags.some((tag) => tag.toLowerCase().includes(bankTagFilter.trim().toLowerCase()));
+      return textMatch && topicMatch && difficultyMatch && statusMatch && tagMatch;
+    });
+  }, [bankDifficultyFilter, bankSearch, bankStatusFilter, bankTagFilter, bankTopicFilter, existingIds, publishedQuestions, topicIds, topics, workflowItems]);
+
+  const submittedItems = workflowItems.filter((item) => item.status === "submitted");
+  const approvedItems = workflowItems.filter((item) => item.status === "approved");
+  const selectedReviewItem = [
+    ...(canReview ? submittedItems : []),
+    ...(canPublish ? approvedItems : []),
+  ].find((item) => item.id === selectedWorkflowId);
+  const selectedReviewItemAuthoredByCurrentUser = Boolean(selectedReviewItem && (
+    selectedReviewItem.authorId === currentUser.id
+    || currentRevisionCreatorId(selectedReviewItem) === currentUser.id
+  ));
+  const editingWorkflowItem = workflowItems.find((item) => item.id === editingWorkflowId);
+  const authoringItems = workflowItems.filter((item) => (
+    item.status !== "archived"
+    && (item.authorId === currentUser.id || canEditWorkflowItem(currentUser.role, currentUser.id, item))
+  ));
+  const filteredAuditEvents = auditEvents;
+
+  return (
+    <div className="p-4 lg:p-6">
+      <div className="mx-auto max-w-7xl space-y-6">
+        <header className="flex items-center justify-between gap-4">
+          <div className="space-y-0.5">
+            <p className="text-xs uppercase tracking-[0.16em] text-(--muted)">{selectedSection?.label || "Dashboard"}</p>
+            <h1 className="text-xl font-semibold">{selectedSection?.title || "Dashboard"}</h1>
+          </div>
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="rounded-lg border border-(--border) px-3 py-2 text-sm text-(--muted) hover:border-(--accent) hover:text-(--accent)"
+          >
+            {theme === "dark" ? "Light" : "Dark"}
+          </button>
+        </header>
+
+        <MessageBanner message={message} />
+
+        {activeTab === "overview" && (
+          <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="space-y-4">
+              {ENGINE_URL ? <EngineHealthPanel engineUrl={ENGINE_URL} /> : (
+                <div className="rounded-lg border border-(--wrong)/30 bg-(--wrong)/10 p-4 text-sm text-(--wrong)">Engine URL is not configured.</div>
+              )}
+              <div className="rounded-lg border border-(--border) bg-(--card) p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <h2 className="text-sm font-semibold">Runtime Snapshot</h2>
+                    <p className="text-xs text-(--muted)">Status is refreshed every 15 seconds.</p>
+                  </div>
+                  <button type="button" onClick={() => void fetchOperationalStatus()} className="rounded-lg border border-(--border) px-3 py-2 text-sm hover:border-(--accent) hover:text-(--accent)">
+                    Refresh
+                  </button>
+                </div>
+                {loadingStatus ? (
+                  <p className="mt-4 text-sm text-(--muted)">Loading runtime status...</p>
+                ) : adminStatus ? (
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    <Metric label="Engine" value={adminStatus.running ? "Running" : "Stopped"} />
+                    <Metric label="Phase" value={adminStatus.phase || "unknown"} />
+                    <Metric label="Question" value={`${adminStatus.questionIndex + 1}/${adminStatus.totalQuestions}`} />
+                    <Metric label="Connected" value={String(adminStatus.connectedClients)} />
+                    <Metric label="Current Topic" value={countdownTopicId || "Not selected"} />
+                    <Metric label="Rooms" value={`${rooms.filter((room) => room.isActive).length}/${rooms.length} active`} />
+                    <Metric label="Content Bank" value={contentStatus ? `${contentStatus.bankSize} questions` : "Unavailable"} />
+                    <Metric label="Persistence" value={adminStatus.persistence?.configured ? "Configured" : "Not configured"} />
+                  </div>
+                ) : (
+                  <p className="mt-4 text-sm text-(--wrong)">Engine status is unavailable. Check the engine service and proxy configuration.</p>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <Panel title="Quick Links" description="Role-aware shortcuts for common operations.">
+                <div className="grid gap-2">
+                  {visibleSections.filter((section) => section.id !== "overview").map((section) => (
+                    <button key={section.id} type="button" onClick={() => setActiveTab(section.id)} className="min-h-11 rounded-lg border border-(--border) px-3 py-2 text-left text-sm hover:border-(--accent) hover:text-(--accent)">
+                      {section.label}
+                    </button>
+                  ))}
+                </div>
+              </Panel>
+              <Panel title="Workflow Summary" description="Transitional workflow state for this dashboard session.">
+                <div className="grid grid-cols-2 gap-3">
+                  <Metric label="Drafts" value={String(workflowItems.filter((item) => item.status === "draft").length)} />
+                  <Metric label="Submitted" value={String(submittedItems.length)} />
+                  <Metric label="Changes" value={String(workflowItems.filter((item) => item.status === "changes_requested").length)} />
+                  <Metric label="Approved" value={String(workflowItems.filter((item) => item.status === "approved").length)} />
+                </div>
+              </Panel>
+            </div>
+          </section>
+        )}
+
+        {activeTab === "live" && (
+          <Panel title="Live Host Controls" description="Room-scoped controls use the server-side admin proxy.">
+            <RoomSelector rooms={rooms} selectedRoomId={selectedRoomId} onChange={setSelectedRoomId} />
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+              <Metric label="Room" value={currentRoom?.name || "Global"} />
+              <Metric label="Phase" value={adminStatus?.phase || "Unavailable"} />
+              <Metric label="Question" value={adminStatus ? `${adminStatus.questionIndex + 1}/${adminStatus.totalQuestions}` : "Unavailable"} />
+              <Metric label="Time Remaining" value={adminStatus ? `${Math.max(0, Math.ceil((adminStatus.timeRemainingMs || 0) / 1000))}s` : "Unavailable"} />
+              <Metric label="Players" value={String(currentRoom?.gameplayPlayerCount ?? adminStatus?.playerCount ?? 0)} />
+            </div>
+            <div className="rounded-lg border border-(--border) bg-background p-3 text-sm text-(--muted)">
+              Leaderboard top scorers and streaks are not exposed by the current admin status endpoint. Add a read-only engine endpoint before showing live player rankings here.
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {(["start", "resume", "pause", "next"] as const).map((action) => (
+                <button key={action} type="button" onClick={() => void engineAction(action)} disabled={loading} className="min-h-11 rounded-lg bg-(--accent) px-4 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50">
+                  {action[0].toUpperCase() + action.slice(1)}
+                </button>
+              ))}
+              <button type="button" onClick={() => void engineAction("pause")} disabled={loading} className="min-h-11 rounded-lg border border-yellow-500 px-4 py-2 text-sm text-yellow-300 hover:bg-yellow-500/10 disabled:opacity-50">
+                Emergency Pause
+              </button>
+              <button type="button" onClick={() => runWithDangerConfirm(dangerousActions.resetRoom(currentRoom?.name || "selected room"), () => engineAction("reset"))} disabled={loading} className="min-h-11 rounded-lg border border-(--wrong) px-4 py-2 text-sm text-(--wrong) hover:bg-(--wrong)/10 disabled:opacity-50">
+                Reset
+              </button>
+            </div>
+            <div className="grid gap-3 md:grid-cols-[minmax(160px,1fr)_120px_auto_auto_auto]">
+              <select value={countdownTopicId} onChange={(event) => setCountdownTopicId(event.target.value)} className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm">
+                {topics.map((topic) => <option key={topic.id} value={topic.id}>{topic.title}</option>)}
+              </select>
+              <input type="number" min={1} max={120} value={countdownSeconds} onChange={(event) => setCountdownSeconds(Math.max(1, Math.min(120, Number(event.target.value) || 10)))} className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm" aria-label="Countdown seconds" />
+              <button type="button" onClick={() => void topicProxy.countdownTopic(countdownSeconds, countdownTopicId, selectedRoomId).then(() => fetchOperationalStatus())} className="min-h-11 rounded-lg border border-(--border) px-3 py-2 text-sm hover:border-(--accent) hover:text-(--accent)">
+                Countdown
+              </button>
+              <button type="button" onClick={() => runWithDangerConfirm(dangerousActions.skipTopic(), async () => { const result = await topicProxy.skipTopic(selectedRoomId); setMessage(result.success ? { type: "success", text: "Topic skipped." } : { type: "error", text: result.error || "Failed to skip topic." }); await fetchOperationalStatus(); })} className="min-h-11 rounded-lg border border-(--border) px-3 py-2 text-sm hover:border-(--wrong) hover:text-(--wrong)">
+                Skip
+              </button>
+              <button type="button" onClick={() => runWithDangerConfirm(dangerousActions.replayTopic(), async () => { const result = await topicProxy.replayTopic(selectedRoomId); setMessage(result.success ? { type: "success", text: "Topic replayed." } : { type: "error", text: result.error || "Failed to replay topic." }); await fetchOperationalStatus(); })} className="min-h-11 rounded-lg border border-(--border) px-3 py-2 text-sm hover:border-(--wrong) hover:text-(--wrong)">
+                Replay
+              </button>
+            </div>
+          </Panel>
+        )}
+
+        {activeTab === "rooms" && (
+          <Panel title="Room Operations" description="Create, select, copy, and close live rooms.">
+            <div className="grid gap-3 md:grid-cols-[minmax(0,1.4fr)_minmax(180px,0.8fr)_auto]">
+              <input value={newRoomName} onChange={(event) => setNewRoomName(event.target.value)} placeholder="New room name" className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm" />
+              <input value={newRoomId} onChange={(event) => setNewRoomId(event.target.value.replace(/[^a-z0-9-]/g, "").toLowerCase())} placeholder="Optional room-id" className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm" />
+              <button type="button" onClick={() => void createRoom()} disabled={loading || !newRoomName.trim()} className="min-h-11 rounded-lg bg-(--accent) px-4 py-2 text-sm font-medium text-white disabled:opacity-50">Create Room</button>
+            </div>
+            <ResponsiveTable kind="rooms" headers={["Room", "Status", "Players", "Live", "Play", "Actions"]}>
+              {rooms.map((room) => (
+                <div key={room.roomId} className={`${staffStyles.roomRow} grid gap-2 border-b border-(--border) px-3 py-3 text-sm last:border-0`}>
+                  <div className="min-w-0"><p className="truncate font-medium">{room.name}</p><p className="truncate text-xs text-(--muted)">{room.roomId}</p></div>
+                  <div data-label="Status"><StatusBadge label={room.isActive ? "Active" : "Closed"} tone={statusClass(room.isActive ? "active" : "closed")} /></div>
+                  <span data-label="Players" className="font-mono">{room.playerCount}</span>
+                  <span data-label="Live" className="font-mono">{room.connectedClients}</span>
+                  <span data-label="Play" className="font-mono">{room.gameplayPlayerCount}</span>
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" onClick={() => setSelectedRoomId(room.roomId)} className="rounded-lg border border-(--border) px-2 py-1 text-xs hover:border-(--accent)">Select</button>
+                    <button type="button" onClick={() => void copyRoomUrl(room.roomId)} className="rounded-lg border border-(--border) px-2 py-1 text-xs hover:border-(--accent)">Copy URL</button>
+                    {room.roomId !== "global" && room.isActive && (
+                      <button type="button" onClick={() => void closeRoom(room)} className="rounded-lg border border-(--wrong) px-2 py-1 text-xs text-(--wrong) hover:bg-(--wrong)/10">Close</button>
+                    )}
+                  </div>
+                </div>
+              ))}
+              {rooms.length === 0 && <EmptyState text="No rooms returned by the engine." />}
+            </ResponsiveTable>
+          </Panel>
+        )}
+
+        {activeTab === "bank" && (
+          <Panel title="Question Bank" description="Search published content and persisted workflow items.">
+            <div className="grid gap-3 md:grid-cols-5">
+              <input value={bankSearch} onChange={(event) => setBankSearch(event.target.value)} placeholder="Search text, ID, tags" className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm md:col-span-2" />
+              <select value={bankTopicFilter} onChange={(event) => setBankTopicFilter(event.target.value)} className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm">
+                <option value="all">All topics</option>
+                {topics.map((topic) => <option key={topic.id} value={topic.id}>{topic.title}</option>)}
+              </select>
+              <select value={bankDifficultyFilter} onChange={(event) => setBankDifficultyFilter(event.target.value)} className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm">
+                <option value="all">All difficulty</option>
+                {[1, 2, 3, 4, 5].map((difficulty) => <option key={difficulty} value={difficulty}>Difficulty {difficulty}</option>)}
+              </select>
+              <select value={bankStatusFilter} onChange={(event) => setBankStatusFilter(event.target.value)} className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm">
+                <option value="all">All statuses</option>
+                {["published", "draft", "submitted", "changes_requested", "approved", "rejected"].map((status) => <option key={status} value={status}>{status}</option>)}
+              </select>
+              <input value={bankTagFilter} onChange={(event) => setBankTagFilter(event.target.value)} placeholder="Tag filter" className="min-h-11 rounded-lg border border-(--border) bg-background px-3 py-2 text-sm" />
+            </div>
+            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.8fr)]">
+              <ResponsiveTable kind="questions" headers={["ID", "Topic", "Difficulty", "Status", "Tags", "Validation"]}>
+                {filteredQuestionRows.slice(0, 80).map((row) => (
+                  <button key={`${row.status}-${row.id}`} type="button" onClick={() => setSelectedQuestionId(row.id)} className={`${staffStyles.questionRow} grid w-full gap-2 border-b border-(--border) px-3 py-3 text-left text-sm last:border-0 hover:bg-(--ticker-bg)`}>
+                    <span data-label="ID" className="font-mono text-(--accent)">{row.id}</span>
+                    <span data-label="Topic">{row.topicTitle}</span>
+                    <span data-label="Difficulty">{row.difficulty}</span>
+                    <span data-label="Status"><StatusBadge label={row.status} tone={statusClass(row.status)} /></span>
+                    <span data-label="Tags" className="text-xs text-(--muted)">{row.tags.join(", ") || "No tags"}</span>
+                    <span data-label="Validation" className={row.validationIssues.length ? "text-yellow-300" : "text-green-400"}>{row.validationIssues.length ? `${row.validationIssues.length} issue(s)` : "Valid"}</span>
+                  </button>
+                ))}
+                {filteredQuestionRows.length === 0 && <EmptyState text="No questions match the current filters." />}
+              </ResponsiveTable>
+              <QuestionDetail
+                question={(filteredQuestionRows.find((row) => row.id === selectedQuestionId)?.question || selectedPublishedRecord?.question) as Question | undefined}
+                issues={(filteredQuestionRows.find((row) => row.id === selectedQuestionId)?.validationIssues || [])}
+                canDuplicate={canAuthor}
+                onDuplicate={duplicateQuestion}
+              />
+            </div>
+          </Panel>
+        )}
+
+        {activeTab === "authoring" && (
+          <div className="space-y-4">
+            {hasPermission(currentUser.role, "content:import") && (
+              <Panel title="Editorial import policy" description="Direct Engine import is disabled in the normal dashboard path.">
+                <p className="text-sm leading-6 text-(--text-secondary)">
+                  Import source material as drafts, add structured primary references, and submit each exact revision for independent human review. Emergency direct import is server-gated, super-admin-only, disabled by default, and audited.
+                </p>
+              </Panel>
+            )}
+            {canAuthor && (
+              <Panel
+                title={editingWorkflowItem
+                  ? editingWorkflowItem.status === "changes_requested" ? "Edit Requested Changes" : "Edit Draft Question"
+                  : "Create Draft Question"}
+                description={editingWorkflowItem
+                  ? "Saving appends a new immutable revision while retaining all earlier review and audit evidence."
+                  : "Draft workflow items are saved by authenticated server routes."}
+              >
+                {editingWorkflowItem?.status === "changes_requested" && (
+                  <div className="rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-3 text-sm text-yellow-200">
+                    Address the recorded reviewer feedback below. Resubmission remains disabled until both the immutable revision ID and canonical content hash differ from the flagged revision.
+                  </div>
+                )}
+                <section className="rounded-lg border border-(--border) bg-background p-4">
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="space-y-1">
+                      <FieldLabel>Topic</FieldLabel>
+                      <select value={selectedTopicId} onChange={(event) => handleTopicChange(event.target.value)} className="w-full rounded-lg border border-(--border) bg-background px-3 py-2 text-sm">
+                        {topics.map((topic) => <option key={topic.id} value={topic.id}>{topic.title}</option>)}
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <FieldLabel>ID Prefix</FieldLabel>
+                      <input value={customPrefix} onChange={(event) => handlePrefixChange(event.target.value.toLowerCase().replace(/[^a-z]/g, ""))} placeholder={getDefaultPrefix(selectedTopicId)} className="w-full rounded-lg border border-(--border) bg-background px-3 py-2 text-sm" />
+                    </div>
+                    <Metric label="Existing Questions" value={String(selectedTopic?.questionCount || 0)} />
+                    <Metric label="Next ID" value={nextQuestionId} />
+                  </div>
+                </section>
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <AuthorForm
+                    formData={formData}
+                    setFormData={setFormData}
+                    nextQuestionId={nextQuestionId}
+                    onDownload={() => downloadJson(questionJson)}
+                    onCopy={() => void copyJson(questionJson)}
+                    onReset={() => {
+                      if (!formIsDirty || window.confirm("Discard the unsaved question changes?")) {
+                        if (editingWorkflowItem) setFormData(workflowQuestion(editingWorkflowItem));
+                        else resetForm();
+                      }
+                    }}
                   />
                   <div className="space-y-4">
                     <JsonPreview question={questionJson} />
