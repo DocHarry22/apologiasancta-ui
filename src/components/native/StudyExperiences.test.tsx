@@ -2,7 +2,7 @@
 import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { DatabaseLesson, LearningCatalogue, LearningHierarchyPage, LearningSearch, MasteryExperience, PublishedPractice } from "@/components/learn/LearningPlatform";
+import { DatabaseLesson, LearningCatalogue, LearningHierarchyPage, LearningSearch, MasteryExperience } from "@/components/learn/LearningPlatform";
 import { EngineTopicsList, type LibraryResource } from "@/components/library/EngineTopicsList";
 import { EngineTopicDetails, type EngineTopicResponse } from "@/components/library/EngineTopicDetails";
 import { LIBRARY_BOOKMARKS_KEY } from "@/lib/libraryBookmarks";
@@ -137,7 +137,6 @@ describe("Learn browsing and reading", () => {
   });
 
   it.each([
-    ["practice", () => <PublishedPractice />, "We couldn’t load practice questions."],
     ["search", () => <LearningSearch />, "We couldn’t search the learning catalogue."],
     ["learning path", () => <LearningHierarchyPage kind="programme" slug="foundations" />, "We couldn’t load this learning path."],
     ["lesson", () => <DatabaseLesson slug="the-creed" />, "We couldn’t load this lesson."],
