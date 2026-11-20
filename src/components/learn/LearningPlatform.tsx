@@ -11,6 +11,7 @@ import { AppIcon } from "@/components/native/AppIcon";
 import { StudyArtwork, StudySearch } from "@/components/native/StudyUI";
 import styles from "@/components/native/StudyUI.module.css";
 import { LessonProgressActions } from "@/components/learn/LessonProgressActions";
+import { PracticeQuiz } from "@/components/practice/PracticeQuiz";
 import { getLessonById, getNextLesson, learningPath, type LearningLesson } from "@/lib/learningContent";
 import {
   fetchJsonWithTimeout,
@@ -554,6 +555,20 @@ export function LearningSearch() {
 type PracticeQuestion = MasteryQuestion;
 type PracticeResult = { correct: boolean; explanation?: string; references?: string[] };
 
+function BundledPracticeFallback({ message, retry }: { message: string; retry: () => void }) {
+  return <div className="space-y-7">
+    <div className={styles.empty} role="alert">
+      <AppIcon name="book" />
+      <h2>Live published practice is temporarily unavailable.</h2>
+      <p>{message}</p>
+      <p>Continue with eight sourced Foundations questions bundled with Apologia Sancta. Answers, explanations, and progress are checked on this device only; they never grant official mastery or unlocks.</p>
+      <button type="button" className="btn-primary" onClick={retry}>Try live questions again</button>
+    </div>
+    <PracticeQuiz />
+    <p className={styles.sourceNote}>Bundled path: {learningPath.title}. Live published questions, server scoring, official mastery, and account progress remain unavailable until the learning database recovers.</p>
+  </div>;
+}
+
 export function PublishedPractice() {
   const { data, error, loading, reload } = useLearningResource<PracticeQuestion[]>("/api/v1/learning/practice?limit=8");
   const [index, setIndex] = useState(0);
@@ -582,7 +597,7 @@ export function PublishedPractice() {
   return <ScreenSurface>
     <Link className={styles.breadcrumb} href="/learn"><AppIcon name="chevron" width={15} height={15} /> Back to learning</Link>
     <ScreenIntro eyebrow="Solo practice" title="A little practice." accent="A deeper understanding." description="Take a question at your own pace, then explore its explanation. Practice scores do not grant official mastery or unlocks." />
-    {loading ? <LoadingCards /> : error ? <ErrorState message={error} retry={reload} title="We couldn’t load practice questions." detail="Published practice is temporarily unavailable." /> : !data?.length ? <div className={styles.empty}><AppIcon name="book" /><h2>No published practice questions are available.</h2><p>Return to your learning or check back for more questions.</p></div> : index >= data.length ? <section className={surface.result} aria-live="polite"><AppIcon name="spark" width={28} height={28} /><p>Practice complete</p><h2>A little further, every day.</h2><strong>{score} of {data.length}</strong><p>Practice scores remain separate from official mastery.</p><div className={surface.actions}><button className="btn-primary" onClick={() => { setIndex(0); setSelected(null); setCheck(null); setScore(0); }}>Practice again</button><Link className="btn-secondary" href="/learn">Review lessons</Link></div></section> : question ? <section>
+    {loading ? <LoadingCards /> : error ? <BundledPracticeFallback message={error} retry={reload} /> : !data?.length ? <div className={styles.empty}><AppIcon name="book" /><h2>No published practice questions are available.</h2><p>Return to your learning or check back for more questions.</p></div> : index >= data.length ? <section className={surface.result} aria-live="polite"><AppIcon name="spark" width={28} height={28} /><p>Practice complete</p><h2>A little further, every day.</h2><strong>{score} of {data.length}</strong><p>Practice scores remain separate from official mastery.</p><div className={surface.actions}><button className="btn-primary" onClick={() => { setIndex(0); setSelected(null); setCheck(null); setScore(0); }}>Practice again</button><Link className="btn-secondary" href="/learn">Review lessons</Link></div></section> : question ? <section>
       <div className={surface.stats}><span>Question {index + 1} of {data.length}</span><span>{score} correct so far</span></div>
       <div className={surface.question}><p>Take a moment to think</p><h2>{question.prompt}</h2></div>
       <div className={surface.choices}>{question.options.map((option, optionIndex) => { const optionId = masteryOptionId(option); const isSelected = optionId === selected; return <button key={optionId} type="button" disabled={answered || checking} onClick={() => void choose(optionId)} className={surface.choice} data-state={isSelected ? check ? check.correct ? "correct" : "wrong" : "selected" : undefined}><span className={surface.letter} aria-hidden="true">{String.fromCharCode(65 + optionIndex)}</span><span>{option.label ?? option.content}</span></button>; })}</div>

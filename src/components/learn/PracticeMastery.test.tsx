@@ -42,6 +42,21 @@ it("allows another choice after a failed practice check without awarding a point
   expect(screen.queryByRole("button", { name: "See result" })).not.toBeInTheDocument();
 });
 
+it("keeps sourced bundled practice usable when the learning database is unavailable", async () => {
+  const user = userEvent.setup();
+  const request = vi.spyOn(globalThis, "fetch").mockResolvedValue(json({ error: "The learning service is temporarily unavailable." }, 503));
+
+  render(<PublishedPractice />);
+
+  expect(await screen.findByRole("heading", { name: "Live published practice is temporarily unavailable." })).toBeVisible();
+  expect(screen.getByText(/checked on this device only/)).toBeVisible();
+  await user.click(screen.getByRole("button", { name: /A teaching office that serves and interprets the apostolic deposit/ }));
+  expect(await screen.findByText(/living teaching office of the Pope and bishops/)).toBeVisible();
+  expect(screen.getByText(/CCC 85–87, 100/)).toBeVisible();
+  expect(request).toHaveBeenCalledTimes(1);
+  expect(request.mock.calls.some(([url]) => String(url).endsWith("/practice/check"))).toBe(false);
+});
+
 it("submits every mastery answer with CSRF and shows only the confirmed server result", async () => {
   const user = userEvent.setup();
   const multiple = { questionId: "question-2", questionType: "multiple_choice", prompt: "Select both natures", options: [{ optionId: "divine", content: "Divine" }, { optionId: "human", content: "Human" }] };
