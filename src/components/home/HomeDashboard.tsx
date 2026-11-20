@@ -205,6 +205,7 @@ export function HomeDashboard({ userName, topics, dailyVerse }: { userName: stri
   const [progress, setProgress] = useState<LearningProgress>(EMPTY_LEARNING_PROGRESS);
   const [learningPreview, setLearningPreview] = useState<LearningPreview[]>([]);
   const [officialProgress, setOfficialProgress] = useState<OfficialProgress | null>(null);
+  const [learningStatus, setLearningStatus] = useState<"loading" | "ready" | "unavailable">("loading");
   const [hydrated, setHydrated] = useState(false);
   const { streak } = useStreak();
   const release = useLatestRelease();
@@ -227,6 +228,10 @@ export function HomeDashboard({ userName, topics, dailyVerse }: { userName: stri
         if (previewResult.ok) {
           const payload = previewResult.data;
           setLearningPreview(Array.isArray(payload) ? payload : payload.data ?? []);
+          setLearningStatus("ready");
+        } else {
+          setLearningPreview([]);
+          setLearningStatus("unavailable");
         }
         if (userName) {
           const progressResult = await fetchJsonWithTimeout<{ data?: OfficialProgress }>(
@@ -239,7 +244,10 @@ export function HomeDashboard({ userName, topics, dailyVerse }: { userName: stri
           }
         }
       } catch (error) {
-        if ((error as Error).name !== "AbortError") setLearningPreview([]);
+        if ((error as Error).name !== "AbortError") {
+          setLearningPreview([]);
+          setLearningStatus("unavailable");
+        }
       }
     };
     void loadLearning();
@@ -287,13 +295,13 @@ export function HomeDashboard({ userName, topics, dailyVerse }: { userName: stri
           <p className="eyebrow">Today&apos;s focus</p>
           <div className="mt-3 flex items-start justify-between gap-5">
             <div>
-              <h2 className="editorial-heading text-2xl font-semibold">{nextItem?.title ?? "Open the formation catalogue"}</h2>
-              <p className="mt-1 text-sm text-(--text-muted)">{nextItem ? `Learning group${nextItem.estimatedMinutes ? ` · ${nextItem.estimatedMinutes} min` : ""}` : "Published lessons appear here as soon as staff release them."}</p>
+              <h2 className="editorial-heading text-2xl font-semibold">{nextItem?.title ?? (learningStatus === "unavailable" ? "Learning paths are temporarily unavailable" : learningStatus === "loading" ? "Finding your learning path" : "Open the formation catalogue")}</h2>
+              <p className="mt-1 text-sm text-(--text-muted)">{nextItem ? `Learning group${nextItem.estimatedMinutes ? ` · ${nextItem.estimatedMinutes} min` : ""}` : learningStatus === "unavailable" ? "Keep studying in the sourced library while the catalogue connection recovers." : learningStatus === "loading" ? "Checking the published formation catalogue." : "Published lessons appear here as soon as staff release them."}</p>
             </div>
             <span className="text-3xl text-(--gold)" aria-hidden="true">☩</span>
           </div>
           <div className="mt-5"><ProgressBar value={completion} label="Formation completion" /></div>
-          <Link href={nextHref} className="btn-primary mt-5 w-full">{nextItem ? "Open learning group" : "Browse catalogue"}</Link>
+          <Link href={learningStatus === "unavailable" ? "/library" : nextHref} className="btn-primary mt-5 w-full">{nextItem ? "Open learning group" : learningStatus === "unavailable" ? "Explore sourced library" : learningStatus === "loading" ? "Open catalogue" : "Browse catalogue"}</Link>
         </div>
       </section>
 
@@ -314,7 +322,9 @@ export function HomeDashboard({ userName, topics, dailyVerse }: { userName: stri
                   </Link>
                 );
               })}
-              {!learningItems.length ? <div className="surface-card p-5 md:col-span-2 xl:col-span-3"><p className="font-bold">No published learning groups yet.</p><p className="mt-2 text-sm text-(--text-muted)">The database-driven catalogue is ready for reviewed content.</p><Link className="btn-secondary mt-4" href="/learn">Open catalogue</Link></div> : null}
+              {!learningItems.length && learningStatus === "loading" ? <div className="surface-card p-5 md:col-span-2 xl:col-span-3" role="status"><p className="font-bold">Loading learning paths…</p><p className="mt-2 text-sm text-(--text-muted)">Checking the published formation catalogue.</p></div> : null}
+              {!learningItems.length && learningStatus === "unavailable" ? <div className="surface-card p-5 md:col-span-2 xl:col-span-3" role="status"><p className="font-bold">Learning paths are temporarily unavailable.</p><p className="mt-2 text-sm text-(--text-muted)">The database-backed catalogue could not be reached. You can keep studying with the sourced library while it recovers.</p><div className="mt-4 flex flex-wrap gap-3"><Link className="btn-secondary" href="/learn">Check catalogue</Link><Link className="btn-primary" href="/library">Explore sourced library</Link></div></div> : null}
+              {!learningItems.length && learningStatus === "ready" ? <div className="surface-card p-5 md:col-span-2 xl:col-span-3"><p className="font-bold">No published learning groups yet.</p><p className="mt-2 text-sm text-(--text-muted)">The database-driven catalogue is ready for reviewed content.</p><Link className="btn-secondary mt-4" href="/learn">Open catalogue</Link></div> : null}
             </div>
           </section>
 
