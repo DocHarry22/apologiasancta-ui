@@ -121,4 +121,20 @@ describe("fetchWithTimeout", () => {
     expect(result).toMatchObject({ ok: false, response: { status: 502 } });
     expect(result.data).toBeUndefined();
   });
+
+  it("can accept an empty successful mutation response", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(null, { status: 204 })));
+
+    const result = await fetchJsonWithTimeout(
+      "/api/v1/learning/bookmarks?id=bookmark-1",
+      { method: "DELETE" },
+      1_000,
+      fetch,
+      true,
+    );
+
+    expect(result.ok).toBe(true);
+    expect(result.response.status).toBe(204);
+    expect(result.data).toBeUndefined();
+  });
 });

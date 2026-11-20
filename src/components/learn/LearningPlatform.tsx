@@ -10,7 +10,13 @@ import { ProgressBar } from "@/components/ui/Primitives";
 import { AppIcon } from "@/components/native/AppIcon";
 import { StudyArtwork, StudySearch } from "@/components/native/StudyUI";
 import styles from "@/components/native/StudyUI.module.css";
-import { fetchJsonWithTimeout, LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
+import {
+  fetchJsonWithTimeout,
+  LEARNER_API_READ_TIMEOUT_MS,
+  LEARNER_API_WRITE_TIMEOUT_MS,
+  RequestTimeoutError,
+  type JsonFetchResult,
+} from "@/lib/fetchWithTimeout";
 
 type ApiEnvelope<T> = { data: T; meta?: Record<string, unknown> };
 type CatalogueItemKind = "programme" | "subject" | "group" | "lesson" | "source";
@@ -82,16 +88,26 @@ function asEnvelope<T>(value: unknown): ApiEnvelope<T> {
 async function api<T>(url: string, init?: RequestInit): Promise<ApiEnvelope<T>> {
   const request = { credentials: "same-origin" as const, cache: "no-store" as const, ...init };
   const method = (request.method ?? "GET").toUpperCase();
-  let response: Response;
-  let body: unknown;
-  if (method === "GET" || method === "HEAD") {
-    const result = await fetchJsonWithTimeout<unknown>(url, request, LEARNER_API_READ_TIMEOUT_MS);
-    response = result.response;
-    body = result.data ?? {};
-  } else {
-    response = await fetch(url, request);
-    body = await response.json().catch(() => ({}));
+  const reading = method === "GET" || method === "HEAD";
+  let result: JsonFetchResult<unknown>;
+  try {
+    result = await fetchJsonWithTimeout<unknown>(
+      url,
+      request,
+      reading ? LEARNER_API_READ_TIMEOUT_MS : LEARNER_API_WRITE_TIMEOUT_MS,
+      fetch,
+      !reading,
+    );
+  } catch (cause) {
+    if (!reading && cause instanceof RequestTimeoutError) {
+      throw new RequestTimeoutError(
+        "The service did not confirm whether that change finished. Refresh this page before trying again so you do not repeat an action that may have succeeded.",
+      );
+    }
+    throw cause;
   }
+  const response = result.response;
+  const body = result.data ?? {};
   if (!response.ok) {
     const errorBody = body as { error?: string | { message?: string } } | null;
     const nestedError = errorBody?.error && typeof errorBody.error === "object" ? errorBody.error : null;
