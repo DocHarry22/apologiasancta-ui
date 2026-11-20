@@ -22,9 +22,10 @@ function ChapelWindow() {
 export function NativeHomeDashboard({ userName, topics, verse }: { userName: string | null; topics: Topic[]; verse: ApologeticsVerse }) {
   const learning = useNativeLearning(userName !== null);
   const { requestQuizEntry, onboardingModals } = useQuizEntryGate();
+  const useLibraryFallback = learning.catalogue === "unavailable" && !learning.resume && !learning.nextGroup;
   const learningHref = learning.resume
     ? `/learn/${encodeURIComponent(learning.resume.lessonSlug!)}`
-    : learning.nextGroup ? `/learn/groups/${encodeURIComponent(learning.nextGroup.slug)}` : "/learn";
+    : learning.nextGroup ? `/learn/groups/${encodeURIComponent(learning.nextGroup.slug)}` : useLibraryFallback ? "/library" : "/learn";
   const personalLoading = learning.progress === "loading";
   const loading = learning.catalogue === "loading" || personalLoading;
   const learningTitle = learning.resume?.lessonTitle || learning.nextGroup?.title;
@@ -46,14 +47,14 @@ export function NativeHomeDashboard({ userName, topics, verse }: { userName: str
           <span className={styles.heroLabel}><AppIcon name="book" width={15} height={15} /> YOUR FORMATION</span>
           <h2 id="native-formation-title">{learning.resume ? "Pick up where\nyou left off." : "Rooted in truth.\nGrowing in faith."}</h2>
           <p>Thoughtful lessons. Trusted sources.<br />A deeper understanding, at your pace.</p>
-          <Link href={learningHref} className={styles.heroButton}>{learning.resume ? "Continue lesson" : learning.nextGroup ? "Start learning" : "Explore lessons"}<AppIcon name="arrow" width={19} height={19} /></Link>
+          <Link href={learningHref} className={styles.heroButton}>{learning.resume ? "Continue lesson" : learning.nextGroup ? "Start learning" : useLibraryFallback ? "Explore sourced library" : "Explore lessons"}<AppIcon name="arrow" width={19} height={19} /></Link>
           <div className={styles.lessonPreview} aria-live="polite" aria-busy={loading}>
-            {loading ? <span>Finding your next step…</span> : learningTitle ? <><span className={styles.previewDot} /><span>{learningTitle}</span>{!learning.resume && Number(learning.nextGroup?.estimatedMinutes) > 0 ? <small>{learning.nextGroup?.estimatedMinutes} min</small> : null}</> : <span>Make space for a little learning today.</span>}
+            {loading ? <span>Finding your next step…</span> : learningTitle ? <><span className={styles.previewDot} /><span>{learningTitle}</span>{!learning.resume && Number(learning.nextGroup?.estimatedMinutes) > 0 ? <small>{learning.nextGroup?.estimatedMinutes} min</small> : null}</> : useLibraryFallback ? <span>Sourced topics are still available.</span> : <span>Make space for a little learning today.</span>}
           </div>
         </div>
       </section>
 
-      {learning.catalogue === "unavailable" || learning.progress === "unavailable" ? <div className={styles.notice} role="status"><p>{learning.catalogue === "unavailable" ? "We couldn’t load your next lesson." : "Your saved progress couldn’t load."} You can still explore.</p><button type="button" onClick={learning.retry}>Retry</button></div> : null}
+      {learning.catalogue === "unavailable" || learning.progress === "unavailable" ? <div className={styles.notice} role="status"><p>{learning.catalogue === "unavailable" ? "Learning paths are temporarily unavailable. Continue with the sourced library while they recover." : "Your saved progress couldn’t load. Available learning paths still work."}</p><button type="button" onClick={learning.retry}>Retry</button></div> : null}
 
       <div className={styles.activity} aria-label="Your learning activity">
         <Link href={userName !== null ? "/account?section=learning" : "/login?next=%2Fnative"}>
