@@ -4,6 +4,7 @@ import test from "node:test";
 
 const publicProxy = readFileSync("src/app/api/knowledge/[[...path]]/route.ts", "utf8");
 const researchPage = readFileSync("src/app/research/page.tsx", "utf8");
+const researchFallback = readFileSync("src/components/research/ResearchFallbackPrompts.tsx", "utf8");
 const timelinePage = readFileSync("src/app/research/timeline/page.tsx", "utf8");
 const comparePage = readFileSync("src/app/research/compare/page.tsx", "utf8");
 const debatePage = readFileSync("src/app/research/debate/[argumentId]/page.tsx", "utf8");
@@ -36,7 +37,9 @@ test("Compare and Debate disclose their stored published relationship boundary",
 });
 
 test("server-rendered research failures remain recoverable after an upstream outage", () => {
-  assert.match(researchPage, /<ResearchRetryButton label="Retry topics"/);
+  assert.match(researchPage, /<ResearchFallbackPrompts knowledgeAvailable=/);
+  assert.match(researchFallback, /<ResearchRetryButton label="Retry topics"/);
+  assert.match(researchFallback, /These bundled library paths remain available/);
   assert.match(timelinePage, /<ResearchRetryButton label="Retry timeline"/);
   assert.match(comparePage, /<ResearchRetryButton label="Retry comparison"/);
   assert.match(debatePage, /<ResearchRetryButton label="Retry debate"/);

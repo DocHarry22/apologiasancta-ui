@@ -4,10 +4,9 @@ import { ResearchLayout } from "@/components/research/ResearchLayout";
 import KnowledgeSelector from "@/components/research/KnowledgeSelector";
 import { AppIcon } from "@/components/native/AppIcon";
 import { StudyArtwork } from "@/components/native/StudyUI";
-import study from "@/components/native/StudyUI.module.css";
 import styles from "@/components/research/ResearchUI.module.css";
 import { GraphLink } from "@/components/research/GraphLink";
-import { ResearchRetryButton } from "@/components/research/ResearchRetryButton";
+import { ResearchFallbackPrompts } from "@/components/research/ResearchFallbackPrompts";
 import { getResearchGraphUrl } from "@/lib/publicEnv";
 import { fetchKnowledgeEngine } from "@/lib/server/knowledgeEngine";
 
@@ -59,13 +58,6 @@ async function getKnowledgeTopics(): Promise<{ available: boolean; topics: Knowl
   }
 }
 
-const fallbackPrompts = [
-  { title: "Is Jesus truly God?", focus: "Christology", difficulty: "Foundation" },
-  { title: "Where is the Trinity in Scripture?", focus: "Scripture & doctrine", difficulty: "Intermediate" },
-  { title: "Did the early Church believe in the Eucharist?", focus: "Fathers & sacraments", difficulty: "Intermediate" },
-  { title: "What authority did Christ give Peter?", focus: "Scripture & Church history", difficulty: "Advanced" },
-];
-
 function graphFocusUrl(graphUrl: string, nodeId?: string): string {
   const url = new URL("/graph", graphUrl);
   if (nodeId) url.searchParams.set("focus", nodeId);
@@ -80,12 +72,11 @@ export default async function ResearchPage() {
     <ResearchLayout current="constellations" eyebrow="Faith seeking understanding" title="Follow your questions." accent="Find understanding." description="Explore the claims, sources, and conversations that help you understand the faith more deeply." search={<form action="/research/compare" method="get" className={styles.searchCard} aria-label="Search research"><KnowledgeSelector label="Find a claim" name="left" /><button type="submit">Explore claim <AppIcon name="arrow" width={17} height={17} /></button></form>}>
       <section className={styles.section} aria-labelledby="guided-research-heading">
         <div className={styles.sectionHeader}><div><h2 id="guided-research-heading">Start with a question</h2><p>Follow a reviewed topic into its claims, connections, and sources.</p></div></div>
-        {knowledge.topics.length ? <div className={styles.cards}>{knowledge.topics.map((topic, index) => <article key={topic.id} className={styles.topic}><StudyArtwork icon="book" tone={index} /><div><h3>{topic.title}</h3><p>{topic.summary || "Explore this published topic and the evidence behind it."}</p><div className={styles.topicLinks}><Link href={`/research/compare?left=${encodeURIComponent(topic.rootNodeId)}`}>Explore claim <AppIcon name="arrow" width={14} height={14} /></Link><Link href={`/research/timeline?topicId=${encodeURIComponent(topic.id)}`}>Timeline</Link>{graphUrl ? <GraphLink href={graphFocusUrl(graphUrl, topic.rootNodeId)}>Open in Graph <AppIcon name="arrow" width={14} height={14} /></GraphLink> : null}</div></div></article>)}</div> : <div className={study.empty}><AppIcon name="research" /><h3>{knowledge.available ? "More paths are being prepared." : "Research is taking a moment."}</h3><p>{knowledge.available ? "Reviewed topic journeys will appear here when published. You can search for a claim above." : "Topics are temporarily unavailable. You can still open the research tools or try again shortly."}</p>{!knowledge.available ? <ResearchRetryButton label="Retry topics" /> : null}</div>}
+        {knowledge.topics.length ? <div className={styles.cards}>{knowledge.topics.map((topic, index) => <article key={topic.id} className={styles.topic}><StudyArtwork icon="book" tone={index} /><div><h3>{topic.title}</h3><p>{topic.summary || "Explore this published topic and the evidence behind it."}</p><div className={styles.topicLinks}><Link href={`/research/compare?left=${encodeURIComponent(topic.rootNodeId)}`}>Explore claim <AppIcon name="arrow" width={14} height={14} /></Link><Link href={`/research/timeline?topicId=${encodeURIComponent(topic.id)}`}>Timeline</Link>{graphUrl ? <GraphLink href={graphFocusUrl(graphUrl, topic.rootNodeId)}>Open in Graph <AppIcon name="arrow" width={14} height={14} /></GraphLink> : null}</div></div></article>)}</div> : <ResearchFallbackPrompts knowledgeAvailable={knowledge.available} />}
       </section>
       <ResearchDiscovery showJourneys={false} />
       {graphUrl ? <section className={styles.graph}><AppIcon name="research" width={27} height={27} /><h2>See how it all connects.</h2><p>Explore the same claims and sources in an interactive graph. Follow a connection and see where it leads.</p><Link href="/research/graph">Explore the 3D Galaxy <AppIcon name="arrow" width={17} height={17} /></Link><small>{graphStatus === "available" ? "Live Graph website · Available inside the app" : "Uses the live Graph website · An internet connection is needed"}</small></section> : null}
       <details id="standards" className={styles.standards}><summary>How to read the research</summary><p>Sources, claims, interpretations, and editorial assessments have different roles. These labels help you follow the evidence.</p><dl>{[["Claim", "The proposition being examined."], ["Evidence", "Textual, historical, linguistic, or doctrinal support."], ["Assessment", "How a tradition or scholarly perspective evaluates a claim."], ["Objection", "A serious challenge stated in its own terms."], ["Response", "An answer linked to a particular objection."], ["Provenance", "Who asserts a connection and which reviewed sources support it."]].map(([label, copy]) => <div key={label}><dt>{label}</dt><dd>{copy}</dd></div>)}</dl></details>
-      {!knowledge.topics.length ? <details className={styles.standards}><summary>Questions to think about</summary><p>Suggested starting questions to explore as reviewed research becomes available.</p><dl>{fallbackPrompts.map((prompt) => <div key={prompt.title}><dt>{prompt.title}</dt><dd>{prompt.focus} · {prompt.difficulty}</dd></div>)}</dl></details> : null}
     </ResearchLayout>
   );
 }
