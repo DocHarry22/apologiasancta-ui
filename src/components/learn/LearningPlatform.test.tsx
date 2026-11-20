@@ -3,7 +3,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { LearningCatalogue, LessonBookmarkControl } from "./LearningPlatform";
+import { DatabaseLesson, LearningCatalogue, LessonBookmarkControl } from "./LearningPlatform";
 import { LEARNER_API_READ_TIMEOUT_MS, LEARNER_API_WRITE_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 const LESSON_ID = "11111111-1111-4111-8111-111111111111";
@@ -40,7 +40,46 @@ describe("learning catalogue deadline", () => {
     await act(async () => { await vi.advanceTimersByTimeAsync(LEARNER_API_READ_TIMEOUT_MS); });
 
     expect(screen.getByRole("alert")).toHaveTextContent("did not respond in time");
-    expect(screen.getByRole("button", { name: "Try again" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Try live catalogue again" })).toBeEnabled();
+    expect(screen.getByRole("link", { name: /Scripture, Tradition, and the Magisterium/i })).toHaveAttribute("href", "/learn/scripture-tradition-magisterium");
+    expect(screen.getByRole("link", { name: /The Real Presence in the Eucharist/i })).toHaveAttribute("href", "/learn/real-presence-eucharist");
+    expect(screen.getByLabelText("Bundled Foundations lessons")).toBeInTheDocument();
+  });
+
+  it("filters the bundled fallback and clears filters after a catalogue failure", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse({ error: "Learning service unavailable" }, 503)));
+    const user = userEvent.setup();
+    render(<LearningCatalogue />);
+
+    expect(await screen.findByLabelText("Bundled Foundations lessons")).toBeInTheDocument();
+    await user.type(screen.getByRole("searchbox", { name: "Search programmes" }), "Eucharist");
+    expect(screen.getByRole("link", { name: /The Real Presence in the Eucharist/i })).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /Scripture, Tradition, and the Magisterium/i })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Coming soon" }));
+    expect(screen.getByText("No bundled lesson matches these filters.")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Clear filters" }));
+    expect(screen.getByLabelText("Bundled Foundations lessons")).toBeInTheDocument();
+  });
+});
+
+describe("bundled lesson outage fallback", () => {
+  it("renders the full sourced bundled lesson when the live lesson is unavailable", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse({ error: "Learning service unavailable" }, 503)));
+    render(<DatabaseLesson slug="scripture-tradition-magisterium" />);
+
+    expect(await screen.findByRole("heading", { level: 1, name: "Scripture, Tradition, and the Magisterium" })).toBeInTheDocument();
+    expect(screen.getByText("Bundled formation lesson")).toBeInTheDocument();
+    expect(screen.getByText("Common objection")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /2 Thessalonians 2:15/i })).toHaveAttribute("href", "https://bible.usccb.org/bible/2thessalonians/2");
+    expect(screen.getByRole("link", { name: /Next lesson/i })).toHaveAttribute("href", "/learn/real-presence-eucharist");
+  });
+
+  it("keeps the generic unavailable state for an unknown lesson slug", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse({ error: "Learning service unavailable" }, 503)));
+    render(<DatabaseLesson slug="not-a-bundled-lesson" />);
+    expect(await screen.findByRole("alert")).toHaveTextContent("We couldn’t load this lesson.");
+    expect(screen.queryByText("Bundled formation lesson")).not.toBeInTheDocument();
   });
 });
 
