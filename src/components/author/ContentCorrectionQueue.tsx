@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { reportReasons, type ContentReport, type ReportStatus } from "@/lib/contentReports";
+import { fetchFirstPartyJson } from "@/lib/firstPartyRequest";
+import { RequestTimeoutError } from "@/lib/fetchWithTimeout";
 
 function ReportReview({ report, onUpdated }: { report: ContentReport; onUpdated: () => void }) {
   const [status, setStatus] = useState<ReportStatus>(report.status === "open" ? "in_review" : report.status === "in_review" ? "resolved" : "open");
@@ -13,15 +15,21 @@ function ReportReview({ report, onUpdated }: { report: ContentReport; onUpdated:
   const editor = report.target.contentType === "lesson" || report.target.app === "learn" ? "/author/learning" : report.target.contentType === "claim" ? "/author/knowledge" : "/author/authoring";
   async function save() {
     setBusy(true); setError("");
+    let mutationStarted = false;
     try {
-      const csrf = await fetch("/api/auth/csrf", { credentials: "same-origin", cache: "no-store" });
-      const security = await csrf.json();
-      if (!csrf.ok || !security.csrfToken) throw new Error("Sign in again before reviewing this report.");
-      const response = await fetch(`/api/workflow/reports/${encodeURIComponent(report.id)}`, { method: "PATCH", headers: { "content-type": "application/json", "x-csrf-token": security.csrfToken }, body: JSON.stringify({ status, note, correctedRevisionId: revision, version: report.version }) });
-      const body = await response.json();
-      if (!response.ok) throw new Error(body.error || "Unable to update report.");
+      const csrf = await fetchFirstPartyJson<{ csrfToken?: string }>("/api/auth/csrf", { credentials: "same-origin", cache: "no-store" });
+      if (!csrf.ok || !csrf.data.csrfToken) throw new Error("Sign in again before reviewing this report.");
+      mutationStarted = true;
+      const result = await fetchFirstPartyJson<{ error?: string }>(`/api/workflow/reports/${encodeURIComponent(report.id)}`, { method: "PATCH", headers: { "content-type": "application/json", "x-csrf-token": csrf.data.csrfToken }, body: JSON.stringify({ status, note, correctedRevisionId: revision, version: report.version }) });
+      if (!result.ok) throw new Error(result.data?.error || "Unable to update report.");
       onUpdated();
-    } catch (cause) { setError(cause instanceof Error ? cause.message : "Unable to update report."); }
+    } catch (cause) {
+      setError(cause instanceof RequestTimeoutError
+        ? mutationStarted
+          ? "The review update timed out and may still have completed. Refresh the queue before retrying."
+          : "The security check did not respond in time. Please retry."
+        : cause instanceof Error ? cause.message : "Unable to update report.");
+    }
     finally { setBusy(false); }
   }
   return <article className="rounded-xl border border-(--border) p-4">
@@ -49,12 +57,12 @@ export default function ContentCorrectionQueue() {
   const load = useCallback(async () => {
     setLoading(true); setError("");
     try {
-      const response = await fetch(`/api/workflow/reports?status=${status}`, { cache: "no-store", credentials: "same-origin" });
-      const body = await response.json();
-      if (!response.ok) throw new Error(body.error || "Unable to load reports.");
+      const result = await fetchFirstPartyJson<{ error?: string; reports?: ContentReport[] }>(`/api/workflow/reports?status=${status}`, { cache: "no-store", credentials: "same-origin" });
+      const body = result.data ?? {};
+      if (!result.ok) throw new Error(body.error || "Unable to load reports.");
       if (!Array.isArray(body.reports)) throw new Error("The report queue returned invalid data.");
       setReports(body.reports);
-    } catch (cause) { setError(cause instanceof Error ? cause.message : "Unable to load reports."); }
+    } catch (cause) { setError(cause instanceof RequestTimeoutError ? "Content reports did not respond in time. Please retry." : cause instanceof Error ? cause.message : "Unable to load reports."); }
     finally { setLoading(false); }
   }, [status]);
   useEffect(() => { void load(); }, [load]);

@@ -52,7 +52,11 @@ it("logs out through the session boundary and routes within the admin shell", as
 
   await userEvent.click(screen.getAllByRole("button", { name: "Log out" })[0]);
 
-  expect(fetchMock).toHaveBeenCalledWith("/api/auth/logout", { method: "POST", credentials: "same-origin" });
+  expect(fetchMock).toHaveBeenCalledWith("/api/auth/logout", expect.objectContaining({
+    method: "POST",
+    credentials: "same-origin",
+    signal: expect.any(AbortSignal),
+  }));
   expect(state.replace).toHaveBeenCalledWith("/admin/login");
   expect(state.refresh).toHaveBeenCalled();
   fetchMock.mockRestore();

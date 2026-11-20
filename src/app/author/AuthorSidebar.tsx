@@ -10,6 +10,7 @@ import { AppIcon, type AppIconName } from "@/components/native/AppIcon";
 import { NativeHeader } from "@/components/native/NativeHeader";
 import { Crest } from "@/components/shell/BrandMark";
 import styles from "./StaffWorkspace.module.css";
+import { fetchFirstPartyResponse } from "@/lib/firstPartyRequest";
 
 const NAV_ITEMS: { id: string; label: string; path: string; icon: AppIconName }[] = [
   { id: "overview", label: "Overview", path: "", icon: "home" },
@@ -47,7 +48,7 @@ export default function AuthorSidebar({ user }: { user: CurrentUser }) {
     <div><button type="button" onClick={toggleTheme} aria-label="Toggle theme">{theme === "dark" ? "Light" : "Dark"}</button>
       <form method="post" action={`/api/auth/logout?next=${encodeURIComponent(`${basePath}/login`)}`} onSubmit={(event) => {
         event.preventDefault();
-        void runWithStoredAccountSessionBoundary(() => fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" }))
+        void runWithStoredAccountSessionBoundary(() => fetchFirstPartyResponse("/api/auth/logout", { method: "POST", credentials: "same-origin" }))
           .catch(() => undefined)
           .finally(() => {
             router.replace(`${basePath}/login`);

@@ -26,6 +26,8 @@ import JsonPreview from "./JsonPreview";
 import EngineHealthPanel from "./EngineHealthPanel";
 import ContentCorrectionQueue from "./ContentCorrectionQueue";
 import { useVisiblePolling } from "@/hooks/useVisiblePolling";
+import { fetchFirstPartyJson, fetchFirstPartyResponse } from "@/lib/firstPartyRequest";
+import { RequestTimeoutError } from "@/lib/fetchWithTimeout";
 
 interface Props {
   topics: TopicWithCount[];
@@ -147,7 +149,7 @@ function getCsrfToken(): string | null {
 
 async function refreshCsrfToken(): Promise<void> {
   try {
-    await fetch("/api/auth/csrf", { method: "GET", credentials: "same-origin" });
+    await fetchFirstPartyResponse("/api/auth/csrf", { method: "GET", credentials: "same-origin" });
   } catch {
     // best-effort refresh only
   }
@@ -167,30 +169,42 @@ async function performDashboardApi<T>(
     if (csrf) headers["x-csrf-token"] = csrf;
   }
 
-  const response = await fetch(path, {
-    method,
-    headers,
-    credentials: "same-origin",
-    body: options.body === undefined ? undefined : JSON.stringify(options.body),
-  });
+  try {
+    const result = await fetchFirstPartyJson<{ error?: string } & T>(path, {
+      method,
+      headers,
+      credentials: "same-origin",
+      body: options.body === undefined ? undefined : JSON.stringify(options.body),
+    });
+    const response = result.response;
 
-  if (response.status === 401 && typeof window !== "undefined") {
-    const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
-    const nextPath = window.location.pathname || "/";
-    onUnauthorized?.(`${basePath}/login?reason=session_expired&next=${encodeURIComponent(nextPath)}`);
-    return { ok: false, status: 401, error: "Unauthorized" };
-  }
+    if (response.status === 401 && typeof window !== "undefined") {
+      const basePath = window.location.pathname.startsWith("/admin") ? "/admin" : "/author";
+      const nextPath = window.location.pathname || "/";
+      onUnauthorized?.(`${basePath}/login?reason=session_expired&next=${encodeURIComponent(nextPath)}`);
+      return { ok: false, status: 401, error: "Unauthorized" };
+    }
 
-  if (response.status === 403 && method !== "GET" && !options.retried) {
-    await refreshCsrfToken();
-    return performDashboardApi<T>(path, { ...options, retried: true }, onUnauthorized);
-  }
+    if (response.status === 403 && method !== "GET" && !options.retried) {
+      await refreshCsrfToken();
+      return performDashboardApi<T>(path, { ...options, retried: true }, onUnauthorized);
+    }
 
-  const data = await response.json().catch(() => ({})) as { error?: string };
-  if (!response.ok) {
-    return { ok: false, status: response.status, error: data.error || `HTTP ${response.status}` };
+    const data = result.data ?? {} as { error?: string } & T;
+    if (!response.ok) {
+      return { ok: false, status: response.status, error: data.error || `HTTP ${response.status}` };
+    }
+    return { ok: true, data: data as T };
+  } catch (error) {
+    return {
+      ok: false,
+      error: error instanceof RequestTimeoutError
+        ? method === "GET"
+          ? "Staff data did not respond in time. Please retry."
+          : "The staff request timed out and may still have completed. Refresh current status before retrying."
+        : error instanceof Error ? error.message : "Network error",
+    };
   }
-  return { ok: true, data: data as T };
 }
 
 function DangerousConfirmModal({
@@ -854,7 +868,7 @@ export default function AuthorDashboardClient({ topics, publishedQuestions, curr
 
   const handleLogout = async () => {
     try {
-      await runWithStoredAccountSessionBoundary(() => fetch("/api/auth/logout", {
+      await runWithStoredAccountSessionBoundary(() => fetchFirstPartyResponse("/api/auth/logout", {
         method: "POST",
         credentials: "same-origin",
       }));

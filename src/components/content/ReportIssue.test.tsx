@@ -1,10 +1,11 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ReportIssue } from "./ReportIssue";
+import { FIRST_PARTY_REQUEST_TIMEOUT_MS } from "@/lib/firstPartyRequest";
 const target = { app: "quiz" as const, contentType: "question" as const, contentId: "q:old", title: "Original question", revisionId: "rev:old", snapshot: { prompt: "Original question", options: ["A", "B"] } };
-afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
+afterEach(() => { cleanup(); vi.useRealTimers(); vi.unstubAllGlobals(); });
 describe("reporting from displayed content", () => {
   it("freezes the original question even when a live round advances before submission", async () => {
     const user = userEvent.setup();
@@ -32,6 +33,23 @@ describe("reporting from displayed content", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent("Reports unavailable");
     expect(screen.getByLabelText(/Details/)).toHaveValue("Keep these details.");
     await waitFor(() => expect(screen.getByRole("button", { name: "Send report" })).toBeEnabled());
+    expect(screen.queryByText("Report received")).not.toBeInTheDocument();
+  });
+  it("recovers the form and warns about an unknown outcome when submission stalls", async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal("fetch", vi.fn()
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ csrfToken: "token" }) })
+      .mockImplementationOnce((_input: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+        init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+      })));
+    render(<ReportIssue {...target} />);
+    fireEvent.click(screen.getByRole("button", { name: /Report an issue/ }));
+    fireEvent.click(screen.getByRole("button", { name: "Send report" }));
+
+    await act(async () => { await vi.advanceTimersByTimeAsync(FIRST_PARTY_REQUEST_TIMEOUT_MS); });
+
+    expect(screen.getByRole("alert")).toHaveTextContent("may already have been received");
+    expect(screen.getByRole("button", { name: "Send report" })).toBeEnabled();
     expect(screen.queryByText("Report received")).not.toBeInTheDocument();
   });
 });
