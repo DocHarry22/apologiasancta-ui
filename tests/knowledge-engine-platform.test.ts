@@ -5,6 +5,7 @@ import test from "node:test";
 const clientSource = readFileSync("src/lib/server/knowledgeEngine.ts", "utf8");
 const proxySource = readFileSync("src/app/api/knowledge/[[...path]]/route.ts", "utf8");
 const researchSource = readFileSync("src/app/research/page.tsx", "utf8");
+const researchFallback = readFileSync("src/components/research/ResearchFallbackPrompts.tsx", "utf8");
 const migration = readFileSync("supabase/migrations/20260824020000_knowledge_engine_platform_bridge.sql", "utf8");
 
 test("Knowledge Engine proxy remains same-origin, read-only, and bounded", () => {
@@ -51,5 +52,7 @@ test("Research page consumes canonical published topics and deep-links the Galax
   assert.match(researchSource, /fetchKnowledgeEngine\("\/knowledge\/topics"/);
   assert.match(researchSource, /if \(!Array\.isArray\(payload\?\.topics\)\)/);
   assert.match(researchSource, /url\.searchParams\.set\("focus", nodeId\)/);
-  assert.match(researchSource, /Reviewed topic journeys will appear here when published/);
+  assert.match(researchSource, /<ResearchFallbackPrompts knowledgeAvailable=/);
+  assert.match(researchFallback, /Reviewed topic journeys will appear here when published/);
+  assert.match(researchFallback, /href: "\/library\/christology"/);
 });
