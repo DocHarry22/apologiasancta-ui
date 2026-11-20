@@ -1,6 +1,7 @@
 export const LIVE_SERVICE_REQUEST_TIMEOUT_MS = 45_000;
 export const PUBLIC_ENGINE_READ_TIMEOUT_MS = 8_000;
 export const LEARNER_API_READ_TIMEOUT_MS = 10_000;
+export const LEARNER_API_WRITE_TIMEOUT_MS = 20_000;
 
 export class RequestTimeoutError extends Error {
   constructor(message = "The live service did not respond in time. Please retry.") {
@@ -52,6 +53,7 @@ export async function fetchJsonWithTimeout<T>(
   init: RequestInit = {},
   timeoutMs = LIVE_SERVICE_REQUEST_TIMEOUT_MS,
   fetchImpl: typeof fetch = fetch,
+  allowEmptySuccess = false,
 ): Promise<JsonFetchResult<T>> {
   const controller = new AbortController();
   const parentSignal = init.signal;
@@ -78,7 +80,7 @@ export async function fetchJsonWithTimeout<T>(
       if (controller.signal.aborted) {
         throw controller.signal.reason ?? error;
       }
-      if (response.ok) throw error;
+      if (response.ok && !allowEmptySuccess) throw error;
     }
     if (!response.ok) return { ok: false, response, ...(data === undefined ? {} : { data }) };
     return { ok: true, response, data: data as T };

@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
 
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { LearningCatalogue, LessonBookmarkControl } from "./LearningPlatform";
-import { LEARNER_API_READ_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
+import { LEARNER_API_READ_TIMEOUT_MS, LEARNER_API_WRITE_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 const LESSON_ID = "11111111-1111-4111-8111-111111111111";
 const BOOKMARK_ID = "22222222-2222-4222-8222-222222222222";
@@ -86,5 +86,40 @@ describe("LessonBookmarkControl", () => {
       `/api/v1/learning/bookmarks?id=${BOOKMARK_ID}`,
       expect.objectContaining({ method: "DELETE" }),
     );
+  });
+
+  it("stops a stalled bookmark save and warns that its outcome is unknown", async () => {
+    vi.useFakeTimers();
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockImplementation(async (input, init) => {
+      const url = typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url;
+      const method = init?.method ?? "GET";
+      if (url === "/api/v1/learning/bookmarks?limit=100&offset=0" && method === "GET") {
+        return jsonResponse({ data: [], meta: { hasMore: false } });
+      }
+      if (url === "/api/auth/csrf" && method === "GET") {
+        return jsonResponse({ csrfToken: "test-csrf-token" });
+      }
+      if (url === "/api/v1/learning/bookmarks" && method === "POST") {
+        const body = new ReadableStream({
+          start(controller) {
+            init?.signal?.addEventListener("abort", () => controller.error(new DOMException("Aborted", "AbortError")), { once: true });
+          },
+        });
+        return new Response(body, { status: 201, headers: { "content-type": "application/json" } });
+      }
+      throw new Error(`Unexpected request: ${method} ${url}`);
+    });
+    render(<LessonBookmarkControl lessonId={LESSON_ID} lessonTitle="The lesson title" />);
+    await act(async () => { await Promise.resolve(); await Promise.resolve(); });
+    fireEvent.click(screen.getByRole("button", { name: "Bookmark lesson" }));
+    await act(async () => { await Promise.resolve(); await Promise.resolve(); });
+    expect(screen.getByRole("button", { name: "Saving…" })).toBeDisabled();
+
+    await act(async () => { await vi.advanceTimersByTimeAsync(LEARNER_API_WRITE_TIMEOUT_MS); });
+
+    expect(screen.getByRole("alert")).toHaveTextContent("did not confirm whether that change finished");
+    expect(screen.getByRole("alert")).toHaveTextContent("Refresh this page before trying again");
+    expect(screen.getByRole("button", { name: "Bookmark lesson" })).toBeEnabled();
+    expect(fetchMock.mock.calls.filter(([, init]) => init?.method === "POST")).toHaveLength(1);
   });
 });
