@@ -3,7 +3,7 @@ import { act, cleanup, render, screen, waitFor, within } from "@testing-library/
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { LeaderboardPageClient } from "./LeaderboardPageClient";
-import { LIVE_SERVICE_REQUEST_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
+import { LIVE_SERVICE_COLD_START_RETRY_TIMEOUT_MS, LIVE_SERVICE_REQUEST_TIMEOUT_MS } from "@/lib/fetchWithTimeout";
 
 vi.mock("@/lib/publicEnv", () => ({ getEngineUrl: () => "https://engine.test" }));
 const weekly = { topScorers: [{ rank: 1, name: "Ada", score: 1020 }, { rank: 4, name: "Maria", score: 300 }], topStreaks: [{ rank: 1, name: "James", streak: 7 }] };
@@ -64,13 +64,34 @@ it("explains a slow rankings cold start", async () => {
   vi.useRealTimers();
 });
 
+it("recovers automatically when the first cold-start request times out", async () => {
+  vi.useFakeTimers();
+  const fetcher = vi.fn()
+    .mockImplementationOnce((_request: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+      init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+    }))
+    .mockResolvedValueOnce(Response.json({ leaderboard: weekly }));
+  vi.stubGlobal("fetch", fetcher);
+
+  render(<LeaderboardPageClient />);
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(LIVE_SERVICE_REQUEST_TIMEOUT_MS);
+    await Promise.resolve();
+    await Promise.resolve();
+  });
+
+  expect(screen.getByText("Ada")).toBeInTheDocument();
+  expect(fetcher).toHaveBeenCalledTimes(2);
+  expect(screen.queryByText(/did not respond in time/i)).not.toBeInTheDocument();
+});
+
 it("replaces a hung rankings request with a retryable error", async () => {
   vi.useFakeTimers();
   vi.stubGlobal("fetch", vi.fn((_request: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
     init?.signal?.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
   })));
   render(<LeaderboardPageClient />);
-  await act(async () => { await vi.advanceTimersByTimeAsync(LIVE_SERVICE_REQUEST_TIMEOUT_MS); });
+  await act(async () => { await vi.advanceTimersByTimeAsync(LIVE_SERVICE_REQUEST_TIMEOUT_MS + LIVE_SERVICE_COLD_START_RETRY_TIMEOUT_MS); });
   expect(screen.getByRole("heading", { name: "Could not load the leaderboard" })).toBeInTheDocument();
   expect(screen.getByText(/did not respond in time/i)).toBeInTheDocument();
   expect(screen.getByRole("button", { name: "Retry", exact: true })).toBeEnabled();

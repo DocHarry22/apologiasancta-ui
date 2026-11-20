@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fetchJsonWithTimeout, fetchResponseWithTimeout, RequestTimeoutError } from "./fetchWithTimeout";
+import { fetchJsonWithColdStartRetry, fetchJsonWithTimeout, fetchResponseWithTimeout, RequestTimeoutError } from "./fetchWithTimeout";
 
 function pendingFetch(_input: RequestInfo | URL, init?: RequestInit) {
   return new Promise<Response>((_resolve, reject) => {
@@ -41,6 +41,43 @@ describe("fetchWithTimeout", () => {
     const assertion = expect(request).rejects.toBeInstanceOf(RequestTimeoutError);
     await vi.advanceTimersByTimeAsync(1_000);
     await assertion;
+  });
+
+  it("retries one timed-out idempotent read with a shorter cold-start deadline", async () => {
+    vi.useFakeTimers();
+    const fetcher = vi.fn()
+      .mockImplementationOnce(pendingFetch)
+      .mockResolvedValueOnce(Response.json({ rooms: [{ roomId: "global" }] }));
+
+    const request = fetchJsonWithColdStartRetry<{ rooms: Array<{ roomId: string }> }>(
+      "https://engine.test/rooms",
+      {},
+      1_000,
+      500,
+      fetcher,
+    );
+    await vi.advanceTimersByTimeAsync(1_000);
+
+    await expect(request).resolves.toMatchObject({ ok: true, data: { rooms: [{ roomId: "global" }] } });
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+
+  it("bounds the cold-start retry and never starts a third request", async () => {
+    vi.useFakeTimers();
+    const fetcher = vi.fn(pendingFetch);
+    const request = fetchJsonWithColdStartRetry("https://engine.test/rooms", {}, 1_000, 500, fetcher);
+    const assertion = expect(request).rejects.toBeInstanceOf(RequestTimeoutError);
+
+    await vi.advanceTimersByTimeAsync(1_500);
+    await assertion;
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not retry a non-timeout failure", async () => {
+    const fetcher = vi.fn().mockRejectedValue(new TypeError("network failure"));
+
+    await expect(fetchJsonWithColdStartRetry("https://engine.test/rooms", {}, 1_000, 500, fetcher)).rejects.toThrow("network failure");
+    expect(fetcher).toHaveBeenCalledOnce();
   });
 
   it("preserves caller cancellation instead of reporting it as a timeout", async () => {
