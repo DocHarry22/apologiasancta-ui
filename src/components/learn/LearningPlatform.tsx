@@ -10,6 +10,8 @@ import { ProgressBar } from "@/components/ui/Primitives";
 import { AppIcon } from "@/components/native/AppIcon";
 import { StudyArtwork, StudySearch } from "@/components/native/StudyUI";
 import styles from "@/components/native/StudyUI.module.css";
+import { LessonProgressActions } from "@/components/learn/LessonProgressActions";
+import { getLessonById, getNextLesson, learningPath, type LearningLesson } from "@/lib/learningContent";
 import {
   fetchJsonWithTimeout,
   LEARNER_API_READ_TIMEOUT_MS,
@@ -70,6 +72,17 @@ type LessonDetail = CatalogueItem & {
   nextLesson?: Pick<CatalogueItem, "slug" | "title"> | null;
   navigation?: { previous?: Pick<CatalogueItem, "slug" | "title"> | null; next?: Pick<CatalogueItem, "slug" | "title"> | null };
 };
+
+const bundledFoundationLessons: CatalogueItem[] = learningPath.lessons.map((lesson) => ({
+  id: `bundled-${lesson.id}`,
+  slug: lesson.id,
+  title: lesson.title,
+  contentType: "lesson",
+  shortDescription: lesson.summary,
+  estimatedMinutes: lesson.durationMinutes,
+  difficulty: lesson.difficulty,
+  visibility: "public",
+}));
 
 type LessonBookmark = {
   id: string;
@@ -185,6 +198,37 @@ function ErrorState({ message, retry, title, detail }: { message: string; retry:
   </div>;
 }
 
+function BundledCatalogueFallback({ message, retry, query, availability, clearFilters }: {
+  message: string;
+  retry: () => void;
+  query: string;
+  availability: string;
+  clearFilters: () => void;
+}) {
+  const normalizedQuery = query.trim().toLowerCase();
+  const lessons = availability === "Coming soon"
+    ? []
+    : bundledFoundationLessons.filter((item) => `${item.title} ${item.shortDescription ?? ""}`.toLowerCase().includes(normalizedQuery));
+  return <div className="space-y-4">
+    <div className={styles.empty} role="alert">
+      <AppIcon name="book" />
+      <h2>Live learning paths are temporarily unavailable.</h2>
+      <p>{message}</p>
+      <p>Continue with the bundled Foundations lessons below. Completion is kept on this device until the official catalogue returns.</p>
+      <button type="button" className="btn-primary" onClick={retry}>Try live catalogue again</button>
+    </div>
+    {lessons.length ? <div className={styles.catalogue} aria-label="Bundled Foundations lessons">
+      {lessons.map((item, index) => <CatalogueCard key={item.id} item={item} kind="lesson" index={index} />)}
+    </div> : <div className={styles.empty}>
+      <AppIcon name="search" />
+      <h3>No bundled lesson matches these filters.</h3>
+      <p>Clear the search and availability filter to see all four Foundations lessons.</p>
+      <button type="button" className="btn-secondary" onClick={clearFilters}>Clear filters</button>
+    </div>}
+    <p className={styles.sourceNote}>Bundled path: {learningPath.title}. Live programme structure, mastery and account progress remain unavailable until the learning database recovers.</p>
+  </div>;
+}
+
 function itemHref(item: CatalogueItem, kind: CatalogueItemKind) {
   if (kind === "programme") return `/learn/programmes/${item.slug}`;
   if (kind === "subject") return `/learn/subjects/${item.slug}`;
@@ -239,10 +283,33 @@ export function LearningCatalogue() {
     <div className={styles.chipRow} role="group" aria-label="Programme availability">{["All programmes", "Available", "Coming soon"].map((label) => <button className={styles.chip} type="button" key={label} aria-pressed={availability === label} onClick={() => setAvailability(label)}>{label}</button>)}</div>
     <section id="learning-programmes" className="scroll-mt-24" aria-labelledby="programmes-heading">
       <div className={styles.sectionHeading}><div><h2 id="programmes-heading">Your next chapter</h2><p aria-live="polite">{loading ? "Finding your learning paths…" : error ? "Learning paths are temporarily unavailable" : `${filtered.length} ${filtered.length === 1 ? "programme" : "programmes"} to explore`}</p></div><Link href="/learn/search" className={styles.textLink}>Find a lesson <AppIcon name="arrow" width={15} height={15} /></Link></div>
-      {loading ? <LoadingCards /> : error ? <ErrorState message={error} retry={reload} title="We couldn’t load your learning paths." detail="The published catalogue is temporarily unavailable." /> : filtered.length ? <div className={styles.catalogue}>{filtered.map((item, index) => <CatalogueCard key={item.id} item={item} kind="programme" index={index} />)}</div> : <div className={styles.empty}><AppIcon name="book" /><h3>{programmes.length ? "A different path, perhaps?" : "Your next chapter is on its way."}</h3><p>{programmes.length ? "Try another search or choose a different availability filter." : "New programmes will appear here when they’re ready. You can explore the library in the meantime."}</p>{programmes.length ? <button className="btn-secondary" onClick={() => { setQuery(""); setAvailability("All programmes"); }}>Clear filters</button> : <Link className="btn-secondary" href="/library">Explore the library</Link>}</div>}
+      {loading ? <LoadingCards /> : error ? <BundledCatalogueFallback message={error} retry={reload} query={query} availability={availability} clearFilters={() => { setQuery(""); setAvailability("All programmes"); }} /> : filtered.length ? <div className={styles.catalogue}>{filtered.map((item, index) => <CatalogueCard key={item.id} item={item} kind="programme" index={index} />)}</div> : <div className={styles.empty}><AppIcon name="book" /><h3>{programmes.length ? "A different path, perhaps?" : "Your next chapter is on its way."}</h3><p>{programmes.length ? "Try another search or choose a different availability filter." : "New programmes will appear here when they’re ready. You can explore the library in the meantime."}</p>{programmes.length ? <button className="btn-secondary" onClick={() => { setQuery(""); setAvailability("All programmes"); }}>Clear filters</button> : <Link className="btn-secondary" href="/library">Explore the library</Link>}</div>}
     </section>
     <aside className={styles.notice}><AppIcon name="bookmark" width={21} height={21} /><div><strong>Make it part of your day.</strong>Return to a lesson whenever you need. Sign in to keep your lesson progress and bookmarks together.</div></aside>
   </div>;
+}
+
+function BundledLessonView({ lesson }: { lesson: LearningLesson }) {
+  const nextLesson = getNextLesson(lesson.id);
+  return <>
+    <header className={styles.readingHeader}>
+      <div className={styles.meta}><span className={styles.cardEyebrow}>Bundled formation lesson</span><span>{lesson.difficulty}</span><span>{lesson.durationMinutes} minute read</span></div>
+      <h1 className={styles.title}>{lesson.title}</h1>
+      <p>{lesson.subtitle}</p>
+      <p>{lesson.summary}</p>
+      <p className={styles.sourceNote}>The live learning catalogue is unavailable. This sourced lesson is bundled with Apologia Sancta; completion is stored only on this device.</p>
+    </header>
+    <div className={styles.readerLayout}>
+      <div className="min-w-0">
+        <details className={styles.toc}><summary>In this lesson <AppIcon name="list" width={17} height={17} /></summary><ol>{lesson.sections.map((section, index) => <li key={section.heading}><a href={`#bundled-lesson-section-${index + 1}`}><span className={styles.cardEyebrow}>{String(index + 1).padStart(2, "0")}</span>{section.heading}</a></li>)}</ol></details>
+        <section className="surface-card p-5"><p className={styles.eyebrow}>What you’ll discover</p><ul className="mt-4 space-y-3">{lesson.objectives.map((objective) => <li className="flex gap-3 text-sm leading-7" key={objective}><span aria-hidden="true" className="text-(--gold)"><AppIcon name="check" width={17} height={17} /></span><span>{objective}</span></li>)}</ul></section>
+        <div className={styles.lessonSections}>{lesson.sections.map((section, sectionIndex) => <section id={`bundled-lesson-section-${sectionIndex + 1}`} className={styles.lessonSection} key={section.heading}><p className={styles.eyebrow}>Part {sectionIndex + 1}</p><h2>{section.heading}</h2><div className="space-y-5">{section.paragraphs.map((paragraph) => <p className="text-base leading-8 text-(--text-muted)" key={paragraph}>{paragraph}</p>)}{section.keyPoint ? <aside className="rounded-r-lg border-l-4 border-(--gold) bg-[color-mix(in_srgb,var(--gold)_9%,transparent)] px-5 py-4"><strong>Key point</strong><p className="mt-2 leading-7 text-(--text-muted)">{section.keyPoint}</p></aside> : null}</div></section>)}</div>
+        <section className="surface-card mt-8 p-5" aria-labelledby="bundled-objection-heading"><p className={styles.eyebrow}>Common objection</p><h2 id="bundled-objection-heading" className={styles.cardTitle}>{lesson.objection.claim}</h2><p className="mt-4 text-base leading-8 text-(--text-muted)">{lesson.objection.response}</p></section>
+        <section className={styles.finish}><h2>Keep your thread of study.</h2><p>Mark this bundled lesson complete on this device, then continue to the next Foundations lesson.</p><LessonProgressActions lessonId={lesson.id} nextLessonId={nextLesson?.id} /></section>
+      </div>
+      <aside className={styles.readerAside}><section className="surface-card p-5"><p className={styles.eyebrow}>Go to the source</p><h2 className={styles.cardTitle}>Read. Reflect. Verify.</h2><p className={styles.description}>Open the public references supporting this bundled lesson.</p><div className="mt-4 space-y-2">{lesson.sources.map((source) => <a key={`${source.label}-${source.reference}`} className="block min-h-11 rounded-lg border border-(--border) p-3 hover:border-(--gold)" href={source.url} target="_blank" rel="noopener noreferrer"><span className={styles.cardEyebrow}>{source.kind}</span><strong className="mt-1 block text-sm leading-6">{source.reference}</strong><span className="mt-1 block text-xs text-(--text-muted)">{source.label}</span></a>)}</div></section></aside>
+    </div>
+  </>;
 }
 
 export function LearningHierarchyPage({ kind, slug }: { kind: "programme" | "subject" | "group"; slug: string }) {
@@ -391,6 +458,7 @@ export function LessonBookmarkControl({ lessonId, lessonTitle }: { lessonId: str
 
 export function DatabaseLesson({ slug }: { slug: string }) {
   const { data: lesson, error, loading, reload } = useLearningResource<LessonDetail>(`/api/v1/learning/lessons/${encodeURIComponent(slug)}`);
+  const bundledLesson = getLessonById(slug);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "queued" | "error">("idle");
   const [saveMessage, setSaveMessage] = useState("");
   const markComplete = async () => {
@@ -411,7 +479,7 @@ export function DatabaseLesson({ slug }: { slug: string }) {
   const nextLesson = lesson?.nextLesson ?? lesson?.navigation?.next ?? null;
   return <article className={styles.screen}>
     <Link className={styles.breadcrumb} href="/learn"><AppIcon name="chevron" width={15} height={15} /> Learning catalogue</Link>
-    {loading ? <LoadingCards /> : error ? <ErrorState message={error} retry={reload} title="We couldn’t load this lesson." detail="The requested lesson is temporarily unavailable." /> : lesson ? <>
+    {loading ? <LoadingCards /> : error ? bundledLesson ? <BundledLessonView lesson={bundledLesson} /> : <ErrorState message={error} retry={reload} title="We couldn’t load this lesson." detail="The requested lesson is temporarily unavailable." /> : lesson ? <>
       <header className={styles.readingHeader}>
         <div className={styles.meta}><span className={styles.cardEyebrow}>{lesson.difficulty || "Formation"}</span>{lesson.estimatedMinutes ? <span>{lesson.estimatedMinutes} minute read</span> : null}</div>
         <h1 className={styles.title}>{lesson.title}</h1>
