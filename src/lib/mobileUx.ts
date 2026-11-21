@@ -13,6 +13,22 @@ export type AnswerSubmissionState = "idle" | "submitting" | "submitted" | "error
 export type LeaderboardMode = "room-all-time" | "room-daily" | "room-weekly" | "global-all-time";
 export type LeaderboardDrawerTab = "room" | "daily" | "weekly" | "global" | "streaks";
 
+export function getLiveQuizConnectionUrl(engineUrl: string | null, roomId: string | null): string | null {
+  return engineUrl && roomId ? engineUrl : null;
+}
+
+export function shouldKeepQuizAwake(input: {
+  roomId: string | null;
+  isRegistered: boolean;
+  phase: QuizPhase;
+}): boolean {
+  return Boolean(
+    input.roomId &&
+      input.isRegistered &&
+      (input.phase === "OPEN" || input.phase === "LOCKED" || input.phase === "REVEAL"),
+  );
+}
+
 export function getLeaderboardTab(mode: LeaderboardMode): LeaderboardDrawerTab {
   if (mode === "global-all-time") return "global";
   if (mode === "room-daily") return "daily";

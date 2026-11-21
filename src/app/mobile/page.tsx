@@ -40,8 +40,10 @@ import { getAnswerRejectionNotice, isAnswerWindowLocallyOpen } from "@/lib/answe
 import { fetchJsonWithTimeout, RequestTimeoutError } from "@/lib/fetchWithTimeout";
 import { useScoreHistory } from "@/hooks/useScoreHistory";
 import {
+  getLiveQuizConnectionUrl,
   getMobileOnboardingState,
   getPhaseCopy,
+  shouldKeepQuizAwake,
   type AnswerSubmissionState,
 } from "@/lib/mobileUx";
 import type { Leaderboard, QuizState, QuizPhase, TopicStartEvent, RoomSummary } from "@/types/quiz";
@@ -105,9 +107,14 @@ function createMockQuizState(phase: QuizPhase = "OPEN"): QuizState {
   };
 }
 
-function createWaitingQuizState(connectionStatus: "connecting" | "connected" | "reconnecting" | "polling" | "disconnected"): QuizState {
+function createWaitingQuizState(
+  connectionStatus: "connecting" | "connected" | "reconnecting" | "polling" | "disconnected",
+  roomId: string | null,
+): QuizState {
   const statusLabel =
-    connectionStatus === "disconnected"
+    !roomId
+      ? "Choose a room to begin."
+      : connectionStatus === "disconnected"
       ? "The engine is unreachable right now. The app will keep retrying."
       : connectionStatus === "reconnecting"
         ? "Trying to reconnect to the live room..."
@@ -142,8 +149,9 @@ function createWaitingQuizState(connectionStatus: "connecting" | "connected" | "
  * Hook that wraps SSE or mock state based on environment
  */
 function useQuizState(userId: string | null, roomId: string | null, onTopicStart?: (event: TopicStartEvent) => void) {
-  // SSE connection (pass ENGINE_URL or null, with optional userId for personalized stream)
-  const sseResult = useQuizSSE(ENGINE_URL || null, { userId, roomId, onTopicStart });
+  // Room discovery is a separate bounded request. Do not open the global/default
+  // live stream while the learner is still choosing a room.
+  const sseResult = useQuizSSE(getLiveQuizConnectionUrl(ENGINE_URL, roomId), { userId, roomId, onTopicStart });
   
   // Mock state (fallback when no ENGINE_URL)
   const [mockQuizState, setMockQuizState] = useState<QuizState>(() => 
@@ -153,7 +161,7 @@ function useQuizState(userId: string | null, roomId: string | null, onTopicStart
   // Use SSE state if available, otherwise fall back to mock
   const isUsingSSE = Boolean(ENGINE_URL);
   const quizState = isUsingSSE
-    ? sseResult.state || createWaitingQuizState(sseResult.connectionStatus)
+    ? sseResult.state || createWaitingQuizState(sseResult.connectionStatus, roomId)
     : mockQuizState;
 
   return {
@@ -668,16 +676,16 @@ function MobilePageContent() {
     prevQuestionIndexRef.current = quizState.questionIndex;
   }, [quizState.phase, quizState.questionIndex, quizState.question.correctId, playerData.playerName, playerData.lastAwardedPoints, selectedId, triggerAnimation]);
 
-  // Keep screen awake while a round is active; allow sleep on IDLE
+  // The room picker and display-name steps must not hold a device wake lock.
   useEffect(() => {
-    const active = quizState.phase === "OPEN" || quizState.phase === "LOCKED" || quizState.phase === "REVEAL";
+    const active = shouldKeepQuizAwake({ roomId, isRegistered, phase: quizState.phase });
     if (active) {
       void keepAwake();
     } else {
       void allowSleep();
     }
     return () => { void allowSleep(); };
-  }, [quizState.phase]);
+  }, [isRegistered, quizState.phase, roomId]);
 
   // Flush deferred reveal animation once positive delta arrives
   useEffect(() => {
@@ -847,7 +855,7 @@ function MobilePageContent() {
             />
 
             <div className={styles.statusStack}>
-              {(quizState.phase !== "OPEN" || connectionStatus !== "connected" || topicCountdownEvent || topicCompleteEvent || congratsEvent) ? <PhaseStatusPanel
+              {roomId && (quizState.phase !== "OPEN" || connectionStatus !== "connected" || topicCountdownEvent || topicCompleteEvent || congratsEvent) ? <PhaseStatusPanel
                 title={phaseCopy.title}
                 detail={phaseCopy.detail}
                 phase={quizState.phase}

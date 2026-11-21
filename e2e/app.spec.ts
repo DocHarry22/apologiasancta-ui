@@ -116,9 +116,25 @@ test("public routes load", async ({ page }) => {
 test("wake-lock permission denial remains a contained progressive-enhancement failure", async ({ page }) => {
   const pageErrors: string[] = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
+  await page.route("https://engine.test/rooms/alpha/join", async (route) => {
+    await route.fulfill({
+      json: {
+        ok: true,
+        userId: "player-1",
+        username: "Thabo",
+        roomId: "alpha",
+        joinToken: "room-token-alpha",
+      },
+    });
+  });
   await page.addInitScript(() => {
     const state = window as typeof window & { __wakeLockRequestCount?: number };
     state.__wakeLockRequestCount = 0;
+    window.localStorage.setItem("userId", "player-1");
+    window.localStorage.setItem("playerName", "Thabo");
+    window.localStorage.setItem("playerJoinToken", "room-token-alpha");
+    window.localStorage.setItem("selectedRoomId", "alpha");
+    window.localStorage.setItem("selectedRoomName", "Alpha Room");
     Object.defineProperty(navigator, "wakeLock", {
       configurable: true,
       value: {
