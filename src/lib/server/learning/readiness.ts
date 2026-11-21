@@ -35,6 +35,7 @@ type ReadinessQuery = <T extends QueryResultRow = Record<string, unknown>>(
 
 type PostgresLikeError = {
   code?: unknown;
+  message?: unknown;
   cause?: unknown;
   errors?: unknown;
 };
@@ -46,6 +47,15 @@ const TLS_ERROR_CODES = new Set([
   "SELF_SIGNED_CERT_IN_CHAIN",
   "UNABLE_TO_GET_ISSUER_CERT",
   "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
+]);
+
+// node-postgres emits these exact messages for its own connection timers
+// without attaching a machine-readable error code. Match only the library's
+// fixed text so hostnames, credentials and provider messages are never used as
+// public diagnostic output.
+const POSTGRES_TIMEOUT_MESSAGES = new Set([
+  "connection terminated due to connection timeout",
+  "timeout expired",
 ]);
 
 declare global {
@@ -88,15 +98,31 @@ function errorCodes(error: unknown, depth = 0): string[] {
   return [...code, ...nested, ...aggregate];
 }
 
+function errorMessages(error: unknown, depth = 0): string[] {
+  if (!error || typeof error !== "object" || depth > 3) return [];
+  const candidate = error as PostgresLikeError;
+  const message = typeof candidate.message === "string" ? [candidate.message.trim().toLowerCase()] : [];
+  const nested = candidate.cause ? errorMessages(candidate.cause, depth + 1) : [];
+  const aggregate = Array.isArray(candidate.errors)
+    ? candidate.errors.flatMap((item) => errorMessages(item, depth + 1))
+    : [];
+  return [...message, ...nested, ...aggregate];
+}
+
 function classifyConnectionFailure(error: unknown): Exclude<LearningDatabaseReadinessStatus, "ready"> {
   const codes = new Set(errorCodes(error));
+  const messages = new Set(errorMessages(error));
   if (codes.has("42P01") || codes.has("3F000")) return "schema_missing";
   if (codes.has("42501")) return "permission_denied";
   if (codes.has("28P01") || codes.has("28000")) return "authentication_failed";
   if (codes.has("3D000")) return "database_missing";
   if (codes.has("ENOTFOUND") || codes.has("EAI_AGAIN")) return "dns_unresolved";
   if (codes.has("ECONNREFUSED")) return "connection_refused";
-  if (codes.has("ETIMEDOUT") || codes.has("CONNECT_TIMEOUT")) return "connection_timeout";
+  if (
+    codes.has("ETIMEDOUT")
+    || codes.has("CONNECT_TIMEOUT")
+    || [...messages].some((message) => POSTGRES_TIMEOUT_MESSAGES.has(message))
+  ) return "connection_timeout";
   if ([...codes].some((code) => TLS_ERROR_CODES.has(code))) return "tls_failed";
   return "unreachable";
 }

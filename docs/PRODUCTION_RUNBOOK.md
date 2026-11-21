@@ -120,11 +120,21 @@ The public, secret-free `/api/diagnostics` response also reports learning
 database configuration readiness. `learningDatabaseUrlPresent` confirms only
 that `LEARNING_DATABASE_URL` is non-blank; `learningDatabaseUrlSupported`
 confirms a PostgreSQL URL; `learningDatabaseSslMode` confirms a supported TLS
-mode; and `learningDatabase` is true only when all configuration checks pass.
+mode; and `learningDatabaseConfiguration` is true only when all configuration
+checks pass. `learningDatabase` becomes true only after a bounded read probe can
+reach PostgreSQL and verify `content.published_programmes` exists and is
+readable. `learningDatabaseStatus` distinguishes missing or invalid
+configuration, DNS failure, refused or timed-out connections, TLS failure,
+authentication failure, a missing database, missing schema, insufficient
+permissions, and an otherwise unclassified unreachable service. The timeout
+classification includes node-postgres' own code-less connection timeout, not
+arbitrary provider error text.
+
 The endpoint never returns the connection string, hostname, username,
-password, or database contents. A true configuration result does not prove
-connectivity or data recovery: validate the 24 knowledge tables and runtime
-state independently before changing any provider setting.
+password, provider error message, or database contents. Even a successful
+readiness probe is not transfer evidence: validate the 24 Knowledge content
+tables and `runtime_state_snapshots` independently before changing any provider
+setting or declaring recovery complete.
 
 Merging GitHub cannot update Hostinger unless that project has automatic Git deployment enabled. If it does not, deploy the exact merged UI commit through Hostinger and record the commit SHA in the release notes.
 

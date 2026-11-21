@@ -113,4 +113,30 @@ describe("GET /api/diagnostics", () => {
     }));
     if (databaseUrl) expect(JSON.stringify(payload)).not.toContain(databaseUrl);
   });
+
+  it("publishes a code-less node-postgres timeout as a secret-free timeout status", async () => {
+    configureIdentity(undefined);
+    process.env.LEARNING_DATABASE_URL = "postgresql://learning-user:secret@db.test/learning";
+    process.env.LEARNING_DB_SSL_MODE = "require";
+    vi.mocked(getLearningDatabaseReadiness).mockResolvedValue({
+      configured: true,
+      reachable: false,
+      schemaReady: false,
+      readable: false,
+      ready: false,
+      status: "connection_timeout",
+    });
+
+    const response = await GET();
+    const payload = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(payload.readiness).toEqual(expect.objectContaining({
+      learningDatabase: false,
+      learningDatabaseConfiguration: true,
+      learningDatabaseReachable: false,
+      learningDatabaseStatus: "connection_timeout",
+    }));
+    expect(JSON.stringify(payload)).not.toMatch(/learning-user|secret|db\.test/);
+  });
 });
