@@ -250,6 +250,28 @@ function BundledCatalogueFallback({ message, retry, query, availability, clearFi
   </div>;
 }
 
+function BundledHierarchyFallback({ message, retry }: { message: string; retry: () => void }) {
+  return <div className="space-y-5">
+    <div className={styles.empty} role="alert">
+      <AppIcon name="book" />
+      <h2>Live learning path is temporarily unavailable.</h2>
+      <p>{message}</p>
+      <p>Continue with the sourced Foundations lessons bundled with Apologia Sancta while the official programme structure recovers.</p>
+      <div className="flex flex-wrap justify-center gap-3">
+        <button type="button" className="btn-primary" onClick={retry}>Try live learning path again</button>
+        <Link className="btn-secondary" href="/library">Explore the library</Link>
+      </div>
+    </div>
+    <section aria-labelledby="bundled-path-heading">
+      <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>Bundled learning path</p><h2 id="bundled-path-heading">{learningPath.title}</h2><p>{learningPath.description}</p></div></div>
+      <div className={styles.catalogue} aria-label="Bundled Foundations learning path">
+        {bundledFoundationLessons.map((item, index) => <CatalogueCard key={item.id} item={item} kind="lesson" index={index} />)}
+      </div>
+    </section>
+    <p className={styles.sourceNote}>This fallback does not recreate the unavailable programme, subject, or group. Live structure, prerequisites, mastery, unlocks, and account progress remain unavailable until the learning database recovers.</p>
+  </div>;
+}
+
 function itemHref(item: CatalogueItem, kind: CatalogueItemKind) {
   if (kind === "programme") return `/learn/programmes/${item.slug}`;
   if (kind === "subject") return `/learn/subjects/${item.slug}`;
@@ -353,7 +375,7 @@ export function LearningHierarchyPage({ kind, slug }: { kind: "programme" | "sub
   const childKind = kind === "programme" ? "subject" : kind === "subject" ? "group" : "lesson";
   return <div className={styles.screen}>
     <Link className={styles.breadcrumb} href="/learn"><AppIcon name="chevron" width={15} height={15} /> All programmes</Link>
-    {loading ? <LoadingCards /> : error ? <ErrorState message={error} retry={reload} title="We couldn’t load this learning path." detail="This programme, subject, or group is temporarily unavailable." /> : data ? <>
+    {loading ? <LoadingCards /> : error ? <BundledHierarchyFallback message={error} retry={reload} /> : data ? <>
       <header className={styles.intro}><p className={styles.eyebrow}>{kind}</p><h1 className={styles.title}>{data.title}</h1><p>{data.shortDescription || data.description}</p><div className={styles.meta}>{data.difficulty ? <span>{data.difficulty}</span> : null}{data.estimatedMinutes ? <span>{data.estimatedMinutes} minutes</span> : null}<span>{children.length} {kind === "group" ? "lessons" : kind === "subject" ? "learning groups" : "subjects"}</span></div></header>
       <section><div className={styles.sectionHeading}><h2>{kind === "group" ? "One lesson at a time" : kind === "subject" ? "Choose your next step" : "Explore the subjects"}</h2></div>{children.length ? <div className={styles.catalogue}>{children.map((item, index) => <CatalogueCard key={item.id} item={item} kind={childKind} index={index} />)}</div> : <div className={styles.empty}><AppIcon name="book" /><h2>More to discover, soon.</h2><p>New content will appear here when it is published.</p></div>}</section>
       {kind === "group" && data.id ? <section className={styles.compactFeature}><div><h2>Put your learning into practice.</h2><p>Ready to move forward? Check your understanding with a mastery assessment.</p></div><Link href={`/learn/groups/${data.slug}/mastery`} aria-label="Start mastery assessment"><AppIcon name="arrow" width={21} height={21} /></Link></section> : null}
@@ -543,7 +565,20 @@ export function MasteryExperience({ groupSlug }: { groupSlug: string }) {
   const score = result && typeof result.scorePercent === "number" ? result.scorePercent : result && typeof result.score === "number" ? result.score : null;
   return <ScreenSurface>
     <Link className={styles.breadcrumb} href={`/learn/groups/${groupSlug}`}><AppIcon name="chevron" width={15} height={15} /> Learning group</Link>
-    {groupLoading ? <LoadingCards /> : groupError ? <ErrorState message={groupError} retry={reload} title="We couldn’t load this mastery assessment." detail="The learning group for this assessment is temporarily unavailable." /> : group ? <>
+    {groupLoading ? <LoadingCards /> : groupError ? <div className="space-y-7">
+      <div className={styles.empty} role="alert">
+        <AppIcon name="book" />
+        <h2>Official mastery is temporarily unavailable.</h2>
+        <p>{groupError}</p>
+        <p>Continue with sourced practice stored on this device. This fallback cannot grant official mastery, prerequisites, or unlocks.</p>
+        <div className="flex flex-wrap justify-center gap-3">
+          <button type="button" className="btn-primary" onClick={reload}>Try official mastery again</button>
+          <Link className="btn-secondary" href="/library">Explore the library</Link>
+        </div>
+      </div>
+      <PracticeQuiz />
+      <p className={styles.sourceNote}>Bundled path: {learningPath.title}. Results stay on this device and remain separate from server-confirmed mastery and account progress.</p>
+    </div> : group ? <>
       <ScreenIntro eyebrow="Official mastery" title={group.title} accent="Put your learning into practice." description="Check your understanding of this group. Sign in and stay online until your result is confirmed." />
       {result ? <section className={surface.result} aria-live="polite"><AppIcon name={result.mastered ? "trophy" : "book"} width={28} height={28} /><h2>{result.mastered ? "Mastery achieved" : "Keep learning"}</h2>{score !== null ? <strong>{score}%</strong> : null}<p>{result.mastered ? "Your mastery result is confirmed. Eligible learning groups have been checked for unlocking." : "No new group was unlocked. Review the explanations and try again when ready."}</p><div className={surface.actions}><Link className="btn-primary" href="/learn">View learning path</Link><button type="button" className="btn-secondary" onClick={() => { setAttempt(null); setResult(null); setAnswers({}); }}>Start another attempt</button></div></section> : attempt ? <form className="mt-6 space-y-5" onSubmit={(event) => { event.preventDefault(); void submit(); }}>
         <p className={surface.stats}>{attempt.questions.filter((question) => Boolean(answers[masteryQuestionId(question)]?.length)).length} of {attempt.questions.length} questions answered</p>
