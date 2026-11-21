@@ -174,9 +174,9 @@ describe("Learn browsing and reading", () => {
 
   it.each([
     ["search", () => <LearningSearch />, "Live learning search is temporarily unavailable."],
-    ["learning path", () => <LearningHierarchyPage kind="programme" slug="foundations" />, "We couldn’t load this learning path."],
+    ["learning path", () => <LearningHierarchyPage kind="programme" slug="foundations" />, "Live learning path is temporarily unavailable."],
     ["lesson", () => <DatabaseLesson slug="the-creed" />, "We couldn’t load this lesson."],
-    ["mastery", () => <MasteryExperience groupSlug="the-creed" />, "We couldn’t load this mastery assessment."],
+    ["mastery", () => <MasteryExperience groupSlug="the-creed" />, "Official mastery is temporarily unavailable."],
   ])("explains a %s outage in the context of that learning surface", async (_surface, createComponent, heading) => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(json({ error: "Unavailable" }, 503)));
     render(createComponent());
@@ -184,6 +184,40 @@ describe("Learn browsing and reading", () => {
     expect(alert).toHaveTextContent(heading);
     expect(screen.getByRole("link", { name: "Explore the library" })).toHaveAttribute("href", "/library");
     expect(screen.queryByText("We couldn’t load your learning paths.")).not.toBeInTheDocument();
+  });
+
+  it("keeps a deep learning-path link useful during a catalogue outage and can retry the live hierarchy", async () => {
+    const fetcher = vi.fn()
+      .mockResolvedValueOnce(json({ error: "The learning database is unreachable." }, 503))
+      .mockResolvedValueOnce(json({ ...programme, subjects: [] }));
+    vi.stubGlobal("fetch", fetcher);
+    const user = userEvent.setup();
+
+    render(<LearningHierarchyPage kind="programme" slug="foundations" />);
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("Live learning path is temporarily unavailable.");
+    expect(screen.getByLabelText("Bundled Foundations learning path")).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /Read lesson/ })).toHaveLength(4);
+    expect(screen.getByText(/does not recreate the unavailable programme, subject, or group/i)).toBeVisible();
+
+    await user.click(screen.getByRole("button", { name: "Try live learning path again" }));
+    expect(await screen.findByRole("heading", { name: programme.title, level: 1 })).toBeVisible();
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+
+  it("offers sourced on-device practice when official mastery cannot load", async () => {
+    const fetcher = vi.fn().mockResolvedValue(json({ error: "The learning database is unreachable." }, 503));
+    vi.stubGlobal("fetch", fetcher);
+    const user = userEvent.setup();
+
+    render(<MasteryExperience groupSlug="the-creed" />);
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("Official mastery is temporarily unavailable.");
+    expect(screen.getByText(/cannot grant official mastery, prerequisites, or unlocks/i)).toBeVisible();
+    await user.click(screen.getByRole("button", { name: /A teaching office that serves and interprets the apostolic deposit/ }));
+    expect(await screen.findByText(/living teaching office of the Pope and bishops/)).toBeVisible();
+    expect(screen.getByText(/remain separate from server-confirmed mastery/)).toBeVisible();
+    expect(fetcher).toHaveBeenCalledTimes(1);
   });
 
   it("uses confirmed unlocks while leaving other groups locked", async () => {
