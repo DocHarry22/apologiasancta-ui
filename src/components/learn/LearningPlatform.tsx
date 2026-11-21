@@ -171,6 +171,7 @@ async function csrfHeaders(unauthorizedMessage = "Sign in to save official progr
 function useLearningResource<T>(url: string) {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [errorStatus, setErrorStatus] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [requestVersion, setRequestVersion] = useState(0);
   const reload = useCallback(() => setRequestVersion((version) => version + 1), []);
@@ -181,6 +182,7 @@ function useLearningResource<T>(url: string) {
 
     setLoading(true);
     setError(null);
+    setErrorStatus(null);
     void api<T>(url, { signal: controller.signal })
       .then((response) => {
         if (ownsRequest) setData(response.data);
@@ -188,6 +190,7 @@ function useLearningResource<T>(url: string) {
       .catch((cause) => {
         if (!ownsRequest || controller.signal.aborted) return;
         setError(cause instanceof Error ? cause.message : "Learning content is unavailable.");
+        setErrorStatus(cause instanceof Error && "status" in cause && typeof cause.status === "number" ? cause.status : null);
       })
       .finally(() => {
         if (ownsRequest) setLoading(false);
@@ -199,7 +202,11 @@ function useLearningResource<T>(url: string) {
     };
   }, [requestVersion, url]);
 
-  return { data, error, loading, reload };
+  return { data, error, errorStatus, loading, reload };
+}
+
+function canUseBundledFallback(status: number | null): boolean {
+  return status === null || status === 408 || status === 429 || status >= 500;
 }
 
 function LoadingCards() {
@@ -214,6 +221,18 @@ function ErrorState({ message, retry, title, detail }: { message: string; retry:
     <p>{detail} You can keep studying with the available library.</p>
     <div className="flex flex-wrap justify-center gap-3">
       <button type="button" className="btn-primary" onClick={retry}>Try again</button>
+      <Link className="btn-secondary" href="/library">Explore the library</Link>
+    </div>
+  </div>;
+}
+
+function NotFoundState({ title, detail }: { title: string; detail: string }) {
+  return <div className={styles.empty} role="alert">
+    <AppIcon name="book" />
+    <h2>{title}</h2>
+    <p>{detail}</p>
+    <div className="flex flex-wrap justify-center gap-3">
+      <Link className="btn-primary" href="/learn">Browse learning paths</Link>
       <Link className="btn-secondary" href="/library">Explore the library</Link>
     </div>
   </div>;
@@ -310,7 +329,7 @@ function CatalogueCard({ item, kind, index = 0 }: { item: CatalogueItem; kind: C
 }
 
 export function LearningCatalogue() {
-  const { data, error, loading, reload } = useLearningResource<CatalogueItem[]>("/api/v1/learning/programmes");
+  const { data, error, errorStatus, loading, reload } = useLearningResource<CatalogueItem[]>("/api/v1/learning/programmes");
   const [query, setQuery] = useState("");
   const [availability, setAvailability] = useState("All programmes");
   const programmes = (data ?? []).filter((item) => item.visibility !== "hidden");
@@ -326,7 +345,7 @@ export function LearningCatalogue() {
     <div className={styles.chipRow} role="group" aria-label="Programme availability">{["All programmes", "Available", "Coming soon"].map((label) => <button className={styles.chip} type="button" key={label} aria-pressed={availability === label} onClick={() => setAvailability(label)}>{label}</button>)}</div>
     <section id="learning-programmes" className="scroll-mt-24" aria-labelledby="programmes-heading">
       <div className={styles.sectionHeading}><div><h2 id="programmes-heading">Your next chapter</h2><p aria-live="polite">{loading ? "Finding your learning paths…" : error ? "Learning paths are temporarily unavailable" : `${filtered.length} ${filtered.length === 1 ? "programme" : "programmes"} to explore`}</p></div><Link href="/learn/search" className={styles.textLink}>Find a lesson <AppIcon name="arrow" width={15} height={15} /></Link></div>
-      {loading ? <LoadingCards /> : error ? <BundledCatalogueFallback message={error} retry={reload} query={query} availability={availability} clearFilters={() => { setQuery(""); setAvailability("All programmes"); }} /> : filtered.length ? <div className={styles.catalogue}>{filtered.map((item, index) => <CatalogueCard key={item.id} item={item} kind="programme" index={index} />)}</div> : <div className={styles.empty}><AppIcon name="book" /><h3>{programmes.length ? "A different path, perhaps?" : "Your next chapter is on its way."}</h3><p>{programmes.length ? "Try another search or choose a different availability filter." : "New programmes will appear here when they’re ready. You can explore the library in the meantime."}</p>{programmes.length ? <button className="btn-secondary" onClick={() => { setQuery(""); setAvailability("All programmes"); }}>Clear filters</button> : <Link className="btn-secondary" href="/library">Explore the library</Link>}</div>}
+      {loading ? <LoadingCards /> : error ? canUseBundledFallback(errorStatus) ? <BundledCatalogueFallback message={error} retry={reload} query={query} availability={availability} clearFilters={() => { setQuery(""); setAvailability("All programmes"); }} /> : <ErrorState message={error} retry={reload} title="We couldn’t load your learning paths." detail="The learning catalogue rejected this request." /> : filtered.length ? <div className={styles.catalogue}>{filtered.map((item, index) => <CatalogueCard key={item.id} item={item} kind="programme" index={index} />)}</div> : <div className={styles.empty}><AppIcon name="book" /><h3>{programmes.length ? "A different path, perhaps?" : "Your next chapter is on its way."}</h3><p>{programmes.length ? "Try another search or choose a different availability filter." : "New programmes will appear here when they’re ready. You can explore the library in the meantime."}</p>{programmes.length ? <button className="btn-secondary" onClick={() => { setQuery(""); setAvailability("All programmes"); }}>Clear filters</button> : <Link className="btn-secondary" href="/library">Explore the library</Link>}</div>}
     </section>
     <aside className={styles.notice}><AppIcon name="bookmark" width={21} height={21} /><div><strong>Make it part of your day.</strong>Return to a lesson whenever you need. Sign in to keep your lesson progress and bookmarks together.</div></aside>
   </div>;
@@ -357,7 +376,7 @@ function BundledLessonView({ lesson }: { lesson: LearningLesson }) {
 
 export function LearningHierarchyPage({ kind, slug }: { kind: "programme" | "subject" | "group"; slug: string }) {
   const plural = kind === "programme" ? "programmes" : kind === "subject" ? "subjects" : "groups";
-  const { data, error, loading, reload } = useLearningResource<CatalogueItem>(`/api/v1/learning/${plural}/${encodeURIComponent(slug)}`);
+  const { data, error, errorStatus, loading, reload } = useLearningResource<CatalogueItem>(`/api/v1/learning/${plural}/${encodeURIComponent(slug)}`);
   const [unlockedGroupIds, setUnlockedGroupIds] = useState<Set<string>>(new Set());
   useEffect(() => {
     if (kind !== "subject") return;
@@ -375,7 +394,7 @@ export function LearningHierarchyPage({ kind, slug }: { kind: "programme" | "sub
   const childKind = kind === "programme" ? "subject" : kind === "subject" ? "group" : "lesson";
   return <div className={styles.screen}>
     <Link className={styles.breadcrumb} href="/learn"><AppIcon name="chevron" width={15} height={15} /> All programmes</Link>
-    {loading ? <LoadingCards /> : error ? <BundledHierarchyFallback message={error} retry={reload} /> : data ? <>
+    {loading ? <LoadingCards /> : error ? errorStatus === 404 ? <NotFoundState title="This learning path could not be found." detail="The programme, subject, or group may have moved or is not published." /> : canUseBundledFallback(errorStatus) ? <BundledHierarchyFallback message={error} retry={reload} /> : <ErrorState message={error} retry={reload} title="We couldn’t load this learning path." detail="The learning service rejected this request." /> : data ? <>
       <header className={styles.intro}><p className={styles.eyebrow}>{kind}</p><h1 className={styles.title}>{data.title}</h1><p>{data.shortDescription || data.description}</p><div className={styles.meta}>{data.difficulty ? <span>{data.difficulty}</span> : null}{data.estimatedMinutes ? <span>{data.estimatedMinutes} minutes</span> : null}<span>{children.length} {kind === "group" ? "lessons" : kind === "subject" ? "learning groups" : "subjects"}</span></div></header>
       <section><div className={styles.sectionHeading}><h2>{kind === "group" ? "One lesson at a time" : kind === "subject" ? "Choose your next step" : "Explore the subjects"}</h2></div>{children.length ? <div className={styles.catalogue}>{children.map((item, index) => <CatalogueCard key={item.id} item={item} kind={childKind} index={index} />)}</div> : <div className={styles.empty}><AppIcon name="book" /><h2>More to discover, soon.</h2><p>New content will appear here when it is published.</p></div>}</section>
       {kind === "group" && data.id ? <section className={styles.compactFeature}><div><h2>Put your learning into practice.</h2><p>Ready to move forward? Check your understanding with a mastery assessment.</p></div><Link href={`/learn/groups/${data.slug}/mastery`} aria-label="Start mastery assessment"><AppIcon name="arrow" width={21} height={21} /></Link></section> : null}
@@ -500,7 +519,7 @@ export function LessonBookmarkControl({ lessonId, lessonTitle }: { lessonId: str
 }
 
 export function DatabaseLesson({ slug }: { slug: string }) {
-  const { data: lesson, error, loading, reload } = useLearningResource<LessonDetail>(`/api/v1/learning/lessons/${encodeURIComponent(slug)}`);
+  const { data: lesson, error, errorStatus, loading, reload } = useLearningResource<LessonDetail>(`/api/v1/learning/lessons/${encodeURIComponent(slug)}`);
   const bundledLesson = getLessonById(slug);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "queued" | "error">("idle");
   const [saveMessage, setSaveMessage] = useState("");
@@ -522,7 +541,7 @@ export function DatabaseLesson({ slug }: { slug: string }) {
   const nextLesson = lesson?.nextLesson ?? lesson?.navigation?.next ?? null;
   return <article className={styles.screen}>
     <Link className={styles.breadcrumb} href="/learn"><AppIcon name="chevron" width={15} height={15} /> Learning catalogue</Link>
-    {loading ? <LoadingCards /> : error ? bundledLesson ? <BundledLessonView lesson={bundledLesson} /> : <ErrorState message={error} retry={reload} title="We couldn’t load this lesson." detail="The requested lesson is temporarily unavailable." /> : lesson ? <>
+    {loading ? <LoadingCards /> : error ? bundledLesson ? <BundledLessonView lesson={bundledLesson} /> : errorStatus === 404 ? <NotFoundState title="This lesson could not be found." detail="The lesson may have moved or is not published." /> : <ErrorState message={error} retry={reload} title="We couldn’t load this lesson." detail="The requested lesson is temporarily unavailable." /> : lesson ? <>
       <header className={styles.readingHeader}>
         <div className={styles.meta}><span className={styles.cardEyebrow}>{lesson.difficulty || "Formation"}</span>{lesson.estimatedMinutes ? <span>{lesson.estimatedMinutes} minute read</span> : null}</div>
         <h1 className={styles.title}>{lesson.title}</h1>
@@ -552,7 +571,7 @@ export function DatabaseLesson({ slug }: { slug: string }) {
 }
 
 export function MasteryExperience({ groupSlug }: { groupSlug: string }) {
-  const { data: group, error: groupError, loading: groupLoading, reload } = useLearningResource<CatalogueItem>(`/api/v1/learning/groups/${encodeURIComponent(groupSlug)}`);
+  const { data: group, error: groupError, errorStatus: groupErrorStatus, loading: groupLoading, reload } = useLearningResource<CatalogueItem>(`/api/v1/learning/groups/${encodeURIComponent(groupSlug)}`);
   const [attempt, setAttempt] = useState<MasteryAttempt | null>(null);
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
   const [result, setResult] = useState<Record<string, unknown> | null>(null);
@@ -565,7 +584,7 @@ export function MasteryExperience({ groupSlug }: { groupSlug: string }) {
   const score = result && typeof result.scorePercent === "number" ? result.scorePercent : result && typeof result.score === "number" ? result.score : null;
   return <ScreenSurface>
     <Link className={styles.breadcrumb} href={`/learn/groups/${groupSlug}`}><AppIcon name="chevron" width={15} height={15} /> Learning group</Link>
-    {groupLoading ? <LoadingCards /> : groupError ? <div className="space-y-7">
+    {groupLoading ? <LoadingCards /> : groupError ? groupErrorStatus === 404 ? <NotFoundState title="This mastery assessment could not be found." detail="Its learning group may have moved or is not published." /> : !canUseBundledFallback(groupErrorStatus) ? <ErrorState message={groupError} retry={reload} title="We couldn’t load this mastery assessment." detail="The learning service rejected this request." /> : <div className="space-y-7">
       <div className={styles.empty} role="alert">
         <AppIcon name="book" />
         <h2>Official mastery is temporarily unavailable.</h2>
@@ -603,9 +622,9 @@ export function LearningSearch() {
   const [query, setQuery] = useState("");
   const [submitted, setSubmitted] = useState("");
   const url = useMemo(() => `/api/v1/learning/search?q=${encodeURIComponent(submitted)}&page=1&pageSize=20`, [submitted]);
-  const { data, error, loading, reload } = useLearningResource<CatalogueItem[]>(url);
+  const { data, error, errorStatus, loading, reload } = useLearningResource<CatalogueItem[]>(url);
   const bundledResults = useMemo(() => bundledSearchResults(submitted), [submitted]);
-  return <div className={styles.screen}><Link className={styles.breadcrumb} href="/learn"><AppIcon name="chevron" width={15} height={15} /> All programmes</Link><header className={styles.intro}><p className={styles.eyebrow}>Find your next lesson</p><h1 className={styles.title}>A question. <em>A discovery.</em></h1><p>Search lessons, subjects, sources, and references.</p></header><form className="flex flex-col gap-3 sm:flex-row" role="search" onSubmit={(event) => { event.preventDefault(); setSubmitted(query.trim()); }}><div className="min-w-0 flex-1"><StudySearch id="learning-search" label="Search lessons and subjects" value={query} onChange={setQuery} placeholder="What would you like to understand?" /></div><button className="btn-primary" type="submit">Search lessons <AppIcon name="arrow" width={17} height={17} /></button></form><section className="mt-7" aria-live="polite">{loading ? <LoadingCards /> : error ? <div className="space-y-4"><div className={styles.empty} role="alert"><AppIcon name="search" /><h2>Live learning search is temporarily unavailable.</h2><p>{error}</p><p>Search the sourced Foundations lessons bundled with Apologia Sancta while the official catalogue recovers.</p><div className="flex flex-wrap justify-center gap-3"><button type="button" className="btn-primary" onClick={reload}>Try live search again</button><Link className="btn-secondary" href="/library">Explore the library</Link></div></div>{bundledResults.length ? <div className={styles.catalogue} aria-label="Bundled Foundations search results">{bundledResults.map((item, index) => <CatalogueCard key={item.id} item={item} index={index} kind="lesson" />)}</div> : <div className={styles.empty}><AppIcon name="book" /><h3>No bundled lesson matches “{submitted}”.</h3><p>Try a broader word, a Scripture reference, or browse all four Foundations lessons.</p><button type="button" className="btn-secondary" onClick={() => { setQuery(""); setSubmitted(""); }}>Show all bundled lessons</button></div>}<p className={styles.sourceNote}>Bundled path: {learningPath.title}. Results include lesson text, objections, and source references. Live subjects, programme structure, and account progress remain unavailable until the learning database recovers.</p></div> : data?.length ? <div className={styles.catalogue}>{data.map((item, index) => <CatalogueCard key={`${item.id}-${item.slug}`} item={item} index={index} kind={catalogueItemKind(item)} />)}</div> : <div className={styles.empty}><AppIcon name="search" /><h2>{submitted ? "No lessons found just yet." : "Follow a question."}</h2><p>{submitted ? "Try a broader word or a different reference." : "Enter a word, a topic, or a source to begin exploring."}</p></div>}</section></div>;
+  return <div className={styles.screen}><Link className={styles.breadcrumb} href="/learn"><AppIcon name="chevron" width={15} height={15} /> All programmes</Link><header className={styles.intro}><p className={styles.eyebrow}>Find your next lesson</p><h1 className={styles.title}>A question. <em>A discovery.</em></h1><p>Search lessons, subjects, sources, and references.</p></header><form className="flex flex-col gap-3 sm:flex-row" role="search" onSubmit={(event) => { event.preventDefault(); setSubmitted(query.trim()); }}><div className="min-w-0 flex-1"><StudySearch id="learning-search" label="Search lessons and subjects" value={query} onChange={setQuery} placeholder="What would you like to understand?" /></div><button className="btn-primary" type="submit">Search lessons <AppIcon name="arrow" width={17} height={17} /></button></form><section className="mt-7" aria-live="polite">{loading ? <LoadingCards /> : error ? canUseBundledFallback(errorStatus) ? <div className="space-y-4"><div className={styles.empty} role="alert"><AppIcon name="search" /><h2>Live learning search is temporarily unavailable.</h2><p>{error}</p><p>Search the sourced Foundations lessons bundled with Apologia Sancta while the official catalogue recovers.</p><div className="flex flex-wrap justify-center gap-3"><button type="button" className="btn-primary" onClick={reload}>Try live search again</button><Link className="btn-secondary" href="/library">Explore the library</Link></div></div>{bundledResults.length ? <div className={styles.catalogue} aria-label="Bundled Foundations search results">{bundledResults.map((item, index) => <CatalogueCard key={item.id} item={item} index={index} kind="lesson" />)}</div> : <div className={styles.empty}><AppIcon name="book" /><h3>No bundled lesson matches “{submitted}”.</h3><p>Try a broader word, a Scripture reference, or browse all four Foundations lessons.</p><button type="button" className="btn-secondary" onClick={() => { setQuery(""); setSubmitted(""); }}>Show all bundled lessons</button></div>}<p className={styles.sourceNote}>Bundled path: {learningPath.title}. Results include lesson text, objections, and source references. Live subjects, programme structure, and account progress remain unavailable until the learning database recovers.</p></div> : <ErrorState message={error} retry={reload} title="We couldn’t search the learning catalogue." detail="The learning service rejected this request." /> : data?.length ? <div className={styles.catalogue}>{data.map((item, index) => <CatalogueCard key={`${item.id}-${item.slug}`} item={item} index={index} kind={catalogueItemKind(item)} />)}</div> : <div className={styles.empty}><AppIcon name="search" /><h2>{submitted ? "No lessons found just yet." : "Follow a question."}</h2><p>{submitted ? "Try a broader word or a different reference." : "Enter a word, a topic, or a source to begin exploring."}</p></div>}</section></div>;
 }
 
 type PracticeQuestion = MasteryQuestion;
@@ -626,7 +645,7 @@ function BundledPracticeFallback({ message, retry }: { message: string; retry: (
 }
 
 export function PublishedPractice() {
-  const { data, error, loading, reload } = useLearningResource<PracticeQuestion[]>("/api/v1/learning/practice?limit=8");
+  const { data, error, errorStatus, loading, reload } = useLearningResource<PracticeQuestion[]>("/api/v1/learning/practice?limit=8");
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore] = useState(0);
@@ -653,7 +672,7 @@ export function PublishedPractice() {
   return <ScreenSurface>
     <Link className={styles.breadcrumb} href="/learn"><AppIcon name="chevron" width={15} height={15} /> Back to learning</Link>
     <ScreenIntro eyebrow="Solo practice" title="A little practice." accent="A deeper understanding." description="Take a question at your own pace, then explore its explanation. Practice scores do not grant official mastery or unlocks." />
-    {loading ? <LoadingCards /> : error ? <BundledPracticeFallback message={error} retry={reload} /> : !data?.length ? <div className={styles.empty}><AppIcon name="book" /><h2>No published practice questions are available.</h2><p>Return to your learning or check back for more questions.</p></div> : index >= data.length ? <section className={surface.result} aria-live="polite"><AppIcon name="spark" width={28} height={28} /><p>Practice complete</p><h2>A little further, every day.</h2><strong>{score} of {data.length}</strong><p>Practice scores remain separate from official mastery.</p><div className={surface.actions}><button className="btn-primary" onClick={() => { setIndex(0); setSelected(null); setCheck(null); setScore(0); }}>Practice again</button><Link className="btn-secondary" href="/learn">Review lessons</Link></div></section> : question ? <section>
+    {loading ? <LoadingCards /> : error ? canUseBundledFallback(errorStatus) ? <BundledPracticeFallback message={error} retry={reload} /> : <ErrorState message={error} retry={reload} title="We couldn’t load practice questions." detail="The learning service rejected this request." /> : !data?.length ? <div className={styles.empty}><AppIcon name="book" /><h2>No published practice questions are available.</h2><p>Return to your learning or check back for more questions.</p></div> : index >= data.length ? <section className={surface.result} aria-live="polite"><AppIcon name="spark" width={28} height={28} /><p>Practice complete</p><h2>A little further, every day.</h2><strong>{score} of {data.length}</strong><p>Practice scores remain separate from official mastery.</p><div className={surface.actions}><button className="btn-primary" onClick={() => { setIndex(0); setSelected(null); setCheck(null); setScore(0); }}>Practice again</button><Link className="btn-secondary" href="/learn">Review lessons</Link></div></section> : question ? <section>
       <div className={surface.stats}><span>Question {index + 1} of {data.length}</span><span>{score} correct so far</span></div>
       <div className={surface.question}><p>Take a moment to think</p><h2>{question.prompt}</h2></div>
       <div className={surface.choices}>{question.options.map((option, optionIndex) => { const optionId = masteryOptionId(option); const isSelected = optionId === selected; return <button key={optionId} type="button" disabled={answered || checking} onClick={() => void choose(optionId)} className={surface.choice} data-state={isSelected ? check ? check.correct ? "correct" : "wrong" : "selected" : undefined}><span className={surface.letter} aria-hidden="true">{String.fromCharCode(65 + optionIndex)}</span><span>{option.label ?? option.content}</span></button>; })}</div>
