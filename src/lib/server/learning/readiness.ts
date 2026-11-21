@@ -9,6 +9,12 @@ export type LearningDatabaseReadinessStatus =
   | "ready"
   | "not_configured"
   | "invalid_configuration"
+  | "dns_unresolved"
+  | "connection_refused"
+  | "connection_timeout"
+  | "tls_failed"
+  | "authentication_failed"
+  | "database_missing"
   | "schema_missing"
   | "permission_denied"
   | "unreachable";
@@ -27,7 +33,20 @@ type ReadinessQuery = <T extends QueryResultRow = Record<string, unknown>>(
   values?: unknown[],
 ) => Promise<QueryResult<T>>;
 
-type PostgresLikeError = { code?: unknown };
+type PostgresLikeError = {
+  code?: unknown;
+  cause?: unknown;
+  errors?: unknown;
+};
+
+const TLS_ERROR_CODES = new Set([
+  "CERT_HAS_EXPIRED",
+  "DEPTH_ZERO_SELF_SIGNED_CERT",
+  "ERR_TLS_CERT_ALTNAME_INVALID",
+  "SELF_SIGNED_CERT_IN_CHAIN",
+  "UNABLE_TO_GET_ISSUER_CERT",
+  "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
+]);
 
 declare global {
   var __apologiaLearningReadinessProbe: {
@@ -44,14 +63,42 @@ function boundedCacheMs(value: string | undefined): number {
 }
 
 function unavailable(status: Exclude<LearningDatabaseReadinessStatus, "ready">): LearningDatabaseReadiness {
+  const serverResponded = status === "authentication_failed"
+    || status === "database_missing"
+    || status === "schema_missing"
+    || status === "permission_denied";
   return {
     configured: status !== "not_configured" && status !== "invalid_configuration",
-    reachable: status === "schema_missing" || status === "permission_denied",
+    reachable: serverResponded,
     schemaReady: status === "permission_denied",
     readable: false,
     ready: false,
     status,
   };
+}
+
+function errorCodes(error: unknown, depth = 0): string[] {
+  if (!error || typeof error !== "object" || depth > 3) return [];
+  const candidate = error as PostgresLikeError;
+  const code = typeof candidate.code === "string" ? [candidate.code.toUpperCase()] : [];
+  const nested = candidate.cause ? errorCodes(candidate.cause, depth + 1) : [];
+  const aggregate = Array.isArray(candidate.errors)
+    ? candidate.errors.flatMap((item) => errorCodes(item, depth + 1))
+    : [];
+  return [...code, ...nested, ...aggregate];
+}
+
+function classifyConnectionFailure(error: unknown): Exclude<LearningDatabaseReadinessStatus, "ready"> {
+  const codes = new Set(errorCodes(error));
+  if (codes.has("42P01") || codes.has("3F000")) return "schema_missing";
+  if (codes.has("42501")) return "permission_denied";
+  if (codes.has("28P01") || codes.has("28000")) return "authentication_failed";
+  if (codes.has("3D000")) return "database_missing";
+  if (codes.has("ENOTFOUND") || codes.has("EAI_AGAIN")) return "dns_unresolved";
+  if (codes.has("ECONNREFUSED")) return "connection_refused";
+  if (codes.has("ETIMEDOUT") || codes.has("CONNECT_TIMEOUT")) return "connection_timeout";
+  if ([...codes].some((code) => TLS_ERROR_CODES.has(code))) return "tls_failed";
+  return "unreachable";
 }
 
 export async function probeLearningDatabaseReadiness(
@@ -73,10 +120,7 @@ export async function probeLearningDatabaseReadiness(
       status: "ready",
     };
   } catch (error) {
-    const code = error && typeof error === "object" ? (error as PostgresLikeError).code : undefined;
-    if (code === "42P01" || code === "3F000") return unavailable("schema_missing");
-    if (code === "42501") return unavailable("permission_denied");
-    return unavailable("unreachable");
+    return unavailable(classifyConnectionFailure(error));
   }
 }
 

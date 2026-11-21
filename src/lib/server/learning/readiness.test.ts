@@ -54,6 +54,15 @@ describe("learning database readiness", () => {
     ["42P01", "schema_missing", true, false],
     ["3F000", "schema_missing", true, false],
     ["42501", "permission_denied", true, true],
+    ["28P01", "authentication_failed", true, false],
+    ["28000", "authentication_failed", true, false],
+    ["3D000", "database_missing", true, false],
+    ["ENOTFOUND", "dns_unresolved", false, false],
+    ["EAI_AGAIN", "dns_unresolved", false, false],
+    ["ECONNREFUSED", "connection_refused", false, false],
+    ["ETIMEDOUT", "connection_timeout", false, false],
+    ["CONNECT_TIMEOUT", "connection_timeout", false, false],
+    ["SELF_SIGNED_CERT_IN_CHAIN", "tls_failed", false, false],
     ["08001", "unreachable", false, false],
   ] as const)("classifies PostgreSQL %s safely", async (code, status, reachable, schemaReady) => {
     configureDatabase();
@@ -70,5 +79,19 @@ describe("learning database readiness", () => {
       status,
     });
     expect(JSON.stringify(result)).not.toContain("secret-db.internal");
+  });
+
+  it("classifies nested and aggregate connection errors without exposing their messages", async () => {
+    configureDatabase();
+    const nested = Object.assign(new Error("getaddrinfo ENOTFOUND former-db.internal"), { code: "ENOTFOUND" });
+    const query = vi.fn().mockRejectedValue(Object.assign(new Error("connection failed"), {
+      errors: [Object.assign(new Error("secret replica"), { cause: nested })],
+    }));
+
+    const result = await probeLearningDatabaseReadiness(query);
+
+    expect(result.status).toBe("dns_unresolved");
+    expect(result.reachable).toBe(false);
+    expect(JSON.stringify(result)).not.toMatch(/former-db|secret replica|connection failed/);
   });
 });
