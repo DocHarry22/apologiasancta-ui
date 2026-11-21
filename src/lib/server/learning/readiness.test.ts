@@ -94,4 +94,46 @@ describe("learning database readiness", () => {
     expect(result.reachable).toBe(false);
     expect(JSON.stringify(result)).not.toMatch(/former-db|secret replica|connection failed/);
   });
+
+  it.each([
+    "Connection terminated due to connection timeout",
+    "timeout expired",
+  ])("classifies node-postgres' code-less timeout %s", async (message) => {
+    configureDatabase();
+    const query = vi.fn().mockRejectedValue(new Error(message));
+
+    const result = await probeLearningDatabaseReadiness(query);
+
+    expect(result).toEqual({
+      configured: true,
+      reachable: false,
+      schemaReady: false,
+      readable: false,
+      ready: false,
+      status: "connection_timeout",
+    });
+    expect(JSON.stringify(result)).not.toContain(message);
+  });
+
+  it("classifies a code-less timeout nested under a provider error without exposing either message", async () => {
+    configureDatabase();
+    const query = vi.fn().mockRejectedValue(new Error("provider connection failed for secret-db.internal", {
+      cause: new Error("timeout expired"),
+    }));
+
+    const result = await probeLearningDatabaseReadiness(query);
+
+    expect(result.status).toBe("connection_timeout");
+    expect(JSON.stringify(result)).not.toMatch(/secret-db|timeout expired/);
+  });
+
+  it("does not infer timeout status from arbitrary provider text", async () => {
+    configureDatabase();
+    const query = vi.fn().mockRejectedValue(new Error("Timed out while contacting secret-db.internal"));
+
+    const result = await probeLearningDatabaseReadiness(query);
+
+    expect(result.status).toBe("unreachable");
+    expect(JSON.stringify(result)).not.toContain("secret-db.internal");
+  });
 });
