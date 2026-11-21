@@ -2,7 +2,7 @@
 import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { DatabaseLesson, LearningCatalogue, LearningHierarchyPage, LearningSearch, MasteryExperience } from "@/components/learn/LearningPlatform";
+import { DatabaseLesson, LearningCatalogue, LearningHierarchyPage, LearningSearch, MasteryExperience, PublishedPractice } from "@/components/learn/LearningPlatform";
 import { EngineTopicsList, type LibraryResource } from "@/components/library/EngineTopicsList";
 import { EngineTopicDetails, type EngineTopicResponse } from "@/components/library/EngineTopicDetails";
 import { LIBRARY_BOOKMARKS_KEY } from "@/lib/libraryBookmarks";
@@ -184,6 +184,37 @@ describe("Learn browsing and reading", () => {
     expect(alert).toHaveTextContent(heading);
     expect(screen.getByRole("link", { name: "Explore the library" })).toHaveAttribute("href", "/library");
     expect(screen.queryByText("We couldn’t load your learning paths.")).not.toBeInTheDocument();
+  });
+
+  it.each([
+    ["learning path", () => <LearningHierarchyPage kind="programme" slug="missing-path" />, "This learning path could not be found."],
+    ["lesson", () => <DatabaseLesson slug="missing-lesson" />, "This lesson could not be found."],
+    ["mastery", () => <MasteryExperience groupSlug="missing-group" />, "This mastery assessment could not be found."],
+  ])("does not misrepresent a missing %s as a service outage", async (_surface, createComponent, heading) => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(json({ error: "Not found" }, 404)));
+
+    render(createComponent());
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(heading);
+    expect(screen.getByRole("link", { name: "Browse learning paths" })).toHaveAttribute("href", "/learn");
+    expect(screen.queryByLabelText("Bundled Foundations learning path")).not.toBeInTheDocument();
+    expect(screen.queryByText("Question 1 of 8")).not.toBeInTheDocument();
+  });
+
+  it.each([
+    ["catalogue", () => <LearningCatalogue />, "We couldn’t load your learning paths."],
+    ["search", () => <LearningSearch />, "We couldn’t search the learning catalogue."],
+    ["practice", () => <PublishedPractice />, "We couldn’t load practice questions."],
+  ])("does not hide a rejected %s request behind bundled outage content", async (_surface, createComponent, heading) => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(json({ error: "Access denied" }, 403)));
+
+    render(createComponent());
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(heading);
+    expect(screen.getByRole("button", { name: "Try again" })).toBeVisible();
+    expect(screen.queryByLabelText("Bundled Foundations lessons")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Bundled Foundations search results")).not.toBeInTheDocument();
+    expect(screen.queryByText("Question 1 of 8")).not.toBeInTheDocument();
   });
 
   it("keeps a deep learning-path link useful during a catalogue outage and can retry the live hierarchy", async () => {
